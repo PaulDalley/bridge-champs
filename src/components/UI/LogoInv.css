@@ -1,0 +1,28 @@
+/*@import url('https://fonts.googleapis.com/css?family=Dancing+Script');*/
+.logoinv {
+    background-color: black;
+    color: white;
+    width: 115%;
+    height: 115%;
+    border: 5px solid rgba(0, 0, 0, .65);
+    /*background-image: linear-gradient(to right, #F6FAFD, rgba(255, 255, 255, .50));*/
+    border-radius: 80px;
+    font-family: 'Dancing Script', cursive;
+    position: relative;
+    font-size: 350%;
+    font-weight: bold;
+}
+.logoinv-com {
+    font-size: 80%;
+}
+@media screen and (max-width: 598px) {
+    .logoinv {
+        font-size: 200%;
+    }
+}
+.logoinv-spade {
+    color: white !important;
+}
+.logoinv-club {
+    color: white !important;
+}

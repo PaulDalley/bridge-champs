@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+.logo {
+    font-family: 'Dancing Script', cursive;
+    /*font-size: 380%;*/
+    font-size: 300%;
+    font-weight: bold;
+    color: #E8F5E9;
+    transition: all .4s ease-in-out;
+}
+.logo:hover logo-text {
+    color: #fdd835;
+}
+
+.logo-com {
+    font-size: 75%;
+}
+@media screen and (max-width: 598px) {
+    .logo {
+        /*font-size: 280%;*/
+        font-size: 240%;
+    }
+}
+@media screen and (max-width: 445px) {
+    .logo {
+        /*font-size: 280%;*/
+        font-size: 180%;
+        position: relative;
+        top: .5rem;
+    }
+}
+
+/*.logo {*/
+    /*font-family: cursive;*/
+    /*!*top: -.75rem;*!*/
+    /*font-size: 125%;*/
+    /*position: absolute;*/
+    /*padding: 20px;*/
+/*}*/
+/*.logo-text {*/
+    /*position: relative;*/
+    /*!*top: .63rem;*!*/
+    /*!*left: -.75rem;*!*/
+    /*font-size: 135%;*/
+    /*padding-left: 0px;*/
+    /*font-weight: bold;*/
+/*}*/
+/*.spade {*/
+    /*font-size: 145%;*/
+    /*position: relative;*/
+    /*top: -.9rem;*/
+    /*left: 1.45rem;*/
+/*}*/
+/*.club {*/
+    /*position: relative;*/
+    /*font-size: 155%;*/
+    /*top: .65rem;*/
+    /*left: -.2rem;*/
+/*}*/
+
+/*.diamond {*/
+    /*font-size: 90%;*/
+    /*position: relative;*/
+    /*left: 0.29rem;*/
+    /*top: -.17rem;*/
+/*}*/
+
+/*.heart {*/
+    /*font-size: 90%;*/
+    /*position: relative;*/
+    /*left: -.75rem;*/
+    /*top: -.15rem;*/
+/*}*/

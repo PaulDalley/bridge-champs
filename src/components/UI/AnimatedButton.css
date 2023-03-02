@@ -1,0 +1,113 @@
+.AnimatedButton,
+.AnimatedButton:link,
+.AnimatedButton:visited {
+    /*text-transform: uppercase;*/
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    border-radius: 10rem;
+    transition: all .2s;
+    position: relative;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 3px;
+    width: 16rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 530px) {
+    .AnimatedButton,
+    .AnimatedButton:link,
+    .AnimatedButton:visited {
+        width: 13rem;
+        letter-spacing: 1.5px;
+        font-size: 1.2rem;
+        padding: 1.5rem 1.9rem;
+    }
+}
+
+.AnimatedButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(255, 255, 255, .2);
+}
+.AnimatedButton:hover::after {
+     transform: scaleX(1.4) scaleY(1.6);
+     opacity: 0;
+}
+
+
+.AnimatedButton:active,
+.AnimatedButton:focus {
+     outline: none;
+     transform: translateY(-1px);
+     box-shadow: 0 .5rem 1rem rgba(255,255,255,.2);
+ }
+
+.AnimatedButton--white {
+    background-color: #fff;
+    color: #333 !important;
+}
+.AnimatedButton--white::after {
+     background-color: #fff;
+ }
+
+.AnimatedButton--red {
+    background-color: #8d0018;
+    color: #fff !important;
+}
+.AnimatedButton--red::after {
+    background-color: #8d0018;
+}
+
+.AnimatedButton--green {
+    background-color: #55c57a;
+    color: #fff !important;
+}
+.AnimatedButton--green::after {
+     background-color: #55c57a;
+}
+
+
+.AnimatedButton::after {
+     content: "";
+     display: inline-block;
+     height: 100%;
+     width: 100%;
+     border-radius: 10rem;
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: -1;
+     transition: all .4s;
+ }
+
+.AnimatedButton--animated {
+     animation: moveInBottom .5s ease-out .75s;
+     animation-fill-mode: backwards;
+}
+
+
+.AnimatedButton-text:link,
+.AnimatedButton:visited {
+     font-size: 1.8rem;
+     color: #55c57a;
+     display: inline-block;
+     text-decoration: none;
+     border-bottom: 1px solid #55c57a;
+     padding: 3px;
+     transition: all .2s;
+ }
+
+.AnimatedButton-text:hover {
+     background-color: #55c57a;
+     color: #fff;
+     box-shadow: 0 1rem 2rem rgba(255,255,255, .15);
+     transform: translateY(-2px);
+ }
+
+.AnimatedButton-text:active {
+     box-shadow: 0 .5rem 1rem rgba(255,255,255, .15);
+     transform: translateY(0);
+}

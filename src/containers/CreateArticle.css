@@ -1,0 +1,38 @@
+.CreateArticle-container {
+    padding: 5rem 10rem 5rem;
+}
+.CreateArticle-container input {
+    font-size: 2rem !important;
+}
+
+.editor {
+    min-height: 40rem;
+    max-height: 40rem;
+    overflow: auto;
+}
+.CreateArticle-submit {
+    font-size: 130%;
+    /*background-color: #00E676;*/
+    background-color: #0f9d58;
+}
+.CreateArticle-edit {
+    font-size: 130%;
+    background-color: orangered;
+}
+.CreateArticle-delete {
+    font-size: 130%;
+    background-color: darkred;
+}
+
+.CreateArticle-submit:hover,
+.CreateArticle-edit:hover,
+.CreateArticle-delete:hover {
+    background-color: black;
+    color: white;
+}
+.CreateArticle-submit:focus,
+.CreateArticle-edit:focus,
+.CreateArticle-delete:focus {
+    background-color: black;
+    color: white;
+}

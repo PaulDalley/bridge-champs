@@ -1,0 +1,139 @@
+.pagination {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    display: inherit;
+    width: 100% !important;
+}
+.pagination li a {
+    font-size: 1.45rem !important;
+}
+
+.Articles-outer_div {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+}
+.Articles-add_article {
+    position: fixed;
+    right: .5rem;
+    z-index: 1000;
+}
+
+.Articles-container {
+    /*margin: 10rem;*/
+    position: relative;
+    top: -3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-around;
+    /*grid-template-rows: repeat(auto-fit, minmax(10px, min-content));*/
+    margin: 5rem 10rem 5rem;
+    margin-top: 0rem;
+}
+.Articles-filters {
+    position: relative;
+    /*top: -1.5rem;*/
+    top: -2rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-bottom: 0rem;
+    padding-bottom: 0rem;
+    /*height: 9rem;*/
+}
+
+.Articles-Pagination {
+    position: relative;
+    /*top: -2rem;*/
+    /*margin-bottom: 1rem;*/
+    /*padding-top: 1rem;*/
+    padding: 0;
+    padding-bottom: 1rem;
+    /*max-height: 5rem !important;*/
+    /*min-height: 5rem !important;*/
+}
+
+.pagination li {
+    cursor: pointer;
+}
+.pagination li.disabled {
+    cursor: not-allowed;
+}
+
+.pagination li.active {
+    /*color: #8d0018;*/
+    background-color: #8d0018;
+}
+
+.Articles-container-right,
+.Articles-container-left {
+    display: grid;
+    /*grid-template-columns:repeat(2,1fr);*/
+    /*stretch them:*/
+    /*grid-template-rows: repeat(auto-fit, minmax(min-content, max-content));*/
+
+    /*dont stretch them:*/
+    grid-template-rows: repeat(auto-fit, minmax(14rem, max-content));
+    /*margin: 5rem 10rem 5rem;*/
+}
+
+.Articles-col {
+    padding: 0;
+    margin: 0;
+}
+@media screen and (max-width: 1000px) {
+    .Articles-container {
+        margin: 2rem 0rem 0rem !important;
+        /*display: flex;*/
+    }
+}
+@media screen and (max-width: 800px) {
+    .Articles-container {
+        display: block;
+        /*margin: 0rem 0rem 0rem !important;*/
+        /*align-items: center;*/
+        /*justify-content: center;*/
+    }
+}
+
+@media screen and (max-width: 42rem) {
+    .Articles-container {
+        display: inline-block;
+        margin: 0rem 0rem 0rem;
+        padding: 0;
+        width: 100%;
+        position: relative;
+        top: -4.3rem;
+    }
+    .Articles-filters {
+        padding-left: 0rem;
+    }
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        width: 100% !important;
+        position: relative;
+        top: -2.5rem;
+    }
+    .pagination li {
+        /*font-size: 2rem !important;*/
+        /*position: relative;*/
+        /*left: 1.25rem;*/
+    }
+    .pagination li a {
+        font-size: 1.2rem !important;
+    }
+    .Articles-Pagination {
+        max-height: 25px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .pagination li a {
+        font-size: 1rem !important;
+    }
+}

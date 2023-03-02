@@ -1,0 +1,22 @@
+/*.Footer {*/
+    /*!*background-color: red;*!*/
+    /*background-color: #333333 !important;*/
+    /*font-size: 1.6rem !important;*/
+/*}*/
+.page-footer {
+    background-color: #333333;
+    /*background-color: #45494c;*/
+    font-size: 1.4rem !important;
+    box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.65);
+}
+
+.Footer-logo {
+    max-width: 12rem;
+    max-height: auto;
+    /*border: 5px solid rgba(255, 255, 255, 1);*/
+    /*background-image: linear-gradient(to right, #F6FAFD, rgba(255, 255, 255, .50));*/
+    /*border-radius: 80px;*/
+}
+/*.Footer-container {*/
+    /*font-side: 1.6rem;*/
+/*}*/

@@ -1,0 +1,86 @@
+.Questions-container {
+    padding: 10rem;
+}
+.Questions-AskQuestion_header {
+    font-weight: bold;
+    position: relative;
+    left: 1rem;
+    top: -0.65rem;
+    /*font-family: 'Dancing Script', cursive;*/
+    font-family: Consolas;
+    /*text-align: center;*/
+    /*font-size: 6.5rem;*/
+    text-align: left;
+    font-size: 3rem;
+    color: #0f9d58;
+    padding: 0;
+    margin: 0;
+}
+.Questions-AskQuestion_header_top {
+    top: 2.5rem;
+}
+
+.Questions-vote-wrapper {
+
+}
+.Questions-vote-wrapper:hover i {
+    color: black;
+}
+/*.Questions-AskQuestion_container_hidden {*/
+    /*display: none;*/
+/*}*/
+/*.Questions-AskQuestion_container {*/
+    /*display: block;*/
+/*}*/
+
+.Questions-AskQuestionForm_container row {
+    margin-bottom: 0 !important;
+}
+
+.Questions-AskQuestionForm_container {
+    /*border: solid black 3px;*/
+    padding: 5rem;
+    /*margin: 5rem;*/
+    transition: all .3s ease-in-out;
+    transform: scaleX(0);
+    height: 0;
+    opacity: 0;
+    /*transform-origin: 0 50%;*/
+                      /*x-axis y-axis*/
+    /*transform-origin: left top;*/
+    transform-origin: right top;
+}
+
+.Questions-AskQuestionForm_container_hide {
+    /*display: none;*/
+    position: absolute;
+    z-index: -1000;
+    opacity: 0;
+}
+
+.Questions-AskQuestionForm_container_show {
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: relative;
+    top: -4rem;
+    z-index: 1;
+    transform: scaleX(.95);
+    opacity: 1;
+    height: auto;
+}
+.Questions-AskQuestion_close {
+    z-index: 3001;
+    cursor: pointer;
+    opacity: 1;
+    position: absolute;
+    /*top: 9rem;*/
+    top: 0rem;
+    right: 2rem;
+    /*right: 7rem;*/
+    font-size: 3rem;
+}
+.Questions-AskQuestion_close:hover {
+    color: orangered;
+    opacity: .95;
+}

@@ -1,0 +1,94 @@
+.GenerateBridgeBoard-bidding_container {
+    /*margin: 0;*/
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*margin-right: -50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+.GenerateBridgeBoard-single_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GenerateBridgeBoard-select_board_type {
+    z-index: 10;
+}
+
+@media screen and (min-width: 650px) {
+    .GenerateBridgeBoard-double_container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.GenerateBridgeBoard-single {
+}
+
+.GenerateBridgeBoard-right {
+}
+
+.GenerateBridgeBoard-left {
+}
+
+.GenerateBridgeBoard-button {
+    background-color: #0b61f6;
+    /*position: relative;*/
+    /*top: -4.1rem;*/
+    /*right: -.75rem;*/
+
+}
+
+.GenerateBridgeBoard-button--danger {
+    background-color: #8d0018;
+}
+.GenerateBridgeBoard-button--danger:hover {
+    background-color: black;
+}
+
+.GenerateBridgeBoard-full-board_container {
+
+}
+
+@media screen and (min-width: 1030px) {
+    .GenerateBridgeBoard-full-board_container {
+        position: relative;
+        min-height: 55rem;
+    }
+
+    .fullboard-north {
+        position: absolute;
+        left: 35%;
+        top: 5rem;
+        /*right: 50%;*/
+        margin-right: -50%;
+    }
+
+    .fullboard-south {
+        position: absolute;
+        bottom: -4rem;
+        left: 35%;
+        /*right: 50%;*/
+        margin-right: -50%;
+    }
+
+    .fullboard-east {
+        margin: 0;
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+    .fullboard-west {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%)
+    }
+}

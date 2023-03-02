@@ -1,0 +1,13 @@
+.PrivacyPolicy-container {
+    padding: 10rem 15rem 15rem;
+    max-width: 100vw;
+}
+.PrivacyPolicy-container p {
+    font-size: 1.6rem;
+}
+
+@media screen and (max-width: 510px) {
+    .PrivacyPolicy-container {
+        padding: 2.5rem;
+    }
+}

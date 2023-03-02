@@ -1,0 +1,209 @@
+.MakeBoard-container {
+    position: relative;
+    /*min-height: 40rem;*/
+    /*max-height: 40rem;*/
+    /*max-width: 55rem;*/
+    /*min-height: 35rem;*/
+    /*min-width: 37rem;*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+
+    /*background-color: #0b5714;*/
+    /*border: 5px solid black;*/
+    /*border-radius: 50%;*/
+}
+
+.MakeBoard-container_single {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.MakeBoard-container_double {
+    min-width: 65%;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    grid-gap: 2rem;
+    grid-template-areas: ". North ."
+                         "West Bidding East"
+                         ". South .";
+}
+
+.MakeBoard-bidding_container_double_teaser {
+    max-width: 30rem;
+}
+
+.MakeBoard-bidding_container_double {
+    grid-area: Bidding;
+    width: 16.5rem;
+    /*position: relative;*/
+    /*left: 1rem;*/
+    padding-top: 0rem !important
+}
+
+.MakeBoard-container-fullBoard {
+    width: 100%;
+    height: 100%;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    grid-auto-columns: auto;
+    grid-gap:.4rem;
+    align-items: stretch;
+    background-color: #0b5714;
+    /*border: 2px solid black;*/
+    /*border-radius: 5%;*/
+    /*min-height: 40rem;*/
+    /*max-width: 40rem;*/
+}
+.MakeBoard-fullBoard-bidding {
+    /*align-self: center;*/
+    justify-self: center;
+    overflow: auto;
+    /*justify-content: center;*/
+}
+
+.MakeBoard-bidding_container {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*max-width: 20rem;*/
+    /*max-height: 20rem;*/
+    overflow: auto;
+}
+.MakeBoard-bridge_board {
+    /*top: 22rem;*/
+    /*position: relative;*/
+    /*max-width: 55rem;*/
+    /*max-height: 35rem;*/
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.MakeBoard-fullBoard-Vuln {
+}
+
+.MakeBoard-fullBoard-North {
+    position: relative;
+    /*top: 1.2rem;*/
+    top: 2.4rem;
+}
+.MakeBoard-fullBoard-South {
+    position: relative;
+    /*top: -.2rem;*/
+    top: -1rem;
+}
+.MakeBoard-fullBoard-East {
+    position: relative;
+    left: .2rem;
+    top: 1.4rem;
+}
+.MakeBoard-fullBoard-West {
+    position: relative;
+    left: .2rem;
+    top: 1.4rem;
+}
+
+.MakeBoard-full_North {
+    position: relative;
+}
+.MakeBoard-full_East {
+    position: relative;
+}
+.MakeBoard-full_South {
+
+}
+.MakeBoard-full_West {
+}
+
+MakeBoard-double_first {
+}
+MakeBoard-double_second {
+}
+
+.MakeBoard-single {
+    padding: 0rem;
+    margin: 0;
+}
+.MakeBoard-single .Hand-container {
+    min-width: 15rem;
+}
+
+
+/*@media screen and (min-width: 0px) {*/
+    /*.MakeBoard-full_South {*/
+        /*position: absolute;*/
+        /*left: 35%;*/
+        /*bottom: 0;*/
+        /*!*right: 50%;*!*/
+        /*margin-right: -50%;*/
+    /*}*/
+
+    /*.MakeBoard-full_North {*/
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 35%;*/
+        /*!*right: 50%;*!*/
+        /*margin-right: -50%;*/
+    /*}*/
+
+    /*.MakeBoard-full_East {*/
+        /*margin: 0;*/
+        /*position: absolute;*/
+        /*right: 0px;*/
+        /*top: 50%;*/
+        /*transform: translate(0, -50%);*/
+    /*}*/
+
+    /*.MakeBoard-full_West {*/
+        /*margin: 0;*/
+        /*position: absolute;*/
+        /*top: 50%;*/
+        /*transform: translate(0, -50%)*/
+    /*}*/
+/*}*/
+
+.MakeBoard-double_teaser {
+    position: relative;
+    left: -3.5rem;
+    max-width: 10rem;
+}
+
+.MakeBoard-double_North {
+    /*position: absolute;*/
+    position: relative;
+    top: 2.4rem;
+    grid-area: North;
+ }
+.MakeBoard-double_East {
+    /*position: absolute;*/
+    grid-area: East;
+}
+.MakeBoard-double_South {
+    grid-area: South;
+}
+.MakeBoard-double_West {
+    grid-area: West;
+}
+
+.MakeBoard-double_col .Hand-container {
+    min-width: 16rem !important;
+}
+
+@media screen and (max-width: 400px) {
+    .MakeBoard-container_double {
+        /*min-width: 50%;*/
+    }
+    .MakeBoard-double_col .Hand-container {
+        max-width: 14rem !important;
+        min-width: 14rem !important;
+    }
+    .MakeBoard-container_single {
+        flex-direction: column;
+    }
+}

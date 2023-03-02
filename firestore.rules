@@ -1,0 +1,48 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /members/{memberId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+    match /membersData/{userId} {
+        allow read, create, update: if request.auth.uid == userId
+    }
+    match /users/{userId} {
+        allow read;
+    }
+    match /categories/{category} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /articles/{articleId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+    match /quizzes/{quizId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /article/{articleId} {
+      // Make sure a 'members' document exists for the requesting user and that
+      // their subscriptionExpires has not passed the current time before
+      // allowing any reads from the 'article' collection
+      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+
+       // Allow the user to delete cities if their user document has the
+       // 'admin' field set to 'true'
+       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+    match /quiz/{quizId} {
+          // Make sure a 'members' document exists for the requesting user and that
+          // their subscriptionExpires has not passed the current time before
+          // allowing any reads from the 'quiz' collection
+          allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+
+           // Allow the user to delete cities if their user document has the
+           // 'admin' field set to 'true'
+           allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+  }
+}

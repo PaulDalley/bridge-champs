@@ -1,0 +1,412 @@
+.HomePage-container {
+    position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.HomePage-sales_info {
+    /*padding: 2rem;*/
+    opacity: 1 !important;
+    margin: 2rem;
+    font-size: 1.8rem !important;
+    /*list-style: circle inside !important;*/
+    /*list-style-type: circle !important;*/
+    /*list-style: disc;*/
+}
+.HomePage-sales_info_li {
+
+    /*list-style: circle !important;*/
+}
+.HomePage-sales_info_li_red {
+    color: #8d0018;
+}
+
+.HomePage-SeparationLine {
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    position: relative;
+    top: 5.19rem;
+    border-top: 2rem dotted lightgray;
+    fontSize: 8rem;
+    letter-spacing: .05rem;
+    text-align: center;
+    text-decoration: none;
+    padding: 1rem;
+    padding-top: 0rem;
+    font-family: 'Dancing Script, cursive'
+}
+.HomePage-SeparationLine-top {
+    top: -2.15rem;
+}
+
+.HomePage-banner {
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+
+    /*position: absolute;*/
+    /*z-index: 3;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    position: relative;
+    /*top: -3.2rem;*/
+    top: -2.5rem;
+    width: 100%;
+    /*height: 85vh;*/
+    height: 37vh;
+
+    /*105deg*/
+    background-image: linear-gradient(105deg,
+    /*rgba(255, 255, 255, .9) 0%,*/
+    /*rgba(255, 255, 255, .9) 50%,*/
+    /*rgba(255, 255, 255, .9) 100%,*/
+    rgba(0, 0, 0, .25) 0%,
+    rgba(0, 0, 0, .45) 50%,
+    rgba(0, 0, 0, .9) 100%,
+    transparent 25%),
+    url(./img/cards.jpg);
+    /*url(./img/playing-card-568201_640.jpg);*/
+    background-size: cover;
+
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*background-size: cover;*/
+
+    /*clip-path: polygon(0% 77%, 42% 100%, 60% 100%, 100% 77%, 100% 0%, 100% 0%, 0% 0%, 0% 0%);*/
+    border-radius: 5px;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+    opacity: 25;
+    border-bottom: 2rem solid black;
+    /*opacity: .1;*/
+}
+
+.HomePage-banner_action_buttons {
+    position: absolute;
+    top: 32vh;
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*max-width: 80vw;*/
+}
+.HomePage-banner_action_buttons a {
+    padding: 0rem;
+    margin: 2rem;
+}
+
+.HomePage-profile_card_container2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+@media screen and (max-width: 730px) {
+
+    .HomePage-profile_card_container2 {
+        flex-direction: column;
+    }
+    .HomePage-banner_action_buttons a {
+        margin: 1.2rem;
+    }
+    .HomePage-banner_action_buttons {
+        top: 33.5vh;
+    }
+}
+
+
+
+
+    /*@media screen and (min-width: 920px) {*/
+    /*.HomePage-profile_card_container {*/
+        /*display: flex;*/
+        /*!*width: 100vw;*!*/
+        /*!*margin: 0 auto;*!*/
+        /*flex-direction: row;*/
+        /*justify-content: space-between;*/
+        /*!*align-items: center;*!*/
+        /*!*padding-left: 25rem;*!*/
+        /*!*padding-right: 25rem;*!*/
+    /*}*/
+/*}*/
+
+/*.HomePage-profile_card2 {*/
+
+/*}*/
+
+.HomePage-profile_card {
+    /*padding: 2rem 10rem 2rem;*/
+    /*margin-right: 1rem;*/
+    /*margin-left: 15rem;*/
+    /*margin-right: 15rem;*/
+    max-width: 34rem;
+    min-width: 34rem;
+    margin: 0 auto;
+}
+
+.HomePage-profile_img {
+    /*max-height: 100rem;*/
+    /*max-height: 35rem;*/
+    height: 45rem;
+    width: 35rem;
+    border-radius: 5% !important;
+}
+
+.HomePage-banner_text_header {
+    color: white;
+    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    /*font-size: 12rem;*/
+    font-size: 8.25rem;
+    text-align: center;
+}
+
+.HomePage-emphasized_text {
+    font-family: 'Dancing Script', cursive;
+    font-weight: bold;
+    font-size: 2.8rem;
+}
+.HomePage-profile_title {
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 5rem;
+}
+
+.HomePage-banner_text_subheader {
+    font-size: 3rem;
+    text-align: center;
+    color: #F5F5F5;
+    font-weight: bold;
+    text-decoration: solid;
+    letter-spacing: .3rem;
+}
+.HomePage-content {
+    /*height: 40rem;*/
+    z-index: 1;
+    background-color: #F5F5F5;
+    padding: 0rem !important;
+    /*padding: 10rem;*/
+    margin-top: 0;
+    position: relative;
+    top: -14rem;
+    /*padding-top: 0;*/
+    /*padding-top: 10rem;*/
+    /*padding-bottom: 10rem;*/
+    font-size: 2rem;
+}
+
+.HomePage-row {
+    /*padding-top: 2rem !important;*/
+    padding: 2.1rem;
+}
+
+.HomePage-proplayers_images {
+    max-height: 23rem;
+    max-width: auto;
+    border-radius: 50%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+    opacity: 25;
+    border: 1px solid black;
+    margin: 5rem;
+}
+
+.HomePage-details-card {
+    border-top: 8px dotted lightgray;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-with: 900px;
+    grid-column-gap: 6rem;
+    padding: 5rem;
+    padding-top: 0rem;
+    margin: 5rem;
+    margin-top: 10rem;
+    background-color: #eceff1;
+    color: black;
+    font-weight: 200 !important;
+    /*box-shadow: 0 3rem 4rem rgba(0, 0, 0, .9);*/
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, .5);
+}
+
+.HomePage-header_overlay {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(105deg,
+    rgba(255, 255, 255, .9) 0%,
+    rgba(255, 255, 255, .9) 50%,
+    transparent 50%);
+    /*url(./img/cards.jpg);*/
+    /*url(./Auth/img/background-2238731_640.jpg);*/
+    /*url(./Auth/img/playing-card-568201_640.jpg);*/
+    /*background-size: 100%;*/
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    /*clip-path: polygon(0% 77%, 42% 100%, 60% 100%, 100% 77%, 100% 0%, 100% 0%, 0% 0%, 0% 0%);*/
+    border-radius: 3px;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+
+    /*opacity: .1;*/
+}
+.HomePage-logo-container {
+
+    grid-column: 1 / span 2;
+    margin-top: 7rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-bottom: 7rem;
+    position: relative;
+    text-align: center;
+    font-size: 4rem;
+    /*padding: 3.5rem;*/
+    /*margin: 2rem;*/
+    height: auto;
+    /*width: 50rem;*/
+    /*width: 100%;*/
+    /*padding-bottom: 3rem;*/
+    /*margin-bottom: 3rem;*/
+    border-bottom: 3px dotted lightgray;
+    /*background-color: #F5F5F5;*/
+}
+
+.HomePage-card_symbol_marker {
+    text-align: center;
+    font-size: 6.5rem !important;
+}
+
+.HomePage-logosmall-B,
+.HomePage-logosmall-C {
+    font-family: 'Dancing Script', cursive;
+    font-size: 350%;
+    font-weight: bold;
+    text-align: center;
+    z-index: 4;
+}
+
+.HomePage-logosmall-B {
+    position: relative;
+    left: -1.7rem;
+    top: 7rem;
+    /*margin: 0 auto;*/
+    /*position: absolute;*/
+    /*top: -5rem;*/
+    /*left: 22rem;*/
+}
+
+.HomePage-logosmall-C {
+    position: relative;
+    left: 1.7rem;
+    top: -7rem;
+    /*margin: 0 auto;*/
+    /*position: absolute;*/
+    /*top: 0rem;*/
+    /*left: 26rem;*/
+}
+
+
+/*@media screen and (max-width: 400px) {*/
+    /*.HomePage-logosmall-B,*/
+    /*.HomePage-logosmall-C {*/
+        /*font-size: 1rem;*/
+    /*}*/
+/*}*/
+
+
+@media screen and (max-width: 970px) {
+    .HomePage-banner_text_header {
+        /*font-size: 9.5rem;*/
+        font-size: 7.5rem;
+    }
+    .HomePage-banner_text_subheader {
+        /*font-size: 5.5rem;*/
+        font-size: 2.5rem;
+    }
+}
+
+/*@media screen and (max-width: 800px) {*/
+    /*.HomePage-profile_card_container {*/
+        /*width: 100%;*/
+        /*margin: 0 auto;*/
+        /*margin-left: 11rem;*/
+    /*}*/
+/*}*/
+
+
+@media screen and (max-width: 830px) {
+    .HomePage-details-card {
+        display: block;
+        padding: 1rem;
+        margin: 1rem;
+        margin-top: 2rem;
+        background-color: #eceff1;
+        color: black;
+        font-weight: 200 !important;
+    }
+    .HomePage-content {
+        padding: 2.2rem;
+    }
+    .HomePage-banner_text_header {
+        /*font-size: 5.5rem;*/
+        font-size: 5.5rem;
+    }
+    .HomePage-banner_text_subheader {
+        /*font-size: 2rem;*/
+        font-size: 2.6rem;
+    }
+}
+
+@media screen and (max-width: 585px) {
+    .HomePage-container {
+        padding: 2rem;
+    }
+    .HomePage-profile_card_container {
+        margin-left: 0;
+    }
+    .HomePage-details-card {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .HomePage-logosmall-B,
+    .HomePage-logosmall-C {
+        font-size: 150%;
+    }
+    .HomePage-logosmall-B {
+        top: 3rem;
+        left: -.25rem;
+    }
+    .HomePage-logosmall-C {
+        top: -3rem;
+        left: .25rem;
+    }
+    .HomePage-banner_text_header {
+        /*font-size: 4.5rem;*/
+        font-size: 3.5rem;
+    }
+    .HomePage-banner_text_subheader {
+        /*font-size: 2rem;*/
+        font-size: 1.4rem;
+    }
+
+}
+
+
+/*@media screen and (max-width: 350px) {*/
+    /*.HomePage-banner_text_header {*/
+        /*!*font-size: 4.5rem;*!*/
+        /*font-size: 3.5rem;*/
+    /*}*/
+    /*.HomePage-banner_text_subheader {*/
+        /*!*font-size: 2rem;*!*/
+        /*font-size: 1.4rem;*/
+    /*}*/
+
+/*}*/

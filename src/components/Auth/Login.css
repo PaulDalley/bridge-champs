@@ -1,0 +1,57 @@
+.AuthComponent-container.card .card-content {
+    padding: 12px;
+}
+
+.Login-SocialButton {
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: relative;
+}
+.Login-SocialIcon {
+    margin-top: .85rem;
+    margin-left: .1rem;
+}
+
+.Login-or {
+    font-size: 2rem;
+    text-align: center;
+    background-color: none;
+    position: relative;
+    top: -2.3rem;
+}
+.Login-or-text {
+    background-color: white;
+}
+.Login-info_text {
+    text-align: center;
+    font-size: 1.6rem;
+}
+.Login-input-field {
+    font-size: 2.2rem !important;
+}
+
+.Login-forgot_password {
+    cursor: pointer;
+}
+
+.Login-container {
+    position: relative;
+    padding: 2rem 31% 2rem;
+    /*max-width: 120rem;*/
+}
+@media screen and (max-width: 1250px) {
+    .Login-container {
+        padding: 2rem 25rem 2rem;
+    }
+}
+
+@media screen and (max-width: 999px) {
+    .Login-container {
+        padding: 2rem 15rem 2rem;
+    }
+}
+@media screen and (max-width: 758px) {
+    .Login-container {
+        padding: 2rem;
+    }
+}

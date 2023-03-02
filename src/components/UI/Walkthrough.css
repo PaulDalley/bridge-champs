@@ -1,0 +1,149 @@
+.Walkthrough-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2001;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0,0,0,.3);
+}
+.DailyFreeSingleton-Modal {
+    z-index: 2100 !important;
+    top: 20% !important;
+}
+
+.Walkthrough-container-background {
+    z-index: 1999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+.Walkthrough-stepBox-header {
+    font-size: 2.2rem;
+    text-align: center;
+    color: #8d0018;
+}
+
+.Walkthrough-stepBox {
+    z-index: 2500 !important;
+    position: relative;
+    background-color: #F5F5F5;
+    font-size: 1.6rem;
+    /*text-align: center;*/
+    padding: 2rem;
+    max-width: 55rem;
+    border-radius: 2%;
+    border: 2px solid black;
+    box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);
+}
+@media screen and (max-width: 802px) {
+    .Walkthrough-stepBox {
+        max-width: 45rem;
+    }
+}
+@media screen and (max-width: 716px) {
+    .Walkthrough-stepBox {
+        max-width: 35rem;
+    }
+}
+@media screen and (max-width: 620px) {
+    .Walkthrough-stepBox {
+        max-width: 25rem;
+        font-size: 1.4rem;
+    }
+    .Walkthrough-stepBox-header {
+        font-size: 1.6rem;
+    }
+}
+@media screen and (max-width: 500px) {
+    .Walkthrough-stepBox {
+        max-width: 20rem;
+        font-size: 1.4rem;
+        left: 0rem !important;
+        top: 0rem !important;
+    }
+    .Walkthrough-stepBox-header {
+        font-size: 1.55rem;
+    }
+}
+
+.Walkthrough-close {
+    cursor: pointer;
+    font-size: 2.8rem;
+    position: absolute;
+    right: .55rem;
+    top: .5rem;
+}
+.Walkthrough-back-next {
+    text-align: right;
+}
+.Walkthrough-step-next {
+    cursor: pointer;
+    color: white;
+    background-color: #8d0018;
+    border-radius: 5%;
+    padding: 1rem;
+}
+.Walkthrough-step-last {
+    background-color: #55c57a;
+}
+
+.Walkthrough-step-back {
+    cursor: pointer;
+    color: #8d0018;
+}
+
+.Walkthrough-articles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2010 !important;
+    width: 100vw;
+    height: 100vh;
+    /*margin-top: 5rem;*/
+    /*margin-left: 4rem;*/
+    padding: 4rem;
+    z-index: 1000;
+    background-color: white;
+}
+
+.Walkthrough-arrow-topLeft {
+    /*border: 2px solid black;*/
+    position: absolute;
+    left: -3.4rem;
+    /*right: 3rem;*/
+    /*box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);*/
+    /*background-color: #F5F5F5;*/
+    width: 0;
+    height: 0;
+    border-top: 35px solid transparent;
+    border-bottom: 35px solid transparent;
+    border-right: 35px solid #F5F5F5;
+}
+.Walkthrough-arrow-top {
+    z-index: 2501;
+    position: absolute;
+    left: 10rem;
+    top: -3.4rem;
+    width: 0;
+    height: 0;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    border-bottom: 35px solid #F5F5F5;
+}
+.Walkthrough-arrow-topCorner {
+    z-index: 2501;
+    position: absolute;
+    left: 0rem;
+    top: -2.2rem;
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid #F5F5F5;
+}
