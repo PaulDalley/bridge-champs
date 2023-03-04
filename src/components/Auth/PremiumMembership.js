@@ -25,6 +25,14 @@ import { changeSubscriptionActiveStatus } from "../../store/actions/authActions"
 const successCallback =
   "https://us-central1-bridgechampions.cloudfunctions.net/ipnHandler";
 
+// PayPal Buttons:
+// REGULAR LIVE NO TRIAL:
+const PAYPAL_REGULAR_BUTTON_NOTRIAL =
+  "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BRFTEQT2QRXV8";
+
+const PAYPAL_SANDBOX_BUTTON_NOTRIAL =
+  "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=379VSUFUTY68J";
+
 class PremiumMembership extends Component {
   state = {
     authComplete: false,
@@ -34,7 +42,7 @@ class PremiumMembership extends Component {
     token: undefined,
     daysFree: 7,
     percentOffFirstMonth: undefined,
-    paypalButtonUrl: undefined,
+    paypalButtonUrl: PAYPAL_SANDBOX_BUTTON_NOTRIAL,
   };
 
   fetchPayPalUrl = (uid) => {
@@ -55,7 +63,8 @@ class PremiumMembership extends Component {
   };
 
   componentDidMount() {
-    if (this.props.uid) this.fetchPayPalUrl(this.props.uid);
+    // ##** COMMENTED OUT FOR NOW
+    // if (this.props.uid) this.fetchPayPalUrl(this.props.uid);
   }
 
   componentWillUpdate(nextProps) {
@@ -79,9 +88,10 @@ class PremiumMembership extends Component {
       }
     }
 
-    if (nextProps.uid !== this.props.uid) {
-      this.fetchPayPalUrl(nextProps.uid);
-    }
+    // ##** COMMENTED OUT FOR NOW
+    // if (nextProps.uid !== this.props.uid) {
+    //   this.fetchPayPalUrl(nextProps.uid);
+    // }
 
     if (nextProps.uid && !this.state.alreadyLoggedIn) {
       this.setState({ alreadyLoggedIn: true });
@@ -233,7 +243,7 @@ class PremiumMembership extends Component {
         {this.state.showLogin && !this.props.uid && (
           <Row>
             <AuthComponent
-              login={true}
+              signup={true}
               location={this.props.location}
               history={this.props.history}
               paypalSubscribe={this.doNothing}
@@ -392,7 +402,9 @@ class PremiumMembership extends Component {
 
                   {/*</Row>*/}
                   {/*}*/}
-                  {this.props.uid &&
+
+                  {/* ##** Removing this for now */}
+                  {/* {this.props.uid &&
                     !this.state.authComplete &&
                     !this.props.trialUsed && (
                       <div className="PremiumMembership-trial_string">
@@ -403,7 +415,17 @@ class PremiumMembership extends Component {
                           charge.
                         </div>
                       </div>
+                    )} */}
+
+                  {this.props.uid &&
+                    !this.state.authComplete &&
+                    !this.props.trialUsed && (
+                      <div className="PremiumMembership-trial_string">
+                        {`Start your improving your Bridge Game today`}
+                        <div className="PremiumMembership-trial_string_subtext"></div>
+                      </div>
                     )}
+
                   {this.props.uid &&
                     !this.state.authComplete &&
                     this.props.trialUsed && (

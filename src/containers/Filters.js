@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Row, Select, Checkbox, Icon, Button, Col } from "react-materialize"; // Input deprecated
+import {
+  Row,
+  Select,
+  Checkbox,
+  Icon,
+  Button,
+  Col,
+  TextInput,
+} from "react-materialize"; // Input deprecated
 import { categoriesRef } from "../firebase/config";
 import {
   setCategoryFilter,
@@ -17,6 +25,25 @@ import "./Filters.css";
 //     difficulty: '""',
 //     searchString: '""',
 //     hide: true,
+
+const selectOptions = {
+  classes: "",
+  dropdownOptions: {
+    alignment: "left",
+    autoTrigger: true,
+    closeOnClick: true,
+    constrainWidth: true,
+    coverTrigger: true,
+    hover: false,
+    inDuration: 150,
+    onCloseEnd: null,
+    onCloseStart: null,
+    onOpenEnd: null,
+    onOpenStart: null,
+    outDuration: 250,
+  },
+};
+
 class Filters extends Component {
   state = {
     // category: "",
@@ -27,7 +54,7 @@ class Filters extends Component {
     difficulty: this.props.difficulty,
     searchString:
       this.props.searchString === '""' ? "" : this.props.searchString,
-    hideQuizzesChecked: this.props.hide,
+    hideQuizzesChecked: this.props.hideCompletedQuizzes,
     categories: undefined,
   };
 
@@ -126,34 +153,37 @@ class Filters extends Component {
   render() {
     return (
       <div className="Filters-container">
-        <Row>
-          <Col s={5}>
-            <div className="Filters-search_input_container Filters-item">
-              <input
-                className="Filters-search_input"
-                name="searchString"
-                value={this.state.searchString}
-                onChange={this.handleChange}
-                placeholder="Search..."
-                // className="PremiumMembership-token-input-box"
-                // style={{height: '3.7rem', position: 'relative', left: '0'}}
-              ></input>
-              <div className="Filters-search_input_icon">
-                <Icon>search</Icon>
-              </div>
+        <div>
+          <div className="Filters-search_input_container Filters-item">
+            <div className="Filters-search_input_icon">
+              <Icon>search</Icon>
             </div>
-          </Col>
 
+            <TextInput
+              className="Filters-search_input"
+              name="searchString"
+              value={this.state.searchString}
+              onChange={this.handleChange}
+              placeholder="Search..."
+              // className="PremiumMembership-token-input-box"
+              // style={{height: '3.7rem', position: 'relative', left: '0'}}
+            ></TextInput>
+          </div>
+        </div>
+        <div className="Filters-select_inputs">
           <Select
-            m={3}
             s={3}
+            m={5}
             name="difficulty"
-            type="select"
-            label="Select Difficulty"
+            // type="select"
+            // label="Select Difficulty"
             value={this.state.difficulty}
             onChange={this.handleChange}
+            options={selectOptions}
           >
-            <option value='""'></option>
+            <option disabled value="">
+              Select Difficulty
+            </option>
             <option value="general">General</option>
             <option value="beg">Improver</option>
             <option value="int">Intermediate</option>
@@ -162,15 +192,18 @@ class Filters extends Component {
 
           {this.state.categories && (
             <Select
-              m={3}
               s={3}
+              m={5}
               name="category"
-              type="select"
-              label="Select Category"
+              // type="select"
+              // label="Select Category"
               value={this.state.category}
               onChange={this.handleChange}
+              options={selectOptions}
             >
-              <option value='""'></option>
+              <option disabled value="">
+                Select Category
+              </option>
               {this.state.categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -181,15 +214,18 @@ class Filters extends Component {
 
           {this.props.page === "quizzes" && (
             <Select
-              m={3}
               s={3}
+              m={5}
               name="category"
               type="select"
-              label="Select Quiz Type"
+              // label="Select Quiz Type"
               value={this.state.category}
               onChange={this.handleChange}
+              options={selectOptions}
             >
-              <option value='""'></option>
+              <option disabled value="">
+                Select Quiz Type
+              </option>
               <option value="Bidding">Bidding</option>
               {/*<option value='Defence'>Defence</option>*/}
               {/*<option value='Declaring'>Declaring</option>*/}
@@ -203,28 +239,30 @@ class Filters extends Component {
           {/*refresh*/}
           {/*</Icon>*/}
           {/*<div className="Filters-item Filters-Reset">*/}
-          <div
-            className="Filters-item Filters-reset_button"
-            onClick={(e) => this.resetFilters(e)}
-            waves="light"
-          >
-            <Icon>refresh</Icon>
-            <div className="Filters-reset_text">Reset</div>
+          <div className="Filters-item Filters-reset_button" waves="light">
+            {this.props.page === "quizzes" && (
+              <div
+              // style={{ position: "absolute", left: "1.25rem", top: "6.5rem" }}
+              >
+                <Checkbox
+                  id="hideCompleted"
+                  name="hideCompleted"
+                  value={this.state.hideQuizzesChecked}
+                  //    type='checkbox'
+                  label="Hide Completed"
+                  checked={this.state.hideQuizzesChecked}
+                  onChange={this.handleChange}
+                  style={{ zIndex: 26001 }}
+                />
+              </div>
+            )}
+            <div onClick={(e) => this.resetFilters(e)}>
+              <Icon>refresh</Icon>
+              <div className="Filters-reset_text">Reset</div>
+            </div>
           </div>
           {/*</div>*/}
-        </Row>
-        {this.props.page === "quizzes" && (
-          <div style={{ position: "absolute", left: "1.25rem", top: "6.5rem" }}>
-            <Checkbox
-              id="hideCompleted"
-              name="hideCompleted"
-              //    type='checkbox'
-              label="Hide completed quizzes"
-              checked={this.state.hideQuizzesChecked}
-              onChange={this.handleChange}
-            />
-          </div>
-        )}
+        </div>
       </div>
     );
   }

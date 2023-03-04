@@ -4,15 +4,36 @@ import database, {
   firebase,
   articlesRef,
   articleRef,
+  biddingSummaryRef,
+  biddingBodyRef,
+  cardPlaySummaryRef,
+  cardPlayBodyRef,
+  defenceSummaryRef,
+  defenceBodyRef,
 } from "../../firebase/config";
+
 /*const articlesRef = database.ref('articles');
- const articleRef = database.ref('article');*/
+const articleRef = database.ref('article');*/
+
+const matchTypeToRef = {
+  articles: articlesRef,
+  article: articleRef,
+  biddingSummary: biddingSummaryRef,
+  biddingBody: biddingBodyRef,
+  cardPlaySummary: cardPlaySummaryRef,
+  cardPlayBody: cardPlayBodyRef,
+  defenceSummary: defenceSummaryRef,
+  defenceBody: defenceBodyRef,
+};
+
 export const setCurrentArticle = (article) => ({
   type: actions.SET_CURRENT_ARTICLE,
   currentArticle: article,
 });
 
-export const getArticleMetadata = (id) => {
+export const getArticleMetadata = (id, articleType = "articles") => {
+  // const useRef = matchTypeToRef[articleType];
+
   return (dispatch) => {
     articlesRef
       .where("body", "==", id)
@@ -69,8 +90,16 @@ export const articleError = (error) => ({
 // };
 
 // CREATE: ADD a new article:
-export const startAddArticle = (article, articleBody) => {
+export const startAddArticle = (
+  article,
+  articleBody,
+  summaryRef = "articles",
+  bodyRef = "article"
+) => {
   return (dispatch) => {
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    const useBodyRef = matchTypeToRef[bodyRef];
+
     const batch = database.batch();
     const newArticleRef = articleRef.doc();
     const newArticlesRef = articlesRef.doc();
@@ -134,8 +163,10 @@ export const addArticle = (article, articleBody, id) => ({
 // - 3. dispatch setArticles with the returned & shaped data.
 // - pagination limited fetching ??
 
-export const getArticle = (id, router) => {
+export const getArticle = (id, router, bodyRef = "article") => {
   return (dispatch) => {
+    const useBodyRef = matchTypeToRef[bodyRef];
+
     return articleRef
       .doc(id)
       .get()
@@ -179,8 +210,9 @@ export const fetchArticlesByCategory = (category) => {
   };
 };
 
-export const getArticles = () => {
+export const getArticles = (summaryRef = "articles") => {
   return (dispatch) => {
+    const useSummaryRef = matchTypeToRef[summaryRef];
     articlesRef
       .orderBy("createdAt", "desc")
       .get()
@@ -242,8 +274,15 @@ export const setArticles = (articles, fetchedByCategory = false) => ({
 // EDIT
 // - check whether the article body stored in /article has been edited or not
 // - check whether the article headers info stored in /articles has been edited or not
-export const startEditArticle = (article, articleBody) => {
+export const startEditArticle = (
+  article,
+  useArticleBodyRef = "article",
+  useArticleSummaryRef = "articles"
+) => {
   return (dispatch) => {
+    const useBodyRef = matchTypeToRef[useArticleBodyRef];
+    const useSummaryRef = matchTypeToRef[useArticleSummaryRef];
+
     // console.log("STARTING AN EDIT OF")
     // console.log("metadata", article.id)
     // console.log("article body", article.body);

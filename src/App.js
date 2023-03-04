@@ -37,6 +37,8 @@ import {
   userLoggedInSubscriptionExpires,
 } from "./store/actions/authActions";
 import { setUserQuizScores } from "./store/actions/usersActions";
+
+// Configure redux store:
 import configureStore from "./store/configureStore";
 const store = configureStore();
 
@@ -61,25 +63,84 @@ const routes = (
       component={DBComp}
     />
 
-    {/* BROKEN: Bidding.js:455 Uncaught ReferenceError: artificialBidChecked is not defined */}
     <Route
       path="/create/article"
       // element={<CreateArticle type={"article"} />}
       render={() => <CreateArticle type="article" />}
     />
-    {/* BROKEN: Bidding.js:455 Uncaught ReferenceError: artificialBidChecked is not defined */}
+
+    {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
+    <Route
+      path="/create/defence"
+      // element={<CreateArticle type={"article"} />}
+      render={() => <CreateArticle type="defence" />}
+    />
+
+    <Route
+      path="/create/cardPlay"
+      // element={<CreateArticle type={"article"} />}
+      render={() => <CreateArticle type="defence" />}
+    />
+
+    <Route
+      path="/create/bidding"
+      // element={<CreateArticle type={"article"} />}
+      render={() => <CreateArticle type="bidding" />}
+    />
+
+    <Route
+      path="/edit/defence/:id"
+      // element={<CreateArticle edit={true} type={"article"} />}
+      render={() => <CreateArticle edit={true} type="defence" />}
+    />
+    <Route
+      path="/edit/cardPlay/:id"
+      // element={<CreateArticle edit={true} type={"article"} />}
+      render={() => <CreateArticle edit={true} type="cardPlay" />}
+    />
+    <Route
+      path="/edit/bidding/:id"
+      // element={<CreateArticle edit={true} type={"article"} />}
+      render={() => <CreateArticle edit={true} type="bidding" />}
+    />
+    <Route
+      path="/defence"
+      render={(routeProps) => (
+        <Articles {...routeProps} articleType="defence" />
+      )}
+      exact
+    />
+    <Route path="/defence/:id" component={DisplayArticle} />
+    <Route
+      path="/cardPlay"
+      render={(routeProps) => (
+        <Articles {...routeProps} articleType="cardPlay" />
+      )}
+      exact
+    />
+    <Route path="/cardPlay/:id" component={DisplayArticle} />
+    <Route
+      path="/bidding"
+      render={(routeProps) => (
+        <Articles {...routeProps} articleType="bidding" />
+      )}
+      exact
+    />
+    <Route path="/bidding/:id" component={DisplayArticle} />
+    {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
+
     <Route
       path="/create/tournament"
       // element={<CreateArticle type={"tournament"} />}
       render={() => <CreateArticle type="tournament" />}
     />
-    {/* BROKEN: Bidding.js:455 Uncaught ReferenceError: artificialBidChecked is not defined */}
+
     <Route
       path="/create/quiz"
       // element={<CreateQuiz />}
       component={CreateQuiz}
     />
-    {/* BROKEN: Bidding.js:455 Uncaught ReferenceError: artificialBidChecked is not defined */}
+
     <Route
       path="/edit/article/:id"
       // element={<CreateArticle edit={true} type={"article"} />}

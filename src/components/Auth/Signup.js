@@ -132,8 +132,9 @@ class Signup extends Component {
               onChange={this.handleChange}
               value={this.state.email}
               className="validate Login-input-field"
+              icon={"email"}
             >
-              <Icon>email</Icon>
+              {/* <Icon>email</Icon> */}
             </TextInput>
           </Row>
           <Row style={{ marginBottom: rowMargins }}>
@@ -147,8 +148,9 @@ class Signup extends Component {
               onChange={this.handleChange}
               value={this.state.password}
               className="Login-input-field"
+              icon={"vpn_key"}
             >
-              <Icon>vpn_key</Icon>
+              {/* <Icon>vpn_key</Icon> */}
             </TextInput>
           </Row>
           <Row style={{ marginBottom: rowMargins }}>
@@ -162,8 +164,9 @@ class Signup extends Component {
               onChange={this.handleChange}
               value={this.state.passwordConfirm}
               className="Login-input-field"
+              icon={"vpn_key"}
             >
-              <Icon>vpn_key</Icon>
+              {/* <Icon>vpn_key</Icon> */}
             </TextInput>
           </Row>
           <Row style={{ marginTop: "3px" }}>

@@ -28,8 +28,19 @@ export const getFirebaseDbRef = (refName) => {
   return database.collection(refName);
 };
 
+// article summary data:
 const articlesRef = database.collection("articles");
+// article body data:
 const articleRef = database.collection("article");
+
+// 3 NEW TYPES OF ARTICLES:
+const biddingSummaryRef = database.collection("bidding");
+const biddingBodyRef = database.collection("biddingBody");
+const cardPlaySummaryRef = database.collection("cardPlay");
+const cardPlayBodyRef = database.collection("cardPlayBody");
+const defenceSummaryRef = database.collection("defence");
+const defenceBodyRef = database.collection("defenceBody");
+
 const usersRef = database.collection("users");
 const categoriesRef = database.collection("categories");
 const quizzesRef = database.collection("quizzes");
@@ -57,6 +68,12 @@ export {
   facebookAuthProvider,
   articlesRef,
   articleRef,
+  biddingSummaryRef,
+  biddingBodyRef,
+  cardPlaySummaryRef,
+  cardPlayBodyRef,
+  defenceSummaryRef,
+  defenceBodyRef,
   categoriesRef,
   quizzesRef,
   quizRef,

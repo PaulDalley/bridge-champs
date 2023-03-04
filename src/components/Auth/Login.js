@@ -159,8 +159,9 @@ class Login extends Component {
             onChange={this.handleChange}
             value={this.state.email}
             className="Login-input-field"
+            icon={"email"}
           >
-            <Icon>email</Icon>
+            {/* <Icon>email</Icon> */}
           </TextInput>
         </Row>
         <Row>
@@ -173,8 +174,9 @@ class Login extends Component {
             onChange={this.handleChange}
             value={this.state.password}
             className="Login-input-field"
+            icon={"vpn_key"}
           >
-            <Icon>vpn_key</Icon>
+            {/* <Icon>vpn_key</Icon> */}
           </TextInput>
         </Row>
         <Row>

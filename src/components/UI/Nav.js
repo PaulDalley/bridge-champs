@@ -129,7 +129,10 @@ class Nav extends Component {
     // 3 tabs only if isMobileSize:
     const threeTabsOnly = window.innerWidth <= 1125;
 
-    // console.log(`userName: ${displayName}, userEmail: ${email}, uid: ${uid}`);
+    console.log("--- PROPS IN NAV COMPONENT ---");
+    console.log(`userName: ${displayName}, userEmail: ${email}, uid: ${uid}`);
+    console.log(sideNavData);
+
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -307,9 +310,23 @@ class Nav extends Component {
         <div className="Nav-tabs row z-depth-2 nav-tabs">
           <div className="col s12">
             <ul className="tabs">
-              <li onClick={() => this.goTo("/articles")} className="tab col">
-                <a id="articles" className="/articles">
-                  Articles
+              <li onClick={() => this.goTo("/cardPlay")} className="tab col">
+                <a id="articles" className="/cardPlay">
+                  Card Play
+                </a>
+                <div className="nav-tabs_underline"></div>
+              </li>
+
+              <li onClick={() => this.goTo("/defence")} className="tab col">
+                <a id="defence" className="/defence">
+                  Defence
+                </a>
+                <div className="nav-tabs_underline"></div>
+              </li>
+
+              <li onClick={() => this.goTo("/bidding")} className="tab col">
+                <a id="articles" className="/bidding">
+                  Bidding
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>

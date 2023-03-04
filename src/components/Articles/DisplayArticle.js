@@ -26,7 +26,7 @@ export class DisplayArticle extends Component {
   }
 
   render() {
-    console.log(this.props.article);
+    // console.log(this.props.article);
     const articleId = this.props.match.params.id;
     // console.log(articleId);
     // console.log(this.props.quizMetadata.id);
@@ -116,8 +116,8 @@ export class DisplayArticle extends Component {
         </div>
       );
     }
-    console.log("--- Article MetaData ---");
-    console.log(articleMetadata);
+    // console.log("--- Article MetaData ---");
+    // console.log(articleMetadata);
 
     return (
       <div className="DisplayArticle-container">
