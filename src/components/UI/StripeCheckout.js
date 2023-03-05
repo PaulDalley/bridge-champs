@@ -13,6 +13,7 @@ const stripeProcessStartUrl =
 // TEST KEY:
 const stripeKey =
   "pk_test_51MgyadERRei2smAFcWGwxCo8YJ1jZ9EXErEEoJfjMzRoSx2k9LISbBC0bhhjDbWV1DIzKsTcmMZ5IJNEO9wiwMIr00wW0rhO8I";
+
 // LIVE KEY:
 // const stripeKey = "pk_live_51MgyadERRei2smAFnwqBxWBtZFxQqhGxPncLQpkgdr1nvnsCmBz1UYwsd6vyXW6LKgIYHId2I6RuO1PHGjTxaPDh00GtIn1IDO";
 

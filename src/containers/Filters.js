@@ -172,8 +172,8 @@ class Filters extends Component {
         </div>
         <div className="Filters-select_inputs">
           <Select
-            s={3}
-            m={5}
+            // s={3}
+            // m={5}
             name="difficulty"
             // type="select"
             // label="Select Difficulty"
@@ -192,8 +192,8 @@ class Filters extends Component {
 
           {this.state.categories && (
             <Select
-              s={3}
-              m={5}
+              // s={3}
+              // m={5}
               name="category"
               // type="select"
               // label="Select Category"
@@ -214,8 +214,8 @@ class Filters extends Component {
 
           {this.props.page === "quizzes" && (
             <Select
-              s={3}
-              m={5}
+              // s={3}
+              // m={5}
               name="category"
               type="select"
               // label="Select Quiz Type"
@@ -249,11 +249,12 @@ class Filters extends Component {
                   name="hideCompleted"
                   value={this.state.hideQuizzesChecked}
                   //    type='checkbox'
-                  label="Hide Completed"
+                  // label="Hide Completed"
                   checked={this.state.hideQuizzesChecked}
                   onChange={this.handleChange}
                   style={{ zIndex: 26001 }}
                 />
+                <span className="Filters-checkbox_label">Hide Completed</span>
               </div>
             )}
             <div onClick={(e) => this.resetFilters(e)}>

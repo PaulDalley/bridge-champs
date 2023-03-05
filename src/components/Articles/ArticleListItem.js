@@ -1,5 +1,5 @@
 import React from "react";
-import { CardPanel, Button } from "react-materialize";
+import { CardPanel, Button, Icon } from "react-materialize";
 import MakeBoard from "../BridgeBoard/MakeBoard";
 import "./ArticleListItem.css";
 import {
@@ -114,7 +114,7 @@ const ArticleListItem = ({
           floating
           className="orange darken-5"
           waves="light"
-          icon="mode_edit"
+          icon={<Icon>mode_edit</Icon>}
           style={{
             position: "absolute",
             right: "2.5rem",

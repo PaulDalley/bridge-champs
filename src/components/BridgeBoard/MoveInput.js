@@ -45,7 +45,7 @@ const MoveInput = ({ i, moveChanges, editing, move, suit, score }) => {
         <option value="NT">NT</option>
       </Select>
       {/*<p class="range-field">*/}
-      <Range
+      {/* <Range
         label="Score out of 10"
         s={3}
         // type="range"
@@ -55,7 +55,22 @@ const MoveInput = ({ i, moveChanges, editing, move, suit, score }) => {
         id="test5"
         defaultValue={score}
         onChange={(e) => moveChanges(e, i, "score")}
-      />
+      /> */}
+
+      <Select
+        s={2}
+        //    type='select'
+        label="Score"
+        defaultValue={score}
+        onChange={(e) => moveChanges(e, i, "score")}
+      >
+        <option value=""></option>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+          <option key={n} value={n}>
+            {n}
+          </option>
+        ))}
+      </Select>
       {/*</p>*/}
     </Row>
   );

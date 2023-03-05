@@ -17,22 +17,23 @@ import database, {
 const matchTypeToRef = {
   articles: articlesRef,
   article: articleRef,
-  biddingSummary: biddingSummaryRef,
+  bidding: biddingSummaryRef,
   biddingBody: biddingBodyRef,
-  cardPlaySummary: cardPlaySummaryRef,
+  cardPlay: cardPlaySummaryRef,
   cardPlayBody: cardPlayBodyRef,
-  defenceSummary: defenceSummaryRef,
+  defence: defenceSummaryRef,
   defenceBody: defenceBodyRef,
 };
 
 export const setCurrentArticle = (article) => ({
-  type: actions.SET_CURRENT_ARTICLE,
+  type: actions.SET_CURRENT_CATEGORY_ARTICLE,
   currentArticle: article,
 });
 
-export const getArticleMetadata = (id) => {
+export const getArticleMetadata = (id, summaryRef = "articles") => {
+  const useSummaryRef = matchTypeToRef[summaryRef];
   return (dispatch) => {
-    articlesRef
+    useSummaryRef
       .where("body", "==", id)
       .get()
       .then((snapshot) => {
@@ -87,11 +88,13 @@ export const articleError = (error) => ({
 // };
 
 // CREATE: ADD a new article:
-export const startAddArticle = (article, articleBody) => {
+export const startAddArticle = (article, articleBody, summaryRef, bodyRef) => {
   return (dispatch) => {
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    const useBodyRef = matchTypeToRef[bodyRef];
     const batch = database.batch();
-    const newArticleRef = articleRef.doc();
-    const newArticlesRef = articlesRef.doc();
+    const newArticleRef = useBodyRef.doc();
+    const newArticlesRef = useSummaryRef.doc();
     // console.log("I AM SUBMITTING A NEW ARTICLE TO FIRESTORE:");
     // console.log(newArticleRef);
     // console.log(newArticleRef.id);
@@ -112,38 +115,19 @@ export const startAddArticle = (article, articleBody) => {
         article["createdAt"] = new Date();
         article["id"] = newArticlesRef.id;
         article["body"] = newArticleRef.id;
-        // dispatch(addArticle(article, articleBody, newArticleRef.id));
+        // dispatch(addArticle(article, articleBody, newArticleRef.id, summaryRef, bodyRef));
       })
       .catch((err) => dispatch(articleError(err)));
   };
 };
 
-// export const startAddArticle = (article, articleBody) => {
-//     return (dispatch) => {
-//         articlesRef.push({
-//             ...article,
-//             createdAt: database.ServerValue.TIMESTAMP
-//         })
-//             .then(res => {
-//                 articleRef.child(res.getKey()).set({
-//                     text: articleBody,
-//                     createdAt: database.ServerValue.TIMESTAMP
-//             })
-//                 .then((snapshot) => {
-//                     dispatch(addArticle({
-//                          id: snapshot.key,
-//                          ...article
-//                         }, articleBody));
-//                 });
-//             });
-//     }
-// };
-
-export const addArticle = (article, articleBody, id) => ({
+export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
   type: actions.ADD_ARTICLE,
   article,
   articleBody,
   articleId: id,
+  summaryRef,
+  bodyRef,
 });
 
 // READ: DOWNLOAD the list of articles of /articles:
@@ -152,9 +136,10 @@ export const addArticle = (article, articleBody, id) => ({
 // - 3. dispatch setArticles with the returned & shaped data.
 // - pagination limited fetching ??
 
-export const getArticle = (id, router) => {
+export const getArticle = (id, router, bodyRef) => {
   return (dispatch) => {
-    return articleRef
+    const useBodyRef = matchTypeToRef[bodyRef];
+    return useBodyRef
       .doc(id)
       .get()
       .then((snapshot) => {
@@ -177,9 +162,10 @@ export const setArticle = (article, id) => ({
 });
 
 // BASIC VERSION:
-export const fetchArticlesByCategory = (category) => {
+export const fetchArticlesByCategory = (category, summaryRef) => {
   return (dispatch) => {
-    articlesRef
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    useSummaryRef
       .where("category", "==", category)
       .get()
       .then((snapshot) => {
@@ -197,9 +183,10 @@ export const fetchArticlesByCategory = (category) => {
   };
 };
 
-export const getArticles = () => {
+export const getArticles = (summaryRef) => {
   return (dispatch) => {
-    articlesRef
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    useSummaryRef
       .orderBy("createdAt", "desc")
       .get()
       .then((snapshot) => {
@@ -210,9 +197,9 @@ export const getArticles = () => {
             ...childSnapshot.data(),
           });
         });
-        // console.log("JUST FETCHED ARTICLES!");
-        // console.log(articles);
-        dispatch(setArticles(articles));
+        console.log(`--- JUST FETCHED categoryArticles for ${summaryRef} ---`);
+        console.log(articles);
+        dispatch(setArticles(articles, false, summaryRef));
       });
   };
 };
@@ -238,37 +225,31 @@ export const getArticlesChunk = (start, end) => {
 //     };
 // };
 
-export const setArticles = (articles, fetchedByCategory = false) => ({
+export const setArticles = (
+  articles,
+  fetchedByCategory = false,
+  summaryRef
+) => ({
   type: actions.SET_ARTICLES,
   articles,
   fetchedByCategory,
+  summaryRef,
 });
 
-// UPDATE
-
-// DELETE
-// const startRemoveArticle = (id) => {
-//     return (dispatch) => {
-//         // database.ref(`articles/${id}`).remove()
-//         articlesRef.child(id).remove()
-//             .then(() => {
-//                 dispatch(removeArticle(id));
-//             });
-//     };
-// };
-
-// EDIT
+// EDIT/UPDATE:
 // - check whether the article body stored in /article has been edited or not
 // - check whether the article headers info stored in /articles has been edited or not
-export const startEditArticle = (article, articleBody) => {
+export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
   return (dispatch) => {
     // console.log("STARTING AN EDIT OF")
     // console.log("metadata", article.id)
     // console.log("article body", article.body);
     // console.log("ABOUT TO EDIT THEM: ", article.title);
     const batch = database.batch();
-    const articleBodyRef = articleRef.doc(article.body);
-    const articlesMetadataRef = articlesRef.doc(article.id);
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    const useBodyRef = matchTypeToRef[bodyRef];
+    const articleBodyRef = useBodyRef.doc(article.body);
+    const articlesMetadataRef = useSummaryRef.doc(article.id);
     batch.update(articlesMetadataRef, {
       ...article,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -296,11 +277,13 @@ const editArticle = (article, articleBody, id) => ({
   articleBody,
 });
 
-export const startDeleteArticle = (articleId, bodyId) => {
+export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
   return (dispatch) => {
     const batch = database.batch();
-    const articleBodyRef = articleRef.doc(bodyId);
-    const articlesMetadataRef = articlesRef.doc(articleId);
+    const useSummaryRef = matchTypeToRef[summaryRef];
+    const useBodyRef = matchTypeToRef[bodyRef];
+    const articleBodyRef = useBodyRef.doc(bodyId);
+    const articlesMetadataRef = useSummaryRef.doc(articleId);
     batch.delete(articlesMetadataRef);
     batch.delete(articleBodyRef);
     batch
@@ -321,57 +304,3 @@ const deleteArticle = (articleId, bodyId) => ({
   articleId,
   bodyId,
 });
-
-// ## DOWNLOAD one article for /articles/:id -- if logged in && member:
-// export const getArticlesByCategory = category => {
-//     return dispatch => {
-//         articlesRef.where("category", "==", category)
-//             .get()
-//             .then(snapshot => {
-//                 let articles = {};
-//                 snapshot.forEach(childSnapshot => {
-//                     let childData = childSnapshot.data();
-//                     // console.log(" I HAVE CHILD DATA HERE");
-//                     // console.log(childData.subcategory);
-//
-//                     if (articles[childData.subcategory]) {
-//                         articles[childData.subcategory].push(childData);
-//                     }
-//                     else {
-//                         articles[childData.subcategory] = [childData];
-//                     }
-//                 });
-//                 dispatch(setTournamentsData(tournamentArticles))
-//             });
-//     };
-// }
-
-export const getTournamentArticles = () => {
-  return (dispatch) => {
-    articlesRef
-      .where("category", "==", "Tournament")
-      .get()
-      .then((snapshot) => {
-        let tournamentArticles = {};
-        snapshot.forEach((childSnapshot) => {
-          let childData = childSnapshot.data();
-          // console.log(" I HAVE CHILD DATA HERE");
-          // console.log(childData.subcategory);
-
-          if (tournamentArticles[childData.subcategory]) {
-            tournamentArticles[childData.subcategory].push(childData);
-          } else {
-            tournamentArticles[childData.subcategory] = [childData];
-          }
-        });
-        dispatch(setTournamentsData(tournamentArticles));
-      });
-  };
-};
-
-const setTournamentsData = (tournamentArticles) => ({
-  type: actions.SET_TOURNAMENT_ARTICLES,
-  tournamentArticles,
-});
-
-export const setCurrentTournament = (tournament) => {};

@@ -143,10 +143,12 @@ class CreateQuiz extends Component {
   };
 
   changeAnswers = (e, i, key) => {
-    // console.log('VALUE OF SELECT FIELD:')
-    // console.log(e.target.value);
-    // console.log(i);
-    // console.log(key);
+    console.log("--- VALUES IN changeAnswers ---");
+    console.log(e);
+    console.log(e.target.value);
+    console.log(i);
+    console.log(key);
+
     let updatedAnswers = this.state.answers.slice(
       0,
       Number(this.state.numAnswers)
@@ -154,6 +156,7 @@ class CreateQuiz extends Component {
     let changedAnswer = { ...this.state.answers[i] };
     changedAnswer[key] = e.target.value;
     updatedAnswers[i] = changedAnswer;
+    console.log(updatedAnswers);
     this.setState({ answers: updatedAnswers });
   };
 
@@ -255,7 +258,10 @@ class CreateQuiz extends Component {
     this.props.history.push(`/quizzes`);
   };
 
-  onInputDateChange = (e, date) => {
+  onInputDateChange = (date) => {
+    console.log("--- Input Date Changed ---");
+    console.log(date);
+
     this.setState({ date });
   };
 
@@ -405,8 +411,9 @@ class CreateQuiz extends Component {
                 }}
               />
             )}
-            {this.state.date !== "" && (
-              <Col>{this.state.date.toString().slice(0, 11)}</Col>
+            {/* 0,11 -> Wed Mar 23;  0,16 -> Wed Mar 23 2023 */}
+            {this.state.date !== "" && this.state?.date?.toString && (
+              <Col>{this.state.date.toString().slice(0, 16)}</Col>
             )}
             {this.state.date !== "" && (
               <Col>
@@ -438,7 +445,7 @@ class CreateQuiz extends Component {
               s={12}
               name="teaser"
               label="Quiz Teaser Introduction"
-              type="textarea"
+              // type="textarea"
               value={this.state.teaser}
               onChange={this.handleChange}
             ></TextInput>
@@ -447,7 +454,7 @@ class CreateQuiz extends Component {
             <Textarea
               s={12}
               name="quizQuestion"
-              label="Quiz Question"
+              label="Quiz Question (MAKE SURE TO PASTE THE MAKEBOARD BOARD WITH THE QUESTION)"
               //    type="textarea"
               value={this.state.quizQuestion}
               onChange={this.handleChange}

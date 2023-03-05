@@ -21,7 +21,8 @@ export class DisplayArticle extends Component {
   componentDidMount() {
     if (!this.props.haveData) {
       const articleId = this.props.match.params.id;
-      this.props.getArticle(articleId, this.props.history);
+      const articleType = this.props?.articleType;
+      this.props.getArticle(articleId, this.props.history, articleType);
     }
   }
 

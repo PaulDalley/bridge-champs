@@ -19,6 +19,22 @@ service cloud.firestore {
         allow read;
         allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
     }
+
+    match /defence/{defenceId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /cardPlay/{cardPlayId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /bidding/{biddingId} {
+        allow read;
+        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }    
+
     match /quizzes/{quizId} {
         allow read;
         allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
@@ -34,6 +50,40 @@ service cloud.firestore {
        // 'admin' field set to 'true'
        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
     }
+
+    match /biddingBody/{biddingBodyId} {
+      // Make sure a 'members' document exists for the requesting user and that
+      // their subscriptionExpires has not passed the current time before
+      // allowing any reads from the 'article' collection
+      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+
+       // Allow the user to delete cities if their user document has the
+       // 'admin' field set to 'true'
+       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /cardPlayBody/{cardPlayBodyId} {
+      // Make sure a 'members' document exists for the requesting user and that
+      // their subscriptionExpires has not passed the current time before
+      // allowing any reads from the 'article' collection
+      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+
+       // Allow the user to delete cities if their user document has the
+       // 'admin' field set to 'true'
+       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
+    match /defenceBody/{defenceBodyId} {
+      // Make sure a 'members' document exists for the requesting user and that
+      // their subscriptionExpires has not passed the current time before
+      // allowing any reads from the 'article' collection
+      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+
+       // Allow the user to delete cities if their user document has the
+       // 'admin' field set to 'true'
+       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    }
+
     match /quiz/{quizId} {
           // Make sure a 'members' document exists for the requesting user and that
           // their subscriptionExpires has not passed the current time before

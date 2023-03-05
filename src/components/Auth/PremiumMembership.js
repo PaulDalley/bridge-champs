@@ -1,3 +1,4 @@
+// Changed daysFree to 0 from 7 and not adding more days to it...
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./PremiumMembership.css";
@@ -40,7 +41,7 @@ class PremiumMembership extends Component {
     alreadyLoggedIn: false,
     paypalRedirectLoading: false,
     token: undefined,
-    daysFree: 7,
+    daysFree: 0, // ##** 7
     percentOffFirstMonth: undefined,
     paypalButtonUrl: PAYPAL_SANDBOX_BUTTON_NOTRIAL,
   };
@@ -145,7 +146,7 @@ class PremiumMembership extends Component {
   passDataUp = (token, daysFree, percentOffFirstMonth, paypalButtonUrl) =>
     this.setState({
       token,
-      daysFree: daysFree + 7,
+      daysFree: daysFree, //+ 7,
       percentOffFirstMonth,
       paypalButtonUrl,
     });

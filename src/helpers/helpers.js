@@ -583,8 +583,9 @@ export const getDifficultyStr = (difficulty) => {
 };
 
 export const getQuizData = (documentString) => {
-  // console.log(documentString);
-  // console.log(documentString.split(/(<MakeBoard .* \/>)/));
+  console.log("--- Making board from document string ---");
+  console.log(documentString);
+  console.log(documentString.split(/(<MakeBoard .* \/>)/));
   const re = /(<MakeBoard .* \/>)/;
   const matches = re.exec(documentString);
   if (matches) {

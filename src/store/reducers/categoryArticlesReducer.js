@@ -1,10 +1,22 @@
 import * as actions from "../actions/actionTypes";
 
+/*
+  biddingSummary: biddingSummaryRef,
+  biddingBody: biddingBodyRef,
+  cardPlaySummary: cardPlaySummaryRef,
+  cardPlayBody: cardPlayBodyRef,
+  defenceSummary: defenceSummaryRef,
+  defenceBody: defenceBodyRef,
+*/
+
 const articlesDefaultState = {
-  articles: [],
-  article: {},
+  biddingSummary: [],
+  biddingBody: {},
+  cardPlaySummary: [],
+  cardPlayBody: {},
+  defenceSummary: [],
+  defenceBody: {},
   currentArticle: undefined,
-  tournamentArticles: undefined,
   fetchedByCategory: false,
 };
 
@@ -28,10 +40,12 @@ export default (state = articlesDefaultState, action) => {
         fetchedByCategory: false,
       };
     // set all articles from a /articles json request:
-    case actions.SET_ARTICLES:
+    case actions.SET_CURRENT_CATEGORY_ARTICLE:
       // const newArticles = [...state.articles, action.articles];
+      console.log(`--- SETTING STORE ARTICLES FOR ${action.summaryRef} ---`);
+      console.log(action.articles);
       return {
-        articles: action.articles,
+        [action.summaryRef]: action.articles,
         article: state.article,
         currentArticle: state.currentArticle,
         fetchedByCategory: action.fetchedByCategory,

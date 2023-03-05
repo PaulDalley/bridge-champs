@@ -115,10 +115,10 @@ class CreateArticle extends Component {
       this.props.getArticle(body);
     }
 
-    if (this.props.type === "tournament") {
+    if (this.props.articleType === "tournament") {
       this.setState({ category: "Tournament" });
       // console.log(`THIS IS THE TOURNAMENT FORM, ${this.props.type}`);
-    } else if (this.props.type === "article") {
+    } else if (this.props.articleType === "articles") {
       // console.log(`THIS IS THE ARTICLE FORM, ${this.props.type}`);
       const categoriesSubscription = categoriesRef.onSnapshot((snapshot) => {
         if (snapshot && snapshot.docs.length > 0) {
@@ -196,12 +196,15 @@ class CreateArticle extends Component {
     // console.log(article.toString('html')); // 'html' or 'markdown'
   };
 
-  onInputDateChange = (e, date) => {
-    this.setState({ [e.target.name]: date });
+  onInputDateChange = (key, date) => {
+    this.setState({ [key]: date });
   };
 
   submitArticle = (e) => {
     e.preventDefault();
+    const articleType = this.props.articleType;
+    const useBodyRef = this.props.bodyRef;
+
     let article = {
       title: this.state.title,
       category: this.state.category,
@@ -210,7 +213,7 @@ class CreateArticle extends Component {
       teaser: this.state.teaser,
     };
 
-    if (this.props.type === "tournament") {
+    if (this.props.articleType === "tournament") {
       article["subcategory"] = this.state.tournamentName;
       if (this.state.tournamentStartDate !== "") {
         article["tournamentStartDate"] = this.state.tournamentStartDate;
@@ -221,7 +224,10 @@ class CreateArticle extends Component {
       if (this.state.tournamentImage !== "") {
         article["tournamentLogo"] = this.state.tournamentImage;
       }
-    } else if (this.props.type === "article" && this.state.subcategory !== "") {
+    } else if (
+      this.props.articleType === "articles" &&
+      this.state.subcategory !== ""
+    ) {
       article["subcategory"] = this.state.subcategory;
     }
 
@@ -241,11 +247,28 @@ class CreateArticle extends Component {
 
     let articleBody = { text: articleText };
 
-    this.props.addArticle(article, articleBody);
+    this.props.addArticle(article, articleBody, articleType, useBodyRef);
 
-    switch (this.props.type) {
-      case "article":
+    // switch (this.props.type) {
+    //   case "articles":
+    //     this.props.history.push("/articles");
+    //     break;
+    //   case "tournament":
+    //     this.props.history.push("/tournaments");
+    // }
+
+    switch (articleType) {
+      case "articles":
         this.props.history.push("/articles");
+        break;
+      case "defence":
+        this.props.history.push("/defence");
+        break;
+      case "cardPlay":
+        this.props.history.push("/cardPlay");
+        break;
+      case "bidding":
+        this.props.history.push("/bidding");
         break;
       case "tournament":
         this.props.history.push("/tournaments");
@@ -264,7 +287,7 @@ class CreateArticle extends Component {
       id: this.state.articleId,
     };
 
-    if (this.props.type === "tournament" || this.state.isTournament) {
+    if (this.props.articleType === "tournament" || this.state.isTournament) {
       article["subcategory"] = this.state.tournamentName;
       if (this.state.tournamentStartDate !== "") {
         article["tournamentStartDate"] = this.state.tournamentStartDate;
@@ -275,7 +298,10 @@ class CreateArticle extends Component {
       if (this.state.tournamentImage !== "") {
         article["tournamentLogo"] = this.state.tournamentImage;
       }
-    } else if (this.props.type === "article" && this.state.subcategory !== "") {
+    } else if (
+      this.props.articleType === "articles" &&
+      this.state.subcategory !== ""
+    ) {
       article["subcategory"] = this.state.subcategory;
     }
 
@@ -298,8 +324,8 @@ class CreateArticle extends Component {
 
     this.props.editArticle(article, articleBody);
 
-    switch (this.props.type) {
-      case "article":
+    switch (this.props.articleType) {
+      case "articles":
         this.props.history.push("/articles");
         break;
       case "tournament":
@@ -318,7 +344,7 @@ class CreateArticle extends Component {
     modalOverlay.remove();
     $("body").css({ overflow: "auto" });
     this.props.deleteArticle(this.state.articleId, this.state.body);
-    this.props.history.push(`/${this.props.type}s`);
+    this.props.history.push(`/${this.props.articleType}s`);
   };
 
   resetTournamentDates = (e) => {
@@ -350,7 +376,7 @@ class CreateArticle extends Component {
         <form>
           <h3 style={{ paddingTop: "3rem", textAlign: "center" }}>
             {" "}
-            Create {this.props.type} post
+            Create {this.props.articleType} post
           </h3>
           <Row>
             <TextInput
@@ -361,8 +387,10 @@ class CreateArticle extends Component {
               label="Post Title"
             />
           </Row>
-          {this.props.type === "article" && <Row>{categoriesInput}</Row>}
-          {this.props.type === "article" &&
+          {this.props.articleType === "articles" && (
+            <Row>{categoriesInput}</Row>
+          )}
+          {this.props.articleType === "articles" &&
             this.state.category === "[Add New Category]" && (
               <Row>
                 <TextInput
@@ -378,11 +406,11 @@ class CreateArticle extends Component {
                   onClick={(e) => this.addCategory(e)}
                   className="green darken-5"
                   waves="light"
-                  icon="add"
+                  icon={<Icon>add</Icon>}
                 />
               </Row>
             )}
-          {this.props.type === "tournament" && (
+          {this.props.articleType === "tournament" && (
             <Row>
               <TextInput
                 s={12}
@@ -393,7 +421,7 @@ class CreateArticle extends Component {
               />
             </Row>
           )}
-          {this.props.type === "tournament" && (
+          {this.props.articleType === "tournament" && (
             <Row>
               <TextInput
                 s={12}
@@ -405,7 +433,8 @@ class CreateArticle extends Component {
             </Row>
           )}
 
-          {(this.props.type === "tournament" || this.state.isTournament) && (
+          {(this.props.articleType === "tournament" ||
+            this.state.isTournament) && (
             <Row>
               {this.state.tournamentStartDate === "" && (
                 // <Input name='tournamentStartDate'
@@ -418,8 +447,8 @@ class CreateArticle extends Component {
                   name="tournamentStartDate"
                   // type='date'
                   label="Select Start Date"
-                  onChange={(e, value) => {
-                    this.onInputDateChange(e, value);
+                  onChange={(value) => {
+                    this.onInputDateChange("tournamentStartDate", value);
                   }}
                 />
               )}{" "}
@@ -446,8 +475,8 @@ class CreateArticle extends Component {
                   name="tournamentEndDate"
                   //   type="date"
                   label="Select End Date"
-                  onChange={(e, value) => {
-                    this.onInputDateChange(e, value);
+                  onChange={(value) => {
+                    this.onInputDateChange("tournamentEndDate", value);
                   }}
                 />
               )}{" "}
@@ -467,7 +496,7 @@ class CreateArticle extends Component {
             </Row>
           )}
 
-          {this.props.type === "article" && (
+          {this.props.articleType === "articles" && (
             <Row>
               <TextInput
                 s={6}
@@ -510,7 +539,7 @@ class CreateArticle extends Component {
               s={12}
               name="teaser"
               label="Article Teaser Introduction"
-              type="textarea"
+              // type="textarea"
               value={this.state.teaser}
               onChange={this.handleChange}
             ></TextInput>

@@ -10,6 +10,7 @@ import { withRouter } from "react-router-dom";
 import "./Nav.css";
 // import {SideNav, SideNavItem, Button} from 'react-materialize';
 import SideDrawer from "./SideDrawer";
+import { Dropdown, Button, Divider, Icon } from "react-materialize";
 
 // const photo = require('../../assets/images/logo-small-inv-t.png');
 
@@ -129,8 +130,8 @@ class Nav extends Component {
     // 3 tabs only if isMobileSize:
     const threeTabsOnly = window.innerWidth <= 1125;
 
-    console.log("--- PROPS IN NAV COMPONENT ---");
-    console.log(`userName: ${displayName}, userEmail: ${email}, uid: ${uid}`);
+    console.log("--- IN NAV WITH ---");
+    console.log(uid);
     console.log(sideNavData);
 
     return (
@@ -311,7 +312,7 @@ class Nav extends Component {
           <div className="col s12">
             <ul className="tabs">
               <li onClick={() => this.goTo("/cardPlay")} className="tab col">
-                <a id="articles" className="/cardPlay">
+                <a id="cardPlay" className="/cardPlay">
                   Card Play
                 </a>
                 <div className="nav-tabs_underline"></div>
@@ -325,11 +326,12 @@ class Nav extends Component {
               </li>
 
               <li onClick={() => this.goTo("/bidding")} className="tab col">
-                <a id="articles" className="/bidding">
+                <a id="bidding" className="/bidding">
                   Bidding
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>
+
               {/*<li className="tab col s3"><a className="active">Recent Tournaments</a></li>*/}
               {/*<li onClick={() => this.goTo('/tournaments') } className="tab col">*/}
               {/*<a className="/tournaments">Tournaments</a>*/}
@@ -340,13 +342,92 @@ class Nav extends Component {
                 <div className="nav-tabs_underline"></div>
               </li>
 
-              <li onClick={() => this.goTo("/conventions")} className="tab col">
-                <a className="/conventions">Conventions & System</a>
+              <li onClick={() => this.goTo("/articles")} className="tab col">
+                <a id="articles" className="/articles">
+                  Articles
+                </a>
                 <div className="nav-tabs_underline"></div>
               </li>
+
               {/*<li onClick={() => this.goTo('/videos')} className="tab col s3"><a className="/videos">Videos</a></li>*/}
             </ul>
           </div>
+          {/*           
+          <div
+            style={{
+              width: "25rem",
+              height: "10rem",
+              overflow: "visible",
+              position: "absolute",
+              display: "flex",
+              top: "0.55rem",
+              left: "41.5rem",
+            }}
+          >
+            <Dropdown
+              id="Dropdown_8"
+              options={{
+                alignment: "left",
+                autoTrigger: true,
+                closeOnClick: true,
+                constrainWidth: true,
+                container: null,
+                coverTrigger: true,
+                hover: false,
+                inDuration: 150,
+                onCloseEnd: null,
+                onCloseStart: null,
+                onOpenEnd: null,
+                onOpenStart: null,
+                outDuration: 250,
+              }}
+              style={{
+                width: "25rem",
+                minWidth: "25rem",
+                height: "6rem",
+                overflow: "visible",
+                color: "black",
+              }}
+              trigger={
+                <Button
+                  flat={true}
+                  waves={"light"}
+                  node="button"
+                  style={{
+                    backgroundColor: "white",
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: "inherit",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  <Icon medium={true}>arrow_drop_down</Icon>
+                  <span style={{ paddingLeft: "1rem", fontSize: "1.5rem" }}>
+                    Archived
+                  </span>
+                </Button>
+              }
+            >
+              <li
+                onClick={() => this.goTo("/conventions")}
+                className="tab col"
+                style={{ width: "25rem", height: "6rem", overflow: "visible" }}
+              >
+                <a className="/conventions">Conventions & System</a>
+                <div className="nav-tabs_underline"></div>
+              </li>
+              <li
+                onClick={() => this.goTo("/articles")}
+                className="tab col"
+                style={{ width: "25rem", height: "6rem", overflow: "visible" }}
+              >
+                <a id="articles" className="/articles">
+                  Articles
+                </a>
+                <div className="nav-tabs_underline"></div>
+              </li>
+            </Dropdown>
+            </div>  */}
         </div>
       </header>
     );

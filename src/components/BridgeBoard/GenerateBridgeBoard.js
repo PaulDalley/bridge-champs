@@ -289,7 +289,7 @@ class GenerateBridgeBoard extends Component {
     return (
       <div>
         <Collapsible popout>
-          <CollapsibleItem header="Create Hand" icon="add_circle">
+          <CollapsibleItem header="Create Hand" icon={<Icon>add_circle</Icon>}>
             <Select
               s={12}
               className="GenerateBridgeBoard-select_board_type"

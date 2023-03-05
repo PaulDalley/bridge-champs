@@ -5,6 +5,7 @@ import quizzesReducer from "./reducers/quizzesReducer";
 import authReducer from "./reducers/authReducer";
 import userReducer from "./reducers/usersReducer";
 import filtersReducer from "./reducers/filtersReducer";
+import categoryArticlesReducer from "./reducers/categoryArticlesReducer";
 // import thunk from "redux-thunk";
 import thunkMiddleware from "redux-thunk";
 // import createSagaMiddleware from 'redux-saga';
@@ -26,6 +27,7 @@ export default () => {
     quizzes: quizzesReducer,
     user: userReducer,
     filters: filtersReducer,
+    categoryArticles: categoryArticlesReducer,
     // article: articleReducer,
   });
 

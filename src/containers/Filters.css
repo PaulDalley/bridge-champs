@@ -15,6 +15,10 @@
   gap: 3rem;
 }
 
+.Filters-checkbox_label {
+  text-align: center;
+}
+
 .Filters-item {
 }
 
@@ -29,7 +33,7 @@
   flex-direction: column;
   gap: 1.25rem;
 }
-@media screen and (max-width: 759px) {
+@media screen and (max-width: 1120px) {
   .Filters-reset_button {
     margin-left: 1rem;
     right: 4.5rem;
@@ -48,6 +52,20 @@
     width: 24rem !important;
   }
 }
+
+@media screen and (max-width: 691px) {
+  .Filters-select_inputs {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .Filters-search_input {
+    min-width: 16rem !important;
+    width: 16rem !important;
+  }
+}
+
 @media screen and (max-width: 523px) {
   .Filters-reset_button {
     margin-left: 1.5rem !important;

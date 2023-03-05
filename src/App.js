@@ -1,3 +1,21 @@
+import $ from "jquery";
+window.jQuery = window.$ = $;
+
+// import $ from 'jquery';
+// window.$ = $;
+
+// import jQuery from 'jquery';
+import "./assets/css/materialize-required.css";
+// import './assets/css/materialize.min.css';
+// import './assets/js/materialize.min';
+
+// import 'jquery';
+// import "materialize-css/dist/css/materialize.min.css";
+// import "materialize-css/dist/js/materialize.min.js";
+
+// NEW: Doesn't work:
+import "materialize-css";
+
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom"; // Routes replaced Switch component deprecated.
@@ -8,6 +26,7 @@ import Profile from "./components/UI/Profile";
 import PrivacyPolicy from "./components/UI/PrivacyPolicy";
 import HomePage from "./components/HomePage";
 import Articles from "./containers/Articles";
+import CategoryArticles from "./containers/CategoryArticles";
 import DisplayArticle from "./components/Articles/DisplayArticle";
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import ArticlesByCategory from "./components/Articles/ArticlesByCategory";
@@ -20,11 +39,11 @@ import Questions from "./containers/Questions";
 import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
 import TestingGround from "./components/TestingGround";
-import $ from "jquery";
 
 import { firebase } from "./firebase/config";
 
 import CreateArticle from "./containers/CreateArticle";
+import CreateCategoryArticle from "./containers/CreateCategoryArticle";
 import CreateQuiz from "./containers/CreateQuiz";
 import DBComp from "./containers/DBComp";
 
@@ -42,19 +61,6 @@ import { setUserQuizScores } from "./store/actions/usersActions";
 import configureStore from "./store/configureStore";
 const store = configureStore();
 
-// import $ from 'jquery';
-// window.$ = $;
-
-// import jQuery from 'jquery';
-// import './assets/css/materialize.min.css';
-// import './assets/js/materialize.min';
-
-// import 'jquery';
-// import 'materialize-css/dist/css/materialize.min.css';
-// import 'materialize-css/dist/js/materialize.min.js';
-
-import "materialize-css";
-
 const routes = (
   <Switch>
     <Route
@@ -66,87 +72,129 @@ const routes = (
     <Route
       path="/create/article"
       // element={<CreateArticle type={"article"} />}
-      render={() => <CreateArticle type="article" />}
+      render={() => <CreateArticle articleType="articles" bodyRef="article" />}
     />
 
     {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
     <Route
       path="/create/defence"
       // element={<CreateArticle type={"article"} />}
-      render={() => <CreateArticle type="defence" />}
+      render={() => (
+        <CreateCategoryArticle articleType="defence" bodyRef="defenceBody" />
+      )}
     />
 
     <Route
       path="/create/cardPlay"
       // element={<CreateArticle type={"article"} />}
-      render={() => <CreateArticle type="defence" />}
+      render={() => (
+        <CreateCategoryArticle articleType="cardPlay" bodyRef="cardPlayBody" />
+      )}
     />
 
     <Route
       path="/create/bidding"
       // element={<CreateArticle type={"article"} />}
-      render={() => <CreateArticle type="bidding" />}
+      render={() => (
+        <CreateCategoryArticle articleType="bidding" bodyRef="biddingBody" />
+      )}
     />
 
     <Route
       path="/edit/defence/:id"
       // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => <CreateArticle edit={true} type="defence" />}
+      render={() => (
+        <CreateCategoryArticle
+          edit={true}
+          articleType="defence"
+          bodyRef="defenceBody"
+        />
+      )}
     />
     <Route
       path="/edit/cardPlay/:id"
       // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => <CreateArticle edit={true} type="cardPlay" />}
+      render={() => (
+        <CreateCategoryArticle
+          edit={true}
+          articleType="cardPlay"
+          bodyRef="cardPlayBody"
+        />
+      )}
     />
     <Route
       path="/edit/bidding/:id"
       // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => <CreateArticle edit={true} type="bidding" />}
+      render={() => (
+        <CreateCategoryArticle
+          edit={true}
+          articleType="bidding"
+          bodyRef="biddingBody"
+        />
+      )}
     />
     <Route
       path="/defence"
       render={(routeProps) => (
-        <Articles {...routeProps} articleType="defence" />
+        <CategoryArticles {...routeProps} articleType="defence" />
       )}
       exact
     />
-    <Route path="/defence/:id" component={DisplayArticle} />
+    <Route
+      path="/defence/:id"
+      component={DisplayArticle}
+      articleType="defence"
+    />
     <Route
       path="/cardPlay"
       render={(routeProps) => (
-        <Articles {...routeProps} articleType="cardPlay" />
+        <CategoryArticles {...routeProps} articleType="cardPlay" />
       )}
       exact
     />
-    <Route path="/cardPlay/:id" component={DisplayArticle} />
+    <Route
+      path="/cardPlay/:id"
+      component={DisplayArticle}
+      articleType="cardPlay"
+    />
     <Route
       path="/bidding"
       render={(routeProps) => (
-        <Articles {...routeProps} articleType="bidding" />
+        <CategoryArticles {...routeProps} articleType="bidding" />
       )}
       exact
     />
-    <Route path="/bidding/:id" component={DisplayArticle} />
+    <Route
+      path="/bidding/:id"
+      component={DisplayArticle}
+      articleType="bidding"
+    />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
 
     <Route
       path="/create/tournament"
       // element={<CreateArticle type={"tournament"} />}
-      render={() => <CreateArticle type="tournament" />}
+      render={() => <CreateArticle articleType="tournament" />}
     />
 
     <Route
       path="/create/quiz"
       // element={<CreateQuiz />}
+      articleType="quiz"
       component={CreateQuiz}
     />
 
     <Route
       path="/edit/article/:id"
       // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => <CreateArticle edit={true} type="article" />}
+      render={() => (
+        <CreateArticle edit={true} articleType="article" type="article" />
+      )}
     />
-    <Route path="/edit/quiz/:id" render={() => <CreateQuiz edit={true} />} />
+    <Route
+      path="/edit/quiz/:id"
+      render={() => <CreateQuiz edit={true} articleType="quiz" type="quiz" />}
+    />
 
     <Route path="/testingground" component={TestingGround} />
 
