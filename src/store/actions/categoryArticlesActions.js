@@ -15,8 +15,6 @@ import database, {
  const articleRef = database.ref('article');*/
 
 const matchTypeToRef = {
-  articles: articlesRef,
-  article: articleRef,
   bidding: biddingSummaryRef,
   biddingBody: biddingBodyRef,
   cardPlay: cardPlaySummaryRef,
@@ -58,13 +56,13 @@ export const getArticleCount = () => {
 };
 
 export const setCounts = ({ articlesCount, quizCount }) => ({
-  type: actions.SET_COUNTS,
+  type: actions.SET_CATEGORY_COUNTS,
   articlesCount,
   quizCount,
 });
 
 export const articleError = (error) => ({
-  type: actions.ARTICLE_ERROR,
+  type: actions.CATEGORY_ARTICLE_ERROR,
   error,
 });
 
@@ -122,7 +120,7 @@ export const startAddArticle = (article, articleBody, summaryRef, bodyRef) => {
 };
 
 export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
-  type: actions.ADD_ARTICLE,
+  type: actions.CATEGORY_ADD_ARTICLE,
   article,
   articleBody,
   articleId: id,
@@ -139,6 +137,10 @@ export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
 export const getArticle = (id, router, bodyRef) => {
   return (dispatch) => {
     const useBodyRef = matchTypeToRef[bodyRef];
+    console.log(`--- in getArticle with id: ${id} and bodyRef: ${bodyRef} ---`);
+    console.log("attempting to use");
+    console.log(useBodyRef);
+
     return useBodyRef
       .doc(id)
       .get()
@@ -148,7 +150,10 @@ export const getArticle = (id, router, bodyRef) => {
         dispatch(setArticle(article, id));
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(
+          `--- There was an error fetching Category Article with ${bodyRef} ---`
+        );
+        console.log(err);
         localStorage.setItem("contentRedirectId", id);
         localStorage.setItem("contentRedirectType", "article");
         router.push("/membership");
@@ -156,7 +161,7 @@ export const getArticle = (id, router, bodyRef) => {
   };
 };
 export const setArticle = (article, id) => ({
-  type: actions.FETCH_ONE_ARTICLE,
+  type: actions.CATEGORY_FETCH_ONE_ARTICLE,
   article,
   id,
 });
@@ -230,7 +235,7 @@ export const setArticles = (
   fetchedByCategory = false,
   summaryRef
 ) => ({
-  type: actions.SET_ARTICLES,
+  type: actions.CATEGORY_SET_ARTICLES,
   articles,
   fetchedByCategory,
   summaryRef,
@@ -271,7 +276,7 @@ export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
 };
 
 const editArticle = (article, articleBody, id) => ({
-  type: actions.EDIT_ARTICLE,
+  type: actions.CATEGORY_EDIT_ARTICLE,
   id,
   article,
   articleBody,
@@ -300,7 +305,7 @@ export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
 };
 
 const deleteArticle = (articleId, bodyId) => ({
-  type: actions.DELETE_ARTICLE,
+  type: actions.CATEGORY_DELETE_ARTICLE,
   articleId,
   bodyId,
 });

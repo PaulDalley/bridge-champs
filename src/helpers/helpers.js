@@ -548,6 +548,7 @@ export const makeBoardObjectFromString = (boardString, showVuln = false) => {
 };
 
 export const findArticleById = (data, id) => {
+  if (data === undefined) return {};
   const res = data.find((el) => el.body === id);
   return res;
   // return data.find(el => el.body === id);

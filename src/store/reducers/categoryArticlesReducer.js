@@ -10,11 +10,11 @@ import * as actions from "../actions/actionTypes";
 */
 
 const articlesDefaultState = {
-  biddingSummary: [],
+  bidding: [],
   biddingBody: {},
-  cardPlaySummary: [],
+  cardPlay: [],
   cardPlayBody: {},
-  defenceSummary: [],
+  defence: [],
   defenceBody: {},
   currentArticle: undefined,
   fetchedByCategory: false,
@@ -22,16 +22,17 @@ const articlesDefaultState = {
 
 export default (state = articlesDefaultState, action) => {
   switch (action.type) {
-    case actions.SET_COUNTS:
+    case actions.SET_CATEGORY_COUNTS:
       return {
         ...state,
         articlesCount: action.articlesCount,
         quizCount: action.quizCount,
       };
 
-    case actions.ADD_ARTICLE:
+    case actions.CATEGORY_ADD_ARTICLE:
       return {
-        articles: [action.article, ...state.articles],
+        ...state,
+        [action.summaryRef]: [action.article, ...state.articles],
         article: {
           ...state.article,
           [action.articleId]: action.articleBody,
@@ -40,26 +41,28 @@ export default (state = articlesDefaultState, action) => {
         fetchedByCategory: false,
       };
     // set all articles from a /articles json request:
-    case actions.SET_CURRENT_CATEGORY_ARTICLE:
+    case actions.CATEGORY_SET_ARTICLES:
       // const newArticles = [...state.articles, action.articles];
       console.log(`--- SETTING STORE ARTICLES FOR ${action.summaryRef} ---`);
       console.log(action.articles);
       return {
+        ...state,
         [action.summaryRef]: action.articles,
         article: state.article,
         currentArticle: state.currentArticle,
         fetchedByCategory: action.fetchedByCategory,
       };
 
-    case actions.DELETE_ARTICLE:
-      let articles = state.articles.filter((article) => {
+    case actions.CATEGORY_DELETE_ARTICLE:
+      let articles = state?.[action.summaryRef]?.filter((article) => {
         article.id !== action.articleId;
       });
 
-      let article = { ...state.article };
+      let article = { ...state?.[action.bodyRef] };
       article[action.bodyId] = undefined;
 
       return {
+        ...state,
         articles,
         article,
         currentArticle: state.currentArticle,
@@ -69,8 +72,9 @@ export default (state = articlesDefaultState, action) => {
     // case actions.EDIT_ARTICLE:
 
     // FOR INDIVIDUAL ARTICLES:
-    case actions.FETCH_ONE_ARTICLE:
+    case actions.CATEGORY_FETCH_ONE_ARTICLE:
       return {
+        ...state,
         articles: state.articles,
         article: {
           ...state.article,
@@ -80,7 +84,7 @@ export default (state = articlesDefaultState, action) => {
         fetchedByCategory: state.fetchedByCategory,
       };
 
-    case actions.SET_CURRENT_ARTICLE:
+    case actions.SET_CURRENT_CATEGORY_ARTICLE:
       // console.log("SETTING CURRENT ARTICLE");
       // console.log(action.currentArticle);
       return {
@@ -88,13 +92,6 @@ export default (state = articlesDefaultState, action) => {
         currentArticle: action.currentArticle,
       };
 
-    case actions.SET_TOURNAMENT_ARTICLES:
-      return {
-        ...state,
-        tournamentArticles: action.tournamentArticles,
-        fetchedByCategory: true,
-        // tournamentArticles: data,
-      };
     default:
       return state;
   }

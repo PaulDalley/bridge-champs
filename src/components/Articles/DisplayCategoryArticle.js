@@ -31,7 +31,13 @@ import { useEffect } from "react";
 //     { getArticle, getArticleMetadata }
 //   )(DisplayArticle);
 
-const DisplayCategoryArticle = ({ location, history, articleType, match }) => {
+const DisplayCategoryArticle = ({
+  location,
+  history,
+  articleType,
+  bodyRef,
+  match,
+}) => {
   const uid = useSelector((state) => state.auth.uid);
   const username = useSelector((state) => state.auth.username);
   const displayName = useSelector((state) => state.auth.displayName);
@@ -48,7 +54,7 @@ const DisplayCategoryArticle = ({ location, history, articleType, match }) => {
 
   useEffect(() => {
     const articleId = match.params.id;
-    dispatch(getArticle(articleId, history, articleType));
+    dispatch(getArticle(articleId, history, bodyRef));
   }, []);
 
   const articleId = match.params.id;
@@ -74,6 +80,15 @@ const DisplayCategoryArticle = ({ location, history, articleType, match }) => {
   if (articleText) {
     articleDataArray = parseDocumentIntoJSX(articleText);
   }
+
+  console.log(
+    `--- Trying to display article with id: ${articleId} and bodyRef: ${bodyRef} ---`
+  );
+  console.log(articles);
+  console.log(article);
+  console.log(articleText);
+  console.log(useMetaData);
+  console.log(articleDataArray);
 
   if (!article) {
     return (

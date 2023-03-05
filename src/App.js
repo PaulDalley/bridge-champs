@@ -28,6 +28,7 @@ import HomePage from "./components/HomePage";
 import Articles from "./containers/Articles";
 import CategoryArticles from "./containers/CategoryArticles";
 import DisplayArticle from "./components/Articles/DisplayArticle";
+import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle";
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import ArticlesByCategory from "./components/Articles/ArticlesByCategory";
 import Quizzes from "./containers/Quizzes";
@@ -136,38 +137,65 @@ const routes = (
     <Route
       path="/defence"
       render={(routeProps) => (
-        <CategoryArticles {...routeProps} articleType="defence" />
+        <CategoryArticles
+          {...routeProps}
+          articleType="defence"
+          bodyRef="defenceBody"
+        />
       )}
       exact
     />
     <Route
       path="/defence/:id"
-      component={DisplayArticle}
-      articleType="defence"
+      render={(routeProps) => (
+        <DisplayCategoryArticle
+          {...routeProps}
+          articleType="defence"
+          bodyRef="defenceBody"
+        />
+      )}
     />
     <Route
       path="/cardPlay"
       render={(routeProps) => (
-        <CategoryArticles {...routeProps} articleType="cardPlay" />
+        <CategoryArticles
+          {...routeProps}
+          articleType="cardPlay"
+          bodyRef="cardPlayBody"
+        />
       )}
       exact
     />
     <Route
       path="/cardPlay/:id"
-      component={DisplayArticle}
-      articleType="cardPlay"
+      render={(routeProps) => (
+        <DisplayCategoryArticle
+          {...routeProps}
+          articleType="cardPlay"
+          bodyRef="cardPlayBody"
+        />
+      )}
     />
     <Route
       path="/bidding"
       render={(routeProps) => (
-        <CategoryArticles {...routeProps} articleType="bidding" />
+        <CategoryArticles
+          {...routeProps}
+          articleType="bidding"
+          bodyRef="biddingBody"
+        />
       )}
       exact
     />
     <Route
       path="/bidding/:id"
-      component={DisplayArticle}
-      articleType="bidding"
+      render={(routeProps) => (
+        <DisplayCategoryArticle
+          {...routeProps}
+          articleType="bidding"
+          bodyRef="biddingBody"
+        />
+      )}
     />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
 

@@ -383,7 +383,14 @@ const CreateCategoryArticle = ({
           {!edit && (
             <RichTextEditor
               value={article}
-              onChange={(article) => setArticle(article)}
+              onChange={(article, a, b, c) => {
+                console.log("--- RICH TEXT EDITOR CHANGED ---");
+                console.log(article);
+                console.log(a);
+                console.log(b);
+                console.log(c);
+                setArticle(article);
+              }}
               className="editor"
             />
           )}
