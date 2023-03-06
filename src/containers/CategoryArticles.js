@@ -12,7 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 import { filterArticles } from "../helpers/helpers";
-import ArticleListItem from "../components/Articles/ArticleListItem";
+// import ArticleListItem from "../components/Articles/ArticleListItem";
+import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import "./Articles.css";
 import Filters from "./Filters";
 import Pagination from "../components/Pagination";
@@ -50,6 +51,10 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   setPageOfItems([]);
+  // }, [articles]);
+
   console.log(`--- IN CATEGORYARTICLES with ${articleType} ---`);
   console.log(pageOfItems);
   console.log(articles);
@@ -86,9 +91,10 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   );
 
   let articleJSX;
-  if (articles !== 0) {
-    articleJSX = pageOfItems.map((article, idx) => (
-      <ArticleListItem
+  if (articles?.length && articles?.length !== 0) {
+    //articleJSX = pageOfItems.map((article, idx) => (
+    articleJSX = articles.map((article, idx) => (
+      <CategoryArticleListItem
         key={article.id}
         createdAt={article.createdAt}
         body={article.body}
@@ -101,6 +107,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         router={history}
         a={a}
         clickHandler={setCurrentArticleAndGoTo}
+        articleType={articleType}
       />
     ));
   }

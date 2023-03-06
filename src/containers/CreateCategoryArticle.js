@@ -162,7 +162,7 @@ const CreateCategoryArticle = ({
     const useArticleType = articleType;
     const useBodyRef = bodyRef;
 
-    let article = {
+    let _article = {
       title: title,
       category: category,
       difficulty: difficulty,
@@ -172,23 +172,17 @@ const CreateCategoryArticle = ({
     };
 
     if (subcategory !== "") {
-      article["subcategory"] = subcategory;
+      _article["subcategory"] = subcategory;
     }
 
     let articleText = prepareArticleString(article.toString("html"));
     let articleBody = { text: articleText };
 
-    console.log("--- POSTING ARTICLE WITH ---");
-    console.log(article);
-    console.log(articleText); // <- this was an object for some reason...
-    console.log(articleBody);
-
-    dispatch(startAddArticle(article, articleBody, useArticleType, useBodyRef));
+    dispatch(
+      startAddArticle(_article, articleBody, useArticleType, useBodyRef)
+    );
 
     switch (articleType) {
-      //   case "article":
-      //     this.props.history.push("/articles");
-      //     break;
       case "defence":
         history.push("/defence");
         break;
@@ -198,14 +192,12 @@ const CreateCategoryArticle = ({
       case "bidding":
         history.push("/bidding");
         break;
-      //   case "tournament":
-      //     this.props.history.push("/tournaments");
     }
   };
 
   const submitEditArticle = (e) => {
     e.preventDefault();
-    let article = {
+    let _article = {
       title: title,
       category: category,
       difficulty: difficulty,
@@ -220,9 +212,9 @@ const CreateCategoryArticle = ({
       article["subcategory"] = subcategory;
     }
 
-    let articleText = prepareArticleString(article); //.toString('html')
+    let articleText = prepareArticleString(article).toString("html");
     let articleBody = { text: articleText };
-    dispatch(startEditArticle(article, articleBody, articleType, bodyRef));
+    dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
       //   case "article":
@@ -383,12 +375,9 @@ const CreateCategoryArticle = ({
           {!edit && (
             <RichTextEditor
               value={article}
-              onChange={(article, a, b, c) => {
+              onChange={(article) => {
                 console.log("--- RICH TEXT EDITOR CHANGED ---");
                 console.log(article);
-                console.log(a);
-                console.log(b);
-                console.log(c);
                 setArticle(article);
               }}
               className="editor"

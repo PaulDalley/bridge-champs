@@ -58,24 +58,24 @@ export default (state = articlesDefaultState, action) => {
         article.id !== action.articleId;
       });
 
-      let article = { ...state?.[action.bodyRef] };
+      let article = { ...state?.article };
       article[action.bodyId] = undefined;
 
       return {
         ...state,
-        articles,
-        article,
+        [action.summaryRef]: articles,
+        article: article,
         currentArticle: state.currentArticle,
         fetchedByCategory: state.fetchedByCategory,
       };
 
-    // case actions.EDIT_ARTICLE:
+    // case actions.CATEGORY_EDIT_ARTICLE:
 
     // FOR INDIVIDUAL ARTICLES:
     case actions.CATEGORY_FETCH_ONE_ARTICLE:
       return {
         ...state,
-        articles: state.articles,
+        [action.summaryRef]: state.articles,
         article: {
           ...state.article,
           [action.id]: action.article.body,

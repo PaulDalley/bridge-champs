@@ -147,6 +147,8 @@ export const getArticle = (id, router, bodyRef) => {
       .then((snapshot) => {
         const article = snapshot.data();
         const id = snapshot.id;
+        if (article === undefined)
+          return { body: { text: "<p>Article body text was blank</p>" } };
         dispatch(setArticle(article, id));
       })
       .catch((err) => {
@@ -195,6 +197,7 @@ export const getArticles = (summaryRef) => {
       .orderBy("createdAt", "desc")
       .get()
       .then((snapshot) => {
+        console.log(snapshot);
         const articles = [];
         snapshot.forEach((childSnapshot) => {
           articles.push({
@@ -265,7 +268,7 @@ export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
     batch
       .commit()
       .then(() => {
-        //dispatch(editArticle(article, articleBody, article.id));
+        //dispatch(editArticle(article, articleBody, article.id, summaryRef, bodyRef));
         console.log("Edit successful");
       })
       .catch((err) => {
@@ -275,11 +278,13 @@ export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
   };
 };
 
-const editArticle = (article, articleBody, id) => ({
+const editArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
   type: actions.CATEGORY_EDIT_ARTICLE,
   id,
   article,
   articleBody,
+  summaryRef,
+  bodyRef,
 });
 
 export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
@@ -295,7 +300,7 @@ export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
       .commit()
       .then(() => {
         // console.log("Article deleted");
-        // dispatch(deleteArticle(articleId, bodyId));
+        dispatch(deleteArticle(articleId, bodyId, summaryRef, bodyRef));
       })
       .catch((err) => {
         dispatch(articleError(err));
@@ -304,8 +309,10 @@ export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
   };
 };
 
-const deleteArticle = (articleId, bodyId) => ({
+const deleteArticle = (articleId, bodyId, summaryRef, bodyRef) => ({
   type: actions.CATEGORY_DELETE_ARTICLE,
   articleId,
   bodyId,
+  summaryRef,
+  bodyRef,
 });

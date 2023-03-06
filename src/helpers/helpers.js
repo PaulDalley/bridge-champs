@@ -560,6 +560,11 @@ export const findQuizById = (data, id) => {
   // return data.find(el => el.body === id);
 };
 
+export const getLevelStr = (levelNumber) => {
+  let levelStr = "";
+  return `Level ${levelNumber}`;
+};
+
 export const getDifficultyStr = (difficulty) => {
   let diffString;
   switch (difficulty) {

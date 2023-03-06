@@ -61,7 +61,7 @@ const DisplayCategoryArticle = ({
   let articleText;
 
   if (article) {
-    articleText = article.text;
+    articleText = article?.[articleId].text;
   }
 
   let useMetaData = undefined;
