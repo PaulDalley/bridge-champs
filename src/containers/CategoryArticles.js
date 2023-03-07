@@ -11,12 +11,17 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
-import { filterArticles } from "../helpers/helpers";
+import {
+  filterArticles,
+  filterCategoryArticles,
+  sortCategoryArticlesByLevelAndArticleNumber,
+} from "../helpers/helpers";
 // import ArticleListItem from "../components/Articles/ArticleListItem";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import "./Articles.css";
 import Filters from "./Filters";
 import Pagination from "../components/Pagination";
+import FiltersCategoryArticles from "./FiltersCategoryArticles";
 
 // const mapStateToProps = (state, ownProps) => ({
 //     articles: filterArticles(state.articles.articles, state.filters),
@@ -40,13 +45,14 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     (state) => state.categoryArticles?.[articleType]
   );
   const a = useSelector((state) => state.auth.a);
+  const filters = useSelector((state) => state.filters);
   const fetchedByCategory = useSelector(
     (state) => state.categoryArticles.fetchedByCategory
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (articles === undefined || articles?.length === 0 || fetchedByCategory) {
+    if (articles === undefined || articles?.length === 0) {
       dispatch(getArticles(articleType));
     }
   }, []);
@@ -90,16 +96,32 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     <Pagination items={articles} onChangePage={onChangePage} page={page} />
   );
 
+  // const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
+
+  // const dummyArticles = [
+  //   { articleNumber: "10", difficulty: "10" },
+  //   { articleNumber: "10", difficulty: "1" },
+  //   { articleNumber: "9", difficulty: "1" },
+  //   { articleNumber: "1", difficulty: "10" },
+  //   { articleNumber: "1", difficulty: "10" },
+  //   { articleNumber: "1", difficulty: "1" },
+  // ];
+  // sortCategoryArticlesByLevelAndArticleNumber(dummyArticles);
+
+  const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
+  const filteredArticles = filterCategoryArticles(sortedArticles, filters);
+
   let articleJSX;
-  if (articles?.length && articles?.length !== 0) {
+  if (filteredArticles?.length && filteredArticles?.length !== 0) {
     //articleJSX = pageOfItems.map((article, idx) => (
-    articleJSX = articles.map((article, idx) => (
+    articleJSX = filteredArticles.map((article, idx) => (
       <CategoryArticleListItem
         key={article.id}
         createdAt={article.createdAt}
         body={article.body}
         category={article.category}
         difficulty={article.difficulty}
+        articleNumber={article.articleNumber}
         id={article.id}
         teaser={article.teaser}
         teaser_board={article.teaser_board}
@@ -122,12 +144,13 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
   return (
     <div className="Articles-outer_div">
-      <Filters page="articles" />
+      <FiltersCategoryArticles />
+
       <Add goto={`create/${articleType}`} history={history} />
 
-      {articles?.length > 0 && (
+      {/* {articles?.length > 0 && (
         <div className="Articles-Pagination center-align">{pagination}</div>
-      )}
+      )} */}
 
       {!isMobileSize && (
         <div className="Articles-container">

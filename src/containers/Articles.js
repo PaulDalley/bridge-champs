@@ -7,6 +7,8 @@ import {
   getArticleCount,
   setCurrentArticle,
 } from "../store/actions/articlesActions";
+import { resetFilters } from "../store/actions/filtersActions";
+
 import { filterArticles } from "../helpers/helpers";
 import ArticleListItem from "../components/Articles/ArticleListItem";
 import "./Articles.css";
@@ -91,6 +93,10 @@ export class Articles extends Component {
   //     e.preventDeafault();
   //     this.props.history.push('create/article');
   // }
+
+  componentWillUnmount() {
+    this.props.resetFilters();
+  }
 
   onChangePage = (pageOfItems, pageNumber) => {
     // update state with new page of items
@@ -200,6 +206,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchArticles: () => dispatch(getArticles()),
   getArticleCount: () => dispatch(getArticleCount()),
   setCurrentArticle: (article) => dispatch(setCurrentArticle(article)),
+  resetFilters: () => dispatch(resetFilters()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Articles);

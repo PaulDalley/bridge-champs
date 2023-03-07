@@ -14,6 +14,7 @@ const CategoryArticleListItem = ({
   body,
   category,
   difficulty,
+  articleNumber,
   id,
   teaser,
   teaser_board,
@@ -30,8 +31,13 @@ const CategoryArticleListItem = ({
   let dateStr = makeDateString(createdAt);
   let articleObj = {
     createdAt,
+    body,
     category,
     difficulty,
+    articleNumber,
+    id,
+    teaser,
+    teaser_board,
     title,
   };
 
@@ -52,7 +58,7 @@ const CategoryArticleListItem = ({
         className="ArticlesListItem-container grey lighten-4 black-text"
       >
         <div className="ArticleListItem-created_at">{dateStr}</div>
-        <div className="ArticleListItem-category">{category}</div>
+        <div className="ArticleListItem-category">Article {articleNumber}</div>
         <div className={`ArticleListItem-difficulty ${diffClass}`}>
           {diffString}
         </div>

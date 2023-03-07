@@ -5,6 +5,8 @@ import {
   getArticleMetadata,
 } from "../../store/actions/categoryArticlesActions";
 import "./DisplayArticle.css";
+import "./ArticleListItem.css";
+
 import {
   parseDocumentIntoJSX,
   makeDateString,
@@ -37,6 +39,8 @@ const DisplayCategoryArticle = ({
   articleType,
   bodyRef,
   match,
+  articleNumber,
+  difficulty,
 }) => {
   const uid = useSelector((state) => state.auth.uid);
   const username = useSelector((state) => state.auth.username);
@@ -87,8 +91,14 @@ const DisplayCategoryArticle = ({
   console.log(articles);
   console.log(article);
   console.log(articleText);
+  console.log("-- metadata generated in component --");
   console.log(useMetaData);
+  console.log("--- metadata from store.categoryArticles.currentArticle ---");
+  console.log(articleMetadata);
   console.log(articleDataArray);
+  console.log("--- DIFFICULTY AND ARTICLE LEVEL INFORMATION ---");
+  console.log(articleMetadata?.articleNumber);
+  console.log(articleMetadata?.difficulty);
 
   if (!article) {
     return (
@@ -102,16 +112,17 @@ const DisplayCategoryArticle = ({
 
   return (
     <div className="DisplayArticle-container">
-      {articleMetadata && (
+      {articleMetadata && ( // articleMetadata
         <div>
           <h3 className="DisplayArticle-title">{articleMetadata.title}</h3>
           <div className="DisplayArticle-category">
-            {articleMetadata.category}
+            Article {articleMetadata.difficulty}
           </div>
           <div
-            className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${articleMetadata.difficulty}`}
+            // className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${articleMetadata.difficulty}`}
+            className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
           >
-            {getDifficultyStr(articleMetadata.difficulty)}
+            Level {articleMetadata.articleNumber}
           </div>
           <div className="DisplayArticle-createdAt">
             {makeDateString(articleMetadata.createdAt)}

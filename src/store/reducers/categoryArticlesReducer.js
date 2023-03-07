@@ -85,8 +85,8 @@ export default (state = articlesDefaultState, action) => {
       };
 
     case actions.SET_CURRENT_CATEGORY_ARTICLE:
-      // console.log("SETTING CURRENT ARTICLE");
-      // console.log(action.currentArticle);
+      console.log("--- SETTING CURRENT ARTICLE IN REDUCER ---");
+      console.log(action.currentArticle);
       return {
         ...state,
         currentArticle: action.currentArticle,

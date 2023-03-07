@@ -1,5 +1,23 @@
 service cloud.firestore {
   match /databases/{database}/documents {
+    // True if the user is signed in or the requested data is 'public'
+    function canCreateNewQuestion() {
+	    return !(get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.blocked) 
+      				||
+              get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.lastQuestion < request.time.date();
+    }
+
+	match /freeDaily/{contentType} {
+    	allow read;
+      allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true;
+    }
+    
+  	match /questions/{questionId} {
+    	allow read;
+      allow create: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date(); //&& canCreateNewQuestion();
+      allow update, delete: if get(/databases/$(database)/documents/questions/$(questionId)).uid == request.auth.uid;
+    }
+
     match /members/{memberId} {
         allow read;
         allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true

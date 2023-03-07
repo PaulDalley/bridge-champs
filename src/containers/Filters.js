@@ -67,6 +67,10 @@ class Filters extends Component {
       // hideQuizzesChecked: true,
     });
     this.props.resetFilters();
+
+    setTimeout(() => {
+      this.props.resetFilters();
+    }, 1000);
   };
 
   componentDidMount() {
@@ -181,9 +185,7 @@ class Filters extends Component {
             onChange={this.handleChange}
             options={selectOptions}
           >
-            <option disabled value="">
-              Select Difficulty
-            </option>
+            <option value="">Select Difficulty</option>
             <option value="general">General</option>
             <option value="beg">Improver</option>
             <option value="int">Intermediate</option>
@@ -201,9 +203,7 @@ class Filters extends Component {
               onChange={this.handleChange}
               options={selectOptions}
             >
-              <option disabled value="">
-                Select Category
-              </option>
+              <option value="">Select Category</option>
               {this.state.categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -223,9 +223,7 @@ class Filters extends Component {
               onChange={this.handleChange}
               options={selectOptions}
             >
-              <option disabled value="">
-                Select Quiz Type
-              </option>
+              <option value="">Select Quiz Type</option>
               <option value="Bidding">Bidding</option>
               {/*<option value='Defence'>Defence</option>*/}
               {/*<option value='Declaring'>Declaring</option>*/}

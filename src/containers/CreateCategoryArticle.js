@@ -107,7 +107,6 @@ const CreateCategoryArticle = ({
     setArticleId(articleId);
 
     dispatch(getArticle(body, history, bodyRef));
-    return;
   };
 
   const addCategory = (e) => {
@@ -163,6 +162,7 @@ const CreateCategoryArticle = ({
     const useBodyRef = bodyRef;
 
     let _article = {
+      articleType: articleType,
       title: title,
       category: category,
       difficulty: difficulty,
@@ -198,6 +198,7 @@ const CreateCategoryArticle = ({
   const submitEditArticle = (e) => {
     e.preventDefault();
     let _article = {
+      articleType: articleType,
       title: title,
       category: category,
       difficulty: difficulty,

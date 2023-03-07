@@ -194,7 +194,7 @@ export const getArticles = (summaryRef) => {
   return (dispatch) => {
     const useSummaryRef = matchTypeToRef[summaryRef];
     useSummaryRef
-      .orderBy("createdAt", "desc")
+      .orderBy("difficulty", "asc") // ("createdAt", "desc")
       .get()
       .then((snapshot) => {
         console.log(snapshot);

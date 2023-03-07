@@ -357,6 +357,83 @@ export const getSuitFromBid = (bid) => {
   return bid.slice(1);
 };
 
+export const sortCategoryArticlesByLevelAndArticleNumber = (articles) => {
+  // Sort numbers in ascending order:
+  //.sort((a, b) => return a - b)
+  const compareFnByArticleNumber = (a, b) =>
+    Number(a?.articleNumber) - Number(b?.articleNumber);
+
+  const intermediateValue = articles.reduce((acc, next, idx) => {
+    const difficulty = next?.difficulty;
+    if (acc?.[difficulty] === undefined) {
+      acc[difficulty] = [next];
+      return acc;
+    } else {
+      acc[difficulty].push(next);
+      return acc;
+    }
+  }, {});
+
+  const finalResults = [];
+
+  for (const [key, value] of Object.entries(intermediateValue)) {
+    const newArr = [...value];
+    newArr.sort(compareFnByArticleNumber);
+    finalResults.push(newArr);
+  }
+
+  const flattenedResults = finalResults.flat();
+
+  // console.log("--- FROM HELPERS sortCategory ---");
+  // console.log(articles);
+  // console.log(intermediateValue);
+  // console.log(finalResults);
+  // console.log(flattenedResults);
+
+  return flattenedResults;
+};
+
+export const filterCategoryArticles = (
+  articlesArray,
+  { category, difficulty, searchString }
+) => {
+  if (
+    // category == '""' &&
+    difficulty == '""' &&
+    (searchString == "" || searchString == '""')
+  ) {
+    return articlesArray;
+  }
+
+  return articlesArray.filter((article) => {
+    let categoriesMatch = true;
+    let difficultiesMatch = true;
+    let searchStringMatch = true;
+
+    let toSearch;
+    if (searchString && searchString !== '""') {
+      toSearch = [
+        article.category,
+        getDifficultyStr(article.difficulty),
+        article.title,
+        article.teaser,
+      ]
+        .join(" ")
+        .toLowerCase();
+      searchStringMatch = toSearch.includes(searchString.toLowerCase());
+    }
+
+    if (category && category !== '""') {
+      categoriesMatch = article.category === category;
+    }
+    if (difficulty && difficulty !== '""') {
+      difficultiesMatch = article.difficulty === difficulty;
+    }
+    // return categoriesMatch && difficultiesMatch && searchStringMatch;
+    return difficultiesMatch && searchStringMatch;
+  });
+};
+
 export const filterArticles = (
   articlesArray,
   { category, difficulty, searchString }
