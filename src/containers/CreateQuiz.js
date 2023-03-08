@@ -200,11 +200,17 @@ class CreateQuiz extends Component {
 
   submitEditQuiz = (e) => {
     e.preventDefault();
+    // console.log(typeof this.state.date);
+    // console.log(this.state.date);
+    // console.log(this.state.date.toDate());
+    // console.log(typeof this.state.date.toDate());
+    // return;
+
     let quiz = {
       title: this.state.title,
       teaser_board: this.state.teaser_board,
       teaser: this.state.teaser,
-      date: new Date(this.state.date),
+      date: this.state.date.toDate(), //new Date(this.state.date),
       quizType: this.state.quizType,
       id: this.state.quizId,
       body: this.state.body,
@@ -435,7 +441,7 @@ class CreateQuiz extends Component {
             <TextInput
               s={12}
               name="teaser_board"
-              label="Quiz Teaser Hand"
+              label="Quiz Teaser Hand (Paste a board for the quiz list page)"
               value={this.state.teaser_board}
               onChange={this.handleChange}
             ></TextInput>
@@ -444,7 +450,7 @@ class CreateQuiz extends Component {
             <TextInput
               s={12}
               name="teaser"
-              label="Quiz Teaser Introduction"
+              label="Quiz Teaser Introduction (IMPORTANT: MAKE SURE TO PASTE THE MAKEBOARD BOARD)"
               // type="textarea"
               value={this.state.teaser}
               onChange={this.handleChange}
@@ -454,7 +460,7 @@ class CreateQuiz extends Component {
             <Textarea
               s={12}
               name="quizQuestion"
-              label="Quiz Question (MAKE SURE TO PASTE THE MAKEBOARD BOARD WITH THE QUESTION)"
+              label="Quiz Question"
               //    type="textarea"
               value={this.state.quizQuestion}
               onChange={this.handleChange}

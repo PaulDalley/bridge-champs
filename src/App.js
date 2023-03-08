@@ -72,6 +72,8 @@ const routes = (
 
     <Route
       path="/create/article"
+      create={true}
+      creating={true}
       // element={<CreateArticle type={"article"} />}
       render={() => <CreateArticle articleType="articles" bodyRef="article" />}
     />
@@ -81,23 +83,42 @@ const routes = (
       path="/create/defence"
       // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle articleType="defence" bodyRef="defenceBody" />
+        <CreateCategoryArticle
+          articleType="defence"
+          bodyRef="defenceBody"
+          create={true}
+          creating={true}
+        />
       )}
     />
 
     <Route
       path="/create/cardPlay"
+      create={true}
+      creating={true}
       // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle articleType="cardPlay" bodyRef="cardPlayBody" />
+        <CreateCategoryArticle
+          articleType="cardPlay"
+          bodyRef="cardPlayBody"
+          create={true}
+          creating={true}
+        />
       )}
     />
 
     <Route
       path="/create/bidding"
+      create={true}
+      creating={true}
       // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle articleType="bidding" bodyRef="biddingBody" />
+        <CreateCategoryArticle
+          articleType="bidding"
+          bodyRef="biddingBody"
+          create={true}
+          creating={true}
+        />
       )}
     />
 

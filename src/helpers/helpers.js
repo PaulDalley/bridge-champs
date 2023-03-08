@@ -576,7 +576,7 @@ export const makeDateString = (date) => {
       //   console.log(typeof date);
       let dateData = new Date().toString().split(" ");
       return `${dateData[0].slice(0, 3)} ${dateData[1]} ${dateData[2]}, ${
-        dateString[3]
+        dateData[3]
       }`;
     }
   }
@@ -632,7 +632,7 @@ export const findArticleById = (data, id) => {
 };
 
 export const findQuizById = (data, id) => {
-  const res = data.find((el) => el.id === id);
+  const res = data?.find((el) => el.id === id);
   return res;
   // return data.find(el => el.body === id);
 };

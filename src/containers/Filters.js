@@ -54,7 +54,7 @@ class Filters extends Component {
     difficulty: this.props.difficulty,
     searchString:
       this.props.searchString === '""' ? "" : this.props.searchString,
-    hideQuizzesChecked: this.props.hideCompletedQuizzes,
+    hideQuizzesChecked: this.props.hide,
     categories: undefined,
   };
 

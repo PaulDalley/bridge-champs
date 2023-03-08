@@ -57,12 +57,15 @@ const CreateCategoryArticle = ({
   bodyRef,
   history,
   edit,
+  create,
+  creating,
   match,
 }) => {
   const a = useSelector((state) => state.auth.a);
   const articles = useSelector(
     (state) => state.categoryArticles?.[articleType]
   );
+  const _article = useSelector((state) => state.categoryArticles?.article);
   const dispatch = useDispatch();
 
   const [article, setArticle] = useState(RichTextEditor.createEmptyValue());
@@ -88,6 +91,7 @@ const CreateCategoryArticle = ({
       body,
       category,
       difficulty,
+      articleNumber,
       teaser,
       teaser_board,
       title,
@@ -95,9 +99,11 @@ const CreateCategoryArticle = ({
     } = articleMetadata;
 
     if (subcategory === undefined) subcategory = "";
-
+    console.log("--- SETTING DATA IF EDITING ---");
+    console.log(articleMetadata);
     setArticle("");
     setDifficulty(difficulty);
+    setArticleNumber(articleNumber);
     setTeaser(teaser);
     setTeaserBoard(teaser_board);
     setTitle(title);
@@ -127,10 +133,20 @@ const CreateCategoryArticle = ({
   };
 
   useEffect(() => {
+    console.log("--- in useEffect createCategoryArticle ---");
     if (!a) history.push(`/${articleType}`);
 
-    if (edit) {
+    // SHOULD fetch article metadata and article body here instead of reroute:
+    const articleMetadata =
+      articles !== undefined &&
+      articleId !== undefined &&
+      findQuizById(articles, articleId);
+
+    if (edit && articleMetadata) {
       setDataIfEditing();
+    } else if (creating || create) {
+    } else {
+      history.push(`/${articleType}`);
     }
 
     const _categoriesSubscription = categoriesRef.onSnapshot((snapshot) => {
@@ -149,12 +165,20 @@ const CreateCategoryArticle = ({
   }, []);
 
   useEffect(() => {
-    let articleBody = article[body];
-    if (articleBody && !articleLoaded) {
+    let _articleBody = _article?.[body]?.text;
+    if (_articleBody && !articleLoaded) {
       setArticleLoaded(true);
-      setArticle(articleBody.text);
+      setArticle(_articleBody);
     }
-  }, [article]);
+  }, [_article]);
+
+  useEffect(() => {
+    let _articleBody = _article?.[body]?.text;
+    if (_articleBody && !articleLoaded) {
+      setArticleLoaded(true);
+      setArticle(_articleBody);
+    }
+  }, []);
 
   const submitArticle = (e) => {
     e.preventDefault();
@@ -329,7 +353,7 @@ const CreateCategoryArticle = ({
               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
               20,
             ].map((n) => {
-              return <option value={n}>Level {n}</option>;
+              return <option value={String(n)}>Level {n}</option>;
             })}
           </Select>
         </Row>
@@ -346,7 +370,7 @@ const CreateCategoryArticle = ({
               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
               20,
             ].map((n) => {
-              return <option value={n}>Level {n}</option>;
+              return <option value={String(n)}>Level {n}</option>;
             })}
           </Select>
         </Row>

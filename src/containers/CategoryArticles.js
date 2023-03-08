@@ -57,6 +57,12 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (articles === undefined || articles?.length === 0) {
+      dispatch(getArticles(articleType));
+    }
+  }, [articleType]);
+
   // useEffect(() => {
   //   setPageOfItems([]);
   // }, [articles]);

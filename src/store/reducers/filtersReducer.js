@@ -4,7 +4,7 @@ const defaultState = {
   category: '""',
   difficulty: '""',
   searchString: '""',
-  hide: true,
+  hide: false,
   filterType: undefined,
 };
 
