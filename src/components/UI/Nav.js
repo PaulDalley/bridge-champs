@@ -313,7 +313,7 @@ class Nav extends Component {
             <ul className="tabs">
               <li onClick={() => this.goTo("/cardPlay")} className="tab col">
                 <a id="cardPlay" className="/cardPlay">
-                  Card Play
+                  Declarer Play
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>

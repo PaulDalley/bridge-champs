@@ -73,7 +73,9 @@
 .DisplayQuiz-submit {
   position: absolute;
   bottom: -2.5rem;
-  left: 2.45rem;
+  left: 4.55rem;
+  font-size: 1.9rem !important;
+  text-transform: capitalize !important;
   /* left: 5.8rem; */
 }
 /*.DisplayQuiz-submit-openingLead-container {*/

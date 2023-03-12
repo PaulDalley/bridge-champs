@@ -18,7 +18,8 @@
 
 .BiddingGrid-container {
   /*position: absolute;*/
-  font-size: 155%;
+  /* font-size: 155%; */
+  font-size: 1.9rem;
   font-weight: bold;
   max-width: 36rem;
   min-width: 35rem;

@@ -227,7 +227,7 @@ export class DisplayQuiz extends Component {
   BiddingGridClicked = (i, suit) => {
     // console.log(i, suit);
     // console.log(i === "P");
-    const answers = this.props.quiz[this.props.match.params.id].answers;
+    // const answers = this.props.quiz[this.props.match.params.id].answers;
     // console.log(answers);
     this.setState({ answer: { move: i, suit } });
   };
@@ -444,6 +444,7 @@ export class DisplayQuiz extends Component {
                   className="CreateArticle-submit DisplayQuiz-submit"
                   onClick={(e) => this.submitAnswer(e)}
                   waves="light"
+                  disabled={this.state.answer === undefined}
                 >
                   Submit Answer
                   <Icon left>done_all</Icon>

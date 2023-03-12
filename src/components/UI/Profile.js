@@ -23,6 +23,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    console.log("--- HELLO FROM PROFILE ---");
+    console.log(this.props.auth);
+
     toastr.options = {
       closeButton: false,
       debug: false,
@@ -145,21 +148,22 @@ class Profile extends Component {
       email,
       subscriptionExpires,
       totalQuizScore,
-      displayName,
+      displayName = "Anonymous",
       profilePic,
       username,
+      userName = "",
       uid,
     } = this.props;
 
-    const userName = this.state.username || "";
-    const name = displayName || "Anonymous";
+    // const userName = this.state.username || "";
+    // const name = displayName || "Anonymous";
 
     return (
       <div className="Profile-container">
         <div className="Profile-displayInfo">
           <div className="Profile-displayInfoContainer">
             <DisplayUserInfo
-              name={name}
+              name={displayName}
               email={email}
               photo={profilePic}
               subscriptionExpires={subscriptionExpires}
@@ -275,12 +279,19 @@ export default connect(
     uid: auth.uid,
     email: auth.email,
     displayName: auth.displayName,
+    userName: auth.userName,
     profilePic: auth.photoURL,
     subscriptionExpires: auth.subscriptionExpires,
+    stripeCustomerId: auth.stripeCustomerId,
+    trialUsed: auth.trialUsed,
     paymentMethod: auth.paymentMethod,
     totalQuizScore: auth.totalQuizScore,
-    username: auth.username,
+    username: auth.userName,
     subscriptionActive: auth.subscriptionActive,
+    auth: auth,
+    // quizScores: auth.quizScores,
+    // totalQuizScore: auth.totalQuizScore,
+    //
   }),
   { changeSubscriptionActiveStatus }
 )(Profile);

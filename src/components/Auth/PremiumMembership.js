@@ -21,6 +21,8 @@ import StripeCheckout from "../../components/UI/StripeCheckout";
 import Coupons from "./Coupons";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
 
+const PRICE_PER_MONTH = "15";
+
 // const url = "https://us-central1-bridgechampions.cloudfunctions.net/activateBillingPlan";
 // const url2 = "https://us-central1-bridgechampions.cloudfunctions.net/process";
 const successCallback =
@@ -292,7 +294,7 @@ class PremiumMembership extends Component {
           {this.state.showLogin ||
             (this.props.uid && (
               <div className="PremiumMembership-signupText-after">
-                $16.99 per month
+                ${PRICE_PER_MONTH} per month
               </div>
             ))}
         </div>
@@ -526,7 +528,7 @@ class PremiumMembership extends Component {
                   {!this.props.uid &&
                     (!this.state.showLogin || !this.state.authComplete) && (
                       <div className="PremiumMembership-signupText">
-                        $16.99 per month
+                        ${PRICE_PER_MONTH} per month
                       </div>
                     )}
                 </Row>
