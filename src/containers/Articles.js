@@ -95,7 +95,11 @@ export class Articles extends Component {
   // }
 
   componentWillUnmount() {
-    this.props.resetFilters();
+    try {
+      this.props.resetFilters();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   onChangePage = (pageOfItems, pageNumber) => {

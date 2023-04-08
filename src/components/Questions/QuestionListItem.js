@@ -29,7 +29,7 @@ const QuestionListItem = ({
     difficulty,
     title,
   };
-  console.log(title);
+  // console.log(title);
   const re = /<MakeBoard .* \/>/;
   const matches = re.exec(teaser_board);
   let data;

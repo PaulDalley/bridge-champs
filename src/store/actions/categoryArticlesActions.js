@@ -137,9 +137,9 @@ export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
 export const getArticle = (id, router, bodyRef) => {
   return (dispatch) => {
     const useBodyRef = matchTypeToRef[bodyRef];
-    console.log(`--- in getArticle with id: ${id} and bodyRef: ${bodyRef} ---`);
-    console.log("attempting to use");
-    console.log(useBodyRef);
+    // console.log(`--- in getArticle with id: ${id} and bodyRef: ${bodyRef} ---`);
+    // console.log("attempting to use");
+    // console.log(useBodyRef);
 
     return useBodyRef
       .doc(id)
@@ -152,10 +152,10 @@ export const getArticle = (id, router, bodyRef) => {
         dispatch(setArticle(article, id));
       })
       .catch((err) => {
-        console.log(
-          `--- There was an error fetching Category Article with ${bodyRef} ---`
-        );
-        console.log(err);
+        // console.log(
+        //   `--- There was an error fetching Category Article with ${bodyRef} ---`
+        // );
+        // console.log(err);
         localStorage.setItem("contentRedirectId", id);
         localStorage.setItem("contentRedirectType", "article");
         router.push("/membership");
@@ -183,8 +183,8 @@ export const fetchArticlesByCategory = (category, summaryRef) => {
             ...childSnapshot.data(),
           });
         });
-        console.log("---- JUST FETCHED ARTICLES! ----");
-        console.log(articles);
+        // console.log("---- JUST FETCHED ARTICLES! ----");
+        // console.log(articles);
         dispatch(setArticles(articles, true));
       });
   };
@@ -197,7 +197,7 @@ export const getArticles = (summaryRef) => {
       .orderBy("difficulty", "asc") // ("createdAt", "desc")
       .get()
       .then((snapshot) => {
-        console.log(snapshot);
+        // console.log(snapshot);
         const articles = [];
         snapshot.forEach((childSnapshot) => {
           articles.push({
@@ -205,8 +205,8 @@ export const getArticles = (summaryRef) => {
             ...childSnapshot.data(),
           });
         });
-        console.log(`--- JUST FETCHED categoryArticles for ${summaryRef} ---`);
-        console.log(articles);
+        // console.log(`--- JUST FETCHED categoryArticles for ${summaryRef} ---`);
+        // console.log(articles);
         dispatch(setArticles(articles, false, summaryRef));
       });
   };

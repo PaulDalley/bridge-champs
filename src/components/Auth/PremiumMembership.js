@@ -30,11 +30,19 @@ const successCallback =
 
 // PayPal Buttons:
 // REGULAR LIVE NO TRIAL:
-const PAYPAL_REGULAR_BUTTON_NOTRIAL =
-  "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BRFTEQT2QRXV8";
+// MINE:
+// const PAYPAL_REGULAR_BUTTON_NOTRIAL =
+//   "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BRFTEQT2QRXV8";
 
-const PAYPAL_SANDBOX_BUTTON_NOTRIAL =
-  "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=379VSUFUTY68J";
+// const PAYPAL_SANDBOX_BUTTON_NOTRIAL =
+//   "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=379VSUFUTY68J";
+
+// DALLEYS:
+const PAYPAY_REGULAR_BUTTON_NOTRIAL =
+  "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PRUK4P42SGVDC";
+
+// const PAYPAL_SANDBOX_BUTTON_NOTRIAL =
+// "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J6R4LNPYW93AQ";
 
 class PremiumMembership extends Component {
   state = {
@@ -45,7 +53,7 @@ class PremiumMembership extends Component {
     token: undefined,
     daysFree: 0, // ##** 7
     percentOffFirstMonth: undefined,
-    paypalButtonUrl: PAYPAL_SANDBOX_BUTTON_NOTRIAL,
+    paypalButtonUrl: PAYPAY_REGULAR_BUTTON_NOTRIAL,
   };
 
   fetchPayPalUrl = (uid) => {
@@ -184,7 +192,7 @@ class PremiumMembership extends Component {
   };
   signupClickedStripe = (e) => {
     e.preventDefault();
-    console.log("Stripe Signup Clicked");
+    // console.log("Stripe Signup Clicked");
   };
   stripeProcessing = () => {
     this.setState({
@@ -240,6 +248,10 @@ class PremiumMembership extends Component {
     // console.log(this.props.uid);
     // console.log(!this.state.authComplete);
     // this.state.authComplete;
+    if (this.props?.uid && this.props?.subscriptionActive) {
+      this.props.history.push("/");
+      return;
+    }
 
     return (
       <div className="PremiumMembership-container">

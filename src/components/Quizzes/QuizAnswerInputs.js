@@ -21,10 +21,6 @@ class QuizAnswerInputs extends Component {
   };
 
   changeAnswers = (e, i, key) => {
-    // console.log('VALUE OF SELECT FIELD:')
-    // console.log(e.target.value);
-    // console.log(i);
-    // console.log(key);
     let updatedAnswers = this.state.answers.slice(
       0,
       Number(this.state.numAnswers)

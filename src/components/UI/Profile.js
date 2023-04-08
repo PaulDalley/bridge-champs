@@ -7,7 +7,10 @@ import { Row, Col, Modal, Button, Icon, ProgressBar } from "react-materialize";
 import $ from "jquery";
 import { firebase } from "../../firebase/config";
 import toastr from "toastr";
-import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
+import {
+  changeSubscriptionActiveStatus,
+  resetUserProfileBlank,
+} from "../../store/actions/authActions";
 
 // https://firebase.google.com/docs/auth/web/manage-users
 class Profile extends Component {
@@ -23,8 +26,8 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log("--- HELLO FROM PROFILE ---");
-    console.log(this.props.auth);
+    // console.log("--- HELLO FROM PROFILE ---");
+    // console.log(this.props.auth);
 
     toastr.options = {
       closeButton: false,
@@ -202,7 +205,41 @@ class Profile extends Component {
                 </a>
               </div>
             )}
-
+            <div>
+              <Modal
+                header="Clear your account profile data"
+                trigger={
+                  <Button
+                    waves="light"
+                    className="CreateArticle-delete"
+                    style={{
+                      fontSize: "1.45rem",
+                      textTransform: "none",
+                      minWidth: "23rem",
+                    }}
+                  >
+                    Clear Account Profile Data
+                    <Icon left>cancel</Icon>
+                  </Button>
+                }
+              >
+                <br />
+                <p style={{ fontSize: "2rem", fontWeight: "bold" }}>
+                  Are you sure you want reset your profile data to blank?
+                </p>
+                <br />
+                <br />
+                <Button
+                  waves="light"
+                  className="CreateArticle-delete"
+                  onClick={(e) => this.props.resetUserProfileBlank(uid)}
+                  style={{ textTransform: "none" }}
+                >
+                  Confirm
+                  <Icon left>cancel</Icon>
+                </Button>
+              </Modal>
+            </div>
             {!this.state.cancelPending &&
               !this.state.cancelled &&
               subscriptionActive &&
@@ -252,8 +289,8 @@ class Profile extends Component {
           <div>
             <UpdateProfileProperty
               type="text"
-              name="Nickname"
-              placeholder="Set your nickname"
+              name="Username"
+              placeholder="Set your username"
               current={userName}
               changeHandler={this.updateUsername}
             />
@@ -293,5 +330,5 @@ export default connect(
     // totalQuizScore: auth.totalQuizScore,
     //
   }),
-  { changeSubscriptionActiveStatus }
+  { changeSubscriptionActiveStatus, resetUserProfileBlank }
 )(Profile);

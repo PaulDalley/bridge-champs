@@ -99,8 +99,8 @@ const CreateCategoryArticle = ({
     } = articleMetadata;
 
     if (subcategory === undefined) subcategory = "";
-    console.log("--- SETTING DATA IF EDITING ---");
-    console.log(articleMetadata);
+    // console.log("--- SETTING DATA IF EDITING ---");
+    // console.log(articleMetadata);
     setArticle("");
     setDifficulty(difficulty);
     setArticleNumber(articleNumber);
@@ -133,7 +133,7 @@ const CreateCategoryArticle = ({
   };
 
   useEffect(() => {
-    console.log("--- in useEffect createCategoryArticle ---");
+    // console.log("--- in useEffect createCategoryArticle ---");
     if (!a) history.push(`/${articleType}`);
 
     // SHOULD fetch article metadata and article body here instead of reroute:
@@ -401,8 +401,8 @@ const CreateCategoryArticle = ({
             <RichTextEditor
               value={article}
               onChange={(article) => {
-                console.log("--- RICH TEXT EDITOR CHANGED ---");
-                console.log(article);
+                // console.log("--- RICH TEXT EDITOR CHANGED ---");
+                // console.log(article);
                 setArticle(article);
               }}
               className="editor"

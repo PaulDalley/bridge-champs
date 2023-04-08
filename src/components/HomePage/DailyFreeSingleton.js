@@ -213,7 +213,7 @@ class DailyFreeSingleton extends React.Component {
       );
       quizJSX = (
         <QuizListItem
-          date={quiz.date}
+          date={quiz.createdAt}
           body={quiz.body}
           quizType={quiz.quizType}
           id={quiz.id}

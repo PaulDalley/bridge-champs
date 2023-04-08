@@ -43,8 +43,8 @@ export default (state = articlesDefaultState, action) => {
     // set all articles from a /articles json request:
     case actions.CATEGORY_SET_ARTICLES:
       // const newArticles = [...state.articles, action.articles];
-      console.log(`--- SETTING STORE ARTICLES FOR ${action.summaryRef} ---`);
-      console.log(action.articles);
+      // console.log(`--- SETTING STORE ARTICLES FOR ${action.summaryRef} ---`);
+      // console.log(action.articles);
       return {
         ...state,
         [action.summaryRef]: action.articles,
@@ -85,8 +85,8 @@ export default (state = articlesDefaultState, action) => {
       };
 
     case actions.SET_CURRENT_CATEGORY_ARTICLE:
-      console.log("--- SETTING CURRENT ARTICLE IN REDUCER ---");
-      console.log(action.currentArticle);
+      // console.log("--- SETTING CURRENT ARTICLE IN REDUCER ---");
+      // console.log(action.currentArticle);
       return {
         ...state,
         currentArticle: action.currentArticle,

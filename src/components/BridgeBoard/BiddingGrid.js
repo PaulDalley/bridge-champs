@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import Hand from './Hand';
 import {Row, Col} from 'react-materialize';
 import { SUITS, isGreaterBid, canDoubleChecker } from '../../helpers/helpers';
 import './BiddingGrid.css';
@@ -20,8 +19,6 @@ class BiddingGrid extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log(nextProps.currentMaxBid);
-        // console.log(nextProps.currentMaxBid === "_");
         if (this.state.currentMaxBid === undefined) {
             this.setState({currentMaxBid: nextProps.currentMaxBid});
         }
@@ -29,30 +26,20 @@ class BiddingGrid extends Component {
             this.setState({ currentMaxBid: "0♣" });
         }
         else if (nextProps.currentMaxBid !== this.state.currentMaxBid) {
-            // console.log("UPDATING CURRENTMAXBID");
             this.setState({currentMaxBid: nextProps.currentMaxBid });
         }
     }
 
     handleClick = (i, suit, suitString, lockBid) => {
-        // console.log(this.state.currentMaxBid);
-        // console.log("LOCK BID: ", lockBid)
         if (lockBid) {
-            // console.log("BID LOCKED");
             return;
         }
-        // console.log("CLICKED:");
-        // console.log(`NUMBER: ${i}, SUIT: ${suit}`);
-        // console.log("LAST CLICKED");
-        // console.log(this.state.lastClicked);
-        // console.log(this.state.lastClicked === "");
         let lastClicked = '.' + this.state.lastClicked;
         if(this.state.lastClicked !== "") {
             $(lastClicked).removeClass('BiddingGrid-item_clicked')
         }
 
         if(suit) {
-            // console.log("SHOULD BE A SUIT HERE");
             let num = i;
             if (num === "?") num = "Q";
             let justClicked = '.' + num + '-' + suitString;
@@ -68,7 +55,6 @@ class BiddingGrid extends Component {
             // SEAM TO COUNT 3 passes here.
             // if (i==="P") this.setState((prevState) => ({ passCounter: prevState.passCounter + 1}), () => console.log(this.state.passCounter));
             // else this.setState({ passCounter: 0 }, () => console.log(this.state.passCounter));
-
 
             let num = i;
             if (num === "?") num = "Q";
@@ -101,7 +87,6 @@ class BiddingGrid extends Component {
                         lockBid[SUITS[j]] = false;
                     }
                 }
-                // console.log(lockBid);
             }
             let lockClubs = lockBid['♣'];
             let lockDiamonds = lockBid['♦'];
@@ -150,8 +135,6 @@ class BiddingGrid extends Component {
             );
         }
 
-        // const canRedouble = canRedoubleChecker(this.props.bidding);
-        // const canDouble = canDoubleChecker(this.props.bidding);
         const [ canDouble, canRedouble ] = canDoubleChecker(this.props.bidding);
 
         grid.push(
@@ -189,8 +172,6 @@ class BiddingGrid extends Component {
     }
 
     render() {
-        // console.log(this.props.bidding);
-
         return (
             <div className="BiddingGrid-container">
                 {this.makeGrid()}

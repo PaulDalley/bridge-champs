@@ -59,6 +59,10 @@ const DisplayCategoryArticle = ({
   useEffect(() => {
     const articleId = match.params.id;
     dispatch(getArticle(articleId, history, bodyRef));
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, []);
 
   const articleId = match.params.id;
@@ -85,20 +89,20 @@ const DisplayCategoryArticle = ({
     articleDataArray = parseDocumentIntoJSX(articleText);
   }
 
-  console.log(
-    `--- Trying to display article with id: ${articleId} and bodyRef: ${bodyRef} ---`
-  );
-  console.log(articles);
-  console.log(article);
-  console.log(articleText);
-  console.log("-- metadata generated in component --");
-  console.log(useMetaData);
-  console.log("--- metadata from store.categoryArticles.currentArticle ---");
-  console.log(articleMetadata);
-  console.log(articleDataArray);
-  console.log("--- DIFFICULTY AND ARTICLE LEVEL INFORMATION ---");
-  console.log(articleMetadata?.articleNumber);
-  console.log(articleMetadata?.difficulty);
+  // console.log(
+  //   `--- Trying to display article with id: ${articleId} and bodyRef: ${bodyRef} ---`
+  // );
+  // console.log(articles);
+  // console.log(article);
+  // console.log(articleText);
+  // console.log("-- metadata generated in component --");
+  // console.log(useMetaData);
+  // console.log("--- metadata from store.categoryArticles.currentArticle ---");
+  // console.log(articleMetadata);
+  // console.log(articleDataArray);
+  // console.log("--- DIFFICULTY AND ARTICLE LEVEL INFORMATION ---");
+  // console.log(articleMetadata?.articleNumber);
+  // console.log(articleMetadata?.difficulty);
 
   if (!article) {
     return (

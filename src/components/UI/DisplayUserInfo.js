@@ -14,6 +14,17 @@ const DisplayUserInfo = ({
 }) => {
   let subscriptionInfo;
 
+  // console.log("--- IN DISPLAY USER INFO WITH ---");
+  // console.log(name);
+  // console.log(email);
+  // console.log(photo);
+  // console.log(subscriptionExpires);
+  // console.log(typeof subscriptionExpires);
+  // console.log(Date.now());
+  // console.log(Date.now() > new Date(subscriptionExpires));
+  // console.log(subscriptionActive);
+  // console.log(totalQuizScore);
+
   if (name) {
     try {
       name = name.split(" ")[0];
@@ -42,7 +53,7 @@ const DisplayUserInfo = ({
       </div>
     );
   } else if (!subscriptionActive && subscriptionExpires !== undefined) {
-    if (Date.now() > subscriptionExpires) {
+    if (Date.now() > new Date(subscriptionExpires)) {
       subscriptionInfo = (
         <div
           style={{
@@ -68,8 +79,11 @@ const DisplayUserInfo = ({
           Your subscription is:&nbsp;{" "}
           <span className="bold-text red-suit ">Inactive</span>
           <br />
-          Your membership access is available until{" "}
-          {makeDateString(subscriptionExpires)}.
+          Your membership access is{" "}
+          <span style={{ color: "green", fontWeight: "bold" }}>
+            available
+          </span>{" "}
+          until {makeDateString(subscriptionExpires)}.
         </div>
       );
     }

@@ -84,7 +84,7 @@ class Login extends Component {
       .auth()
       .sendPasswordResetEmail(emailReset)
       .then(() => {
-        console.log("email sent");
+        // console.log("email sent");
         let modal = $(".modal");
         let modalOverlay = $(".modal-overlay");
         modal.removeClass("open");

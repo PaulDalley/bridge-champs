@@ -19,7 +19,9 @@ export const sortSuitRanks = (x, y) => {
   if (xValue < yValue) return 1;
   else return -1;
 };
+
 const filterOutNoncards = (card) => "23456789TJQKA".includes(card);
+
 export const sortCardString = (cards) => {
   if (cards !== "") {
     cards = cards.replace("1", "T");
@@ -35,12 +37,6 @@ export const sortCardString = (cards) => {
 };
 export const noDuplicateCardsOfSameSuit = (North, East, South, West, suit) => {
   let concatenatedString = North[suit] + East[suit] + South[suit] + West[suit];
-  // console.log(North);
-  // console.log(East);
-  // console.log(South)
-  // console.log(West);
-  // console.log(suit);
-  // console.log(concatenatedString)
   return (
     concatenatedString.length == concatenatedString.split("").unique().length
   );
@@ -57,6 +53,7 @@ export const fetchDataChunk = (from, howMany, orderBy) => {
       snapshot.forEach((childSnapshot) => {
         data.push({
           id: childSnapshot.id,
+          from: from,
           ...childSnapshot.data(),
         });
       });
@@ -183,25 +180,17 @@ export const canDoubleChecker = (bidding) => {
 // 2) Can only redouble if last bid was a double and made by your opponents.
 
 export const prepareArticleString = (article) => {
-  return (
-    article
-      .split("&gt;")
-      .join(">")
-      .split("&lt;")
-      .join("<")
-      // .split(/♦[^//^/"]/).join(`<span className='red-suit'>♦</span>`)
-      // .split(/♥[^//^/"]/).join(`<span className='red-suit'>♥</span>`)
-      // .split(/♦[^<^//^/"1-9AKQJakqj]/).join(`<span className='red-suit'>♦</span>`)
-      // .split(/♥[^<^//^/"1-9AKQJakqj]/).join(`<span className='red-suit'>♥</span>`)
-      // .split(/♦[^<^//^/"]?/).join(`<span className='red-suit'>♦</span>`)
-      // .split(/♥[^<^//^/"]?/).join(`<span className='red-suit'>♥</span>`)
-      .split(/(![shcdSHCD])/)
-      .map((substr) => replaceSuitMacros(substr))
-      .join("")
-      .split(/(<MakeBoard .* \/>)/)
-      .map((substr) => replaceDiamondsAndHearts(substr))
-      .join("")
-  );
+  return article
+    .split("&gt;")
+    .join(">")
+    .split("&lt;")
+    .join("<")
+    .split(/(![shcdSHCD])/)
+    .map((substr) => replaceSuitMacros(substr))
+    .join("")
+    .split(/(<MakeBoard .* \/>)/)
+    .map((substr) => replaceDiamondsAndHearts(substr))
+    .join("");
 };
 
 const iterativelyReplace = (string, suit) => {
@@ -617,6 +606,7 @@ export const makeBoardObjectFromString = (boardString, showVuln = false) => {
       }
     });
     data["showVuln"] = showVuln;
+    // console.log("--- board object from string ---");
     // console.log(data);
     return data;
   } catch (e) {
@@ -666,9 +656,9 @@ export const getDifficultyStr = (difficulty) => {
 };
 
 export const getQuizData = (documentString) => {
-  console.log("--- Making board from document string ---");
-  console.log(documentString);
-  console.log(documentString.split(/(<MakeBoard .* \/>)/));
+  // console.log("--- Making board from document string ---");
+  // console.log(documentString);
+  // console.log(documentString.split(/(<MakeBoard .* \/>)/));
   const re = /(<MakeBoard .* \/>)/;
   const matches = re.exec(documentString);
   if (matches) {

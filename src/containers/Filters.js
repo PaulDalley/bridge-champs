@@ -18,6 +18,7 @@ import {
   setFilterType,
 } from "../store/actions/filtersActions";
 import { connect } from "react-redux";
+
 import "./Filters.css";
 // <Icon>sort</Icon>
 // FROM filtersReducer, default:
@@ -237,8 +238,20 @@ class Filters extends Component {
           {/*refresh*/}
           {/*</Icon>*/}
           {/*<div className="Filters-item Filters-Reset">*/}
-          <div className="Filters-item Filters-reset_button" waves="light">
-            {this.props.page === "quizzes" && (
+          {this.props.page !== "quizzes" && (
+            <div className="Filters-item Filters-reset_button" waves="light">
+              <div onClick={(e) => this.resetFilters(e)}>
+                <Icon>refresh</Icon>
+                <div className="Filters-reset_text">Reset</div>
+              </div>
+            </div>
+          )}
+
+          {this.props.page === "quizzes" && (
+            <div
+              className="Filters-item Filters-reset_button_quiz"
+              waves="light"
+            >
               <div
               // style={{ position: "absolute", left: "1.25rem", top: "6.5rem" }}
               >
@@ -254,12 +267,13 @@ class Filters extends Component {
                 />
                 <span className="Filters-checkbox_label">Hide Completed</span>
               </div>
-            )}
-            <div onClick={(e) => this.resetFilters(e)}>
-              <Icon>refresh</Icon>
-              <div className="Filters-reset_text">Reset</div>
+              <div onClick={(e) => this.resetFilters(e)}>
+                <Icon>refresh</Icon>
+                <div className="Filters-reset_text">Reset</div>
+              </div>
             </div>
-          </div>
+          )}
+
           {/*</div>*/}
         </div>
       </div>

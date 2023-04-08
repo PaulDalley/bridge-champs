@@ -10,7 +10,7 @@ const Scores = ({ scoresFor }) => {
   const quizScoresFetched = useSelector(
     (state) => state.user?.quizScoresFetched
   );
-  console.log(userData);
+  // console.log(userData);
 
   const [quizzesCompleted, setQuizzesCompleted] = useState(0);
   const [_totalQuizScore, _setTotalQuizScore] = useState(0);
@@ -20,7 +20,7 @@ const Scores = ({ scoresFor }) => {
   const setupQuizData = () => {
     const numQuizzesCompleted = quizScores?.length;
     const totalScore = quizScores.reduce((acc, next) => {
-      console.log(next);
+      // console.log(next);
       return acc;
     }, 0);
   };

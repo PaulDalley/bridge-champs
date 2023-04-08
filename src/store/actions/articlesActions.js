@@ -190,8 +190,8 @@ export const fetchArticlesByCategory = (category) => {
             ...childSnapshot.data(),
           });
         });
-        console.log("---- JUST FETCHED ARTICLES! ----");
-        console.log(articles);
+        // console.log("---- JUST FETCHED ARTICLES! ----");
+        // console.log(articles);
         dispatch(setArticles(articles, true));
       });
   };

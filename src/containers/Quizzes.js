@@ -9,6 +9,7 @@ import Filters from "./Filters";
 import { CardPanel, Input } from "react-materialize";
 import Pagination from "../components/Pagination";
 import { filterQuizzes } from "../helpers/helpers";
+import { resetFilters } from "../store/actions/filtersActions";
 
 class Quizzes extends Component {
   constructor(props) {
@@ -35,10 +36,10 @@ class Quizzes extends Component {
     // console.log(e.target.checked);
     // this.setState(prevState => ({artificialBidChecked: !prevState.artificialBidChecked}));
     // this.setState({hideCompleted: e.target.checked}, () => console.log(this.state.hideCompleted));
-    console.log(this.state.filters);
+    // console.log(this.state.filters);
     const newFilters = { ...this.state.filters };
     newFilters["hideCompletedQuizzes"] = e.target.checked;
-    console.log(newFilters);
+    // console.log(newFilters);
   };
 
   onChangePage = (pageOfItems, page) => {
@@ -83,6 +84,10 @@ class Quizzes extends Component {
 
     // console.log(nextProps.quizScores);
     // console.log(nextProps.totalQuizScore);
+  }
+
+  componentWillUnmount() {
+    this.props.resetFilters();
   }
 
   setCurrentQuizAndGoTo = (quiz, id) => {
@@ -225,6 +230,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchQuizzes: () => dispatch(getQuizzes()),
   getArticleCount: () => dispatch(getArticleCount()),
   setCurrentQuiz: (quiz) => dispatch(setCurrentQuiz(quiz)),
+  resetFilters: () => dispatch(resetFilters()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quizzes);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { fetchDataChunk } from "../../helpers/helpers";
 import ArticleListItem from "../Articles/ArticleListItem";
+import CategoryArticleListItem from "../Articles/CategoryArticleListItem";
 import QuizListItem from "../Quizzes/QuizListItem";
 import "./TopTen.css";
 import { connect } from "react-redux";
@@ -9,11 +10,15 @@ import { setCurrentQuiz } from "../../store/actions/quizzesActions";
 import AnimatedButton from "../UI/AnimatedButton";
 import { Carousel } from "react-materialize";
 import { Tabs, Tab } from "react-materialize";
+import ErrorBoundary from "../../helpers/ErrorBoundary";
 // import $ from 'jquery';
 
 class TopTen extends Component {
   state = {
     articles: [],
+    cardPlay: [],
+    defence: [],
+    bidding: [],
     quizzes: [],
     activeClass: "articles",
   };
@@ -42,6 +47,12 @@ class TopTen extends Component {
     this.props.setCurrentArticle(article);
     this.props.history.push(`/article/${id}`);
   };
+
+  setCurrentCategoryArticleAndGoTo = (article, id) => {
+    this.props.setCurrentArticle(article);
+    this.props.history.push(`/${article.from}/${id}`);
+  };
+
   setCurrentQuizAndGoTo = (quiz, id) => {
     // console.log("SETTING CURRENT QUIZ");
     // console.log(quiz);
@@ -56,6 +67,15 @@ class TopTen extends Component {
     });
     fetchDataChunk("quizzes", 10, "createdAt").then((quizzes) =>
       this.setState({ quizzes })
+    );
+    fetchDataChunk("cardPlay", 10, "createdAt").then((cardPlay) =>
+      this.setState({ cardPlay })
+    );
+    fetchDataChunk("defence", 10, "createdAt").then((defence) =>
+      this.setState({ defence })
+    );
+    fetchDataChunk("bidding", 10, "createdAt").then((bidding) =>
+      this.setState({ bidding })
     );
   }
 
@@ -73,13 +93,26 @@ class TopTen extends Component {
   componentDidUpdate() {
     // console.log(this.state);
     // console.log(this.props.quizScores);
-    const { quizzes, articles } = this.state;
+    const { quizzes, articles, cardPlay, bidding, defence } = this.state;
     // console.log(quizzes);
     // console.log(articles);
     let quizListJSX;
     let articleListJSX;
-    if (articles.length > 0 && this.state.articleListJSX === undefined) {
-      articleListJSX = this.getArticlesJSX(articles);
+
+    const allArticleContent = [
+      ...cardPlay,
+      ...bidding,
+      ...defence,
+      ...articles,
+    ];
+
+    let _allToUse = allArticleContent.sort((a, b) => {
+      a.createdAt - b.createdAt;
+    });
+    _allToUse = _allToUse.slice(0, 12);
+
+    if (_allToUse.length > 0 && this.state.articleListJSX === undefined) {
+      articleListJSX = this.getArticlesJSX(_allToUse);
       this.setState({ articleListJSX });
     }
     // console.log(this.props.quizScores);
@@ -97,23 +130,69 @@ class TopTen extends Component {
     // console.log(quizListJSX);
   }
 
+  // getArticlesJSX = (articles) => {
+  //   return articles.map((article) => (
+  //     <ArticleListItem
+  //       key={article.id}
+  //       createdAt={article.createdAt}
+  //       body={article.body}
+  //       category={article.category}
+  //       difficulty={article.difficulty}
+  //       id={article.id}
+  //       teaser={article.teaser}
+  //       teaser_board={article.teaser_board}
+  //       title={article.title}
+  //       router={this.props.history}
+  //       clickHandler={this.articleClickHandler}
+  //     />
+  //   ));
+  // };
+
   getArticlesJSX = (articles) => {
-    return articles.map((article) => (
-      <ArticleListItem
-        key={article.id}
-        createdAt={article.createdAt}
-        body={article.body}
-        category={article.category}
-        difficulty={article.difficulty}
-        id={article.id}
-        teaser={article.teaser}
-        teaser_board={article.teaser_board}
-        title={article.title}
-        router={this.props.history}
-        clickHandler={this.articleClickHandler}
-      />
-    ));
+    return articles.map((article) => {
+      if (article.from === "articles") {
+        return (
+          <ArticleListItem
+            key={article.id}
+            createdAt={article.createdAt}
+            body={article.body}
+            category={article.category}
+            difficulty={article.difficulty}
+            id={article.id}
+            teaser={article.teaser}
+            teaser_board={article.teaser_board}
+            title={article.title}
+            router={this.props.history}
+            clickHandler={this.articleClickHandler}
+          />
+        );
+      } else {
+        return (
+          <CategoryArticleListItem
+            key={article.id}
+            createdAt={article.createdAt}
+            body={article.body}
+            category={article.category}
+            difficulty={article.difficulty}
+            articleNumber={article.articleNumber}
+            id={article.id}
+            teaser={article.teaser}
+            teaser_board={article.teaser_board}
+            title={article.title}
+            router={this.props.history}
+            clickHandler={this.setCurrentCategoryArticleAndGoTo.bind(
+              this,
+              article,
+              article.body
+            )}
+            articleType={article.from}
+            displayArticleType={true}
+          />
+        );
+      }
+    });
   };
+
   getQuizzesJSX = (quizzes) => {
     return quizzes.map((quiz) => {
       // console.log(this.props.quizScores);
@@ -159,7 +238,7 @@ class TopTen extends Component {
   };
 
   toggleActive = () => {
-    console.log("toggle clicked");
+    // console.log("toggle clicked");
     this.setState(
       (prevState) => ({
         activeClass:
@@ -203,7 +282,7 @@ class TopTen extends Component {
 
     return (
       <div style={{ position: "relative", top: "-15rem" }}>
-        {this.state.quizzes.length > 0 && this.state.articles.length > 0 && (
+        {this.state.quizzes.length > 0 && articleListJSX?.length > 0 && (
           <h1 className="TopTen-title">Latest Content</h1>
         )}
         <div className="TopTen-list-container">
@@ -238,7 +317,7 @@ class TopTen extends Component {
           {/*{quizListJSX}*/}
           {/*</div>}*/}
 
-          {articles.length > 0 && (
+          {articleListJSX?.length > 0 && (
             <div
             // style={{transform: "scale(.85)", position: "relative", top: "-45rem"}}
             >
@@ -277,27 +356,30 @@ class TopTen extends Component {
           )}
         </div>
 
-        {/* <div className="TopTen-tabs">
-                <Tabs className="tab-demo z-depth-1"
-                      // tabOptions={
-                      //   tabsOptions
-                      // }
-                >
-                    <Tab title="Articles">
-                        {articles.length > 0 &&
-                        <div>
-                            {articleListJSX}
-                        </div>}
-                    </Tab>
-                    <Tab title="Quizzes" active>
-                        { quizzes.length > 0 &&
-                        <div>
-                            {quizListJSX}
-                        </div>}
-                    </Tab>
-
-                </Tabs>
-                </div> */}
+        {window.innerWidth <= 800 && articleListJSX?.length > 0 && (
+          <div>{articleListJSX}</div>
+        )}
+        {/* <ErrorBoundary>
+          <div className="TopTen-tabs">
+            <Tabs
+              className="tab-top-ten z-depth-1"
+              options={{
+                duration: 300,
+                onShow: null,
+                responsiveThreshold: Infinity,
+                swipeable: false,
+              }}
+              title="top-ten"
+            >
+              <Tab title="Articles">
+                {articleListJSX.length > 0 && <div>{articleListJSX}</div>}
+              </Tab>
+              <Tab title="Quizzes" active>
+                {quizzes.length > 0 && <div>{quizListJSX}</div>}
+              </Tab>
+            </Tabs>
+          </div>
+        </ErrorBoundary> */}
 
         {/*<ul id="tabs-swipe-demo" className="tabs">*/}
         {/*<li className="tab col s3"><a className="active" href="#test-swipe-1">Articles</a></li>*/}

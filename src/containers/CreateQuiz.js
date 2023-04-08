@@ -143,11 +143,11 @@ class CreateQuiz extends Component {
   };
 
   changeAnswers = (e, i, key) => {
-    console.log("--- VALUES IN changeAnswers ---");
-    console.log(e);
-    console.log(e.target.value);
-    console.log(i);
-    console.log(key);
+    // console.log("--- VALUES IN changeAnswers ---");
+    // console.log(e);
+    // console.log(e.target.value);
+    // console.log(i);
+    // console.log(key);
 
     let updatedAnswers = this.state.answers.slice(
       0,
@@ -156,7 +156,7 @@ class CreateQuiz extends Component {
     let changedAnswer = { ...this.state.answers[i] };
     changedAnswer[key] = e.target.value;
     updatedAnswers[i] = changedAnswer;
-    console.log(updatedAnswers);
+    // console.log(updatedAnswers);
     this.setState({ answers: updatedAnswers });
   };
 
@@ -265,8 +265,8 @@ class CreateQuiz extends Component {
   };
 
   onInputDateChange = (date) => {
-    console.log("--- Input Date Changed ---");
-    console.log(date);
+    // console.log("--- Input Date Changed ---");
+    // console.log(date);
 
     this.setState({ date });
   };

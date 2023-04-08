@@ -312,14 +312,12 @@ const routes = (
 // }
 
 // ## WORKING daily update code:
-const randomUpdateDailyArticle = () => {
+/*const randomUpdateDailyArticle = () => {
   firebase
     .firestore()
     .collection("articles")
     .get()
     .then((docs) => {
-      console.log(docs.docs);
-      console.log(docs.docs.length);
       let idx = Math.floor(Math.random() * docs.docs.length);
       let id = docs.docs[idx].id;
       const metadata = docs.docs[idx].data();
@@ -414,6 +412,7 @@ const updateDailies = () => {
   randomUpdateDailyArticle();
   randomUpdateDailyQuiz();
 };
+*/
 
 // END OF DAILY UPDATE CODE
 
@@ -433,6 +432,9 @@ firebase.auth().onAuthStateChanged((user) => {
 
   // they just logged in:
   if (user) {
+    console.log("--- USER JUST LOGGED IN ---");
+    console.log(user);
+
     // ## RUN THIS EVERY 24 hrs.
     // updateDailies();
 
@@ -494,9 +496,9 @@ firebase.auth().onAuthStateChanged((user) => {
         // console.log(docData);
         const userData = { ...user, ...docData };
 
-        console.log("--- A USER LOGGED IN AND I HAVE THEIR DATA ---");
-        console.log(user);
-        console.log(docData);
+        // console.log("--- A USER LOGGED IN AND I HAVE THEIR DATA ---");
+        // console.log(user);
+        // console.log(docData);
 
         if (docData) {
           store.dispatch(userLoggedIn(userData));
@@ -520,8 +522,8 @@ firebase.auth().onAuthStateChanged((user) => {
       .then((snapshot) => {
         // console.log(snapshot);
         const data = snapshot.data();
-        console.log("--- MORE USER DATA ---");
-        console.log(data);
+        // console.log("--- MORE USER DATA ---");
+        // console.log(data);
         // console.log(data['subscriptionExpires']);
         if (data) {
           store.dispatch(

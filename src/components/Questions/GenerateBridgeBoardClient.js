@@ -21,7 +21,7 @@ import toastr from "toastr";
 
 class GenerateBridgeBoardClient extends Component {
   handClicked = (hand) => {
-    console.log(hand);
+    // console.log(hand);
   };
 
   countCards = (hand) => {

@@ -10,12 +10,21 @@ const stripeProcessStartUrl =
 // const stripeKey = "pk_test_0oEg1KoEe7MkbdIe0LyU7oUD"; // TEST (OLD)
 // const stripeKey = "pk_live_rbfFBjVRCEG6ciCZ1m8u9YSk"; // LIVE (OLD)
 
+// MY KEYS:
 // TEST KEY:
-const stripeKey =
-  "pk_test_51MgyadERRei2smAFcWGwxCo8YJ1jZ9EXErEEoJfjMzRoSx2k9LISbBC0bhhjDbWV1DIzKsTcmMZ5IJNEO9wiwMIr00wW0rhO8I";
+// const stripeKey =
+//   "pk_test_51MgyadERRei2smAFcWGwxCo8YJ1jZ9EXErEEoJfjMzRoSx2k9LISbBC0bhhjDbWV1DIzKsTcmMZ5IJNEO9wiwMIr00wW0rhO8I";
 
 // LIVE KEY:
 // const stripeKey = "pk_live_51MgyadERRei2smAFnwqBxWBtZFxQqhGxPncLQpkgdr1nvnsCmBz1UYwsd6vyXW6LKgIYHId2I6RuO1PHGjTxaPDh00GtIn1IDO";
+
+// PAULS LIVE KEY:
+// TEST KEY:
+// const stripeKey =
+//   "pk_test_51MlMSlE9mroRD7lKSWFDV5yOOj6zzoGTlYfjZwNuVKhMhPgn46M37OXN2UsK15hcPQVvWkXtANDFBEXFo6Pp0QwE00ZWePlN9Y";
+// LIVE KEY:
+const stripeKey =
+  "pk_live_51MlMSlE9mroRD7lKt49P0HSm7lN6dg4m6hofy8ybCu1z71y8ZRLZCV6yWuoks6iN3GJQgDC5YrJdRIa0nd1rLBx200Tyr0AdN0";
 
 class PaymentButton extends React.Component {
   state = {};

@@ -307,17 +307,19 @@ class Bidding extends Component {
           if (entry[1] == "N") suit = "NT";
           // if (artificialBidText === "") {
           return (
-            <Col
-              key={idx}
-              onClick={() => this.resetToIdx(idx)}
-              s={3}
-              className={`Bidding-entry ${this.getArtificialBidClass(
-                artificialBid
-              )}`}
-            >
-              <div className="Bidding-entry_number">{number}</div>
-              <div className={this.getSuitStyles(suit)}>{suit}</div>
-            </Col>
+            <>
+              <Col
+                key={idx}
+                onClick={() => this.resetToIdx(idx)}
+                s={3}
+                className={`Bidding-entry ${this.getArtificialBidClass(
+                  artificialBid
+                )}`}
+              >
+                <div className="Bidding-entry_number">{number}</div>
+                <div className={this.getSuitStyles(suit)}>{suit}</div>
+              </Col>
+            </>
           );
           // }
           // else {
@@ -393,20 +395,22 @@ class Bidding extends Component {
           }
           if (entry[1] == "N") suit = "NT";
           return (
-            <Col
-              key={idx}
-              s={3}
-              className={`Bidding-entry ${this.getArtificialBidClass(
-                artificialBid
-              )}`}
-            >
-              <span className="Bidding-entry-number">{number}</span>
-              <span
-                className={`Bidding-entry-suit ${this.getSuitStyles(suit)}`}
+            <>
+              <Col
+                key={idx}
+                s={3}
+                className={`Bidding-entry ${this.getArtificialBidClass(
+                  artificialBid
+                )}`}
               >
-                {suit}
-              </span>
-            </Col>
+                <span className="Bidding-entry-number">{number}</span>
+                <span
+                  className={`Bidding-entry-suit ${this.getSuitStyles(suit)}`}
+                >
+                  {suit}
+                </span>
+              </Col>
+            </>
           );
         }
       });
@@ -414,16 +418,17 @@ class Bidding extends Component {
       // console.log(this.props.quizType);
 
       // ##** TODO: Commented out because of deprecation of match.path (need fix)
-      // if (
-      //   this.props.match.path.includes("/quiz") &&
-      //   this.props.quizType === "Bidding"
-      // ) {
-      //   JSX.push(
-      //     <Col key="?" s={3} className="Bidding-entry Bidding-entry-next">
-      //       ?
-      //     </Col>
-      //   );
-      // }
+      if (
+        (this.props.match.path.includes("/quiz") &&
+          this.props.quizType !== "Opening Lead") ||
+        this.props.quizType === "Bidding"
+      ) {
+        JSX.push(
+          <Col key="?" s={3} className="Bidding-entry Bidding-entry-next">
+            ?
+          </Col>
+        );
+      }
     }
 
     const biddingGridClass = this.props.biddingGridClass

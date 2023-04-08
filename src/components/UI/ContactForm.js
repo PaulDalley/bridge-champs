@@ -55,7 +55,7 @@ class ContactForm extends Component {
     return $.post(url, dataBody, (data, status) => {
       console.log(data);
       console.log(status);
-      this.props.history.push("/");
+      // this.props.history.push("/");
     }).catch((err) => {
       console.log(err);
     });

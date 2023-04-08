@@ -18,6 +18,7 @@ import {
   setFilterType,
 } from "../store/actions/filtersActions";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import "./Filters.css";
 
 const selectOptions = {
@@ -58,7 +59,7 @@ import { useSelector, useDispatch } from "react-redux";
 //     }
 //   )(Filters);
 
-const FiltersCategoryArticles = () => {
+const FiltersCategoryArticles = (props) => {
   const category = useSelector((state) => state.filters?.category);
   const difficulty = useSelector((state) => state.filters.difficulty);
   const searchString = useSelector((state) => state.filters?.searchString);
@@ -86,6 +87,10 @@ const FiltersCategoryArticles = () => {
       dispatch(resetFilters());
     }, 250);
   };
+
+  useEffect(() => {
+    _resetFilters();
+  }, [props?.history?.location?.pathname]);
 
   useEffect(() => {
     _setCategory(category);
@@ -126,14 +131,13 @@ const FiltersCategoryArticles = () => {
     }
   };
 
-  console.log(
-    `--- SEARCHSTRING: ${searchString}, useState SearchString: ${_searchString} ---`
-  );
-  console.log(
-    `--- SEARCHSTRING: ${difficulty}, useState SearchString: ${_difficulty} ---`
-  );
-
-  console.log(`--- _searchString === "": ${_searchString === '""'}`);
+  // console.log(
+  //   `--- SEARCHSTRING: ${searchString}, useState SearchString: ${_searchString} ---`
+  // );
+  // console.log(
+  //   `--- SEARCHSTRING: ${difficulty}, useState SearchString: ${_difficulty} ---`
+  // );
+  // console.log(`--- _searchString === "": ${_searchString === '""'}`);
 
   return (
     <div className="Filters-container">
@@ -210,7 +214,7 @@ const FiltersCategoryArticles = () => {
   );
 };
 
-export default FiltersCategoryArticles;
+export default withRouter(FiltersCategoryArticles);
 
 // class Filters extends Component {
 //   componentDidMount() {

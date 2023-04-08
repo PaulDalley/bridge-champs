@@ -24,6 +24,10 @@ export class DisplayArticle extends Component {
       const articleType = this.props?.articleType;
       this.props.getArticle(articleId, this.props.history, articleType);
     }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   render() {

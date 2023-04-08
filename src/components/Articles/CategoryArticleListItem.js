@@ -9,6 +9,12 @@ import {
   getLevelStr,
 } from "../../helpers/helpers";
 
+const mapArticleTypeToCategory = new Map([
+  ["bidding", "Bidding"],
+  ["cardPlay", "Card Play"],
+  ["defence", "Defence"],
+]);
+
 const CategoryArticleListItem = ({
   createdAt,
   body,
@@ -23,11 +29,12 @@ const CategoryArticleListItem = ({
   router,
   a,
   articleType,
+  displayArticleType,
 }) => {
   let diffString;
-  console.log("--- Creating date string with date ---");
-  console.log(createdAt);
-  console.log(createdAt?.toDate());
+  // console.log("--- Creating date string with date ---");
+  // console.log(createdAt);
+  // console.log(createdAt?.toDate());
   let dateStr = makeDateString(createdAt);
   let articleObj = {
     createdAt,
@@ -58,6 +65,22 @@ const CategoryArticleListItem = ({
         className="ArticlesListItem-container grey lighten-4 black-text"
       >
         <div className="ArticleListItem-created_at">{dateStr}</div>
+        {displayArticleType && (
+          <div
+            style={{
+              fontWeight: "bold",
+              fontSize: "110%",
+              backgroundColor: "black",
+              color: "white",
+              textAlign: "center",
+              position: "relative",
+              top: "1rem",
+              padding: "1rem",
+            }}
+          >
+            {mapArticleTypeToCategory?.get(articleType)}
+          </div>
+        )}
         <div className="ArticleListItem-category">Article {articleNumber}</div>
         <div className={`ArticleListItem-difficulty ${diffClass}`}>
           {diffString}

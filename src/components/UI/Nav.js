@@ -8,7 +8,6 @@ import { signOut } from "../../store/actions/authActions";
 import { withRouter } from "react-router-dom";
 // import { withRouter } from "../../hoc/withRouter";
 import "./Nav.css";
-// import {SideNav, SideNavItem, Button} from 'react-materialize';
 import SideDrawer from "./SideDrawer";
 import { Dropdown, Button, Divider, Icon } from "react-materialize";
 
@@ -42,8 +41,6 @@ class Nav extends Component {
 
   authNav = (e, route) => {
     e.preventDefault();
-    // console.log(e);
-    // console.log(route);
     this.props.history.push(route);
     // this.props.navigate(route);
   };
@@ -55,11 +52,8 @@ class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // console.log("---- HI FROM NAV ---");
-    // console.log(this.props.history);
 
     // COMMENTED OUT BECAUSE useHistory has been deprecated and withRouter has been deprecated
-
     this.props.history.listen((location, action) => {
       let tabLinks = $(".nav-tabs li > a");
 
@@ -123,16 +117,14 @@ class Nav extends Component {
     if (profilePic) {
       sideNavData["image"] = profilePic;
     }
-    // console.log(sideNavData);
+
     if (sideNavData.name === "") sideNavData.name = "Anonymous";
 
     // For tab counts:
     // 3 tabs only if isMobileSize:
-    const threeTabsOnly = window.innerWidth <= 1125;
+    // const threeTabsOnly = window.innerWidth <= 1125;
 
-    console.log("--- IN NAV WITH ---");
-    console.log(uid);
-    console.log(sideNavData);
+
 
     return (
       <header style={{ zIndex: 3500 }}>
@@ -145,25 +137,6 @@ class Nav extends Component {
           {/*<i className="material-icons left">input</i>*/}
 
           <div className="Nav-auth">
-            {/*{ !uid &&*/}
-            {/*<div className="Nav-auth-icons">*/}
-            {/*<div className="Nav-auth-icon"*/}
-            {/*onClick={() => this.props.history.push('/login')}>*/}
-            {/*/!*<div className="waves-effect waves-light Nav-menu-container">*!/*/}
-            {/*<i className="Nav-auth-i fas fa-sign-in-alt left"></i>*/}
-            {/*/!*</div>*!/*/}
-            {/*<div className="Nav-auth-label">Log in</div>*/}
-            {/*</div>*/}
-            {/*<div className="Nav-auth-icon"*/}
-            {/*onClick={() => this.props.history.push('/membership')}>*/}
-            {/*/!*<div className="waves-effect waves-light Nav-menu-container">*!/*/}
-            {/*<i className="Nav-auth-i fas fa-user-plus"></i>*/}
-            {/*/!*</div>*!/*/}
-            {/*<div className="Nav-auth-label">Sign up</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*}*/}
-
             {!uid && (
               <div className="Nav-auth-icons">
                 <NavLink
@@ -237,74 +210,7 @@ class Nav extends Component {
             uid={uid}
             subscriptionActive={this.props.subscriptionActive}
           />
-          {/*red, */}
-          {/*<Button*/}
-          {/*floating large*/}
-          {/*className='Nav-menu_button black'*/}
-          {/*waves='green' icon='menu' />*/}
-
-          {/*<SideNav*/}
-          {/*// trigger={<Button floating large*/}
-          {/*// className='Nav-menu_button black'*/}
-          {/*// waves='green' icon='menu'/>}*/}
-          {/*// options={{closeOnClick: true, draggable: true, menuWidth: 280}}*/}
-          {/*// >*/}
-          {/*trigger={*/}
-          {/*<div className="Nav-menu-container">*/}
-          {/*<i className="Nav-menu-button fas fa-bars"></i>*/}
-          {/*</div>*/}
-          {/*}*/}
-          {/*options={{closeOnClick: true, draggable: true, menuWidth: 280}}*/}
-          {/*>*/}
-          {/*<SideNavItem>*/}
-          {/*<img className="Nav-sidenav_logo"*/}
-          {/*src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Google-favicon-2015.png/150px-Google-favicon-2015.png"/>*/}
-          {/*</SideNavItem>*/}
-          {/*<SideNavItem userView*/}
-          {/*className="Nav-sidenav_user"*/}
-          {/*user={sideNavData}*/}
-          {/*/>*/}
-          {/*<SideNavItem divider className="Nav-header_divider"/>*/}
-          {/*<SideNavItem divider/>*/}
-          {/*<SideNavItem onClick={() => this.goTo('/articles')}*/}
-          {/*waves*/}
-          {/*icon="cloud"*/}
-          {/*>Paul</SideNavItem>*/}
-          {/*<SideNavItem waves icon="cloud">Likes</SideNavItem>*/}
-          {/*<SideNavItem waves icon="cloud">Men</SideNavItem>*/}
-
-          {/*<SideNavItem divider />*/}
-          {/*<SideNavItem subheader>Subheader</SideNavItem>*/}
-          {/*<SideNavItem waves icon="cloud" href='#!third'>Men</SideNavItem>*/}
-          {/*</SideNav>*/}
-
-          {/*<ul id="slide-out" className="Nav-SideNav side-nav">*/}
-          {/*<li>*/}
-          {/*<div className="Nav-SideNav-UserView user-view">*/}
-          {/*<div className="background">*/}
-          {/*<img*/}
-          {/*src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Google-favicon-2015.png/150px-Google-favicon-2015.png"/>*/}
-          {/*</div>*/}
-          {/*<a href="#!user"><img className="circle" src={sideNavData.image}/></a>*/}
-          {/*<a href="#!name"><span className="white-text name">{sideNavData.name}</span></a>*/}
-          {/*<a href="#!email"><span className="white-text email">{sideNavData.email}</span></a>*/}
-          {/*</div>*/}
-          {/*</li>*/}
-          {/*<li>*/}
-          {/*<div className="divider"></div>*/}
-          {/*</li>*/}
-          {/*<li><Link to="/articles">Articles</Link></li>*/}
-          {/*<li><Link to="/tournaments">Tournaments</Link></li>*/}
-          {/*<li><Link to="/quizzes">Quizzes</Link></li>*/}
-
-          {/*<li><a href="#!"><i className="material-icons">cloud</i>First Link With Icon</a></li>*/}
-          {/*<li><a href="#!">Second Link</a></li>*/}
-          {/*<li>*/}
-          {/*<div className="divider"></div>*/}
-          {/*</li>*/}
-          {/*<li><a className="subheader">Subheader</a></li>*/}
-          {/*<li><a className="waves-effect" href="#!">Third Link With Waves</a></li>*/}
-          {/*</ul>*/}
+          
         </div>
 
         {/*s3 on the li classNames will make them span 3 regardless of screen size.*/}

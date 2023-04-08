@@ -67,11 +67,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   //   setPageOfItems([]);
   // }, [articles]);
 
-  console.log(`--- IN CATEGORYARTICLES with ${articleType} ---`);
-  console.log(pageOfItems);
-  console.log(articles);
-  console.log(fetchedByCategory);
-  console.log(page);
+  // console.log(`--- IN CATEGORYARTICLES with ${articleType} ---`);
+  // console.log(pageOfItems);
+  // console.log(articles);
+  // console.log(fetchedByCategory);
+  // console.log(page);
 
   // useEffect(() => {
   // if (nextProps.articles.length !== this.state.articles.length) {

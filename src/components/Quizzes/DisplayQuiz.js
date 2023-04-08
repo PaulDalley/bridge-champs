@@ -211,8 +211,8 @@ export class DisplayQuiz extends Component {
         return;
       }
     }
-    console.log("--- THIS WAS THE QUIZ ANSWER ---");
-    console.log(this.state.answer);
+    // console.log("--- THIS WAS THE QUIZ ANSWER ---");
+    // console.log(this.state.answer);
     const score = this.scoreUserAnswer(this.state.answer);
     this.setState({ score, submitted: true });
     // console.log("MY SCORE: ", score);
@@ -285,8 +285,8 @@ export class DisplayQuiz extends Component {
     // ##** TODO: This shouldn't be here, don't know how to fix for now:
     if (this.props.quiz) {
       quiz = this.props.quiz[this.props.match.params.id];
-      console.log("--- IN DISPLAYQUIZ WITH ---");
-      console.log(quiz);
+      // console.log("--- IN DISPLAYQUIZ WITH ---");
+      // console.log(quiz);
       // console.log("SHOULD BE PARAMS HERE");
       // console.log(this.props);
       // console.log(this.props.match.params.id);
@@ -295,8 +295,8 @@ export class DisplayQuiz extends Component {
 
       if (quiz && !this.state.quizAnswer && !this.state.quizQuestion) {
         boardData = getQuizData(quiz.question);
-        console.log("BOARD DATA HERE:");
-        console.log(boardData);
+        // console.log("BOARD DATA HERE:");
+        // console.log(boardData);
         if (boardData?.boardType === "single") {
           hand = boardData[boardData["position"]];
         }
@@ -312,6 +312,8 @@ export class DisplayQuiz extends Component {
         );
         this.setState({ quizAnswer, quizQuestion, hand });
 
+        // console.log("--- PARSED QUIZ QUESTION ---");
+        // console.log(quizQuestion);
         // this.setState({answers: quiz.answers });
 
         // console.log("I HAVE RECEIVED A QUIZ");

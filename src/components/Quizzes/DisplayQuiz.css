@@ -11,6 +11,7 @@
   position: relative;
   /* top: 6.6rem !important; */
   font-size: 3rem !important;
+  margin-bottom: 1.5rem;
 }
 
 .DisplayQuiz-scoring {
@@ -128,6 +129,12 @@
   }
   .DisplayQuiz-submit-openingLead {
     left: 1.5rem;
+  }
+  .DisplayQuiz-ans {
+    position: relative;
+    /* top: 6.6rem !important; */
+    font-size: 3rem !important;
+    margin-bottom: 5.25rem;
   }
 }
 
