@@ -30,6 +30,11 @@ export const setCurrentArticle = (article) => ({
   currentArticle: article,
 });
 
+export const setCurrentCategoryArticle = (article) => ({
+  type: actions.SET_CURRENT_CATEGORY_ARTICLE,
+  currentArticle: article,
+});
+
 export const getArticleMetadata = (id) => {
   return (dispatch) => {
     articlesRef
@@ -242,6 +247,18 @@ export const setArticles = (articles, fetchedByCategory = false) => ({
   type: actions.SET_ARTICLES,
   articles,
   fetchedByCategory,
+});
+
+export const setTopTen = (topTen, topTenQuizzes) => ({
+  type: actions.SET_TOP_TEN,
+  topTen,
+  topTenQuizzes,
+});
+
+export const setFreeDailies = (article, quiz) => ({
+  type: actions.SET_FREE_DAILIES,
+  article,
+  quiz,
 });
 
 // UPDATE

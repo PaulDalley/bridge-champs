@@ -5,7 +5,12 @@ import CategoryArticleListItem from "../Articles/CategoryArticleListItem";
 import QuizListItem from "../Quizzes/QuizListItem";
 import "./TopTen.css";
 import { connect } from "react-redux";
-import { setCurrentArticle } from "../../store/actions/articlesActions";
+import {
+  setCurrentArticle,
+  setTopTen,
+} from "../../store/actions/articlesActions";
+import { setCurrentArticle as setCurrentCategoryArticle } from "../../store/actions/categoryArticlesActions";
+
 import { setCurrentQuiz } from "../../store/actions/quizzesActions";
 import AnimatedButton from "../UI/AnimatedButton";
 import { Carousel } from "react-materialize";
@@ -34,6 +39,11 @@ class TopTen extends Component {
     //     return this.ignoreClick(x, y);
     // }
   };
+
+  categoryArticleClickHandler = (articleObj, body, articleType) => {
+    return this.setCurrentCategoryArticleAndGoTo(articleObj, body, articleType);
+  };
+
   quizClickHandler = (x, y) => {
     return this.setCurrentQuizAndGoTo(x, y);
     // if (this.state.activeClass === 'quizzes') return this.setCurrentQuizAndGoTo(x, y);
@@ -48,9 +58,9 @@ class TopTen extends Component {
     this.props.history.push(`/article/${id}`);
   };
 
-  setCurrentCategoryArticleAndGoTo = (article, id) => {
-    this.props.setCurrentArticle(article);
-    this.props.history.push(`/${article.from}/${id}`);
+  setCurrentCategoryArticleAndGoTo = (article, id, articleType) => {
+    this.props.setCurrentCategoryArticle(article);
+    this.props.history.push(`/${articleType}/${id}`);
   };
 
   setCurrentQuizAndGoTo = (quiz, id) => {
@@ -61,6 +71,15 @@ class TopTen extends Component {
   };
 
   componentDidMount() {
+    if (this?.props?.topTen?.length !== 0) {
+      this.setState({
+        topTen: this.props.topTen,
+        // topTenQuizzes: this.props.topTenQuizzes,
+        quizzes: this.props.topTenQuizzes,
+      });
+      return;
+    }
+
     fetchDataChunk("articles", 10, "createdAt").then((articles) => {
       this.props.passUpArticlesRef(articles);
       this.setState({ articles });
@@ -80,6 +99,16 @@ class TopTen extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.topTen !== nextProps.topTen) return true;
+    // if (
+    //   this.state?.topTen?.length !== nextState.topTen ||
+    //   this.state?.topTenQuizzes?.length !== nextState.topTenQuizzes
+    // )
+    //   return true;
+    if (this.state?.topTen?.length !== nextState.topTen) return true;
+    if (this.state?.articleListJSX !== undefined) return false;
+    if (this.state?.quizListJSX !== undefined) return false;
+
     const bool =
       this.state.articles.length !== nextState.articles.length ||
       this.state.quizzes.length !== nextState.articles.length ||
@@ -98,31 +127,39 @@ class TopTen extends Component {
     // console.log(articles);
     let quizListJSX;
     let articleListJSX;
+    let _allToUse = [];
+    let _quizzesToUse = quizzes;
 
-    const allArticleContent = [
-      ...cardPlay,
-      ...bidding,
-      ...defence,
-      ...articles,
-    ];
+    if (this.props?.topTen?.length === 0) {
+      const allArticleContent = [
+        ...cardPlay,
+        ...bidding,
+        ...defence,
+        ...articles,
+      ];
 
-    let _allToUse = allArticleContent.sort((a, b) => {
-      a.createdAt - b.createdAt;
-    });
-    _allToUse = _allToUse.slice(0, 12);
+      _allToUse = allArticleContent.sort((a, b) => {
+        return b.createdAt.toDate() - a.createdAt.toDate();
+      });
 
-    if (_allToUse.length > 0 && this.state.articleListJSX === undefined) {
+      _allToUse = _allToUse.slice(0, 12);
+      this.props.setTopTen(_allToUse, quizzes);
+    } else {
+      _allToUse = this.props.topTen;
+      _quizzesToUse = this.props.topTenQuizzes;
+    }
+
+    if (_allToUse?.length > 0 && this.state.articleListJSX === undefined) {
       articleListJSX = this.getArticlesJSX(_allToUse);
       this.setState({ articleListJSX });
     }
-    // console.log(this.props.quizScores);
+
     if (
-      quizzes.length > 0 &&
+      _quizzesToUse?.length > 0 &&
       this.state.quizListJSX === undefined &&
       this.props.quizScores !== undefined
     ) {
-      // console.log("IN HERE");
-      quizListJSX = this.getQuizzesJSX(quizzes);
+      quizListJSX = this.getQuizzesJSX(_quizzesToUse);
       this.setState({ quizListJSX });
     }
 
@@ -180,11 +217,7 @@ class TopTen extends Component {
             teaser_board={article.teaser_board}
             title={article.title}
             router={this.props.history}
-            clickHandler={this.setCurrentCategoryArticleAndGoTo.bind(
-              this,
-              article,
-              article.body
-            )}
+            clickHandler={this.categoryArticleClickHandler}
             articleType={article.from}
             displayArticleType={true}
           />
@@ -447,7 +480,16 @@ class TopTen extends Component {
   }
 }
 
-export default connect(({ auth }) => ({ quizScores: auth.quizScores || {} }), {
-  setCurrentArticle,
-  setCurrentQuiz,
-})(TopTen);
+export default connect(
+  ({ auth, articles }) => ({
+    quizScores: auth.quizScores || {},
+    topTen: articles.topTen || [],
+    topTenQuizzes: articles.topTenQuizzes || [],
+  }),
+  {
+    setCurrentArticle,
+    setCurrentCategoryArticle,
+    setCurrentQuiz,
+    setTopTen,
+  }
+)(TopTen);

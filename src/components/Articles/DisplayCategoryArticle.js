@@ -61,7 +61,7 @@ const DisplayCategoryArticle = ({
     dispatch(getArticle(articleId, history, bodyRef));
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "instant",
     });
   }, []);
 
@@ -99,6 +99,8 @@ const DisplayCategoryArticle = ({
   // console.log(useMetaData);
   // console.log("--- metadata from store.categoryArticles.currentArticle ---");
   // console.log(articleMetadata);
+  // console.log(useMetaData);
+
   // console.log(articleDataArray);
   // console.log("--- DIFFICULTY AND ARTICLE LEVEL INFORMATION ---");
   // console.log(articleMetadata?.articleNumber);
@@ -118,18 +120,18 @@ const DisplayCategoryArticle = ({
     <div className="DisplayArticle-container">
       {articleMetadata && ( // articleMetadata
         <div>
-          <h3 className="DisplayArticle-title">{articleMetadata.title}</h3>
+          <h3 className="DisplayArticle-title">{useMetaData.title}</h3>
           <div className="DisplayArticle-category">
-            Article {articleMetadata.difficulty}
+            Article {useMetaData.articleNumber}
           </div>
           <div
             // className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${articleMetadata.difficulty}`}
             className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
           >
-            Level {articleMetadata.articleNumber}
+            Level {useMetaData.difficulty}
           </div>
           <div className="DisplayArticle-createdAt">
-            {makeDateString(articleMetadata.createdAt)}
+            {makeDateString(useMetaData.createdAt)}
           </div>
         </div>
       )}

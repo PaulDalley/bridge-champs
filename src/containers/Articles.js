@@ -34,7 +34,11 @@ export class Articles extends Component {
   }
 
   componentDidMount() {
-    if (this.props.articles.length === 0 || this.props.fetchedByCategory) {
+    if (
+      this.props.articles === undefined ||
+      this.props.articles?.length === 0 ||
+      this.props.fetchedByCategory
+    ) {
       this.props.fetchArticles();
     }
     // console.log(this.state);
@@ -61,7 +65,7 @@ export class Articles extends Component {
   componentWillReceiveProps(nextProps) {
     // console.log("ARTICLE DATA SHOULD BE ARRIVING");
     // console.log(nextProps.articles);
-    if (nextProps.articles.length !== this.state.articles.length) {
+    if (nextProps.articles?.length !== this.state.articles?.length) {
       this.setState({ articles: nextProps.articles });
     }
 
@@ -126,7 +130,7 @@ export class Articles extends Component {
     );
 
     let articleJSX;
-    if (this.state.articles.length !== 0) {
+    if (this.state.articles?.length !== 0) {
       articleJSX = this.state.pageOfItems.map((article, idx) => (
         <ArticleListItem
           key={article.id}
@@ -166,7 +170,7 @@ export class Articles extends Component {
         {/*</CardPanel>*/}
         <Add goto="create/article" history={this.props.history} />
 
-        {this.props.articles.length > 0 && (
+        {this.props.articles?.length > 0 && (
           <div className="Articles-Pagination center-align">
             {pagination}
             {/*<Pagination items={this.props.articles} onChangePage={this.onChangePage} />*/}

@@ -1,6 +1,7 @@
 import * as actions from "../actions/actionTypes";
 
 const articlesDefaultState = {
+  topTen: [],
   articles: [],
   article: {},
   currentArticle: undefined,
@@ -16,9 +17,21 @@ export default (state = articlesDefaultState, action) => {
         articlesCount: action.articlesCount,
         quizCount: action.quizCount,
       };
-
+    case actions.SET_TOP_TEN:
+      return {
+        ...state,
+        topTen: action.topTen,
+        topTenQuizzes: action.topTenQuizzes,
+      };
+    case actions.SET_FREE_DAILIES:
+      return {
+        ...state,
+        freeDailyQuiz: action.quiz,
+        freeDailyArticle: action.article,
+      };
     case actions.ADD_ARTICLE:
       return {
+        ...state,
         articles: [action.article, ...state.articles],
         article: {
           ...state.article,
@@ -31,6 +44,7 @@ export default (state = articlesDefaultState, action) => {
     case actions.SET_ARTICLES:
       // const newArticles = [...state.articles, action.articles];
       return {
+        ...state,
         articles: action.articles,
         article: state.article,
         currentArticle: state.currentArticle,
@@ -46,6 +60,7 @@ export default (state = articlesDefaultState, action) => {
       article[action.bodyId] = undefined;
 
       return {
+        ...state,
         articles,
         article,
         currentArticle: state.currentArticle,
@@ -57,6 +72,7 @@ export default (state = articlesDefaultState, action) => {
     // FOR INDIVIDUAL ARTICLES:
     case actions.FETCH_ONE_ARTICLE:
       return {
+        ...state,
         articles: state.articles,
         article: {
           ...state.article,

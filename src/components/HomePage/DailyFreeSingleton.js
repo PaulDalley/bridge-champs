@@ -3,7 +3,10 @@ import QuizListItem from "../Quizzes/QuizListItem";
 import ArticleListItem from "../Articles/ArticleListItem";
 import { DisplayQuiz } from "../Quizzes/DisplayQuiz";
 import { DisplayArticle } from "../Articles/DisplayArticle";
-import { setCurrentArticle } from "../../store/actions/articlesActions";
+import {
+  setCurrentArticle,
+  setFreeDailies,
+} from "../../store/actions/articlesActions";
 import { setCurrentQuiz } from "../../store/actions/quizzesActions";
 import { freeDailyRef } from "../../firebase/config";
 import { connect } from "react-redux";
@@ -71,6 +74,15 @@ class DailyFreeSingleton extends React.Component {
     //     }
     // )
 
+    if (this.props.quiz && this.props.article) {
+      this.setState({
+        loaded: true,
+        quiz: this.props.quiz,
+        article: this.props.article,
+      });
+      return;
+    }
+
     return freeDailyRef.get().then((snapshot) => {
       // console.log(snapshot);
       const data = {};
@@ -86,6 +98,7 @@ class DailyFreeSingleton extends React.Component {
       data["loaded"] = true;
       // console.log(data);
       this.setState({ ...data });
+      this.props.setFreeDailies(data["article"], data["quiz"]);
     });
   }
 
@@ -324,7 +337,8 @@ class DailyFreeSingleton extends React.Component {
   }
 }
 
-export default DailyFreeSingleton;
+// export default DailyFreeSingleton;
+
 // const
 //     mapDispatchToProps = (dispatch) => ({
 //         setCurrentArticle: (article) => dispatch(setCurrentArticle(article)),
@@ -334,3 +348,13 @@ export default DailyFreeSingleton;
 // export default connect(
 //     null,
 //     mapDispatchToProps)(DailyFreeSingleton);
+
+export default connect(
+  ({ articles }) => ({
+    quiz: articles.freeDailyQuiz,
+    article: articles.freeDailyArticle,
+  }),
+  {
+    setFreeDailies,
+  }
+)(DailyFreeSingleton);

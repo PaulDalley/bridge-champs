@@ -26,7 +26,7 @@ export class DisplayArticle extends Component {
     }
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "instant",
     });
   }
 

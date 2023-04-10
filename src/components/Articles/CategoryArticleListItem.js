@@ -61,7 +61,7 @@ const CategoryArticleListItem = ({
       <CardPanel
         key={id}
         // onClick={() => router(`/article/${body}`)}
-        onClick={() => clickHandler(articleObj, body)}
+        onClick={() => clickHandler(articleObj, body, articleType)}
         className="ArticlesListItem-container grey lighten-4 black-text"
       >
         <div className="ArticleListItem-created_at">{dateStr}</div>
