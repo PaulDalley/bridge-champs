@@ -131,7 +131,14 @@ const DisplayCategoryArticle = ({
             Level {useMetaData.difficulty}
           </div>
           <div className="DisplayArticle-createdAt">
-            {makeDateString(useMetaData.createdAt)}
+            {(() => {
+              if (!useMetaData.createdAt) return null;
+              const articleDate = useMetaData.createdAt.toDate ? useMetaData.createdAt.toDate() : new Date(useMetaData.createdAt);
+              const thirtyDaysAgo = new Date();
+              thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+              const isNew = articleDate > thirtyDaysAgo;
+              return isNew ? <span className="ArticleListItem-new-badge">NEW</span> : null;
+            })()}
           </div>
         </div>
       )}

@@ -94,3 +94,30 @@
         /*padding: 0;*/
     /*}*/
 /*}*/
+/* NEW badge styling */
+.ArticleListItem-new-badge {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Hide old dates */
+.ArticleListItem-created_at {
+  min-height: 1.5rem;
+}
+
+.ArticleListItem-new-badge {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}

@@ -28,3 +28,13 @@
 .DisplayQuiz-completed {
     border: white 1px solid;
 }
+.ArticleListItem-new-badge {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}

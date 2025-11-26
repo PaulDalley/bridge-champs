@@ -36,6 +36,16 @@ const CategoryArticleListItem = ({
   // console.log(createdAt);
   // console.log(createdAt?.toDate());
   let dateStr = makeDateString(createdAt);
+
+  const isNewArticle = (createdAt) => {
+    if (!createdAt) return false;
+    const articleDate = createdAt.toDate ? createdAt.toDate() : new Date(createdAt);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return articleDate > thirtyDaysAgo;
+  };
+
+  const showNew = isNewArticle(createdAt);
   let articleObj = {
     createdAt,
     body,
@@ -64,7 +74,7 @@ const CategoryArticleListItem = ({
         onClick={() => clickHandler(articleObj, body, articleType)}
         className="ArticlesListItem-container grey lighten-4 black-text"
       >
-        <div className="ArticleListItem-created_at">{dateStr}</div>
+        <div className="ArticleListItem-created_at">{showNew ? <span className="ArticleListItem-new-badge">NEW</span> : null}</div>
         {displayArticleType && (
           <div
             style={{

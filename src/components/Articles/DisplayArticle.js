@@ -138,7 +138,14 @@ export class DisplayArticle extends Component {
               {getDifficultyStr(articleMetadata.difficulty)}
             </div>
             <div className="DisplayArticle-createdAt">
-              {makeDateString(articleMetadata.createdAt)}
+              {(() => {
+                if (!articleMetadata.createdAt) return null;
+                const articleDate = articleMetadata.createdAt.toDate ? articleMetadata.createdAt.toDate() : new Date(articleMetadata.createdAt);
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                const isNew = articleDate > thirtyDaysAgo;
+                return isNew ? <span className="ArticleListItem-new-badge">NEW</span> : null;
+              })()}
             </div>
           </div>
         )}

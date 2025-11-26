@@ -61,6 +61,16 @@ const ArticleListItem = ({
 
   const diffClass = "ArticlesListItem-difficulty-" + difficulty;
 
+  const isNewArticle = (createdAt) => {
+    if (!createdAt) return false;
+    const articleDate = createdAt.toDate ? createdAt.toDate() : new Date(createdAt);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return articleDate > thirtyDaysAgo;
+  };
+
+  const showNew = isNewArticle(createdAt);
+
   // console.log(teaser_board);
   // const teaserBoardHtml = '<div>test <br/>' + teaser_board + ' test</div>'
   // const teaserBoardHtml = '<div> <h1> WHATEVER </h1> </div>';
@@ -81,7 +91,7 @@ const ArticleListItem = ({
         onClick={() => clickHandler(articleObj, body)}
         className="ArticlesListItem-container grey lighten-4 black-text"
       >
-        <div className="ArticleListItem-created_at">{dateStr}</div>
+        <div className="ArticleListItem-created_at">{showNew ? <span className="ArticleListItem-new-badge">NEW</span> : null}</div>
         <div className="ArticleListItem-category">{category}</div>
         <div className={`ArticleListItem-difficulty ${diffClass}`}>
           {diffString}

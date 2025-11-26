@@ -24,6 +24,16 @@ const QuizListItem = ({
   completed,
 }) => {
   let dateStr = makeDateString(date);
+
+  const isNewQuiz = (date) => {
+    if (!date) return false;
+    const quizDate = date.toDate ? date.toDate() : new Date(date);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return quizDate > thirtyDaysAgo;
+  };
+
+  const showNew = isNewQuiz(date);
   const data = makeBoardObjectFromString(teaser_board);
 
   const quiz = {
@@ -56,7 +66,7 @@ const QuizListItem = ({
           completed ? "" : "grey lighten-4"
         } black-text ${completedStyles}`}
       >
-        <div className="ArticleListItem-created_at">{dateStr}</div>
+        <div className="ArticleListItem-created_at">{showNew ? <span className="ArticleListItem-new-badge">NEW</span> : null}</div>
         {/*<div className="QuizListItem-quizType">{quizType}</div>*/}
         <div className="ArticleListItem-category">{quizType}</div>
         <div className={`ArticleListItem-difficulty ${diffClass}`}>

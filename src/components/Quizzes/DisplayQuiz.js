@@ -416,7 +416,14 @@ export class DisplayQuiz extends Component {
 
             {/*<div className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${quizMetadata.difficulty}`}>{getDifficultyStr(articleMetadata.difficulty)}</div>*/}
             <div className="DisplayArticle-createdAt">
-              {makeDateString(quizMetadata.date)}
+              {(() => {
+                if (!quizMetadata.date) return null;
+                const quizDate = quizMetadata.date.toDate ? quizMetadata.date.toDate() : new Date(quizMetadata.date);
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                const isNew = quizDate > thirtyDaysAgo;
+                return isNew ? <span className="ArticleListItem-new-badge">NEW</span> : null;
+              })()}
             </div>
           </div>
         )}
