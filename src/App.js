@@ -5,7 +5,7 @@ window.jQuery = window.$ = $;
 // window.$ = $;
 
 // import jQuery from 'jquery';
-import "./assets/css/materialize-required.css";
+// import "./assets/css/materialize-required.css";
 // import './assets/css/materialize.min.css';
 // import './assets/js/materialize.min';
 

@@ -21,7 +21,7 @@ import StripeCheckout from "../../components/UI/StripeCheckout";
 import Coupons from "./Coupons";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
 
-const PRICE_PER_MONTH = "15";
+const PRICE_PER_MONTH = "50";  // CHANGED FROM 15 TO 50
 
 // const url = "https://us-central1-bridgechampions.cloudfunctions.net/activateBillingPlan";
 // const url2 = "https://us-central1-bridgechampions.cloudfunctions.net/process";
@@ -349,88 +349,6 @@ class PremiumMembership extends Component {
                       <div className="PremiumMembership-logosmall-C">C</div>
                     </div>
                   )}
-                  {/*{ this.props.uid && !this.state.authComplete && <Button*/}
-                  {/*className="PremiumMembership-signup_button"*/}
-                  {/*onClick={(e) => this.signupClicked(e)}*/}
-                  {/*waves='light'>Pay Now*/}
-                  {/*</Button> }*/}
-
-                  {/*{ this.props.uid && !this.state.authComplete &&*/}
-                  {/*<Row className="PremiumMembership-token-input">*/}
-                  {/*<div className="PremiumMembership-token-message"*/}
-                  {/*style={{fontSize: '1.4rem'}}*/}
-                  {/*>{this.state.tokenMessage}</div>*/}
-                  {/*<input id="token-input-textbox"*/}
-                  {/*className="PremiumMembership-token-input-box"*/}
-                  {/*name="token"*/}
-                  {/*type="text"*/}
-                  {/*label="input token"*/}
-                  {/*placeholder="Enter Coupon"*/}
-                  {/*value={this.state.token}*/}
-                  {/*onChange={this.handleTokenInputChange}*/}
-                  {/*/>*/}
-                  {/*{ !this.state.tokenSubmitted &&*/}
-                  {/*<Button className="CreateArticle-submit PremiumMembership-token-button"*/}
-                  {/*onClick={(e) => this.submitToken(e)}*/}
-                  {/*style={{*/}
-                  {/*fontSize: "1.3rem",*/}
-                  {/*textTransform: 'none',*/}
-                  {/*height: '4.8rem',*/}
-                  {/*width: '13rem'*/}
-                  {/*}}*/}
-                  {/*waves='light'*/}
-                  {/*>Apply*/}
-                  {/*<Icon left>done_all</Icon>*/}
-                  {/*</Button>}*/}
-                  {/*{this.state.tokenSubmitted && !this.state.tokenValid &&*/}
-                  {/*<Button*/}
-                  {/*className="CreateArticle-submit PremiumMembership-token-button"*/}
-                  {/*waves='light'*/}
-                  {/*style={{*/}
-                  {/*fontSize: "1.3rem",*/}
-                  {/*textTransform: 'none',*/}
-                  {/*height: '4.8rem',*/}
-                  {/*width: '13rem'*/}
-                  {/*}}>*/}
-                  {/*<Preloader color="yellow"*/}
-                  {/*className="PremiumMembership-signup_button_preloader"*/}
-                  {/*size='small'/>*/}
-                  {/*</Button>*/}
-                  {/*}*/}
-                  {/*{this.state.tokenSubmitted && this.state.tokenValid &&*/}
-                  {/*<Button*/}
-                  {/*className="CreateArticle-submit PremiumMembership-token-button"*/}
-                  {/*waves='light'*/}
-                  {/*style={{*/}
-                  {/*fontSize: "6rem",*/}
-                  {/*color: "#00E676",*/}
-                  {/*backgroundColor: "black",*/}
-                  {/*textTransform: 'none',*/}
-                  {/*height: '4.8rem',*/}
-                  {/*width: '13rem'*/}
-                  {/*}}>*/}
-                  {/*<i className="material-icons PremiumMembership-large-icon"*/}
-                  {/*style={{fontSize: "4.2rem !important"}}*/}
-                  {/*>check_circle</i>*/}
-                  {/*</Button>*/}
-                  {/*}*/}
-
-                  {/*</Row>*/}
-                  {/*}*/}
-
-                  {/* ##** Removing this for now */}
-                  {/* {this.props.uid &&
-                    !this.state.authComplete &&
-                    !this.props.trialUsed && (
-                      <div className="PremiumMembership-trial_string">
-                        {`Checkout to start your ${this.state.daysFree} day free trial`}
-                        <div className="PremiumMembership-trial_string_subtext">
-                          You will NOT be charged until your trial period
-                          finishes and can cancel at any time prior with NO
-                          charge.
-                        </div>
-                      </div>
-                    )} */}
 
                   {this.props.uid &&
                     !this.state.authComplete &&
@@ -478,14 +396,6 @@ class PremiumMembership extends Component {
 
                   {this.props.uid && !this.state.authComplete && (
                     <Row>
-                      {/*<Button*/}
-                      {/*className="PremiumMembership-paypal_signup_button*/}
-                      {/*PremiumMembership-signup_button_cc"*/}
-                      {/*onClick={(e) => this.signupClickedStripe(e)}*/}
-                      {/*waves='light'>Pay with Credit Card*/}
-                      {/*</Button>*/}
-                      {/*<StripeButton email={this.props.email}/>*/}
-
                       <StripeCheckout
                         email={this.props.email}
                         uid={this.props.uid}
@@ -576,39 +486,6 @@ class PremiumMembership extends Component {
                 </Row>
               )}
 
-              {/*<div className="PremiumMembership-details HomePage-details-card">*/}
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Premium members only content.</span></Col>*/}
-              {/*</Row>*/}
-
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Daily quizzes with leaderboards.</span></Col>*/}
-              {/*</Row>*/}
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Quality bridge analysis that will improve your game.</span></Col>*/}
-              {/*</Row>*/}
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Full access to all site content and all current and upcoming site features including videos, live chat, "Bid with ish", and submit a question.</span></Col>*/}
-              {/*</Row>*/}
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Analysis of hands and bidding from the latest tournaments.</span></Col>*/}
-              {/*</Row>*/}
-              {/*<Row className="PremiumMembership-row">*/}
-              {/*<Col><i className="PremiumMembership-tick material-icons">done_all</i></Col>*/}
-              {/*<Col className="PremiumMembership-text-row"><span*/}
-              {/*className="PremiumMembership-text-row"> Current insights from world class experts on the secrets of winning bridge.</span></Col>*/}
-              {/*</Row>*/}
-              {/*</div>*/}
               <div className="PremiumMembership-details">
                 <Row className="PremiumMembership-row">
                   <Col>
@@ -618,7 +495,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Premium members only content.
                     </span>
                   </Col>
@@ -631,7 +507,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Fresh quizzes with member leaderboards.
                     </span>
                   </Col>
@@ -644,7 +519,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Quality bridge analysis that will improve your game.
                     </span>
                   </Col>
@@ -657,7 +531,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Full access to all site content and all site features.
                     </span>
                   </Col>
@@ -670,7 +543,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Upcoming features including submit a question, "Bid with
                       Ish", videos and live members chat.
                     </span>
@@ -684,7 +556,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Analysis of hands and bidding from the latest tournaments.
                     </span>
                   </Col>
@@ -697,7 +568,6 @@ class PremiumMembership extends Component {
                   </Col>
                   <Col className="PremiumMembership-text-row">
                     <span className="PremiumMembership-text-row">
-                      {/*<i className="PremiumMembership-tick-basic material-icons">done_all</i>*/}
                       Current insights from world class experts on the secrets
                       of winning bridge.
                     </span>

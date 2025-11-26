@@ -115,7 +115,13 @@ class Bidding extends Component {
         data[index + 1] === "P" ||
         data[index + 1] === "X" ||
         data[index + 1] === "XX"
+        // || index + 1 > 0    // <- THIS MIGHT BE NECESSARY
       );
+
+      if (currentMaxBid === "_" || currentMaxBid === "P") {
+        currentMaxBid = "0♣";
+      }
+
       this.setState({ data, currentMaxBid });
       if (this.props.isQuiz) {
         this.props.getBidding(data, currentMaxBid);
@@ -349,16 +355,32 @@ class Bidding extends Component {
     } else {
       header = (
         <div>
-          <Col s={3} className={classNames["West"] + " Bidding-header_item"}>
+          <Col
+            key={"w"}
+            s={3}
+            className={classNames["West"] + " Bidding-header_item"}
+          >
             W
           </Col>
-          <Col s={3} className={classNames["North"] + " Bidding-header_item"}>
+          <Col
+            key={"n"}
+            s={3}
+            className={classNames["North"] + " Bidding-header_item"}
+          >
             N
           </Col>
-          <Col s={3} className={classNames["East"] + " Bidding-header_item"}>
+          <Col
+            key={"e"}
+            s={3}
+            className={classNames["East"] + " Bidding-header_item"}
+          >
             E
           </Col>
-          <Col s={3} className={classNames["South"] + " Bidding-header_item"}>
+          <Col
+            key={"s"}
+            s={3}
+            className={classNames["South"] + " Bidding-header_item"}
+          >
             S
           </Col>
         </div>
@@ -367,7 +389,7 @@ class Bidding extends Component {
         if (entry == "_") {
           return (
             <Col
-              key={idx}
+              key={`${idx}-${entry}`}
               s={3}
               className="Bidding-entry Bidding-entry-blank"
             ></Col>
@@ -397,7 +419,7 @@ class Bidding extends Component {
           return (
             <>
               <Col
-                key={idx}
+                key={`${idx}-${entry}`}
                 s={3}
                 className={`Bidding-entry ${this.getArtificialBidClass(
                   artificialBid
