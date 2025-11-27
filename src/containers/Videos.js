@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Card, Icon, Preloader } from 'react-materialize';
+import { Link } from 'react-router-dom';
+import { Button, Row, Col, Card, Icon, Preloader, Modal } from 'react-materialize';
 import { firebase } from '../firebase/config';
 import './Videos.css';
 
@@ -15,7 +16,9 @@ class Videos extends Component {
             description: '',
             category: 'Declarer Play'
         },
-        submitting: false
+        submitting: false,
+        selectedVideo: null,
+        showPaywall: false
     };
 
     componentDidMount() {
@@ -58,6 +61,18 @@ class Videos extends Component {
             return url;
         }
         return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+    };
+
+    getYouTubeThumbnail = (url) => {
+        let videoId = '';
+        if (url.includes('youtube.com/watch?v=')) {
+            videoId = url.split('watch?v=')[1].split('&')[0];
+        } else if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1].split('?')[0];
+        } else if (url.includes('youtube.com/embed/')) {
+            videoId = url.split('embed/')[1].split('?')[0];
+        }
+        return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
     };
 
     handleSubmit = (e) => {
@@ -103,34 +118,39 @@ class Videos extends Component {
                 .collection('videos')
                 .doc(id)
                 .delete()
+                .then(() => {
+                    console.log('Video deleted successfully');
+                })
                 .catch(error => {
                     console.error('Error deleting video:', error);
-                    alert('Error deleting video');
+                    alert('Error deleting video. Please try again.');
                 });
         }
     };
 
+    handleVideoClick = (video) => {
+        const { tier, email } = this.props;
+        const isAdmin = email === "paul.dalley@hotmail.com";
+        const isPremium = tier === "premium" || isAdmin;
+
+        if (isPremium) {
+            this.setState({ selectedVideo: video });
+        } else {
+            this.setState({ showPaywall: true });
+        }
+    };
+
+    closeModal = () => {
+        this.setState({ selectedVideo: null, showPaywall: false });
+    };
+
     render() {
-        const { videos, loading, showAddForm, newVideo, submitting } = this.state;
-        const { uid, subscriptionActive } = this.props;
+        const { videos, loading, showAddForm, newVideo, submitting, selectedVideo, showPaywall } = this.state;
+        const { email } = this.props;
 
-        const isAdmin = this.props.email === "paul.dalley@hotmail.com";
-        const isPremium = this.props.tier === "premium" || isAdmin;
-        const canViewVideos = isPremium;
+        const isAdmin = email === "paul.dalley@hotmail.com";
 
-        if (!canViewVideos && !isAdmin) {
-      return (
-        <div className="Videos-container center-align" style={{ marginTop: "5rem" }}>
-          <h4>Premium Membership Required</h4>
-          <p>Videos are only available to Premium members.</p>
-          <Link to="/membership">
-            <Button waves="light">Upgrade to Premium</Button>
-          </Link>
-        </div>
-      );
-    }
-
-    if (loading) {
+        if (loading) {
             return (
                 <div className="Videos-container center-align" style={{ marginTop: '5rem' }}>
                     <Preloader size="big" />
@@ -245,16 +265,31 @@ class Videos extends Component {
                         videos.map(video => (
                             <Col s={12} m={6} l={4} key={video.id}>
                                 <Card className="Videos-card">
-                                    <div className="Videos-video-wrapper">
-                                        <iframe
-                                            width="100%"
-                                            height="250"
-                                            src={video.url}
-                                            title={video.title}
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
+                                    <div 
+                                        className="Videos-video-wrapper" 
+                                        onClick={() => this.handleVideoClick(video)}
+                                        style={{ cursor: 'pointer', position: 'relative' }}
+                                    >
+                                        <img 
+                                            src={this.getYouTubeThumbnail(video.url)}
+                                            alt={video.title}
+                                            style={{ width: '100%', height: '250px', objectFit: 'cover' }}
                                         />
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            backgroundColor: 'rgba(0,0,0,0.7)',
+                                            borderRadius: '50%',
+                                            width: '60px',
+                                            height: '60px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <Icon style={{ color: 'white', fontSize: '30px' }}>play_arrow</Icon>
+                                        </div>
                                     </div>
                                     <div className="Videos-card-content">
                                         <h5>{video.title}</h5>
@@ -281,6 +316,59 @@ class Videos extends Component {
                         ))
                     )}
                 </Row>
+
+                {/* Video Player Modal */}
+                <Modal
+                    open={!!selectedVideo}
+                    options={{
+                        onCloseEnd: this.closeModal,
+                        dismissible: true
+                    }}
+                    style={{ width: '80%', maxWidth: '900px' }}
+                >
+                    {selectedVideo && (
+                        <div>
+                            <h4>{selectedVideo.title}</h4>
+                            <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                                <iframe
+                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                                    src={selectedVideo.url}
+                                    title={selectedVideo.title}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+                            {selectedVideo.description && (
+                                <p style={{ marginTop: '1rem' }}>{selectedVideo.description}</p>
+                            )}
+                        </div>
+                    )}
+                </Modal>
+
+                {/* Paywall Modal */}
+                <Modal
+                    open={showPaywall}
+                    options={{
+                        onCloseEnd: this.closeModal,
+                        dismissible: true
+                    }}
+                    style={{ width: '80%', maxWidth: '500px' }}
+                >
+                    <div className="center-align" style={{ padding: '2rem' }}>
+                        <Icon style={{ fontSize: '80px', color: '#ee6e73' }}>lock</Icon>
+                        <h4>Premium Content</h4>
+                        <p style={{ fontSize: '1.1rem', marginBottom: '2rem' }}>
+                            Upgrade to Premium to access our exclusive video library!
+                        </p>
+                        <Link to="/membership">
+                            <Button waves="light" large>
+                                Upgrade to Premium
+                                <Icon right>arrow_forward</Icon>
+                            </Button>
+                        </Link>
+                    </div>
+                </Modal>
             </div>
         );
     }
@@ -289,7 +377,7 @@ class Videos extends Component {
 const mapStateToProps = (state) => ({
     uid: state.auth.uid,
     subscriptionActive: state.auth.subscriptionActive,
-  tier: state.auth.tier,
+    tier: state.auth.tier,
     email: state.auth.email,
 });
 
