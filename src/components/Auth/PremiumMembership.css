@@ -561,3 +561,216 @@
 }
 
 
+[paste the CSS I provided above]
+
+/* Pricing Cards */
+.PremiumMembership-pricing-card {
+  padding: 3rem 2rem;
+  text-align: center;
+  min-height: 500px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 2rem;
+}
+
+.PremiumMembership-pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.PremiumMembership-pricing-card-featured {
+  border: 3px solid #1976D2;
+  background: linear-gradient(135deg, #f5f9ff 0%, #ffffff 100%);
+}
+
+.PremiumMembership-popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FF9800;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.PremiumMembership-tier-name {
+  color: #333;
+  margin: 1rem 0;
+  font-size: 1.8rem;
+}
+
+.PremiumMembership-price {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #1976D2;
+  margin: 2rem 0;
+}
+
+.PremiumMembership-price-period {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.PremiumMembership-tier-benefits {
+  text-align: left;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.PremiumMembership-benefit {
+  display: flex;
+  align-items: flex-start;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+.PremiumMembership-benefit-icon {
+  color: #4CAF50;
+  font-size: 1.5rem !important;
+  flex-shrink: 0;
+}
+
+.PremiumMembership-tier-button {
+  width: 100%;
+  margin-top: 2rem;
+  background-color: #1976D2 !important;
+  font-size: 1.2rem !important;
+}
+
+.PremiumMembership-tier-button-featured {
+  background-color: #FF9800 !important;
+}
+
+.PremiumMembership-payment-card {
+  padding: 3rem;
+  margin: 2rem 0;
+}
+
+.PremiumMembership-tier-selector {
+  border: 2px solid #e0e0e0;
+  padding: 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.PremiumMembership-tier-selector:hover {
+  border-color: #1976D2;
+  transform: translateY(-5px);
+}
+
+.PremiumMembership-selected-tier-display {
+  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.PremiumMembership-selected-tier-display h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: white;
+}
+
+.PremiumMembership-selected-tier-display p {
+  margin: 0;
+  font-size: 1.2rem;
+  opacity: 0.95;
+}
+
+/* Two-tier pricing styles */
+.PremiumMembership-pricing-card {
+  padding: 3rem 2rem;
+  text-align: center;
+  min-height: 500px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 2rem;
+}
+
+.PremiumMembership-pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.PremiumMembership-pricing-card-featured {
+  border: 3px solid #1976D2;
+}
+
+.PremiumMembership-popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FF9800;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.PremiumMembership-tier-name {
+  color: #333;
+  margin: 1rem 0;
+  font-size: 1.8rem;
+}
+
+.PremiumMembership-price {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #1976D2;
+  margin: 2rem 0;
+}
+
+.PremiumMembership-price-period {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.PremiumMembership-tier-benefits {
+  text-align: left;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.PremiumMembership-benefit {
+  display: flex;
+  align-items: flex-start;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+.PremiumMembership-benefit-icon {
+  color: #4CAF50;
+  font-size: 1.5rem !important;
+}
+
+.PremiumMembership-tier-button {
+  width: 100%;
+  margin-top: 2rem;
+  background-color: #1976D2 !important;
+}
+
+.PremiumMembership-tier-button-featured {
+  background-color: #FF9800 !important;
+}
+
+.PremiumMembership-payment-card {
+  padding: 3rem;
+  margin: 2rem 0;
+}
+
+.PremiumMembership-change-tier {
+  display: block;
+  margin: 0 auto;
+  color: #1976D2 !important;
+}

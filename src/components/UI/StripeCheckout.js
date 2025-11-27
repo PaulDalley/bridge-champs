@@ -135,6 +135,7 @@ class StripeCheckout extends React.Component {
       email,
       token,
       uid,
+      priceId: this.props.tierPriceId || "price_1SXVk6E9mroRD7lKIHxCKA7c",
     };
 
     const coupon = this.props.getToken();
