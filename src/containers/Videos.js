@@ -115,8 +115,22 @@ class Videos extends Component {
         const { uid, subscriptionActive } = this.props;
 
         const isAdmin = this.props.email === "paul.dalley@hotmail.com";
+        const isPremium = this.props.tier === "premium" || isAdmin;
+        const canViewVideos = isPremium;
 
-        if (loading) {
+        if (!canViewVideos && !isAdmin) {
+      return (
+        <div className="Videos-container center-align" style={{ marginTop: "5rem" }}>
+          <h4>Premium Membership Required</h4>
+          <p>Videos are only available to Premium members.</p>
+          <Link to="/membership">
+            <Button waves="light">Upgrade to Premium</Button>
+          </Link>
+        </div>
+      );
+    }
+
+    if (loading) {
             return (
                 <div className="Videos-container center-align" style={{ marginTop: '5rem' }}>
                     <Preloader size="big" />
@@ -275,6 +289,7 @@ class Videos extends Component {
 const mapStateToProps = (state) => ({
     uid: state.auth.uid,
     subscriptionActive: state.auth.subscriptionActive,
+  tier: state.auth.tier,
     email: state.auth.email,
 });
 

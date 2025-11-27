@@ -531,7 +531,8 @@ firebase.auth().onAuthStateChanged((user) => {
               data["subscriptionExpires"],
               data["paymentMethod"],
               data["subscriptionActive"],
-              data["trialUsed"]
+              data["trialUsed"],
+              data["tier"]
             )
           );
         }
