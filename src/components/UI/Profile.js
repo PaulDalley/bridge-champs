@@ -193,17 +193,34 @@ class Profile extends Component {
             )}
 
             {subscriptionActive && paymentMethod === "paypal" && (
-              <div
-                style={{
-                  position: "relative",
-                  right: "2.5rem",
+              <ConfirmationModal
+                trigger={
+                  <Button waves="light" className="red">
+                    Cancel Subscription
+                    <Icon left>cancel</Icon>
+                  </Button>
+                }
+                options={{
+                  dismissible: false,
                 }}
+                header="Confirm your cancellation"
+                confirmButton={
+                  <Button
+                    waves="light"
+                    className="red"
+                    modal="close"
+                    onClick={(e) => this.cancelSubscriptionHandler(e)}
+                  >
+                    Confirm Cancellation
+                    <Icon left>cancel</Icon>
+                  </Button>
+                }
               >
-                You are a PayPal Subscriber. Manage your subscription using{" "}
-                <a href="www.paypal.com" target="_blank">
-                  PayPal.com
-                </a>
-              </div>
+                <div>
+                  Are you sure you want to cancel your subscription to
+                  BridgeChampions.com?
+                </div>
+              </ConfirmationModal>
             )}
             <div>
               <Modal

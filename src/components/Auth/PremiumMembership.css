@@ -40,7 +40,7 @@
 #paypal_loading {
     position: relative;
     color: rgba(0, 0, 0, .3);
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: bold;
     animation-iteration-count: infinite;
 
@@ -160,7 +160,7 @@
 
     border: 1px dotted #999 !important;
     height: 2rem !important;
-    font-size: 1.8rem !important;
+    font-size: 1.3rem !important;
     width: 18.3rem !important;
     height: 4.9rem !important;
     padding-right: .2rem !important;
@@ -177,7 +177,7 @@
 
 .PremiumMembership-trial_string {
     font-weight: bold;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     cursor: pointer;
     color: #0f9d58;
     position: relative;
@@ -191,7 +191,7 @@
 }
 
 .PremiumMembership-token-input {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     transition: all .5s ease-in-out;
     display: flex;
     align-items: center;
@@ -230,7 +230,7 @@
     /*filter: none;*/
 /*}*/
 .PremiumMembership-secure_checkout {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     position: relative;
     top: -16.4rem;
     font-weight: bold;
@@ -305,14 +305,14 @@
 
 .PremiumMembership-header_text {
     text-align: left;
-    font-size: 2.2rem;
+    font-size: 1.4rem;
     /*padding: 1rem 4rem 4rem;*/
     padding: 2rem;
     padding-bottom: 4rem;
 }
 .PremiumMembership-header_text_small {
     text-align: left;
-    font-size: 2.2rem;
+    font-size: 1.4rem;
     /*padding: 1rem 4rem 4rem;*/
     padding: 2rem;
     padding-bottom: 1rem;
@@ -321,7 +321,7 @@
 .PremiumMembership-logo-container {
     position: relative;
     text-align: center;
-    font-size: 4rem;
+    font-size: 2.8rem;
     padding: 1rem;
     height: 20rem;
     /*height: 120rem;*/
@@ -343,7 +343,7 @@
     /*top: -2rem;*/
     /*left: 21.5rem;*/
 
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     width: 25rem;
     margin: 0 auto;
     /*border: 1px solid black;*/
@@ -450,7 +450,7 @@
         font-size: 1.6rem;
     }
     .PremiumMembership-trial_string {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
     }
     .PremiumMembership-header {
         padding-top: 2.3rem;
@@ -487,18 +487,18 @@
     }
 
     .PremiumMembership-signup_button {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         width: auto;
         height: auto;
     }
 
     .PremiumMembership-signup_button i {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .PremiumMembership-signupText {
 
-        font-size: 1.8rem;
+        font-size: 1.4rem;
         width: 55%;
     }
 }
@@ -552,7 +552,7 @@
         padding: 0;
         padding-right: 0rem;
         margin: 0;
-        /*font-size: 1.2rem;*/
+        /*font-size: 1.8rem;*/
     }
 
     .PremiumMembership-signupText {
@@ -565,12 +565,12 @@
 
 /* Pricing Cards */
 .PremiumMembership-pricing-card {
-  padding: 3rem 2rem;
+  padding: 4rem 3rem;
   text-align: center;
-  min-height: 500px;
+  min-height: 650px;
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .PremiumMembership-pricing-card:hover {
@@ -600,18 +600,18 @@
 .PremiumMembership-tier-name {
   color: #333;
   margin: 1rem 0;
-  font-size: 1.8rem;
+  font-size: 2.8rem;
 }
 
 .PremiumMembership-price {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: bold;
   color: #1976D2;
   margin: 2rem 0;
 }
 
 .PremiumMembership-price-period {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #666;
   font-weight: normal;
 }
@@ -631,7 +631,7 @@
 
 .PremiumMembership-benefit-icon {
   color: #4CAF50;
-  font-size: 1.5rem !important;
+  font-size: 1.3rem !important;
   flex-shrink: 0;
 }
 
@@ -671,7 +671,7 @@
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .PremiumMembership-selected-tier-display h3 {
@@ -682,18 +682,18 @@
 
 .PremiumMembership-selected-tier-display p {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   opacity: 0.95;
 }
 
 /* Two-tier pricing styles */
 .PremiumMembership-pricing-card {
-  padding: 3rem 2rem;
+  padding: 4rem 3rem;
   text-align: center;
-  min-height: 500px;
+  min-height: 650px;
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .PremiumMembership-pricing-card:hover {
@@ -721,18 +721,18 @@
 .PremiumMembership-tier-name {
   color: #333;
   margin: 1rem 0;
-  font-size: 1.8rem;
+  font-size: 2.8rem;
 }
 
 .PremiumMembership-price {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: bold;
   color: #1976D2;
   margin: 2rem 0;
 }
 
 .PremiumMembership-price-period {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #666;
 }
 
@@ -751,7 +751,7 @@
 
 .PremiumMembership-benefit-icon {
   color: #4CAF50;
-  font-size: 1.5rem !important;
+  font-size: 1.3rem !important;
 }
 
 .PremiumMembership-tier-button {

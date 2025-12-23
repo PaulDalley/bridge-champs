@@ -100,7 +100,8 @@ class PremiumMembership extends Component {
     const { selectedTier, showLogin, authComplete, paypalRedirectLoading } = this.state;
     const { uid, subscriptionActive } = this.props;
 
-    if (uid && subscriptionActive) {
+    // Only redirect if user already has Premium tier
+    if (uid && subscriptionActive && this.props.tier === "premium") {
       this.props.history.push("/");
       return null;
     }

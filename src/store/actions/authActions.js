@@ -55,13 +55,15 @@ export const userLoggedInSubscriptionExpires = (
   subscriptionExpires,
   paymentMethod,
   subscriptionActive,
-  trialUsed = false
+  trialUsed = false,
+  tier = "basic"
 ) => ({
   type: actions.USER_SET_SUBSCRIPTION_EXPIRES,
   subscriptionExpires,
   paymentMethod,
   subscriptionActive,
   trialUsed,
+  tier,
 });
 
 export const userLoggedOut = () => ({

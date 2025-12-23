@@ -132,6 +132,9 @@ class Videos extends Component {
         const { tier, email } = this.props;
         const isAdmin = email === "paul.dalley@hotmail.com";
         const isPremium = tier === "premium" || isAdmin;
+        
+        // DEBUG LOGGING
+        alert("DEBUG: Your tier is: " + tier + " | Email: " + email);
 
         if (isPremium) {
             this.setState({ selectedVideo: video });
@@ -358,9 +361,20 @@ class Videos extends Component {
                     <div className="center-align" style={{ padding: '2rem' }}>
                         <Icon style={{ fontSize: '80px', color: '#ee6e73' }}>lock</Icon>
                         <h4>Premium Content</h4>
-                        <p style={{ fontSize: '1.1rem', marginBottom: '2rem' }}>
-                            Upgrade to Premium to access our exclusive video library!
-                        </p>
+                        {this.props.tier === "basic" ? (
+                            <>
+                                <p style={{ fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+                                    Premium videos require a Premium membership.
+                                </p>
+                                <p style={{ fontSize: '0.95rem', marginBottom: '2rem', fontStyle: 'italic', color: '#666' }}>
+                                    Already a Basic member? Upgrade to Premium now and contact us afterward for a prorated refund on your remaining Basic subscription.
+                                </p>
+                            </>
+                        ) : (
+                            <p style={{ fontSize: '1.1rem', marginBottom: '2rem' }}>
+                                Upgrade to Premium to access our exclusive video library!
+                            </p>
+                        )}
                         <Link to="/membership">
                             <Button waves="light" large>
                                 Upgrade to Premium

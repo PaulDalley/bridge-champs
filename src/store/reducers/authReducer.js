@@ -58,6 +58,7 @@ export default (state = {}, action) => {
         paymentMethod: action.paymentMethod,
         subscriptionActive: action.subscriptionActive,
         trialUsed: action.trialUsed,
+        tier: action.tier,
       };
 
     case actions.USER_LOGOUT:
