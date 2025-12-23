@@ -1,0 +1,30 @@
+.PlayHand-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    /*display: inherit;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*align-content: space-around;*/
+    /*margin: 0 auto;*/
+    /*left: 25rem;*/
+}
+.PlayHand-card {
+    width: 7.6rem;
+    height: auto;
+    /*align-self: center;*/
+    /*justify-self: center;*/
+}
+.PlayHand-clicked_card {
+    position: relative;
+    top: 10rem;
+    left: 8rem;
+    /*padding-left: 4rem;*/
+}
+
+/*@media screen and (max-width: 500px) {*/
+    /*.PlayHand-card {*/
+        /*width: 5.8rem;*/
+        /*height: auto;*/
+    /*}*/
+/*}*/

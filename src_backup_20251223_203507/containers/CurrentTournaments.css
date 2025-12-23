@@ -1,0 +1,10 @@
+.CurrentTournament-container {
+    /*margin: 10rem;*/
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3rem;
+    margin: 1rem 3rem 1rem;
+}
+.Tournaments-container {
+    top: 2rem !important;
+}

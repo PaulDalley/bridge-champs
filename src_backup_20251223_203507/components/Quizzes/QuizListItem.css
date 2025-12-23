@@ -1,0 +1,40 @@
+.QuizListItem-quizType {
+    width: 12rem;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: #78909c;
+    position: absolute;
+    font-weight: bold;
+    color: white;
+    top: 0rem;
+    left: 1.5rem;
+}
+.QuizListItem-container-completed {
+    /*border: rgba(0, 255, 0, 1) 5px dotted;*/
+    /*dotted, dashed, solid*/
+    border: #0f9d58 2px solid;
+    opacity: 0.63;
+
+    /*padding: 1rem !important;*/
+    padding-top: 5rem !important;
+    /*padding: 3rem;*/
+    /*background-color: rgba(165,214,167, .35) !important;*/
+    background: linear-gradient(to bottom right,
+                rgba(165,214,167, .55) 55%,
+                #0f9d58);
+
+}
+
+.DisplayQuiz-completed {
+    border: white 1px solid;
+}
+.ArticleListItem-new-badge {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}

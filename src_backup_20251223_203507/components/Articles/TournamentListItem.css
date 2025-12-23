@@ -1,0 +1,21 @@
+.TournamentListItem-container  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.TournamentListItem-name {
+    /*text-align: center;*/
+    font-weight: bold;
+    /*position: relative;*/
+    /*top: -.05rem;*/
+    position: relative;
+    top: 3rem;
+    font-size: 1.8rem;
+    color: #0D47A1;
+}
+
+.TournamentListItem-logo {
+    height: 14rem;
+    width: 14rem;
+    margin: 0 auto;
+}
