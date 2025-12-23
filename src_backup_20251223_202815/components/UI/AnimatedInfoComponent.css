@@ -1,0 +1,133 @@
+.AnimatedInfoComponent-container {
+    /*position: relative !important;*/
+    opacity: 0;
+    animation-name: fadein-left;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+}
+.AnimatedInfoComponent {
+    opacity: 0;
+    /*position: relative;*/
+    /* how long to execute the entire 0-100% cycle: */
+    animation-fill-mode: forwards;
+    animation-duration: 1.1s;
+    animation-timing-function: ease-in-out;
+}
+.AnimatedInfoComponent i {
+    font-size: 2.2rem;
+}
+.AnimatedInfoComponent-1 {
+    animation-name: fadein-left;
+    animation-delay: 2s;
+}
+.AnimatedInfoComponent-2 {
+    animation-name: fadein-right;
+    animation-delay: 2.5s;
+}
+.AnimatedInfoComponent-3 {
+    animation-name: fadein-left;
+    animation-delay: 3s;
+}
+.AnimatedInfoComponent-4 {
+    animation-name: fadein-right;
+    animation-delay: 3.5s;
+}
+
+.AnimatedInfoComponent-5 {
+    animation-name: fadein-left;
+    animation-delay: 4s;
+}
+.AnimatedInfoComponent-6 {
+    animation-name: fadein-right;
+    animation-delay: 4.5s;
+}
+
+.AnimatedInfoComponent-x {
+    opacity: 0 !important;
+    animation-fill-mode: forwards;
+    animation-duration: 3.5s;
+    animation-timing-function: ease-in-out;
+    animation-name: fadein-x;
+    animation-delay: 5s;
+    transition: all;
+}
+/*.AnimatedInfoComponent-x-icon {*/
+    /*fontSize: 4.5rem !important;*/
+/*}*/
+
+.AnimatedInfoComponent-x:hover {
+    transform:scale(1.25);
+}
+
+.AnimatedInfoComponent-x:hover i {
+    color: orangered;
+}
+
+
+@keyframes fadein-x {
+    0% {
+        opacity: blue;
+        transform: scale(0.25);
+    }
+    65% {
+        opacity: 1;
+        color: orangered;
+        transform: scale(1.55);
+    }
+    100% {
+        color: #808487;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes coloredspin {
+    0%{
+        transform: rotate(0deg) scale(1);
+        border-top-color: #1abc9c;
+        border-bottom-color: #1abc9c;
+    }
+    25% {
+        border-top-color: #2ecc71;
+        border-bottom-color: #2ecc71;
+    }
+    50% {
+        transform: rotate(360deg) scale(1.05);
+        border-top-color: #3498db;
+        border-bottom-color: #3498db;
+    }
+    75% {
+        border-top-color: #9b59b6;
+        border-bottom-color: #9b59b6;
+    }
+    100%{
+        transform: rotate(720deg) scale(1);
+        border-top-color: #1abc9c;
+        border-bottom-color: #1abc9c;
+    }
+}
+
+
+@keyframes fadein-left {
+    from {
+        opacity: 0;
+        right: 100rem;
+    }
+    to   {
+        opacity: 1;
+        right: 0rem;
+    }
+}
+
+@keyframes fadein-right {
+    from {
+        opacity: 0;
+        left: 100rem;
+    }
+    to   {
+        opacity: 1;
+        left: 0rem;
+    }
+}

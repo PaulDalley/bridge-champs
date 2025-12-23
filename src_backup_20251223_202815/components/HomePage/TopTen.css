@@ -1,0 +1,160 @@
+.TopTen-list-container {
+    position: relative;
+    width: 100vw;
+    /*padding: 10rem;*/
+    /*max-width: 75vw;*/
+    /*width: 50vw;*/
+
+    display: grid;
+    justify-content: space-between;
+    padding: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2.5rem;
+
+    /*grid-template-rows: repeat(auto-fit, minmax(10px, min-content));*/
+    /*margin: 5rem 10rem 5rem;*/
+    /*margin-left: 10%;*/
+    /*margin-right: 10%;*/
+    margin-top: 4rem;
+    /*padding: 5rem;*/
+}
+.TopTen-title {
+    position: relative;
+    top: 5rem;
+    font-family: Dancing Script, cursive;
+    text-align: center;
+    font-size: 6rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.TopTen-tabs {
+    display: none;
+}
+/*.TopTen-list-active {*/
+    /*position: relative;*/
+    /*!*left: 13rem;*!*/
+/*}*/
+
+.TopTen-list {
+    /*position: absolute;*/
+    /*padding-left: 5rem;*/
+    position: relative;
+
+    /*display: flex;*/
+    /*flex-direction: column;*/
+
+    /*width: 50%;*/
+    /*max-width: 75%;*/
+    max-width: 55rem;
+    transition: all .5s ease-in-out;
+}
+/*.TopTen-list .ArticleListItem-div_wrapper {*/
+    /*max-width: 45%;*/
+/*}*/
+.TopTen-carousel {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 150vh;
+    /*height: 100%;*/
+    /*min-height: 100%;*/
+    min-height: 150vh;
+    overflow: scroll;
+}
+
+.TopTen-list-inactive-quizzes {
+    /*transition: all .5s ease-in-out;*/
+    opacity: 0.25;
+    display: inline ;
+    position: absolute !important;
+    top: 0;
+
+    /*display: none;*/
+    /*transform: translate(10rem, -15rem);*/
+    transform: translate(calc(65vw), -12rem);
+    /*max-width: 30rem;*/
+    /*height: 80vh !important;*/
+    /*overflow-y: hidden;*/
+    /*overflow: hidden;*/
+}
+.TopTen-list-inactive-articles {
+    /*transition: all .5s ease-in-out;*/
+    opacity: 0.25;
+    position: absolute !important;
+    transform: translate(-18%, -12rem);
+    /*max-width: 30rem;*/
+    height: 80vh !important;
+    /*overflow: scroll !important;*/
+}
+.TopTen-list-active {
+    position: relative;
+    /*left: 10rem;*/
+}
+
+@media screen and (max-width: 1520px) {
+    .TopTen-list-inactive-quizzes {
+        transform: translate(calc(59vw), -12rem);
+    }
+}
+@media screen and (max-width: 1440px) {
+    .TopTen-list-inactive-quizzes {
+        transform: translate(calc(57vw), -12rem);
+    }
+}
+@media screen and (max-width: 1270px) {
+    .TopTen-list-inactive-quizzes {
+        transform: translate(calc(53vw), -12rem);
+    }
+}
+@media screen and (max-width: 1200px) {
+    .TopTen-list-inactive-quizzes {
+         transform: translate(calc(45vw), -12rem);
+     }
+}
+@media screen and (max-width: 1000px) {
+    .TopTen-list-inactive-quizzes {
+        transform: translate(calc(37vw), -12rem);
+    }
+}
+@media screen and (max-width: 800px) {
+    .TopTen-list-container {
+        display: none;
+        /*opacity: 0;*/
+        /*z-index: -1;*/
+        /*position: absolute;*/
+    }
+    .TopTen-tabs {
+        display: block;
+    }
+    .TopTen-title {
+        top: 0rem;
+    }
+
+    .TopTen-list-inactive-quizzes {
+        transform: translate(calc(25vw), -12rem);
+    }
+}
+/*@media screen and (max-width: 1700px) {*/
+    /*.TopTen-list-inactive-quizzes {*/
+        /*transform: translate(220%, -12rem);*/
+    /*}*/
+/*}*/
+
+/*@media screen and (max-width: 1200px) {*/
+    /*.TopTen-list-inactive-quizzes {*/
+        /*transform: translate(130%, -12rem);*/
+    /*}*/
+/*}*/
+
+@media screen and (max-width: 550px) {
+    .TopTen-list-inactive-quizzes {
+        transform: translate(4%, -12rem);
+    }
+    .TopTen-title {
+        font-size: 3rem;
+    }
+    /*.TopTen-list-active {*/
+        /*left: 0;*/
+    /*}*/
+}

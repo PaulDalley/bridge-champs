@@ -1,0 +1,13 @@
+@media screen and (max-width: 800px) {
+    .Quizzes-container {
+        display: grid;
+    }
+}
+@media screen and (max-width: 42rem) {
+    .Quizzes-container{
+        display: inline-block;
+        margin: 0rem 0rem 0rem;
+        padding: 0;
+        width: 100%;
+    }
+}

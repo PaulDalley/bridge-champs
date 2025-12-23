@@ -1,0 +1,36 @@
+.ContactForm-container {
+    position: relative;
+    padding: 6rem;
+    margin: 2rem;
+}
+.ContactUs-header_text {
+    font-family: 'Dancing Script', cursive;
+    font-weight: bold;
+    font-size: 5rem;
+    position: relative;
+    top: 4rem;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.ContactUs-body_text {
+    font-size: 1.6rem;
+    padding: 6rem 8rem 0rem;
+    margin-bottom: 0;
+}
+
+.ContactForm-container * {
+    font-size: 1.4rem !important;
+}
+.ContactForm-submit_button {
+    position: relative;
+    top: -7.5rem;
+}
+
+.ContactForm-error_message {
+    position: relative;
+    top: -7.5rem;
+    font-size: 2rem;
+    text-align: center;
+}

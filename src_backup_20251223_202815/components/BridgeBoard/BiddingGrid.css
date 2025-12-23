@@ -1,0 +1,50 @@
+@media screen and (max-width: 400px) {
+  .BiddingGrid-container * {
+    /* font-size: 1.4rem !important; */
+    font-weight: 300;
+  }
+}
+
+.BiddingGrid-BottomButtons {
+  padding-bottom: 3.7rem !important;
+}
+.BiddingGrid-P {
+  padding-bottom: 3.8rem !important;
+}
+
+.BiddingGrid-red-suit {
+  color: #8d0018;
+}
+
+.BiddingGrid-container {
+  /*position: absolute;*/
+  /* font-size: 155%; */
+  font-size: 1.9rem;
+  font-weight: bold;
+  max-width: 36rem;
+  min-width: 35rem;
+  /*min-width: 65rem;*/
+  /*max-width: 75rem;*/
+}
+.BiddingGrid-col {
+  border: solid 1px green;
+  border-radius: 5%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  max-height: 3.3rem;
+  padding-bottom: 0.3rem;
+}
+.BiddingGrid-col:hover {
+  background-color: #81c784;
+  cursor: pointer;
+}
+.BiddingGrid-item_clicked {
+  background-color: #81c784;
+  border: solid 1.5px black;
+}
+
+.BiddingGrid-row {
+  margin: 0;
+  padding: 0;
+}
