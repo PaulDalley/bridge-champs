@@ -20,7 +20,7 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom"; // Routes replaced Switch component deprecated.
 import "./App.css";
-import ContactForm from "./components/UI/ContactForm";
+import Contact from "./components/UI/Contact";
 import About from "./components/UI/About";
 import Profile from "./components/UI/Profile";
 import PrivacyPolicy from "./components/UI/PrivacyPolicy";
@@ -264,7 +264,7 @@ const routes = (
     <Route path="/videos" component={Videos} />
     <Route path="/questions" component={Questions} />
 
-    <Route path="/contact" component={ContactForm} />
+    <Route path="/contact" component={Contact} />
     <Route path="/privacy" component={PrivacyPolicy} />
 
     <Route

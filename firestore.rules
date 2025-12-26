@@ -1,116 +1,120 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    // True if the user is signed in or the requested data is 'public'
+    // Helper function to check if user has valid subscription
+    function hasValidSubscription() {
+      return request.auth != null &&
+             get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date();
+    }
+    
+    // Helper function to check if user has premium tier
+    function hasPremiumTier() {
+      return hasValidSubscription() &&
+             get(/databases/$(database)/documents/members/$(request.auth.uid)).data.tier == "premium";
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true;
+    }
+
     function canCreateNewQuestion() {
-	    return !(get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.blocked) 
-      				||
+      return !(get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.blocked) 
+                ||
               get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.lastQuestion < request.time.date();
     }
 
-	match /freeDaily/{contentType} {
-    	allow read;
-      allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true;
+    match /freeDaily/{contentType} {
+      allow read;
+      allow update: if isAdmin();
     }
     
-  	match /questions/{questionId} {
-    	allow read;
-      allow create: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date(); //&& canCreateNewQuestion();
+    match /questions/{questionId} {
+      allow read;
+      allow create: if hasValidSubscription();
       allow update, delete: if get(/databases/$(database)/documents/questions/$(questionId)).uid == request.auth.uid;
     }
 
     match /members/{memberId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
+
     match /membersData/{userId} {
-        allow read, create, update: if request.auth.uid == userId
+        allow read, create, update: if request.auth.uid == userId;
     }
+
     match /users/{userId} {
         allow read;
     }
+
     match /categories/{category} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
 
+    // Public metadata collections (summaries only)
     match /articles/{articleId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
 
     match /defence/{defenceId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
 
     match /cardPlay/{cardPlayId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
 
     match /bidding/{biddingId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }    
 
     match /quizzes/{quizId} {
         allow read;
-        allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+        allow create, update, delete: if isAdmin();
     }
 
-    match /article/{articleId} {
-      // Make sure a 'members' document exists for the requesting user and that
-      // their subscriptionExpires has not passed the current time before
-      // allowing any reads from the 'article' collection
-      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
+    // Videos metadata - publicly readable, but content will be blocked in UI for non-premium
 
-       // Allow the user to delete cities if their user document has the
-       // 'admin' field set to 'true'
-       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+    match /userTokens/{tokenId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
+    match /videos/{videoId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
+    // Protected content - requires basic ($25) or premium ($50) subscription
+    match /article/{articleId} {
+      allow read: if hasValidSubscription();
+      allow create, update, delete: if isAdmin();
     }
 
     match /biddingBody/{biddingBodyId} {
-      // Make sure a 'members' document exists for the requesting user and that
-      // their subscriptionExpires has not passed the current time before
-      // allowing any reads from the 'article' collection
-      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
-
-       // Allow the user to delete cities if their user document has the
-       // 'admin' field set to 'true'
-       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+      allow read: if hasValidSubscription();
+      allow create, update, delete: if isAdmin();
     }
 
     match /cardPlayBody/{cardPlayBodyId} {
-      // Make sure a 'members' document exists for the requesting user and that
-      // their subscriptionExpires has not passed the current time before
-      // allowing any reads from the 'article' collection
-      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
-
-       // Allow the user to delete cities if their user document has the
-       // 'admin' field set to 'true'
-       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+      allow read: if hasValidSubscription();
+      allow create, update, delete: if isAdmin();
     }
 
     match /defenceBody/{defenceBodyId} {
-      // Make sure a 'members' document exists for the requesting user and that
-      // their subscriptionExpires has not passed the current time before
-      // allowing any reads from the 'article' collection
-      allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
-
-       // Allow the user to delete cities if their user document has the
-       // 'admin' field set to 'true'
-       allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+      allow read: if hasValidSubscription();
+      allow create, update, delete: if isAdmin();
     }
 
     match /quiz/{quizId} {
-          // Make sure a 'members' document exists for the requesting user and that
-          // their subscriptionExpires has not passed the current time before
-          // allowing any reads from the 'quiz' collection
-          allow read: if get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date()
-
-           // Allow the user to delete cities if their user document has the
-           // 'admin' field set to 'true'
-           allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.OK == true
+      allow read: if hasValidSubscription();
+      allow create, update, delete: if isAdmin();
     }
   }
 }

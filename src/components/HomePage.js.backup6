@@ -161,14 +161,12 @@ class HomePage extends Component {
           </div>
         </section>
 
-        {/* MAIN CONTENT */}
-        <section className="HomePage-content">
           <div className="container">
+            {/* Category Selector */}
             <CategorySelector />
           </div>
         </section>
 
-        {/* MISSION SECTION */}
         <section id="mission-section" className="HomePage-mission">
           <div className="container">
             <div className="HomePage-mission-content">
@@ -198,8 +196,9 @@ class HomePage extends Component {
             </div>
           </div>
         </section>
+      </div>
+    );
 
-        {/* ABOUT PAUL SECTION */}
         <section className="HomePage-about">
           <div className="container">
             <div className="HomePage-about-content">
@@ -227,8 +226,8 @@ class HomePage extends Component {
             </div>
           </div>
         </section>
-      </div>
-    );
+
+        {/* MAIN CONTENT - CategorySelector moved before Mission */}
   }
 }
 

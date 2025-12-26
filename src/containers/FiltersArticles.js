@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setDifficultyFilter, resetFilters } from '../store/actions/filtersActions';
 import './FiltersCategoryArticles.css';
 
-const FiltersCategoryArticles = ({ difficultyFilter, setDifficultyFilter, resetFilters }) => {
+const FiltersArticles = ({ difficultyFilter, setDifficultyFilter, resetFilters }) => {
   const difficulties = [
     { value: '', label: 'All Levels', range: '' },
     { value: 'beginner', label: 'Beginner', range: '(1-3)' },
@@ -49,4 +49,4 @@ const mapDispatchToProps = (dispatch) => ({
   resetFilters: () => dispatch(resetFilters()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FiltersCategoryArticles);
+export default connect(mapStateToProps, mapDispatchToProps)(FiltersArticles);

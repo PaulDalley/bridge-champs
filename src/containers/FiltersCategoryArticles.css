@@ -1,0 +1,106 @@
+/* ===================================
+   FILTERS COMPONENT
+   =================================== */
+
+.Filters {
+  width: 100%;
+}
+
+.Filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.Filters-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+.Filters-clear {
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--radius-md);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.Filters-clear:hover {
+  background: var(--color-light-gray);
+  color: var(--color-dark);
+}
+
+.Filters-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.Filter-btn {
+  padding: 1rem 2rem;
+  border: 2px solid var(--color-light-gray);
+  background: var(--color-white);
+  border-radius: var(--radius-full);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.Filter-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: rgba(15, 76, 58, 0.05);
+}
+
+.Filter-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.Filter-btn.active:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+}
+
+.Filter-range {
+  font-size: 1.3rem;
+  opacity: 0.8;
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+  .Filters-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .Filters-clear {
+    font-size: 1.3rem;
+  }
+  
+  .Filter-btn {
+    padding: 0.9rem 1.8rem;
+    font-size: 1.4rem;
+  }
+  
+  .Filter-range {
+    font-size: 1.2rem;
+  }
+}

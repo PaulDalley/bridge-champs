@@ -14,6 +14,8 @@ import AuthComponent from "../../containers/AuthComponent";
 import $ from "jquery";
 import paypalPayNow from "../../assets/images/paypal-paynow.png";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
+import { firebase } from "../../firebase/config";
+
 
 // Pricing tiers
 const PRICING_TIERS = {
@@ -24,7 +26,7 @@ const PRICING_TIERS = {
   },
   premium: {
     price: "50",
-    name: "Premium Membership",
+    name: "Premium",
     paypalButton: "PRUK4P42SGVDC"
   }
 };
@@ -40,11 +42,67 @@ class PremiumMembership extends Component {
     paypalRedirectLoading: false,
     selectedTier: null,
     token: undefined,
+    promoCode: "",
+    promoError: "",
+    promoSuccess: "",
   };
 
   componentDidMount() {
     // Don't auto-select a tier
   }
+
+
+  handlePromoCodeChange = (e) => {
+    const promoCode = e.target.value.toLowerCase();
+    this.setState({ promoCode, promoError: "", promoSuccess: "" });
+    
+    // Validate promo code after user stops typing (debounce)
+    if (this.promoTimeout) clearTimeout(this.promoTimeout);
+    
+    if (promoCode.length > 0) {
+      this.promoTimeout = setTimeout(() => {
+        this.validatePromoCode(promoCode);
+      }, 500);
+    }
+  };
+
+  validatePromoCode = (code) => {
+    if (!code) {
+      this.setState({ promoError: "", promoSuccess: "" });
+      return;
+    }
+    
+    firebase.firestore().collection('userTokens').doc(code).get()
+      .then(doc => {
+        if (doc.exists) {
+          const data = doc.data();
+          const days = data.daysFree || 0;
+          const tier = data.tier;
+          
+          if (tier && tier !== this.state.selectedTier) {
+            const tierName = tier === 'premium' ? 'Premium' : 'Basic';
+            this.setState({ 
+              promoError: "",
+              promoSuccess: `🎉 This code gives you 1 month FREE with ${tierName} membership! Select ${tierName} to use it.`
+            });
+          } else {
+            this.setState({ 
+              promoSuccess: `✓ Code valid! You'll get ${days} extra day${days !== 1 ? 's' : ''} free`,
+              promoError: ""
+            });
+          }
+        } else {
+          this.setState({ 
+            promoError: "Invalid promo code",
+            promoSuccess: ""
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Error validating promo code:', err);
+        this.setState({ promoError: "Error validating code" });
+      });
+  };
 
   componentWillUpdate(nextProps) {
     let whenSubExpiresMinus2Days = undefined;
@@ -85,7 +143,7 @@ class PremiumMembership extends Component {
       const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
       let url = `${paypalUrl}&notify_url=${successCallback}&custom=${uid}`;
       
-      if (this.state.token) url = url + `&invoice=${this.state.token}`;
+      if (this.state.promoCode) url = url + `&invoice=${this.state.promoCode}`;
       window.location = url;
     }
   };
@@ -145,6 +203,43 @@ class PremiumMembership extends Component {
           </div>
         )}
 
+
+        {/* PROMO CODE INPUT */}
+        <Row>
+          <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>
+            <div style={{ textAlign: "center", padding: "1.5rem", background: "#f8f9fa", borderRadius: "8px" }}>
+              <label style={{ fontSize: "1.1rem", fontWeight: "500", marginBottom: "0.5rem", display: "block" }}>
+                Have a promo code?
+              </label>
+              <input
+                type="text"
+                placeholder="Enter promo code"
+                value={this.state.promoCode}
+                onChange={this.handlePromoCodeChange}
+                style={{
+                  padding: "0.8rem",
+                  fontSize: "1rem",
+                  border: "2px solid #ddd",
+                  borderRadius: "4px",
+                  width: "100%",
+                  maxWidth: "300px",
+                  textAlign: "center"
+                }}
+              />
+              {this.state.promoError && (
+                <div style={{ color: "#d32f2f", marginTop: "0.5rem", fontSize: "0.9rem" }}>
+                  {this.state.promoError}
+                </div>
+              )}
+              {this.state.promoSuccess && (
+                <div style={{ color: "#2e7d32", marginTop: "0.5rem", fontSize: "1rem", fontWeight: "500" }}>
+                  {this.state.promoSuccess}
+                </div>
+              )}
+            </div>
+          </Col>
+        </Row>
+
         {/* TWO-TIER PRICING CARDS */}
         {showBothTiers && (
           <Row>
@@ -164,22 +259,15 @@ class PremiumMembership extends Component {
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>General topic articles</span>
-                  </div>
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Fresh quizzes with member leaderboards</span>
-                  </div>
+                  <span>Interactive quizzes and practice hands</span></div>
                 </div>
 
-                <Button
-                  className="PremiumMembership-tier-button"
+                <button
+                  className="PremiumMembership-custom-button PremiumMembership-custom-button-basic"
                   onClick={() => uid ? this.selectTier('basic') : this.showLogin('basic')}
-                  waves="light"
-                  large
                 >
-                  Get Started
-                </Button>
+                  Choose Basic
+                </button>
               </Card>
             </Col>
 
@@ -187,7 +275,7 @@ class PremiumMembership extends Component {
             <Col s={12} m={6}>
               <Card className="PremiumMembership-pricing-card PremiumMembership-pricing-card-featured">
                 <div className="PremiumMembership-popular-badge">MOST POPULAR</div>
-                <h4 className="PremiumMembership-tier-name">Premium Membership</h4>
+                <h4 className="PremiumMembership-tier-name">Premium</h4>
                 <div className="PremiumMembership-price">
                   ${PRICING_TIERS.premium.price}
                   <span className="PremiumMembership-price-period">/month</span>
@@ -212,14 +300,12 @@ class PremiumMembership extends Component {
                   </div>
                 </div>
 
-                <Button
-                  className="PremiumMembership-tier-button PremiumMembership-tier-button-featured"
+                <button
+                  className="PremiumMembership-custom-button PremiumMembership-custom-button-premium"
                   onClick={() => uid ? this.selectTier('premium') : this.showLogin('premium')}
-                  waves="light"
-                  large
                 >
-                  Get Started
-                </Button>
+                  Choose Premium
+                </button>
               </Card>
             </Col>
           </Row>

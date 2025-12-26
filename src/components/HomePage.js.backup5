@@ -161,14 +161,44 @@ class HomePage extends Component {
           </div>
         </section>
 
-        {/* MAIN CONTENT */}
+        {/* ABOUT PAUL SECTION */}
+        <section className="HomePage-about">
+          <div className="container">
+            <div className="HomePage-about-content">
+              <h2 className="HomePage-about-title">About Paul Dalley</h2>
+              
+              <div className="HomePage-about-text">
+                <p>
+                  Bridge Champions is run by Paul Dalley, an accomplished bridge player with dozens of
+                  national championships in Australia and New Zealand. Paul has represented Australia on
+                  the national team multiple times in recent years.
+                </p>
+
+                <h3 className="HomePage-about-subtitle">Recent Achievements (2025)</h3>
+                <ul className="HomePage-about-achievements">
+                  <li>Gold Coast Pairs Champion</li>
+                  <li>Adelaide Open Teams Champion</li>
+                  <li>New Zealand Open Teams Champion</li>
+                </ul>
+
+                <p>
+                  Paul regularly discusses bridge with top players both in Australia and internationally,
+                  bringing their insights and expertise to Bridge Champions members.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* MAIN CONTENT - CategorySelector moved before Mission */}
         <section className="HomePage-content">
           <div className="container">
+            {/* Category Selector */}
             <CategorySelector />
           </div>
         </section>
 
-        {/* MISSION SECTION */}
+        {/* MISSION SECTION - Now after CategorySelector */}
         <section id="mission-section" className="HomePage-mission">
           <div className="container">
             <div className="HomePage-mission-content">
@@ -193,35 +223,6 @@ class HomePage extends Component {
                 
                 <p className="HomePage-mission-signature">
                   — Paul Dalley
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ABOUT PAUL SECTION */}
-        <section className="HomePage-about">
-          <div className="container">
-            <div className="HomePage-about-content">
-              <h2 className="HomePage-about-title">About Paul Dalley</h2>
-              
-              <div className="HomePage-about-text">
-                <p>
-                  Bridge Champions is run by Paul Dalley, an accomplished bridge player with dozens of
-                  national championships in Australia and New Zealand. Paul has represented Australia on
-                  the national team multiple times in recent years.
-                </p>
-
-                <h3 className="HomePage-about-subtitle">Recent Achievements (2025)</h3>
-                <ul className="HomePage-about-achievements">
-                  <li>Gold Coast Pairs Champion</li>
-                  <li>Adelaide Open Teams Champion</li>
-                  <li>New Zealand Open Teams Champion</li>
-                </ul>
-
-                <p>
-                  Paul regularly discusses bridge with top players both in Australia and internationally,
-                  bringing their insights and expertise to Bridge Champions members.
                 </p>
               </div>
             </div>

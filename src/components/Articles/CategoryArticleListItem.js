@@ -1,19 +1,11 @@
-import React from "react";
-import { CardPanel, Button, Icon } from "react-materialize";
-import MakeBoard from "../BridgeBoard/MakeBoard";
-import "./ArticleListItem.css";
+import React from 'react';
+import MakeBoard from '../BridgeBoard/MakeBoard';
+import './CategoryArticleListItem.css';
 import {
   makeDateString,
   makeBoardObjectFromString,
-  getDifficultyStr,
   getLevelStr,
-} from "../../helpers/helpers";
-
-const mapArticleTypeToCategory = new Map([
-  ["bidding", "Bidding"],
-  ["cardPlay", "Card Play"],
-  ["defence", "Defence"],
-]);
+} from '../../helpers/helpers';
 
 const CategoryArticleListItem = ({
   createdAt,
@@ -26,16 +18,27 @@ const CategoryArticleListItem = ({
   teaser_board,
   title,
   clickHandler,
-  router,
   a,
   articleType,
-  displayArticleType,
 }) => {
-  let diffString;
-  // console.log("--- Creating date string with date ---");
-  // console.log(createdAt);
-  // console.log(createdAt?.toDate());
-  let dateStr = makeDateString(createdAt);
+  const isLocked = !a;
+
+  const handleClick = () => {
+    if (clickHandler) {
+      const articleObj = {
+        createdAt,
+        body,
+        category,
+        difficulty,
+        articleNumber,
+        id,
+        teaser,
+        teaser_board,
+        title,
+      };
+      clickHandler(articleObj, body, articleType);
+    }
+  };
 
   const isNewArticle = (createdAt) => {
     if (!createdAt) return false;
@@ -46,87 +49,79 @@ const CategoryArticleListItem = ({
   };
 
   const showNew = isNewArticle(createdAt);
-  let articleObj = {
-    createdAt,
-    body,
-    category,
-    difficulty,
-    articleNumber,
-    id,
-    teaser,
-    teaser_board,
-    title,
-  };
+  const diffString = getLevelStr(difficulty);
 
+  // Parse bridge board data
   const re = /<MakeBoard .* \/>/;
   const matches = re.exec(teaser_board);
-  let data;
-  if (matches) data = makeBoardObjectFromString(teaser_board);
-  diffString = getLevelStr(difficulty);
-
-  const diffClass = "ArticlesListItem-difficulty-" + "general"; // + difficulty; // beg, int, adv, general
+  let boardData;
+  if (matches) {
+    boardData = makeBoardObjectFromString(teaser_board);
+  }
 
   return (
-    <div className="ArticlesListItem-div_wrapper">
-      <CardPanel
-        key={id}
-        // onClick={() => router(`/article/${body}`)}
-        onClick={() => clickHandler(articleObj, body, articleType)}
-        className="ArticlesListItem-container grey lighten-4 black-text"
-      >
-        <div className="ArticleListItem-created_at">{showNew ? <span className="ArticleListItem-new-badge">NEW</span> : null}</div>
-        {displayArticleType && (
-          <div
-            style={{
-              fontWeight: "bold",
-              fontSize: "110%",
-              backgroundColor: "black",
-              color: "white",
-              textAlign: "center",
-              position: "relative",
-              top: "1rem",
-              padding: "1rem",
-            }}
-          >
-            {mapArticleTypeToCategory?.get(articleType)}
-          </div>
-        )}
-        <div className="ArticleListItem-category">Article {articleNumber}</div>
-        <div className={`ArticleListItem-difficulty ${diffClass}`}>
-          {diffString}
+    <div className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''}`} onClick={handleClick}>
+      {/* Lock Icon for Premium Content */}
+      {isLocked && (
+        <div className="ArticleCard-lock">
+          <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+          </svg>
         </div>
-        <br />
-        <div className="ArticleListItem-title">{title}</div>
-        <div className="ArticleListItem-teaser">{teaser}</div>
-        <br />
-        {data && data.boardType !== "full" && (
-          <div className="ArticleListItem-teaser_board">
-            <MakeBoard {...data} bidding="" showVuln={false} isTeaser={true} />
-          </div>
-        )}
-        {data && data.boardType === "full" && (
-          <div className="ArticleListItem-teaser_board ArticleListItem-teaser_board_full">
-            <MakeBoard {...data} bidding="" showVuln={false} isTeaser={true} />
-          </div>
-        )}
-      </CardPanel>
-
-      {a && (
-        <Button
-          onClick={(e) => router.push(`/edit/${articleType}/${id}`)}
-          floating
-          className="orange darken-5"
-          waves="light"
-          icon={<Icon>mode_edit</Icon>}
-          style={{
-            position: "absolute",
-            right: "2.5rem",
-            bottom: "3rem",
-            zIndex: 5,
-          }}
-        />
       )}
+
+      {/* New Badge */}
+      {showNew && (
+        <div className="ArticleCard-new-badge">
+          NEW
+        </div>
+      )}
+
+      {/* Bridge Board Display */}
+      {boardData && (
+        <div className={`ArticleCard-board ${boardData.boardType === 'full' ? 'ArticleCard-board--full' : ''}`}>
+          <MakeBoard {...boardData} bidding="" showVuln={false} isTeaser={true} />
+        </div>
+      )}
+
+      {/* Article Content */}
+      <div className="ArticleCard-content">
+        {/* Badges */}
+        <div className="ArticleCard-meta">
+          <span className="badge badge-difficulty">
+            {diffString}
+          </span>
+          <span className="badge badge-number">
+            #{articleNumber}
+          </span>
+          {isLocked && (
+            <span className="badge badge-locked">
+              Premium
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h3 className="ArticleCard-title">{title}</h3>
+
+        {/* Teaser Text */}
+        {teaser && (
+          <p className="ArticleCard-teaser">{teaser}</p>
+        )}
+
+        {/* Locked Overlay */}
+        {isLocked && (
+          <div className="ArticleCard-locked-overlay">
+            <div className="ArticleCard-locked-cta">
+              <button className="btn btn-secondary btn-small">
+                subscribe
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
 export default CategoryArticleListItem;

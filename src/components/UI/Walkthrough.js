@@ -19,7 +19,6 @@ import {Articles} from '../../containers/Articles';
 //     },
 //     step3: {
 //         header: "Quizzes",
-//         content: "Regularly updated quizzes that will test your knowledge in Opening Leads, Bidding, Declarer and Defensive play. Take the quiz and then read analysis of the question. Compete to top the leaderboards and earn Champion Points.",
 //         left: '25rem',
 //         top: '29rem',
 //         arrowPos: 'topLeft',
@@ -71,7 +70,6 @@ const stepsText = [
     },
     {
         header: "Quizzes",
-        content: "Regularly updated quizzes that will test your knowledge in Opening Leads, Bidding, Declarer and Defensive play. Take the quiz and then read analysis of the question. Compete to top the leaderboards and earn Champion Points.",
         left: '25rem',
         top: '29rem',
         // top: '27.25%',

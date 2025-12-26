@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextInput, Row, Icon, Modal, Button } from "react-materialize"; // Input component was deprecated
+import { TextInput, Row, Icon, Modal, Button } from "react-materialize";
 import { Link } from "react-router-dom";
 import { firebase } from "../../firebase/config";
 import $ from "jquery";
@@ -16,12 +16,17 @@ class Login extends Component {
   loginRedirectToContent = () => {
     const lastViewedContentId = localStorage.getItem("contentRedirectId");
     const lastViewedContentType = localStorage.getItem("contentRedirectType");
+    // Always clear these to prevent redirect loops
     localStorage.removeItem("contentRedirectId");
     localStorage.removeItem("contentRedirectType");
+    
     if (lastViewedContentId !== null && lastViewedContentType !== null) {
-      this.props.history.push(
-        `${lastViewedContentType}/${lastViewedContentId}`
-      );
+      // Add a small delay to ensure auth state is fully loaded
+      setTimeout(() => {
+        this.props.history.push(
+          `${lastViewedContentType}/${lastViewedContentId}`
+        );
+      }, 500);
     } else {
       this.props.history.push("/");
     }
@@ -34,7 +39,6 @@ class Login extends Component {
       .emailLogin(email, password)
       .then((res) => {
         if (this.props.login) this.props.paypalSubscribe(res.uid);
-        // else this.props.history.push('/');
         else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -47,7 +51,6 @@ class Login extends Component {
       .facebookLogin()
       .then((res) => {
         if (this.props.login) this.props.paypalSubscribe(res.user.uid);
-        // else this.props.history.push('/');
         else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -60,7 +63,6 @@ class Login extends Component {
       .googleLogin()
       .then((res) => {
         if (this.props.login) this.props.paypalSubscribe(res.user.uid);
-        // else this.props.history.push('/');
         else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -75,8 +77,8 @@ class Login extends Component {
 
   openForgottenPasswordModal = (e) => {
     e.preventDefault();
-    // $('#Login-PasswordForgottenModal').modal('open');
   };
+  
   resetPassword = (e) => {
     e.preventDefault();
     const { emailReset } = this.state;
@@ -84,7 +86,6 @@ class Login extends Component {
       .auth()
       .sendPasswordResetEmail(emailReset)
       .then(() => {
-        // console.log("email sent");
         let modal = $(".modal");
         let modalOverlay = $(".modal-overlay");
         modal.removeClass("open");
@@ -98,7 +99,6 @@ class Login extends Component {
   };
 
   render() {
-    // console.log(this.props);
     let containerClass = "";
     if (this.props.history.location.pathname === "/login") {
       containerClass = "Login-container";
@@ -112,29 +112,23 @@ class Login extends Component {
     };
     return (
       <form onSubmit={this.onSubmit} className={containerClass}>
-        {/*<Row style={textStyles}>*/}
-        {/*Log in to your BridgeChampions Account*/}
-        {/*</Row>*/}
         <br />
         <br />
 
         <Row>
-          {/*<a onClick={this.props.googleLogin}*/}
-          <a
-            onClick={this.googleLogin}
+          
+          <a onClick={this.googleLogin}
             style={{ width: "100%" }}
             className="Login-SocialButton btn btn-social btn-google"
           >
-            {/*<span className="fa fa-google"></span> Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;*/}
             <span className="Login-SocialIcon fab fa-google"></span> Sign in
             with Google&nbsp;&nbsp;&nbsp;&nbsp;
           </a>
-          <a
-            onClick={this.facebookLogin}
+          
+          <a onClick={this.facebookLogin}
             style={{ width: "100%" }}
             className="btn btn-medium btn-social btn-facebook Login-SocialButton"
           >
-            {/*<span className="fa fa-facebook"></span> Sign in with Facebook</a>*/}
             <span className="Login-SocialIcon fab fa-facebook-f"></span> Sign in
             with Facebook
           </a>
@@ -161,12 +155,11 @@ class Login extends Component {
             className="Login-input-field"
             icon={"email"}
           >
-            {/* <Icon>email</Icon> */}
           </TextInput>
         </Row>
         <Row>
           <TextInput
-            password={true} // type="password"
+            password={true}
             label="Password"
             s={12}
             m={8}
@@ -176,7 +169,6 @@ class Login extends Component {
             className="Login-input-field"
             icon={"vpn_key"}
           >
-            {/* <Icon>vpn_key</Icon> */}
           </TextInput>
         </Row>
         <Row>
@@ -260,10 +252,6 @@ class Login extends Component {
             Don't have an account? <Link to="/membership">Sign up</Link>
           </div>
         </Row>
-
-        {/*<Row style={{fontWeight: 'bold', fontSize: '1.6rem', marginTop: '0rem', paddingTop: '0rem'}}>*/}
-        {/*Log in with your other services:*/}
-        {/*</Row>*/}
       </form>
     );
   }

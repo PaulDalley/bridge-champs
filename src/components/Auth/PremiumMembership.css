@@ -774,3 +774,238 @@
   margin: 0 auto;
   color: #1976D2 !important;
 }
+
+/* IMPROVED PRICING CARDS */
+.PremiumMembership-pricing-card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  height: 100%;
+  position: relative;
+  overflow: visible !important;
+}
+
+.PremiumMembership-pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
+}
+
+.PremiumMembership-pricing-card-featured {
+  border: 3px solid #1976d2 !important;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.2) !important;
+}
+
+.PremiumMembership-pricing-card-featured:hover {
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.3) !important;
+}
+
+.PremiumMembership-popular-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%);
+  color: white;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.PremiumMembership-tier-name {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1rem !important;
+  color: #333 !important;
+}
+
+.PremiumMembership-price {
+  font-size: 3rem !important;
+  font-weight: 800 !important;
+  color: #1976d2 !important;
+  margin: 1.5rem 0 !important;
+  line-height: 1 !important;
+}
+
+.PremiumMembership-price-period {
+  font-size: 1.1rem !important;
+  font-weight: 400 !important;
+  color: #666 !important;
+}
+
+.PremiumMembership-tier-benefits {
+  text-align: left;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.PremiumMembership-benefit {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 12px;
+}
+
+.PremiumMembership-benefit-icon {
+  color: #4caf50 !important;
+  font-size: 1.5rem !important;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.PremiumMembership-benefit span {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.PremiumMembership-benefit strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Better buttons */
+.PremiumMembership-pricing-card .btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  margin-top: 1.5rem;
+}
+
+.PremiumMembership-pricing-card .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.PremiumMembership-pricing-card-featured .btn {
+  background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%) !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+
+/* FORCE LARGER FONTS - More specific selectors */
+.PremiumMembership-tier-name {
+  font-size: 2.2rem !important;
+}
+
+.PremiumMembership-benefit span {
+  font-size: 1.2rem !important;
+  line-height: 1.7 !important;
+}
+
+.PremiumMembership-price {
+  font-size: 3.5rem !important;
+}
+
+
+/* BETTER BUTTON STYLING */
+.PremiumMembership-pricing-card .btn {
+  width: 100% !important;
+  padding: 1.2rem 2rem !important;
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+  letter-spacing: 0.5px !important;
+  margin-top: 2rem !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  height: auto !important;
+  line-height: 1.5 !important;
+  min-height: 56px !important;
+}
+
+.PremiumMembership-pricing-card .btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
+}
+
+.PremiumMembership-pricing-card-featured .btn {
+  background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%) !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4) !important;
+}
+
+/* SMOOTH BUTTON ANIMATIONS */
+.PremiumMembership-pricing-card .btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.PremiumMembership-pricing-card .btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.PremiumMembership-pricing-card .btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.PremiumMembership-pricing-card .btn:active {
+  transform: translateY(0px) scale(0.98) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Glow effect on hover for Premium button */
+.PremiumMembership-pricing-card-featured .btn:hover {
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.6) !important;
+  filter: brightness(1.1);
+}
+
+/* CUSTOM BUTTON - Clean Modern Design */
+.PremiumMembership-custom-button {
+  width: 100%;
+  padding: 18px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  margin-top: 2rem;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.PremiumMembership-custom-button-basic {
+  background: #2196f3;
+  color: white;
+}
+
+.PremiumMembership-custom-button-basic:hover {
+  background: #1976d2;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.PremiumMembership-custom-button-premium {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: white;
+}
+
+.PremiumMembership-custom-button-premium:hover {
+  background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(255, 107, 53, 0.5);
+}
+
+.PremiumMembership-custom-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}

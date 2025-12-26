@@ -367,3 +367,17 @@
 .Nav-sidenav_user {
     color: black !important;
 }
+
+/* Fix mobile login/signup button overlap */
+@media (max-width: 768px) {
+  .Nav-auth {
+    margin-top: 0.5rem;
+  }
+  .Nav-auth-icons {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .Nav-logo {
+    max-width: 60%;
+  }
+}

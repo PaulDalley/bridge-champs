@@ -184,8 +184,6 @@ class Nav extends Component {
             {/*{ uid && <a onClick={ () => this.logout() } className="Nav-auth_buttons waves-effect waves-light btn"><i className="material-icons left">input</i>Log out</a> }*/}
           </div>
 
-          {/* HAMBURGER MENU REMOVED */}
-          {/* 
           <div
             onClick={this.toggleSideDrawer}
             className={`Nav-menu-container Nav-menu-container-X Nav-menu-container-${this.state.sideDrawerOpen} waves-effect waves-light`}
@@ -212,7 +210,7 @@ class Nav extends Component {
             uid={uid}
             subscriptionActive={this.props.subscriptionActive}
           />
-          */}
+          
         </div>
 
         {/*s3 on the li classNames will make them span 3 regardless of screen size.*/}

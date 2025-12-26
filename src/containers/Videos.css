@@ -67,3 +67,8 @@
     font-size: 0.85rem;
     margin-bottom: 1rem;
 }
+
+/* Standardize font with rest of site */
+.Videos-container, .Videos-container * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

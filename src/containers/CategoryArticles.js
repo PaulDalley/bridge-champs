@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import Add from "./Add";
 import {
   getArticles,
-  getArticlesChunk,
-  getArticleCount,
   setCurrentArticle,
 } from "../store/actions/categoryArticlesActions";
 
@@ -12,43 +10,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 import {
-  filterArticles,
   filterCategoryArticles,
   sortCategoryArticlesByLevelAndArticleNumber,
 } from "../helpers/helpers";
-// import ArticleListItem from "../components/Articles/ArticleListItem";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
-import "./Articles.css";
-import Filters from "./Filters";
-import Pagination from "../components/Pagination";
+import "./CategoryArticles.css";
 import FiltersCategoryArticles from "./FiltersCategoryArticles";
-
-// const mapStateToProps = (state, ownProps) => ({
-//     articles: filterArticles(state.articles.articles, state.filters),
-//     fetchedByCategory: state.articles.fetchedByCategory,
-//     articlesCount: state.articles.articlesCount,
-//     a: state.auth.a,
-//   });
-
-//   const mapDispatchToProps = (dispatch) => ({
-//     fetchArticles: () => dispatch(getArticles()),
-//     getArticleCount: () => dispatch(getArticleCount()),
-//     setCurrentArticle: (article) => dispatch(setCurrentArticle(article)),
-//   });
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
 
-  const [pageOfItems, setPageOfItems] = useState([]);
   const [page, setPage] = useState(pageNumber ? pageNumber : 1);
   const articles = useSelector(
     (state) => state.categoryArticles?.[articleType]
   );
   const a = useSelector((state) => state.auth.a);
   const filters = useSelector((state) => state.filters);
-  const fetchedByCategory = useSelector(
-    (state) => state.categoryArticles.fetchedByCategory
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,21 +40,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     }
   }, [articleType]);
 
-  // useEffect(() => {
-  //   setPageOfItems([]);
-  // }, [articles]);
-
-  // console.log(`--- IN CATEGORYARTICLES with ${articleType} ---`);
-  // console.log(pageOfItems);
-  // console.log(articles);
-  // console.log(fetchedByCategory);
-  // console.log(page);
-
-  // useEffect(() => {
-  // if (nextProps.articles.length !== this.state.articles.length) {
-  //     this.setState({ articles: nextProps.articles });
-  //      }
-  // }, [articles.length]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [articleType]);
 
   const setCurrentArticleAndGoTo = (article, id) => {
     if (dontNavigate) {
@@ -87,39 +52,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     history.push(`/${articleType}/${id}`);
   };
 
-  const onChangePage = (pageOfItems, pageNumber) => {
-    // update state with new page of items
-    setPageOfItems(pageOfItems);
-    setPage(pageNumber);
-
-    if (pageNumber) {
-      history.push({
-        search: `?page${pageNumber}`,
-      });
-    }
-  };
-  const pagination = (
-    <Pagination items={articles} onChangePage={onChangePage} page={page} />
-  );
-
-  // const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
-
-  // const dummyArticles = [
-  //   { articleNumber: "10", difficulty: "10" },
-  //   { articleNumber: "10", difficulty: "1" },
-  //   { articleNumber: "9", difficulty: "1" },
-  //   { articleNumber: "1", difficulty: "10" },
-  //   { articleNumber: "1", difficulty: "10" },
-  //   { articleNumber: "1", difficulty: "1" },
-  // ];
-  // sortCategoryArticlesByLevelAndArticleNumber(dummyArticles);
-
   const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
 
   let articleJSX;
   if (filteredArticles?.length && filteredArticles?.length !== 0) {
-    //articleJSX = pageOfItems.map((article, idx) => (
     articleJSX = filteredArticles.map((article, idx) => (
       <CategoryArticleListItem
         key={article.id}
@@ -140,34 +77,54 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     ));
   }
 
-  const isMobileSize = window.innerWidth <= 672; // 6
-  let articleJSXLeft;
-  let articleJSXRight;
-  if (articleJSX && !isMobileSize) {
-    articleJSXLeft = articleJSX.filter((article, idx) => idx % 2 === 0);
-    articleJSXRight = articleJSX.filter((article, idx) => idx % 2 !== 0);
-  }
+  const getCategoryInfo = () => {
+    switch(articleType) {
+      case 'defence': 
+        return { name: 'Defence', subtitle: 'Master defensive strategies' };
+      case 'cardPlay': 
+        return { name: 'Declarer Play', subtitle: 'Enhance your declarer skills' };
+      case 'bidding': 
+        return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
+      default: 
+        return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
+    }
+  };
+
+  const categoryInfo = getCategoryInfo();
 
   return (
-    <div className="Articles-outer_div">
-      <FiltersCategoryArticles />
-
+    <div className="CategoryArticles">
       <Add goto={`create/${articleType}`} history={history} />
 
-      {/* {articles?.length > 0 && (
-        <div className="Articles-Pagination center-align">{pagination}</div>
-      )} */}
-
-      {!isMobileSize && (
-        <div className="Articles-container">
-          <div className="Articles-container-left">{articleJSXLeft}</div>
-          <div className="Articles-container-right">{articleJSXRight}</div>
+      <div className="CategoryArticles-header">
+        <div className="container">
+          <h1 className="CategoryArticles-title">{categoryInfo.name}</h1>
+          <p className="CategoryArticles-subtitle">
+            {categoryInfo.subtitle}
+          </p>
         </div>
-      )}
-      {isMobileSize && <div className="Articles-container">{articleJSX}</div>}
+      </div>
 
-      <br />
-      <br />
+      <div className="CategoryArticles-filters-section">
+        <div className="container">
+          <FiltersCategoryArticles />
+        </div>
+      </div>
+
+      <div className="CategoryArticles-content">
+        <div className="container">
+          {filteredArticles && filteredArticles.length > 0 ? (
+            <div className="CategoryArticles-grid">
+              {articleJSX}
+            </div>
+          ) : (
+            <div className="CategoryArticles-empty">
+              <p>No articles found matching your filters.</p>
+              <p>Try adjusting your difficulty level filter.</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,40 +1,265 @@
-.QuizListItem-quizType {
-    width: 12rem;
-    font-size: 1.5rem;
-    text-align: center;
-    background-color: #78909c;
-    position: absolute;
-    font-weight: bold;
-    color: white;
-    top: 0rem;
-    left: 1.5rem;
-}
-.QuizListItem-container-completed {
-    /*border: rgba(0, 255, 0, 1) 5px dotted;*/
-    /*dotted, dashed, solid*/
-    border: #0f9d58 2px solid;
-    opacity: 0.63;
+/* ===================================
+   ARTICLE & QUIZ CARD STYLES
+   Shared between ArticleListItem and QuizListItem
+   =================================== */
 
-    /*padding: 1rem !important;*/
-    padding-top: 5rem !important;
-    /*padding: 3rem;*/
-    /*background-color: rgba(165,214,167, .35) !important;*/
-    background: linear-gradient(to bottom right,
-                rgba(165,214,167, .55) 55%,
-                #0f9d58);
-
+.ArticleCard {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-light-gray);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-.DisplayQuiz-completed {
-    border: white 1px solid;
+.ArticleCard:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-primary-light);
 }
-.ArticleListItem-new-badge {
-  display: inline-block;
-  background-color: #4CAF50;
+
+.ArticleCard--locked {
+  opacity: 0.95;
+}
+
+.ArticleCard--completed {
+  border-color: var(--color-secondary);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, var(--color-white) 100%);
+}
+
+/* === BADGES === */
+.ArticleCard-lock {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  backdrop-filter: blur(4px);
+}
+
+.ArticleCard-lock svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.ArticleCard-new-badge {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
+  background: var(--color-accent);
   color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-md);
+}
+
+.ArticleCard-completed-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+}
+
+/* === BRIDGE BOARD === */
+.ArticleCard-board {
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.08) 0%, rgba(15, 76, 58, 0.03) 100%);
+  padding: 2rem;
+  min-height: 18rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-light-gray);
+  overflow: hidden;
+}
+
+.ArticleCard-board--full {
+  min-height: 25rem;
+  padding: 1.5rem;
+}
+
+.ArticleCard-board > div {
+  max-width: 100%;
+  transform-origin: center;
+}
+
+/* === CONTENT === */
+.ArticleCard-content {
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.ArticleCard-meta {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.badge-category {
+  background: var(--color-light-gray);
+  color: var(--color-gray);
+}
+
+.badge-difficulty {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.badge-locked {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.ArticleCard-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ArticleCard-teaser {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--color-gray);
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* === LOCKED OVERLAY === */
+.ArticleCard-locked-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.97) 40%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2rem;
+  pointer-events: none;
+}
+
+.ArticleCard-locked-cta {
+  pointer-events: auto;
+}
+
+.ArticleCard-locked-cta .btn {
+  box-shadow: var(--shadow-lg);
+}
+
+/* === HOVER EFFECTS === */
+.ArticleCard:hover .ArticleCard-title {
+  color: var(--color-primary);
+}
+
+.ArticleCard:hover .ArticleCard-board {
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.12) 0%, rgba(15, 76, 58, 0.06) 100%);
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+  .ArticleCard-board {
+    padding: 1.5rem 1rem;
+    min-height: 16rem;
+  }
+  
+  .ArticleCard-board > div {
+    transform: scale(0.85);
+  }
+  
+  .ArticleCard-board--full {
+    min-height: 22rem;
+    padding: 1rem;
+  }
+  
+  .ArticleCard-board--full > div {
+    transform: scale(0.75);
+  }
+  
+  .ArticleCard-content {
+    padding: 1.5rem;
+  }
+  
+  .ArticleCard-title {
+    font-size: 1.8rem;
+  }
+  
+  .ArticleCard-teaser {
+    font-size: 1.4rem;
+  }
+  
+  .ArticleCard-lock,
+  .ArticleCard-completed-badge {
+    width: 3rem;
+    height: 3rem;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .ArticleCard-lock svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  
+  .ArticleCard-new-badge {
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.1rem;
+    padding: 0.4rem 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ArticleCard-board > div {
+    transform: scale(0.75);
+  }
+  
+  .ArticleCard-board--full > div {
+    transform: scale(0.65);
+  }
 }
