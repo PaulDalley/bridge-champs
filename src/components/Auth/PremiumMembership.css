@@ -770,9 +770,10 @@
 }
 
 .PremiumMembership-change-tier {
-  display: block;
-  margin: 0 auto;
-  color: #1976D2 !important;
+  margin: 2rem auto 3rem auto !important;
+  display: block !important;
+  width: auto !important;
+  padding: 0.8rem 2rem !important;
 }
 
 /* IMPROVED PRICING CARDS */
@@ -1009,3 +1010,102 @@
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* PAYMENT CARD LAYOUT FIX */
+.PremiumMembership-payment-card {
+  padding: 3rem 2rem !important;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.PremiumMembership-change-tier {
+  margin: 2rem 0 3rem 0 !important;
+  display: block;
+  width: 100%;
+}
+
+.PremiumMembership-paypal_signup_button {
+  cursor: pointer;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 3rem auto 0 auto !important;
+  transition: transform 0.2s ease;
+}
+
+.PremiumMembership-paypal_signup_button:hover {
+  transform: scale(1.05);
+}
+
+/* CLEAN PAYMENT SECTION REDESIGN */
+.PremiumMembership-payment-card {
+  padding: 3rem !important;
+  max-width: 500px;
+  margin: 2rem auto !important;
+  text-align: center;
+}
+
+.PremiumMembership-payment-header {
+  margin-bottom: 3rem;
+}
+
+.PremiumMembership-payment-header h4 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.PremiumMembership-payment-price {
+  font-size: 2.5rem;
+  color: #1976d2;
+  font-weight: 700;
+}
+
+.PremiumMembership-payment-price span {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 400;
+}
+
+.PremiumMembership-payment-actions {
+  margin-bottom: 3rem;
+}
+
+.PremiumMembership-change-tier-btn {
+  background: transparent;
+  border: 2px solid #1976d2;
+  color: #1976d2;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.PremiumMembership-change-tier-btn:hover {
+  background: #1976d2;
+  color: white;
+}
+
+.PremiumMembership-paypal-section {
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.PremiumMembership-paypal-button {
+  max-width: 250px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin: 0 auto 1.5rem auto;
+  display: block;
+}
+
+.PremiumMembership-paypal-button:hover {
+  transform: scale(1.05);
+}
+
+.PremiumMembership-secure-badge {
+  color: #666;
+  font-size: 0.9rem;
+}
+

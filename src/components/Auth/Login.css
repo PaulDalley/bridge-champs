@@ -1,57 +1,188 @@
-.AuthComponent-container.card .card-content {
-    padding: 12px;
+/* MODERN LOGIN PAGE */
+.Login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.Login-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 4rem;
+  max-width: 480px;
+  width: 100%;
+}
+
+.Login-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.Login-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.Login-subtitle {
+  font-size: 1.4rem;
+  color: #666;
+}
+
+.Login-social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
 }
 
 .Login-SocialButton {
-    font-weight: bold;
-    font-size: 1.2rem;
-    position: relative;
-}
-.Login-SocialIcon {
-    margin-top: .85rem;
-    margin-left: .1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.2rem 2rem;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
 }
 
-.Login-or {
-    font-size: 2rem;
-    text-align: center;
-    background-color: none;
-    position: relative;
-    top: -2.3rem;
+.btn-google {
+  background: #4285f4;
 }
-.Login-or-text {
-    background-color: white;
+
+.btn-google:hover {
+  background: #357ae8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
 }
-.Login-info_text {
-    text-align: center;
-    font-size: 1.6rem;
+
+.btn-facebook {
+  background: #1877f2;
 }
+
+.btn-facebook:hover {
+  background: #0c63d4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
+}
+
+.Login-SocialIcon {
+  font-size: 1.8rem;
+}
+
+.Login-divider {
+  display: flex;
+  align-items: center;
+  margin: 2.5rem 0;
+}
+
+.Login-divider::before,
+.Login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.Login-divider-text {
+  padding: 0 1.5rem;
+  color: #999;
+  font-size: 1.3rem;
+}
+
+.Login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.Login-input-group label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.6rem;
+}
+
 .Login-input-field {
-    font-size: 2.2rem !important;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+}
+
+.Login-input-field:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .Login-forgot_password {
-    cursor: pointer;
+  font-size: 1.3rem;
+  color: #667eea;
+  cursor: pointer;
+  text-align: right;
 }
 
-.Login-container {
-    position: relative;
-    padding: 2rem 31% 2rem;
-    /*max-width: 120rem;*/
-}
-@media screen and (max-width: 1250px) {
-    .Login-container {
-        padding: 2rem 25rem 2rem;
-    }
+.Login-forgot_password:hover {
+  text-decoration: underline;
 }
 
-@media screen and (max-width: 999px) {
-    .Login-container {
-        padding: 2rem 15rem 2rem;
-    }
+.Login-submit-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.4rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-@media screen and (max-width: 758px) {
-    .Login-container {
-        padding: 2rem;
-    }
+
+.Login-submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.Login-error {
+  background: #fee;
+  color: #c33;
+  padding: 1.2rem;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.Login-footer {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.Login-footer-link {
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .Login-card {
+    padding: 3rem 2rem;
+  }
+  .Login-title {
+    font-size: 2.4rem;
+  }
 }

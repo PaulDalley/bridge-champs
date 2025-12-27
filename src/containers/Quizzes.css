@@ -1,13 +1,38 @@
-@media screen and (max-width: 800px) {
-    .Quizzes-container {
-        display: grid;
-    }
+/* ===================================
+   QUIZZES CONTAINER - MATCHED TO CATEGORY ARTICLES
+   =================================== */
+
+.Quizzes {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg);
 }
-@media screen and (max-width: 42rem) {
-    .Quizzes-container{
-        display: inline-block;
-        margin: 0rem 0rem 0rem;
-        padding: 0;
-        width: 100%;
-    }
+
+.Quizzes-content {
+  padding: var(--space-3xl) 0;
+}
+
+.Quizzes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+  gap: 2.5rem;
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 1024px) {
+  .Quizzes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Quizzes-content {
+    padding: var(--space-2xl) var(--space-md);
+  }
+  
+  .Quizzes-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

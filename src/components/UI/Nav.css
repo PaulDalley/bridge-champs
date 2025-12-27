@@ -381,3 +381,198 @@
     max-width: 60%;
   }
 }
+
+/* === MOBILE HEADER REDESIGN === */
+@media (max-width: 768px) {
+  .Nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: #1a1a1a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    min-height: 70px;
+  }
+
+  .Nav-logo {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    max-width: 180px;
+    flex-shrink: 0;
+  }
+
+  .Nav-logo img,
+  .Nav-logo svg {
+    max-height: 40px;
+    width: auto;
+  }
+
+  .Nav-auth {
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .Nav-auth-icons {
+    display: flex !important;
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .Nav-auth-icon {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0.5rem 0.8rem !important;
+    background: rgba(255,255,255,0.1) !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    min-width: 70px;
+  }
+
+  .Nav-auth-icon:hover {
+    background: rgba(255,255,255,0.2) !important;
+    transform: translateY(-2px);
+  }
+
+  .Nav-auth-i {
+    font-size: 1.3rem !important;
+    margin: 0 !important;
+    color: white !important;
+  }
+
+  .Nav-auth-label {
+    font-size: 0.7rem !important;
+    margin-top: 0.3rem !important;
+    color: white !important;
+    white-space: nowrap;
+  }
+
+  .Nav-active_link {
+    background: rgba(33, 150, 243, 0.3) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .Nav-header {
+    padding: 0.8rem 1rem;
+  }
+
+  .Nav-logo {
+    max-width: 140px;
+  }
+
+  .Nav-auth-icon {
+    min-width: 60px;
+    padding: 0.4rem 0.6rem !important;
+  }
+
+  .Nav-auth-i {
+    font-size: 1.1rem !important;
+  }
+
+  .Nav-auth-label {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* ===================================
+   MODERN HEADER & TABS REDESIGN
+   =================================== */
+
+/* Header */
+.Nav-header {
+  background: #1a1a1a !important;
+  padding: 1rem 2rem !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Tabs Section */
+.Nav-tabs {
+  background: white !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
+.Nav-tabs .tabs {
+  display: flex !important;
+  justify-content: center !important;
+  background: white !important;
+  height: auto !important;
+  overflow-x: auto !important;
+}
+
+.Nav-tabs .tab {
+  height: auto !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+.Nav-tabs .tab a {
+  padding: 1.8rem 2.5rem !important;
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  color: #555 !important;
+  border-bottom: 3px solid transparent !important;
+  transition: all 0.3s ease !important;
+  text-transform: none !important;
+  background: transparent !important;
+}
+
+.Nav-tabs .tab a:hover {
+  color: #667eea !important;
+  background: rgba(102, 126, 234, 0.05) !important;
+  border-bottom-color: #667eea !important;
+}
+
+.Nav-tabs .tab a.active {
+  color: #667eea !important;
+  background: rgba(102, 126, 234, 0.08) !important;
+  border-bottom-color: #667eea !important;
+}
+
+/* Remove old underline effect */
+.nav-tabs_underline {
+  display: none !important;
+}
+
+/* Auth buttons in header */
+.Nav-auth-icon {
+  background: rgba(255,255,255,0.1) !important;
+  color: white !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.Nav-auth-icon:hover {
+  background: rgba(255,255,255,0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Mobile tabs */
+@media (max-width: 768px) {
+  .Nav-tabs .tab a {
+    padding: 1.5rem 1.5rem !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .Nav-tabs .tab a {
+    padding: 1.2rem 1rem !important;
+    font-size: 1.1rem !important;
+  }
+}

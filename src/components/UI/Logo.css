@@ -1,72 +1,82 @@
-@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:700');
+
 .logo {
-    font-family: 'Dancing Script', cursive;
-    /*font-size: 380%;*/
-    font-size: 300%;
-    font-weight: bold;
-    color: #E8F5E9;
-    transition: all .4s ease-in-out;
-}
-.logo:hover logo-text {
-    color: #fdd835;
-}
-
-.logo-com {
-    font-size: 75%;
-}
-@media screen and (max-width: 598px) {
-    .logo {
-        /*font-size: 280%;*/
-        font-size: 240%;
-    }
-}
-@media screen and (max-width: 445px) {
-    .logo {
-        /*font-size: 280%;*/
-        font-size: 180%;
-        position: relative;
-        top: .5rem;
-    }
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: white;
+  transition: all 0.3s ease;
 }
 
-/*.logo {*/
-    /*font-family: cursive;*/
-    /*!*top: -.75rem;*!*/
-    /*font-size: 125%;*/
-    /*position: absolute;*/
-    /*padding: 20px;*/
-/*}*/
-/*.logo-text {*/
-    /*position: relative;*/
-    /*!*top: .63rem;*!*/
-    /*!*left: -.75rem;*!*/
-    /*font-size: 135%;*/
-    /*padding-left: 0px;*/
-    /*font-weight: bold;*/
-/*}*/
-/*.spade {*/
-    /*font-size: 145%;*/
-    /*position: relative;*/
-    /*top: -.9rem;*/
-    /*left: 1.45rem;*/
-/*}*/
-/*.club {*/
-    /*position: relative;*/
-    /*font-size: 155%;*/
-    /*top: .65rem;*/
-    /*left: -.2rem;*/
-/*}*/
+.logo-text {
+  letter-spacing: -0.5px;
+}
 
-/*.diamond {*/
-    /*font-size: 90%;*/
-    /*position: relative;*/
-    /*left: 0.29rem;*/
-    /*top: -.17rem;*/
-/*}*/
+/* Card suits - styled to be visible on dark background */
+.spade,
+.diamond,
+.club,
+.heart {
+  font-size: 2.2rem;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
 
-/*.heart {*/
-    /*font-size: 90%;*/
-    /*position: relative;*/
-    /*left: -.75rem;*/
-    /*top: -.15rem;*/
-/*}*/
+.spade {
+  color: white; /* Changed from black */
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+
+.club {
+  color: white; /* Changed from black */
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+
+.diamond {
+  color: #ef5350; /* Bright red */
+  text-shadow: 0 0 8px rgba(239,83,80,0.4);
+}
+
+.heart {
+  color: #ef5350; /* Bright red */
+  text-shadow: 0 0 8px rgba(239,83,80,0.4);
+}
+
+.logo:hover .spade,
+.logo:hover .club,
+.logo:hover .diamond,
+.logo:hover .heart {
+  transform: scale(1.15);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .logo {
+    font-size: 2rem;
+    gap: 0.6rem;
+  }
+  
+  .spade,
+  .diamond,
+  .club,
+  .heart {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    font-size: 1.6rem;
+    gap: 0.5rem;
+  }
+  
+  .spade,
+  .diamond,
+  .club,
+  .heart {
+    font-size: 1.5rem;
+  }
+}

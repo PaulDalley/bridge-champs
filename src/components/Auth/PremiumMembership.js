@@ -316,40 +316,33 @@ class PremiumMembership extends Component {
           <Row>
             <Col s={12}>
               <Card className="PremiumMembership-payment-card">
-                <h4 className="center-align">
-                  {PRICING_TIERS[selectedTier].name}
-                </h4>
-                <div className="center-align" style={{fontSize: '2rem', color: '#1976D2', marginBottom: '2rem'}}>
-                  ${PRICING_TIERS[selectedTier].price} per month
+                <div className="PremiumMembership-payment-header">
+                  <h4>{PRICING_TIERS[selectedTier].name}</h4>
+                  <div className="PremiumMembership-payment-price">
+                    ${PRICING_TIERS[selectedTier].price} <span>per month</span>
+                  </div>
                 </div>
                 
-                <Button
-                  className="PremiumMembership-change-tier"
-                  flat
-                  onClick={() => this.setState({ selectedTier: null })}
-                >
-                  Change Tier
-                </Button>
+                <div className="PremiumMembership-payment-actions">
+                  <button
+                    className="PremiumMembership-change-tier-btn"
+                    onClick={() => this.setState({ selectedTier: null })}
+                  >
+                    ← Change Tier
+                  </button>
+                </div>
 
-                <Row>
-                  <Col s={12} className="center-align" style={{marginTop: '2rem'}}>
-                    <img
-                      src={paypalPayNow}
-                      className="PremiumMembership-paypal_signup_button"
-                      onClick={(e) => this.signupClicked(e)}
-                      alt="Pay with PayPal"
-                      style={{cursor: 'pointer', maxWidth: '200px'}}
-                    />
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col s={12} className="center-align" style={{marginTop: '2rem'}}>
-                    <div className="PremiumMembership-secure_checkout">
-                      <i className="fas fa-lock"></i>&nbsp;&nbsp;Secure Checkout
-                    </div>
-                  </Col>
-                </Row>
+                <div className="PremiumMembership-paypal-section">
+                  <img
+                    src={paypalPayNow}
+                    className="PremiumMembership-paypal-button"
+                    onClick={(e) => this.signupClicked(e)}
+                    alt="Pay with PayPal"
+                  />
+                  <div className="PremiumMembership-secure-badge">
+                    <i className="fas fa-lock"></i> Secure Checkout
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>

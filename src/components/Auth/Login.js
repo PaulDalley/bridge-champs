@@ -99,160 +99,91 @@ class Login extends Component {
   };
 
   render() {
-    let containerClass = "";
-    if (this.props.history.location.pathname === "/login") {
-      containerClass = "Login-container";
-    }
-    const textStyles = {
-      position: "relative",
-      left: ".5rem",
-      fontWeight: "bold",
-      fontSize: "1.6rem",
-      marginTop: "1rem",
-    };
+    const { email, password, err, forgottenPasswordModalOpen, emailReset } = this.state;
+
     return (
-      <form onSubmit={this.onSubmit} className={containerClass}>
-        <br />
-        <br />
+      <div className="Login-container">
+        <div className="Login-card">
+          <div className="Login-header">
+            <h1 className="Login-title">Welcome Back</h1>
+            <p className="Login-subtitle">Sign in to continue to Bridge Champions</p>
+          </div>
 
-        <Row>
-          
-          <a onClick={this.googleLogin}
-            style={{ width: "100%" }}
-            className="Login-SocialButton btn btn-social btn-google"
-          >
-            <span className="Login-SocialIcon fab fa-google"></span> Sign in
-            with Google&nbsp;&nbsp;&nbsp;&nbsp;
-          </a>
-          
-          <a onClick={this.facebookLogin}
-            style={{ width: "100%" }}
-            className="btn btn-medium btn-social btn-facebook Login-SocialButton"
-          >
-            <span className="Login-SocialIcon fab fa-facebook-f"></span> Sign in
-            with Facebook
-          </a>
-        </Row>
+          {err && <div className="Login-error">{err}</div>}
 
-        <br />
-        <br />
-        <hr />
-        <div className="Login-or">
-          <span className="Login-or-text">
-            &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;
-          </span>
+          <div className="Login-social-buttons">
+            <button type="button" onClick={this.googleLogin} className="Login-SocialButton btn-google">
+              <i className="Login-SocialIcon fab fa-google"></i>
+              Sign in with Google
+            </button>
+            
+            <button type="button" onClick={this.facebookLogin} className="Login-SocialButton btn-facebook">
+              <i className="Login-SocialIcon fab fa-facebook-f"></i>
+              Sign in with Facebook
+            </button>
+          </div>
+
+          <div className="Login-divider">
+            <span className="Login-divider-text">or</span>
+          </div>
+
+          <form onSubmit={this.onSubmit} className="Login-form">
+            <div className="Login-input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                className="Login-input-field"
+                type="email"
+                name="email"
+                value={email}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+
+            <div className="Login-input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                className="Login-input-field"
+                type="password"
+                name="password"
+                value={password}
+                onChange={this.handleChange}
+                required
+              />
+              <div 
+                className="Login-forgot_password" 
+                onClick={this.openForgottenPasswordModal}
+              >
+                Forgot password?
+              </div>
+            </div>
+
+            <button type="submit" className="Login-submit-button">
+              Sign In
+            </button>
+          </form>
+
+          <div className="Login-footer">
+            <span style={{fontSize: '1.3rem', color: '#666'}}>Don't have an account? </span>
+            <Link to="/membership" className="Login-footer-link">Sign up</Link>
+          </div>
         </div>
-        <Row>
-          <TextInput
-            email={true}
-            type="email"
-            s={12}
-            m={8}
-            label="Email address"
-            name="email"
-            onChange={this.handleChange}
-            value={this.state.email}
-            className="Login-input-field"
-            icon={"email"}
-          >
-          </TextInput>
-        </Row>
-        <Row>
-          <TextInput
-            password={true}
-            label="Password"
-            s={12}
-            m={8}
-            name="password"
-            onChange={this.handleChange}
-            value={this.state.password}
-            className="Login-input-field"
-            icon={"vpn_key"}
-          >
-          </TextInput>
-        </Row>
-        <Row>
-          <span
-            style={{ position: "relative", top: "-2rem", left: ".5rem" }}
-            className="red-suit"
-          >
-            {" "}
-            {this.state.err}{" "}
-          </span>
-        </Row>
-        <Row
-          style={{
-            position: "relative",
-            top: "-2.5rem",
-            paddingBottom: 0,
-            marginBottom: 0,
-          }}
-        >
-          <button
-            style={{
-              fontWeight: "bold",
-              fontSize: "5rem",
-              width: "100%",
-              position: "relative",
-              top: "-1rem",
-              marginTop: 0,
-              paddingTop: 0,
-              fontSize: "1.2rem",
-              paddingBottom: 0,
-              marginBottom: 0,
-            }}
-            className="Nav-auth_buttons btn waves-effect waves-light"
-            type="submit"
-            name="action"
-          >
-            Log in
-            <i className="material-icons right">send</i>
-          </button>
-        </Row>
-        <Row>
-          <div>
-            <Modal
-              id="Login-PasswordForgottenModal"
-              header="Forgotten password?"
-              bottomSheet
-              trigger={
-                <div className="Login-info_text Login-forgot_password">
-                  <a onClick={(e) => this.openForgottenPasswordModal(e)}>
-                    Forgotten your password?
-                  </a>
-                </div>
-              }
-            >
-              <Row>
-                <TextInput
-                  email={true}
-                  s={8}
-                  name="emailReset"
-                  placeholder="Enter your login email address"
-                  value={this.state.emailReset}
-                  onChange={this.handleChange}
-                ></TextInput>
-              </Row>
-              <Row>
-                <Button
-                  className="CreateArticle-submit"
-                  onClick={(e) => this.resetPassword(e)}
-                  waves="light"
-                >
-                  Reset Password
-                  <Icon left>done_all</Icon>
-                </Button>
-              </Row>
-            </Modal>
-          </div>
-          <br />
-          <hr />
-          <br />
-          <div className="Login-info_text">
-            Don't have an account? <Link to="/membership">Sign up</Link>
-          </div>
-        </Row>
-      </form>
+
+        {forgottenPasswordModalOpen && (
+          <Modal open={true}>
+            <h4>Reset Password</h4>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={emailReset}
+              onChange={(e) => this.setState({ emailReset: e.target.value })}
+            />
+            <button onClick={this.resetPassword}>Send Reset Email</button>
+          </Modal>
+        )}
+      </div>
     );
   }
 }

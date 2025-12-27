@@ -30,6 +30,7 @@
   top: -3rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
   justify-content: space-around;
   /*grid-template-rows: repeat(auto-fit, minmax(10px, min-content));*/
   margin: 5rem 10rem 5rem;
@@ -78,6 +79,7 @@
 
   /*dont stretch them:*/
   grid-template-rows: repeat(auto-fit, minmax(14rem, max-content));
+  gap: 2.5rem;
   /*margin: 5rem 10rem 5rem;*/
 }
 
