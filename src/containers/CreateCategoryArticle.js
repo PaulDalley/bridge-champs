@@ -81,6 +81,7 @@ const CreateCategoryArticle = ({
   const [categories, setCategories] = useState(["[Add New Category]"]);
   const [newCategory, setNewCategory] = useState("");
   const [body, setBody] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [categoriesSubscription, setCategoriesSubscription] =
     useState(undefined);
 
@@ -96,6 +97,7 @@ const CreateCategoryArticle = ({
       teaser_board,
       title,
       subcategory,
+      videoUrl,
     } = articleMetadata;
 
     if (subcategory === undefined) subcategory = "";
@@ -109,6 +111,7 @@ const CreateCategoryArticle = ({
     setTitle(title);
     setCategory(category);
     setSubcategory(subcategory);
+    setVideoUrl(videoUrl || "");
     setBody(body);
     setArticleId(articleId);
 
@@ -193,6 +196,7 @@ const CreateCategoryArticle = ({
       teaser_board: teaserBoard,
       teaser: teaser,
       articleNumber: articleNumber,
+      videoUrl: videoUrl,
     };
 
     if (subcategory !== "") {
@@ -231,6 +235,7 @@ const CreateCategoryArticle = ({
       teaser: teaser,
       body: body,
       id: articleId,
+      videoUrl: videoUrl,
     };
 
     if (subcategory !== "") {
@@ -397,6 +402,16 @@ const CreateCategoryArticle = ({
           ></TextInput>
         </Row>
         <Row>
+          <TextInput
+            s={12}
+            name="videoUrl"
+            label="YouTube Video URL (Optional - Premium Only)"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="https://www.youtube.com/watch?v=..."
+          ></TextInput>
+        </Row>
+        <Row>
           {!edit && (
             <RichTextEditor
               value={article}
@@ -476,3 +491,4 @@ const CreateCategoryArticle = ({
 };
 
 export default withRouter(CreateCategoryArticle);
+// Video URL feature added Sun 28 Dec 2025 10:11:35 AEDT
