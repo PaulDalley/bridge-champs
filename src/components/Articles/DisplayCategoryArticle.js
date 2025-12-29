@@ -218,6 +218,21 @@ const DisplayCategoryArticle = ({
               <strong>📹 Video Available:</strong> A video of this article is available if you prefer watching or listening - for premium users only.
             </div>
           )}
+          {hasVideos && isPremium && (
+            <div className="DisplayArticle-video-notice" style={{
+              marginTop: '1rem',
+              marginBottom: '1rem',
+              padding: '1.2rem',
+              backgroundColor: '#f0f9f4',
+              borderLeft: '4px solid #0F4C3A',
+              borderRadius: '4px',
+              fontSize: '1.5rem',
+              lineHeight: '1.6',
+              color: '#1a1d23'
+            }}>
+              <strong>📹 Video Available:</strong> A video version of this article is available below - the same content as the text, just in case you prefer watching or listening.
+            </div>
+          )}
           <div className="DisplayArticle-category" aria-label="Article number">
             Article {useMetaData.articleNumber}
           </div>
