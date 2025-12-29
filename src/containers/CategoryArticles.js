@@ -16,6 +16,7 @@ import {
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import "./CategoryArticles.css";
 import FiltersCategoryArticles from "./FiltersCategoryArticles";
+import SkeletonLoader from "../components/UI/SkeletonLoader";
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
@@ -113,7 +114,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
       <div className="CategoryArticles-content">
         <div className="container">
-          {filteredArticles && filteredArticles.length > 0 ? (
+          {articles === undefined ? (
+            <div className="CategoryArticles-grid">
+              <SkeletonLoader type="card" count={6} />
+            </div>
+          ) : filteredArticles && filteredArticles.length > 0 ? (
             <div className="CategoryArticles-grid">
               {articleJSX}
             </div>

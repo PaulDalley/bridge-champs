@@ -10,6 +10,7 @@ import {
 import {
   startAddArticle,
   startEditArticle,
+  getArticleMetadata,
   getArticle,
   startDeleteArticle,
 } from "../store/actions/categoryArticlesActions";
@@ -25,32 +26,18 @@ import {
   Textarea,
   DatePicker,
 } from "react-materialize"; // Input component deprecated
-import { categoriesRef } from "../firebase/config";
+import { categoriesRef, biddingSummaryRef, cardPlaySummaryRef, defenceSummaryRef } from "../firebase/config";
 import "./CreateArticle.css";
 import $ from "jquery";
+
 
 import GenerateBridgeBoard from "../components/BridgeBoard/GenerateBridgeBoard";
 
 import RichTextEditor from "react-rte";
 
-/*const mapStateToProps = ({ articles, auth }) => ({
-    a: auth.a,
-    articles: articles.articles,
-    article: articles.article,
-  });
-  const mapDispatchToProps = (dispatch) => ({
-    addArticle: (article, articleBody) =>
-      dispatch(startAddArticle(article, articleBody)),
-    getArticle: (id) => dispatch(getArticle(id)),
-    editArticle: (article, articleBody) =>
-      dispatch(startEditArticle(article, articleBody)),
-    deleteArticle: (articleId, bodyId) =>
-      dispatch(startDeleteArticle(articleId, bodyId)),
-  });
-*/
-
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import logger from "../utils/logger";
 
 const CreateCategoryArticle = ({
   articleType,
@@ -66,10 +53,12 @@ const CreateCategoryArticle = ({
     (state) => state.categoryArticles?.[articleType]
   );
   const _article = useSelector((state) => state.categoryArticles?.article);
+  const currentArticle = useSelector((state) => state.categoryArticles?.currentArticle);
   const dispatch = useDispatch();
 
   const [article, setArticle] = useState(RichTextEditor.createEmptyValue());
-  const [articleId, setArticleId] = useState(match?.params?.id);
+  const [articleId, setArticleId] = useState(match?.params?.id); // This is the body document ID from URL
+  const [summaryDocumentId, setSummaryDocumentId] = useState(null); // This is the summary document ID
   const [articleLoaded, setArticleLoaded] = useState(false);
   const [difficulty, setDifficulty] = useState("1");
   const [articleNumber, setArticleNumber] = useState("1");
@@ -85,8 +74,8 @@ const CreateCategoryArticle = ({
   const [categoriesSubscription, setCategoriesSubscription] =
     useState(undefined);
 
-  const setDataIfEditing = () => {
-    let articleMetadata = findQuizById(articles, articleId);
+  const setDataIfEditing = (articleMetadata) => {
+    if (!articleMetadata) return;
 
     let {
       body,
@@ -98,24 +87,32 @@ const CreateCategoryArticle = ({
       title,
       subcategory,
       videoUrl,
+      id,
     } = articleMetadata;
 
     if (subcategory === undefined) subcategory = "";
-    // console.log("--- SETTING DATA IF EDITING ---");
-    // console.log(articleMetadata);
+    if (!difficulty) difficulty = "1";
+    if (!articleNumber) articleNumber = "1";
+    if (!title) title = "";
+    if (!category) category = "[Add New Category]";
+    if (!teaser) teaser = "";
+    if (!teaser_board) teaser_board = "";
+    
     setArticle("");
-    setDifficulty(difficulty);
-    setArticleNumber(articleNumber);
+    setDifficulty(String(difficulty));
+    setArticleNumber(String(articleNumber));
     setTeaser(teaser);
     setTeaserBoard(teaser_board);
     setTitle(title);
     setCategory(category);
-    setSubcategory(subcategory);
+    setSubcategory(subcategory || "");
     setVideoUrl(videoUrl || "");
     setBody(body);
-    setArticleId(articleId);
 
-    dispatch(getArticle(body, history, bodyRef));
+    // Only fetch article body if we have a body ID
+    if (body) {
+      dispatch(getArticle(body, history, bodyRef));
+    }
   };
 
   const addCategory = (e) => {
@@ -128,33 +125,52 @@ const CreateCategoryArticle = ({
       .then(() => {
         setNewCategory("");
       });
-    // .then(() => {
-    //   return <Toast toast="category added to categories list">
-    //       Toast
-    //   </Toast>
-    // })
   };
 
+  // Fetch article metadata when editing
   useEffect(() => {
-    // console.log("--- in useEffect createCategoryArticle ---");
-    if (!a) history.push(`/${articleType}`);
+    const currentArticleId = match?.params?.id;
+    if (edit && currentArticleId && articleType) {
+      // Reset article loaded state when starting a new edit
+      setArticleLoaded(false);
+      // The articleId in the URL is the body document ID, not the summary document ID
+      // We need to query the summary collection to find the document where body == articleId
+      const refMap = { bidding: biddingSummaryRef, cardPlay: cardPlaySummaryRef, defence: defenceSummaryRef };
+      const summaryRef = refMap[articleType];
+      
+      summaryRef
+        .where("body", "==", currentArticleId)
+        .get()
+        .then((snapshot) => {
+          if (snapshot && snapshot.docs.length > 0) {
+            const doc = snapshot.docs[0];
+            const data = doc.data();
+            // Store the summary document ID (this is what we'll use when saving)
+            setSummaryDocumentId(doc.id);
+            // Add the document ID to the data
+            const dataWithId = { ...data, id: doc.id };
+            setDataIfEditing(dataWithId);
+          }
+        })
+        .catch((err) => {
+          // Error will be handled by error boundary
+        });
+    }
+  }, [edit, match?.params?.id, articleType]);
 
-    // SHOULD fetch article metadata and article body here instead of reroute:
-    const articleMetadata =
-      articles !== undefined &&
-      articleId !== undefined &&
-      findQuizById(articles, articleId);
+  // Auth check and categories subscription
+  useEffect(() => {
+    if (a === false) {
+      history.push('/' + articleType);
+      return;
+    }
 
-    if (edit && articleMetadata) {
-      setDataIfEditing();
-    } else if (creating || create) {
-    } else {
-      history.push(`/${articleType}`);
+    if (!creating && !create && !edit) {
+      history.push('/' + articleType);
+      return;
     }
 
     const _categoriesSubscription = categoriesRef.onSnapshot((snapshot) => {
-      console.log("--- receiving categories snapshot ---");
-      console.log(snapshot);
       if (snapshot && snapshot.docs.length > 0) {
         const categories = snapshot.docs.map((doc) => doc.id);
         setCategories(["[Add New Category]", ...categories]);
@@ -165,23 +181,18 @@ const CreateCategoryArticle = ({
     return () => {
       if (categoriesSubscription) categoriesSubscription();
     };
-  }, []);
+  }, [a, articleType, creating, create, edit]);
 
+  // Load article body when it arrives
   useEffect(() => {
-    let _articleBody = _article?.[body]?.text;
-    if (_articleBody && !articleLoaded) {
-      setArticleLoaded(true);
-      setArticle(_articleBody);
+    if (body && _article) {
+      let _articleBody = _article?.[body]?.text;
+      if (_articleBody && !articleLoaded) {
+        setArticleLoaded(true);
+        setArticle(_articleBody);
+      }
     }
-  }, [_article]);
-
-  useEffect(() => {
-    let _articleBody = _article?.[body]?.text;
-    if (_articleBody && !articleLoaded) {
-      setArticleLoaded(true);
-      setArticle(_articleBody);
-    }
-  }, []);
+  }, [_article, body, articleLoaded]);
 
   const submitArticle = (e) => {
     e.preventDefault();
@@ -225,6 +236,12 @@ const CreateCategoryArticle = ({
 
   const submitEditArticle = (e) => {
     e.preventDefault();
+    // Use the summary document ID (not the body ID from URL)
+    const summaryId = summaryDocumentId || match?.params?.id;
+    if (!summaryId) {
+      logger.error("No summary document ID found for editing");
+      return;
+    }
     let _article = {
       articleType: articleType,
       title: title,
@@ -234,22 +251,22 @@ const CreateCategoryArticle = ({
       teaser_board: teaserBoard,
       teaser: teaser,
       body: body,
-      id: articleId,
+      id: summaryId, // This should be the summary document ID
       videoUrl: videoUrl,
     };
 
     if (subcategory !== "") {
-      article["subcategory"] = subcategory;
+      _article["subcategory"] = subcategory;
     }
 
-    let articleText = prepareArticleString(article).toString("html");
+    // When editing, article is already a string (HTML), not a RichTextEditor value
+    let articleText = typeof article === 'string' 
+      ? prepareArticleString(article)
+      : prepareArticleString(article.toString("html"));
     let articleBody = { text: articleText };
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
-      //   case "article":
-      //     this.props.history.push("/articles");
-      //     break;
       case "defence":
         history.push("/defence");
         break;
@@ -259,15 +276,11 @@ const CreateCategoryArticle = ({
       case "bidding":
         history.push("/bidding");
         break;
-      //   case "tournament":
-      //     this.props.history.push("/tournaments");
     }
   };
 
   const submitDeleteArticle = (e) => {
     e.preventDefault();
-    // console.log("I WANT TO DELETE U");
-    // $('#CreateArticle-confirm_delete').modal('close');
     let modal = $(".modal");
     let modalOverlay = $(".modal-overlay");
     modal.removeClass("open");
@@ -275,7 +288,7 @@ const CreateCategoryArticle = ({
     modalOverlay.remove();
     $("body").css({ overflow: "auto" });
     dispatch(startDeleteArticle(articleId, body, articleType, bodyRef));
-    history.push(`/${articleType}`);
+    history.push('/' + articleType);
   };
 
   // START OF RENDERING CODE:
@@ -358,7 +371,7 @@ const CreateCategoryArticle = ({
               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
               20,
             ].map((n) => {
-              return <option value={String(n)}>Level {n}</option>;
+              return <option key={n} value={String(n)}>Level {n}</option>;
             })}
           </Select>
         </Row>
@@ -375,7 +388,7 @@ const CreateCategoryArticle = ({
               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
               20,
             ].map((n) => {
-              return <option value={String(n)}>Level {n}</option>;
+              return <option key={n} value={String(n)}>Level {n}</option>;
             })}
           </Select>
         </Row>
@@ -396,7 +409,6 @@ const CreateCategoryArticle = ({
             s={12}
             name="teaser"
             label="Article Teaser Introduction"
-            // type="textarea"
             value={teaser}
             onChange={(e) => setTeaser(e.target.value)}
           ></TextInput>
@@ -412,12 +424,19 @@ const CreateCategoryArticle = ({
           ></TextInput>
         </Row>
         <Row>
+          <div style={{ marginBottom: "1rem", padding: "1rem", backgroundColor: "#f5f5f5", borderRadius: "4px" }}>
+            <strong>💡 To embed a video in the article:</strong>
+            <ul style={{ marginTop: "0.5rem", marginBottom: 0 }}>
+              <li>Paste a YouTube URL directly in the article content below (e.g., <code>https://www.youtube.com/watch?v=VIDEO_ID</code>)</li>
+              <li>Or use the format: <code>&lt;Video url="https://youtube.com/watch?v=VIDEO_ID" /&gt;</code></li>
+            </ul>
+          </div>
+        </Row>
+        <Row>
           {!edit && (
             <RichTextEditor
               value={article}
               onChange={(article) => {
-                // console.log("--- RICH TEXT EDITOR CHANGED ---");
-                // console.log(article);
                 setArticle(article);
               }}
               className="editor"
@@ -427,7 +446,7 @@ const CreateCategoryArticle = ({
             <Textarea
               s={12}
               name="article"
-              label="Article"
+              label="Article Content (paste YouTube URLs here to embed videos)"
               type="textarea"
               value={article}
               onChange={(e) => setArticle(e.target.value)}
@@ -491,4 +510,3 @@ const CreateCategoryArticle = ({
 };
 
 export default withRouter(CreateCategoryArticle);
-// Video URL feature added Sun 28 Dec 2025 10:11:35 AEDT

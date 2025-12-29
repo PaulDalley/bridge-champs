@@ -6,6 +6,7 @@ import {
 } from "../../store/actions/categoryArticlesActions";
 import "./DisplayArticle.css";
 import "./ArticleListItem.css";
+import logger from "../../utils/logger";
 
 import {
   parseDocumentIntoJSX,
@@ -13,12 +14,91 @@ import {
   findArticleById,
   makeBoardObjectFromString,
   getDifficultyStr,
+  hasVideosInContent,
 } from "../../helpers/helpers";
 import MakeBoard from "../../components/BridgeBoard/MakeBoard";
 import { Col, ProgressBar } from "react-materialize";
 import Comments from "../Comments/Comments";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import SkeletonLoader from "../UI/SkeletonLoader";
+
+// Helper function to render admin edit button
+const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
+  if (!isAdmin) return null;
+  
+  return (
+    <button
+      className="DisplayArticle-edit-btn"
+      onClick={() => history.push('/edit/' + articleType + '/' + articleId)}
+      aria-label={`Edit ${articleType} article`}
+      title="Edit this article"
+    >
+      Edit Article
+    </button>
+  );
+};
+
+// Helper function to render video section with premium paywall
+const renderVideoSection = (videoUrl, tier, history) => {
+  if (!videoUrl) return null;
+
+  const isPremium = tier === 'premium';
+  
+  if (isPremium) {
+    // Extract video ID from YouTube URL
+    let videoId = '';
+    try {
+      const url = new URL(videoUrl);
+      if (url.hostname.includes('youtube.com')) {
+        videoId = url.searchParams.get('v');
+      } else if (url.hostname.includes('youtu.be')) {
+        videoId = url.pathname.slice(1);
+      }
+    } catch (e) {
+      logger.error('Invalid video URL:', e);
+      return null;
+    }
+
+    if (!videoId) return null;
+
+    return (
+      <div className="Article-video-container" role="region" aria-label="Video content">
+        <iframe
+          className="Article-video-player"
+          src={'https://www.youtube.com/embed/' + videoId}
+          title="Article video"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          aria-label="YouTube video player"
+        />
+      </div>
+    );
+  } else {
+    // Non-premium users see paywall
+    return (
+      <div className="Article-video-container">
+        <div className="Article-video-paywall">
+          <div className="Article-video-blur">
+            <div className="Article-video-lock-icon">🔒</div>
+          </div>
+          <div className="Article-video-paywall-content">
+            <h3>Premium Content</h3>
+            <p>Upgrade to Premium to watch this video</p>
+            <button
+              className="Article-video-upgrade-btn"
+              onClick={() => history.push('/membership')}
+              aria-label="Upgrade to premium membership to watch this video"
+            >
+              Upgrade to Premium
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+};
 
 // export default connect(
 //     (state) => ({
@@ -46,6 +126,8 @@ const DisplayCategoryArticle = ({
   const username = useSelector((state) => state.auth.username);
   const displayName = useSelector((state) => state.auth.displayName);
   const photoURL = useSelector((state) => state.auth.photoURL);
+  const a = useSelector((state) => state.auth.a);
+  const tier = useSelector((state) => state.auth.tier);
   const articles = useSelector(
     (state) => state.categoryArticles?.[articleType]
   );
@@ -84,9 +166,11 @@ const DisplayCategoryArticle = ({
   }
 
   let articleDataArray = [];
+  const hasVideos = articleText ? hasVideosInContent(articleText) : false;
+  const isPremium = tier === 'premium';
 
   if (articleText) {
-    articleDataArray = parseDocumentIntoJSX(articleText);
+    articleDataArray = parseDocumentIntoJSX(articleText, false, undefined, undefined, tier, history);
   }
 
   // console.log(
@@ -109,24 +193,37 @@ const DisplayCategoryArticle = ({
   if (!article) {
     return (
       <div className="DisplayArticle-container">
-        <Col s={12}>
-          <ProgressBar />
-        </Col>
+        <SkeletonLoader type="article" />
       </div>
     );
   }
 
   return (
-    <div className="DisplayArticle-container">
-      {articleMetadata && ( // articleMetadata
-        <div>
-          <h3 className="DisplayArticle-title">{useMetaData.title}</h3>
-          <div className="DisplayArticle-category">
+    <article className="DisplayArticle-container" aria-label="Article content">
+      {articleMetadata && (
+        <header>
+          <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
+          {hasVideos && !isPremium && (
+            <div className="DisplayArticle-video-notice" style={{
+              marginTop: '1rem',
+              marginBottom: '1rem',
+              padding: '1.2rem',
+              backgroundColor: '#f0f7ff',
+              borderLeft: '4px solid #0F4C3A',
+              borderRadius: '4px',
+              fontSize: '1.5rem',
+              lineHeight: '1.6',
+              color: '#1a1d23'
+            }}>
+              <strong>📹 Video Available:</strong> A video of this article is available if you prefer watching or listening - for premium users only.
+            </div>
+          )}
+          <div className="DisplayArticle-category" aria-label="Article number">
             Article {useMetaData.articleNumber}
           </div>
           <div
-            // className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${articleMetadata.difficulty}`}
             className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
+            aria-label={`Difficulty level ${useMetaData.difficulty}`}
           >
             Level {useMetaData.difficulty}
           </div>
@@ -137,23 +234,33 @@ const DisplayCategoryArticle = ({
               const thirtyDaysAgo = new Date();
               thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
               const isNew = articleDate > thirtyDaysAgo;
-              return isNew ? <span className="ArticleListItem-new-badge">NEW</span> : null;
+              return isNew ? (
+                <span className="ArticleListItem-new-badge" aria-label="New article">NEW</span>
+              ) : null;
             })()}
           </div>
-        </div>
+        </header>
       )}
-      {articleDataArray}
+      
+      {renderAdminEditButton(a, articleType, articleId, history)}
+      {renderVideoSection(useMetaData?.videoUrl, tier, history)}
+      
+      <div className="DisplayArticle-content" role="article">
+        {articleDataArray}
+      </div>
 
       {article && (
-        <Comments
-          uid={uid}
-          username={username}
-          displayName={displayName}
-          photoURL={photoURL}
-          parentId={article.id}
-        />
+        <section aria-label="Comments section">
+          <Comments
+            uid={uid}
+            username={username}
+            displayName={displayName}
+            photoURL={photoURL}
+            parentId={article.id}
+          />
+        </section>
       )}
-    </div>
+    </article>
   );
 };
 

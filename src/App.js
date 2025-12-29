@@ -16,7 +16,7 @@ window.jQuery = window.$ = $;
 // NEW: Doesn't work:
 import "materialize-css";
 
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom"; // Routes replaced Switch component deprecated.
 import "./App.css";
@@ -40,13 +40,15 @@ import Questions from "./containers/Questions";
 import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
 import TestingGround from "./components/TestingGround";
+import SkeletonLoader from "./components/UI/SkeletonLoader";
 
 import { firebase } from "./firebase/config";
 
-import CreateArticle from "./containers/CreateArticle";
-import CreateCategoryArticle from "./containers/CreateCategoryArticle";
-import CreateQuiz from "./containers/CreateQuiz";
-import DBComp from "./containers/DBComp";
+// Lazy load heavy components for code splitting
+const CreateArticle = lazy(() => import("./containers/CreateArticle"));
+const CreateCategoryArticle = lazy(() => import("./containers/CreateCategoryArticle"));
+const CreateQuiz = lazy(() => import("./containers/CreateQuiz"));
+const DBComp = lazy(() => import("./containers/DBComp"));
 
 import GoogleAnalytics from "./components/GoogleAnaytics";
 
@@ -66,29 +68,36 @@ const routes = (
   <Switch>
     <Route
       path="/create/db"
-      // element={<DBComp />}
-      component={DBComp}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <DBComp />
+        </Suspense>
+      )}
     />
 
     <Route
       path="/create/article"
       create={true}
       creating={true}
-      // element={<CreateArticle type={"article"} />}
-      render={() => <CreateArticle articleType="articles" bodyRef="article" />}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateArticle articleType="articles" bodyRef="article" />
+        </Suspense>
+      )}
     />
 
     {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
     <Route
       path="/create/defence"
-      // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle
-          articleType="defence"
-          bodyRef="defenceBody"
-          create={true}
-          creating={true}
-        />
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="defence"
+            bodyRef="defenceBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
       )}
     />
 
@@ -96,14 +105,15 @@ const routes = (
       path="/create/cardPlay"
       create={true}
       creating={true}
-      // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle
-          articleType="cardPlay"
-          bodyRef="cardPlayBody"
-          create={true}
-          creating={true}
-        />
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="cardPlay"
+            bodyRef="cardPlayBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
       )}
     />
 
@@ -111,48 +121,55 @@ const routes = (
       path="/create/bidding"
       create={true}
       creating={true}
-      // element={<CreateArticle type={"article"} />}
       render={() => (
-        <CreateCategoryArticle
-          articleType="bidding"
-          bodyRef="biddingBody"
-          create={true}
-          creating={true}
-        />
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="bidding"
+            bodyRef="biddingBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
       )}
     />
 
     <Route
       path="/edit/defence/:id"
-      // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => (
-        <CreateCategoryArticle
-          edit={true}
-          articleType="defence"
-          bodyRef="defenceBody"
-        />
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="defence"
+            bodyRef="defenceBody"
+          />
+        </Suspense>
       )}
     />
     <Route
       path="/edit/cardPlay/:id"
-      // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => (
-        <CreateCategoryArticle
-          edit={true}
-          articleType="cardPlay"
-          bodyRef="cardPlayBody"
-        />
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="cardPlay"
+            bodyRef="cardPlayBody"
+          />
+        </Suspense>
       )}
     />
     <Route
       path="/edit/bidding/:id"
-      // element={<CreateArticle edit={true} type={"article"} />}
-      render={() => (
-        <CreateCategoryArticle
-          edit={true}
-          articleType="bidding"
-          bodyRef="biddingBody"
-        />
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="bidding"
+            bodyRef="biddingBody"
+          />
+        </Suspense>
       )}
     />
     <Route
@@ -222,27 +239,38 @@ const routes = (
 
     <Route
       path="/create/tournament"
-      // element={<CreateArticle type={"tournament"} />}
-      render={() => <CreateArticle articleType="tournament" />}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateArticle articleType="tournament" />
+        </Suspense>
+      )}
     />
 
     <Route
       path="/create/quiz"
-      // element={<CreateQuiz />}
       articleType="quiz"
-      component={CreateQuiz}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateQuiz />
+        </Suspense>
+      )}
     />
 
     <Route
       path="/edit/article/:id"
-      // element={<CreateArticle edit={true} type={"article"} />}
       render={() => (
-        <CreateArticle edit={true} articleType="article" type="article" />
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateArticle edit={true} articleType="article" type="article" />
+        </Suspense>
       )}
     />
     <Route
       path="/edit/quiz/:id"
-      render={() => <CreateQuiz edit={true} articleType="quiz" type="quiz" />}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateQuiz edit={true} articleType="quiz" type="quiz" />
+        </Suspense>
+      )}
     />
 
     <Route path="/testingground" component={TestingGround} />

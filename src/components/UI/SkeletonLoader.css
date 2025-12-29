@@ -1,0 +1,97 @@
+.SkeletonLoader {
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+.SkeletonLoader-container {
+  display: grid;
+  gap: 2rem;
+}
+
+.SkeletonLoader-line {
+  height: 1.6rem;
+  background: linear-gradient(
+    90deg,
+    #E2E8F0 0%,
+    #CBD5E1 50%,
+    #E2E8F0 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.SkeletonLoader-line--title {
+  height: 2.4rem;
+  width: 70%;
+  margin-bottom: 1.6rem;
+}
+
+.SkeletonLoader-line--meta {
+  height: 1.4rem;
+  width: 40%;
+  margin-bottom: 2rem;
+}
+
+.SkeletonLoader-line--short {
+  width: 60%;
+}
+
+.SkeletonLoader-box {
+  background: linear-gradient(
+    90deg,
+    #E2E8F0 0%,
+    #CBD5E1 50%,
+    #E2E8F0 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 0.8rem;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+.SkeletonLoader-box--image {
+  width: 100%;
+  height: 20rem;
+  margin-bottom: 1.5rem;
+}
+
+.SkeletonLoader--article {
+  padding: 2rem;
+  background: white;
+  border-radius: 0.8rem;
+}
+
+.SkeletonLoader--card {
+  background: white;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.SkeletonLoader--card .SkeletonLoader-content {
+  padding: 2rem;
+}
+
+.SkeletonLoader--list {
+  padding: 1.5rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .SkeletonLoader-line--title {
+    height: 2rem;
+  }
+  
+  .SkeletonLoader-box--image {
+    height: 16rem;
+  }
+}
+

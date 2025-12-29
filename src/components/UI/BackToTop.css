@@ -1,0 +1,49 @@
+.BackToTop-button {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  width: 5rem;
+  height: 5rem;
+  background: var(--color-primary, #0F4C3A);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(2rem);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  padding: 0;
+}
+
+.BackToTop-button:hover {
+  background: var(--color-primary-light, #1B6B52);
+  transform: translateY(-0.5rem);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.BackToTop-button:focus {
+  outline: 3px solid rgba(15, 76, 58, 0.3);
+  outline-offset: 2px;
+}
+
+.BackToTop-button--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media screen and (max-width: 768px) {
+  .BackToTop-button {
+    bottom: 2rem;
+    right: 2rem;
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+

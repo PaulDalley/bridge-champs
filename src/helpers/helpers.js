@@ -667,43 +667,209 @@ export const getQuizData = (documentString) => {
   }
 };
 
+// Helper function to extract YouTube video ID from URL
+const extractYouTubeVideoId = (url) => {
+  if (!url) return null;
+  
+  try {
+    const urlObj = new URL(url);
+    if (urlObj.hostname.includes('youtube.com')) {
+      return urlObj.searchParams.get('v');
+    } else if (urlObj.hostname.includes('youtu.be')) {
+      return urlObj.pathname.slice(1);
+    }
+  } catch (e) {
+    // Try regex fallback for URLs that might not parse correctly
+    const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(youtubeRegex);
+    if (match) return match[1];
+  }
+  
+  return null;
+};
+
+// Helper function to render video embed with premium gating
+const renderVideoEmbed = (videoUrl, key, tier, history) => {
+  const videoId = extractYouTubeVideoId(videoUrl);
+  if (!videoId) return null;
+  
+  const isPremium = tier === 'premium';
+  
+  if (isPremium) {
+    return (
+      <div key={key} className="Article-video-container" role="region" aria-label="Video content">
+        <iframe
+          className="Article-video-player"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="Article video"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          aria-label="YouTube video player"
+        />
+      </div>
+    );
+  } else {
+    // Non-premium users see paywall
+    return (
+      <div key={key} className="Article-video-container">
+        <div className="Article-video-paywall">
+          <div className="Article-video-blur">
+            <div className="Article-video-lock-icon">🔒</div>
+          </div>
+          <div className="Article-video-paywall-content">
+            <h3>Premium Content</h3>
+            <p>Upgrade to Premium to watch this video</p>
+            <button
+              className="Article-video-upgrade-btn"
+              onClick={() => history.push('/membership')}
+              aria-label="Upgrade to premium membership to watch this video"
+            >
+              Upgrade to Premium
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+};
+
+// Helper function to detect if article has videos
+export const hasVideosInContent = (documentString) => {
+  if (!documentString) return false;
+  const videoTagRegex = /<Video\s+url=["']([^"']+)["']\s*\/>|<Video>([^<]+)<\/Video>/gi;
+  const youtubeUrlRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}(?:[^\s<>"']*)?)/gi;
+  return videoTagRegex.test(documentString) || youtubeUrlRegex.test(documentString);
+};
+
 export const parseDocumentIntoJSX = (
   documentString,
   quiz = false,
   callback = undefined,
-  quizType = undefined
+  quizType = undefined,
+  tier = undefined,
+  history = undefined
 ) => {
-  // console.log(documentString);
-  // console.log(documentString.split(/(<MakeBoard .*" \/>)/));
-  // let count = 0;
-  // let re = /(<MakeBoard .* \/>)/;
-  // let matches = re.exec(documentString);
-  // let boardStrLen = matches[0].length;
-  // let strBefore = matches.input.slice(0, matches.index);
-  // console.log(strBefore);
-
-  const articleDataArray = documentString
-    .split(/(<MakeBoard\s.*?\s\/>)/)
-    .map((substring, idx) => {
-      if (!substring.includes("MakeBoard")) {
-        return <Markup key={`${idx}x`} content={substring} />;
-      } else {
-        // count += 1;
-        return (
-          <div key={`${idx}x`} className="Display-board_container">
-            <br />
-            <MakeBoard
-              {...makeBoardObjectFromString(substring, true)}
-              getBidding={callback}
-              isQuiz={quiz}
-              quizType={quizType}
-            />
-            <br />
-          </div>
-        );
-      }
+  if (!documentString) return [];
+  
+  // First, split by video tags/patterns, then by MakeBoard tags
+  // Support both <Video url="..." /> and <Video>...</Video> formats
+  // Also support YouTube URLs directly in text
+  let parts = [];
+  let currentIndex = 0;
+  let partIndex = 0;
+  
+  // Regex to match video tags and YouTube URLs
+  const videoTagRegex = /<Video\s+url=["']([^"']+)["']\s*\/>|<Video>([^<]+)<\/Video>/gi;
+  // Updated regex to match YouTube URLs even when wrapped in HTML tags or with query parameters
+  // This will match URLs like: https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID
+  // Even if they're inside <p> tags or have additional query parameters
+  const youtubeUrlRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}(?:[^\s<>"']*)?)/gi;
+  
+  // Find all video matches
+  const videoMatches = [];
+  let match;
+  
+  // Match video tags
+  while ((match = videoTagRegex.exec(documentString)) !== null) {
+    videoMatches.push({
+      index: match.index,
+      length: match[0].length,
+      url: match[1] || match[2],
+      type: 'tag'
     });
-  // console.log(count);
+  }
+  
+  // Match YouTube URLs (but not if they're already in video tags)
+  while ((match = youtubeUrlRegex.exec(documentString)) !== null) {
+    // Check if this URL is already captured in a video tag
+    const isInTag = videoMatches.some(vm => 
+      match.index >= vm.index && match.index < vm.index + vm.length
+    );
+    
+    if (!isInTag) {
+      videoMatches.push({
+        index: match.index,
+        length: match[0].length,
+        url: match[0],
+        type: 'url'
+      });
+    }
+  }
+  
+  // Sort matches by index
+  videoMatches.sort((a, b) => a.index - b.index);
+  
+  // Split document by video matches and MakeBoard tags
+  let processedString = documentString;
+  let offset = 0;
+  
+  // Replace video matches with placeholders
+  const videoPlaceholders = [];
+  videoMatches.forEach((vm, idx) => {
+    const placeholder = `__VIDEO_PLACEHOLDER_${idx}__`;
+    videoPlaceholders.push({
+      placeholder,
+      url: vm.url
+    });
+    processedString = processedString.substring(0, vm.index + offset) + 
+                     placeholder + 
+                     processedString.substring(vm.index + vm.length + offset);
+    offset += placeholder.length - vm.length;
+  });
+  
+  // Now split by MakeBoard tags
+  const segments = processedString.split(/(<MakeBoard\s.*?\s\/>)/);
+  
+  // Process each segment
+  const articleDataArray = [];
+  let globalIdx = 0;
+  
+  segments.forEach((segment, segIdx) => {
+    if (segment.includes("MakeBoard")) {
+      // Render MakeBoard
+      articleDataArray.push(
+        <div key={`board-${globalIdx}`} className="Display-board_container">
+          <br />
+          <MakeBoard
+            {...makeBoardObjectFromString(segment, true)}
+            getBidding={callback}
+            isQuiz={quiz}
+            quizType={quizType}
+          />
+          <br />
+        </div>
+      );
+      globalIdx++;
+    } else if (segment.includes("__VIDEO_PLACEHOLDER_")) {
+      // Extract placeholder index and render video
+      const placeholderMatch = segment.match(/__VIDEO_PLACEHOLDER_(\d+)__/);
+      if (placeholderMatch) {
+        const placeholderIdx = parseInt(placeholderMatch[1]);
+        const videoData = videoPlaceholders[placeholderIdx];
+        if (videoData) {
+          const videoEmbed = renderVideoEmbed(videoData.url, `video-${globalIdx}`, tier, history);
+          if (videoEmbed) {
+            articleDataArray.push(videoEmbed);
+            globalIdx++;
+          }
+        }
+        // Remove placeholder from segment before rendering as Markup
+        segment = segment.replace(/__VIDEO_PLACEHOLDER_\d+__/g, '');
+      }
+      
+      // Render remaining content as Markup if there's any
+      if (segment.trim()) {
+        articleDataArray.push(<Markup key={`content-${globalIdx}`} content={segment} />);
+        globalIdx++;
+      }
+    } else if (segment.trim()) {
+      // Regular content
+      articleDataArray.push(<Markup key={`content-${globalIdx}`} content={segment} />);
+      globalIdx++;
+    }
+  });
+  
   return articleDataArray;
 };
 

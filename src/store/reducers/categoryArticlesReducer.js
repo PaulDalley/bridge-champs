@@ -16,6 +16,7 @@ const articlesDefaultState = {
   cardPlayBody: {},
   defence: [],
   defenceBody: {},
+  article: {},
   currentArticle: undefined,
   fetchedByCategory: false,
 };

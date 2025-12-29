@@ -451,10 +451,7 @@ main,
   pointer-events: auto !important;
 }
 
-/* Temporarily hide filters */
-.Filters {
-  display: none;
-}
+/* Filters are now visible - removed hidden state */
 
 /* Temporarily hide daily free content */
 .HomePage-daily {

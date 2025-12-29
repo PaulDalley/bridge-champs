@@ -130,3 +130,116 @@
   font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
+
+.DisplayArticle-edit-btn {
+  position: absolute;
+  top: 0;
+  right: 10rem;
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.DisplayArticle-edit-btn:hover {
+  background-color: #e65100;
+}
+
+@media screen and (max-width: 710px) {
+  .DisplayArticle-edit-btn {
+    right: 0rem;
+    top: 4rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+.Article-video-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 3rem auto;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.Article-video-container iframe,
+.Article-video-container .Article-video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.Article-video-paywall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Article-video-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Article-video-lock-icon {
+  font-size: 4rem;
+  color: white;
+}
+
+.Article-video-paywall-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.Article-video-paywall-content h3 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.Article-video-paywall-content p {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.Article-video-upgrade-btn {
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.Article-video-upgrade-btn:hover {
+  background-color: #e65100;
+}

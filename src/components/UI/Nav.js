@@ -130,9 +130,17 @@ class Nav extends Component {
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
           <div className="Nav-logo">
-            <div onClick={() => this.goTo("/")}>
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                this.goTo("/");
+              }}
+              aria-label="Home - Bridge Champions"
+              style={{ cursor: 'pointer', textDecoration: 'none' }}
+            >
               <Logo />
-            </div>
+            </a>
           </div>
           {/*<i className="material-icons left">input</i>*/}
 
@@ -220,29 +228,69 @@ class Nav extends Component {
           <div className="col s12">
             <ul className="tabs">
               {/* NEW VIDEOS TAB - Added to the left of Declarer Play */}
-              <li onClick={() => this.goTo("/videos")} className="tab col">
-                <a id="videos" className="/videos">
+              <li className="tab col">
+                <a 
+                  id="videos" 
+                  className="/videos"
+                  href="/videos"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.goTo("/videos");
+                  }}
+                  role="tab"
+                  aria-label="Videos section"
+                >
                   Videos
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>
 
-              <li onClick={() => this.goTo("/cardPlay")} className="tab col">
-                <a id="cardPlay" className="/cardPlay">
+              <li className="tab col">
+                <a 
+                  id="cardPlay" 
+                  className="/cardPlay"
+                  href="/cardPlay"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.goTo("/cardPlay");
+                  }}
+                  role="tab"
+                  aria-label="Declarer Play section"
+                >
                   Declarer Play
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>
 
-              <li onClick={() => this.goTo("/defence")} className="tab col">
-                <a id="defence" className="/defence">
+              <li className="tab col">
+                <a 
+                  id="defence" 
+                  className="/defence"
+                  href="/defence"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.goTo("/defence");
+                  }}
+                  role="tab"
+                  aria-label="Defence section"
+                >
                   Defence
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>
 
-              <li onClick={() => this.goTo("/bidding")} className="tab col">
-                <a id="bidding" className="/bidding">
+              <li className="tab col">
+                <a 
+                  id="bidding" 
+                  className="/bidding"
+                  href="/bidding"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.goTo("/bidding");
+                  }}
+                  role="tab"
+                  aria-label="Bidding section"
+                >
                   Bidding
                 </a>
                 <div className="nav-tabs_underline"></div>
@@ -258,8 +306,18 @@ class Nav extends Component {
                 <div className="nav-tabs_underline"></div>
               </li>
 
-              <li onClick={() => this.goTo("/articles")} className="tab col">
-                <a id="articles" className="/articles">
+              <li className="tab col">
+                <a 
+                  id="articles" 
+                  className="/articles"
+                  href="/articles"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.goTo("/articles");
+                  }}
+                  role="tab"
+                  aria-label="Articles section"
+                >
                   Articles
                 </a>
                 <div className="nav-tabs_underline"></div>
