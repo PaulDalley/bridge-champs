@@ -10,6 +10,9 @@ import database, {
   cardPlayBodyRef,
   defenceSummaryRef,
   defenceBodyRef,
+  cardPlayBodyBackupsRef,
+  defenceBodyBackupsRef,
+  biddingBodyBackupsRef,
 } from "../../firebase/config";
 /*const articlesRef = database.ref('articles');
  const articleRef = database.ref('article');*/
@@ -21,6 +24,12 @@ const matchTypeToRef = {
   cardPlayBody: cardPlayBodyRef,
   defence: defenceSummaryRef,
   defenceBody: defenceBodyRef,
+};
+
+const matchBodyRefToBackupRef = {
+  biddingBody: biddingBodyBackupsRef,
+  cardPlayBody: cardPlayBodyBackupsRef,
+  defenceBody: defenceBodyBackupsRef,
 };
 
 export const setCurrentArticle = (article) => ({
@@ -253,20 +262,54 @@ export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
     // console.log("metadata", article.id)
     // console.log("article body", article.body);
     // console.log("ABOUT TO EDIT THEM: ", article.title);
-    const batch = database.batch();
+    
     const useSummaryRef = matchTypeToRef[summaryRef];
     const useBodyRef = matchTypeToRef[bodyRef];
+    const useBackupRef = matchBodyRefToBackupRef[bodyRef];
     const articleBodyRef = useBodyRef.doc(article.body);
     const articlesMetadataRef = useSummaryRef.doc(article.id);
-    batch.update(articlesMetadataRef, {
-      ...article,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    batch.update(articleBodyRef, {
-      body: articleBody,
-    });
-    batch
-      .commit()
+    
+    // First, get the current article body to backup
+    articleBodyRef
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          const currentBodyData = snapshot.data();
+          const currentBodyText = currentBodyData?.text || currentBodyData?.body || "";
+          
+          // Create backup before editing
+          if (useBackupRef && currentBodyText) {
+            const backupData = {
+              articleId: article.id,
+              bodyId: article.body,
+              title: article.title || "Untitled",
+              previousContent: currentBodyText,
+              backedUpAt: firebase.firestore.FieldValue.serverTimestamp(),
+              backedUpBy: firebase.auth().currentUser?.uid || "system",
+            };
+            
+            // Add backup to backup collection
+            useBackupRef.add(backupData).catch((backupErr) => {
+              console.error("Failed to create backup:", backupErr);
+              // Don't fail the edit if backup fails, but log it
+            });
+          }
+        }
+        
+        // Now proceed with the edit
+        const batch = database.batch();
+        batch.update(articlesMetadataRef, {
+          ...article,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        // articleBody is either { text: "..." } or just the string
+        const bodyUpdate = typeof articleBody === 'object' && articleBody.text 
+          ? { text: articleBody.text }
+          : { text: articleBody };
+        batch.update(articleBodyRef, bodyUpdate);
+        
+        return batch.commit();
+      })
       .then(() => {
         //dispatch(editArticle(article, articleBody, article.id, summaryRef, bodyRef));
         console.log("Edit successful");
@@ -286,6 +329,74 @@ const editArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
   summaryRef,
   bodyRef,
 });
+
+// RESTORE: Restore article from backup
+export const restoreArticleFromBackup = (backupId, bodyRef) => {
+  return (dispatch) => {
+    const useBackupRef = matchBodyRefToBackupRef[bodyRef];
+    const useBodyRef = matchTypeToRef[bodyRef];
+    
+    if (!useBackupRef || !useBodyRef) {
+      return Promise.reject(new Error("Invalid bodyRef for restore"));
+    }
+    
+    return useBackupRef
+      .doc(backupId)
+      .get()
+      .then((backupSnapshot) => {
+        if (!backupSnapshot.exists) {
+          throw new Error("Backup not found");
+        }
+        
+        const backupData = backupSnapshot.data();
+        const bodyId = backupData.bodyId;
+        
+        // Restore the article body
+        return useBodyRef.doc(bodyId).update({
+          text: backupData.previousContent,
+        });
+      })
+      .then(() => {
+        console.log("Article restored from backup successfully");
+        return { success: true };
+      })
+      .catch((err) => {
+        dispatch(articleError(err));
+        console.error("Failed to restore from backup:", err);
+        throw err;
+      });
+  };
+};
+
+// GET BACKUPS: Get all backups for an article
+export const getArticleBackups = (bodyId, bodyRef) => {
+  return (dispatch) => {
+    const useBackupRef = matchBodyRefToBackupRef[bodyRef];
+    
+    if (!useBackupRef) {
+      return Promise.resolve([]);
+    }
+    
+    return useBackupRef
+      .where("bodyId", "==", bodyId)
+      .orderBy("backedUpAt", "desc")
+      .get()
+      .then((snapshot) => {
+        const backups = [];
+        snapshot.forEach((doc) => {
+          backups.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        return backups;
+      })
+      .catch((err) => {
+        console.error("Failed to get backups:", err);
+        return [];
+      });
+  };
+};
 
 export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
   return (dispatch) => {

@@ -70,7 +70,6 @@ const ArticleListItem = ({
       <div className="ArticleCard-content">
         <div className="ArticleCard-meta">
           <span className="badge badge-category">{category}</span>
-          <span className="badge badge-difficulty">{diffString}</span>
           {isLocked && (
             <span className="badge badge-locked">Premium</span>
           )}

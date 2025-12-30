@@ -285,15 +285,6 @@ class Settings extends Component {
                                       <div className="Settings-retention-actions">
                                         <Button
                                           waves="light"
-                                          modal="close"
-                                          className="Settings-contact-btn"
-                                          onClick={() => window.location.href = 'mailto:paul.dalley@hotmail.com'}
-                                        >
-                                          <Icon left>email</Icon>
-                                          Contact Us
-                                        </Button>
-                                        <Button
-                                          waves="light"
                                           className="Settings-call-btn"
                                           onClick={() => this.setState({ showContactForm: true })}
                                         >
@@ -303,16 +294,14 @@ class Settings extends Component {
                                         <Button
                                           waves="light"
                                           modal="close"
-                                          flat
-                                          style={{ marginLeft: "1rem" }}
+                                          className="Settings-call-btn"
                                         >
                                           Keep My Subscription
                                         </Button>
                                         <Button
                                           waves="light"
                                           modal="close"
-                                          flat
-                                          className="Settings-home-btn"
+                                          className="Settings-call-btn"
                                           onClick={() => this.props.history.push('/')}
                                         >
                                           <Icon left>home</Icon>

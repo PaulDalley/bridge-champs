@@ -13,6 +13,8 @@ import {
   getArticleMetadata,
   getArticle,
   startDeleteArticle,
+  getArticleBackups,
+  restoreArticleFromBackup,
 } from "../store/actions/categoryArticlesActions";
 import {
   Row,
@@ -60,6 +62,9 @@ const CreateCategoryArticle = ({
   const [articleId, setArticleId] = useState(match?.params?.id); // This is the body document ID from URL
   const [summaryDocumentId, setSummaryDocumentId] = useState(null); // This is the summary document ID
   const [articleLoaded, setArticleLoaded] = useState(false);
+  const [backups, setBackups] = useState([]);
+  const [showBackups, setShowBackups] = useState(false);
+  const [loadingBackups, setLoadingBackups] = useState(false);
   
   // RichTextEditor toolbar configuration
   const toolbarConfig = {
@@ -328,6 +333,71 @@ const CreateCategoryArticle = ({
     history.push('/' + articleType);
   };
 
+  const loadBackups = async () => {
+    if (!body || !bodyRef) return;
+    setLoadingBackups(true);
+    try {
+      const backupsList = await dispatch(getArticleBackups(body, bodyRef));
+      setBackups(backupsList);
+      setShowBackups(true);
+      // Open the modal programmatically
+      setTimeout(() => {
+        const modalElement = document.getElementById('backup-modal');
+        if (modalElement) {
+          const instance = window.M?.Modal?.getInstance(modalElement);
+          if (instance) {
+            instance.open();
+          }
+        }
+      }, 100);
+    } catch (err) {
+      logger.error("Failed to load backups:", err);
+      Toast({
+        html: "Failed to load backups",
+        classes: "red",
+      });
+    } finally {
+      setLoadingBackups(false);
+    }
+  };
+
+  const handleRestoreBackup = async (backupId) => {
+    if (!window.confirm("Are you sure you want to restore this backup? This will replace the current article content.")) {
+      return;
+    }
+    
+    try {
+      await dispatch(restoreArticleFromBackup(backupId, bodyRef));
+      Toast({
+        html: "Article restored from backup successfully! Reloading...",
+        classes: "green",
+      });
+      
+      // Reload the article
+      setTimeout(() => {
+        dispatch(getArticle(body, history, bodyRef));
+        setArticleLoaded(false);
+        setShowBackups(false);
+      }, 1000);
+    } catch (err) {
+      logger.error("Failed to restore backup:", err);
+      Toast({
+        html: "Failed to restore backup",
+        classes: "red",
+      });
+    }
+  };
+
+  const formatBackupDate = (timestamp) => {
+    if (!timestamp) return "Unknown date";
+    try {
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      return date.toLocaleString();
+    } catch (e) {
+      return "Unknown date";
+    }
+  };
+
   // START OF RENDERING CODE:
   let categoriesJSX = categories.map((category) => (
     <option key={category} value={category}>
@@ -497,15 +567,27 @@ const CreateCategoryArticle = ({
           </Button>
         )}
         {edit && (
-          <Button
-            className="CreateArticle-edit"
-            onClick={(e) => submitEditArticle(e)}
-            waves="light"
-            style={{ paddingRight: "1rem", marginRight: "1rem" }}
-          >
-            Edit Article
-            <Icon left>done_all</Icon>
-          </Button>
+          <>
+            <Button
+              className="CreateArticle-edit"
+              onClick={(e) => submitEditArticle(e)}
+              waves="light"
+              style={{ paddingRight: "1rem", marginRight: "1rem" }}
+            >
+              Edit Article
+              <Icon left>done_all</Icon>
+            </Button>
+            <Button
+              waves="light"
+              className="CreateArticle-backup"
+              onClick={loadBackups}
+              style={{ marginRight: "1rem" }}
+              disabled={loadingBackups}
+            >
+              <Icon left>history</Icon>
+              {loadingBackups ? "Loading..." : "View Backups"}
+            </Button>
+          </>
         )}
 
         {edit && (
@@ -532,6 +614,66 @@ const CreateCategoryArticle = ({
               Delete Article
               <Icon left> delete</Icon>
             </Button>
+          </Modal>
+        )}
+
+        {edit && (
+          <Modal
+            header="Article Backups"
+            trigger={
+              <div style={{ display: "none" }} id="backup-modal-trigger"></div>
+            }
+            options={{
+              onCloseEnd: () => setShowBackups(false),
+            }}
+            id="backup-modal"
+          >
+            <div style={{ padding: "1rem 0" }}>
+              {backups.length === 0 ? (
+                <p>No backups found for this article.</p>
+              ) : (
+                <>
+                  <p style={{ marginBottom: "1.5rem", color: "#666" }}>
+                    Select a backup to restore. This will replace the current article content.
+                  </p>
+                  <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    {backups.map((backup) => (
+                      <div
+                        key={backup.id}
+                        style={{
+                          border: "1px solid #e0e0e0",
+                          borderRadius: "4px",
+                          padding: "1rem",
+                          marginBottom: "1rem",
+                          backgroundColor: "#f9f9f9",
+                        }}
+                      >
+                        <div style={{ marginBottom: "0.5rem" }}>
+                          <strong>Backed up:</strong> {formatBackupDate(backup.backedUpAt)}
+                        </div>
+                        {backup.title && (
+                          <div style={{ marginBottom: "0.5rem", color: "#666" }}>
+                            <strong>Title:</strong> {backup.title}
+                          </div>
+                        )}
+                        <div style={{ marginBottom: "1rem", fontSize: "1.2rem", color: "#666" }}>
+                          {backup.previousContent?.substring(0, 100)}...
+                        </div>
+                        <Button
+                          waves="light"
+                          small
+                          onClick={() => handleRestoreBackup(backup.id)}
+                          style={{ backgroundColor: "#0F4C3A" }}
+                        >
+                          <Icon left>restore</Icon>
+                          Restore This Version
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </Modal>
         )}
       </form>

@@ -90,9 +90,6 @@ const CategoryArticleListItem = ({
       <div className="ArticleCard-content">
         {/* Badges */}
         <div className="ArticleCard-meta">
-          <span className="badge badge-difficulty">
-            {diffString}
-          </span>
           <span className="badge badge-number">
             #{articleNumber}
           </span>

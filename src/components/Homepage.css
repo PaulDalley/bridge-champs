@@ -208,18 +208,6 @@
   display: inline-block;
 }
 
-.HomePage-mission-title::after {
-  content: '';
-  position: absolute;
-  bottom: -1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6rem;
-  height: 0.3rem;
-  background: var(--color-secondary);
-  border-radius: var(--radius-full);
-}
-
 .HomePage-mission-text {
   font-size: var(--text-lg);
   line-height: 1.8;

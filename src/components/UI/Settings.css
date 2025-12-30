@@ -225,11 +225,6 @@
   background-color: #1B6B52;
 }
 
-.Settings-home-btn {
-  width: 100%;
-  max-width: 300px;
-  margin-top: 0.5rem;
-}
 
 .Settings-contact-form-container {
   margin-top: 2rem;
@@ -334,22 +329,21 @@
 }
 
 .Settings-proceed-cancel-container {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
   text-align: center;
 }
 
 .Settings-proceed-cancel-link {
-  color: #9ca3af;
-  font-size: 1.2rem;
+  color: #718096;
+  font-size: 1.1rem;
   text-decoration: none;
   transition: color 0.2s;
   display: inline-block;
 }
 
 .Settings-proceed-cancel-link:hover {
-  color: #6c757d;
+  color: #4a5568;
   text-decoration: underline;
 }
 

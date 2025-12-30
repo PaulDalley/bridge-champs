@@ -836,8 +836,19 @@ export const parseDocumentIntoJSX = (
     offset += placeholder.length - vm.length;
   });
   
-  // Now split by MakeBoard tags
-  const segments = processedString.split(/(<MakeBoard\s.*?\s\/>)/);
+  // Now split by MakeBoard tags - handle various formats including HTML-escaped and wrapped in tags
+  // First, unescape any HTML entities that might have been escaped
+  processedString = processedString
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+  
+  // Extract MakeBoard tags that might be wrapped in HTML tags (e.g., <p><MakeBoard ... /></p>)
+  // Replace wrapped MakeBoard tags with just the MakeBoard tag
+  processedString = processedString.replace(/<[^>]*>(<MakeBoard[^>]*\/>)<\/[^>]*>/g, '$1');
+  
+  // Split by MakeBoard tags - more flexible regex to handle different spacing and formats
+  const segments = processedString.split(/(<MakeBoard[^>]*\/>)/);
   
   // Process each segment
   const articleDataArray = [];
@@ -845,12 +856,16 @@ export const parseDocumentIntoJSX = (
   
   segments.forEach((segment, segIdx) => {
     if (segment.includes("MakeBoard")) {
+      // Extract just the MakeBoard tag if it's mixed with other content
+      const makeBoardMatch = segment.match(/(<MakeBoard[^>]*\/>)/);
+      const makeBoardTag = makeBoardMatch ? makeBoardMatch[1] : segment;
+      
       // Render MakeBoard
       articleDataArray.push(
         <div key={`board-${globalIdx}`} className="Display-board_container">
           <br />
           <MakeBoard
-            {...makeBoardObjectFromString(segment, true)}
+            {...makeBoardObjectFromString(makeBoardTag, true)}
             getBidding={callback}
             isQuiz={quiz}
             quizType={quizType}

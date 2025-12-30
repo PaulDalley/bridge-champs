@@ -132,11 +132,6 @@ export class DisplayArticle extends Component {
             <div className="DisplayArticle-category">
               {articleMetadata.category}
             </div>
-            <div
-              className={`DisplayArticle-difficulty ArticlesListItem-difficulty-${articleMetadata.difficulty}`}
-            >
-              {getDifficultyStr(articleMetadata.difficulty)}
-            </div>
             <div className="DisplayArticle-createdAt">
               {(() => {
                 if (!articleMetadata.createdAt) return null;

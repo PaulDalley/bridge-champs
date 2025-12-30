@@ -41,6 +41,11 @@ const cardPlayBodyRef = database.collection("cardPlayBody");
 const defenceSummaryRef = database.collection("defence");
 const defenceBodyRef = database.collection("defenceBody");
 
+// Backup collections for article version history
+const cardPlayBodyBackupsRef = database.collection("cardPlayBodyBackups");
+const defenceBodyBackupsRef = database.collection("defenceBodyBackups");
+const biddingBodyBackupsRef = database.collection("biddingBodyBackups");
+
 const usersRef = database.collection("users");
 const categoriesRef = database.collection("categories");
 const quizzesRef = database.collection("quizzes");
@@ -74,6 +79,9 @@ export {
   cardPlayBodyRef,
   defenceSummaryRef,
   defenceBodyRef,
+  cardPlayBodyBackupsRef,
+  defenceBodyBackupsRef,
+  biddingBodyBackupsRef,
   categoriesRef,
   quizzesRef,
   quizRef,

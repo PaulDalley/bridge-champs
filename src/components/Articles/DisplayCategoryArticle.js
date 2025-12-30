@@ -320,12 +320,6 @@ const DisplayCategoryArticle = ({
             <div className="DisplayArticle-category" aria-label="Article number">
               Article {useMetaData.articleNumber}
             </div>
-            <div
-              className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
-              aria-label={`Difficulty level ${useMetaData.difficulty}`}
-            >
-              Level {useMetaData.difficulty}
-            </div>
             {(() => {
               if (!useMetaData.createdAt) return null;
               const articleDate = useMetaData.createdAt.toDate ? useMetaData.createdAt.toDate() : new Date(useMetaData.createdAt);

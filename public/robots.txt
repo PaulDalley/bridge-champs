@@ -22,3 +22,4 @@ Allow: /videos
 # Sitemap location (will be added after sitemap generation)
 Sitemap: https://bridgechampions.com/sitemap.xml
 
+
