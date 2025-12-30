@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet-async";
 import DisplayUserInfo from "./DisplayUserInfo";
 import UpdateProfileProperty from "./UpdateProfileProperty";
 import "./Profile.css";
@@ -7,6 +8,7 @@ import { Row, Col, Modal, Button, Icon, ProgressBar } from "react-materialize";
 import $ from "jquery";
 import { firebase } from "../../firebase/config";
 import toastr from "toastr";
+import logger from "../../utils/logger";
 import {
   changeSubscriptionActiveStatus,
   resetUserProfileBlank,
@@ -19,9 +21,9 @@ class Profile extends Component {
     cancelPending: false,
   };
 
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.username !== nextProps.username) {
-      this.setState({ username: nextProps.username });
+  componentDidUpdate(prevProps) {
+    if (prevProps.username !== this.props.username) {
+      this.setState({ username: this.props.username });
     }
   }
 
@@ -91,7 +93,7 @@ class Profile extends Component {
         toastr.success("Subscription cancelled successfully");
       }
     }).catch((err) => {
-      console.log(err);
+      logger.error("Error cancelling subscription:", err);
       this.setState({ cancelPending: false });
       toastr.error(
         "There was an error cancelling your subscription, please try again or contact support"
@@ -114,9 +116,8 @@ class Profile extends Component {
         toastr.success("Email updated successfully");
       })
       .catch((err) => {
-        console.log(err);
-        toastr.error(err.message);
-        // toastr.error("There was a problem updating your email. Please try again.");
+        logger.error("Error updating email:", err);
+        toastr.error(err.message || "There was a problem updating your email. Please try again.");
       });
   };
 
@@ -130,8 +131,14 @@ class Profile extends Component {
       .update({
         username: newName,
       })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        logger.log("Username updated:", res);
+        toastr.success("Username updated successfully");
+      })
+      .catch((err) => {
+        logger.error("Error updating username:", err);
+        toastr.error("There was a problem updating your username. Please try again.");
+      });
 
     // console.log(newName);
     // return new Promise((resolve, reject) => {
@@ -143,8 +150,6 @@ class Profile extends Component {
   };
 
   render() {
-    // console.log(this.props);
-
     const {
       paymentMethod,
       subscriptionActive,
@@ -158,11 +163,52 @@ class Profile extends Component {
       uid,
     } = this.props;
 
-    // const userName = this.state.username || "";
-    // const name = displayName || "Anonymous";
+    // Show loading or login prompt if user data isn't ready
+    if (!uid) {
+      return (
+        <div className="Profile-container">
+          <Helmet>
+            <title>Profile - Bridge Champions</title>
+            <meta name="description" content="Your Bridge Champions profile and account settings" />
+          </Helmet>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '4rem',
+            background: 'white',
+            borderRadius: '1.2rem',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            maxWidth: '60rem',
+            margin: '0 auto'
+          }}>
+            <h2 style={{ fontSize: '2.4rem', marginBottom: '2rem', color: '#1a1d23' }}>
+              Please Log In
+            </h2>
+            <p style={{ fontSize: '1.8rem', color: '#64748B', marginBottom: '2rem' }}>
+              You need to be logged in to view your profile.
+            </p>
+            <Button
+              waves="light"
+              style={{ 
+                backgroundColor: '#0F4C3A',
+                fontSize: '1.6rem',
+                padding: '1rem 2.4rem'
+              }}
+              onClick={() => window.location.href = '/login'}
+            >
+              Go to Login
+            </Button>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="Profile-container">
+        <Helmet>
+          <title>Profile - {displayName} | Bridge Champions</title>
+          <meta name="description" content={`${displayName}'s Bridge Champions profile. Manage your account settings, subscription, and quiz scores.`} />
+          <link rel="canonical" href="https://bridgechampions.com/profile" />
+        </Helmet>
         <div className="Profile-displayInfo">
           <div className="Profile-displayInfoContainer">
             <DisplayUserInfo
@@ -193,7 +239,8 @@ class Profile extends Component {
             )}
 
             {subscriptionActive && paymentMethod === "paypal" && (
-              <ConfirmationModal
+              <Modal
+                header="Confirm your cancellation"
                 trigger={
                   <Button waves="light" className="red">
                     Cancel Subscription
@@ -203,24 +250,20 @@ class Profile extends Component {
                 options={{
                   dismissible: false,
                 }}
-                header="Confirm your cancellation"
-                confirmButton={
-                  <Button
-                    waves="light"
-                    className="red"
-                    modal="close"
-                    onClick={(e) => this.cancelSubscriptionHandler(e)}
-                  >
-                    Confirm Cancellation
-                    <Icon left>cancel</Icon>
-                  </Button>
-                }
               >
-                <div>
-                  Are you sure you want to cancel your subscription to
-                  BridgeChampions.com?
+                <div style={{ fontSize: '1.8rem', marginBottom: '2rem' }}>
+                  Are you sure you want to cancel your subscription to BridgeChampions.com?
                 </div>
-              </ConfirmationModal>
+                <Button
+                  waves="light"
+                  className="red"
+                  modal="close"
+                  onClick={(e) => this.cancelSubscriptionHandler(e)}
+                >
+                  Confirm Cancellation
+                  <Icon left>cancel</Icon>
+                </Button>
+              </Modal>
             )}
             <div>
               <Modal
@@ -301,8 +344,8 @@ class Profile extends Component {
           </div>
         </div>
 
-        <div style={{ position: "relative" }}>
-          <div className="Profile-editInfoHeader">Edit your profile:</div>
+        <div className="Profile-editSection">
+          <div className="Profile-editInfoHeader">Edit Your Profile</div>
           <div>
             <UpdateProfileProperty
               type="text"
@@ -311,6 +354,19 @@ class Profile extends Component {
               current={userName}
               changeHandler={this.updateUsername}
             />
+          </div>
+          
+          <div style={{ marginTop: '3rem', paddingTop: '3rem', borderTop: '1px solid #E2E8F0' }}>
+            <h3 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: '#1a1d23' }}>Account Information</h3>
+            <div style={{ fontSize: '1.6rem', lineHeight: '1.8', color: '#64748B' }}>
+              <p><strong style={{ color: '#1a1d23' }}>Email:</strong> {email || 'Not set'}</p>
+              <p style={{ marginTop: '1rem' }}>
+                <strong style={{ color: '#1a1d23' }}>User ID:</strong> 
+                <span style={{ fontFamily: 'monospace', fontSize: '1.4rem', marginLeft: '1rem' }}>
+                  {uid ? uid.substring(0, 8) + '...' : 'Not available'}
+                </span>
+              </p>
+            </div>
           </div>
 
           {/*<div>*/}

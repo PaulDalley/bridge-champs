@@ -69,6 +69,7 @@ export class Articles extends Component {
           title={article.title}
           router={this.props.history}
           a={this.props.a}
+          subscriptionActive={this.props.subscriptionActive}
           clickHandler={this.setCurrentArticleAndGoTo}
         />
       ));
@@ -119,6 +120,7 @@ const mapStateToProps = (state, ownProps) => ({
   fetchedByCategory: state.articles.fetchedByCategory,
   articlesCount: state.articles.articlesCount,
   a: state.auth.a,
+  subscriptionActive: state.auth.subscriptionActive,
 });
 
 const mapDispatchToProps = (dispatch) => ({

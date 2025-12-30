@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Helmet } from "react-helmet-async";
 import { Row, Col, Modal, Button, Icon } from "react-materialize";
 import "./Homepage.css";
 import Add from "../containers/Add";
@@ -51,6 +52,14 @@ class HomePage extends Component {
 
     return (
       <div className="HomePage">
+        <Helmet>
+          <title>Bridge Champions - Winning Bridge Insights from World Class Experts</title>
+          <meta name="description" content="Learn Bridge or improve your mastery with daily access into the minds, insights and recent play of some of the most knowledgeable Bridge Champions and expert players around. Knowledge and quizzes that will improve your play." />
+          <link rel="canonical" href="https://bridgechampions.com/" />
+          <meta property="og:url" content="https://bridgechampions.com/" />
+          <meta property="og:title" content="Bridge Champions - Winning Bridge Insights from World Class Experts" />
+          <meta property="og:description" content="Learn Bridge from world class experts and champions. Improve your game with daily insights and quizzes." />
+        </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
         {/* SUCCESS MODAL */}

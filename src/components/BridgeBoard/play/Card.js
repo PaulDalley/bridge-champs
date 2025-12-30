@@ -16,8 +16,10 @@ const Card = ({
               }) => {
 
     // console.log(firstCard);
-    const right = `${idx*-4.8}rem`;
-    const styles = {position: "relative", left: right };
+    // Very minimal overlap - just enough for visual connection
+    // Cards are 6.5rem wide, so -0.8rem overlap leaves most of card visible
+    const right = `${idx * -0.8}rem`;
+    const styles = {position: "relative", left: right, zIndex: 100 - idx };
     const suitStyles = {color: 'black'};
     let rankStylesClass = "";
     switch(rank) {

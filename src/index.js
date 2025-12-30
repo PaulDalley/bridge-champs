@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 import App from "./App";
 import MyErrorBoundary from "./helpers/ErrorBoundary";
@@ -16,9 +17,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //   );
 
 root.render(
-  <MyErrorBoundary>
-    <App />
-  </MyErrorBoundary>
+  <HelmetProvider>
+    <MyErrorBoundary>
+      <App />
+    </MyErrorBoundary>
+  </HelmetProvider>
 );
 
 // registerServiceWorker();

@@ -19,9 +19,11 @@ const CategoryArticleListItem = ({
   title,
   clickHandler,
   a,
+  subscriptionActive,
   articleType,
 }) => {
-  const isLocked = !a;
+  // Article is locked if user is not an admin AND doesn't have an active subscription
+  const isLocked = !a && !subscriptionActive;
 
   const handleClick = () => {
     if (clickHandler) {

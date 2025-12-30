@@ -466,12 +466,17 @@ export class DisplayQuiz extends Component {
         {quizMetadata.quizType === "Opening Lead" && !this.state.submitted && (
           <div
             className="DisplayQuiz-hand_container"
-            style={{ position: "relative", top: "-11rem" }}
+            style={{ 
+              position: "relative", 
+              top: "-8rem",
+              marginBottom: "3rem"
+            }}
           >
             <div className="DisplayQuiz-hand">
               <PlayHand
                 hand={this.state.hand}
                 passClickedCardUp={this.playHandCardClicked}
+                selectedCard={this.state.answer}
               />
             </div>
             {this.state.answer && (
@@ -479,6 +484,11 @@ export class DisplayQuiz extends Component {
                 className="CreateArticle-submit DisplayQuiz-submit-openingLead"
                 onClick={(e) => this.submitAnswer(e)}
                 waves="light"
+                style={{
+                  marginTop: "2rem",
+                  fontSize: "1.8rem",
+                  padding: "1rem 2rem"
+                }}
               >
                 Confirm Answer: {this.state.answer.move}{" "}
                 {this.state.answer.suit}

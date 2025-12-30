@@ -2,6 +2,12 @@
     position: relative;
     width: 100%;
     display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 1rem 0;
     /*display: inherit;*/
     /*align-items: center;*/
     /*justify-content: center;*/

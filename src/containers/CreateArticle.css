@@ -6,9 +6,64 @@
 }
 
 .editor {
-    min-height: 40rem;
-    max-height: 40rem;
+    min-height: 50rem;
+    max-height: 80rem;
     overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.editor .DraftEditor-root {
+    min-height: 45rem;
+    padding: 1.5rem;
+    font-size: 1.6rem;
+    line-height: 1.8;
+}
+
+.editor .public-DraftStyleDefault-block {
+    margin: 0.5rem 0;
+}
+
+.editor .public-DraftEditor-content {
+    min-height: 45rem;
+}
+
+/* Toolbar styling */
+.editor .RichTextEditor__root___2QXK- {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.editor .RichTextEditor__toolbar___1YqQE {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.editor .RichTextEditor__toolbar___1YqQE button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    border-radius: 3px;
+    font-size: 1.4rem;
+}
+
+.editor .RichTextEditor__toolbar___1YqQE button:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .editor {
+        min-height: 40rem;
+        max-height: 60rem;
+    }
+    
+    .editor .DraftEditor-root {
+        min-height: 35rem;
+        font-size: 1.4rem;
+        padding: 1rem;
+    }
 }
 .CreateArticle-submit {
     font-size: 130%;

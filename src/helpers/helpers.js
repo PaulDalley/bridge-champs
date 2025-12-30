@@ -548,26 +548,33 @@ export const filterQuizzes = (
 };
 
 export const makeDateString = (date) => {
-  if (date) {
-    try {
-      let dateData = date.toDate();
-      let dateString = dateData.toString().split(" ");
-      //   console.log("--- CONVERTING date.toDate() ---");
-      //   console.log(dateData);
-      //   console.log(dateString);
-      return `${dateString[0].slice(0, 3)} ${dateString[1]} ${dateString[2]}, ${
-        dateString[3]
-      }`;
-    } catch (e) {
-      //   console.log("--- ERROR CONVERTING DATE FROM FIREBASE ---");
-      //   console.log(e);
-      //   console.log(date);
-      //   console.log(typeof date);
-      let dateData = new Date().toString().split(" ");
-      return `${dateData[0].slice(0, 3)} ${dateData[1]} ${dateData[2]}, ${
-        dateData[3]
-      }`;
+  if (!date) {
+    return "N/A";
+  }
+  
+  try {
+    // Handle Firestore Timestamp
+    let dateData;
+    if (date && typeof date.toDate === 'function') {
+      dateData = date.toDate();
+    } else if (date instanceof Date) {
+      dateData = date;
+    } else {
+      dateData = new Date(date);
     }
+    
+    // Validate the date
+    if (isNaN(dateData.getTime())) {
+      return "Invalid date";
+    }
+    
+    let dateString = dateData.toString().split(" ");
+    return `${dateString[0].slice(0, 3)} ${dateString[1]} ${dateString[2]}, ${
+      dateString[3]
+    }`;
+  } catch (e) {
+    // Error converting date - return safe fallback
+    return "Date unavailable";
   }
   // let dateData;
   // if (date)
@@ -706,7 +713,18 @@ const renderVideoEmbed = (videoUrl, key, tier, history) => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           aria-label="YouTube video player"
+          onError={(e) => {
+            // Note: iframe onError doesn't fire due to cross-origin restrictions
+            // But we can add a fallback message container
+            logger.error('Video iframe failed to load:', videoId);
+          }}
         />
+        <div className="Article-video-error" style={{ display: 'none', padding: '1rem', backgroundColor: '#fff3cd', border: '1px solid #ffc107', borderRadius: '4px', marginTop: '0.5rem' }}>
+          <p style={{ margin: 0, color: '#856404' }}>
+            <strong>⚠️ Video unavailable:</strong> This video may be set to Private. 
+            Please change the video privacy setting to "Unlisted" in YouTube Studio for it to be viewable here.
+          </p>
+        </div>
       </div>
     );
   } else {

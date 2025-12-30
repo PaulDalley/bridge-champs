@@ -200,6 +200,8 @@ class TopTen extends Component {
             teaser_board={article.teaser_board}
             title={article.title}
             router={this.props.history}
+            a={this.props.a}
+            subscriptionActive={this.props.subscriptionActive}
             clickHandler={this.articleClickHandler}
           />
         );
@@ -217,6 +219,8 @@ class TopTen extends Component {
             teaser_board={article.teaser_board}
             title={article.title}
             router={this.props.history}
+            a={this.props.a}
+            subscriptionActive={this.props.subscriptionActive}
             clickHandler={this.categoryArticleClickHandler}
             articleType={article.from}
             displayArticleType={true}
@@ -485,6 +489,8 @@ export default connect(
     quizScores: auth.quizScores || {},
     topTen: articles.topTen || [],
     topTenQuizzes: articles.topTenQuizzes || [],
+    a: auth.a,
+    subscriptionActive: auth.subscriptionActive,
   }),
   {
     setCurrentArticle,

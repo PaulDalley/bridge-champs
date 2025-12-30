@@ -1,0 +1,24 @@
+# robots.txt for Bridge Champions
+# https://bridgechampions.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow admin/edit pages
+Disallow: /create/
+Disallow: /edit/
+Disallow: /profile
+Disallow: /membership
+Disallow: /login
+
+# Allow important pages
+Allow: /cardPlay
+Allow: /defence
+Allow: /bidding
+Allow: /quizzes
+Allow: /articles
+Allow: /videos
+
+# Sitemap location (will be added after sitemap generation)
+Sitemap: https://bridgechampions.com/sitemap.xml
+

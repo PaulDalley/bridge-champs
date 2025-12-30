@@ -15,7 +15,7 @@ const CategorySelector = () => {
       name: 'Declarer Play',
       path: '/cardPlay',
       icon: '♦♣',
-      description: 'Enhance your declarer skills',
+      description: 'Skilled declarer play comes from simple counting and basic pattern recognition',
       color: 'secondary',
     },
     {

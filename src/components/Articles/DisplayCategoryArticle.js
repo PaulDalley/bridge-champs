@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet-async";
 import {
   getArticle,
   getArticleMetadata,
@@ -73,6 +74,12 @@ const renderVideoSection = (videoUrl, tier, history) => {
           allowFullScreen
           aria-label="YouTube video player"
         />
+        <div className="Article-video-error" style={{ display: 'none', padding: '1rem', backgroundColor: '#fff3cd', border: '1px solid #ffc107', borderRadius: '4px', marginTop: '0.5rem' }}>
+          <p style={{ margin: 0, color: '#856404' }}>
+            <strong>⚠️ Video unavailable:</strong> This video may be set to Private. 
+            Please change the video privacy setting to "Unlisted" in YouTube Studio for it to be viewable here.
+          </p>
+        </div>
       </div>
     );
   } else {
@@ -198,22 +205,95 @@ const DisplayCategoryArticle = ({
     );
   }
 
+  // Generate SEO meta tags
+  const getArticleTitle = () => {
+    if (useMetaData?.title) {
+      return `${useMetaData.title} - Bridge Champions`;
+    }
+    return "Bridge Champions - Expert Bridge Insights";
+  };
+
+  const getArticleDescription = () => {
+    if (useMetaData?.teaser) {
+      return useMetaData.teaser;
+    }
+    if (useMetaData?.title) {
+      return `Learn about ${useMetaData.title} from expert Bridge Champions. Improve your game with world-class insights and strategies.`;
+    }
+    return "Learn Bridge or improve your mastery with daily access into the minds, insights and recent play of some of the most knowledgeable Bridge Champions and expert players around.";
+  };
+
+  const getArticleUrl = () => {
+    const baseUrl = "https://bridgechampions.com";
+    return `${baseUrl}/${articleType}/${articleId}`;
+  };
+
+  const getCategoryName = () => {
+    const categoryMap = {
+      cardPlay: "Declarer Play",
+      defence: "Defence",
+      bidding: "Bidding"
+    };
+    return categoryMap[articleType] || articleType;
+  };
+
   return (
-    <article className="DisplayArticle-container" aria-label="Article content">
-      {articleMetadata && (
-        <header>
-          <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
+    <>
+      {useMetaData && (
+        <Helmet>
+          <title>{getArticleTitle()}</title>
+          <meta name="description" content={getArticleDescription()} />
+          <link rel="canonical" href={getArticleUrl()} />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={getArticleUrl()} />
+          <meta property="og:title" content={useMetaData.title || "Bridge Champions"} />
+          <meta property="og:description" content={getArticleDescription()} />
+          <meta property="og:site_name" content="Bridge Champions" />
+          {useMetaData.videoUrl && (
+            <meta property="og:video" content={useMetaData.videoUrl} />
+          )}
+          
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:url" content={getArticleUrl()} />
+          <meta name="twitter:title" content={useMetaData.title || "Bridge Champions"} />
+          <meta name="twitter:description" content={getArticleDescription()} />
+          
+          {/* Article specific meta */}
+          <meta property="article:section" content={getCategoryName()} />
+          {useMetaData.difficulty && (
+            <meta property="article:tag" content={`Level ${useMetaData.difficulty}`} />
+          )}
+          {useMetaData.createdAt && (
+            <meta property="article:published_time" content={
+              useMetaData.createdAt.toDate 
+                ? useMetaData.createdAt.toDate().toISOString()
+                : new Date(useMetaData.createdAt).toISOString()
+            } />
+          )}
+        </Helmet>
+      )}
+      
+      <article className="DisplayArticle-container" aria-label="Article content">
+        {articleMetadata && (
+          <header style={{ textAlign: 'center', marginBottom: '3rem', paddingBottom: '2rem', borderBottom: '2px solid #e2e8f0' }}>
+            <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
           {hasVideos && !isPremium && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               padding: '1.2rem',
               backgroundColor: '#f0f7ff',
               borderLeft: '4px solid #0F4C3A',
               borderRadius: '4px',
               fontSize: '1.5rem',
               lineHeight: '1.6',
-              color: '#1a1d23'
+              color: '#1a1d23',
+              maxWidth: '75rem',
+              marginLeft: 'auto',
+              marginRight: 'auto'
             }}>
               <strong>📹 Video Available:</strong> A video of this article is available if you prefer watching or listening - for premium users only.
             </div>
@@ -221,28 +301,31 @@ const DisplayCategoryArticle = ({
           {hasVideos && isPremium && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               padding: '1.2rem',
               backgroundColor: '#f0f9f4',
               borderLeft: '4px solid #0F4C3A',
               borderRadius: '4px',
               fontSize: '1.5rem',
               lineHeight: '1.6',
-              color: '#1a1d23'
+              color: '#1a1d23',
+              maxWidth: '75rem',
+              marginLeft: 'auto',
+              marginRight: 'auto'
             }}>
               <strong>📹 Video Available:</strong> A video version of this article is available below - the same content as the text, just in case you prefer watching or listening.
             </div>
           )}
-          <div className="DisplayArticle-category" aria-label="Article number">
-            Article {useMetaData.articleNumber}
-          </div>
-          <div
-            className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
-            aria-label={`Difficulty level ${useMetaData.difficulty}`}
-          >
-            Level {useMetaData.difficulty}
-          </div>
-          <div className="DisplayArticle-createdAt">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '0.8rem', marginTop: '1.5rem' }}>
+            <div className="DisplayArticle-category" aria-label="Article number">
+              Article {useMetaData.articleNumber}
+            </div>
+            <div
+              className={`DisplayArticle-difficulty ArticlesListItem-difficulty-general`}
+              aria-label={`Difficulty level ${useMetaData.difficulty}`}
+            >
+              Level {useMetaData.difficulty}
+            </div>
             {(() => {
               if (!useMetaData.createdAt) return null;
               const articleDate = useMetaData.createdAt.toDate ? useMetaData.createdAt.toDate() : new Date(useMetaData.createdAt);
@@ -276,6 +359,7 @@ const DisplayCategoryArticle = ({
         </section>
       )}
     </article>
+    </>
   );
 };
 

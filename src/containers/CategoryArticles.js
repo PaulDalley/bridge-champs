@@ -17,6 +17,7 @@ import CategoryArticleListItem from "../components/Articles/CategoryArticleListI
 import "./CategoryArticles.css";
 import FiltersCategoryArticles from "./FiltersCategoryArticles";
 import SkeletonLoader from "../components/UI/SkeletonLoader";
+import { Helmet } from "react-helmet-async";
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
@@ -26,6 +27,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     (state) => state.categoryArticles?.[articleType]
   );
   const a = useSelector((state) => state.auth.a);
+  const subscriptionActive = useSelector((state) => state.auth.subscriptionActive);
   const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
 
@@ -72,6 +74,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         title={article.title}
         router={history}
         a={a}
+        subscriptionActive={subscriptionActive}
         clickHandler={setCurrentArticleAndGoTo}
         articleType={articleType}
       />
@@ -83,7 +86,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       case 'defence': 
         return { name: 'Defence', subtitle: 'Master defensive strategies' };
       case 'cardPlay': 
-        return { name: 'Declarer Play', subtitle: 'Enhance your declarer skills' };
+        return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
       case 'bidding': 
         return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
       default: 
@@ -93,8 +96,28 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
   const categoryInfo = getCategoryInfo();
 
+  const getCategoryTitle = () => {
+    return `${categoryInfo.name} Articles - Bridge Champions`;
+  };
+
+  const getCategoryDescription = () => {
+    return `${categoryInfo.subtitle}. Browse our collection of expert ${categoryInfo.name.toLowerCase()} articles and improve your Bridge game.`;
+  };
+
+  const getCategoryUrl = () => {
+    return `https://bridgechampions.com/${articleType}`;
+  };
+
   return (
     <div className="CategoryArticles">
+      <Helmet>
+        <title>{getCategoryTitle()}</title>
+        <meta name="description" content={getCategoryDescription()} />
+        <link rel="canonical" href={getCategoryUrl()} />
+        <meta property="og:url" content={getCategoryUrl()} />
+        <meta property="og:title" content={getCategoryTitle()} />
+        <meta property="og:description" content={getCategoryDescription()} />
+      </Helmet>
       <Add goto={`create/${articleType}`} history={history} />
 
       <div className="CategoryArticles-header">

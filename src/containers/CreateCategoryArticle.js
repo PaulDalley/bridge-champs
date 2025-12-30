@@ -60,6 +60,35 @@ const CreateCategoryArticle = ({
   const [articleId, setArticleId] = useState(match?.params?.id); // This is the body document ID from URL
   const [summaryDocumentId, setSummaryDocumentId] = useState(null); // This is the summary document ID
   const [articleLoaded, setArticleLoaded] = useState(false);
+  
+  // RichTextEditor toolbar configuration
+  const toolbarConfig = {
+    display: [
+      'INLINE_STYLE_BUTTONS',
+      'BLOCK_TYPE_BUTTONS',
+      'LINK_BUTTONS',
+      'BLOCK_TYPE_DROPDOWN',
+      'HISTORY_BUTTONS'
+    ],
+    INLINE_STYLE_BUTTONS: [
+      { label: 'Bold', style: 'BOLD', className: 'custom-button' },
+      { label: 'Italic', style: 'ITALIC', className: 'custom-button' },
+      { label: 'Underline', style: 'UNDERLINE', className: 'custom-button' },
+      { label: 'Strikethrough', style: 'STRIKETHROUGH', className: 'custom-button' },
+      { label: 'Code', style: 'CODE', className: 'custom-button' }
+    ],
+    BLOCK_TYPE_DROPDOWN: [
+      { label: 'Normal', style: 'unstyled' },
+      { label: 'Heading 1', style: 'header-one' },
+      { label: 'Heading 2', style: 'header-two' },
+      { label: 'Heading 3', style: 'header-three' },
+      { label: 'Blockquote', style: 'blockquote' }
+    ],
+    BLOCK_TYPE_BUTTONS: [
+      { label: 'UL', style: 'unordered-list-item' },
+      { label: 'OL', style: 'ordered-list-item' }
+    ]
+  };
   const [difficulty, setDifficulty] = useState("1");
   const [articleNumber, setArticleNumber] = useState("1");
   const [teaser, setTeaser] = useState("");
@@ -189,7 +218,15 @@ const CreateCategoryArticle = ({
       let _articleBody = _article?.[body]?.text;
       if (_articleBody && !articleLoaded) {
         setArticleLoaded(true);
-        setArticle(_articleBody);
+        // Convert HTML string to RichTextEditor value
+        try {
+          const editorValue = RichTextEditor.createValueFromString(_articleBody, 'html');
+          setArticle(editorValue);
+        } catch (e) {
+          logger.error('Error converting article to RichTextEditor value:', e);
+          // Fallback: create empty and set as string (will be handled in submit)
+          setArticle(_articleBody);
+        }
       }
     }
   }, [_article, body, articleLoaded]);
@@ -259,7 +296,7 @@ const CreateCategoryArticle = ({
       _article["subcategory"] = subcategory;
     }
 
-    // When editing, article is already a string (HTML), not a RichTextEditor value
+    // Convert RichTextEditor value to HTML string
     let articleText = typeof article === 'string' 
       ? prepareArticleString(article)
       : prepareArticleString(article.toString("html"));
@@ -424,37 +461,30 @@ const CreateCategoryArticle = ({
           ></TextInput>
         </Row>
         <Row>
-          <div style={{ marginBottom: "1rem", padding: "1rem", backgroundColor: "#f5f5f5", borderRadius: "4px" }}>
-            <strong>💡 To embed a video in the article:</strong>
-            <ul style={{ marginTop: "0.5rem", marginBottom: 0 }}>
-              <li>Paste a YouTube URL directly in the article content below (e.g., <code>https://www.youtube.com/watch?v=VIDEO_ID</code>)</li>
-              <li>Or use the format: <code>&lt;Video url="https://youtube.com/watch?v=VIDEO_ID" /&gt;</code></li>
-            </ul>
+          <div style={{ width: '100%', marginBottom: '1rem' }}>
+            <label style={{ fontSize: '1.6rem', fontWeight: 'bold', marginBottom: '0.5rem', display: 'block' }}>
+              Article Content
+            </label>
+            <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '1rem' }}>
+              💡 Tip: Paste YouTube URLs directly in the text to embed videos (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
+            </p>
+            {(articleLoaded || !edit) && (
+              <RichTextEditor
+                value={article}
+                onChange={(article) => {
+                  setArticle(article);
+                }}
+                className="editor"
+                toolbarConfig={toolbarConfig}
+                placeholder="Start typing your article content here..."
+              />
+            )}
+            {edit && !articleLoaded && (
+              <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                <p>Loading article content...</p>
+              </div>
+            )}
           </div>
-        </Row>
-        <Row>
-          {!edit && (
-            <RichTextEditor
-              value={article}
-              onChange={(article) => {
-                setArticle(article);
-              }}
-              className="editor"
-            />
-          )}
-          {edit && articleLoaded && (
-            <Textarea
-              s={12}
-              name="article"
-              label="Article Content (paste YouTube URLs here to embed videos)"
-              type="textarea"
-              value={article}
-              onChange={(e) => setArticle(e.target.value)}
-              style={{
-                fontSize: "2.4rem",
-              }}
-            />
-          )}
         </Row>
         {!edit && (
           <Button

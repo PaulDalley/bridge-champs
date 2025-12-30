@@ -33,6 +33,7 @@ class SpecificArticles extends Component {
                              title={article.title}
                              router={this.props.history}
                              a={this.props.a}
+                             subscriptionActive={this.props.subscriptionActive}
                              clickHandler={this.setCurrentArticleAndGoTo}/>
         ));
 
@@ -61,6 +62,8 @@ class SpecificArticles extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     tournamentArticles: state.articles.tournamentArticles,
+    a: state.auth.a,
+    subscriptionActive: state.auth.subscriptionActive,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -155,22 +155,28 @@ class PlayHand extends Component {
         // console.log(thisHand);
         // console.log(Object.keys(cards));
 
-        const handJSX = thisHand.map((card, idx) => (
-            <Card key={`${card.rank}_${card.suit}`}
-                  suit={card.suit}
-                  rank={card.rank}
-                // src={files[card.src]}
-                  clickHandler={this.cardClicked}
-                  firstCard={idx === 0}
-                  idx={idx}
-                  scoringRank={card.scoringRank}
-                  scoringSuit={card.scoringSuit}
-                  containerClass={`${card.rank}-${SUIT_NAME_MAPPER[card.scoringSuit]}`}
-            />
-        ));
+        const {clickedCard} = this.state;
+        const selectedCard = this.props.selectedCard;
+        const handJSX = thisHand.map((card, idx) => {
+            const isSelected = selectedCard && 
+                selectedCard.move === card.scoringRank && 
+                selectedCard.suit === card.scoringSuit;
+            return (
+                <Card key={`${card.rank}_${card.suit}`}
+                      suit={card.suit}
+                      rank={card.rank}
+                    // src={files[card.src]}
+                      clickHandler={this.cardClicked}
+                      firstCard={idx === 0}
+                      idx={idx}
+                      scoringRank={card.scoringRank}
+                      scoringSuit={card.scoringSuit}
+                      containerClass={`${card.rank}-${SUIT_NAME_MAPPER[card.scoringSuit]} ${isSelected ? 'Card-container-item_clicked' : ''}`}
+                />
+            );
+        });
         // console.log(files);
         // console.log(files2);
-        const {clickedCard} = this.state;
         return (
             <div className="PlayHand-container">
                 {/*{*/}

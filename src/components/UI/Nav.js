@@ -175,11 +175,11 @@ class Nav extends Component {
               <div className="Nav-auth-icons">
                 <NavLink
                   className="Nav-auth-icon"
-                  to="/profile"
+                  to="/settings"
                   activeClassName="Nav-active_link"
                 >
-                  <i className="waves-effect waves-light Nav-auth-i far fa-user"></i>
-                  <div className="Nav-auth-label">Profile</div>
+                  <i className="waves-effect waves-light Nav-auth-i material-icons">settings</i>
+                  <div className="Nav-auth-label">Settings</div>
                 </NavLink>
                 <div className="Nav-auth-icon" onClick={() => this.logout()}>
                   <i className="waves-effect waves-light Nav-auth-i fas fa-sign-out-alt"></i>
@@ -316,9 +316,9 @@ class Nav extends Component {
                     this.goTo("/articles");
                   }}
                   role="tab"
-                  aria-label="Articles section"
+                  aria-label="Extra articles section"
                 >
-                  Articles
+                  Extra
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>
@@ -396,7 +396,7 @@ class Nav extends Component {
                 style={{ width: "25rem", height: "6rem", overflow: "visible" }}
               >
                 <a id="articles" className="/articles">
-                  Articles
+                  Extra
                 </a>
                 <div className="nav-tabs_underline"></div>
               </li>

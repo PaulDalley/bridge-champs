@@ -1,44 +1,51 @@
 .Profile-displayInfo {
-    /*max-width: 25vw;*/
-    /*float: left;*/
-    padding-right: 5rem;
-    margin-right: 2rem;
-    /*margin-left: 4rem !important;*/
+    flex: 0 0 35rem;
+    background: white;
+    border-radius: 1.2rem;
+    padding: 3rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .Profile-displayInfoContainer {
-    /*min-height: 24rem;*/
-    /*max-height: 24rem;*/
+    margin-bottom: 2rem;
 }
 
 .Profile-cancelSubscription {
-    /*position: absolute;*/
     position: relative;
-    left: 1.75rem;
-    /*left: 10rem;*/
-    min-width: 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 .Profile-editInfoHeader {
-    margin: 2rem;
-    text-align: center;
-    font-weight: bold;
+    margin: 0 0 3rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #1a1d23;
+    border-bottom: 2px solid #E2E8F0;
+    padding-bottom: 1rem;
+}
+
+.Profile-editSection {
+    flex: 1;
+    background: white;
+    border-radius: 1.2rem;
+    padding: 3rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 50rem;
 }
 
 .Profile-container {
     position: relative;
-    /*top: 10rem;*/
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 9rem;
-    /*margin: 4rem;*/
-    /*margin-left: 4rem !important;*/
-    /*padding-left: 15rem;*/
-    /*padding-right: 15rem;*/
-    /*padding-top: 15rem !important;*/
-    /*padding-bottom: 15rem !important;*/
-    /*margin-top: 2.5rem !important;*/
-    /*margin-bottom: 2.5rem !important;*/
+    align-items: flex-start;
+    padding: 10rem 4rem 4rem;
+    max-width: 120rem;
+    margin: 0 auto;
+    min-height: 80vh;
+    gap: 4rem;
 }
 .Profile-propertyLabel {
     font-weight: bold;
@@ -84,35 +91,39 @@
     }
 }
 
-@media screen and (max-width: 781px) {
-    .Profile-displayInfoContainer {
-        /*margin-left: 5rem;*/
-        position: absolute;
-        left: -.5rem;
-    }
-    .Profile-cancelSubscription {
-        /*position: absolute;*/
-        /*bottom: 0;*/
-        margin-top: 2rem;
-        left: 2rem;
-        top: 28rem;
-    }
+@media screen and (max-width: 968px) {
     .Profile-container {
-        padding: 1rem;
         flex-direction: column;
-        padding-bottom: 7rem;
+        padding: 8rem 2rem 4rem;
+        gap: 2rem;
     }
+    
     .Profile-displayInfo {
-        position: relative;
-        /*height: 50rem;*/
-        min-height: 31rem;
+        flex: 1;
+        width: 100%;
+    }
+    
+    .Profile-editSection {
+        width: 100%;
+        min-width: auto;
+    }
+}
 
-        /*position: relative;*/
-        /*left: 2rem;*/
-        /*margin-left: 6.9rem !important;*/
-        margin-bottom: 3rem;
-        /*margin: 0 0 auto;*/
-        /*align-self: center;*/
+@media screen and (max-width: 781px) {
+    .Profile-container {
+        padding: 6rem 1.5rem 4rem;
+    }
+    
+    .Profile-displayInfo {
+        padding: 2rem;
+    }
+    
+    .Profile-editSection {
+        padding: 2rem;
+    }
+    
+    .Profile-cancelSubscription {
+        margin-top: 2rem;
     }
 }
 

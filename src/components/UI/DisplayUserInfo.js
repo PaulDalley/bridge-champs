@@ -46,14 +46,54 @@ const DisplayUserInfo = ({
         Your subscription is:&nbsp;{" "}
         <span className="Active-Safe-Completed">Active</span>
         <br />
-        {/*{insertSpacing && <span>Billing period ends on {makeDateString(subscriptionExpires) }</span> }*/}
-        <span>
-          Billing period ends on {makeDateString(subscriptionExpires)}.
-        </span>
+        {subscriptionExpires && (
+          <span>
+            Billing period ends on {makeDateString(subscriptionExpires)}.
+          </span>
+        )}
+        {!subscriptionExpires && (
+          <span>Subscription is active.</span>
+        )}
       </div>
     );
-  } else if (!subscriptionActive && subscriptionExpires !== undefined) {
-    if (Date.now() > new Date(subscriptionExpires)) {
+  } else if (!subscriptionActive && subscriptionExpires !== undefined && subscriptionExpires !== null) {
+    try {
+      const expiryDate = subscriptionExpires?.toDate ? subscriptionExpires.toDate() : new Date(subscriptionExpires);
+      if (Date.now() > expiryDate.getTime()) {
+        subscriptionInfo = (
+          <div
+            style={{
+              position: "relative",
+              top: "-.75rem",
+            }}
+          >
+            Your subscription is:&nbsp;{" "}
+            <span className="bold-text red-suit">Inactive</span>
+            <br />
+            Your subscription expired on {makeDateString(subscriptionExpires)}.
+            Renew <Link to="/membership">Here</Link>
+          </div>
+        );
+      } else {
+        subscriptionInfo = (
+          <div
+            style={{
+              position: "relative",
+              top: "-.75rem",
+            }}
+          >
+            Your subscription is:&nbsp;{" "}
+            <span className="bold-text red-suit ">Inactive</span>
+            <br />
+            Your membership access is{" "}
+            <span style={{ color: "green", fontWeight: "bold" }}>
+              available
+            </span>{" "}
+            until {makeDateString(subscriptionExpires)}.
+          </div>
+        );
+      }
+    } catch (e) {
       subscriptionInfo = (
         <div
           style={{
@@ -63,27 +103,6 @@ const DisplayUserInfo = ({
         >
           Your subscription is:&nbsp;{" "}
           <span className="bold-text red-suit">Inactive</span>
-          <br />
-          Your subscription expired on {makeDateString(subscriptionExpires)}.
-          Renew <Link to="/membership">Here</Link>
-        </div>
-      );
-    } else {
-      subscriptionInfo = (
-        <div
-          style={{
-            position: "relative",
-            top: "-.75rem",
-          }}
-        >
-          Your subscription is:&nbsp;{" "}
-          <span className="bold-text red-suit ">Inactive</span>
-          <br />
-          Your membership access is{" "}
-          <span style={{ color: "green", fontWeight: "bold" }}>
-            available
-          </span>{" "}
-          until {makeDateString(subscriptionExpires)}.
         </div>
       );
     }

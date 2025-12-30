@@ -22,7 +22,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom"; // Routes repla
 import "./App.css";
 import Contact from "./components/UI/Contact";
 import About from "./components/UI/About";
-import Profile from "./components/UI/Profile";
 import PrivacyPolicy from "./components/UI/PrivacyPolicy";
 import HomePage from "./components/HomePage";
 import Articles from "./containers/Articles";
@@ -41,6 +40,7 @@ import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
 import TestingGround from "./components/TestingGround";
 import SkeletonLoader from "./components/UI/SkeletonLoader";
+import Settings from "./components/UI/Settings";
 
 import { firebase } from "./firebase/config";
 
@@ -275,9 +275,8 @@ const routes = (
 
     <Route path="/testingground" component={TestingGround} />
 
-    <Route path="/profile" component={Profile} />
-
     <Route path="/membership" component={PremiumMembership} />
+    <Route path="/settings" component={Settings} />
     <Route
       path="/articles"
       render={(routeProps) => <Articles {...routeProps} />}

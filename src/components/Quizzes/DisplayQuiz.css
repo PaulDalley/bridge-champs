@@ -61,14 +61,25 @@
   /*display: flex;*/
 
   /*position: relative;*/
-  padding-top: 5rem;
-  padding-left: 5rem;
+  padding-top: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 .DisplayQuiz-hand {
   /*display: flex;*/
-  padding-top: 2.5rem;
+  padding-top: 2rem;
   padding-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: fit-content;
 }
 
 .DisplayQuiz-submit {
@@ -91,9 +102,11 @@
   /*bottom: -2rem;*/
   /*left: 14rem;*/
 
-  position: absolute;
-  bottom: -3rem;
-  left: 5rem;
+  position: relative;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .DisplayQuiz-quizType {
@@ -126,9 +139,11 @@
   }
   .DisplayQuiz-hand_container {
     padding-left: 1rem;
+    padding-right: 1rem;
   }
   .DisplayQuiz-submit-openingLead {
-    left: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
   }
   .DisplayQuiz-ans {
     position: relative;
@@ -149,9 +164,10 @@
   }
   .DisplayQuiz-hand_container {
     margin-top: 2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     /*padding-top: 2rem;*/
     /*padding-top: 4.5rem;*/
-    /*padding-left: 1rem;*/
     /*position: relative;*/
     /*top: 2rem;*/
   }

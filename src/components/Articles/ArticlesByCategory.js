@@ -56,6 +56,7 @@ class ArticlesByCategory extends Component {
                                  title={article.title}
                                  router={this.props.history}
                                  a={this.props.a}
+                                 subscriptionActive={this.props.subscriptionActive}
                                  clickHandler={this.setCurrentArticleAndGoTo}/>
             ));
         }
@@ -109,6 +110,7 @@ const mapStateToProps = (state, ownProps) => ({
     articles: filterArticles(state.articles.articles, {category: urlToCategory(ownProps.location.pathname.slice(1))}),
     articlesCount: state.articles.articlesCount,
     a: state.auth.a,
+    subscriptionActive: state.auth.subscriptionActive,
 });
 
 const mapDispatchToProps = (dispatch) => ({

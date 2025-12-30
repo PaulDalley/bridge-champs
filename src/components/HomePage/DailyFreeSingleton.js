@@ -221,6 +221,8 @@ class DailyFreeSingleton extends React.Component {
           teaser={article.teaser}
           teaser_board={article.teaser_board}
           title={article.title}
+          a={this.props.a}
+          subscriptionActive={this.props.subscriptionActive}
           clickHandler={this.openArticleModal}
         />
       );
@@ -350,9 +352,11 @@ class DailyFreeSingleton extends React.Component {
 //     mapDispatchToProps)(DailyFreeSingleton);
 
 export default connect(
-  ({ articles }) => ({
+  ({ articles, auth }) => ({
     quiz: articles.freeDailyQuiz,
     article: articles.freeDailyArticle,
+    a: auth.a,
+    subscriptionActive: auth.subscriptionActive,
   }),
   {
     setFreeDailies,
