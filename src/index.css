@@ -107,6 +107,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   overflow-x: hidden;
+  overflow-y: auto !important; /* Ensure vertical scrolling is always enabled */
 }
 
 main {

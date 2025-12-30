@@ -15,13 +15,65 @@ class Settings extends Component {
   state = {
     cancelPending: false,
     cancelled: false,
+    showBillingDetails: false,
+    showContactForm: false,
+    contactFormData: {
+      phoneNumber: '',
+      contactMethod: 'call', // 'call' or 'text'
+      description: ''
+    },
+    formSubmitted: false,
   };
 
   componentDidMount() {
     if (!this.props.uid) {
       this.props.history.push("/login");
     }
+    // Ensure body can scroll
+    $("body").css({ overflow: "auto" });
   }
+
+  componentWillUnmount() {
+    // Restore body scroll when component unmounts
+    $("body").css({ overflow: "auto" });
+  }
+
+  handleContactFormChange = (field, value) => {
+    this.setState({
+      contactFormData: {
+        ...this.state.contactFormData,
+        [field]: value
+      }
+    });
+  };
+
+  handleContactFormSubmit = (e) => {
+    e.preventDefault();
+    const { phoneNumber, contactMethod, description } = this.state.contactFormData;
+    
+    // Here you would typically send this to your backend
+    // For now, we'll just show a success message
+    logger.log('Contact form submitted:', { phoneNumber, contactMethod, description });
+    
+    // You could send this to a cloud function or email service
+    // Example: $.post('/api/contact-request', { phoneNumber, contactMethod, description, uid: this.props.uid });
+    
+    this.setState({ formSubmitted: true });
+    toastr.success('Thank you! We will contact you soon.');
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      this.setState({
+        showContactForm: false,
+        formSubmitted: false,
+        contactFormData: {
+          phoneNumber: '',
+          contactMethod: 'call',
+          description: ''
+        }
+      });
+    }, 3000);
+  };
 
   cancelSubscriptionHandler = () => {
     this.setState({ cancelPending: true });
@@ -170,55 +222,259 @@ class Settings extends Component {
                     )}
 
                     {!this.state.cancelPending && !this.state.cancelled && (
-                      <Modal
-                        header="Cancel Subscription"
-                        trigger={
-                          <Button
-                            waves="light"
-                            className="Settings-cancel-btn"
-                            style={{ marginTop: "2rem" }}
-                          >
-                            <Icon left>cancel</Icon>
-                            Cancel Subscription
-                          </Button>
-                        }
-                        options={{
-                          dismissible: false,
-                        }}
-                      >
-                        <div className="Settings-cancel-modal-content">
-                          <p>
-                            Are you sure you want to cancel your subscription to Bridge
-                            Champions?
-                          </p>
-                          <p>
-                            <strong>
-                              You will continue to have access until the end of your
-                              current billing period ({subscriptionExpires ? makeDateString(subscriptionExpires) : "end of period"}).
-                            </strong>
-                          </p>
-                          <p>After that, you will lose access to premium content.</p>
-                          <div className="Settings-cancel-modal-actions">
-                            <Button
-                              waves="light"
-                              modal="close"
-                              className="Settings-cancel-confirm-btn"
-                              onClick={this.cancelSubscriptionHandler}
-                            >
-                              <Icon left>cancel</Icon>
-                              Yes, Cancel Subscription
-                            </Button>
-                            <Button
-                              waves="light"
-                              modal="close"
-                              flat
-                              style={{ marginLeft: "1rem" }}
-                            >
-                              Keep Subscription
-                            </Button>
+                      <div className="Settings-billing-details">
+                        <button
+                          className="Settings-billing-toggle"
+                          onClick={() => this.setState({ showBillingDetails: !this.state.showBillingDetails })}
+                        >
+                          <Icon>{this.state.showBillingDetails ? 'expand_less' : 'expand_more'}</Icon>
+                          {this.state.showBillingDetails ? 'Hide' : 'Show'} Billing Details
+                        </button>
+                        
+                        {this.state.showBillingDetails && (
+                          <div className="Settings-billing-content">
+                            <p className="Settings-billing-note">
+                              Need to make changes to your subscription? Contact support for assistance.
+                            </p>
+                            <div className="Settings-cancel-link-container">
+                              <Modal
+                                header="We'd Love to Help"
+                                trigger={
+                                  <a
+                                    href="#"
+                                    className="Settings-cancel-link"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      // Ensure body can scroll when modal opens
+                                      setTimeout(() => {
+                                        $("body").css({ overflow: "auto" });
+                                      }, 100);
+                                    }}
+                                  >
+                                    Cancel Subscription
+                                  </a>
+                                }
+                                options={{
+                                  dismissible: false,
+                                  onCloseEnd: () => {
+                                    // Restore scroll when modal closes
+                                    $("body").css({ overflow: "auto" });
+                                  }
+                                }}
+                              >
+                                <div className="Settings-retention-modal-content">
+                                  <div className="Settings-retention-message">
+                                    <Icon className="Settings-retention-icon">favorite</Icon>
+                                    <h3>We Take Your Satisfaction Very Seriously</h3>
+                                    <p>
+                                      We're sorry to see you go! Is there something we can help you with? 
+                                      We're here to make sure you're getting the most out of your subscription.
+                                    </p>
+                                    <p>
+                                      Please reach out to us at{' '}
+                                      <a 
+                                        href="mailto:paul.dalley@hotmail.com" 
+                                        className="Settings-contact-email"
+                                      >
+                                        paul.dalley@hotmail.com
+                                      </a>
+                                      {' '}and we'll do our best to address any concerns or issues you may have.
+                                    </p>
+                                    
+                                    {!this.state.showContactForm && !this.state.formSubmitted && (
+                                      <div className="Settings-retention-actions">
+                                        <Button
+                                          waves="light"
+                                          modal="close"
+                                          className="Settings-contact-btn"
+                                          onClick={() => window.location.href = 'mailto:paul.dalley@hotmail.com'}
+                                        >
+                                          <Icon left>email</Icon>
+                                          Contact Us
+                                        </Button>
+                                        <Button
+                                          waves="light"
+                                          className="Settings-call-btn"
+                                          onClick={() => this.setState({ showContactForm: true })}
+                                        >
+                                          <Icon left>phone</Icon>
+                                          Request Call or Text
+                                        </Button>
+                                        <Button
+                                          waves="light"
+                                          modal="close"
+                                          flat
+                                          style={{ marginLeft: "1rem" }}
+                                        >
+                                          Keep My Subscription
+                                        </Button>
+                                        <Button
+                                          waves="light"
+                                          modal="close"
+                                          flat
+                                          className="Settings-home-btn"
+                                          onClick={() => this.props.history.push('/')}
+                                        >
+                                          <Icon left>home</Icon>
+                                          Back to Home Page
+                                        </Button>
+                                      </div>
+                                    )}
+
+                                    {this.state.showContactForm && !this.state.formSubmitted && (
+                                      <div className="Settings-contact-form-container">
+                                        <form onSubmit={this.handleContactFormSubmit}>
+                                          <div className="Settings-form-group">
+                                            <label htmlFor="phoneNumber" className="Settings-form-label">
+                                              Mobile Number
+                                            </label>
+                                            <input
+                                              type="tel"
+                                              id="phoneNumber"
+                                              className="Settings-form-input"
+                                              placeholder="+1 (555) 123-4567"
+                                              value={this.state.contactFormData.phoneNumber}
+                                              onChange={(e) => this.handleContactFormChange('phoneNumber', e.target.value)}
+                                              required
+                                            />
+                                          </div>
+
+                                          <div className="Settings-form-group">
+                                            <label className="Settings-form-label">Preferred Contact Method</label>
+                                            <div className="Settings-radio-group">
+                                              <label className="Settings-radio-label">
+                                                <input
+                                                  type="radio"
+                                                  name="contactMethod"
+                                                  value="call"
+                                                  checked={this.state.contactFormData.contactMethod === 'call'}
+                                                  onChange={(e) => this.handleContactFormChange('contactMethod', e.target.value)}
+                                                />
+                                                <span>Call</span>
+                                              </label>
+                                              <label className="Settings-radio-label">
+                                                <input
+                                                  type="radio"
+                                                  name="contactMethod"
+                                                  value="text"
+                                                  checked={this.state.contactFormData.contactMethod === 'text'}
+                                                  onChange={(e) => this.handleContactFormChange('contactMethod', e.target.value)}
+                                                />
+                                                <span>Text</span>
+                                              </label>
+                                            </div>
+                                          </div>
+
+                                          <div className="Settings-form-group">
+                                            <label htmlFor="description" className="Settings-form-label">
+                                              Description of Issue
+                                            </label>
+                                            <textarea
+                                              id="description"
+                                              className="Settings-form-textarea"
+                                              placeholder="Please describe your issue or concern..."
+                                              rows="4"
+                                              value={this.state.contactFormData.description}
+                                              onChange={(e) => this.handleContactFormChange('description', e.target.value)}
+                                              required
+                                            />
+                                          </div>
+
+                                          <div className="Settings-form-actions">
+                                            <Button
+                                              type="submit"
+                                              waves="light"
+                                              className="Settings-submit-btn"
+                                            >
+                                              <Icon left>send</Icon>
+                                              Submit Request
+                                            </Button>
+                                            <Button
+                                              type="button"
+                                              waves="light"
+                                              flat
+                                              onClick={() => this.setState({ showContactForm: false })}
+                                            >
+                                              Cancel
+                                            </Button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    )}
+
+                                    {this.state.formSubmitted && (
+                                      <div className="Settings-form-success">
+                                        <Icon className="Settings-success-icon">check_circle</Icon>
+                                        <p>Thank you! We've received your request and will contact you soon.</p>
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="Settings-proceed-cancel-container">
+                                    <Modal
+                                      header="Cancel Subscription"
+                                      trigger={
+                                        <a
+                                          href="#"
+                                          className="Settings-proceed-cancel-link"
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            // Ensure body can scroll
+                                            setTimeout(() => {
+                                              $("body").css({ overflow: "auto" });
+                                            }, 100);
+                                          }}
+                                        >
+                                          Proceed with Cancellation
+                                        </a>
+                                      }
+                                      options={{
+                                        dismissible: false,
+                                        onCloseEnd: () => {
+                                          // Restore scroll when modal closes
+                                          $("body").css({ overflow: "auto" });
+                                        }
+                                      }}
+                                    >
+                                      <div className="Settings-cancel-modal-content">
+                                        <p>
+                                          Are you sure you want to cancel your subscription to Bridge
+                                          Champions?
+                                        </p>
+                                        <p>
+                                          <strong>
+                                            You will continue to have access until the end of your
+                                            current billing period ({subscriptionExpires ? makeDateString(subscriptionExpires) : "end of period"}).
+                                          </strong>
+                                        </p>
+                                        <p>After that, you will lose access to premium content.</p>
+                                        <div className="Settings-cancel-modal-actions">
+                                          <Button
+                                            waves="light"
+                                            modal="close"
+                                            className="Settings-cancel-confirm-btn"
+                                            onClick={this.cancelSubscriptionHandler}
+                                          >
+                                            <Icon left>cancel</Icon>
+                                            Yes, Cancel Subscription
+                                          </Button>
+                                          <Button
+                                            waves="light"
+                                            modal="close"
+                                            flat
+                                            style={{ marginLeft: "1rem" }}
+                                          >
+                                            Keep Subscription
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </Modal>
+                                  </div>
+                                </div>
+                              </Modal>
+                            </div>
                           </div>
-                        </div>
-                      </Modal>
+                        )}
+                      </div>
                     )}
                   </div>
                 ) : (

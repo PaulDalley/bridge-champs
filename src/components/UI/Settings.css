@@ -92,6 +92,267 @@
   margin-top: 1rem;
 }
 
+.Settings-billing-details {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.Settings-billing-toggle {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s;
+}
+
+.Settings-billing-toggle:hover {
+  color: #4a5568;
+}
+
+.Settings-billing-content {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.Settings-billing-note {
+  font-size: 1.4rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.Settings-cancel-link-container {
+  text-align: right;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.Settings-cancel-link {
+  color: #6c757d;
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.Settings-cancel-link:hover {
+  color: #dc3545;
+  text-decoration: underline;
+}
+
+.Settings-retention-modal-content {
+  padding: 1rem 0;
+}
+
+.Settings-retention-message {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.Settings-retention-icon {
+  font-size: 4rem;
+  color: #0F4C3A;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.Settings-retention-message h3 {
+  font-size: 2.2rem;
+  color: #1a1d23;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.Settings-retention-message p {
+  font-size: 1.6rem;
+  color: #4a5568;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.Settings-contact-email {
+  color: #0F4C3A;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.Settings-contact-email:hover {
+  text-decoration: underline;
+}
+
+.Settings-retention-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Settings-contact-btn {
+  background-color: #0F4C3A;
+  color: white;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  max-width: 300px;
+  white-space: nowrap;
+}
+
+.Settings-contact-btn:hover {
+  background-color: #1B6B52;
+}
+
+.Settings-call-btn {
+  background-color: #0F4C3A;
+  color: white;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  max-width: 300px;
+  white-space: nowrap;
+}
+
+.Settings-call-btn:hover {
+  background-color: #1B6B52;
+}
+
+.Settings-home-btn {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 0.5rem;
+}
+
+.Settings-contact-form-container {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.Settings-form-group {
+  margin-bottom: 2rem;
+}
+
+.Settings-form-label {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1d23;
+  margin-bottom: 0.8rem;
+}
+
+.Settings-form-input,
+.Settings-form-textarea {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.Settings-form-input:focus,
+.Settings-form-textarea:focus {
+  outline: none;
+  border-color: #0F4C3A;
+}
+
+.Settings-form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.Settings-radio-group {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.8rem;
+}
+
+.Settings-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.5rem;
+  color: #4a5568;
+  cursor: pointer;
+}
+
+.Settings-radio-label input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.Settings-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.Settings-submit-btn {
+  background-color: #0F4C3A;
+  color: white;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+}
+
+.Settings-submit-btn:hover {
+  background-color: #1B6B52;
+}
+
+.Settings-form-success {
+  text-align: center;
+  padding: 2rem;
+  background-color: #d4edda;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.Settings-success-icon {
+  font-size: 4rem;
+  color: #28a745;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.Settings-form-success p {
+  font-size: 1.6rem;
+  color: #155724;
+  margin: 0;
+}
+
+.Settings-proceed-cancel-container {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.Settings-proceed-cancel-link {
+  color: #9ca3af;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-block;
+}
+
+.Settings-proceed-cancel-link:hover {
+  color: #6c757d;
+  text-decoration: underline;
+}
+
 .Settings-cancel-btn {
   background-color: #dc3545;
   color: white;
