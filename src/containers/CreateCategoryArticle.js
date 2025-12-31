@@ -223,10 +223,30 @@ const CreateCategoryArticle = ({
       let _articleBody = _article?.[body]?.text;
       if (_articleBody && !articleLoaded) {
         setArticleLoaded(true);
+        // Preserve MakeBoard tags when loading into RichTextEditor
+        // Extract MakeBoard tags and replace with placeholders
+        const makeBoardPlaceholders = [];
+        const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
+        let placeholderIndex = 0;
+        let processedBody = _articleBody.replace(makeBoardRegex, (match) => {
+          const placeholder = `__MAKEBOARD_PLACEHOLDER_${placeholderIndex}__`;
+          makeBoardPlaceholders.push(match);
+          placeholderIndex++;
+          return placeholder;
+        });
+        
         // Convert HTML string to RichTextEditor value
         try {
-          const editorValue = RichTextEditor.createValueFromString(_articleBody, 'html');
-          setArticle(editorValue);
+          const editorValue = RichTextEditor.createValueFromString(processedBody, 'html');
+          // Restore MakeBoard tags after RichTextEditor processes it
+          let editorHtml = editorValue.toString('html');
+          makeBoardPlaceholders.forEach((makeBoardTag, idx) => {
+            const placeholder = `__MAKEBOARD_PLACEHOLDER_${idx}__`;
+            editorHtml = editorHtml.replace(placeholder, makeBoardTag);
+          });
+          // Recreate editor value with restored MakeBoard tags
+          const finalEditorValue = RichTextEditor.createValueFromString(editorHtml, 'html');
+          setArticle(finalEditorValue);
         } catch (e) {
           logger.error('Error converting article to RichTextEditor value:', e);
           // Fallback: create empty and set as string (will be handled in submit)
@@ -302,9 +322,31 @@ const CreateCategoryArticle = ({
     }
 
     // Convert RichTextEditor value to HTML string
-    let articleText = typeof article === 'string' 
-      ? prepareArticleString(article)
-      : prepareArticleString(article.toString("html"));
+    let rawHtml = typeof article === 'string' 
+      ? article
+      : article.toString("html");
+    
+    // Preserve MakeBoard tags - RichTextEditor might escape or strip them
+    // Extract MakeBoard tags and replace with placeholders before processing
+    const makeBoardPlaceholders = [];
+    const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
+    let placeholderIndex = 0;
+    let processedHtml = rawHtml.replace(makeBoardRegex, (match) => {
+      const placeholder = `__MAKEBOARD_PLACEHOLDER_${placeholderIndex}__`;
+      makeBoardPlaceholders.push(match);
+      placeholderIndex++;
+      return placeholder;
+    });
+    
+    // Now process the article string (unescape, handle suits, etc.)
+    let articleText = prepareArticleString(processedHtml);
+    
+    // Restore MakeBoard tags after processing
+    makeBoardPlaceholders.forEach((makeBoardTag, idx) => {
+      const placeholder = `__MAKEBOARD_PLACEHOLDER_${idx}__`;
+      articleText = articleText.replace(placeholder, makeBoardTag);
+    });
+    
     let articleBody = { text: articleText };
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
