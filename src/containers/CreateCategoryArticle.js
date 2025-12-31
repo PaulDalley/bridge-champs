@@ -542,9 +542,6 @@ const CreateCategoryArticle = ({
           </Select>
         </Row>
         <Row>
-          <GenerateBridgeBoard />
-        </Row>
-        <Row>
           <TextInput
             s={12}
             name="teaserBoard"
@@ -573,10 +570,39 @@ const CreateCategoryArticle = ({
           ></TextInput>
         </Row>
         <Row>
-          <div style={{ width: '100%', marginBottom: '1rem' }}>
-            <label style={{ fontSize: '1.6rem', fontWeight: 'bold', marginBottom: '0.5rem', display: 'block' }}>
-              Article Content
-            </label>
+          <div style={{ width: '100%', marginBottom: '1rem', position: 'relative' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <label style={{ fontSize: '1.6rem', fontWeight: 'bold', display: 'block', margin: 0 }}>
+                Article Content
+              </label>
+              <Modal
+                header="Create Bridge Board"
+                trigger={
+                  <Button
+                    waves="light"
+                    small
+                    style={{ 
+                      backgroundColor: '#0F4C3A',
+                      marginLeft: '1rem',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <Icon left>add_circle</Icon>
+                    Create Board
+                  </Button>
+                }
+                options={{
+                  onCloseEnd: () => {
+                    $("body").css({ overflow: "auto" });
+                  }
+                }}
+                id="board-creator-modal"
+              >
+                <div style={{ padding: '1rem 0', maxHeight: '80vh', overflowY: 'auto' }}>
+                  <GenerateBridgeBoard />
+                </div>
+              </Modal>
+            </div>
             <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '1rem' }}>
               💡 Tip: Paste YouTube URLs directly in the text to embed videos (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
             </p>

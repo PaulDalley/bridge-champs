@@ -288,50 +288,51 @@ class GenerateBridgeBoard extends Component {
 
     return (
       <div>
-        <Collapsible popout>
-          <CollapsibleItem header="Create Hand" icon={<Icon>add_circle</Icon>}>
-            <Select
-              s={12}
-              className="GenerateBridgeBoard-select_board_type"
-              name="boardType"
-              //    type="select"
-              label="Select Board Type:"
-              value={this.state.boardType}
-              onChange={(e) => this.changeBoardType(e)}
-            >
-              <option value="single">Single</option>
-              <option value="double">Double</option>
-              <option value="full">Full</option>
-            </Select>
+        <Collapsible popout defaultActiveKey={0}>
+          <CollapsibleItem header="Create Bridge Board" icon={<Icon>add_circle</Icon>} expanded>
             <Row>
-              <Select
-                s={12}
-                name="dealer"
-                //    type="select"
-                label="Set Dealer"
-                value={this.state.dealer}
-                onChange={(e) => this.setVulnDealer(e)}
-              >
-                <option value="North">North</option>
-                <option value="South">South</option>
-                <option value="East">East</option>
-                <option value="West">West</option>
-              </Select>
-            </Row>
-            <Row>
-              <Select
-                s={12}
-                name="vuln"
-                //    type="select"
-                label="Set Vulnerabilities"
-                value={this.state.vuln}
-                onChange={(e) => this.setVulnDealer(e)}
-              >
-                <option value="Nil Vul">Nil Vul</option>
-                <option value="Vul East/West">Vul East/West</option>
-                <option value="Vul North/South">Vul North/South</option>
-                <option value="All Vul">All Vul</option>
-              </Select>
+              <Col s={12} m={4}>
+                <Select
+                  s={12}
+                  className="GenerateBridgeBoard-select_board_type"
+                  name="boardType"
+                  label="Board Type"
+                  value={this.state.boardType}
+                  onChange={(e) => this.changeBoardType(e)}
+                >
+                  <option value="single">Single</option>
+                  <option value="double">Double</option>
+                  <option value="full">Full</option>
+                </Select>
+              </Col>
+              <Col s={12} m={4}>
+                <Select
+                  s={12}
+                  name="dealer"
+                  label="Dealer"
+                  value={this.state.dealer}
+                  onChange={(e) => this.setVulnDealer(e)}
+                >
+                  <option value="North">North</option>
+                  <option value="South">South</option>
+                  <option value="East">East</option>
+                  <option value="West">West</option>
+                </Select>
+              </Col>
+              <Col s={12} m={4}>
+                <Select
+                  s={12}
+                  name="vuln"
+                  label="Vulnerability"
+                  value={this.state.vuln}
+                  onChange={(e) => this.setVulnDealer(e)}
+                >
+                  <option value="Nil Vul">Nil Vul</option>
+                  <option value="Vul East/West">Vul East/West</option>
+                  <option value="Vul North/South">Vul North/South</option>
+                  <option value="All Vul">All Vul</option>
+                </Select>
+              </Col>
             </Row>
 
             <Row>
@@ -348,31 +349,66 @@ class GenerateBridgeBoard extends Component {
 
             {board}
 
-            <Row>
-              <Button
-                className="GenerateBridgeBoard-button"
-                onClick={(e) => this.generateHand(e)}
-                waves="light"
-              >
-                Generate Hand
-                <Icon left>add</Icon>
-              </Button>
-              <Button
-                className="GenerateBridgeBoard-button--danger"
-                onClick={(e) => this.resetBoards(e)}
-                waves="light"
-              >
-                Reset Board
-                <Icon left>warning</Icon>
-              </Button>
+            <Row style={{ marginTop: '1.5rem' }}>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Button
+                  className="GenerateBridgeBoard-button"
+                  onClick={(e) => this.generateHand(e)}
+                  waves="light"
+                  style={{ flex: '1', minWidth: '150px' }}
+                >
+                  Generate Board
+                  <Icon left>add</Icon>
+                </Button>
+                <Button
+                  className="GenerateBridgeBoard-button--danger"
+                  onClick={(e) => this.resetBoards(e)}
+                  waves="light"
+                  style={{ flex: '1', minWidth: '150px' }}
+                >
+                  Reset
+                  <Icon left>refresh</Icon>
+                </Button>
+              </div>
             </Row>
             <Row>
-              <TextInput
-                s={12}
-                placeholder="Generated Output"
-                name="generatedOutput"
-                value={this.state.generatedOutput}
-              />
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '1rem' }}>
+                <TextInput
+                  s={10}
+                  placeholder="Generated MakeBoard tag will appear here"
+                  name="generatedOutput"
+                  value={this.state.generatedOutput}
+                  readOnly
+                  style={{ backgroundColor: '#f5f5f5' }}
+                />
+                <Button
+                  waves="light"
+                  className="GenerateBridgeBoard-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (this.state.generatedOutput) {
+                      // Copy to clipboard
+                      navigator.clipboard.writeText(this.state.generatedOutput).then(() => {
+                        window.M.toast({ html: 'Copied to clipboard! Paste into your article.', classes: 'green' });
+                      }).catch(() => {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = this.state.generatedOutput;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        window.M.toast({ html: 'Copied to clipboard! Paste into your article.', classes: 'green' });
+                      });
+                    }
+                  }}
+                  disabled={!this.state.generatedOutput}
+                  style={{ minWidth: '120px' }}
+                >
+                  <Icon left>content_copy</Icon>
+                  Copy
+                </Button>
+              </div>
             </Row>
           </CollapsibleItem>
         </Collapsible>
