@@ -28,6 +28,13 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   );
   const a = useSelector((state) => state.auth.a);
   const subscriptionActive = useSelector((state) => state.auth.subscriptionActive);
+  
+  // Debug: Log admin and subscription status
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('CategoryArticles - Admin (a):', a, 'Type:', typeof a, 'Subscription Active:', subscriptionActive);
+    }
+  }, [a, subscriptionActive]);
   const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
 

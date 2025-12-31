@@ -23,7 +23,9 @@ const CategoryArticleListItem = ({
   articleType,
 }) => {
   // Article is locked if user is not an admin AND doesn't have an active subscription
-  const isLocked = !a && !subscriptionActive;
+  // Admins (a === true) always have access, regardless of subscription status
+  const isAdmin = a === true;
+  const isLocked = !isAdmin && !subscriptionActive;
 
   const handleClick = () => {
     if (clickHandler) {

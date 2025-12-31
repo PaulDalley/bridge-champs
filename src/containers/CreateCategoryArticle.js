@@ -734,34 +734,6 @@ const CreateCategoryArticle = ({
                             lineHeight: '3rem'
                           }}
                           onClick={() => {
-                  <div style={{ 
-                    marginTop: '1rem', 
-                    padding: '1rem', 
-                    backgroundColor: '#e8f5e9', 
-                    borderRadius: '4px',
-                    border: '1px solid #4caf50'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                      <div style={{ flex: '1', minWidth: '200px' }}>
-                        <strong>MakeBoard tag ready to insert:</strong>
-                        <div style={{ 
-                          marginTop: '0.5rem', 
-                          padding: '0.5rem', 
-                          backgroundColor: '#f5f5f5', 
-                          borderRadius: '4px',
-                          fontSize: '1.2rem',
-                          fontFamily: 'monospace',
-                          wordBreak: 'break-all'
-                        }}>
-                          {pendingMakeBoardTag.substring(0, 100)}...
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-                        <Button
-                          waves="light"
-                          small
-                          style={{ backgroundColor: '#0F4C3A' }}
-                          onClick={() => {
                             // Store the MakeBoard tag separately instead of inserting into RichTextEditor
                             // This prevents RichTextEditor from stripping it
                             let makeBoardTag = pendingMakeBoardTag;
@@ -802,13 +774,28 @@ const CreateCategoryArticle = ({
                         </Button>
                         <Button
                           waves="light"
-                          small
                           flat
+                          style={{ 
+                            fontSize: '1.2rem',
+                            padding: '0 1.5rem',
+                            height: 'auto',
+                            lineHeight: '3rem'
+                          }}
                           onClick={() => setPendingMakeBoardTag(null)}
                         >
                           Dismiss
                         </Button>
                       </div>
+                    </div>
+                    <div style={{ 
+                      marginTop: '1rem', 
+                      padding: '0.75rem', 
+                      backgroundColor: '#fff3cd', 
+                      borderRadius: '4px',
+                      fontSize: '1.2rem',
+                      color: '#856404'
+                    }}>
+                      💡 Click "Add to Article" to include this board in your article. It will be saved when you click "Edit Article" at the bottom.
                     </div>
                   </div>
                 )}

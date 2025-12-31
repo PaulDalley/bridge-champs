@@ -1,0 +1,13 @@
+.create-article-modern {
+  min-height: 100vh;
+  background: #f9fafb;
+  padding: 2rem;
+}
+
+.create-article-modern form {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+

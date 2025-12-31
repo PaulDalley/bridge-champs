@@ -1,0 +1,75 @@
+.article-editor {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  min-height: 400px;
+}
+
+.article-editor-toolbar {
+  background: #f9fafb;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.article-editor-content {
+  padding: 1rem;
+  min-height: 300px;
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 300px;
+}
+
+.ProseMirror p {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem 0;
+  color: #1f2937;
+}
+
+.ProseMirror h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1.25rem 0 0.75rem 0;
+  color: #374151;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror strong {
+  font-weight: 600;
+}
+
+.ProseMirror em {
+  font-style: italic;
+}
+
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}
+
+/* MakeBoard Block Styles */
+.makeboard-block {
+  margin: 1rem 0;
+}
+

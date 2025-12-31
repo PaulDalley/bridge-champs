@@ -1,0 +1,103 @@
+.UnifiedArticleEditor {
+  width: 100%;
+}
+
+.UnifiedArticleEditor-toolbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.UnifiedArticleEditor-pending-board {
+  padding: 1rem;
+  background-color: #e8f5e9;
+  border: 2px solid #4caf50;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.UnifiedArticleEditor-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ArticleBlock {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ArticleBlock:hover {
+  border-color: #0F4C3A;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ArticleBlock--editing {
+  border-color: #0F4C3A;
+  border-width: 2px;
+  background-color: #f9f9f9;
+}
+
+.ArticleBlock-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.ArticleBlock:hover .ArticleBlock-actions {
+  opacity: 1;
+}
+
+.ArticleBlock--makeboard {
+  background-color: #f5f5f5;
+}
+
+.ArticleBlock p {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+.ArticleBlock h1,
+.ArticleBlock h2,
+.ArticleBlock h3 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.ArticleBlock h1 {
+  font-size: 2.4rem;
+}
+
+.ArticleBlock h2 {
+  font-size: 2rem;
+}
+
+.ArticleBlock h3 {
+  font-size: 1.8rem;
+}
+
+@media (max-width: 768px) {
+  .UnifiedArticleEditor-toolbar {
+    flex-direction: column;
+  }
+  
+  .ArticleBlock-actions {
+    flex-wrap: wrap;
+  }
+}
+

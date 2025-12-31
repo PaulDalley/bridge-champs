@@ -83,6 +83,10 @@ class GenerateBridgeBoard extends Component {
     if (this.props.onBoardGenerated) {
       this.props.onBoardGenerated(makeBoardTag);
     }
+    // Also support onGenerate for backward compatibility
+    if (this.props.onGenerate) {
+      this.props.onGenerate(makeBoardTag);
+    }
   };
 
   makeHand = () => {
