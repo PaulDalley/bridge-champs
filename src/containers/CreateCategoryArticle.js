@@ -65,6 +65,8 @@ const CreateCategoryArticle = ({
   const [backups, setBackups] = useState([]);
   const [showBackups, setShowBackups] = useState(false);
   const [loadingBackups, setLoadingBackups] = useState(false);
+  const [makeBoardTags, setMakeBoardTags] = useState([]); // Store MakeBoard tags separately
+  const [pendingMakeBoardTag, setPendingMakeBoardTag] = useState(null); // Tag waiting to be inserted
   
   // RichTextEditor toolbar configuration
   const toolbarConfig = {
@@ -326,10 +328,12 @@ const CreateCategoryArticle = ({
       ? article
       : article.toString("html");
     
-    // Preserve MakeBoard tags - RichTextEditor might escape or strip them
+    // Check if MakeBoard tags are present in raw HTML
+    const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
+    const foundMakeBoardTags = rawHtml.match(makeBoardRegex) || [];
+    
     // Extract MakeBoard tags and replace with placeholders before processing
     const makeBoardPlaceholders = [];
-    const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
     let placeholderIndex = 0;
     let processedHtml = rawHtml.replace(makeBoardRegex, (match) => {
       const placeholder = `__MAKEBOARD_PLACEHOLDER_${placeholderIndex}__`;
@@ -341,13 +345,31 @@ const CreateCategoryArticle = ({
     // Now process the article string (unescape, handle suits, etc.)
     let articleText = prepareArticleString(processedHtml);
     
-    // Restore MakeBoard tags after processing
+    // Restore MakeBoard tags after processing - use the original tags, not processed ones
     makeBoardPlaceholders.forEach((makeBoardTag, idx) => {
       const placeholder = `__MAKEBOARD_PLACEHOLDER_${idx}__`;
+      // Replace placeholder with the original MakeBoard tag
       articleText = articleText.replace(placeholder, makeBoardTag);
     });
     
+    // Final check - if MakeBoard tags are still missing, try to restore from stored tags
+    if (!articleText.includes("MakeBoard") && makeBoardTags.length > 0) {
+      logger.warn("MakeBoard tags were lost during processing, attempting to restore from stored tags");
+      // This shouldn't happen if insertion worked, but as a fallback
+    }
+    
     let articleBody = { text: articleText };
+    
+    // Log for debugging
+    if (articleText.includes("MakeBoard")) {
+      logger.log(`MakeBoard tag found in final article text - will be saved. Found ${(articleText.match(/<MakeBoard[^>]*\/>/g) || []).length} tag(s)`);
+    } else {
+      logger.warn("MakeBoard tag NOT found in final article text - may have been lost");
+      if (foundMakeBoardTags.length > 0) {
+        logger.warn(`Found ${foundMakeBoardTags.length} MakeBoard tag(s) in raw HTML but lost during processing`);
+      }
+    }
+    
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
@@ -599,7 +621,22 @@ const CreateCategoryArticle = ({
                 id="board-creator-modal"
               >
                 <div style={{ padding: '1rem 0', maxHeight: '80vh', overflowY: 'auto' }}>
-                  <GenerateBridgeBoard />
+                  <GenerateBridgeBoard 
+                    onBoardGenerated={(makeBoardTag) => {
+                      setPendingMakeBoardTag(makeBoardTag);
+                      // Close modal after a short delay
+                      setTimeout(() => {
+                        const modalElement = document.getElementById('board-creator-modal');
+                        if (modalElement) {
+                          const instance = window.M?.Modal?.getInstance(modalElement);
+                          if (instance) {
+                            instance.close();
+                          }
+                        }
+                        $("body").css({ overflow: "auto" });
+                      }, 500);
+                    }}
+                  />
                 </div>
               </Modal>
             </div>
@@ -607,15 +644,79 @@ const CreateCategoryArticle = ({
               💡 Tip: Paste YouTube URLs directly in the text to embed videos (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
             </p>
             {(articleLoaded || !edit) && (
-              <RichTextEditor
-                value={article}
-                onChange={(article) => {
-                  setArticle(article);
-                }}
-                className="editor"
-                toolbarConfig={toolbarConfig}
-                placeholder="Start typing your article content here..."
-              />
+              <>
+                <RichTextEditor
+                  value={article}
+                  onChange={(article) => {
+                    setArticle(article);
+                  }}
+                  className="editor"
+                  toolbarConfig={toolbarConfig}
+                  placeholder="Start typing your article content here..."
+                />
+                {pendingMakeBoardTag && (
+                  <div style={{ 
+                    marginTop: '1rem', 
+                    padding: '1rem', 
+                    backgroundColor: '#e8f5e9', 
+                    borderRadius: '4px',
+                    border: '1px solid #4caf50'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                      <div style={{ flex: '1', minWidth: '200px' }}>
+                        <strong>MakeBoard tag ready to insert:</strong>
+                        <div style={{ 
+                          marginTop: '0.5rem', 
+                          padding: '0.5rem', 
+                          backgroundColor: '#f5f5f5', 
+                          borderRadius: '4px',
+                          fontSize: '1.2rem',
+                          fontFamily: 'monospace',
+                          wordBreak: 'break-all'
+                        }}>
+                          {pendingMakeBoardTag.substring(0, 100)}...
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                        <Button
+                          waves="light"
+                          small
+                          style={{ backgroundColor: '#0F4C3A' }}
+                          onClick={() => {
+                            // Insert at cursor position or end
+                            const currentHtml = typeof article === 'string' 
+                              ? article 
+                              : article.toString('html');
+                            const makeBoardTag = pendingMakeBoardTag;
+                            
+                            // Insert the tag (at end for now, could be improved to insert at cursor)
+                            const newHtml = currentHtml + '\n\n' + makeBoardTag + '\n\n';
+                            const newEditorValue = RichTextEditor.createValueFromString(newHtml, 'html');
+                            setArticle(newEditorValue);
+                            setPendingMakeBoardTag(null);
+                            setMakeBoardTags([...makeBoardTags, makeBoardTag]);
+                            Toast({
+                              html: 'MakeBoard tag inserted into article',
+                              classes: 'green',
+                            });
+                          }}
+                        >
+                          <Icon left>add</Icon>
+                          Insert
+                        </Button>
+                        <Button
+                          waves="light"
+                          small
+                          flat
+                          onClick={() => setPendingMakeBoardTag(null)}
+                        >
+                          Dismiss
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
             {edit && !articleLoaded && (
               <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>

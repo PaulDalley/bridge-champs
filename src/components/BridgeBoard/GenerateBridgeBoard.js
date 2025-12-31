@@ -77,7 +77,12 @@ class GenerateBridgeBoard extends Component {
 
   generateHand = (e) => {
     e.preventDefault();
-    this.setState({ generatedOutput: this.makeHand() });
+    const makeBoardTag = this.makeHand();
+    this.setState({ generatedOutput: makeBoardTag });
+    // Notify parent component if callback is provided
+    if (this.props.onBoardGenerated) {
+      this.props.onBoardGenerated(makeBoardTag);
+    }
   };
 
   makeHand = () => {
