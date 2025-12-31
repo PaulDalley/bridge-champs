@@ -225,10 +225,16 @@ const CreateCategoryArticle = ({
       let _articleBody = _article?.[body]?.text;
       if (_articleBody && !articleLoaded) {
         setArticleLoaded(true);
+        logger.log('=== LOADING ARTICLE ===');
+        logger.log('Article body length:', _articleBody.length);
+        
         // Extract MakeBoard tags and store them separately
         const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
         const extractedTags = [];
         let match;
+        
+        // Reset regex lastIndex to ensure we catch all matches
+        makeBoardRegex.lastIndex = 0;
         
         // Extract all MakeBoard tags from the article
         while ((match = makeBoardRegex.exec(_articleBody)) !== null) {
@@ -236,18 +242,23 @@ const CreateCategoryArticle = ({
             tag: match[0],
             position: extractedTags.length,
           });
+          logger.log('Extracted MakeBoard tag on load:', match[0].substring(0, 100));
         }
+        
+        logger.log('Total MakeBoard tags extracted on load:', extractedTags.length);
         
         // Store MakeBoard tags separately
         setMakeBoardTags(extractedTags);
         
         // Create HTML without MakeBoard tags for RichTextEditor
         const bodyWithoutTags = _articleBody.replace(makeBoardRegex, '');
+        logger.log('Body without tags length:', bodyWithoutTags.length);
         
         // Convert HTML string to RichTextEditor value
         try {
           const editorValue = RichTextEditor.createValueFromString(bodyWithoutTags, 'html');
           setArticle(editorValue);
+          logger.log('Article loaded into RichTextEditor successfully');
         } catch (e) {
           logger.error('Error converting article to RichTextEditor value:', e);
           // Fallback: create empty and set as string (will be handled in submit)
