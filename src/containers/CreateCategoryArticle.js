@@ -693,6 +693,48 @@ const CreateCategoryArticle = ({
                 />
                 {pendingMakeBoardTag && (
                   <div style={{ 
+                    marginTop: '1.5rem', 
+                    padding: '1.5rem', 
+                    backgroundColor: '#e8f5e9', 
+                    borderRadius: '8px',
+                    border: '2px solid #4caf50',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                  }}>
+                    <div style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      flexWrap: 'wrap', 
+                      gap: '1rem' 
+                    }}>
+                      <div style={{ flex: '1', minWidth: '200px' }}>
+                        <strong style={{ fontSize: '1.4rem', color: '#2e7d32' }}>
+                          ✓ MakeBoard tag ready!
+                        </strong>
+                        <div style={{ 
+                          marginTop: '0.5rem', 
+                          padding: '0.5rem', 
+                          backgroundColor: '#f5f5f5', 
+                          borderRadius: '4px',
+                          fontSize: '1.2rem',
+                          fontFamily: 'monospace',
+                          wordBreak: 'break-all'
+                        }}>
+                          {pendingMakeBoardTag.substring(0, 100)}...
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                        <Button
+                          waves="light"
+                          style={{ 
+                            backgroundColor: '#0F4C3A',
+                            fontSize: '1.3rem',
+                            padding: '0 2rem',
+                            height: 'auto',
+                            lineHeight: '3rem'
+                          }}
+                          onClick={() => {
+                  <div style={{ 
                     marginTop: '1rem', 
                     padding: '1rem', 
                     backgroundColor: '#e8f5e9', 
