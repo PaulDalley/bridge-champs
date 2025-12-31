@@ -65,7 +65,7 @@ const CreateCategoryArticle = ({
   const [backups, setBackups] = useState([]);
   const [showBackups, setShowBackups] = useState(false);
   const [loadingBackups, setLoadingBackups] = useState(false);
-  const [makeBoardTags, setMakeBoardTags] = useState([]); // Store MakeBoard tags separately
+  const [makeBoardTags, setMakeBoardTags] = useState([]); // Store MakeBoard tags separately with positions
   const [pendingMakeBoardTag, setPendingMakeBoardTag] = useState(null); // Tag waiting to be inserted
   
   // RichTextEditor toolbar configuration
@@ -225,34 +225,33 @@ const CreateCategoryArticle = ({
       let _articleBody = _article?.[body]?.text;
       if (_articleBody && !articleLoaded) {
         setArticleLoaded(true);
-        // Preserve MakeBoard tags when loading into RichTextEditor
-        // Extract MakeBoard tags and replace with placeholders
-        const makeBoardPlaceholders = [];
+        // Extract MakeBoard tags and store them separately
         const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
-        let placeholderIndex = 0;
-        let processedBody = _articleBody.replace(makeBoardRegex, (match) => {
-          const placeholder = `__MAKEBOARD_PLACEHOLDER_${placeholderIndex}__`;
-          makeBoardPlaceholders.push(match);
-          placeholderIndex++;
-          return placeholder;
-        });
+        const extractedTags = [];
+        let match;
+        
+        // Extract all MakeBoard tags from the article
+        while ((match = makeBoardRegex.exec(_articleBody)) !== null) {
+          extractedTags.push({
+            tag: match[0],
+            position: extractedTags.length,
+          });
+        }
+        
+        // Store MakeBoard tags separately
+        setMakeBoardTags(extractedTags);
+        
+        // Create HTML without MakeBoard tags for RichTextEditor
+        const bodyWithoutTags = _articleBody.replace(makeBoardRegex, '');
         
         // Convert HTML string to RichTextEditor value
         try {
-          const editorValue = RichTextEditor.createValueFromString(processedBody, 'html');
-          // Restore MakeBoard tags after RichTextEditor processes it
-          let editorHtml = editorValue.toString('html');
-          makeBoardPlaceholders.forEach((makeBoardTag, idx) => {
-            const placeholder = `__MAKEBOARD_PLACEHOLDER_${idx}__`;
-            editorHtml = editorHtml.replace(placeholder, makeBoardTag);
-          });
-          // Recreate editor value with restored MakeBoard tags
-          const finalEditorValue = RichTextEditor.createValueFromString(editorHtml, 'html');
-          setArticle(finalEditorValue);
+          const editorValue = RichTextEditor.createValueFromString(bodyWithoutTags, 'html');
+          setArticle(editorValue);
         } catch (e) {
           logger.error('Error converting article to RichTextEditor value:', e);
           // Fallback: create empty and set as string (will be handled in submit)
-          setArticle(_articleBody);
+          setArticle(bodyWithoutTags);
         }
       }
     }
@@ -328,48 +327,43 @@ const CreateCategoryArticle = ({
       ? article
       : article.toString("html");
     
-    // Check if MakeBoard tags are present in raw HTML
+    // First, extract any MakeBoard tags that might already be in the HTML
+    // (in case they were preserved from a previous save)
     const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
-    const foundMakeBoardTags = rawHtml.match(makeBoardRegex) || [];
+    const existingTags = [];
+    let match;
+    while ((match = makeBoardRegex.exec(rawHtml)) !== null) {
+      existingTags.push(match[0]);
+    }
     
-    // Extract MakeBoard tags and replace with placeholders before processing
-    const makeBoardPlaceholders = [];
-    let placeholderIndex = 0;
-    let processedHtml = rawHtml.replace(makeBoardRegex, (match) => {
-      const placeholder = `__MAKEBOARD_PLACEHOLDER_${placeholderIndex}__`;
-      makeBoardPlaceholders.push(match);
-      placeholderIndex++;
-      return placeholder;
-    });
+    // Remove MakeBoard tags from HTML before processing (we'll add them back)
+    let htmlWithoutTags = rawHtml.replace(makeBoardRegex, '');
     
-    // Now process the article string (unescape, handle suits, etc.)
-    let articleText = prepareArticleString(processedHtml);
+    // Process the article string (unescape, handle suits, etc.)
+    let articleText = prepareArticleString(htmlWithoutTags);
     
-    // Restore MakeBoard tags after processing - use the original tags, not processed ones
-    makeBoardPlaceholders.forEach((makeBoardTag, idx) => {
-      const placeholder = `__MAKEBOARD_PLACEHOLDER_${idx}__`;
-      // Replace placeholder with the original MakeBoard tag
-      articleText = articleText.replace(placeholder, makeBoardTag);
-    });
+    // Merge stored MakeBoard tags back into the article
+    // Combine existing tags from HTML with newly added tags
+    const allMakeBoardTags = [...existingTags, ...makeBoardTags.map(item => item.tag)];
     
-    // Final check - if MakeBoard tags are still missing, try to restore from stored tags
-    if (!articleText.includes("MakeBoard") && makeBoardTags.length > 0) {
-      logger.warn("MakeBoard tags were lost during processing, attempting to restore from stored tags");
-      // This shouldn't happen if insertion worked, but as a fallback
+    if (allMakeBoardTags.length > 0) {
+      // Append all MakeBoard tags at the end
+      const tagsToInsert = allMakeBoardTags.join('\n\n');
+      articleText = articleText + '\n\n' + tagsToInsert;
+      logger.log(`Merging ${allMakeBoardTags.length} MakeBoard tag(s) into article`);
+    }
+    
+    // Verify tags are in the final text
+    const finalTagCount = (articleText.match(makeBoardRegex) || []).length;
+    if (finalTagCount > 0) {
+      logger.log(`Article will be saved with ${finalTagCount} MakeBoard tag(s)`);
+    } else if (allMakeBoardTags.length > 0) {
+      logger.error(`ERROR: ${allMakeBoardTags.length} MakeBoard tag(s) were lost during processing!`);
+      // As a last resort, append them directly without processing
+      articleText = articleText + '\n\n' + allMakeBoardTags.join('\n\n');
     }
     
     let articleBody = { text: articleText };
-    
-    // Log for debugging
-    if (articleText.includes("MakeBoard")) {
-      logger.log(`MakeBoard tag found in final article text - will be saved. Found ${(articleText.match(/<MakeBoard[^>]*\/>/g) || []).length} tag(s)`);
-    } else {
-      logger.warn("MakeBoard tag NOT found in final article text - may have been lost");
-      if (foundMakeBoardTags.length > 0) {
-        logger.warn(`Found ${foundMakeBoardTags.length} MakeBoard tag(s) in raw HTML but lost during processing`);
-      }
-    }
-    
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
@@ -683,26 +677,25 @@ const CreateCategoryArticle = ({
                           small
                           style={{ backgroundColor: '#0F4C3A' }}
                           onClick={() => {
-                            // Insert at cursor position or end
-                            const currentHtml = typeof article === 'string' 
-                              ? article 
-                              : article.toString('html');
+                            // Store the MakeBoard tag separately instead of inserting into RichTextEditor
+                            // This prevents RichTextEditor from stripping it
                             const makeBoardTag = pendingMakeBoardTag;
                             
-                            // Insert the tag (at end for now, could be improved to insert at cursor)
-                            const newHtml = currentHtml + '\n\n' + makeBoardTag + '\n\n';
-                            const newEditorValue = RichTextEditor.createValueFromString(newHtml, 'html');
-                            setArticle(newEditorValue);
+                            // Add to the stored tags array (will be merged when saving)
+                            setMakeBoardTags([...makeBoardTags, {
+                              tag: makeBoardTag,
+                              position: makeBoardTags.length, // Simple position for now
+                            }]);
+                            
                             setPendingMakeBoardTag(null);
-                            setMakeBoardTags([...makeBoardTags, makeBoardTag]);
                             Toast({
-                              html: 'MakeBoard tag inserted into article',
+                              html: 'MakeBoard tag added! It will be inserted when you save.',
                               classes: 'green',
                             });
                           }}
                         >
                           <Icon left>add</Icon>
-                          Insert
+                          Add to Article
                         </Button>
                         <Button
                           waves="light"
@@ -713,6 +706,20 @@ const CreateCategoryArticle = ({
                           Dismiss
                         </Button>
                       </div>
+                    </div>
+                  </div>
+                )}
+                {makeBoardTags.length > 0 && (
+                  <div style={{ 
+                    marginTop: '1rem', 
+                    padding: '1rem', 
+                    backgroundColor: '#fff3cd', 
+                    borderRadius: '4px',
+                    border: '1px solid #ffc107'
+                  }}>
+                    <strong>📋 MakeBoard tags in this article ({makeBoardTags.length}):</strong>
+                    <div style={{ marginTop: '0.5rem', fontSize: '1.2rem', color: '#666' }}>
+                      These tags will be included when you save the article.
                     </div>
                   </div>
                 )}
