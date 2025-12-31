@@ -327,43 +327,75 @@ const CreateCategoryArticle = ({
       ? article
       : article.toString("html");
     
+    logger.log('=== SAVING ARTICLE ===');
+    logger.log('Raw HTML length:', rawHtml.length);
+    logger.log('Stored MakeBoard tags:', makeBoardTags.length);
+    
     // First, extract any MakeBoard tags that might already be in the HTML
     // (in case they were preserved from a previous save)
+    // Use a more flexible regex to catch various formats
     const makeBoardRegex = /<MakeBoard[^>]*\/>/g;
     const existingTags = [];
     let match;
+    // Reset regex lastIndex to ensure we catch all matches
+    makeBoardRegex.lastIndex = 0;
     while ((match = makeBoardRegex.exec(rawHtml)) !== null) {
       existingTags.push(match[0]);
+      logger.log('Found existing MakeBoard tag in HTML:', match[0].substring(0, 50) + '...');
     }
     
     // Remove MakeBoard tags from HTML before processing (we'll add them back)
     let htmlWithoutTags = rawHtml.replace(makeBoardRegex, '');
     
     // Process the article string (unescape, handle suits, etc.)
+    // IMPORTANT: prepareArticleString should NOT process MakeBoard tags
     let articleText = prepareArticleString(htmlWithoutTags);
     
     // Merge stored MakeBoard tags back into the article
     // Combine existing tags from HTML with newly added tags
     const allMakeBoardTags = [...existingTags, ...makeBoardTags.map(item => item.tag)];
     
+    logger.log('Total MakeBoard tags to merge:', allMakeBoardTags.length);
+    logger.log('Existing from HTML:', existingTags.length);
+    logger.log('New from stored:', makeBoardTags.length);
+    
     if (allMakeBoardTags.length > 0) {
       // Append all MakeBoard tags at the end
       const tagsToInsert = allMakeBoardTags.join('\n\n');
       articleText = articleText + '\n\n' + tagsToInsert;
       logger.log(`Merging ${allMakeBoardTags.length} MakeBoard tag(s) into article`);
+      logger.log('Sample tag:', allMakeBoardTags[0].substring(0, 100));
     }
     
     // Verify tags are in the final text
+    makeBoardRegex.lastIndex = 0; // Reset regex
     const finalTagCount = (articleText.match(makeBoardRegex) || []).length;
     if (finalTagCount > 0) {
-      logger.log(`Article will be saved with ${finalTagCount} MakeBoard tag(s)`);
+      logger.log(`✓ Article will be saved with ${finalTagCount} MakeBoard tag(s)`);
+      logger.log('Final article text length:', articleText.length);
     } else if (allMakeBoardTags.length > 0) {
-      logger.error(`ERROR: ${allMakeBoardTags.length} MakeBoard tag(s) were lost during processing!`);
+      logger.error(`✗ ERROR: ${allMakeBoardTags.length} MakeBoard tag(s) were lost during processing!`);
+      logger.error('Article text before adding tags:', articleText.substring(articleText.length - 200));
       // As a last resort, append them directly without processing
       articleText = articleText + '\n\n' + allMakeBoardTags.join('\n\n');
+      logger.log('Added tags as last resort. New length:', articleText.length);
+    } else {
+      logger.log('No MakeBoard tags to save');
+    }
+    
+    // Final verification - check if tags are actually in the text
+    makeBoardRegex.lastIndex = 0;
+    const finalCheck = articleText.match(makeBoardRegex);
+    if (finalCheck) {
+      logger.log('✓ Final verification: MakeBoard tags are in the text');
+    } else if (allMakeBoardTags.length > 0) {
+      logger.error('✗ Final verification FAILED: MakeBoard tags are NOT in the text!');
+      // Emergency fallback: append raw tags
+      articleText = articleText + '\n\n' + allMakeBoardTags.map(item => item.tag).join('\n\n');
     }
     
     let articleBody = { text: articleText };
+    logger.log('Dispatching startEditArticle with articleBody.text length:', articleBody.text.length);
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
@@ -679,7 +711,24 @@ const CreateCategoryArticle = ({
                           onClick={() => {
                             // Store the MakeBoard tag separately instead of inserting into RichTextEditor
                             // This prevents RichTextEditor from stripping it
-                            const makeBoardTag = pendingMakeBoardTag;
+                            let makeBoardTag = pendingMakeBoardTag;
+                            
+                            // Ensure the tag is in the correct format (unescape if needed)
+                            // RichTextEditor might escape < and >, so unescape them
+                            makeBoardTag = makeBoardTag
+                              .replace(/&lt;/g, '<')
+                              .replace(/&gt;/g, '>')
+                              .replace(/&amp;/g, '&');
+                            
+                            // Verify it's a valid MakeBoard tag
+                            if (!makeBoardTag.match(/<MakeBoard[^>]*\/>/)) {
+                              logger.error('Invalid MakeBoard tag format:', makeBoardTag);
+                              Toast({
+                                html: 'Error: Invalid MakeBoard tag format',
+                                classes: 'red',
+                              });
+                              return;
+                            }
                             
                             // Add to the stored tags array (will be merged when saving)
                             setMakeBoardTags([...makeBoardTags, {
@@ -688,6 +737,7 @@ const CreateCategoryArticle = ({
                             }]);
                             
                             setPendingMakeBoardTag(null);
+                            logger.log('MakeBoard tag stored:', makeBoardTag.substring(0, 100));
                             Toast({
                               html: 'MakeBoard tag added! It will be inserted when you save.',
                               classes: 'green',
