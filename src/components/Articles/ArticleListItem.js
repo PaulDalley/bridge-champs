@@ -1,9 +1,7 @@
 import React from "react";
-import MakeBoard from "../BridgeBoard/MakeBoard";
 import "./ArticleListItem.css";
 import {
   makeDateString,
-  makeBoardObjectFromString,
   getDifficultyStr,
 } from "../../helpers/helpers";
 
@@ -20,6 +18,7 @@ const ArticleListItem = ({
   router,
   a,
   subscriptionActive,
+  hasVideo,
 }) => {
   // Article is locked if user is not an admin AND doesn't have an active subscription
   // Admins (a === true) always have access, regardless of subscription status
@@ -33,10 +32,6 @@ const ArticleListItem = ({
     title,
   };
 
-  const re = /<MakeBoard .* \/>/;
-  const matches = re.exec(teaser_board);
-  let data;
-  if (matches) data = makeBoardObjectFromString(teaser_board);
   const diffString = getDifficultyStr(difficulty);
 
   const isNewArticle = (createdAt) => {
@@ -63,9 +58,13 @@ const ArticleListItem = ({
         <div className="ArticleCard-new-badge">NEW</div>
       )}
 
-      {data && (
-        <div className={`ArticleCard-board ${data.boardType === 'full' ? 'ArticleCard-board--full' : ''}`}>
-          <MakeBoard {...data} bidding="" showVuln={false} isTeaser={true} />
+      {/* Video Badge */}
+      {hasVideo && (
+        <div className="ArticleCard-video-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1.6rem', height: '1.6rem' }}>
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <span>Article + Video</span>
         </div>
       )}
 

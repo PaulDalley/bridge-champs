@@ -1,9 +1,7 @@
 import React from 'react';
-import MakeBoard from '../BridgeBoard/MakeBoard';
 import './CategoryArticleListItem.css';
 import {
   makeDateString,
-  makeBoardObjectFromString,
   getLevelStr,
 } from '../../helpers/helpers';
 
@@ -21,6 +19,7 @@ const CategoryArticleListItem = ({
   a,
   subscriptionActive,
   articleType,
+  hasVideo,
 }) => {
   // Article is locked if user is not an admin AND doesn't have an active subscription
   // Admins (a === true) always have access, regardless of subscription status
@@ -55,14 +54,6 @@ const CategoryArticleListItem = ({
   const showNew = isNewArticle(createdAt);
   const diffString = getLevelStr(difficulty);
 
-  // Parse bridge board data
-  const re = /<MakeBoard .* \/>/;
-  const matches = re.exec(teaser_board);
-  let boardData;
-  if (matches) {
-    boardData = makeBoardObjectFromString(teaser_board);
-  }
-
   return (
     <div className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''}`} onClick={handleClick}>
       {/* Lock Icon for Premium Content */}
@@ -81,10 +72,13 @@ const CategoryArticleListItem = ({
         </div>
       )}
 
-      {/* Bridge Board Display */}
-      {boardData && (
-        <div className={`ArticleCard-board ${boardData.boardType === 'full' ? 'ArticleCard-board--full' : ''}`}>
-          <MakeBoard {...boardData} bidding="" showVuln={false} isTeaser={true} />
+      {/* Video Badge */}
+      {hasVideo && (
+        <div className="ArticleCard-video-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1.6rem', height: '1.6rem' }}>
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <span>Article + Video</span>
         </div>
       )}
 

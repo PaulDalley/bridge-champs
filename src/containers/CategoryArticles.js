@@ -82,6 +82,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         router={history}
         a={a}
         subscriptionActive={subscriptionActive}
+        hasVideo={article.hasVideo === true}
         clickHandler={setCurrentArticleAndGoTo}
         articleType={articleType}
       />

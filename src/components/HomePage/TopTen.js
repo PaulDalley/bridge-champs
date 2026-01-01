@@ -203,6 +203,7 @@ class TopTen extends Component {
             a={this.props.a}
             subscriptionActive={this.props.subscriptionActive}
             clickHandler={this.articleClickHandler}
+            hasVideo={article.hasVideo === true}
           />
         );
       } else {
@@ -224,6 +225,7 @@ class TopTen extends Component {
             clickHandler={this.categoryArticleClickHandler}
             articleType={article.from}
             displayArticleType={true}
+            hasVideo={article.hasVideo === true}
           />
         );
       }

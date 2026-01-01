@@ -1,4 +1,8 @@
-/* MATCHED TO CATEGORY ARTICLES */
+/* ===================================
+   ARTICLE CARD COMPONENT - REDESIGNED
+   Clean, Professional Design
+   =================================== */
+
 .ArticleCard {
   background: var(--color-white);
   border-radius: var(--radius-lg);
@@ -14,7 +18,7 @@
 }
 
 .ArticleCard:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
   border-color: var(--color-primary);
 }
@@ -26,6 +30,18 @@
 .ArticleCard--completed {
   border-color: var(--color-secondary);
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, var(--color-white) 100%);
+}
+
+/* === TOP ACCENT BAR === */
+.ArticleCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  z-index: 1;
 }
 
 .ArticleCard-lock {
@@ -79,37 +95,49 @@
   box-shadow: var(--shadow-md);
 }
 
-.ArticleCard-board {
-  background: linear-gradient(135deg, rgba(15, 76, 58, 0.06) 0%, rgba(15, 76, 58, 0.02) 100%);
-  padding: 2rem;
-  min-height: 22rem;
-  max-height: 22rem;
+.ArticleCard-video-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  background: #ff0000;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-md);
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--color-light-gray);
-  overflow: hidden;
+  gap: 0.4rem;
+  white-space: nowrap;
 }
 
-.ArticleCard-board--full {
-  min-height: 28rem;
-  max-height: 28rem;
-  padding: 1.5rem;
+.ArticleCard-video-badge svg {
+  flex-shrink: 0;
 }
 
+/* Adjust lock icon position when video badge is present */
+.ArticleCard--locked .ArticleCard-lock {
+  right: auto;
+  left: 1.5rem;
+}
+
+/* === CONTENT SECTION === */
 .ArticleCard-content {
-  padding: 2.5rem;
+  padding: 3rem 2.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 20rem;
+  min-height: auto;
 }
 
 .ArticleCard-meta {
   display: flex;
   gap: 0.8rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   flex-wrap: wrap;
 }
 
@@ -140,22 +168,24 @@
 
 .ArticleCard-title {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: var(--color-dark);
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 .ArticleCard-teaser {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.7;
   color: var(--color-gray);
   margin-bottom: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 }
 
 .ArticleCard-locked-overlay {
@@ -180,23 +210,29 @@
   color: var(--color-primary);
 }
 
-.ArticleCard:hover .ArticleCard-board {
-  background: linear-gradient(135deg, rgba(15, 76, 58, 0.10) 0%, rgba(15, 76, 58, 0.04) 100%);
-}
-
 @media screen and (max-width: 768px) {
-  .ArticleCard-board {
-    padding: 1.5rem 1rem;
-    min-height: 20rem;
-    max-height: 20rem;
-  }
-  
   .ArticleCard-content {
-    padding: 2rem;
-    min-height: 18rem;
+    padding: 2.5rem 2rem;
   }
   
   .ArticleCard-title {
     font-size: 2rem;
+  }
+  
+  .ArticleCard-teaser {
+    font-size: 1.4rem;
+    -webkit-line-clamp: 2;
+  }
+  
+  .ArticleCard-video-badge {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .ArticleCard-video-badge svg {
+    width: 1.4rem;
+    height: 1.4rem;
   }
 }

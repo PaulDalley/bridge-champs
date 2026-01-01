@@ -57,7 +57,8 @@ class ArticlesByCategory extends Component {
                                  router={this.props.history}
                                  a={this.props.a}
                                  subscriptionActive={this.props.subscriptionActive}
-                                 clickHandler={this.setCurrentArticleAndGoTo}/>
+                                 clickHandler={this.setCurrentArticleAndGoTo}
+                                 hasVideo={article.hasVideo === true}/>
             ));
         }
 

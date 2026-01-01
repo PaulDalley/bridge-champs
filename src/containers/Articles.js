@@ -71,6 +71,7 @@ export class Articles extends Component {
           a={this.props.a}
           subscriptionActive={this.props.subscriptionActive}
           clickHandler={this.setCurrentArticleAndGoTo}
+          hasVideo={article.hasVideo === true}
         />
       ));
     }

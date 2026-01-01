@@ -1,5 +1,6 @@
 /* ===================================
-   ARTICLE CARD COMPONENT - IMPROVED
+   ARTICLE CARD COMPONENT - REDESIGNED
+   Clean, Professional Design
    =================================== */
 
 .ArticleCard {
@@ -17,13 +18,25 @@
 }
 
 .ArticleCard:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
   border-color: var(--color-primary);
 }
 
 .ArticleCard--locked {
   opacity: 0.95;
+}
+
+/* === TOP ACCENT BAR === */
+.ArticleCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  z-index: 1;
 }
 
 /* === BADGES === */
@@ -64,82 +77,50 @@
   box-shadow: var(--shadow-md);
 }
 
-/* === BRIDGE BOARD SECTION - IMPROVED === */
-.ArticleCard-board {
-  background: linear-gradient(135deg, rgba(15, 76, 58, 0.06) 0%, rgba(15, 76, 58, 0.02) 100%);
-  padding: 2rem;
-  min-height: 22rem;
-  max-height: 22rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--color-light-gray);
-  overflow: hidden;
-  position: relative;
-}
-
-.ArticleCard-board--full {
-  min-height: 28rem;
-  max-height: 28rem;
-  padding: 1.5rem;
-}
-
-/* Consistent board sizing */
-.ArticleCard-board > div {
-  max-width: 100%;
-  transform-origin: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Fix bridge hand cards to be cleaner */
-.ArticleCard-board .Hand-card {
-  background: var(--color-white);
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  min-height: auto !important;
-  padding: 1rem !important;
-}
-
-.ArticleCard-board .Hand-header,
-.ArticleCard-board .Hand-headerTwo {
-  font-size: 1.8rem !important;
-  font-weight: 700;
-  color: var(--color-dark);
-}
-
-.ArticleCard-board .Hand-posicon {
-  background: var(--color-primary);
-  padding: 0.3rem 0.8rem;
-  border-radius: var(--radius-sm);
-}
-
-.ArticleCard-board .Hand-suit {
-  font-size: 2rem !important;
-}
-
-.ArticleCard-board .Hand-row_cardstext {
-  font-size: 1.8rem !important;
-  font-family: 'Space Mono', monospace;
+.ArticleCard-video-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  background: #ff0000;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: 0.05em;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
 }
 
-/* === CONTENT SECTION - IMPROVED === */
+.ArticleCard-video-badge svg {
+  flex-shrink: 0;
+}
+
+/* Adjust lock icon position when video badge is present */
+.ArticleCard--locked .ArticleCard-lock {
+  right: auto;
+  left: 1.5rem;
+}
+
+/* === CONTENT SECTION === */
 .ArticleCard-content {
-  padding: 2.5rem;
+  padding: 3rem 2.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 20rem;
+  min-height: auto;
 }
 
 /* === META BADGES === */
 .ArticleCard-meta {
   display: flex;
   gap: 0.8rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   flex-wrap: wrap;
 }
 
@@ -173,28 +154,28 @@
   color: var(--color-gray);
 }
 
-/* === TITLE - NO CLAMP === */
+/* === TITLE === */
 .ArticleCard-title {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: var(--color-dark);
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   line-height: 1.3;
-  /* REMOVED: display: -webkit-box and -webkit-line-clamp */
-  /* Title will now show fully */
+  letter-spacing: -0.02em;
 }
 
-/* === TEASER - LIMITED === */
+/* === TEASER === */
 .ArticleCard-teaser {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.7;
   color: var(--color-gray);
   margin-bottom: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 }
 
 /* === LOCKED OVERLAY === */
@@ -226,35 +207,10 @@
   color: var(--color-primary);
 }
 
-.ArticleCard:hover .ArticleCard-board {
-  background: linear-gradient(135deg, rgba(15, 76, 58, 0.10) 0%, rgba(15, 76, 58, 0.04) 100%);
-}
-
 /* === RESPONSIVE === */
 @media screen and (max-width: 768px) {
-  .ArticleCard-board {
-    padding: 1.5rem 1rem;
-    min-height: 20rem;
-    max-height: 20rem;
-  }
-  
-  .ArticleCard-board > div {
-    transform: scale(0.9);
-  }
-  
-  .ArticleCard-board--full {
-    min-height: 24rem;
-    max-height: 24rem;
-    padding: 1rem;
-  }
-  
-  .ArticleCard-board--full > div {
-    transform: scale(0.8);
-  }
-  
   .ArticleCard-content {
-    padding: 2rem;
-    min-height: 18rem;
+    padding: 2.5rem 2rem;
   }
   
   .ArticleCard-title {
@@ -263,6 +219,7 @@
   
   .ArticleCard-teaser {
     font-size: 1.4rem;
+    -webkit-line-clamp: 2;
   }
   
   .ArticleCard-lock {
@@ -283,23 +240,30 @@
     font-size: 1.1rem;
     padding: 0.5rem 1.2rem;
   }
+  
+  .ArticleCard-video-badge {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .ArticleCard-video-badge svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
-  .ArticleCard-board {
-    min-height: 18rem;
-    max-height: 18rem;
-  }
-  
-  .ArticleCard-board > div {
-    transform: scale(0.8);
-  }
-  
-  .ArticleCard-board--full > div {
-    transform: scale(0.7);
+  .ArticleCard-content {
+    padding: 2rem 1.5rem;
   }
   
   .ArticleCard-title {
     font-size: 1.8rem;
+  }
+  
+  .ArticleCard-teaser {
+    font-size: 1.3rem;
   }
 }

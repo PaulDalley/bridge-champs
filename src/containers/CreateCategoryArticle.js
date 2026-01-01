@@ -34,6 +34,7 @@ import $ from "jquery";
 
 
 import GenerateBridgeBoard from "../components/BridgeBoard/GenerateBridgeBoard";
+import BoardManager from "../components/Articles/BoardManager";
 
 import RichTextEditor from "react-rte";
 
@@ -67,6 +68,46 @@ const CreateCategoryArticle = ({
   const [loadingBackups, setLoadingBackups] = useState(false);
   const [makeBoardTags, setMakeBoardTags] = useState([]); // Store MakeBoard tags separately with positions
   const [pendingMakeBoardTag, setPendingMakeBoardTag] = useState(null); // Tag waiting to be inserted
+  const [placedBoardIds, setPlacedBoardIds] = useState(new Set()); // Track which boards have been placed in text
+  
+  // Generate unique IDs for boards
+  const generateBoardId = () => `board-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  
+  // Insert board placeholder at cursor position (or end if cursor position not available)
+  const insertBoardAtCursor = (boardId) => {
+    try {
+      // Get current HTML content
+      const currentHtml = typeof article === 'string' 
+        ? article 
+        : article.toString('html');
+      
+      // Create placeholder - use a visible marker that will be replaced on save
+      const placeholder = `<p style="background-color: #e3f2fd; padding: 0.5rem; border-left: 3px solid #0F4C3A; margin: 1rem 0;">[BOARD:${boardId}]</p>`;
+      
+      // Try to insert at cursor if possible, otherwise append
+      // RichTextEditor doesn't easily expose cursor position, so we'll append for now
+      // In a future version, we could use the editor's selection API
+      const newHtml = currentHtml + placeholder;
+      const newEditorValue = RichTextEditor.createValueFromString(newHtml, 'html');
+      setArticle(newEditorValue);
+      
+      // Mark board as placed
+      setPlacedBoardIds(new Set([...placedBoardIds, boardId]));
+      
+      M.toast({ 
+        html: 'Board placeholder inserted! You can move it in the text. The board will appear here when you save.',
+        classes: 'green',
+        displayLength: 4000
+      });
+    } catch (e) {
+      logger.error('Error inserting board placeholder:', e);
+      M.toast({ 
+        html: 'Error inserting board. Please try again.',
+        classes: 'red',
+        displayLength: 3000
+      });
+    }
+  };
   
   // RichTextEditor toolbar configuration
   const toolbarConfig = {
@@ -107,6 +148,7 @@ const CreateCategoryArticle = ({
   const [newCategory, setNewCategory] = useState("");
   const [body, setBody] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [hasVideo, setHasVideo] = useState(false);
   const [categoriesSubscription, setCategoriesSubscription] =
     useState(undefined);
 
@@ -123,6 +165,7 @@ const CreateCategoryArticle = ({
       title,
       subcategory,
       videoUrl,
+      hasVideo,
       id,
     } = articleMetadata;
 
@@ -143,6 +186,7 @@ const CreateCategoryArticle = ({
     setCategory(category);
     setSubcategory(subcategory || "");
     setVideoUrl(videoUrl || "");
+    setHasVideo(hasVideo === true);
     setBody(body);
 
     // Only fetch article body if we have a body ID
@@ -239,6 +283,7 @@ const CreateCategoryArticle = ({
         // Extract all MakeBoard tags from the article
         while ((match = makeBoardRegex.exec(_articleBody)) !== null) {
           extractedTags.push({
+            id: generateBoardId(), // Add unique ID for each board
             tag: match[0],
             position: extractedTags.length,
           });
@@ -247,7 +292,7 @@ const CreateCategoryArticle = ({
         
         logger.log('Total MakeBoard tags extracted on load:', extractedTags.length);
         
-        // Store MakeBoard tags separately
+        // Store MakeBoard tags separately with IDs
         setMakeBoardTags(extractedTags);
         
         // Create HTML without MakeBoard tags for RichTextEditor
@@ -282,6 +327,7 @@ const CreateCategoryArticle = ({
       teaser: teaser,
       articleNumber: articleNumber,
       videoUrl: videoUrl,
+      hasVideo: hasVideo,
     };
 
     if (subcategory !== "") {
@@ -310,6 +356,13 @@ const CreateCategoryArticle = ({
 
   const submitEditArticle = (e) => {
     e.preventDefault();
+    
+    // CRITICAL: Log the current state before processing
+    logger.log('=== SUBMIT EDIT ARTICLE CALLED ===');
+    logger.log('makeBoardTags state:', makeBoardTags);
+    logger.log('makeBoardTags length:', makeBoardTags.length);
+    logger.log('makeBoardTags content:', JSON.stringify(makeBoardTags));
+    
     // Use the summary document ID (not the body ID from URL)
     const summaryId = summaryDocumentId || match?.params?.id;
     if (!summaryId) {
@@ -327,6 +380,7 @@ const CreateCategoryArticle = ({
       body: body,
       id: summaryId, // This should be the summary document ID
       videoUrl: videoUrl,
+      hasVideo: hasVideo,
     };
 
     if (subcategory !== "") {
@@ -362,16 +416,61 @@ const CreateCategoryArticle = ({
     // IMPORTANT: prepareArticleString should NOT process MakeBoard tags
     let articleText = prepareArticleString(htmlWithoutTags);
     
+    // Replace board placeholders with actual MakeBoard tags
+    // Placeholders look like: [BOARD:board-id]
+    const boardPlaceholderRegex = /\[BOARD:([^\]]+)\]/g;
+    const boardMap = new Map();
+    
+    // Create a map of board IDs to tags
+    makeBoardTags.forEach(boardItem => {
+      if (boardItem.id && boardItem.tag) {
+        boardMap.set(boardItem.id, boardItem.tag);
+      }
+    });
+    
+    // Replace placeholders with actual tags
+    articleText = articleText.replace(boardPlaceholderRegex, (match, boardId) => {
+      const tag = boardMap.get(boardId);
+      if (tag) {
+        logger.log(`Replacing placeholder [BOARD:${boardId}] with MakeBoard tag`);
+        return tag;
+      }
+      logger.warn(`No board found for ID: ${boardId}`);
+      return match; // Keep placeholder if board not found
+    });
+    
     // Merge stored MakeBoard tags back into the article
     // Combine existing tags from HTML with newly added tags
-    const allMakeBoardTags = [...existingTags, ...makeBoardTags.map(item => item.tag)];
+    logger.log('BEFORE MERGE - makeBoardTags:', makeBoardTags);
+    logger.log('BEFORE MERGE - existingTags:', existingTags);
+    
+    // Safely extract tags from makeBoardTags array
+    const newTags = Array.isArray(makeBoardTags) 
+      ? makeBoardTags
+          .filter(item => {
+            // Only include boards that haven't been placed (no placeholder in text)
+            const boardId = item?.id;
+            return boardId && !placedBoardIds.has(boardId);
+          })
+          .map(item => {
+            // Handle both { tag: "..." } and direct string formats
+            const tag = typeof item === 'string' ? item : (item?.tag || item);
+            logger.log('Extracting unplaced tag from makeBoardTags:', tag?.substring(0, 50));
+            return tag;
+          })
+          .filter(tag => tag && typeof tag === 'string')
+      : [];
+    
+    const allMakeBoardTags = [...existingTags, ...newTags];
     
     logger.log('Total MakeBoard tags to merge:', allMakeBoardTags.length);
     logger.log('Existing from HTML:', existingTags.length);
-    logger.log('New from stored:', makeBoardTags.length);
+    logger.log('New unplaced from stored array:', newTags.length);
+    logger.log('Placed boards (not appending):', placedBoardIds.size);
+    logger.log('All tags to insert:', allMakeBoardTags.map(t => t?.substring(0, 50)));
     
     if (allMakeBoardTags.length > 0) {
-      // Append all MakeBoard tags at the end
+      // Append unplaced MakeBoard tags at the end
       const tagsToInsert = allMakeBoardTags.join('\n\n');
       articleText = articleText + '\n\n' + tagsToInsert;
       logger.log(`Merging ${allMakeBoardTags.length} MakeBoard tag(s) into article`);
@@ -406,7 +505,24 @@ const CreateCategoryArticle = ({
     }
     
     let articleBody = { text: articleText };
-    logger.log('Dispatching startEditArticle with articleBody.text length:', articleBody.text.length);
+    
+    // FINAL VERIFICATION: Check if MakeBoard tags are actually in the text being saved
+    const finalMakeBoardCheck = articleText.match(/<MakeBoard[^>]*\/>/g);
+    logger.log('=== FINAL CHECK BEFORE SAVING ===');
+    logger.log('articleBody.text length:', articleBody.text.length);
+    logger.log('MakeBoard tags in final text:', finalMakeBoardCheck ? finalMakeBoardCheck.length : 0);
+    if (finalMakeBoardCheck) {
+      logger.log('✓ MakeBoard tags ARE in the text being saved');
+      logger.log('Sample tag from final text:', finalMakeBoardCheck[0].substring(0, 100));
+    } else if (allMakeBoardTags.length > 0) {
+      logger.error('✗ CRITICAL: MakeBoard tags are NOT in the final text, but they should be!');
+      logger.error('This means the tags were lost during processing.');
+      // Emergency: append them one more time
+      articleBody.text = articleText + '\n\n' + allMakeBoardTags.join('\n\n');
+      logger.log('Emergency fix: Re-appended tags. New length:', articleBody.text.length);
+    }
+    
+    logger.log('Dispatching startEditArticle...');
     dispatch(startEditArticle(_article, articleBody, articleType, bodyRef));
 
     switch (articleType) {
@@ -629,6 +745,52 @@ const CreateCategoryArticle = ({
           ></TextInput>
         </Row>
         <Row>
+          <div style={{ 
+            padding: '1rem',
+            backgroundColor: '#f5f5f5',
+            borderRadius: '4px',
+            border: '1px solid #ddd',
+            marginTop: '1rem',
+            marginBottom: '1rem'
+          }}>
+            <label 
+              htmlFor="hasVideoCheckboxOld"
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                cursor: 'pointer',
+                fontSize: '1.6rem',
+                fontWeight: '500',
+                margin: 0,
+                userSelect: 'none'
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                setHasVideo(!hasVideo);
+              }}
+            >
+              <input
+                id="hasVideoCheckboxOld"
+                type="checkbox"
+                checked={hasVideo}
+                onChange={(e) => setHasVideo(e.target.checked)}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '12px',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  opacity: 1,
+                  position: 'relative',
+                  zIndex: 1
+                }}
+              />
+              <span style={{ pointerEvents: 'none' }}>Article contains video</span>
+            </label>
+          </div>
+        </Row>
+        <Row>
           <div style={{ width: '100%', marginBottom: '1rem', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
               <label style={{ fontSize: '1.6rem', fontWeight: 'bold', display: 'block', margin: 0 }}>
@@ -660,18 +822,24 @@ const CreateCategoryArticle = ({
                 <div style={{ padding: '1rem 0', maxHeight: '80vh', overflowY: 'auto' }}>
                   <GenerateBridgeBoard 
                     onBoardGenerated={(makeBoardTag) => {
-                      setPendingMakeBoardTag(makeBoardTag);
-                      // Close modal after a short delay
-                      setTimeout(() => {
-                        const modalElement = document.getElementById('board-creator-modal');
-                        if (modalElement) {
-                          const instance = window.M?.Modal?.getInstance(modalElement);
-                          if (instance) {
-                            instance.close();
+                      console.log('CreateCategoryArticle: Received MakeBoard tag:', makeBoardTag?.substring(0, 50));
+                      if (makeBoardTag) {
+                        setPendingMakeBoardTag(makeBoardTag);
+                        logger.log('MakeBoard tag set, pendingMakeBoardTag should now be visible');
+                        // Close modal immediately so user can see the "Add to Article" button
+                        setTimeout(() => {
+                          const modalElement = document.getElementById('board-creator-modal');
+                          if (modalElement) {
+                            const instance = window.M?.Modal?.getInstance(modalElement) || M.Modal.getInstance(modalElement);
+                            if (instance) {
+                              instance.close();
+                            }
                           }
-                        }
-                        $("body").css({ overflow: "auto" });
-                      }, 500);
+                          $("body").css({ overflow: "auto" });
+                        }, 100);
+                      } else {
+                        logger.error('MakeBoard tag is null or undefined');
+                      }
                     }}
                   />
                 </div>
@@ -692,14 +860,18 @@ const CreateCategoryArticle = ({
                   placeholder="Start typing your article content here..."
                 />
                 {pendingMakeBoardTag && (
-                  <div style={{ 
-                    marginTop: '1.5rem', 
-                    padding: '1.5rem', 
-                    backgroundColor: '#e8f5e9', 
-                    borderRadius: '8px',
-                    border: '2px solid #4caf50',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                  }}>
+                  <div 
+                    style={{ 
+                      marginTop: '1.5rem', 
+                      padding: '1.5rem', 
+                      backgroundColor: '#e8f5e9', 
+                      borderRadius: '8px',
+                      border: '2px solid #4caf50',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      zIndex: 1000,
+                      position: 'relative'
+                    }}
+                  >
                     <div style={{ 
                       display: 'flex', 
                       justifyContent: 'space-between', 
@@ -748,24 +920,30 @@ const CreateCategoryArticle = ({
                             // Verify it's a valid MakeBoard tag
                             if (!makeBoardTag.match(/<MakeBoard[^>]*\/>/)) {
                               logger.error('Invalid MakeBoard tag format:', makeBoardTag);
-                              Toast({
+                              M.toast({ 
                                 html: 'Error: Invalid MakeBoard tag format',
                                 classes: 'red',
+                                displayLength: 3000
                               });
                               return;
                             }
                             
-                            // Add to the stored tags array (will be merged when saving)
-                            setMakeBoardTags([...makeBoardTags, {
+                            // Add to the stored tags array with unique ID
+                            const newBoard = {
+                              id: generateBoardId(),
                               tag: makeBoardTag,
-                              position: makeBoardTags.length, // Simple position for now
-                            }]);
+                              position: makeBoardTags.length,
+                            };
+                            setMakeBoardTags([...makeBoardTags, newBoard]);
                             
                             setPendingMakeBoardTag(null);
-                            logger.log('MakeBoard tag stored:', makeBoardTag.substring(0, 100));
-                            Toast({
-                              html: 'MakeBoard tag added! It will be inserted when you save.',
+                            logger.log('MakeBoard tag stored with ID:', newBoard.id);
+                            
+                            // Use Materialize toast
+                            M.toast({ 
+                              html: `Board added! You can see it below. It will be inserted at the end of your article when you save.`,
                               classes: 'green',
+                              displayLength: 4000
                             });
                           }}
                         >
@@ -795,24 +973,35 @@ const CreateCategoryArticle = ({
                       fontSize: '1.2rem',
                       color: '#856404'
                     }}>
-                      💡 Click "Add to Article" to include this board in your article. It will be saved when you click "Edit Article" at the bottom.
+                      💡 Click "Add to Article" to include this board. The board will be saved at the END of your article when you click "Edit Article" at the bottom.
                     </div>
                   </div>
                 )}
-                {makeBoardTags.length > 0 && (
-                  <div style={{ 
-                    marginTop: '1rem', 
-                    padding: '1rem', 
-                    backgroundColor: '#fff3cd', 
-                    borderRadius: '4px',
-                    border: '1px solid #ffc107'
-                  }}>
-                    <strong>📋 MakeBoard tags in this article ({makeBoardTags.length}):</strong>
-                    <div style={{ marginTop: '0.5rem', fontSize: '1.2rem', color: '#666' }}>
-                      These tags will be included when you save the article.
-                    </div>
-                  </div>
-                )}
+                {/* Visual Board Manager - Shows all boards with preview */}
+                <BoardManager
+                  boards={makeBoardTags}
+                  onDelete={(index) => {
+                    const newBoards = makeBoardTags.filter((_, i) => i !== index);
+                    setMakeBoardTags(newBoards);
+                    M.toast({ 
+                      html: 'Board removed',
+                      classes: 'orange',
+                      displayLength: 2000
+                    });
+                  }}
+                  onMoveUp={(index) => {
+                    if (index === 0) return;
+                    const newBoards = [...makeBoardTags];
+                    [newBoards[index - 1], newBoards[index]] = [newBoards[index], newBoards[index - 1]];
+                    setMakeBoardTags(newBoards);
+                  }}
+                  onMoveDown={(index) => {
+                    if (index === makeBoardTags.length - 1) return;
+                    const newBoards = [...makeBoardTags];
+                    [newBoards[index], newBoards[index + 1]] = [newBoards[index + 1], newBoards[index]];
+                    setMakeBoardTags(newBoards);
+                  }}
+                />
               </>
             )}
             {edit && !articleLoaded && (
