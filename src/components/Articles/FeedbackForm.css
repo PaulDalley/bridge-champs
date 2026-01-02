@@ -1,0 +1,279 @@
+/* ===================================
+   FEEDBACK FORM STYLES
+   =================================== */
+
+.FeedbackForm {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  padding-top: 3rem;
+  border-top: 2px solid var(--color-light-gray);
+}
+
+.FeedbackForm-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  justify-content: center;
+}
+
+.FeedbackForm-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.FeedbackForm-toggle svg {
+  flex-shrink: 0;
+}
+
+.FeedbackForm-card {
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.FeedbackForm-header {
+  position: relative;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.FeedbackForm-header h3 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.FeedbackForm-header p {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+}
+
+.FeedbackForm-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 3rem;
+  color: var(--color-gray);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.FeedbackForm-close:hover {
+  background: var(--color-light-gray);
+  color: var(--color-text);
+}
+
+.FeedbackForm-question {
+  margin-bottom: 3rem;
+}
+
+.FeedbackForm-label {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+}
+
+.FeedbackForm-scale {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.FeedbackForm-scale-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.5rem 2rem;
+  border: 2px solid var(--color-light-gray);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--color-white);
+  min-width: 10rem;
+  position: relative;
+}
+
+.FeedbackForm-scale-option:hover {
+  border-color: var(--color-primary);
+  background: rgba(15, 76, 58, 0.05);
+  transform: translateY(-2px);
+}
+
+.FeedbackForm-scale-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.FeedbackForm-scale-option input[type="radio"]:checked + .FeedbackForm-scale-number {
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+.FeedbackForm-scale-option input[type="radio"]:checked ~ .FeedbackForm-scale-label {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.FeedbackForm-scale-option:has(input[type="radio"]:checked) {
+  border-color: var(--color-primary);
+  background: rgba(15, 76, 58, 0.1);
+}
+
+.FeedbackForm-scale-number {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--color-light-gray);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.FeedbackForm-scale-label {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.FeedbackForm-textarea {
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px solid var(--color-light-gray);
+  border-radius: var(--radius-md);
+  font-size: 1.5rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.FeedbackForm-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.FeedbackForm-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.FeedbackForm-submit-btn {
+  background: var(--color-primary);
+  color: white;
+  padding: 1.2rem 3rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.FeedbackForm-submit-btn:hover {
+  background: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.FeedbackForm-submitted {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.FeedbackForm-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.FeedbackForm-success h3 {
+  font-size: 2.4rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.FeedbackForm-success p {
+  font-size: 1.6rem;
+  color: var(--color-gray);
+  margin: 0;
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+  .FeedbackForm {
+    margin-top: 3rem;
+    padding-top: 2rem;
+  }
+
+  .FeedbackForm-toggle {
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .FeedbackForm-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .FeedbackForm-header h3 {
+    font-size: 2rem;
+  }
+
+  .FeedbackForm-scale {
+    gap: 1rem;
+  }
+
+  .FeedbackForm-scale-option {
+    min-width: 8rem;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .FeedbackForm-scale-number {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.8rem;
+  }
+
+  .FeedbackForm-actions {
+    flex-direction: column;
+  }
+
+  .FeedbackForm-submit-btn {
+    width: 100%;
+  }
+}
+

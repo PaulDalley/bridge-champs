@@ -20,6 +20,7 @@ import {
 import MakeBoard from "../../components/BridgeBoard/MakeBoard";
 import { Col, ProgressBar } from "react-materialize";
 import Comments from "../Comments/Comments";
+import FeedbackForm from "./FeedbackForm";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import SkeletonLoader from "../UI/SkeletonLoader";
@@ -29,14 +30,38 @@ const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
   if (!isAdmin) return null;
   
   return (
-    <button
-      className="DisplayArticle-edit-btn"
-      onClick={() => history.push('/edit/' + articleType + '/' + articleId)}
-      aria-label={`Edit ${articleType} article`}
-      title="Edit this article"
-    >
-      Edit Article
-    </button>
+    <div style={{ 
+      display: 'flex', 
+      gap: '0.5rem', 
+      flexWrap: 'wrap', 
+      marginTop: '1rem',
+      position: 'relative',
+      zIndex: 10
+    }}>
+      <button
+        className="DisplayArticle-edit-btn"
+        onClick={() => history.push('/edit/' + articleType + '/' + articleId)}
+        aria-label={`Edit ${articleType} article`}
+        title="Edit this article (Old System)"
+        style={{ position: 'relative', right: 'auto', top: 'auto' }}
+      >
+        Edit Article (Old)
+      </button>
+      <button
+        className="DisplayArticle-edit-btn"
+        onClick={() => history.push('/edit-article-v2/' + articleType + '/' + articleId)}
+        aria-label={`Edit ${articleType} article`}
+        title="Edit this article (New V2 System)"
+        style={{ 
+          backgroundColor: '#0F4C3A',
+          position: 'relative',
+          right: 'auto',
+          top: 'auto'
+        }}
+      >
+        Edit Article (V2)
+      </button>
+    </div>
   );
 };
 
@@ -155,10 +180,42 @@ const DisplayCategoryArticle = ({
   }, []);
 
   const articleId = match.params.id;
-  let articleText;
+  let articleText = '';
 
-  if (article) {
-    articleText = article?.[articleId]?.text;
+  if (article && articleId) {
+    try {
+      // article[articleId] is the body document, which has 'text' or 'body' field
+      const bodyDoc = article?.[articleId];
+      if (bodyDoc) {
+        // Handle different possible structures
+        if (typeof bodyDoc === 'string') {
+          articleText = bodyDoc;
+        } else if (bodyDoc.text) {
+          articleText = typeof bodyDoc.text === 'string' ? bodyDoc.text : String(bodyDoc.text || '');
+        } else if (bodyDoc.body) {
+          if (typeof bodyDoc.body === 'string') {
+            articleText = bodyDoc.body;
+          } else if (bodyDoc.body?.text) {
+            articleText = typeof bodyDoc.body.text === 'string' ? bodyDoc.body.text : String(bodyDoc.body.text || '');
+          } else {
+            articleText = '';
+          }
+        } else {
+          articleText = '';
+        }
+      } else {
+        articleText = '';
+      }
+    } catch (error) {
+      console.error('Error extracting article text:', error);
+      articleText = '';
+    }
+  }
+  
+  // Ensure articleText is always a string
+  if (typeof articleText !== 'string') {
+    console.warn('articleText is not a string, converting:', typeof articleText, articleText);
+    articleText = String(articleText || '');
   }
 
   let useMetaData = undefined;
@@ -352,6 +409,13 @@ const DisplayCategoryArticle = ({
           />
         </section>
       )}
+
+      {/* Feedback Form */}
+      <FeedbackForm
+        articleId={articleId}
+        articleType={articleType}
+        articleTitle={useMetaData?.title}
+      />
     </article>
     </>
   );
