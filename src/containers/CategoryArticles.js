@@ -23,7 +23,7 @@ import "./CategoryArticles.css";
 import FiltersCategoryArticles from "./FiltersCategoryArticles";
 import SkeletonLoader from "../components/UI/SkeletonLoader";
 import { Helmet } from "react-helmet-async";
-import { Button, Row, Col, Card, Icon, Input } from "react-materialize";
+import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
@@ -372,7 +372,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                   <form onSubmit={handleVideoSubmit}>
                     <Row>
                       <Col s={12}>
-                        <Input
+                        <TextInput
                           s={12}
                           label="Video Title"
                           name="title"
@@ -384,7 +384,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                     </Row>
                     <Row>
                       <Col s={12}>
-                        <Input
+                        <TextInput
                           s={12}
                           label="YouTube URL"
                           name="url"
@@ -396,9 +396,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                     </Row>
                     <Row>
                       <Col s={12} m={6}>
-                        <Input
+                        <Select
                           s={12}
-                          type="select"
                           label="Difficulty Level"
                           name="difficulty"
                           value={newVideo.difficulty}
@@ -409,7 +408,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                           <option value="3">Level 3</option>
                           <option value="4">Level 4</option>
                           <option value="5">Level 5</option>
-                        </Input>
+                        </Select>
                       </Col>
                     </Row>
                     <Row>
