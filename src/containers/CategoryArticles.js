@@ -398,21 +398,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     });
   }
 
-  const getCategoryInfo = () => {
-    switch(articleType) {
-      case 'defence': 
-        return { name: 'Defence', subtitle: 'Master defensive strategies' };
-      case 'cardPlay': 
-        return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
-      case 'bidding': 
-        return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
-      default: 
-        return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
-    }
-  };
-
-  const categoryInfo = getCategoryInfo();
-
   const getCategoryTitle = () => {
     return `${categoryInfo.name} Articles - Bridge Champions`;
   };
