@@ -479,6 +479,21 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       </div>
 
+      {/* Feedback and Hand Submission Section */}
+      <div className="CategoryArticles-feedback-section">
+        <div className="container">
+          <div className="CategoryArticles-feedback-container">
+            <div className="CategoryArticles-feedback-buttons">
+              <CategoryFeedbackForm 
+                category={articleType} 
+                categoryName={categoryInfo.name}
+              />
+              <SendHandToPaul />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="CategoryArticles-filters-section">
         <div className="container">
           <FiltersCategoryArticles />
@@ -589,20 +604,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       </div>
 
-      {/* Feedback and Hand Submission Section */}
-      <div className="CategoryArticles-feedback-section">
-        <div className="container">
-          <div className="CategoryArticles-feedback-container">
-            <div className="CategoryArticles-feedback-buttons">
-              <CategoryFeedbackForm 
-                category={articleType} 
-                categoryName={categoryInfo.name}
-              />
-              <SendHandToPaul />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
