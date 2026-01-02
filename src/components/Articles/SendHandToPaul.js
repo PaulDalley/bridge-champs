@@ -40,10 +40,15 @@ const SendHandToPaul = () => {
       // Upload file to Firebase Storage if provided
       if (uploadedFile) {
         try {
-          const storageRef = firebase.storage().ref();
-          const fileRef = storageRef.child(`hand-submissions/${Date.now()}-${uploadedFile.name}`);
-          await fileRef.put(uploadedFile);
-          fileUrl = await fileRef.getDownloadURL();
+          // Check if firebase.storage is available
+          if (firebase.storage) {
+            const storageRef = firebase.storage().ref();
+            const fileRef = storageRef.child(`hand-submissions/${Date.now()}-${uploadedFile.name}`);
+            await fileRef.put(uploadedFile);
+            fileUrl = await fileRef.getDownloadURL();
+          } else {
+            console.warn('Firebase Storage is not available. File upload skipped.');
+          }
         } catch (storageError) {
           console.error('Error uploading file:', storageError);
           // Continue without file URL if upload fails
