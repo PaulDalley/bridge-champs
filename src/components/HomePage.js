@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import DailyFreeSingleton from "./HomePage/DailyFreeSingleton";
 import AnimatedButton from "./UI/AnimatedButton";
 import CategorySelector from "./HomePage/CategorySelector";
+import WelcomeVideo from "./HomePage/WelcomeVideo";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -148,6 +149,11 @@ class HomePage extends Component {
             <p className="HomePage-hero-subtitle">
               Clear, simple bridge instruction. Real improvement without the overwhelming time commitment.
             </p>
+
+            {/* Welcome Video */}
+            <div className="HomePage-hero-video">
+              <WelcomeVideo />
+            </div>
 
             <div className="HomePage-hero-actions">
               <button

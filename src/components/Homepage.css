@@ -75,8 +75,12 @@
   font-size: var(--text-2xl);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
   font-weight: 500;
+}
+
+.HomePage-hero-video {
+  margin-bottom: var(--space-2xl);
 }
 
 .HomePage-hero-actions {
