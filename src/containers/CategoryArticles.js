@@ -18,6 +18,7 @@ import CategoryArticleListItem from "../components/Articles/CategoryArticleListI
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
 import CategoryFeedbackForm from "../components/Articles/CategoryFeedbackForm";
+import SendHandToPaul from "../components/Articles/SendHandToPaul";
 import PracticeQuestionBundleCard from "../components/PracticeQuestions/PracticeQuestionBundleCard";
 import { getBannerText } from "../services/categoryBannerService";
 import { firebase } from "../firebase/config";
@@ -588,12 +589,19 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       </div>
 
-      {/* Category Feedback Form - Positioned at bottom left */}
-      <div className="CategoryArticles-feedback-container">
-        <CategoryFeedbackForm 
-          category={articleType} 
-          categoryName={categoryInfo.name}
-        />
+      {/* Feedback and Hand Submission Section */}
+      <div className="CategoryArticles-feedback-section">
+        <div className="container">
+          <div className="CategoryArticles-feedback-container">
+            <div className="CategoryArticles-feedback-buttons">
+              <CategoryFeedbackForm 
+                category={articleType} 
+                categoryName={categoryInfo.name}
+              />
+              <SendHandToPaul />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

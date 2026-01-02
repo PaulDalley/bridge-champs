@@ -6,6 +6,7 @@
 import firebase from "firebase/compat/app"; // COMPATIBLE WITH v9 of firebase
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 // console.log(firebase.firestore.FieldValue);
 // console.log(firebase.firestore.FieldValue.serverTimestamp());
