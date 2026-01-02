@@ -87,7 +87,7 @@ const CategoryFeedbackForm = ({ category, categoryName }) => {
             <h3>Your Feedback Matters</h3>
             <p className="CategoryFeedbackForm-intro">
               Your bridge journey means everything to us.<br />
-              Please tell us what you find confusing or what works well for you. Your feedback is very important to me.
+              Please tell us what you find confusing or what works well for you. Your feedback is very important to us.
             </p>
             <button
               className="CategoryFeedbackForm-close"
