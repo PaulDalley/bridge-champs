@@ -223,90 +223,78 @@ class Nav extends Component {
           */}
         </div>
 
-        {/*s3 on the li classNames will make them span 3 regardless of screen size.*/}
-        <div className="Nav-tabs row z-depth-2 nav-tabs">
-          <div className="col s12">
-            <ul className="tabs">
-              <li className="tab col">
-                <a 
-                  id="cardPlay" 
-                  className="/cardPlay"
-                  href="/cardPlay"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.goTo("/cardPlay");
-                  }}
-                  role="tab"
-                  aria-label="Declarer Play section"
-                >
-                  Declarer Play
-                </a>
-                <div className="nav-tabs_underline"></div>
-              </li>
+        {/* Modern Navigation Cards */}
+        <div className="Nav-tabs-modern">
+          <div className="Nav-tabs-container">
+            <div 
+              className={`Nav-tab-card ${this.props.location.pathname === '/cardPlay' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/cardPlay")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/cardPlay")}
+              aria-label="Declarer Play section"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-cardplay">
+                <Icon>play_circle</Icon>
+              </div>
+              <div className="Nav-tab-label">Declarer Play</div>
+            </div>
 
-              <li className="tab col">
-                <a 
-                  id="defence" 
-                  className="/defence"
-                  href="/defence"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.goTo("/defence");
-                  }}
-                  role="tab"
-                  aria-label="Defence section"
-                >
-                  Defence
-                </a>
-                <div className="nav-tabs_underline"></div>
-              </li>
+            <div 
+              className={`Nav-tab-card ${this.props.location.pathname === '/defence' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/defence")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/defence")}
+              aria-label="Defence section"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-defence">
+                <Icon>shield</Icon>
+              </div>
+              <div className="Nav-tab-label">Defence</div>
+            </div>
 
-              <li className="tab col">
-                <a 
-                  id="bidding" 
-                  className="/bidding"
-                  href="/bidding"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.goTo("/bidding");
-                  }}
-                  role="tab"
-                  aria-label="Bidding section"
-                >
-                  Bidding
-                </a>
-                <div className="nav-tabs_underline"></div>
-              </li>
+            <div 
+              className={`Nav-tab-card ${this.props.location.pathname === '/bidding' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/bidding")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/bidding")}
+              aria-label="Bidding section"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-bidding">
+                <Icon>gavel</Icon>
+              </div>
+              <div className="Nav-tab-label">Bidding</div>
+            </div>
 
-              {/*<li className="tab col s3"><a className="active">Recent Tournaments</a></li>*/}
-              {/*<li onClick={() => this.goTo('/tournaments') } className="tab col">*/}
-              {/*<a className="/tournaments">Tournaments</a>*/}
-              {/*<div className="nav-tabs_underline"></div>*/}
-              {/*</li>*/}
-              <li onClick={() => this.goTo("/quizzes")} className="tab col">
-                <a className="/quizzes">Quizzes</a>
-                <div className="nav-tabs_underline"></div>
-              </li>
+            <div 
+              className={`Nav-tab-card ${this.props.location.pathname === '/quizzes' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/quizzes")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/quizzes")}
+              aria-label="Quizzes section"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-quizzes">
+                <Icon>quiz</Icon>
+              </div>
+              <div className="Nav-tab-label">Quizzes</div>
+            </div>
 
-              <li className="tab col">
-                <a 
-                  id="articles" 
-                  className="/articles"
-                  href="/articles"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.goTo("/articles");
-                  }}
-                  role="tab"
-                  aria-label="Extra articles section"
-                >
-                  Extra
-                </a>
-                <div className="nav-tabs_underline"></div>
-              </li>
-
-              {/*<li onClick={() => this.goTo('/videos')} className="tab col s3"><a className="/videos">Videos</a></li>*/}
-            </ul>
+            <div 
+              className={`Nav-tab-card ${this.props.location.pathname === '/articles' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/articles")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/articles")}
+              aria-label="Extra articles section"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-extra">
+                <Icon>article</Icon>
+              </div>
+              <div className="Nav-tab-label">Extra</div>
+            </div>
           </div>
           {/*           
           <div
