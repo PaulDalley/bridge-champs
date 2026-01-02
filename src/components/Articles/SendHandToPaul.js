@@ -38,17 +38,23 @@ const SendHandToPaul = () => {
       let fileUrl = null;
       
       // Upload file to Firebase Storage if provided
+      let fileUrl = null;
       if (uploadedFile) {
-        const storageRef = firebase.storage().ref();
-        const fileRef = storageRef.child(`hand-submissions/${Date.now()}-${uploadedFile.name}`);
-        await fileRef.put(uploadedFile);
-        fileUrl = await fileRef.getDownloadURL();
+        try {
+          const storageRef = firebase.storage().ref();
+          const fileRef = storageRef.child(`hand-submissions/${Date.now()}-${uploadedFile.name}`);
+          await fileRef.put(uploadedFile);
+          fileUrl = await fileRef.getDownloadURL();
+        } catch (storageError) {
+          console.error('Error uploading file:', storageError);
+          // Continue without file URL if upload fails
+        }
       }
 
       const submissionData = {
         handText: handText.trim() || '',
         fileName: uploadedFile ? fileName : null,
-        fileUrl: fileUrl,
+        fileUrl: fileUrl || null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         userAgent: navigator.userAgent,
         url: window.location.href,

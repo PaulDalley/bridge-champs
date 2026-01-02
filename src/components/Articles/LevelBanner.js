@@ -100,16 +100,14 @@ const LevelBanner = ({ text, level, category, onUpdate, categoryName }) => {
           </>
         )}
       </div>
-      {/* Feedback Buttons - Only show on first banner to avoid duplication */}
-      {level === '1' && (
-        <div className="LevelBanner-buttons">
-          <CategoryFeedbackForm 
-            category={category} 
-            categoryName={categoryName}
-          />
-          <SendHandToPaul />
-        </div>
-      )}
+      {/* Feedback Buttons */}
+      <div className="LevelBanner-buttons">
+        <CategoryFeedbackForm 
+          category={category} 
+          categoryName={categoryName}
+        />
+        <SendHandToPaul />
+      </div>
     </div>
   );
 };
