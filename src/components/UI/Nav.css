@@ -625,7 +625,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #0F4C3A 0%, #1B6B52 100%);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -642,9 +642,9 @@
 }
 
 .Nav-tab-card.Nav-tab-active {
-  border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+  border-color: #0F4C3A;
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.08) 0%, rgba(27, 107, 82, 0.08) 100%);
+  box-shadow: 0 4px 16px rgba(15, 76, 58, 0.2);
 }
 
 .Nav-tab-card.Nav-tab-active::before {
@@ -665,28 +665,28 @@
 }
 
 .Nav-tab-icon-cardplay {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0F4C3A 0%, #1B6B52 100%);
   color: white;
 }
 
 .Nav-tab-icon-defence {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #C41E3A 0%, #E63956 100%);
   color: white;
 }
 
 .Nav-tab-icon-bidding {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
+  background: linear-gradient(135deg, #D4AF37 0%, #E8C767 100%);
+  color: #083426;
 }
 
 .Nav-tab-icon-quizzes {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  background: linear-gradient(135deg, #1B6B52 0%, #0F4C3A 100%);
   color: white;
 }
 
 .Nav-tab-icon-extra {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  color: white;
+  background: linear-gradient(135deg, #B8941F 0%, #D4AF37 100%);
+  color: #083426;
 }
 
 .Nav-tab-card:hover .Nav-tab-icon {
@@ -708,11 +708,11 @@
 }
 
 .Nav-tab-card:hover .Nav-tab-label {
-  color: #667eea;
+  color: #0F4C3A;
 }
 
 .Nav-tab-card.Nav-tab-active .Nav-tab-label {
-  color: #667eea;
+  color: #0F4C3A;
   font-weight: 700;
 }
 
