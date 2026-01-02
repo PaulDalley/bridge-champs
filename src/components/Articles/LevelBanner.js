@@ -7,8 +7,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { updateBannerText } from '../../services/categoryBannerService';
-import CategoryFeedbackForm from './CategoryFeedbackForm';
-import SendHandToPaul from './SendHandToPaul';
 import './LevelBanner.css';
 
 const LevelBanner = ({ text, level, category, onUpdate, categoryName }) => {
@@ -99,14 +97,6 @@ const LevelBanner = ({ text, level, category, onUpdate, categoryName }) => {
             </div>
           </>
         )}
-      </div>
-      {/* Feedback Buttons */}
-      <div className="LevelBanner-buttons">
-        <CategoryFeedbackForm 
-          category={category} 
-          categoryName={categoryName}
-        />
-        <SendHandToPaul />
       </div>
     </div>
   );

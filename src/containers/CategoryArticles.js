@@ -18,6 +18,8 @@ import CategoryArticleListItem from "../components/Articles/CategoryArticleListI
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
 import PracticeQuestionBundleCard from "../components/PracticeQuestions/PracticeQuestionBundleCard";
+import CategoryFeedbackForm from "../components/Articles/CategoryFeedbackForm";
+import SendHandToPaul from "../components/Articles/SendHandToPaul";
 import { getBannerText } from "../services/categoryBannerService";
 import { firebase } from "../firebase/config";
 import "./CategoryArticles.css";
@@ -293,7 +295,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
             text={bannerText} 
             level={group.level}
             category={articleType}
-            categoryName={categoryInfo.name}
             onUpdate={() => {
               // Refetch banner texts when updated
               const fetchBannerTexts = async () => {
@@ -350,6 +351,17 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
               />
             ))}
           </div>
+          
+          {/* Feedback Buttons - Only on first level to avoid duplication */}
+          {group.level === '1' && (
+            <div className="CategoryArticles-level-feedback">
+              <CategoryFeedbackForm 
+                category={articleType} 
+                categoryName={categoryInfo.name}
+              />
+              <SendHandToPaul />
+            </div>
+          )}
           
           {/* Practice Questions Section */}
           {group.practiceQuestions && group.practiceQuestions.length > 0 && (

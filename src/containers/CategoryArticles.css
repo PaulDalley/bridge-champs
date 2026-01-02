@@ -71,6 +71,16 @@
   padding-top: var(--space-2xl);
 }
 
+.CategoryArticles-level-feedback {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+}
+
 .CategoryArticles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
