@@ -374,14 +374,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       </div>
 
-      {/* Category Feedback Form */}
-      <div className="container" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-        <CategoryFeedbackForm 
-          category={articleType} 
-          categoryName={categoryInfo.name}
-        />
-      </div>
-
       <div className="CategoryArticles-filters-section">
         <div className="container">
           <FiltersCategoryArticles />

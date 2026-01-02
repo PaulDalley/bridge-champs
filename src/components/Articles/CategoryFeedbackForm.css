@@ -2,33 +2,45 @@
    CATEGORY FEEDBACK FORM STYLES
    =================================== */
 
+.CategoryArticles-feedback-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  max-width: 40rem;
+}
+
 .CategoryFeedbackForm {
-  margin: 3rem 0;
+  margin: 0;
   padding: 0;
 }
 
 .CategoryFeedbackForm-toggle {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.2rem 2rem;
+  gap: 0.8rem;
+  padding: 1rem 1.6rem;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
   border: none;
-  border-radius: var(--radius-lg);
-  font-size: 1.6rem;
+  border-radius: var(--radius-full);
+  font-size: 1.4rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: var(--shadow-md);
-  width: 100%;
-  justify-content: center;
+  box-shadow: 0 4px 12px rgba(15, 76, 58, 0.3);
+  white-space: nowrap;
+  position: relative;
 }
 
 .CategoryFeedbackForm-toggle:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 6px 16px rgba(15, 76, 58, 0.4);
   background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.CategoryFeedbackForm-toggle:active {
+  transform: translateY(0);
 }
 
 .CategoryFeedbackForm-toggle svg {
@@ -39,8 +51,26 @@
   background: var(--color-white);
   padding: 2.5rem;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   border: 1px solid var(--color-light-gray);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 42rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .CategoryFeedbackForm-header {
@@ -169,16 +199,29 @@
 
 /* === RESPONSIVE === */
 @media screen and (max-width: 768px) {
-  .CategoryFeedbackForm {
-    margin: 2rem 0;
+  .CategoryArticles-feedback-container {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    left: 1.5rem;
+    max-width: none;
   }
 
   .CategoryFeedbackForm-toggle {
-    padding: 1rem 1.5rem;
-    font-size: 1.4rem;
+    padding: 0.9rem 1.4rem;
+    font-size: 1.3rem;
+    width: 100%;
+    justify-content: center;
   }
 
   .CategoryFeedbackForm-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
     padding: 2rem 1.5rem;
   }
 
