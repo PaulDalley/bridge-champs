@@ -160,7 +160,7 @@ class Nav extends Component {
 
                 <NavLink
                   className="Nav-auth-icon"
-                  to="/membership"
+                  to="/signup"
                   activeClassName="Nav-active_link"
                 >
                   {/*<div className="waves-effect waves-light Nav-menu-container">*/}

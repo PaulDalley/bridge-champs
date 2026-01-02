@@ -49,6 +49,10 @@ class PremiumMembership extends Component {
 
   componentDidMount() {
     // Don't auto-select a tier
+    // If user is not logged in, redirect to signup first
+    if (!this.props.uid) {
+      this.props.history.push('/signup');
+    }
   }
 
 

@@ -341,7 +341,7 @@ const routes = (
       // element={<AuthComponent />}
     />
 
-    {/*<Route path="/signup" component={AuthComponent} />*/}
+    <Route path="/signup" component={AuthComponent} />
     <Route path="/success" render={() => <HomePage success />} />
     <Route path="/error" render={() => <HomePage error />} />
     {/*<Route path="/error" component={RegistrationError} />*/}

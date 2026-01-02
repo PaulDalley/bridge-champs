@@ -167,7 +167,7 @@ class Login extends Component {
 
           <div className="Login-footer">
             <span style={{fontSize: '1.3rem', color: '#666'}}>Don't have an account? </span>
-            <Link to="/membership" className="Login-footer-link">Sign up</Link>
+            <Link to="/signup" className="Login-footer-link">Sign up</Link>
           </div>
         </div>
 
