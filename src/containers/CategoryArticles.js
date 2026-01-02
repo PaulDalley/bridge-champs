@@ -483,6 +483,14 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           )}
         </div>
       </div>
+
+      {/* Category Feedback Form - Positioned at bottom left */}
+      <div className="CategoryArticles-feedback-container">
+        <CategoryFeedbackForm 
+          category={articleType} 
+          categoryName={categoryInfo.name}
+        />
+      </div>
     </div>
   );
 };

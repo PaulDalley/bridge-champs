@@ -5,15 +5,9 @@
 .CategoryArticles-feedback-container {
   position: fixed;
   bottom: 2rem;
-  right: 2rem;
+  left: 2rem;
   z-index: 999;
   max-width: 40rem;
-}
-
-/* Adjust position if admin buttons are present */
-.CategoryArticles-feedback-container:has(+ .CategoryArticles-admin-buttons),
-.CategoryArticles-admin-buttons ~ .CategoryArticles-feedback-container {
-  bottom: 10rem; /* Move up to avoid admin buttons */
 }
 
 .CategoryFeedbackForm {
