@@ -87,7 +87,7 @@ const CategoryFeedbackForm = ({ category, categoryName }) => {
             <h3>Your Feedback Matters</h3>
             <p className="CategoryFeedbackForm-intro">
               Your bridge journey means everything to us.<br />
-              Please tell us what you find confusing or what works well for you. Your feedback is very important to us.
+              Please tell us what works well for you and how we can help you improve. Your feedback is very important to us.
             </p>
             <button
               className="CategoryFeedbackForm-close"
@@ -101,7 +101,7 @@ const CategoryFeedbackForm = ({ category, categoryName }) => {
           <form onSubmit={handleSubmit}>
             <div className="CategoryFeedbackForm-question">
               <label htmlFor="category-feedback" className="CategoryFeedbackForm-label">
-                What do you find confusing? What works well? Any suggestions?
+                What works well for you? What would you like to see more of? Any suggestions?
               </label>
               <textarea
                 id="category-feedback"
