@@ -6,7 +6,9 @@
   margin: 4rem 0 3rem 0;
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .LevelBanner-content {
@@ -159,6 +161,20 @@
   .LevelBanner-cancel-btn {
     padding: 0.6rem 1.5rem;
     font-size: 1.2rem;
+  }
+}
+
+.LevelBanner-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .LevelBanner-buttons {
+    gap: 1rem;
   }
 }
 

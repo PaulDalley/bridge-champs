@@ -17,8 +17,6 @@ import { groupContentByLevel, mapCategoryToVideoCategory } from "../helpers/cont
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
-import CategoryFeedbackForm from "../components/Articles/CategoryFeedbackForm";
-import SendHandToPaul from "../components/Articles/SendHandToPaul";
 import PracticeQuestionBundleCard from "../components/PracticeQuestions/PracticeQuestionBundleCard";
 import { getBannerText } from "../services/categoryBannerService";
 import { firebase } from "../firebase/config";
@@ -295,6 +293,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
             text={bannerText} 
             level={group.level}
             category={articleType}
+            categoryName={categoryInfo.name}
             onUpdate={() => {
               // Refetch banner texts when updated
               const fetchBannerTexts = async () => {
@@ -476,21 +475,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           <p className="CategoryArticles-subtitle">
             {categoryInfo.subtitle}
           </p>
-        </div>
-      </div>
-
-      {/* Feedback and Hand Submission Section */}
-      <div className="CategoryArticles-feedback-section">
-        <div className="container">
-          <div className="CategoryArticles-feedback-container">
-            <div className="CategoryArticles-feedback-buttons">
-              <CategoryFeedbackForm 
-                category={articleType} 
-                categoryName={categoryInfo.name}
-              />
-              <SendHandToPaul />
-            </div>
-          </div>
         </div>
       </div>
 
