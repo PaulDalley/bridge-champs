@@ -235,7 +235,7 @@ class Nav extends Component {
               aria-label="Declarer Play section"
             >
               <div className="Nav-tab-icon Nav-tab-icon-cardplay">
-                <Icon>play_circle</Icon>
+                <Icon>style</Icon>
               </div>
               <div className="Nav-tab-label">Declarer Play</div>
             </div>
