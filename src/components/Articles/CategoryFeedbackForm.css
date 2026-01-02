@@ -10,6 +10,12 @@
   max-width: 40rem;
 }
 
+/* Adjust position if admin buttons are present */
+.CategoryArticles-feedback-container:has(+ .CategoryArticles-admin-buttons),
+.CategoryArticles-admin-buttons ~ .CategoryArticles-feedback-container {
+  bottom: 10rem; /* Move up to avoid admin buttons */
+}
+
 .CategoryFeedbackForm {
   margin: 0;
   padding: 0;
@@ -202,8 +208,12 @@
   .CategoryArticles-feedback-container {
     bottom: 1.5rem;
     right: 1.5rem;
-    left: 1.5rem;
-    max-width: none;
+    left: auto;
+    max-width: calc(100vw - 3rem);
+  }
+
+  body:has(.CategoryArticles-admin-buttons) .CategoryArticles-feedback-container {
+    bottom: 9rem; /* Adjust for mobile admin buttons */
   }
 
   .CategoryFeedbackForm-toggle {
