@@ -96,6 +96,32 @@ const VideoCard = ({
             <p className="ArticleCard-teaser">{description}</p>
           )}
 
+          {/* Admin Delete Button */}
+          {isAdmin && onDelete && (
+            <div style={{ marginTop: '1rem' }}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
+                    onDelete(id);
+                  }
+                }}
+                style={{
+                  background: '#f44336',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.8rem 1.5rem',
+                  borderRadius: '0.4rem',
+                  cursor: 'pointer',
+                  fontSize: '1.3rem',
+                  fontWeight: 600
+                }}
+              >
+                Delete Video
+              </button>
+            </div>
+          )}
+
           {/* Locked Overlay */}
           {isLocked && (
             <div className="ArticleCard-locked-overlay">
