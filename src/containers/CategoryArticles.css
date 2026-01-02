@@ -87,6 +87,12 @@
   gap: 2.5rem;
 }
 
+.CategoryArticles-feedback-card {
+  display: flex;
+  align-items: stretch;
+  min-height: 100%;
+}
+
 .CategoryArticles-empty {
   text-align: center;
   padding: var(--space-3xl);
