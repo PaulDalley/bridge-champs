@@ -36,3 +36,20 @@
     gap: 1.5rem;
   }
 }
+
+.Quizzes-category-group {
+  margin-bottom: 3rem;
+}
+
+.Quizzes-empty {
+  text-align: center;
+  padding: var(--space-3xl);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.Quizzes-empty p {
+  font-size: var(--text-lg);
+  color: var(--color-gray);
+}

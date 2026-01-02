@@ -1,58 +1,123 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Add from "./Add";
 import QuizListItem from "../components/Quizzes/QuizListItem";
+import QuizCategoryHeader from "../components/Quizzes/QuizCategoryHeader";
 import "./Quizzes.css";
 import { getQuizzes, setCurrentQuiz } from "../store/actions/quizzesActions";
-import { getArticleCount } from "../store/actions/articlesActions";
-import { filterQuizzes } from "../helpers/helpers";
 import { resetFilters } from "../store/actions/filtersActions";
+import { filterQuizzes } from "../helpers/helpers";
+import { getCategoryName } from "../services/quizCategoryService";
 
-class Quizzes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      quizzes: this.props.quizzes,
-      hideCompleted: false,
-    };
-  }
+const Quizzes = ({ history }) => {
+  const [expandedCategories, setExpandedCategories] = useState({});
+  const [categoryNames, setCategoryNames] = useState({});
+  const [categoryNamesLoading, setCategoryNamesLoading] = useState(true);
+  
+  const quizzes = useSelector((state) => 
+    filterQuizzes(
+      state.quizzes.quizzes || [],
+      state.filters,
+      state.auth.quizScores
+    )
+  );
+  const a = useSelector((state) => state.auth.a);
+  const quizScores = useSelector((state) => state.auth.quizScores || {});
+  const dispatch = useDispatch();
 
-  hideCompletedQuizzesChanged = (e) => {
-    const newFilters = { ...this.state.filters };
-    newFilters["hideCompletedQuizzes"] = e.target.checked;
-  };
-
-  componentDidMount() {
-    if (this.props.quizzes.length === 0) {
-      this.props.fetchQuizzes();
+  useEffect(() => {
+    if (quizzes.length === 0) {
+      dispatch(getQuizzes());
     }
-  }
+    return () => {
+      dispatch(resetFilters());
+    };
+  }, []);
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.quizzes.length !== this.state.quizzes.length)
-      this.setState({ quizzes: nextProps.quizzes });
-  }
+  // Group quizzes by category
+  const groupedQuizzes = {};
+  quizzes.forEach((quiz) => {
+    const category = quiz.category || 'Uncategorized';
+    if (!groupedQuizzes[category]) {
+      groupedQuizzes[category] = [];
+    }
+    groupedQuizzes[category].push(quiz);
+  });
 
-  componentWillUnmount() {
-    this.props.resetFilters();
-  }
+  // Fetch category names
+  useEffect(() => {
+    const fetchCategoryNames = async () => {
+      const names = {};
+      const categories = Object.keys(groupedQuizzes);
+      
+      for (const categoryId of categories) {
+        try {
+          const name = await getCategoryName(categoryId);
+          names[categoryId] = name;
+        } catch (error) {
+          names[categoryId] = categoryId;
+        }
+      }
+      
+      setCategoryNames(names);
+      setCategoryNamesLoading(false);
+      
+      // Expand first category by default
+      if (categories.length > 0 && Object.keys(expandedCategories).length === 0) {
+        setExpandedCategories({ [categories[0]]: true });
+      }
+    };
 
-  setCurrentQuizAndGoTo = (quiz, id) => {
-    this.props.setCurrentQuiz(quiz);
-    this.props.history.push(`/quiz/${id}`);
+    if (Object.keys(groupedQuizzes).length > 0) {
+      fetchCategoryNames();
+    } else {
+      setCategoryNamesLoading(false);
+    }
+  }, [quizzes.length]);
+
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [categoryId]: !prev[categoryId],
+    }));
   };
 
-  render() {
-    let quizzesJSX;
+  const handleCategoryUpdate = async () => {
+    // Refetch category names
+    const names = {};
+    const categories = Object.keys(groupedQuizzes);
+    
+    for (const categoryId of categories) {
+      try {
+        const name = await getCategoryName(categoryId);
+        names[categoryId] = name;
+      } catch (error) {
+        names[categoryId] = categoryId;
+      }
+    }
+    
+    setCategoryNames(names);
+  };
 
-    if (this.state.quizzes.length !== 0) {
-      quizzesJSX = this.state.quizzes.map((quiz) => {
-        let completed = false;
-        let quizScore;
-        if (this.props.quizScores) {
-          quizScore = this.props.quizScores[quiz.body];
-          completed = quizScore || quizScore === 0;
-        }
+  const setCurrentQuizAndGoTo = (quiz, id) => {
+    dispatch(setCurrentQuiz(quiz));
+    history.push(`/quiz/${id}`);
+  };
+
+  const isMobileSize = window.innerWidth <= 672;
+
+  // Render quizzes grouped by category
+  const categories = Object.keys(groupedQuizzes).sort();
+  
+  let contentJSX;
+  if (categories.length > 0 && !categoryNamesLoading) {
+    contentJSX = categories.map((categoryId) => {
+      const categoryQuizzes = groupedQuizzes[categoryId];
+      const categoryName = categoryNames[categoryId] || categoryId;
+      const isExpanded = expandedCategories[categoryId] !== false; // Default to expanded
+      
+      let quizzesJSX = categoryQuizzes.map((quiz) => {
+        const completed = quizScores[quiz.body] !== undefined;
         return (
           <QuizListItem
             key={quiz.id}
@@ -64,74 +129,73 @@ class Quizzes extends Component {
             teaser_board={quiz.teaser_board}
             title={quiz.title}
             difficulty={quiz.difficulty}
-            router={this.props.history}
-            a={this.props.a}
-            clickHandler={this.setCurrentQuizAndGoTo}
+            router={history}
+            a={a}
+            clickHandler={setCurrentQuizAndGoTo}
             completed={completed}
           />
         );
       });
-    }
 
-    const isMobileSize = window.innerWidth <= 672;
-    let quizzesJSXLeft;
-    let quizzesJSXRight;
-    if (quizzesJSX && !isMobileSize) {
-      quizzesJSXLeft = quizzesJSX.filter((article, idx) => idx % 2 === 0);
-      quizzesJSXRight = quizzesJSX.filter((article, idx) => idx % 2 !== 0);
-    }
+      // Split for two-column layout on desktop
+      let quizzesJSXLeft, quizzesJSXRight;
+      if (!isMobileSize && quizzesJSX.length > 0) {
+        quizzesJSXLeft = quizzesJSX.filter((_, idx) => idx % 2 === 0);
+        quizzesJSXRight = quizzesJSX.filter((_, idx) => idx % 2 !== 0);
+      }
 
-    return (
-      <div className="Articles-outer_div">
-        <div className="CategoryArticles-header">
-          <div className="container">
-            <h1 className="CategoryArticles-title">Quizzes</h1>
-            <p className="CategoryArticles-subtitle">
-              Practice and test your knowledge
-            </p>
-          </div>
+      return (
+        <div key={categoryId} className="Quizzes-category-group">
+          <QuizCategoryHeader
+            categoryId={categoryId}
+            categoryName={categoryName}
+            quizCount={categoryQuizzes.length}
+            isExpanded={isExpanded}
+            onToggle={() => toggleCategory(categoryId)}
+            onUpdate={handleCategoryUpdate}
+          />
+          {isExpanded && (
+            <>
+              {!isMobileSize ? (
+                <div className="Articles-container Quizzes-container">
+                  <div className="Articles-container-left">{quizzesJSXLeft}</div>
+                  <div className="Articles-container-right">{quizzesJSXRight}</div>
+                </div>
+              ) : (
+                <div className="Articles-container">{quizzesJSX}</div>
+              )}
+            </>
+          )}
         </div>
-        
-        <div className="CategoryArticles-content">
-          <div className="container">
-            <Add goto="create/quiz" history={this.props.history} />
-
-        {!isMobileSize && (
-          <div className="Articles-container Quizzes-container">
-            <div className="Articles-container-left">{quizzesJSXLeft}</div>
-            <div className="Articles-container-right">{quizzesJSXRight}</div>
-          </div>
-        )}
-        {isMobileSize && <div className="Articles-container">{quizzesJSX}</div>}
-
-        <br />
-        <br />
-          </div>
-        </div>
+      );
+    });
+  } else if (quizzes.length === 0) {
+    contentJSX = (
+      <div className="Quizzes-empty">
+        <p>No quizzes found.</p>
       </div>
     );
   }
-}
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    a: state.auth.a,
-    quizzes: filterQuizzes(
-      state.quizzes.quizzes,
-      state.filters,
-      state.auth.quizScores
-    ),
-    quizzesCount: state.articles.quizzesCount,
-    quizScores: state.auth.quizScores || {},
-    totalQuizScore: state.auth.totalQuizScore,
-  };
+  return (
+    <div className="Articles-outer_div">
+      <div className="CategoryArticles-header">
+        <div className="container">
+          <h1 className="CategoryArticles-title">Quizzes</h1>
+          <p className="CategoryArticles-subtitle">
+            Practice and test your knowledge
+          </p>
+        </div>
+      </div>
+      
+      <div className="CategoryArticles-content">
+        <div className="container">
+          <Add goto="create/quiz" history={history} />
+          {contentJSX}
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchQuizzes: () => dispatch(getQuizzes()),
-  getArticleCount: () => dispatch(getArticleCount()),
-  setCurrentQuiz: (quiz) => dispatch(setCurrentQuiz(quiz)),
-  resetFilters: () => dispatch(resetFilters()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Quizzes);
+export default Quizzes;
