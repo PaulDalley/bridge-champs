@@ -181,20 +181,53 @@ export const setArticle = (article, id) => ({
 export const fetchArticlesByCategory = (category, summaryRef) => {
   return (dispatch) => {
     const useSummaryRef = matchTypeToRef[summaryRef];
+    const useBodyRef = matchTypeToRef[summaryRef + 'Body'];
+    
     useSummaryRef
       .where("category", "==", category)
       .get()
       .then((snapshot) => {
         const articles = [];
+        const bodyPromises = [];
+        
         snapshot.forEach((childSnapshot) => {
+          const data = childSnapshot.data();
           articles.push({
             id: childSnapshot.id,
-            ...childSnapshot.data(),
+            ...data,
           });
+          
+          // Fetch body content to check for videos
+          if (data.body && useBodyRef) {
+            bodyPromises.push(
+              useBodyRef.doc(data.body).get().then((bodySnapshot) => {
+                if (bodySnapshot.exists) {
+                  const bodyData = bodySnapshot.data();
+                  // Try multiple formats to get body text
+                  let bodyText = '';
+                  if (typeof bodyData === 'string') {
+                    bodyText = bodyData;
+                  } else if (bodyData?.text) {
+                    bodyText = typeof bodyData.text === 'string' ? bodyData.text : '';
+                  } else if (bodyData?.body) {
+                    bodyText = typeof bodyData.body === 'string' ? bodyData.body : '';
+                  }
+                  return { articleId: childSnapshot.id, bodyId: data.body, bodyText };
+                }
+                return null;
+              }).catch((err) => {
+                console.warn('Failed to fetch body for article:', data.body, err);
+                return null;
+              })
+            );
+          }
         });
-        // console.log("---- JUST FETCHED ARTICLES! ----");
-        // console.log(articles);
-        dispatch(setArticles(articles, true));
+        
+        // Wait for all body fetches to complete
+        Promise.all(bodyPromises).then((bodyResults) => {
+          // Dispatch articles with body content
+          dispatch(setArticlesWithBodies(articles, bodyResults, true));
+        });
       });
   };
 };
@@ -209,9 +242,10 @@ export const getArticles = (summaryRef) => {
         // console.log(snapshot);
         const articles = [];
         snapshot.forEach((childSnapshot) => {
+          const data = childSnapshot.data();
           articles.push({
             id: childSnapshot.id,
-            ...childSnapshot.data(),
+            ...data,
           });
         });
         // console.log(`--- JUST FETCHED categoryArticles for ${summaryRef} ---`);

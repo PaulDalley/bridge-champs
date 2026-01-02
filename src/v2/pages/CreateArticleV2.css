@@ -1,0 +1,44 @@
+.CreateArticleV2 {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.CreateArticleV2-header {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #0F4C3A;
+  padding-bottom: 1rem;
+}
+
+.CreateArticleV2-header h2 {
+  margin: 0;
+  color: #0F4C3A;
+  font-size: 2.5rem;
+}
+
+.CreateArticleV2-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.CreateArticleV2-editor {
+  margin: 2rem 0;
+}
+
+.CreateArticleV2-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+}
+
+.CreateArticleV2-loading {
+  text-align: center;
+  padding: 4rem;
+  font-size: 1.5rem;
+  color: #666;
+}
+
+

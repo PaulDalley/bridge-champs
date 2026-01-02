@@ -1,0 +1,121 @@
+.ArticleEditor {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+}
+
+.ArticleEditor-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ArticleEditor-toolbar-group {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.ArticleEditor-toolbar-divider {
+  width: 1px;
+  height: 2rem;
+  background: #ddd;
+  margin: 0 0.5rem;
+}
+
+.ArticleEditor-toolbar button {
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  transition: all 0.2s;
+}
+
+.ArticleEditor-toolbar button:hover {
+  background: #e9ecef;
+  border-color: #0F4C3A;
+}
+
+.ArticleEditor-toolbar button.is-active {
+  background: #0F4C3A;
+  color: white;
+  border-color: #0F4C3A;
+}
+
+.ArticleEditor-content {
+  min-height: 400px;
+  padding: 1rem;
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 400px;
+}
+
+.ProseMirror p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  color: #0F4C3A;
+}
+
+.ProseMirror h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0.75rem 0;
+  color: #0F4C3A;
+}
+
+.ProseMirror h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  color: #0F4C3A;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #0F4C3A;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #666;
+}
+
+.ProseMirror .bridge-board-insert {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 2px dashed #0F4C3A;
+  border-radius: 4px;
+}
+
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+

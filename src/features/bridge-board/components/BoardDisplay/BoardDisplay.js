@@ -79,3 +79,4 @@ const BoardDisplay = ({ board, className = '' }) => {
 
 export default BoardDisplay;
 
+

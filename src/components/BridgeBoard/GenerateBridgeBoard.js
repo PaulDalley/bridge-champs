@@ -79,12 +79,16 @@ class GenerateBridgeBoard extends Component {
     e.preventDefault();
     const makeBoardTag = this.makeHand();
     this.setState({ generatedOutput: makeBoardTag });
+    
     // Notify parent component if callback is provided
+    // Call immediately to ensure it fires
     if (this.props.onBoardGenerated) {
+      console.log('GenerateBridgeBoard: Calling onBoardGenerated with tag:', makeBoardTag.substring(0, 50));
       this.props.onBoardGenerated(makeBoardTag);
     }
     // Also support onGenerate for backward compatibility
     if (this.props.onGenerate) {
+      console.log('GenerateBridgeBoard: Calling onGenerate with tag:', makeBoardTag.substring(0, 50));
       this.props.onGenerate(makeBoardTag);
     }
   };

@@ -1,0 +1,152 @@
+.PracticeQuestionViewer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.PracticeQuestionViewer-loading,
+.PracticeQuestionViewer-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.PracticeQuestionViewer-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.PracticeQuestionViewer-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.PracticeQuestionViewer-progress {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.PracticeQuestionViewer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.PracticeQuestionViewer-board-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.PracticeQuestionViewer-board-container {
+  position: relative;
+  display: inline-block;
+}
+
+.PracticeQuestionViewer-question,
+.PracticeQuestionViewer-answer {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.PracticeQuestionViewer-question h2,
+.PracticeQuestionViewer-answer h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.PracticeQuestionViewer-question-text,
+.PracticeQuestionViewer-answer-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.PracticeQuestionViewer-answer {
+  border-left-color: #48bb78;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.PracticeQuestionViewer-actions {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.PracticeQuestionViewer-show-answer-btn {
+  background: #667eea;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.PracticeQuestionViewer-show-answer-btn:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.PracticeQuestionViewer-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.PracticeQuestionViewer-navigation-progress {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.PracticeQuestionViewer-navigation .btn {
+  min-width: 150px;
+}
+
+.PracticeQuestionViewer-navigation .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .PracticeQuestionViewer {
+    padding: 1rem;
+  }
+
+  .PracticeQuestionViewer-title {
+    font-size: 1.5rem;
+  }
+
+  .PracticeQuestionViewer-navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .PracticeQuestionViewer-navigation .btn {
+    width: 100%;
+  }
+}
+

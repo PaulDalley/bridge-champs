@@ -18,6 +18,7 @@ import CategoryArticleListItem from "../components/Articles/CategoryArticleListI
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
 import CategoryFeedbackForm from "../components/Articles/CategoryFeedbackForm";
+import PracticeQuestionBundleCard from "../components/PracticeQuestions/PracticeQuestionBundleCard";
 import { getBannerText } from "../services/categoryBannerService";
 import { firebase } from "../firebase/config";
 import "./CategoryArticles.css";
@@ -33,6 +34,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const [bannerTexts, setBannerTexts] = useState({});
   const [videos, setVideos] = useState([]);
   const [videosLoading, setVideosLoading] = useState(true);
+  const [practiceQuestions, setPracticeQuestions] = useState([]);
+  const [practiceQuestionsLoading, setPracticeQuestionsLoading] = useState(true);
   const [showVideoForm, setShowVideoForm] = useState(false);
   const [newVideo, setNewVideo] = useState({
     title: '',
@@ -184,10 +187,70 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     }
   };
 
-  // Group articles and videos by level for banner display
+  // Fetch practice questions for this category
+  useEffect(() => {
+    setPracticeQuestionsLoading(true);
+    
+    const summaryRef = firebase.firestore().collection(articleType);
+    const bodyRef = firebase.firestore().collection(articleType + 'Body');
+    
+    const unsubscribe = summaryRef
+      .where('contentType', '==', 'practiceQuestions')
+      .onSnapshot(
+        async (snapshot) => {
+          const bundles = [];
+          const fetchPromises = [];
+          
+          snapshot.forEach((doc) => {
+            const data = { id: doc.id, ...doc.data() };
+            
+            // Fetch body to get question count
+            if (data.body) {
+              fetchPromises.push(
+                bodyRef.doc(data.body).get().then((bodyDoc) => {
+                  if (bodyDoc.exists) {
+                    const bodyData = bodyDoc.data();
+                    const questions = bodyData.questions || [];
+                    return { ...data, questionCount: questions.length };
+                  }
+                  return { ...data, questionCount: 0 };
+                }).catch(() => {
+                  return { ...data, questionCount: 0 };
+                })
+              );
+            } else {
+              bundles.push({ ...data, questionCount: 0 });
+            }
+          });
+          
+          // Wait for all body fetches
+          const results = await Promise.all(fetchPromises);
+          bundles.push(...results);
+          
+          // Sort by articleNumber
+          bundles.sort((a, b) => {
+            const numA = Number(a?.articleNumber || 0);
+            const numB = Number(b?.articleNumber || 0);
+            return numA - numB;
+          });
+          
+          setPracticeQuestions(bundles);
+          setPracticeQuestionsLoading(false);
+        },
+        (error) => {
+          console.error('Error fetching practice questions:', error);
+          setPracticeQuestions([]);
+          setPracticeQuestionsLoading(false);
+        }
+      );
+
+    return () => unsubscribe();
+  }, [articleType]);
+
+  // Group articles, videos, and practice questions by level for banner display
   const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
-  const groupedContent = groupContentByLevel(filteredArticles || [], videos || []);
+  const groupedContent = groupContentByLevel(filteredArticles || [], videos || [], practiceQuestions || []);
 
   // Fetch banner texts for all levels when content changes
   useEffect(() => {
@@ -287,6 +350,33 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
               />
             ))}
           </div>
+          
+          {/* Practice Questions Section */}
+          {group.practiceQuestions && group.practiceQuestions.length > 0 && (
+            <div className="CategoryArticles-practice-questions-section">
+              <h2 className="CategoryArticles-practice-questions-header">
+                Practice Questions
+              </h2>
+              <div className="CategoryArticles-grid">
+                {group.practiceQuestions.map((bundle) => (
+                  <PracticeQuestionBundleCard
+                    key={bundle.id}
+                    id={bundle.id}
+                    title={bundle.title}
+                    teaser={bundle.teaser}
+                    difficulty={bundle.difficulty}
+                    articleNumber={bundle.articleNumber}
+                    questionCount={bundle.questionCount || 0}
+                    clickHandler={(id) => {
+                      history.push(`/practice-questions/${id}`);
+                    }}
+                    a={a}
+                    subscriptionActive={subscriptionActive}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       );
     });

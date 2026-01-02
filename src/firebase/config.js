@@ -55,6 +55,7 @@ const membersRef = database.collection("members");
 const membersDataRef = database.collection("membersData");
 const freeDailyRef = database.collection("freeDaily");
 const questionsRef = database.collection("questions");
+const categoryBannersRef = database.collection("categoryBanners");
 // const database = firebase.database();
 // const articlesRef = database.ref('articles');
 // const articleRef = database.ref('article');
@@ -91,6 +92,7 @@ export {
   membersDataRef,
   freeDailyRef,
   questionsRef,
+  categoryBannersRef,
   database as default,
 };
 

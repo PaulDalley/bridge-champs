@@ -74,16 +74,39 @@ export default (state = articlesDefaultState, action) => {
 
     // FOR INDIVIDUAL ARTICLES:
     case actions.CATEGORY_FETCH_ONE_ARTICLE:
-      return {
-        ...state,
-        [action.summaryRef]: state.articles,
-        article: {
-          ...state.article,
-          [action.id]: action.article.body,
-        },
-        currentArticle: state.currentArticle,
-        fetchedByCategory: state.fetchedByCategory,
-      };
+      // action.article is the body document data
+      // Store the entire body document, not just the body ID
+      try {
+        // Ensure action.article exists and action.id is valid
+        if (!action.id) {
+          console.error('CATEGORY_FETCH_ONE_ARTICLE: Missing article ID');
+          return state;
+        }
+        
+        // Ensure we have a valid article object
+        const articleData = action.article || {};
+        
+        // Only update summaryRef if it's provided
+        const updatedState = {
+          ...state,
+          article: {
+            ...state.article,
+            [action.id]: articleData, // Store the full body document (has 'text' and possibly 'body' fields)
+          },
+          currentArticle: state.currentArticle,
+          fetchedByCategory: state.fetchedByCategory,
+        };
+        
+        // Only set summaryRef if it exists in action
+        if (action.summaryRef) {
+          updatedState[action.summaryRef] = state.articles;
+        }
+        
+        return updatedState;
+      } catch (error) {
+        console.error('Error in CATEGORY_FETCH_ONE_ARTICLE reducer:', error);
+        return state; // Return unchanged state on error
+      }
 
     case actions.SET_CURRENT_CATEGORY_ARTICLE:
       // console.log("--- SETTING CURRENT ARTICLE IN REDUCER ---");

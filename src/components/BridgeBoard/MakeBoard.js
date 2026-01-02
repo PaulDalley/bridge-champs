@@ -17,9 +17,16 @@ class MakeBoard extends Component {
 
     stripStart = arr => {
         let hand = {};
+        console.log('stripStart input array:', arr);
         arr.forEach(el => {
-            hand[el[0]] = el.slice(2);
-        })
+            if (el && el.length >= 3) {
+                const suit = el[0]; // S, H, D, or C
+                const cards = el.slice(2); // Everything after "S-" or "H-" etc.
+                hand[suit] = cards;
+                console.log(`Parsed suit ${suit} = ${cards}`);
+            }
+        });
+        console.log('stripStart result:', hand);
         return hand;
     };
 
@@ -29,39 +36,50 @@ class MakeBoard extends Component {
         // console.log("BIDDING");
         // console.log(this.props.bidding);
         // let [config, N, E, S, W] = this.props.board.split('_')
-        // console.log(this.props);
+        console.log('=== MakeBoard componentDidMount ===');
+        console.log('Props:', this.props);
         let {boardType, position, North, South, East, West} = this.props;
-        let pos = {'North': North, 'East': East, 'South': South, 'West': West};
+        console.log('Hand strings:', { North, South, East, West });
+        let pos = {'North': North || '', 'East': East || '', 'South': South || '', 'West': West || ''};
 
         switch (boardType) {
             case 'single':
+                const singleHand = pos[position] || '';
+                console.log(`Single hand for ${position}:`, singleHand);
+                const singleParsed = this.stripStart(singleHand.split('*').slice(1));
+                console.log(`Parsed single hand:`, singleParsed);
                 this.setState({
                     positions: [position],
                     boardType: 'single',
-                    [position]: this.stripStart(pos[position].split('*').slice(1))
+                    [position]: singleParsed
                 });
                 break;
             case 'double':
                 const [left, right] = position.split('/');
-                // console.log(left);
-                // console.log(right);
-                // console.log(pos[left]);
-                // console.log(pos[right]);
+                const leftHand = pos[left] || '';
+                const rightHand = pos[right] || '';
+                console.log(`Double hands - ${left}:`, leftHand, `${right}:`, rightHand);
                 this.setState({
                     positions: [left, right],
                     boardType: 'double',
-                    [left]: this.stripStart(pos[left].split('*').slice(1)),
-                    [right]: this.stripStart(pos[right].split('*').slice(1))
+                    [left]: this.stripStart(leftHand.split('*').slice(1)),
+                    [right]: this.stripStart(rightHand.split('*').slice(1))
                 });
                 break;
             case 'full':
+                console.log('Full board hands:', { North, South, East, West });
+                const northParsed = this.stripStart((North || '').split('*').slice(1));
+                const southParsed = this.stripStart((South || '').split('*').slice(1));
+                const eastParsed = this.stripStart((East || '').split('*').slice(1));
+                const westParsed = this.stripStart((West || '').split('*').slice(1));
+                console.log('Parsed full board:', { northParsed, southParsed, eastParsed, westParsed });
                 this.setState({
                     positions: ['North', 'East', 'South', 'West'],
                     boardType: 'full',
-                    North: this.stripStart(North.split('*').slice(1)),
-                    East: this.stripStart(East.split('*').slice(1)),
-                    South: this.stripStart(South.split('*').slice(1)),
-                    West: this.stripStart(West.split('*').slice(1))
+                    North: northParsed,
+                    East: eastParsed,
+                    South: southParsed,
+                    West: westParsed
                 });
                 break;
         }

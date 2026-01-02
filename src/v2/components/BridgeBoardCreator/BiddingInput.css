@@ -1,0 +1,57 @@
+.BiddingInput {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.BiddingInput-header {
+  margin-bottom: 1rem;
+}
+
+.BiddingInput-header strong {
+  font-size: 1.3rem;
+  color: #0F4C3A;
+}
+
+.BiddingInput-info {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.BiddingInput-current {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.BiddingInput-bid {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  margin: 0.2rem;
+  background: #0F4C3A;
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.BiddingInput-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 4px;
+}
+
+.BiddingInput-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+

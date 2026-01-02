@@ -1,0 +1,113 @@
+.BoardManager-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border: 2px solid #0F4C3A;
+  border-radius: 8px;
+}
+
+.BoardManager-header {
+  margin-bottom: 1.5rem;
+}
+
+.BoardManager-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.BoardManager-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.BoardManager-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.BoardManager-item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.4rem;
+}
+
+.BoardManager-badge {
+  padding: 0.3rem 0.8rem;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.BoardManager-item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.BoardManager-item-preview {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.BoardManager-preview-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.BoardManager-preview-content {
+  display: flex;
+  justify-content: center;
+}
+
+.BoardManager-item-code {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fafafa;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.BoardManager-code-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.BoardManager-code-content {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #333;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .BoardManager-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .BoardManager-item-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+

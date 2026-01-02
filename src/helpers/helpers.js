@@ -586,38 +586,46 @@ export const makeDateString = (date) => {
 };
 
 export const makeBoardObjectFromString = (boardString, showVuln = false) => {
-  // console.log(boardString);
   if (boardString === "") return undefined;
   try {
-    // console.log(boardString);
-    let board = boardString.trim().split(" ");
-    // console.log(board);
-    board[7] += " " + board[8];
-    board = board.slice(1, -1);
     const data = {};
-
-    // console.log(board);
-
-    board.forEach((each, idx) => {
-      if (board[idx].includes("=")) {
-        let [key, value] = each.split("=");
-
-        if (value) {
-          data[key] = value.slice(1, -1);
-        }
-        // if (value === undefined) {
-        //     console.log("value broken for some reason");
-        //     console.log(data);
-        //     console.log(idx);
-        // }
-      }
-    });
-    data["showVuln"] = showVuln;
-    // console.log("--- board object from string ---");
-    // console.log(data);
-    return data;
+    
+    // Use regex to extract all key="value" pairs, handling values with spaces
+    // This regex matches: key="value" where value can contain spaces
+    const attrRegex = /(\w+)="([^"]*)"/g;
+    let match;
+    
+    while ((match = attrRegex.exec(boardString)) !== null) {
+      const [, key, value] = match;
+      data[key] = value;
+    }
+    
+    console.log('=== makeBoardObjectFromString DEBUG ===');
+    console.log('Input:', boardString);
+    console.log('Parsed data:', data);
+    
+    // Map directly - keys in MakeBoard tags are already capitalized (North, South, etc.)
+    const result = {
+      boardType: data.boardType || '',
+      position: data.position || '',
+      North: data.North || '',
+      South: data.South || '',
+      East: data.East || '',
+      West: data.West || '',
+      vuln: data.vuln || data.Vuln || 'none',
+      dealer: data.dealer || data.Dealer || 'North',
+      bidding: data.bidding || data.Bidding || '',
+      showVuln: showVuln,
+    };
+    
+    console.log('Result object:', result);
+    console.log('North value:', result.North);
+    console.log('North split by *:', result.North.split('*'));
+    
+    return result;
   } catch (e) {
-    return "";
+    console.error('Error parsing MakeBoard tag:', e, boardString);
+    return {};
   }
 };
 
@@ -754,10 +762,30 @@ const renderVideoEmbed = (videoUrl, key, tier, history) => {
 
 // Helper function to detect if article has videos
 export const hasVideosInContent = (documentString) => {
-  if (!documentString) return false;
+  if (!documentString || typeof documentString !== 'string') return false;
+  
+  // Check for Video component tags
   const videoTagRegex = /<Video\s+url=["']([^"']+)["']\s*\/>|<Video>([^<]+)<\/Video>/gi;
-  const youtubeUrlRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}(?:[^\s<>"']*)?)/gi;
-  return videoTagRegex.test(documentString) || youtubeUrlRegex.test(documentString);
+  if (videoTagRegex.test(documentString)) return true;
+  
+  // Check for YouTube URLs in various formats
+  const youtubeUrlPatterns = [
+    /youtube\.com\/watch\?v=[a-zA-Z0-9_-]{11}/gi,
+    /youtu\.be\/[a-zA-Z0-9_-]{11}/gi,
+    /youtube\.com\/embed\/[a-zA-Z0-9_-]{11}/gi,
+    /youtube\.com\/v\/[a-zA-Z0-9_-]{11}/gi,
+  ];
+  if (youtubeUrlPatterns.some(pattern => pattern.test(documentString))) return true;
+  
+  // Check for YouTube iframe embeds
+  const iframeRegex = /<iframe[^>]*src=["'][^"']*youtube[^"']*["'][^>]*>/gi;
+  if (iframeRegex.test(documentString)) return true;
+  
+  // Check for any video-related URLs (broader catch)
+  const videoUrlRegex = /(https?:\/\/[^\s<>"']*(?:youtube|vimeo|dailymotion)[^\s<>"']*)/gi;
+  if (videoUrlRegex.test(documentString)) return true;
+  
+  return false;
 };
 
 export const parseDocumentIntoJSX = (
@@ -768,7 +796,12 @@ export const parseDocumentIntoJSX = (
   tier = undefined,
   history = undefined
 ) => {
+  // Ensure documentString is a string
   if (!documentString) return [];
+  if (typeof documentString !== 'string') {
+    console.error('parseDocumentIntoJSX: documentString is not a string:', typeof documentString, documentString);
+    documentString = String(documentString || '');
+  }
   
   // First, split by video tags/patterns, then by MakeBoard tags
   // Support both <Video url="..." /> and <Video>...</Video> formats
@@ -835,6 +868,12 @@ export const parseDocumentIntoJSX = (
                      processedString.substring(vm.index + vm.length + offset);
     offset += placeholder.length - vm.length;
   });
+  
+  // Ensure processedString is a string before calling .replace()
+  if (typeof processedString !== 'string') {
+    console.error('parseDocumentIntoJSX: processedString is not a string:', typeof processedString, processedString);
+    processedString = String(processedString || '');
+  }
   
   // Now split by MakeBoard tags - handle various formats including HTML-escaped and wrapped in tags
   // First, unescape any HTML entities that might have been escaped

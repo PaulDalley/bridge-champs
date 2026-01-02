@@ -55,6 +55,22 @@
   margin-bottom: 0;
 }
 
+.CategoryArticles-practice-questions-section {
+  margin-top: var(--space-3xl);
+  padding: 0 var(--space-lg);
+}
+
+.CategoryArticles-practice-questions-header {
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-xl);
+  text-align: center;
+  padding: var(--space-lg) 0;
+  border-top: 2px solid var(--color-light-gray);
+  padding-top: var(--space-2xl);
+}
+
 .CategoryArticles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));

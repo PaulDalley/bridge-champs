@@ -1,0 +1,14 @@
+.HandInput {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.HandInput-header {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #0F4C3A;
+}
+
+

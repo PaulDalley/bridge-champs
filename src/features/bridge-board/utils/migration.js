@@ -96,3 +96,4 @@ export const convertToOldFormat = (board) => {
   return `<MakeBoard boardType="${board.type}" position="${board.position || ''}" North="${formatHand(board.hands.North)}" East="${formatHand(board.hands.East)}" South="${formatHand(board.hands.South)}" West="${formatHand(board.hands.West)}" vuln="${board.vulnerability}" dealer="${board.dealer}" bidding="${bidding}" />`;
 };
 
+
