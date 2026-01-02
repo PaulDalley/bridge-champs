@@ -93,27 +93,33 @@ service cloud.firestore {
 
     // Protected content - requires basic ($25) or premium ($50) subscription
     match /article/{articleId} {
-      allow read: if hasValidSubscription();
+      allow read: if hasValidSubscription() || isAdmin();
       allow create, update, delete: if isAdmin();
     }
 
     match /biddingBody/{biddingBodyId} {
-      allow read: if hasValidSubscription();
+      allow read: if hasValidSubscription() || isAdmin();
       allow create, update, delete: if isAdmin();
     }
 
     match /cardPlayBody/{cardPlayBodyId} {
-      allow read: if hasValidSubscription();
+      allow read: if hasValidSubscription() || isAdmin();
       allow create, update, delete: if isAdmin();
     }
 
     match /defenceBody/{defenceBodyId} {
-      allow read: if hasValidSubscription();
+      allow read: if hasValidSubscription() || isAdmin();
       allow create, update, delete: if isAdmin();
     }
 
     match /quiz/{quizId} {
-      allow read: if hasValidSubscription();
+      allow read: if hasValidSubscription() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Category banners - publicly readable, admin writable
+    match /categoryBanners/{bannerId} {
+      allow read: if true;
       allow create, update, delete: if isAdmin();
     }
   }

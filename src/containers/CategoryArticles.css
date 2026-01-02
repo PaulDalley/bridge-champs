@@ -41,6 +41,20 @@
   padding: var(--space-3xl) 0;
 }
 
+.CategoryArticles-level-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.CategoryArticles-level-group {
+  margin-bottom: 4rem;
+}
+
+.CategoryArticles-level-group:last-child {
+  margin-bottom: 0;
+}
+
 .CategoryArticles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
@@ -69,6 +83,76 @@
   }
 }
 
+/* === ADMIN BUTTONS === */
+.CategoryArticles-admin-buttons {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+
+.CategoryArticles-admin-buttons > div {
+  position: relative;
+}
+
+.CategoryArticles-admin-buttons .btn-floating {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.CategoryArticles-admin-buttons .btn-floating:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.CategoryArticles-admin-buttons .btn-floating.btn-large {
+  width: 5.6rem;
+  height: 5.6rem;
+}
+
+.CategoryArticles-admin-buttons .btn-floating.red {
+  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.4) !important;
+}
+
+.CategoryArticles-admin-buttons .btn-floating.red:hover {
+  box-shadow: 0 8px 20px rgba(244, 67, 54, 0.5) !important;
+}
+
+.CategoryArticles-admin-buttons .btn-floating.green {
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4) !important;
+}
+
+.CategoryArticles-admin-buttons .btn-floating.green:hover {
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5) !important;
+}
+
+.CategoryArticles-button-label {
+  position: absolute;
+  right: 4.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.CategoryArticles-admin-buttons > div:hover .CategoryArticles-button-label {
+  opacity: 1;
+}
+
+/* === RESPONSIVE === */
 @media screen and (max-width: 768px) {
   .CategoryArticles-header {
     padding: var(--space-2xl) var(--space-md);
@@ -86,8 +170,29 @@
     padding: var(--space-2xl) var(--space-md);
   }
   
+  .CategoryArticles-level-group {
+    margin-bottom: 3rem;
+  }
+  
   .CategoryArticles-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  
+  .CategoryArticles-admin-buttons {
+    right: 1.5rem;
+    bottom: 1.5rem;
+    gap: 1.2rem;
+  }
+  
+  .CategoryArticles-admin-buttons .btn-floating.btn-large {
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .CategoryArticles-button-label {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    right: 4rem;
   }
 }

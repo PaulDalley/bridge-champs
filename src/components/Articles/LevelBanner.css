@@ -1,0 +1,164 @@
+/* ===================================
+   LEVEL BANNER STYLES
+   =================================== */
+
+.LevelBanner {
+  margin: 4rem 0 3rem 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.LevelBanner-content {
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.12) 0%, rgba(15, 76, 58, 0.06) 100%);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: 2rem 3rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(15, 76, 58, 0.15);
+  max-width: 90%;
+  width: 100%;
+}
+
+.LevelBanner-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.LevelBanner-text {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.LevelBanner-edit-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+
+.LevelBanner-edit-btn:hover {
+  opacity: 1;
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.LevelBanner-editing .LevelBanner-text {
+  display: none;
+}
+
+.LevelBanner-input {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  border: 2px solid var(--color-primary);
+  background: var(--color-white);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: block;
+}
+
+.LevelBanner-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.LevelBanner-save-btn,
+.LevelBanner-cancel-btn {
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-md);
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.LevelBanner-save-btn {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.LevelBanner-save-btn:hover {
+  background: var(--color-secondary);
+}
+
+.LevelBanner-cancel-btn {
+  background: var(--color-light-gray);
+  color: var(--color-gray);
+}
+
+.LevelBanner-cancel-btn:hover {
+  background: var(--color-gray);
+  color: var(--color-white);
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+  .LevelBanner {
+    margin: 3rem 0 2rem 0;
+  }
+  
+  .LevelBanner-content {
+    padding: 1.5rem 2rem;
+    max-width: 95%;
+  }
+  
+  .LevelBanner-text {
+    font-size: 2rem;
+  }
+  
+  .LevelBanner-input {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .LevelBanner-content {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .LevelBanner-text {
+    font-size: 1.8rem;
+  }
+  
+  .LevelBanner-input {
+    font-size: 1.8rem;
+  }
+  
+  .LevelBanner-save-btn,
+  .LevelBanner-cancel-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+

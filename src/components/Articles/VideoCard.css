@@ -1,0 +1,109 @@
+/* ===================================
+   VIDEO CARD STYLES
+   Matches ArticleCard styling
+   =================================== */
+
+.VideoCard {
+  position: relative;
+}
+
+.VideoCard-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  background: #ff0000;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.VideoCard-badge svg {
+  flex-shrink: 0;
+}
+
+.VideoCard-thumbnail {
+  width: 100%;
+  height: 22rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.06) 0%, rgba(15, 76, 58, 0.02) 100%);
+  border-bottom: 1px solid var(--color-light-gray);
+  cursor: pointer;
+}
+
+.VideoCard-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.VideoCard-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7rem;
+  height: 7rem;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.VideoCard-play-overlay svg {
+  width: 3rem;
+  height: 3rem;
+  fill: white;
+  margin-left: 0.4rem; /* Offset play icon slightly right for visual balance */
+}
+
+.VideoCard:hover .VideoCard-play-overlay {
+  background: rgba(15, 76, 58, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.VideoCard:hover .VideoCard-thumbnail {
+  opacity: 0.95;
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+  .VideoCard-thumbnail {
+    height: 20rem;
+  }
+  
+  .VideoCard-play-overlay {
+    width: 6rem;
+    height: 6rem;
+  }
+  
+  .VideoCard-play-overlay svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .VideoCard-badge {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .VideoCard-badge svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+}
+
