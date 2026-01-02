@@ -157,12 +157,10 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       category: videoCategory,
       difficulty: newVideo.difficulty || '1',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      createdBy: useSelector.getState()?.auth?.uid || 'anonymous'
+      createdBy: uid || 'anonymous'
     };
 
     try {
-      videoData.createdBy = uid || 'anonymous';
-      
       await firebase.firestore().collection('videos').add(videoData);
       setNewVideo({ title: '', url: '', description: '', difficulty: '1' });
       setShowVideoForm(false);
@@ -172,6 +170,16 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       alert('Error adding video. Please try again.');
     } finally {
       setSubmittingVideo(false);
+    }
+  };
+
+  const handleDeleteVideo = async (videoId) => {
+    try {
+      await firebase.firestore().collection('videos').doc(videoId).delete();
+      alert('Video deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting video:', error);
+      alert('Error deleting video. Please try again.');
     }
   };
 
