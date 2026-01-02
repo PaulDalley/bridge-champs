@@ -4,8 +4,7 @@
  * Styled to match article cards
  */
 
-import React, { useState } from 'react';
-import { Modal } from 'react-materialize';
+import React, { useState, useEffect } from 'react';
 import './VideoCard.css';
 import './CategoryArticleListItem.css'; // Import shared article card styles
 
@@ -23,6 +22,18 @@ const VideoCard = ({
   const isAdmin = a === true;
   const isLocked = !isAdmin && !subscriptionActive;
   const [showModal, setShowModal] = useState(false);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showModal]);
 
   const getYouTubeThumbnail = (videoUrl) => {
     let videoId = '';
@@ -135,32 +146,38 @@ const VideoCard = ({
         </div>
       </div>
 
-      {/* Video Player Modal */}
-      <Modal
-        open={showModal}
-        options={{
-          onCloseEnd: () => setShowModal(false),
-          dismissible: true
-        }}
-        style={{ width: '90%', maxWidth: '900px' }}
-      >
-        <div>
-          <h4 style={{ marginBottom: '1rem' }}>{title}</h4>
-          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
-            <iframe
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              src={url}
-              title={title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+      {/* Modern Video Player Modal */}
+      {showModal && (
+        <div className="VideoCard-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="VideoCard-modal-container" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="VideoCard-modal-close"
+              onClick={() => setShowModal(false)}
+              aria-label="Close video"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+            <div className="VideoCard-modal-content">
+              <h2 className="VideoCard-modal-title">{title}</h2>
+              <div className="VideoCard-modal-video-wrapper">
+                <iframe
+                  className="VideoCard-modal-video"
+                  src={url}
+                  title={title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              {description && (
+                <p className="VideoCard-modal-description">{description}</p>
+              )}
+            </div>
           </div>
-          {description && (
-            <p style={{ marginTop: '1rem', fontSize: '1.4rem' }}>{description}</p>
-          )}
         </div>
-      </Modal>
+      )}
     </>
   );
 };
