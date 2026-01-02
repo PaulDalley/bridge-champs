@@ -38,7 +38,6 @@ const SendHandToPaul = () => {
       let fileUrl = null;
       
       // Upload file to Firebase Storage if provided
-      let fileUrl = null;
       if (uploadedFile) {
         try {
           const storageRef = firebase.storage().ref();
