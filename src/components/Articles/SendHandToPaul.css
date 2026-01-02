@@ -9,19 +9,23 @@
 
 .SendHandToPaul-toggle {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1rem 1.6rem;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  width: 120px;
+  height: 120px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: var(--radius-full);
-  font-size: 1.4rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  white-space: nowrap;
+  text-align: center;
 }
 
 .SendHandToPaul-toggle:hover {
@@ -36,6 +40,12 @@
 
 .SendHandToPaul-toggle svg {
   flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.SendHandToPaul-toggle span {
+  line-height: 1.2;
 }
 
 .SendHandToPaul-card {
@@ -265,6 +275,18 @@
 
 /* === RESPONSIVE === */
 @media screen and (max-width: 768px) {
+  .SendHandToPaul-toggle {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .SendHandToPaul-toggle svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
   .SendHandToPaul-card {
     padding: 2rem 1.5rem;
   }
