@@ -42,7 +42,8 @@
 }
 
 .Quizzes-category-group .Articles-container {
-  margin-top: 2rem;
+  margin-top: 2.5rem !important;
+  padding-top: 0;
 }
 
 .Quizzes-empty {
