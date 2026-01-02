@@ -18,6 +18,7 @@ const VideoCard = ({
   difficulty,
   a,
   subscriptionActive,
+  onDelete,
 }) => {
   const isAdmin = a === true;
   const isLocked = !isAdmin && !subscriptionActive;

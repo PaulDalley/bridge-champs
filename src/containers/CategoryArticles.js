@@ -84,7 +84,12 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         (snapshot) => {
           const videosList = [];
           snapshot.forEach((doc) => {
-            videosList.push({ id: doc.id, ...doc.data() });
+            const videoData = { id: doc.id, ...doc.data() };
+            videosList.push(videoData);
+            // Log for debugging
+            if (process.env.NODE_ENV === 'development') {
+              console.log('Fetched video:', videoData.title, 'Category:', videoData.category, 'Difficulty:', videoData.difficulty);
+            }
           });
           // Sort by createdAt descending (newest first)
           videosList.sort((a, b) => {
@@ -269,6 +274,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                 difficulty={video.difficulty || '1'}
                 a={a}
                 subscriptionActive={subscriptionActive}
+                onDelete={a === true ? handleDeleteVideo : undefined}
               />
             ))}
           </div>
