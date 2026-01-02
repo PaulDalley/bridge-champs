@@ -31,6 +31,7 @@ import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import ArticlesByCategory from "./components/Articles/ArticlesByCategory";
 import PracticeQuestionViewer from "./components/PracticeQuestions/PracticeQuestionViewer";
+import CreatePracticeQuestionBundle from "./components/PracticeQuestions/CreatePracticeQuestionBundle";
 import Quizzes from "./containers/Quizzes";
 import DisplayQuiz from "./components/Quizzes/DisplayQuiz";
 import PremiumMembership from "./components/Auth/PremiumMembership";
@@ -307,6 +308,18 @@ const routes = (
     <Route path="/quizzes" component={Quizzes} />
     <Route path="/quiz/:id" component={DisplayQuiz} />
     <Route path="/practice-questions/:bundleId" component={PracticeQuestionViewer} />
+    <Route
+      path="/create-practice-questions/:category"
+      render={(routeProps) => (
+        <CreatePracticeQuestionBundle {...routeProps} articleType={routeProps.match.params.category} />
+      )}
+    />
+    <Route
+      path="/edit-practice-questions/:category/:bundleId"
+      render={(routeProps) => (
+        <CreatePracticeQuestionBundle {...routeProps} articleType={routeProps.match.params.category} />
+      )}
+    />
     <Route path="/tournaments" component={CurrentTournaments} />
     <Route path="/tournament/:tournamentName" component={SpecificArticles} />
     <Route path="/conventions" component={ArticlesByCategory} />

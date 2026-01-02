@@ -422,6 +422,20 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       {/* Admin Action Buttons */}
       {a === true && (
         <div className="CategoryArticles-admin-buttons">
+          {/* Add Practice Questions Button */}
+          <div>
+            <Button
+              floating
+              large
+              className="purple darken-2"
+              onClick={() => history.push(`/create-practice-questions/${articleType}`)}
+              waves="light"
+            >
+              <Icon>quiz</Icon>
+            </Button>
+            <span className="CategoryArticles-button-label">Add Practice Questions</span>
+          </div>
+
           {/* Add Video Button */}
           <div>
             <Button

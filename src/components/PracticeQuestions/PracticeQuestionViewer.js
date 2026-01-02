@@ -139,13 +139,38 @@ const PracticeQuestionViewer = ({ match, history, a, subscriptionActive }) => {
     }
   };
 
-  // Parse board data
-  let boardData = null;
+  // Parse board data - handle both string format and structured format
+  let makeBoardProps = null;
   if (currentQuestion.boardData) {
     if (typeof currentQuestion.boardData === 'string') {
-      boardData = makeBoardObjectFromString(currentQuestion.boardData);
+      // Legacy string format
+      const parsed = makeBoardObjectFromString(currentQuestion.boardData);
+      makeBoardProps = parsed;
     } else {
-      boardData = currentQuestion.boardData;
+      // Structured format from new board creator
+      const board = currentQuestion.boardData;
+      // Convert structured format to MakeBoard props
+      const formatHandString = (hand) => {
+        if (!hand) return '';
+        const suits = ['S', 'H', 'D', 'C'];
+        const parts = suits.map(suit => {
+          const cards = hand[suit] || '';
+          return cards ? `*${suit}-${cards}` : '';
+        }).filter(Boolean);
+        return parts.join('');
+      };
+      
+      makeBoardProps = {
+        boardType: board.boardType || 'full',
+        position: board.position || 'full',
+        North: formatHandString(board.north),
+        South: formatHandString(board.south),
+        East: formatHandString(board.east),
+        West: formatHandString(board.west),
+        vuln: board.vulnerability || 'none',
+        dealer: board.dealer || 'North',
+        bidding: Array.isArray(board.bidding) ? board.bidding.join('/') : (board.bidding || ''),
+      };
     }
   }
 
@@ -162,11 +187,10 @@ const PracticeQuestionViewer = ({ match, history, a, subscriptionActive }) => {
         {/* Board with annotations */}
         <div className="PracticeQuestionViewer-board-wrapper">
           <div className="PracticeQuestionViewer-board-container" style={{ position: 'relative' }}>
-            {boardData && (
+            {makeBoardProps && (
               <MakeBoard
-                {...boardData}
-                bidding={boardData.bidding || ''}
-                showVuln={boardData.showVuln !== false}
+                {...makeBoardProps}
+                showVuln={makeBoardProps.showVuln !== false}
               />
             )}
             {currentQuestion.annotations && (
