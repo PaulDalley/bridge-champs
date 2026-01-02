@@ -251,6 +251,22 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
   const groupedContent = groupContentByLevel(filteredArticles || [], videos || [], practiceQuestions || []);
 
+  // Get category info
+  const getCategoryInfo = () => {
+    switch (articleType) {
+      case 'defence':
+        return { name: 'Defence', subtitle: 'Master defensive play' };
+      case 'cardPlay':
+        return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
+      case 'bidding': 
+        return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
+      default: 
+        return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
+    }
+  };
+
+  const categoryInfo = getCategoryInfo();
+
   // Fetch banner texts for all levels when content changes
   useEffect(() => {
     if (groupedContent.length === 0) {
