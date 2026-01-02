@@ -17,6 +17,7 @@ import { groupContentByLevel, mapCategoryToVideoCategory } from "../helpers/cont
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
+import CategoryFeedbackForm from "../components/Articles/CategoryFeedbackForm";
 import { getBannerText } from "../services/categoryBannerService";
 import { firebase } from "../firebase/config";
 import "./CategoryArticles.css";
@@ -371,6 +372,14 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
             {categoryInfo.subtitle}
           </p>
         </div>
+      </div>
+
+      {/* Category Feedback Form */}
+      <div className="container" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+        <CategoryFeedbackForm 
+          category={articleType} 
+          categoryName={categoryInfo.name}
+        />
       </div>
 
       <div className="CategoryArticles-filters-section">

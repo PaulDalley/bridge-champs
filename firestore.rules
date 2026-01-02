@@ -128,5 +128,11 @@ service cloud.firestore {
       allow create: if true;
       allow read: if isAdmin();
     }
+
+    // Category feedback - anyone can create, admins can read
+    match /categoryFeedback/{feedbackId} {
+      allow create: if true;
+      allow read: if isAdmin();
+    }
   }
 }
