@@ -227,24 +227,6 @@ class Nav extends Component {
         <div className="Nav-tabs row z-depth-2 nav-tabs">
           <div className="col s12">
             <ul className="tabs">
-              {/* NEW VIDEOS TAB - Added to the left of Declarer Play */}
-              <li className="tab col">
-                <a 
-                  id="videos" 
-                  className="/videos"
-                  href="/videos"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.goTo("/videos");
-                  }}
-                  role="tab"
-                  aria-label="Videos section"
-                >
-                  Videos
-                </a>
-                <div className="nav-tabs_underline"></div>
-              </li>
-
               <li className="tab col">
                 <a 
                   id="cardPlay" 

@@ -34,7 +34,6 @@ import Quizzes from "./containers/Quizzes";
 import DisplayQuiz from "./components/Quizzes/DisplayQuiz";
 import PremiumMembership from "./components/Auth/PremiumMembership";
 import CurrentTournaments from "./containers/CurrentTournaments";
-import Videos from "./containers/Videos";
 import Questions from "./containers/Questions";
 import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
@@ -49,6 +48,9 @@ const CreateArticle = lazy(() => import("./containers/CreateArticle"));
 const CreateCategoryArticle = lazy(() => import("./containers/CreateCategoryArticle"));
 const CreateQuiz = lazy(() => import("./containers/CreateQuiz"));
 const DBComp = lazy(() => import("./containers/DBComp"));
+
+// V2 System - New article editor
+const CreateArticleV2 = lazy(() => import("./v2/pages/CreateArticleV2"));
 
 import GoogleAnalytics from "./components/GoogleAnaytics";
 
@@ -82,6 +84,24 @@ const routes = (
       render={() => (
         <Suspense fallback={<SkeletonLoader type="article" />}>
           <CreateArticle articleType="articles" bodyRef="article" />
+        </Suspense>
+      )}
+    />
+
+    {/* V2 SYSTEM ROUTES - New article editor */}
+    <Route
+      path="/create-article-v2/:category"
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateArticleV2 />
+        </Suspense>
+      )}
+    />
+    <Route
+      path="/edit-article-v2/:category/:id"
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateArticleV2 />
         </Suspense>
       )}
     />
@@ -288,7 +308,6 @@ const routes = (
     <Route path="/tournaments" component={CurrentTournaments} />
     <Route path="/tournament/:tournamentName" component={SpecificArticles} />
     <Route path="/conventions" component={ArticlesByCategory} />
-    <Route path="/videos" component={Videos} />
     <Route path="/questions" component={Questions} />
 
     <Route path="/contact" component={Contact} />
