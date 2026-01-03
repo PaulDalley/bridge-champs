@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextInput, Row, Icon } from "react-materialize"; // Input component deprecated
+import { Link } from "react-router-dom";
 import "./Signup.css";
 
 class Signup extends Component {
@@ -71,146 +71,69 @@ class Signup extends Component {
   };
 
   render() {
-    // this.props.becomingPremiumMember
-    // console.log(this.props.signup);
-
-    const textStyles = {
-      position: "relative",
-      left: ".5rem",
-      fontWeight: "bold",
-      fontSize: "1.6rem",
-      marginTop: "1rem",
-    };
-    const rowMargins = "2px";
-
     return (
       <div className="Signup-container">
-        <form className="Signup-container" onSubmit={this.onSubmit}>
-          {/*{this.props.signup && <Row style={textStyles}>*/}
-          {/*Create a BridgeChampions account*/}
-          {/*</Row> }*/}
-          {/*{!this.props.signup && <Row style={textStyles}>*/}
-          {/*Create a new BridgeChampions account*/}
-          {/*</Row> }*/}
-          <Row>
-            <a
-              onClick={this.googleLogin}
-              style={{ width: "100%" }}
-              className="Login-SocialButton btn btn-social btn-google"
-            >
-              {/*<span className="fa fa-google"></span> Sign up with Google&nbsp;&nbsp;&nbsp;&nbsp;*/}
-              <span className="Login-SocialIcon fab fa-google"></span> Sign up
-              with Google&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-            <a
-              onClick={this.facebookLogin}
-              style={{ width: "100%" }}
-              className="Login-SocialButton btn btn-medium btn-social btn-facebook"
-            >
-              {/*<span className="fa fa-facebook"></span> Sign up with Facebook </a>*/}
-              <span className="Login-SocialIcon fab fa-facebook-f"></span> Sign
-              up with Facebook
-            </a>
-          </Row>
-
-          <br />
-          <hr />
-          <div className="Login-or">
-            <span className="Login-or-text">
-              &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;
-            </span>
+        <div className="Signup-card">
+          <div className="Signup-header">
+            <h1 className="Signup-title">Create Account</h1>
+            <p className="Signup-subtitle">Sign up to start your bridge journey</p>
           </div>
 
-          <Row style={{ marginBottom: rowMargins }}>
-            <TextInput
-              email={true}
-              // type="email"
-              s={12}
-              m={8}
-              label="Email address"
-              name="email"
-              onChange={this.handleChange}
-              value={this.state.email}
-              className="validate Login-input-field"
-              icon={"email"}
-            >
-              {/* <Icon>email</Icon> */}
-            </TextInput>
-          </Row>
-          <Row style={{ marginBottom: rowMargins }}>
-            <TextInput
-              password={true}
-              // type="password"
-              label="Password"
-              s={12}
-              m={8}
-              name="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-              className="Login-input-field"
-              icon={"vpn_key"}
-            >
-              {/* <Icon>vpn_key</Icon> */}
-            </TextInput>
-          </Row>
-          <Row style={{ marginBottom: rowMargins }}>
-            <TextInput
-              password={true}
-              // type="password"
-              label="Confirm password"
-              s={12}
-              m={8}
-              name="passwordConfirm"
-              onChange={this.handleChange}
-              value={this.state.passwordConfirm}
-              className="Login-input-field"
-              icon={"vpn_key"}
-            >
-              {/* <Icon>vpn_key</Icon> */}
-            </TextInput>
-          </Row>
-          <Row style={{ marginTop: "3px" }}>
-            <span
-              style={{ position: "relative", top: "-2rem", left: ".5rem" }}
-              className="red-suit"
-            >
-              {this.state.err}
-            </span>
-          </Row>
-          <Row
-            style={{
-              fontWeight: "bold",
-              fontSize: "5rem",
-              position: "relative",
-              top: "-2.5rem",
-              paddingBottom: 0,
-              marginBottom: 0,
-            }}
-          >
-            <button
-              style={{
-                width: "100%",
-                position: "relative",
-                top: "-1rem",
-                marginTop: 0,
-                paddingTop: 0,
-                fontSize: "1.2rem",
-                paddingBottom: 0,
-                marginBottom: 0,
-              }}
-              className="Nav-auth_buttons btn waves-effect waves-light"
-              type="submit"
-              name="action"
-            >
-              Sign up
-              <i className="material-icons right">send</i>
-            </button>
-          </Row>
+          {this.state.err && <div className="Signup-error">{this.state.err}</div>}
 
-          {/*<Row style={{fontWeight: 'bold', fontSize: '1.6rem', marginTop: '0rem', paddingTop: '0rem'}}>*/}
-          {/*You may also use your existing services to register and log in to our site*/}
-          {/*</Row>*/}
-        </form>
+          <form className="Signup-form" onSubmit={this.onSubmit}>
+            <div className="Signup-input-group">
+              <label htmlFor="signup-email">Email address</label>
+              <input
+                id="signup-email"
+                className="Signup-input-field"
+                type="email"
+                name="email"
+                onChange={this.handleChange}
+                value={this.state.email}
+                required
+                placeholder="your.email@example.com"
+              />
+            </div>
+
+            <div className="Signup-input-group">
+              <label htmlFor="signup-password">Password</label>
+              <input
+                id="signup-password"
+                className="Signup-input-field"
+                type="password"
+                name="password"
+                onChange={this.handleChange}
+                value={this.state.password}
+                required
+                placeholder="Create a secure password"
+              />
+            </div>
+
+            <div className="Signup-input-group">
+              <label htmlFor="signup-password-confirm">Confirm password</label>
+              <input
+                id="signup-password-confirm"
+                className="Signup-input-field"
+                type="password"
+                name="passwordConfirm"
+                onChange={this.handleChange}
+                value={this.state.passwordConfirm}
+                required
+                placeholder="Re-enter your password"
+              />
+            </div>
+
+            <button type="submit" className="Signup-submit-button">
+              Create Account
+            </button>
+          </form>
+
+          <div className="Signup-footer">
+            <span>Already have an account? </span>
+            <Link to="/login" className="Signup-footer-link">Sign in</Link>
+          </div>
+        </div>
       </div>
     );
   }

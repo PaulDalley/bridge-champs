@@ -111,22 +111,6 @@ class Login extends Component {
 
           {err && <div className="Login-error">{err}</div>}
 
-          <div className="Login-social-buttons">
-            <button type="button" onClick={this.googleLogin} className="Login-SocialButton btn-google">
-              <i className="Login-SocialIcon fab fa-google"></i>
-              Sign in with Google
-            </button>
-            
-            <button type="button" onClick={this.facebookLogin} className="Login-SocialButton btn-facebook">
-              <i className="Login-SocialIcon fab fa-facebook-f"></i>
-              Sign in with Facebook
-            </button>
-          </div>
-
-          <div className="Login-divider">
-            <span className="Login-divider-text">or</span>
-          </div>
-
           <form onSubmit={this.onSubmit} className="Login-form">
             <div className="Login-input-group">
               <label htmlFor="email">Email</label>
