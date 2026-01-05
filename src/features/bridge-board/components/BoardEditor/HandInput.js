@@ -67,3 +67,4 @@ const HandInput = ({ position, hand, onChange, className = '' }) => {
 export default HandInput;
 
 
+

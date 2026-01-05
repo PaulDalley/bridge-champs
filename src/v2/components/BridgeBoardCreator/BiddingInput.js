@@ -120,3 +120,4 @@ const BiddingInput = ({ bidding, onChange, vulnerability, dealer }) => {
 export default BiddingInput;
 
 
+

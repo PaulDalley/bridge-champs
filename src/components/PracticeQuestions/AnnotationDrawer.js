@@ -278,3 +278,4 @@ const formatHandString = (hand) => {
 
 export default AnnotationDrawer;
 
+

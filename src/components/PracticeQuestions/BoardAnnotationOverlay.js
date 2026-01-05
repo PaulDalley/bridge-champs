@@ -103,3 +103,4 @@ const BoardAnnotationOverlay = ({ annotations = [], visible = false, boardWidth 
 
 export default BoardAnnotationOverlay;
 
+
