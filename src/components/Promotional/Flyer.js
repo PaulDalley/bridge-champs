@@ -104,8 +104,9 @@ const Flyer = () => {
                 <span className="Flyer-promo-code-text">HARBOURVIEW</span>
               </div>
               <p className="Flyer-promo-description">
-                {/* TODO: Update with specific HARBOURVIEW code benefits */}
-                Enter this code when signing up to receive special benefits! (Details to be confirmed)
+                <strong>🎉 Get 1 Month FREE with Premium Membership!</strong>
+                <br />
+                Enter the code <strong>HARBOURVIEW</strong> when signing up for Premium membership and receive your first month completely free. This gives you full access to all Premium features including exclusive videos, the ability to submit questions to Paul, and expert responses—all at no cost for the first month.
               </p>
             </div>
           </section>
