@@ -147,7 +147,7 @@ class HomePage extends Component {
             </h1>
             
             <p className="HomePage-hero-subtitle">
-              Clear, simple bridge instruction. Real improvement without the overwhelming time commitment.
+              I've dedicated the last 15 years to studying and practicing bridge. The core lessons I've learned have been put into easy to follow articles and videos.
             </p>
 
             {/* Welcome Video */}
