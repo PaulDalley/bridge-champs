@@ -147,7 +147,7 @@ class HomePage extends Component {
             </h1>
             
             <p className="HomePage-hero-subtitle">
-              I've dedicated the last 15 years to studying and practicing bridge. I've brought the core lessons to my members. The focus is on simplicity and real improvement.
+              I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. The focus is on simplicity and real improvement.
             </p>
 
             {/* Welcome Video */}
