@@ -195,83 +195,6 @@ MakeBoard-double_second {
     min-width: 16rem !important;
 }
 
-/* Compass Points - shown when bidding is empty */
-.MakeBoard-compass-point {
-    position: absolute;
-    font-weight: bold;
-    font-size: 1.8rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Full board compass point positions */
-.MakeBoard-fullBoard-North .MakeBoard-compass-point-north {
-    top: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.MakeBoard-fullBoard-South .MakeBoard-compass-point-south {
-    bottom: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.MakeBoard-fullBoard-East .MakeBoard-compass-point-east {
-    right: -1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.MakeBoard-fullBoard-West .MakeBoard-compass-point-west {
-    left: -1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-/* Single/Double board compass point positions */
-.MakeBoard-hand-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.MakeBoard-single .MakeBoard-compass-point,
-.MakeBoard-double_North .MakeBoard-compass-point,
-.MakeBoard-double_South .MakeBoard-compass-point,
-.MakeBoard-double_East .MakeBoard-compass-point,
-.MakeBoard-double_West .MakeBoard-compass-point {
-    top: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.MakeBoard-double_East .MakeBoard-compass-point {
-    top: 50%;
-    right: -1.5rem;
-    left: auto;
-    transform: translateY(-50%);
-}
-
-.MakeBoard-double_West .MakeBoard-compass-point {
-    top: 50%;
-    left: -1.5rem;
-    transform: translateY(-50%);
-}
-
-.MakeBoard-double_South .MakeBoard-compass-point {
-    top: auto;
-    bottom: -1.5rem;
-    transform: translateX(-50%);
-}
-
 @media screen and (max-width: 400px) {
     .MakeBoard-container_double {
         /*min-width: 50%;*/
@@ -282,11 +205,5 @@ MakeBoard-double_second {
     }
     .MakeBoard-container_single {
         flex-direction: column;
-    }
-    
-    .MakeBoard-compass-point {
-        font-size: 1.5rem;
-        width: 2rem;
-        height: 2rem;
     }
 }

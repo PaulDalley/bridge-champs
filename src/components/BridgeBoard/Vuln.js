@@ -1,7 +1,23 @@
 import React from 'react';
 import './Vuln.css';
 
-const Vuln = ({ vuln, dealer }) => {
+const Vuln = ({ vuln, dealer, bidding }) => {
+    // Check if bidding is empty/blank
+    const isBiddingEmpty = !bidding || bidding === "" || bidding.length === 0;
+    
+    // If bidding is empty, show compass points
+    if (isBiddingEmpty) {
+        return (
+            <div className="Vuln-container Vuln-compass">
+                <div className="Vuln-compass-point Vuln-compass-north">N</div>
+                <div className="Vuln-compass-point Vuln-compass-east">E</div>
+                <div className="Vuln-compass-point Vuln-compass-south">S</div>
+                <div className="Vuln-compass-point Vuln-compass-west">W</div>
+            </div>
+        );
+    }
+    
+    // Otherwise, show the normal vulnerability/dealer display
     let positions = ["North", "South", "East", "West"];
     let classNames = {};
 

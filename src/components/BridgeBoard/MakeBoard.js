@@ -115,9 +115,6 @@ class MakeBoard extends Component {
         const West_ = this.stripStart(West.split('*').slice(1));
         // const styles = ['MakeBoard-full_North', 'MakeBoard-full_East', 'MakeBoard-full_South', 'MakeBoard-full_West'];
 
-        // Check if bidding is empty/blank
-        const isBiddingEmpty = !this.props.bidding || this.props.bidding === "" || this.props.bidding.length === 0;
-        
         if (handClickhandler !== undefined) {
             let showInputs = {
                 'North': false,
@@ -143,11 +140,10 @@ class MakeBoard extends Component {
             return (
                 <div className="MakeBoard-container-fullBoard">
                     <div>
-                        <Vuln vuln={this.props.vuln} dealer={this.props.dealer}/>
+                        <Vuln vuln={this.props.vuln} dealer={this.props.dealer} bidding={this.props.bidding}/>
                     </div>
                     <div onClick={() => handClickhandler("North")}
                         className="MakeBoard-fullBoard-North GenerateBridgeBoardClient-hand">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-north">N</span>}
                         <Hand position="North"
                               spades={North_.S}
                               hearts={North_.H}
@@ -170,7 +166,6 @@ class MakeBoard extends Component {
                     </div>
                     <div onClick={() => handClickhandler("West")}
                         className="MakeBoard-fullBoard-West GenerateBridgeBoardClient-hand">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-west">W</span>}
                         <Hand position="West"
                               spades={West_.S}
                               hearts={West_.H}
@@ -183,7 +178,6 @@ class MakeBoard extends Component {
                     <div></div>
                     <div onClick={() => handClickhandler("East")}
                         className="MakeBoard-fullBoard-East GenerateBridgeBoardClient-hand">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-east">E</span>}
                         <Hand position="East"
                               spades={East_.S}
                               hearts={East_.H}
@@ -196,7 +190,6 @@ class MakeBoard extends Component {
                     <div></div>
                     <div onClick={() => handClickhandler("South")}
                         className="MakeBoard-fullBoard-South GenerateBridgeBoardClient-hand">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-south">S</span>}
                         <Hand position="South"
                               spades={South_.S}
                               hearts={South_.H}
@@ -214,10 +207,9 @@ class MakeBoard extends Component {
             return (
                 <div className="MakeBoard-container-fullBoard">
                     <div>
-                        <Vuln vuln={this.props.vuln} dealer={this.props.dealer}/>
+                        <Vuln vuln={this.props.vuln} dealer={this.props.dealer} bidding={this.props.bidding}/>
                     </div>
                     <div className="MakeBoard-fullBoard-North">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-north">N</span>}
                         <Hand position="North"
                               spades={North_.S}
                               hearts={North_.H}
@@ -236,7 +228,6 @@ class MakeBoard extends Component {
                         />}
                     </div>
                     <div className="MakeBoard-fullBoard-West">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-west">W</span>}
                         <Hand position="West"
                               spades={West_.S}
                               hearts={West_.H}
@@ -245,7 +236,6 @@ class MakeBoard extends Component {
                     </div>
                     <div></div>
                     <div className="MakeBoard-fullBoard-East">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-east">E</span>}
                         <Hand position="East"
                               spades={East_.S}
                               hearts={East_.H}
@@ -254,7 +244,6 @@ class MakeBoard extends Component {
                     </div>
                     <div></div>
                     <div className="MakeBoard-fullBoard-South">
-                        {isBiddingEmpty && <span className="MakeBoard-compass-point MakeBoard-compass-point-south">S</span>}
                         <Hand position="South"
                               spades={South_.S}
                               hearts={South_.H}
@@ -296,24 +285,17 @@ class MakeBoard extends Component {
                 boardType = "single";
                 break;
         }
-        // Check if bidding is empty/blank
-        const isBiddingEmpty = !this.props.bidding || this.props.bidding === "" || this.props.bidding.length === 0;
-        
         let board = positions.map((position, idx) => {
             // console.log(position, idx, styles[idx]);
             // let symbol = suitsMapper[position];
-            const compassPoint = position.charAt(0); // N, E, S, or W
             return (
                 <Row className={styles[mapper[position]]} key={position}>
                     <Col className={boardType === "double" ? "MakeBoard-double_col" : ""}>
-                        <div className="MakeBoard-hand-wrapper">
-                            {isBiddingEmpty && <span className="MakeBoard-compass-point">{compassPoint}</span>}
-                            <Hand position={position}
-                                  spades={this.state[position].S}
-                                  hearts={this.state[position].H}
-                                  diamonds={this.state[position].D}
-                                  clubs={this.state[position].C}/>
-                        </div>
+                        <Hand position={position}
+                              spades={this.state[position].S}
+                              hearts={this.state[position].H}
+                              diamonds={this.state[position].D}
+                              clubs={this.state[position].C}/>
                     </Col>
                 </Row>)
         });
@@ -351,7 +333,7 @@ class MakeBoard extends Component {
         return (
             <div className={`MakeBoard-outer_container ${containerStyles}`}>
                 {this.props.showVuln === undefined && this.props.boardType !== 'full' &&
-                    <Vuln vuln={this.props.vuln} dealer={this.props.dealer}/>
+                    <Vuln vuln={this.props.vuln} dealer={this.props.dealer} bidding={this.props.bidding}/>
                 }
                 {this.props.boardType !== 'full' &&
                     <div className="MakeBoard-bridge_board">{this.makeBoard()}</div>
