@@ -1168,6 +1168,44 @@
   transform: scale(1.05);
 }
 
+.PremiumMembership-stripe-button {
+  background: linear-gradient(135deg, #635bff 0%, #5a52ff 100%);
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 2px 8px rgba(99, 91, 255, 0.3);
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.PremiumMembership-stripe-button:hover {
+  background: linear-gradient(135deg, #5a52ff 0%, #635bff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.4);
+}
+
+.PremiumMembership-stripe-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(99, 91, 255, 0.3);
+}
+
+.PremiumMembership-stripe-button-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
 .PremiumMembership-secure-badge {
   color: #666;
   font-size: 0.9rem;

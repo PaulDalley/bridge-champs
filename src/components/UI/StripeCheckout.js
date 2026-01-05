@@ -55,21 +55,12 @@ class PaymentButton extends React.Component {
     return (
       <button
         name="customButton"
-        className="PremiumMembership-paypal_signup_button
-                               PremiumMembership-signup_button_cc"
-        style={{
-          border: "none",
-          paddingTop: "1rem",
-          paddingBottom: "1rem",
-        }}
-        waves="light"
+        className="PremiumMembership-stripe-button"
         ref={(btn) => {
           if (btn != null) {
-            // console.log(" IN HERE ");
             btn.onclick = this.openCheckout;
           }
         }}
-        // onClick={(e) => this.openCheckout(e) }
       >
         Pay with Credit Card
       </button>
@@ -187,18 +178,16 @@ class StripeCheckout extends React.Component {
         )}
 
         {!this.state.stripe && (
-          <Button
-            className="PremiumMembership-paypal_signup_button*/
-                               PremiumMembership-signup_button_cc
-                               PremiumMembership-signup_button_loading"
-            waves="light"
+          <button
+            className="PremiumMembership-stripe-button PremiumMembership-stripe-button-loading"
+            disabled
           >
             <Preloader
-              color="yellow"
-              className="PremiumMembership-signup_button_preloader"
+              color="white"
               size="small"
             />
-          </Button>
+            <span style={{ marginLeft: '0.5rem' }}>Loading...</span>
+          </button>
         )}
       </div>
     );
