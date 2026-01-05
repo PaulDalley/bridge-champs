@@ -1087,16 +1087,80 @@
   color: white;
 }
 
-.PremiumMembership-paypal-section {
+.PremiumMembership-payment-options {
   padding-top: 2rem;
   border-top: 1px solid #eee;
 }
 
+.PremiumMembership-payment-divider {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.PremiumMembership-payment-divider::before,
+.PremiumMembership-payment-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+}
+
+.PremiumMembership-payment-divider::before {
+  left: 0;
+}
+
+.PremiumMembership-payment-divider::after {
+  right: 0;
+}
+
+.PremiumMembership-payment-divider span {
+  background: white;
+  padding: 0 1rem;
+  color: #666;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.PremiumMembership-payment-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.PremiumMembership-payment-method {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.PremiumMembership-payment-method:hover {
+  border-color: #0F4C3A;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.PremiumMembership-payment-method-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
 .PremiumMembership-paypal-button {
-  max-width: 250px;
+  max-width: 200px;
   cursor: pointer;
   transition: transform 0.2s ease;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto;
   display: block;
 }
 
@@ -1107,5 +1171,19 @@
 .PremiumMembership-secure-badge {
   color: #666;
   font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .PremiumMembership-payment-methods {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .PremiumMembership-payment-divider::before,
+  .PremiumMembership-payment-divider::after {
+    width: 30%;
+  }
 }
 

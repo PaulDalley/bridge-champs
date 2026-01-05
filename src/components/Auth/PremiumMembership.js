@@ -15,6 +15,7 @@ import $ from "jquery";
 import paypalPayNow from "../../assets/images/paypal-paynow.png";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
 import { firebase } from "../../firebase/config";
+import StripeCheckout from "../UI/StripeCheckout";
 
 
 // Pricing tiers
@@ -22,12 +23,14 @@ const PRICING_TIERS = {
   basic: {
     price: "25",
     name: "Basic Membership",
-    paypalButton: "YNKJMUC64MT5Q"
+    paypalButton: "YNKJMUC64MT5Q",
+    stripePriceId: "price_1SXVk6E9mroRD7lKIHxCKA7c" // TODO: Update with actual basic tier Stripe price ID
   },
   premium: {
     price: "50",
     name: "Premium",
-    paypalButton: "PRUK4P42SGVDC"
+    paypalButton: "PRUK4P42SGVDC",
+    stripePriceId: "price_1SXVk6E9mroRD7lKIHxCKA7c" // TODO: Update with actual premium tier Stripe price ID
   }
 };
 
@@ -45,6 +48,7 @@ class PremiumMembership extends Component {
     promoCode: "",
     promoError: "",
     promoSuccess: "",
+    stripeProcessing: false,
   };
 
   componentDidMount() {
@@ -336,13 +340,44 @@ class PremiumMembership extends Component {
                   </button>
                 </div>
 
-                <div className="PremiumMembership-paypal-section">
-                  <img
-                    src={paypalPayNow}
-                    className="PremiumMembership-paypal-button"
-                    onClick={(e) => this.signupClicked(e)}
-                    alt="Pay with PayPal"
-                  />
+                <div className="PremiumMembership-payment-options">
+                  <div className="PremiumMembership-payment-divider">
+                    <span>Choose Payment Method</span>
+                  </div>
+                  
+                  <div className="PremiumMembership-payment-methods">
+                    {/* PayPal Option */}
+                    <div className="PremiumMembership-payment-method">
+                      <div className="PremiumMembership-payment-method-header">
+                        <i className="fab fa-paypal" style={{ fontSize: '2rem', color: '#0070ba', marginRight: '0.5rem' }}></i>
+                        <span>PayPal</span>
+                      </div>
+                      <img
+                        src={paypalPayNow}
+                        className="PremiumMembership-paypal-button"
+                        onClick={(e) => this.signupClicked(e)}
+                        alt="Pay with PayPal"
+                      />
+                    </div>
+
+                    {/* Stripe Option */}
+                    <div className="PremiumMembership-payment-method">
+                      <div className="PremiumMembership-payment-method-header">
+                        <i className="fab fa-cc-stripe" style={{ fontSize: '2rem', color: '#635bff', marginRight: '0.5rem' }}></i>
+                        <span>Credit Card</span>
+                      </div>
+                      <StripeCheckout
+                        uid={this.props.uid}
+                        email={this.props.email}
+                        tierPriceId={PRICING_TIERS[selectedTier].stripePriceId}
+                        getToken={() => this.state.promoCode}
+                        processing={() => this.setState({ stripeProcessing: true })}
+                        changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}
+                        history={this.props.history}
+                      />
+                    </div>
+                  </div>
+
                   <div className="PremiumMembership-secure-badge">
                     <i className="fas fa-lock"></i> Secure Checkout
                   </div>
@@ -352,12 +387,12 @@ class PremiumMembership extends Component {
           </Row>
         )}
 
-        {paypalRedirectLoading && (
+        {(paypalRedirectLoading || this.state.stripeProcessing) && (
           <Row className="PremiumMembership-loading">
             <div className="center-align">
               <Preloader flashing size="big" />
               <br />
-              <p>Transferring you to PayPal.com now....</p>
+              <p>{paypalRedirectLoading ? 'Transferring you to PayPal.com now....' : 'Processing your payment...'}</p>
             </div>
           </Row>
         )}
