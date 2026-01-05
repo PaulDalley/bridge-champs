@@ -335,7 +335,7 @@ const DisplayCategoryArticle = ({
       
       <article className="DisplayArticle-container" aria-label="Article content">
         {articleMetadata && (
-          <header style={{ textAlign: 'center', marginBottom: '3rem', paddingBottom: '2rem', borderBottom: '2px solid #e2e8f0' }}>
+          <header className="DisplayArticle-header">
             <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
           {hasVideos && !isPremium && (
             <div className="DisplayArticle-video-notice" style={{

@@ -1,6 +1,6 @@
 .DisplayArticle-container {
   position: relative;
-  padding: 8rem 6rem 4rem;
+  padding: 6rem 4rem 4rem;
   font-size: 2.1rem;
   max-width: 120rem;
   margin: 0 auto;
@@ -8,12 +8,13 @@
 }
 
 .DisplayArticle-content {
-  max-width: 75rem; /* Optimal reading width (65-75 characters) */
+  max-width: 80rem; /* Optimal reading width (65-75 characters) */
   margin: 0 auto;
-  padding: 3rem 3rem;
+  padding: 4rem 4rem;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 .Display-board_container {
   display: flex;
@@ -24,18 +25,19 @@
 .interweave {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
-  font-size: 1.9rem;
-  line-height: 1.85; /* Better readability */
+  font-size: 1.95rem;
+  line-height: 1.9; /* Better readability */
   color: #2d3748;
   padding: 0;
   letter-spacing: 0.01em;
 }
 
 .interweave p {
-  margin-bottom: 2.2rem; /* Better paragraph spacing */
+  margin-bottom: 2.5rem; /* Better paragraph spacing */
   padding: 0;
-  text-align: justify;
+  text-align: left;
   text-justify: inter-word;
+  hyphens: auto;
 }
 
 .interweave span {
@@ -96,67 +98,129 @@
 .interweave h3,
 .interweave h4,
 .interweave h5 {
-  margin-top: 4.5rem;
-  margin-bottom: 2.5rem;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
   font-weight: 700 !important;
-  line-height: 1.3;
-  color: #1a1d23;
+  line-height: 1.35;
+  color: #0F4C3A;
   padding-top: 1.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  letter-spacing: -0.01em;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 2rem;
 }
 
 .interweave h1 {
-  font-size: 3.4rem !important;
-  border-bottom: 3px solid #E2E8F0;
-  padding-bottom: 1.2rem;
-  margin-top: 3rem;
+  font-size: 3.6rem !important;
+  border-bottom: 3px solid #0F4C3A;
+  padding-bottom: 1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
   font-weight: 800 !important;
+  color: #0F4C3A;
+  position: relative;
 }
+
+.interweave h1::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 6rem;
+  height: 3px;
+  background: linear-gradient(90deg, #0F4C3A 0%, #1B6B52 100%);
+}
+
 .interweave h2 {
-  font-size: 2.9rem !important;
-  border-bottom: 2px solid #E2E8F0;
+  font-size: 3rem !important;
+  border-bottom: 2px solid #1B6B52;
   padding-bottom: 1rem;
+  margin-top: 4.5rem;
+  margin-bottom: 2rem;
   font-weight: 700 !important;
+  color: #0F4C3A;
+  position: relative;
 }
+
+.interweave h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 4rem;
+  height: 2px;
+  background: linear-gradient(90deg, #1B6B52 0%, #0F4C3A 100%);
+}
+
 .interweave h3 {
-  font-size: 2.5rem !important;
+  font-size: 2.6rem !important;
   font-weight: 700 !important;
-  color: #2d3748;
+  color: #1B6B52;
+  margin-top: 4rem;
+  margin-bottom: 1.8rem;
+  padding-left: 1rem;
+  border-left: 4px solid #0F4C3A;
 }
+
 .interweave h4 {
-  font-size: 2.2rem !important;
+  font-size: 2.3rem !important;
   font-weight: 600 !important;
-  color: #4a5568;
+  color: #2d3748;
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 0.8rem;
+  border-left: 3px solid #1B6B52;
 }
+
 .interweave h5 {
   font-size: 2rem !important;
   font-weight: 600 !important;
   color: #4a5568;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .DisplayArticle-title {
-  font-size: 4rem;
+  font-size: 4.2rem;
   text-align: center;
   font-weight: 800;
-  color: #1a1d23;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  color: #0F4C3A;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  font-family: 'Playfair Display', Georgia, serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+.DisplayArticle-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 3px solid #e2e8f0;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 4rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
 .DisplayArticle-category {
   display: inline-block;
-  padding: 0.8rem 1.6rem;
+  padding: 0.9rem 1.8rem;
   font-size: 1.4rem;
   text-align: center;
   background: linear-gradient(135deg, #0F4C3A 0%, #1B6B52 100%);
   font-weight: 600;
   color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   margin: 0 auto 1.5rem;
-  box-shadow: 0 2px 4px rgba(15, 76, 58, 0.2);
+  box-shadow: 0 4px 8px rgba(15, 76, 58, 0.25);
   letter-spacing: 0.5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.DisplayArticle-category:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(15, 76, 58, 0.3);
 }
 
 .DisplayArticle-difficulty {
@@ -189,15 +253,27 @@
 /* Blockquote styling */
 .interweave blockquote {
   border-left: 5px solid #0F4C3A;
-  padding: 2rem 2.5rem;
-  margin: 3rem 0;
+  padding: 2.5rem 3rem;
+  margin: 4rem 0;
   font-style: italic;
   color: #4a5568;
   background: linear-gradient(to right, #f0f9f4 0%, #ffffff 100%);
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  font-size: 1.85rem;
-  line-height: 1.8;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  font-size: 1.9rem;
+  line-height: 1.85;
+  position: relative;
+}
+
+.interweave blockquote::before {
+  content: '"';
+  font-size: 6rem;
+  color: #0F4C3A;
+  opacity: 0.2;
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+  font-family: Georgia, serif;
 }
 
 /* Code/Pre styling */
@@ -258,16 +334,20 @@
 
 @media screen and (max-width: 710px) {
   .DisplayArticle-title {
-    font-size: 2.8rem;
-    padding-top: 1rem;
-    padding-bottom: 1.5rem;
+    font-size: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
     margin-bottom: 1.5rem;
+  }
+  .DisplayArticle-header {
+    padding: 2rem 1.5rem;
+    margin-bottom: 3rem;
   }
   .DisplayArticle-container {
     padding: 2rem 1.5rem;
   }
   .DisplayArticle-content {
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 2rem;
   }
   .DisplayArticle-category,
   .DisplayArticle-difficulty,
@@ -278,21 +358,24 @@
     text-align: center;
   }
   .interweave {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
   }
   .interweave p {
     text-align: left;
   }
   .interweave h1 {
-    font-size: 2.6rem !important;
-    margin-top: 2.5rem;
-  }
-  .interweave h2 {
-    font-size: 2.3rem !important;
+    font-size: 2.8rem !important;
     margin-top: 3rem;
   }
+  .interweave h2 {
+    font-size: 2.4rem !important;
+    margin-top: 3.5rem;
+  }
   .interweave h3 {
-    font-size: 2rem !important;
+    font-size: 2.1rem !important;
+  }
+  .interweave h4 {
+    font-size: 1.9rem !important;
   }
   .interweave ul,
   .interweave ol {
