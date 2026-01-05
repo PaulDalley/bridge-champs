@@ -42,6 +42,7 @@ import AuthComponent from "./containers/AuthComponent";
 import TestingGround from "./components/TestingGround";
 import SkeletonLoader from "./components/UI/SkeletonLoader";
 import Settings from "./components/UI/Settings";
+import Flyer from "./components/Promotional/Flyer";
 
 import { firebase } from "./firebase/config";
 
@@ -327,6 +328,7 @@ const routes = (
 
     <Route path="/contact" component={Contact} />
     <Route path="/privacy" component={PrivacyPolicy} />
+    <Route path="/flyer" component={Flyer} />
 
     <Route
       path="/about"
