@@ -370,6 +370,8 @@ class PremiumMembership extends Component {
                         uid={this.props.uid}
                         email={this.props.email}
                         tierPriceId={PRICING_TIERS[selectedTier].stripePriceId}
+                        tierName={PRICING_TIERS[selectedTier].name}
+                        tierPrice={PRICING_TIERS[selectedTier].price}
                         getToken={() => this.state.promoCode}
                         processing={() => this.setState({ stripeProcessing: true })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}

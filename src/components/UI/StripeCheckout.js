@@ -43,6 +43,10 @@ class PaymentButton extends React.Component {
       image: logoUrl,
       email: this.props.email,
       allowRememberMe: false,
+      zipCode: true,
+      currency: 'aud',
+      locale: 'auto',
+      billingAddress: false,
     });
     event.preventDefault();
   };
@@ -88,19 +92,24 @@ class StripeCheckout extends React.Component {
       // console.log(window.StripeCheckout);
       // console.log(StripeCheckout);
       setTimeout(() => {
+        // Get tier name and price from props if available
+        const tierName = this.props.tierName || "Premium";
+        const tierPrice = this.props.tierPrice || "50";
+        
         this.setState({
           stripe: true,
-          panelLabel: "Subscribe",
+          panelLabel: `Subscribe for $${tierPrice}/month`,
           amount: 1699,
           // amount: "Start Free Trial",
           // label: "Subscribe",
-          description: "BridgeChampions Subscription.",
-          name: "BridgeChampions.com",
+          description: `${tierName} - Monthly Subscription\nBridge Champions Premium Content Access`,
+          name: "Bridge Champions",
           response: {},
           token: "",
           stripeCheckoutHandler: window.StripeCheckout.configure({
             key: stripeKey,
             token: this.handleToken,
+            locale: 'auto',
           }),
           // stripeCheckoutHandler: StripeCheckout,
         });
@@ -174,6 +183,8 @@ class StripeCheckout extends React.Component {
             email={this.props.email}
             uid={this.props.uid}
             publishableKey={stripeKey}
+            tierName={this.props.tierName}
+            tierPrice={this.props.tierPrice}
           />
         )}
 
