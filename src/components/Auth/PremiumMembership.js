@@ -24,13 +24,13 @@ const PRICING_TIERS = {
     price: "25",
     name: "Basic Membership",
     paypalButton: "YNKJMUC64MT5Q",
-    stripePriceId: "price_1SXVk6E9mroRD7lKIHxCKA7c" // TODO: Update with actual basic tier Stripe price ID
+    stripePriceId: "price_1SXsQTE9mroRD7lKZAqvGZCD"
   },
   premium: {
     price: "50",
     name: "Premium",
     paypalButton: "PRUK4P42SGVDC",
-    stripePriceId: "price_1SXVk6E9mroRD7lKIHxCKA7c" // TODO: Update with actual premium tier Stripe price ID
+    stripePriceId: "price_1SXVk6E9mroRD7lKIHxCKA7c"
   }
 };
 
