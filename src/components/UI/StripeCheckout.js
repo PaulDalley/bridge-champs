@@ -56,15 +56,19 @@ class StripeCheckout extends React.Component {
         this.setState({ loading: false });
         
         let errorMessage = "Unknown error";
+        let errorDetails = "";
         try {
           const errorResponse = JSON.parse(jqXHR.responseText);
           errorMessage = errorResponse.error || errorThrown || textStatus;
+          errorDetails = errorResponse.details || errorResponse.code || "";
         } catch (e) {
           errorMessage = jqXHR.responseText || errorThrown || textStatus;
         }
         
         if (jqXHR.status === 0) {
           alert("Unable to connect to payment server. Please check your internet connection and try again.");
+        } else if (jqXHR.status === 500) {
+          alert(`Server error: ${errorMessage}${errorDetails ? ' (' + errorDetails + ')' : ''}. Please try again or contact support if the problem persists.`);
         } else {
           alert(`Payment error: ${errorMessage}. Please try again or contact support.`);
         }
