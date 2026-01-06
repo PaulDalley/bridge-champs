@@ -10,47 +10,65 @@ class StripeCheckout extends React.Component {
     loading: false,
   };
 
-  handleCheckout = async () => {
+  handleCheckout = () => {
     this.setState({ loading: true });
     this.props.processing();
 
-    try {
-      const postData = {
-        priceId: this.props.tierPriceId || "price_1SXVk6E9mroRD7lKIHxCKA7c", // Premium fallback
-        email: this.props.email,
-        uid: this.props.uid,
-        tierName: this.props.tierName || "Premium",
-      };
+    const postData = {
+      priceId: this.props.tierPriceId || "price_1SXVk6E9mroRD7lKIHxCKA7c", // Premium fallback
+      email: this.props.email,
+      uid: this.props.uid,
+      tierName: this.props.tierName || "Premium",
+    };
 
-      const coupon = this.props.getToken();
-      if (coupon && coupon !== "") {
-        postData.coupon = coupon;
-      }
-
-      const response = await $.post(stripeCreateCheckoutSessionUrl, postData);
-      
-      if (response && response.url) {
-        // Redirect to Stripe's hosted checkout page
-        window.location.href = response.url;
-      } else if (response && response.error) {
-        // Server returned an error
-        console.error("Checkout session error:", response.error);
-        alert(`Error: ${response.error}. Please try again or contact support.`);
-        this.setState({ loading: false });
-      } else {
-        throw new Error("No checkout URL received from server");
-      }
-    } catch (error) {
-      console.error("Error creating checkout session:", error);
-      this.setState({ loading: false });
-      // Only redirect to error page if it's a critical error
-      // Otherwise show alert and let user try again
-      if (error.status === 0 || error.status >= 500) {
-        alert("Unable to connect to payment server. Please check your internet connection and try again.");
-      } else {
-        alert(`Payment error: ${error.responseJSON?.error || error.message || 'Unknown error'}. Please try again.`);
-      }
+    const coupon = this.props.getToken();
+    if (coupon && coupon !== "") {
+      postData.coupon = coupon;
     }
+
+    console.log("Creating checkout session with data:", postData);
+
+    $.post(stripeCreateCheckoutSessionUrl, postData)
+      .done((response) => {
+        console.log("Checkout session response:", response);
+        if (response && response.url) {
+          // Redirect to Stripe's hosted checkout page
+          window.location.href = response.url;
+        } else if (response && response.error) {
+          // Server returned an error
+          console.error("Checkout session error:", response.error);
+          alert(`Error: ${response.error}. Please try again or contact support.`);
+          this.setState({ loading: false });
+        } else {
+          console.error("Invalid response format:", response);
+          alert("Invalid response from server. Please try again.");
+          this.setState({ loading: false });
+        }
+      })
+      .fail((jqXHR, textStatus, errorThrown) => {
+        console.error("Error creating checkout session:", {
+          status: jqXHR.status,
+          statusText: jqXHR.statusText,
+          responseText: jqXHR.responseText,
+          textStatus,
+          errorThrown
+        });
+        this.setState({ loading: false });
+        
+        let errorMessage = "Unknown error";
+        try {
+          const errorResponse = JSON.parse(jqXHR.responseText);
+          errorMessage = errorResponse.error || errorThrown || textStatus;
+        } catch (e) {
+          errorMessage = jqXHR.responseText || errorThrown || textStatus;
+        }
+        
+        if (jqXHR.status === 0) {
+          alert("Unable to connect to payment server. Please check your internet connection and try again.");
+        } else {
+          alert(`Payment error: ${errorMessage}. Please try again or contact support.`);
+        }
+      });
   };
 
   render() {
