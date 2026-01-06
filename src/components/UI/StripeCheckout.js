@@ -36,8 +36,10 @@ class StripeCheckout extends React.Component {
           window.location.href = response.url;
         } else if (response && response.error) {
           // Server returned an error
-          console.error("Checkout session error:", response.error);
-          alert(`Error: ${response.error}. Please try again or contact support.`);
+          console.error("Checkout session error:", response);
+          const errorMsg = response.error || 'Unknown error';
+          const errorDetails = response.details ? ` (${response.details})` : '';
+          alert(`Error: ${errorMsg}${errorDetails}\n\nPlease check:\n1. Price IDs exist in Stripe Dashboard\n2. Stripe API key is correct\n3. Contact support if issue persists.`);
           this.setState({ loading: false });
         } else {
           console.error("Invalid response format:", response);
@@ -57,20 +59,30 @@ class StripeCheckout extends React.Component {
         
         let errorMessage = "Unknown error";
         let errorDetails = "";
+        let fullError = "";
+        
         try {
           const errorResponse = JSON.parse(jqXHR.responseText);
           errorMessage = errorResponse.error || errorThrown || textStatus;
           errorDetails = errorResponse.details || errorResponse.code || "";
+          fullError = JSON.stringify(errorResponse, null, 2);
         } catch (e) {
           errorMessage = jqXHR.responseText || errorThrown || textStatus;
+          fullError = jqXHR.responseText || errorThrown;
         }
+        
+        // Show detailed error in console and alert
+        console.error("Full error details:", fullError);
         
         if (jqXHR.status === 0) {
           alert("Unable to connect to payment server. Please check your internet connection and try again.");
         } else if (jqXHR.status === 500) {
-          alert(`Server error: ${errorMessage}${errorDetails ? ' (' + errorDetails + ')' : ''}. Please try again or contact support if the problem persists.`);
+          const alertMsg = `Server Error (500): ${errorMessage}${errorDetails ? '\nDetails: ' + errorDetails : ''}\n\nCheck browser console (F12) for full error details.\n\nCommon issues:\n- Price ID doesn't exist in Stripe\n- Stripe API key incorrect\n- Invalid session parameters`;
+          alert(alertMsg);
+        } else if (jqXHR.status === 400) {
+          alert(`Invalid Request: ${errorMessage}\n\nPlease check that all required fields are provided.`);
         } else {
-          alert(`Payment error: ${errorMessage}. Please try again or contact support.`);
+          alert(`Payment Error (${jqXHR.status}): ${errorMessage}\n\nPlease try again or contact support.`);
         }
       });
   };
