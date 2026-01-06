@@ -53,9 +53,25 @@ class PremiumMembership extends Component {
 
   componentDidMount() {
     // Don't auto-select a tier
-    // If user is not logged in, redirect to signup first
-    if (!this.props.uid) {
+    // Check Firebase auth directly (available immediately) instead of Redux state
+    // which may not be loaded yet on page refresh
+    const currentUser = firebase.auth().currentUser;
+    // Only redirect if Firebase auth confirms user is not logged in
+    // AND Redux state also doesn't have uid (double-check)
+    if (!currentUser && !this.props.uid) {
       this.props.history.push('/signup');
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // If uid becomes available after initial mount (auth state loaded), don't redirect
+    // This handles the case where auth state loads after componentDidMount
+    // Only redirect if we go from having a uid to not having one (logout scenario)
+    if (prevProps.uid && !this.props.uid) {
+      const currentUser = firebase.auth().currentUser;
+      if (!currentUser) {
+        this.props.history.push('/signup');
+      }
     }
   }
 
