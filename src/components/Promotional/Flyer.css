@@ -110,11 +110,13 @@
 }
 
 .Flyer-photo-container {
-  max-width: 100%;
+  max-width: 700px;
   margin: 0 auto;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  background: #FFFFFF;
+  position: relative;
 }
 
 .Flyer-photo {
@@ -122,7 +124,10 @@
   height: auto;
   display: block;
   object-fit: cover;
-  max-height: 500px;
+  object-position: center center;
+  /* Crop to focus on the subject - adjust as needed */
+  aspect-ratio: 3 / 4;
+  max-height: 700px;
 }
 
 .Flyer-photo-placeholder {
@@ -519,8 +524,13 @@
     padding: 2rem 1rem;
   }
 
+  .Flyer-photo-container {
+    max-width: 100%;
+  }
+
   .Flyer-photo {
-    max-height: 300px;
+    max-height: 400px;
+    aspect-ratio: 3 / 4;
   }
 
   .Flyer-main {
