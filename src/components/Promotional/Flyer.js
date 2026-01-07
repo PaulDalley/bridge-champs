@@ -35,7 +35,7 @@ const Flyer = () => {
           <div className="Flyer-photo-section">
             <div className="Flyer-photo-container">
               <img 
-                src="/images/flyer-photo.jpg" 
+                src="/images/flyer-photo.jpeg" 
                 alt="Bridge Champions" 
                 className="Flyer-photo"
                 onError={(e) => {
