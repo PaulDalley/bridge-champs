@@ -31,6 +31,25 @@ const Flyer = () => {
 
         {/* Main Content */}
         <div className="Flyer-main">
+          {/* Photo Section */}
+          <div className="Flyer-photo-section">
+            <div className="Flyer-photo-container">
+              <img 
+                src="/images/flyer-photo.jpg" 
+                alt="Bridge Champions" 
+                className="Flyer-photo"
+                onError={(e) => {
+                  // Fallback to placeholder if image doesn't exist
+                  e.target.style.display = 'none';
+                  e.target.nextElementSibling.style.display = 'flex';
+                }}
+              />
+              <div className="Flyer-photo-placeholder" style={{ display: 'none' }}>
+                <p className="Flyer-photo-text">Photo Coming Soon</p>
+                <p className="Flyer-photo-note">(Photo will be added here)</p>
+              </div>
+            </div>
+          </div>
 
           <section className="Flyer-section">
             <h2 className="Flyer-section-title">What You'll Get</h2>
