@@ -162,13 +162,6 @@ const Flyer = () => {
             </p>
           </section>
         </div>
-
-        {/* Footer */}
-        <div className="Flyer-footer">
-          <p className="Flyer-footer-text">
-            Bridge Champions - Clear, simple bridge instruction. Real improvement without the overwhelming time commitment.
-          </p>
-        </div>
       </div>
     </div>
   );
