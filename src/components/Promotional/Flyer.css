@@ -110,7 +110,7 @@
 }
 
 .Flyer-photo-container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -124,10 +124,11 @@
   height: auto;
   display: block;
   object-fit: cover;
-  object-position: center center;
-  /* Crop more from the sides - narrower aspect ratio */
-  aspect-ratio: 2 / 3;
-  max-height: 700px;
+  object-position: center 30%;
+  /* Crop to focus on the person - tighter vertical crop to remove background */
+  aspect-ratio: 4 / 5;
+  max-height: 600px;
+  transform: scale(1.15);
 }
 
 .Flyer-photo-placeholder {
