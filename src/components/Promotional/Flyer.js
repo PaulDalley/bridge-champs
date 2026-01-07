@@ -6,31 +6,31 @@ const Flyer = () => {
   return (
     <div className="Flyer-container">
       <div className="Flyer-content">
-        {/* Header */}
-        <div className="Flyer-header">
-          <h1 className="Flyer-title">Bridge Champions</h1>
-          <p className="Flyer-tagline">Clear, Simple Bridge Instruction for Club Players</p>
-        </div>
+        {/* Hero Header - Matching Homepage */}
+        <div className="Flyer-hero">
+          <div className="Flyer-hero-overlay" />
+          <div className="Flyer-hero-content">
+            <div className="Flyer-hero-badge">
+              <span className="suit-symbol red-suit">♥</span>
+              <span className="suit-symbol black-suit">♠</span>
+              <span className="suit-symbol red-suit">♦</span>
+              <span className="suit-symbol black-suit">♣</span>
+            </div>
 
-        {/* Photo Placeholder */}
-        <div className="Flyer-photo-section">
-          <div className="Flyer-photo-placeholder">
-            <p className="Flyer-photo-text">Photo Coming Soon</p>
-            <p className="Flyer-photo-note">(Photo will be added here)</p>
+            <h1 className="Flyer-hero-title">
+              Welcome to
+              <br />
+              <span className="Flyer-hero-title-accent">Bridge Champions</span>
+            </h1>
+            
+            <p className="Flyer-hero-subtitle">
+              I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. The focus is on simplicity and real improvement.
+            </p>
           </div>
         </div>
 
         {/* Main Content */}
         <div className="Flyer-main">
-          <section className="Flyer-section">
-            <h2 className="Flyer-section-title">What is Bridge Champions?</h2>
-            <p className="Flyer-text">
-              Bridge Champions is an online learning platform designed specifically for club players who want to improve their game without the overwhelm. Created by Paul Dalley, a multiple national champion and Australian team representative, the platform brings 15 years of bridge expertise directly to you.
-            </p>
-            <p className="Flyer-text">
-              <strong>Our goal is simple:</strong> Help you become a better bridge player through clear, practical instruction that fits into your life. No endless theory, no confusing jargon—just the core lessons that actually matter, presented in a way that makes sense.
-            </p>
-          </section>
 
           <section className="Flyer-section">
             <h2 className="Flyer-section-title">What You'll Get</h2>
@@ -103,22 +103,18 @@ const Flyer = () => {
                 <span className="Flyer-promo-label">Use Promo Code:</span>
                 <span className="Flyer-promo-code-text">HARBOURVIEW</span>
               </div>
-              <p className="Flyer-promo-description">
-                <strong>🎉 Get 1 Month FREE with Premium Membership!</strong>
-                <br />
-                Enter the code <strong>HARBOURVIEW</strong> when signing up for Premium membership and receive your first month completely free. This gives you full access to all Premium features including exclusive videos, the ability to submit questions to Paul, and expert responses—all at no cost for the first month.
-              </p>
+              <div className="Flyer-promo-description">
+                <p className="Flyer-promo-text-white">
+                  <strong>🎉 Get 1 Month FREE with Premium Membership!</strong>
+                </p>
+                <p className="Flyer-promo-text-white">
+                  Enter the code <strong>HARBOURVIEW</strong> when signing up for Premium membership and receive your first month completely free. This gives you full access to all Premium features including exclusive videos, the ability to submit questions to Paul, and expert responses—all at no cost for the first month.
+                </p>
+                <p className="Flyer-promo-text-white">
+                  <strong>This is a free trial with no commitment—you can cancel anytime.</strong>
+                </p>
+              </div>
             </div>
-          </section>
-
-          <section className="Flyer-section">
-            <h2 className="Flyer-section-title">Why Bridge Champions?</h2>
-            <p className="Flyer-text">
-              As a club player, you know that improving at bridge takes time and practice. But it doesn't have to be complicated. Bridge Champions focuses on <strong>simplicity and real improvement</strong>—the lessons that actually make a difference at the table.
-            </p>
-            <p className="Flyer-text">
-              Whether you're working on your declarer play, refining your bidding, or sharpening your defense, you'll find content designed specifically for players like you. No need to wade through advanced theory or tournament-level strategies—just clear, practical guidance that helps you play better bridge.
-            </p>
           </section>
 
           <section className="Flyer-section Flyer-cta">
