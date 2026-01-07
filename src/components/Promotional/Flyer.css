@@ -110,7 +110,7 @@
 }
 
 .Flyer-photo-container {
-  max-width: 700px;
+  max-width: 500px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -125,8 +125,8 @@
   display: block;
   object-fit: cover;
   object-position: center center;
-  /* Crop to focus on the subject - adjust as needed */
-  aspect-ratio: 3 / 4;
+  /* Crop more from the sides - narrower aspect ratio */
+  aspect-ratio: 2 / 3;
   max-height: 700px;
 }
 
