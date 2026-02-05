@@ -48,7 +48,7 @@ You've been charged 3 times but the webhook is NOT creating member documents in 
 3. **Check the signing secret:**
    - Copy the "Signing secret" (starts with `whsec_`)
    - Verify it matches the `webhookSignature` in your Cloud Functions code
-   - The code uses: `whsec_vE97QJRXrSalnCjPBjYonMEeGp0QAh4X` (for live mode)
+   - The code uses: **(redacted)** — do not store webhook secrets in the repo. Use Firebase Functions config/env instead.
 
 4. **Check which events are enabled:**
    - Must have: `checkout.session.completed` ✅

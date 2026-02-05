@@ -19,7 +19,7 @@
 1. In Stripe Dashboard, click **"Show"** next to "Signing secret"
 2. Copy the full secret (starts with `whsec_`)
 3. Compare it with the code:
-   - Code uses: `whsec_vE97QJRXrSalnCjPBjYonMEeGp0QAh4X` (for live mode)
+   - Code uses: **(redacted)** — do not store webhook secrets in the repo. Use Firebase Functions config/env instead.
    - **If they don't match, that's the problem!**
 
 ### Step 3: Check Which Events Are Enabled
