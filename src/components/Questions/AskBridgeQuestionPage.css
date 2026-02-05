@@ -49,6 +49,22 @@
   padding: 1.2rem 1.3rem;
   font-size: 1.5rem;
   font-family: inherit;
+  box-sizing: border-box;
+}
+
+.AskBQPage-field textarea {
+  /* Materialize sets a fixed textarea height globally; override so placeholder/content never clips. */
+  height: auto;
+  min-height: 14rem;
+  line-height: 1.5;
+  resize: vertical;
+  overflow: auto;
+  -webkit-appearance: none;
+}
+
+.AskBQPage-field textarea::placeholder {
+  line-height: 1.5;
+  white-space: pre-line;
 }
 
 .AskBQPage-field textarea:focus,

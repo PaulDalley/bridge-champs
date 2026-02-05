@@ -166,7 +166,7 @@ export default function AskBridgeQuestionPage(props) {
                 value={questionText}
                 onChange={(e) => setQuestionText(e.target.value)}
                 rows={7}
-                placeholder="What happened on this hand? What should I have done?"
+                placeholder={"What happened on this hand?\nWhat should I have done?"}
               />
             </div>
 
