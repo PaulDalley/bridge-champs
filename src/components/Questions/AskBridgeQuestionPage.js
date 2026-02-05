@@ -23,6 +23,10 @@ export default function AskBridgeQuestionPage(props) {
   const email = useSelector((state) => state.auth.email);
   const displayName = useSelector((state) => state.auth.displayName);
 
+  // On hard refresh, Redux auth fields can be briefly empty while Firebase restores the session.
+  // Avoid redirecting to /login until Firebase has reported auth state at least once.
+  const [authChecked, setAuthChecked] = useState(false);
+
   const [questionText, setQuestionText] = useState("");
   const [handUrl, setHandUrl] = useState("");
   const [files, setFiles] = useState([]);
@@ -30,6 +34,13 @@ export default function AskBridgeQuestionPage(props) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(() => {
+      setAuthChecked(true);
+    });
+    return () => unsubscribe && unsubscribe();
+  }, []);
 
   useEffect(() => {
     const next = files.map((f) => ({
@@ -47,8 +58,22 @@ export default function AskBridgeQuestionPage(props) {
 
   // Keep it simple: logged-in only
   useEffect(() => {
+    if (!authChecked) return;
     if (!effectiveUid) history.push("/login");
-  }, [effectiveUid, history]);
+  }, [authChecked, effectiveUid, history]);
+
+  if (!authChecked) {
+    return (
+      <div className="AskBQPage">
+        <div className="AskBQPage-container">
+          <div className="AskBQPage-card" style={{ textAlign: "center" }}>
+            Loading…
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!effectiveUid) return null;
 
   const onFilesSelected = (e) => {
