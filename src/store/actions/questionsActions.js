@@ -178,6 +178,7 @@ export const getArticle = (id, router) => {
         // console.log(err);
         localStorage.setItem("contentRedirectId", id);
         localStorage.setItem("contentRedirectType", "article");
+        localStorage.setItem("contentRedirectAt", String(Date.now()));
         router.push("/membership");
       });
   };

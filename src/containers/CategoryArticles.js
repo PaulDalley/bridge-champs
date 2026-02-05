@@ -346,6 +346,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                 a={a}
                 subscriptionActive={subscriptionActive}
                 hasVideo={article.hasVideo === true}
+                isFree={article.isFree === true}
                 clickHandler={setCurrentArticleAndGoTo}
                 articleType={articleType}
               />

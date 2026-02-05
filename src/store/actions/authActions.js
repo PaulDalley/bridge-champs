@@ -98,7 +98,17 @@ export const setUser = (user) => {
       .doc(user.uid)
       .get()
       .then((snapshot) => {
+        // Admin flag comes from users/{uid}.OK. Some legacy/admin accounts may not have this set,
+        // so we also allow a small UID allowlist (kept consistent with cloud functions).
+        const adminUidAllowList = new Set([
+          "LGoDI1jEsidKRyN5aVvcTFA8Svb2",
+          "8vNtPo121PZmzbfivs7xInxu2a62",
+        ]);
+
         let bool = snapshot.exists && snapshot.data().OK;
+        if (!bool && adminUidAllowList.has(user.uid)) {
+          bool = true;
+        }
         dispatch(setUserAction(bool));
       });
   };

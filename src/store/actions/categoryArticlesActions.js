@@ -166,7 +166,14 @@ export const getArticle = (id, router, bodyRef) => {
         // );
         // console.log(err);
         localStorage.setItem("contentRedirectId", id);
-        localStorage.setItem("contentRedirectType", "article");
+        // Redirect back to the correct category route after login.
+        // bodyRef is usually like "cardPlayBody" / "defenceBody" / "biddingBody".
+        const routeType =
+          typeof bodyRef === "string" && bodyRef.endsWith("Body")
+            ? bodyRef.replace("Body", "")
+            : "article";
+        localStorage.setItem("contentRedirectType", routeType);
+        localStorage.setItem("contentRedirectAt", String(Date.now()));
         router.push("/membership");
       });
   };

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bridge Champions — Flyer</title>
+    <style>
+      /* Print settings */
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+      @media print {
+        a[href]::after { content: ""; }
+      }
+
+      /* Layout (styled to match the on-site /flyer look) */
+      :root {
+        --green: #0f4c3a;
+        --gold: #d4af37;
+        --text: #1a1d23;
+        --muted: #46525f;
+        --border: #e2e8f0;
+        --bg: #f8fafc;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: #fff;
+      }
+      .page {
+        height: 297mm; /* A4 portrait */
+        width: 210mm;
+        overflow: hidden;
+      }
+      .card {
+        height: calc(297mm - 20mm);
+        width: calc(210mm - 20mm);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .hero {
+        padding: 18px 18px 16px 18px;
+        background: linear-gradient(135deg, var(--green) 0%, #083426 100%);
+        color: #fff;
+        text-align: center;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
+      }
+      .suit-red { color: #c41e3a; }
+      .suit-black { color: #ffffff; }
+      .hero-title {
+        margin: 0 0 8px 0;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 34px;
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      .hero-title .accent {
+        background: linear-gradient(135deg, var(--gold) 0%, #e8c767 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero-subtitle {
+        margin: 0 auto;
+        max-width: 150mm;
+        font-size: 15.5px;
+        line-height: 1.6;
+        opacity: 0.92;
+        font-weight: 500;
+      }
+
+      .content {
+        padding: 16px 18px 16px 18px;
+        background: linear-gradient(135deg, #ffffff 0%, var(--bg) 100%);
+      }
+
+      .photo {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        height: 200px;
+        background: #f8fafc;
+        margin-bottom: 14px;
+      }
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* With a taller photo we can show more torso; keep slightly top-weighted */
+        object-position: 50% 18%;
+        display: block;
+      }
+      .photo-fallback {
+        display: none;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.4px;
+      }
+
+      .promoBox {
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--green) 0%, #083426 100%);
+        color: #fff;
+        padding: 16px 16px;
+        /* Slightly less "loud" so the top intro stays visually dominant */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      .promoTitle {
+        margin: 0 0 10px 0;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 21.5px;
+        line-height: 1.15;
+        font-weight: 800;
+      }
+      .promoLabel {
+        margin: 0 0 8px 0;
+        opacity: 0.92;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        font-size: 12.5px;
+        text-transform: uppercase;
+      }
+      .promoCode {
+        display: inline-block;
+        background: #fff;
+        color: var(--green);
+        font-weight: 900;
+        letter-spacing: 4px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 22px;
+      }
+      .promoHeadline {
+        margin: 12px 0 10px 0;
+        font-size: 16px;
+        font-weight: 900;
+        color: #fff;
+      }
+      .promoText {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.6;
+        opacity: 0.95;
+      }
+      .promoUrlWrap {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .promoUrlLabel {
+        font-size: 13px;
+        font-weight: 800;
+        opacity: 0.92;
+        letter-spacing: 0.3px;
+      }
+      .promoUrl {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 18px;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: 0.6px;
+      }
+      .promoNote {
+        margin: 10px 0 0 0;
+        font-size: 13px;
+        line-height: 1.4;
+        font-weight: 700;
+        opacity: 0.98;
+      }
+
+      /* keep it one page if printers add scaling quirks */
+      .page { transform-origin: top left; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <div class="hero">
+          <div class="hero-badge" aria-label="Card suits">
+            <span class="suit-red">♥</span>
+            <span class="suit-black">♠</span>
+            <span class="suit-red">♦</span>
+            <span class="suit-black">♣</span>
+          </div>
+          <div class="hero-title">
+            Welcome to<br />
+            <span class="accent">Bridge Champions</span>
+          </div>
+          <p class="hero-subtitle">
+            I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. The focus is on simplicity and real improvement.
+          </p>
+        </div>
+
+        <div class="content">
+          <div class="photo">
+            <!-- Use a RELATIVE path so it works when printing from file:// -->
+            <img
+              src="./images/flyer-photo-email.jpeg"
+              alt="Bridge Champions"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="photo-fallback">PHOTO</div>
+          </div>
+
+          <div class="promoBox">
+            <div class="promoTitle">Special Offer for Harbourview Bridge Club</div>
+            <div class="promoLabel">Use Promo Code:</div>
+            <div class="promoCode">HARBOURVIEW</div>
+            <div class="promoHeadline">🎉 Get 1 Month FREE to try Premium</div>
+            <p class="promoText">
+              Enter <strong>HARBOURVIEW</strong> at checkout to start your free month. No commitment — cancel anytime.
+            </p>
+            <div class="promoUrlWrap" aria-label="Website URL">
+              <div class="promoUrlLabel">Sign up at</div>
+              <div class="promoUrl">bridgechampions.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

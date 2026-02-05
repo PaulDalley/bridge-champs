@@ -19,11 +19,12 @@ const ArticleListItem = ({
   a,
   subscriptionActive,
   hasVideo,
+  isFree,
 }) => {
   // Article is locked if user is not an admin AND doesn't have an active subscription
   // Admins (a === true) always have access, regardless of subscription status
   const isAdmin = a === true;
-  const isLocked = !isAdmin && !subscriptionActive;
+  const isLocked = !isAdmin && !subscriptionActive && !isFree;
   
   let articleObj = {
     createdAt,
@@ -45,7 +46,10 @@ const ArticleListItem = ({
   const showNew = isNewArticle(createdAt);
 
   return (
-    <div className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''}`} onClick={() => clickHandler(articleObj, body)}>
+    <div
+      className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''} ${isFree ? 'ArticleCard--free' : ''}`}
+      onClick={() => clickHandler(articleObj, body)}
+    >
       {isLocked && (
         <div className="ArticleCard-lock">
           <svg viewBox="0 0 20 20" fill="currentColor">
@@ -71,9 +75,6 @@ const ArticleListItem = ({
       <div className="ArticleCard-content">
         <div className="ArticleCard-meta">
           <span className="badge badge-category">{category}</span>
-          {isLocked && (
-            <span className="badge badge-locked">Premium</span>
-          )}
         </div>
 
         <h3 className="ArticleCard-title">{title}</h3>

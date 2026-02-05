@@ -1,9 +1,10 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Helper function to check if user has valid subscription
     function hasValidSubscription() {
       return request.auth != null &&
-             get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time.date();
+             get(/databases/$(database)/documents/members/$(request.auth.uid)).data.subscriptionExpires >= request.time;
     }
     
     // Helper function to check if user has premium tier
@@ -21,7 +22,7 @@ service cloud.firestore {
     function canCreateNewQuestion() {
       return !(get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.blocked) 
                 ||
-              get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.lastQuestion < request.time.date();
+              get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.lastQuestion < request.time;
     }
 
     match /freeDaily/{contentType} {
@@ -93,22 +94,22 @@ service cloud.firestore {
 
     // Protected content - requires basic ($25) or premium ($50) subscription
     match /article/{articleId} {
-      allow read: if hasValidSubscription() || isAdmin();
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
       allow create, update, delete: if isAdmin();
     }
 
     match /biddingBody/{biddingBodyId} {
-      allow read: if hasValidSubscription() || isAdmin();
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
       allow create, update, delete: if isAdmin();
     }
 
     match /cardPlayBody/{cardPlayBodyId} {
-      allow read: if hasValidSubscription() || isAdmin();
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
       allow create, update, delete: if isAdmin();
     }
 
     match /defenceBody/{defenceBodyId} {
-      allow read: if hasValidSubscription() || isAdmin();
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
       allow create, update, delete: if isAdmin();
     }
 
@@ -136,8 +137,10 @@ service cloud.firestore {
     }
 
     match /handSubmissions/{submissionId} {
-      allow create: if true;
+      // Logged-in users can submit; only admins can read/manage.
+      allow create: if request.auth != null;
       allow read: if isAdmin();
+      allow update, delete: if isAdmin();
     }
 
     // Quiz categories - publicly readable, admin writable

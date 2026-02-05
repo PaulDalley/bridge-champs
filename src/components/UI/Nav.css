@@ -689,6 +689,11 @@
   color: #083426;
 }
 
+.Nav-tab-icon-ask {
+  background: linear-gradient(135deg, #0F4C3A 0%, #1B6B52 100%);
+  color: white;
+}
+
 .Nav-tab-card:hover .Nav-tab-icon {
   transform: scale(1.1) rotate(5deg);
 }

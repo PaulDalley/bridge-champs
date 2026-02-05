@@ -95,36 +95,37 @@ class PremiumMembership extends Component {
       this.setState({ promoError: "", promoSuccess: "" });
       return;
     }
-    
-    firebase.firestore().collection('userTokens').doc(code).get()
-      .then(doc => {
-        if (doc.exists) {
-          const data = doc.data();
-          const days = data.daysFree || 0;
-          const tier = data.tier;
-          
-          if (tier && tier !== this.state.selectedTier) {
-            const tierName = tier === 'premium' ? 'Premium' : 'Basic';
-            this.setState({ 
-              promoError: "",
-              promoSuccess: `🎉 This code gives you 1 month FREE with ${tierName} membership! Select ${tierName} to use it.`
-            });
-          } else {
-            this.setState({ 
-              promoSuccess: `✓ Code valid! You'll get ${days} extra day${days !== 1 ? 's' : ''} free`,
-              promoError: ""
-            });
-          }
+
+    // Use the backend validator so UI always matches what checkout will do.
+    const url = "https://us-central1-bridgechampions.cloudfunctions.net/validateUserToken";
+    $.post(url, { token: code })
+      .then((data) => {
+        const days = data?.daysFree || 0;
+        const tier = data?.tier;
+
+        if (tier && tier !== this.state.selectedTier) {
+          const tierName = tier === "premium" ? "Premium" : "Basic";
+          this.setState({
+            promoError: "",
+            promoSuccess: `✓ Code valid! Select ${tierName} to use it (includes ${days} free day${days !== 1 ? "s" : ""}).`,
+          });
         } else {
-          this.setState({ 
-            promoError: "Invalid promo code",
-            promoSuccess: ""
+          const msg =
+            days > 0
+              ? `✓ Code applied! You'll pay $0 today and get ${days} free day${days !== 1 ? "s" : ""} before billing starts.`
+              : `✓ Code valid!`;
+          this.setState({
+            promoSuccess: msg,
+            promoError: "",
           });
         }
       })
-      .catch(err => {
-        console.error('Error validating promo code:', err);
-        this.setState({ promoError: "Error validating code" });
+      .catch((err) => {
+        console.error("Error validating promo code:", err);
+        this.setState({
+          promoError: "Invalid promo code",
+          promoSuccess: "",
+        });
       });
   };
 
@@ -216,7 +217,7 @@ class PremiumMembership extends Component {
             <div className="PremiumMembership-header_text_small">
               Access to our paid content is for subscribers only. Already a
               member?&nbsp;
-              <Link to="/login">Log in now</Link> to access premium content.
+              <Link to="/login?redirect=content">Log in now</Link> to access premium content.
             </div>
           )}
         </div>
@@ -240,15 +241,7 @@ class PremiumMembership extends Component {
                 placeholder="Enter promo code"
                 value={this.state.promoCode}
                 onChange={this.handlePromoCodeChange}
-                style={{
-                  padding: "0.8rem",
-                  fontSize: "1rem",
-                  border: "2px solid #ddd",
-                  borderRadius: "4px",
-                  width: "100%",
-                  maxWidth: "300px",
-                  textAlign: "center"
-                }}
+                className="PremiumMembership-promo-input-large"
               />
               {this.state.promoError && (
                 <div style={{ color: "#d32f2f", marginTop: "0.5rem", fontSize: "0.9rem" }}>

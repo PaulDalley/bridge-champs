@@ -165,6 +165,38 @@
     height: 4.9rem !important;
     padding-right: .2rem !important;
 }
+
+/* Large, visible promo code input */
+.PremiumMembership-promo-input-large {
+    padding: 1.5rem 2rem !important;
+    font-size: 1.4rem !important;
+    border: 2px solid #0F4C3A !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    max-width: 450px !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    backgroundColor: #FFFFFF !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important;
+    transition: all 0.3s ease !important;
+    margin: 0 auto !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    outline: none !important;
+}
+
+.PremiumMembership-promo-input-large:focus {
+    border-color: #1B6B52 !important;
+    box-shadow: 0 4px 12px rgba(15, 76, 58, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.PremiumMembership-promo-input-large::placeholder {
+    color: #999 !important;
+    font-weight: 400 !important;
+    font-size: 1.3rem !important;
+}
 .PremiumMembership-token-button {
     transition: all .9s ease-in-out;
     /*opacity: 1 !important;*/

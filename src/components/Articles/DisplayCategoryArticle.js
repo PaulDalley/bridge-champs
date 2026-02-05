@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   getArticle,
@@ -8,6 +7,17 @@ import {
 import "./DisplayArticle.css";
 import "./ArticleListItem.css";
 import logger from "../../utils/logger";
+import {
+  firebase,
+  articlesRef,
+  articleRef,
+  biddingSummaryRef,
+  biddingBodyRef,
+  cardPlaySummaryRef,
+  cardPlayBodyRef,
+  defenceSummaryRef,
+  defenceBodyRef,
+} from "../../firebase/config";
 
 import {
   parseDocumentIntoJSX,
@@ -22,7 +32,6 @@ import { Col, ProgressBar } from "react-materialize";
 import Comments from "../Comments/Comments";
 import FeedbackForm from "./FeedbackForm";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import SkeletonLoader from "../UI/SkeletonLoader";
 
 // Helper function to render admin edit button
@@ -66,12 +75,10 @@ const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
 };
 
 // Helper function to render video section with premium paywall
-const renderVideoSection = (videoUrl, tier, history) => {
+const renderVideoSection = (videoUrl, canWatchVideo, history) => {
   if (!videoUrl) return null;
-
-  const isPremium = tier === 'premium';
   
-  if (isPremium) {
+  if (canWatchVideo) {
     // Extract video ID from YouTube URL
     let videoId = '';
     try {
@@ -170,23 +177,26 @@ const DisplayCategoryArticle = ({
 
   const dispatch = useDispatch();
 
+  const articleId = match.params.id;
+
+  // Fetch body doc whenever the route articleId changes (prevents stale content when navigating).
   useEffect(() => {
-    const articleId = match.params.id;
+    if (!articleId) return;
     dispatch(getArticle(articleId, history, bodyRef));
     window.scrollTo({
       top: 0,
       behavior: "instant",
     });
-  }, []);
-
-  const articleId = match.params.id;
+  }, [articleId, bodyRef, history, dispatch]);
   let articleText = '';
+  let isFreeFromBodyDoc = false;
 
   if (article && articleId) {
     try {
       // article[articleId] is the body document, which has 'text' or 'body' field
       const bodyDoc = article?.[articleId];
       if (bodyDoc) {
+        isFreeFromBodyDoc = bodyDoc.isFree === true;
         // Handle different possible structures
         if (typeof bodyDoc === 'string') {
           articleText = bodyDoc;
@@ -218,23 +228,43 @@ const DisplayCategoryArticle = ({
     articleText = String(articleText || '');
   }
 
-  let useMetaData = undefined;
+  // IMPORTANT: `categoryArticles.currentArticle` is global and can be stale when navigating between articles.
+  // Only use it if it matches the current article body id, otherwise fall back to list lookup/fetch.
+  const currentMetaMatchesThisArticle =
+    articleMetadata && articleMetadata.body === articleId;
 
-  if (articleMetadata !== undefined) {
-    useMetaData = articleMetadata;
-  } else {
-    useMetaData = findArticleById(articles, articleId);
-  }
-  if (!useMetaData) {
+  let useMetaData = currentMetaMatchesThisArticle
+    ? articleMetadata
+    : findArticleById(articles, articleId);
+
+  // Fetch metadata whenever we don't have it for the current article.
+  useEffect(() => {
+    if (!articleId) return;
+    if (useMetaData) return;
     dispatch(getArticleMetadata(articleId, articleType));
-  }
+  }, [articleId, articleType, useMetaData, dispatch]);
 
   let articleDataArray = [];
   const hasVideos = articleText ? hasVideosInContent(articleText) : false;
   const isPremium = tier === 'premium';
+  const isAdmin = a === true;
+  // For logged-out users, metadata can lag; the body doc is readable for free articles and carries isFree too.
+  const isFree = useMetaData?.isFree === true || isFreeFromBodyDoc === true;
+  const canWatchVideo = isAdmin || isPremium || isFree;
+  const [freeUpdating, setFreeUpdating] = useState(false);
+  const [freeError, setFreeError] = useState("");
 
   if (articleText) {
-    articleDataArray = parseDocumentIntoJSX(articleText, false, undefined, undefined, tier, history);
+    // Pass canWatchVideo so free articles unlock embedded videos even for logged-out users.
+    articleDataArray = parseDocumentIntoJSX(
+      articleText,
+      false,
+      undefined,
+      undefined,
+      tier,
+      history,
+      canWatchVideo
+    );
   }
 
   // console.log(
@@ -334,10 +364,17 @@ const DisplayCategoryArticle = ({
       )}
       
       <article className="DisplayArticle-container" aria-label="Article content">
+        <div className="ArticleTopBanner">
+          <strong>Heads up:</strong> We’re adding video versions to all articles—more coming soon.
+        </div>
         {articleMetadata && (
-          <header className="DisplayArticle-header">
+          <header
+            className={`DisplayArticle-header ${
+              isFree ? "DisplayArticle-header--free" : ""
+            } ${!isFree && !canWatchVideo ? "DisplayArticle-header--locked" : ""}`}
+          >
             <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
-          {hasVideos && !isPremium && (
+          {hasVideos && !canWatchVideo && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
               marginBottom: '1.5rem',
@@ -352,10 +389,10 @@ const DisplayCategoryArticle = ({
               marginLeft: 'auto',
               marginRight: 'auto'
             }}>
-              <strong>📹 Video Available:</strong> A video of this article is available if you prefer watching or listening - for premium users only.
+              <strong>📹 Premium Video:</strong> This article includes a video version. Subscribe to watch.
             </div>
           )}
-          {hasVideos && isPremium && (
+          {hasVideos && canWatchVideo && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
               marginBottom: '1.5rem',
@@ -370,7 +407,7 @@ const DisplayCategoryArticle = ({
               marginLeft: 'auto',
               marginRight: 'auto'
             }}>
-              <strong>📹 Video Available:</strong> A video version of this article is available below - the same content as the text, just in case you prefer watching or listening.
+              <strong>📹 Video Available:</strong> This article includes a video version below (same content as the text).
             </div>
           )}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '0.8rem', marginTop: '1.5rem' }}>
@@ -391,8 +428,82 @@ const DisplayCategoryArticle = ({
         </header>
       )}
       
-      {renderAdminEditButton(a, articleType, articleId, history)}
-      {renderVideoSection(useMetaData?.videoUrl, tier, history)}
+      <div style={{ maxWidth: '75rem', marginLeft: 'auto', marginRight: 'auto' }}>
+        {renderAdminEditButton(a, articleType, articleId, history)}
+      </div>
+
+      {a === true && (
+        <div className="ArticleAdminToggle">
+          <p>
+            {(() => {
+              const id = `free-article-${articleType}-${articleId}`;
+              return (
+                <>
+                  <input
+                    id={id}
+                    type="checkbox"
+                    checked={isFree}
+                    disabled={freeUpdating}
+                    onChange={async (e) => {
+                      const nextVal = e.target.checked;
+                      setFreeUpdating(true);
+                      setFreeError("");
+                      try {
+                        const summaryRefMap = {
+                          cardPlay: cardPlaySummaryRef,
+                          defence: defenceSummaryRef,
+                          bidding: biddingSummaryRef,
+                          articles: articlesRef,
+                        };
+                        const bodyRefMap = {
+                          cardPlay: cardPlayBodyRef,
+                          defence: defenceBodyRef,
+                          bidding: biddingBodyRef,
+                          articles: articleRef,
+                        };
+                        const summaryRef = summaryRefMap[articleType];
+                        const bodyRef = bodyRefMap[articleType];
+                        if (!summaryRef || !bodyRef) throw new Error(`Unknown articleType: ${articleType}`);
+
+                        const bodyId = articleId; // route id is the BODY doc id in this system
+
+                        const snap = await summaryRef.where("body", "==", bodyId).limit(1).get();
+                        if (snap.empty) throw new Error("Could not find summary doc for this article");
+
+                        await snap.docs[0].ref.set(
+                          {
+                            isFree: nextVal,
+                            freeUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                          },
+                          { merge: true }
+                        );
+
+                        await bodyRef.doc(bodyId).set(
+                          {
+                            isFree: nextVal,
+                            freeUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                          },
+                          { merge: true }
+                        );
+
+                        dispatch(getArticleMetadata(bodyId, articleType));
+                      } catch (err) {
+                        setFreeError(err?.message || String(err));
+                      } finally {
+                        setFreeUpdating(false);
+                      }
+                    }}
+                  />
+                  <label htmlFor={id}>Make this article free (bypass paywall)</label>
+                </>
+              );
+            })()}
+          </p>
+          {freeError && <div className="ArticleAdminToggleError">{freeError}</div>}
+        </div>
+      )}
+
+      {renderVideoSection(useMetaData?.videoUrl, canWatchVideo, history)}
       
       <div className="DisplayArticle-content" role="article">
         {articleDataArray}

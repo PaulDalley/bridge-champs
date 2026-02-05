@@ -69,6 +69,7 @@ export const getQuiz = (id, router) => {
                 // console.log(err);
                 localStorage.setItem("contentRedirectId", id);
                 localStorage.setItem("contentRedirectType", "quiz");
+                localStorage.setItem("contentRedirectAt", String(Date.now()));
                 router.push('/membership');
             });
     };

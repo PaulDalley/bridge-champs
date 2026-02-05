@@ -126,9 +126,13 @@ export class DisplayArticle extends Component {
 
     return (
       <div className="DisplayArticle-container">
+        <div className="ArticleTopBanner">
+          <strong>Heads up:</strong> We’re adding video versions to all articles—more coming soon.
+        </div>
         {articleMetadata && (
-          <div>
+          <div className={articleMetadata.isFree === true ? "DisplayArticle-header--free" : ""}>
             <h3 className="DisplayArticle-title">{articleMetadata.title}</h3>
+            {/* Free articles are visually marked via a subtle watermark; keep header uncluttered */}
             <div className="DisplayArticle-category">
               {articleMetadata.category}
             </div>

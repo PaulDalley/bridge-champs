@@ -345,7 +345,10 @@ class Videos extends Component {
                     style={{ width: '80%', maxWidth: '900px' }}
                 >
                     {selectedVideo && (
-                        <div>
+                        <div className="BCModal-content">
+                            <button className="BCModal-close modal-close" aria-label="Close dialog" title="Close">
+                                <i className="material-icons">close</i>
+                            </button>
                             <h4>{selectedVideo.title}</h4>
                             <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
                                 <iframe
@@ -373,7 +376,10 @@ class Videos extends Component {
                     }}
                     style={{ width: '80%', maxWidth: '500px' }}
                 >
-                    <div className="center-align" style={{ padding: '2rem' }}>
+                    <div className="center-align BCModal-content" style={{ padding: '2rem' }}>
+                        <button className="BCModal-close modal-close" aria-label="Close dialog" title="Close">
+                            <i className="material-icons">close</i>
+                        </button>
                         <Icon style={{ fontSize: '80px', color: '#ee6e73' }}>lock</Icon>
                         <h4>Premium Content</h4>
                         {this.props.tier === "basic" ? (

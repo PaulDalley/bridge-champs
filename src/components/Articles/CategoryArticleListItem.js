@@ -20,11 +20,12 @@ const CategoryArticleListItem = ({
   subscriptionActive,
   articleType,
   hasVideo,
+  isFree,
 }) => {
   // Article is locked if user is not an admin AND doesn't have an active subscription
   // Admins (a === true) always have access, regardless of subscription status
   const isAdmin = a === true;
-  const isLocked = !isAdmin && !subscriptionActive;
+  const isLocked = !isAdmin && !subscriptionActive && !isFree;
 
   const handleClick = () => {
     if (clickHandler) {
@@ -55,7 +56,10 @@ const CategoryArticleListItem = ({
   const diffString = getLevelStr(difficulty);
 
   return (
-    <div className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''}`} onClick={handleClick}>
+    <div
+      className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''} ${isFree ? 'ArticleCard--free' : ''}`}
+      onClick={handleClick}
+    >
       {/* Lock Icon for Premium Content */}
       {isLocked && (
         <div className="ArticleCard-lock">
@@ -89,11 +93,6 @@ const CategoryArticleListItem = ({
           <span className="badge badge-number">
             #{articleNumber}
           </span>
-          {isLocked && (
-            <span className="badge badge-locked">
-              Premium
-            </span>
-          )}
         </div>
 
         {/* Title */}

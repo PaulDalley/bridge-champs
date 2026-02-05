@@ -14,17 +14,49 @@ class Login extends Component {
   };
 
   loginRedirectToContent = () => {
+    const params = new URLSearchParams(window.location.search || "");
+    const redirectMode = params.get("redirect"); // e.g. "content"
+
+    // Post-checkout redirect: if Stripe sent the user back to /success while logged out,
+    // we stash the Checkout Session ID and return here after login.
+    const postCheckoutSessionId = localStorage.getItem("postCheckoutSessionId");
+    if (postCheckoutSessionId) {
+      // Only redirect to /success if this login matches the user who initiated checkout.
+      const expectedUid = localStorage.getItem("postCheckoutExpectedUid");
+      // If we don't know expectedUid, fall back to old behavior (best effort).
+      if (expectedUid && this._lastLoginUid && expectedUid !== this._lastLoginUid) {
+        // Wrong account; clear and continue normal redirect.
+        localStorage.removeItem("postCheckoutSessionId");
+        localStorage.removeItem("postCheckoutExpectedUid");
+      } else {
+        localStorage.removeItem("postCheckoutSessionId");
+        // keep expected uid for /success, it will be cleared after successful activation
+        setTimeout(() => {
+          this.props.history.push(`/success?session_id=${encodeURIComponent(postCheckoutSessionId)}`);
+        }, 500);
+        return;
+      }
+    }
+
     const lastViewedContentId = localStorage.getItem("contentRedirectId");
     const lastViewedContentType = localStorage.getItem("contentRedirectType");
+    const lastViewedAtRaw = localStorage.getItem("contentRedirectAt");
     // Always clear these to prevent redirect loops
     localStorage.removeItem("contentRedirectId");
     localStorage.removeItem("contentRedirectType");
+    localStorage.removeItem("contentRedirectAt");
     
-    if (lastViewedContentId !== null && lastViewedContentType !== null) {
+    // Only redirect back to locked content if the user explicitly came from the paywall flow.
+    // Otherwise, normal logins should land on the homepage.
+    const lastViewedAt = Number(lastViewedAtRaw || 0);
+    const isRecent = lastViewedAt > 0 && Date.now() - lastViewedAt < 60 * 60 * 1000; // 1 hour
+    const shouldRedirectToContent = redirectMode === "content" && isRecent;
+
+    if (shouldRedirectToContent && lastViewedContentId !== null && lastViewedContentType !== null) {
       // Add a small delay to ensure auth state is fully loaded
       setTimeout(() => {
         this.props.history.push(
-          `${lastViewedContentType}/${lastViewedContentId}`
+          `/${lastViewedContentType}/${lastViewedContentId}`
         );
       }, 500);
     } else {
@@ -38,6 +70,8 @@ class Login extends Component {
     this.props
       .emailLogin(email, password)
       .then((res) => {
+        // Used by loginRedirectToContent to avoid redirecting to /success for the wrong account.
+        this._lastLoginUid = res?.uid;
         if (this.props.login) this.props.paypalSubscribe(res.uid);
         else this.loginRedirectToContent();
       })
@@ -50,6 +84,7 @@ class Login extends Component {
     this.props
       .facebookLogin()
       .then((res) => {
+        this._lastLoginUid = res?.user?.uid;
         if (this.props.login) this.props.paypalSubscribe(res.user.uid);
         else this.loginRedirectToContent();
       })
@@ -62,6 +97,7 @@ class Login extends Component {
     this.props
       .googleLogin()
       .then((res) => {
+        this._lastLoginUid = res?.user?.uid;
         if (this.props.login) this.props.paypalSubscribe(res.user.uid);
         else this.loginRedirectToContent();
       })
@@ -157,14 +193,22 @@ class Login extends Component {
 
         {forgottenPasswordModalOpen && (
           <Modal open={true}>
-            <h4>Reset Password</h4>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={emailReset}
-              onChange={(e) => this.setState({ emailReset: e.target.value })}
-            />
-            <button onClick={this.resetPassword}>Send Reset Email</button>
+            <div className="BCModal-content">
+              <button className="BCModal-close modal-close" aria-label="Close dialog" title="Close">
+                <i className="material-icons">close</i>
+              </button>
+              <h4>Reset Password</h4>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={emailReset}
+                onChange={(e) => this.setState({ emailReset: e.target.value })}
+              />
+              <div style={{ marginTop: "1.25rem", display: "flex", justifyContent: "flex-end", gap: "0.75rem" }}>
+                <button className="btn-flat modal-close">Cancel</button>
+                <button className="btn" onClick={this.resetPassword}>Send Reset Email</button>
+              </div>
+            </div>
           </Modal>
         )}
       </div>

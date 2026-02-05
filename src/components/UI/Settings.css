@@ -490,3 +490,133 @@
   }
 }
 
+/* Admin tools */
+.Settings-admin-card {
+  margin-top: 1rem;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8f9fa;
+}
+
+.Settings-admin-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #1a1d23;
+}
+
+.Settings-admin-subtitle {
+  font-size: 1.4rem;
+  color: #4a5568;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+}
+
+.Settings-admin-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .Settings-admin-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.Settings-admin-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.Settings-admin-note {
+  margin-top: 0.8rem;
+  font-size: 1.3rem;
+  color: #4a5568;
+}
+
+.Settings-admin-error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.Settings-admin-textarea {
+  width: 100%;
+  min-height: 9rem;
+  padding: 1.2rem;
+  font-size: 1.3rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.Settings-admin-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.Settings-admin-copy-btn {
+  background: #0F4C3A;
+  color: #ffffff;
+  border: none;
+  padding: 0.9rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.Settings-admin-copy-btn:hover {
+  background: #1B6B52;
+}
+
+.Settings-admin-clear-btn {
+  background: transparent;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  padding: 0.9rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.Settings-admin-clear-btn:hover {
+  border-color: rgba(15, 76, 58, 0.35);
+  color: #0F4C3A;
+}
+
+.Settings-tier-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.Settings-tier-option {
+  width: 100%;
+  padding: 1.1rem 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #1a1d23;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.Settings-tier-option:hover {
+  border-color: rgba(15, 76, 58, 0.35);
+}
+
+.Settings-tier-option.is-active {
+  border-color: #0F4C3A;
+  background: rgba(15, 76, 58, 0.10);
+  color: #0F4C3A;
+}
+

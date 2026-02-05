@@ -9,6 +9,7 @@ import { makeDateString } from "../../helpers/helpers";
 import logger from "../../utils/logger";
 import toastr from "toastr";
 import $ from "jquery";
+import { firebase } from "../../firebase/config";
 import "./Settings.css";
 
 class Settings extends Component {
@@ -23,6 +24,12 @@ class Settings extends Component {
       description: ''
     },
     formSubmitted: false,
+    // Admin tool: create account + grant access
+    adminCreateEmail: "",
+    adminCreateTier: "premium",
+    adminCreateDays: 365,
+    adminCreateLoading: false,
+    adminCreateResult: null,
   };
 
   componentDidMount() {
@@ -31,6 +38,19 @@ class Settings extends Component {
     }
     // Ensure body can scroll
     $("body").css({ overflow: "auto" });
+
+    // Restore last admin tool result so you don't lose the password reset link if you navigate away.
+    try {
+      const raw = localStorage.getItem("adminCreateUserLastResult");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          this.setState({ adminCreateResult: parsed });
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 
   componentWillUnmount() {
@@ -116,6 +136,61 @@ class Settings extends Component {
         "There was an error cancelling your subscription. Please try again or contact support."
       );
     });
+  };
+
+  adminCreateUserAndGrantAccess = async (e) => {
+    e.preventDefault();
+    this.setState({ adminCreateLoading: true, adminCreateResult: null });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        throw new Error("You must be logged in to use this admin tool.");
+      }
+      const idToken = await user.getIdToken();
+
+      const resp = await fetch(
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminCreateUserAndGrantAccess",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            email: this.state.adminCreateEmail,
+            tier: this.state.adminCreateTier,
+            days: Number(this.state.adminCreateDays) || 365,
+          }),
+        }
+      );
+
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok) {
+        throw new Error(data.error || `Request failed (${resp.status})`);
+      }
+
+      this.setState({ adminCreateResult: data });
+      try {
+        localStorage.setItem("adminCreateUserLastResult", JSON.stringify(data));
+      } catch (e) {
+        // ignore
+      }
+      toastr.success("Account created / access granted");
+    } catch (err) {
+      logger.error("adminCreateUserAndGrantAccess failed:", err);
+      toastr.error(err.message || "Failed to create account");
+      this.setState({ adminCreateResult: { error: err.message || String(err) } });
+      try {
+        localStorage.setItem(
+          "adminCreateUserLastResult",
+          JSON.stringify({ error: err.message || String(err) })
+        );
+      } catch (e) {
+        // ignore
+      }
+    } finally {
+      this.setState({ adminCreateLoading: false });
+    }
   };
 
   render() {
@@ -491,6 +566,138 @@ class Settings extends Component {
                   </div>
                 )}
               </div>
+
+              {this.props.a === true && (
+                <div className="Settings-section">
+                  <h2 className="Settings-section-title">
+                    <Icon left>admin_panel_settings</Icon>
+                    Admin Tools
+                  </h2>
+                  <div className="Settings-admin-card">
+                    <div className="Settings-admin-actions">
+                      <button
+                        type="button"
+                        className="Settings-admin-copy-btn"
+                        onClick={() => this.props.history.push("/admin/submissions")}
+                      >
+                        Open Question Inbox
+                      </button>
+                    </div>
+                    <h3 className="Settings-admin-title">Create account + grant access</h3>
+                    <p className="Settings-admin-subtitle">
+                      Creates (or finds) a user by email, grants access for a period, and generates a password reset link you can send them.
+                    </p>
+                    <form onSubmit={this.adminCreateUserAndGrantAccess} className="Settings-admin-form">
+                      <div className="Settings-form-group">
+                        <label className="Settings-form-label">Email</label>
+                        <input
+                          className="Settings-form-input"
+                          type="email"
+                          required
+                          value={this.state.adminCreateEmail}
+                          onChange={(e) => this.setState({ adminCreateEmail: e.target.value })}
+                          placeholder="name@example.com"
+                        />
+                      </div>
+
+                      <div className="Settings-admin-row">
+                        <div className="Settings-form-group">
+                          <label className="Settings-form-label">Tier</label>
+                          <div className="Settings-tier-toggle" role="group" aria-label="Tier">
+                            <button
+                              type="button"
+                              className={`Settings-tier-option ${
+                                this.state.adminCreateTier === "premium" ? "is-active" : ""
+                              }`}
+                              onClick={() => this.setState({ adminCreateTier: "premium" })}
+                            >
+                              Premium
+                            </button>
+                            <button
+                              type="button"
+                              className={`Settings-tier-option ${
+                                this.state.adminCreateTier === "basic" ? "is-active" : ""
+                              }`}
+                              onClick={() => this.setState({ adminCreateTier: "basic" })}
+                            >
+                              Basic
+                            </button>
+                          </div>
+                        </div>
+                        <div className="Settings-form-group">
+                          <label className="Settings-form-label">Days</label>
+                          <input
+                            className="Settings-form-input"
+                            type="number"
+                            min="1"
+                            max="3650"
+                            value={this.state.adminCreateDays}
+                            onChange={(e) => this.setState({ adminCreateDays: e.target.value })}
+                          />
+                        </div>
+                      </div>
+
+                      <button className="Settings-submit-btn" type="submit" disabled={this.state.adminCreateLoading}>
+                        {this.state.adminCreateLoading ? "Working…" : "Create + grant access"}
+                      </button>
+                    </form>
+
+                    {this.state.adminCreateResult && (
+                      <div className="Settings-admin-result">
+                        {this.state.adminCreateResult.error ? (
+                          <p className="Settings-admin-error">Error: {this.state.adminCreateResult.error}</p>
+                        ) : (
+                          <>
+                            <p><strong>UID:</strong> {this.state.adminCreateResult.uid}</p>
+                            <p><strong>Expires:</strong> {this.state.adminCreateResult.subscriptionExpires}</p>
+                            <p className="Settings-admin-note">
+                              This result is saved on this device so you can come back and copy the reset link.
+                            </p>
+                            <p><strong>Password reset link:</strong></p>
+                            <textarea
+                              readOnly
+                              className="Settings-admin-textarea"
+                              value={this.state.adminCreateResult.passwordResetLink || ""}
+                            />
+                            <div className="Settings-admin-actions">
+                              <button
+                                type="button"
+                                className="Settings-admin-copy-btn"
+                                onClick={async () => {
+                                  try {
+                                    const link = this.state.adminCreateResult.passwordResetLink || "";
+                                    if (!link) throw new Error("No link to copy");
+                                    await navigator.clipboard.writeText(link);
+                                    toastr.success("Reset link copied");
+                                  } catch (e) {
+                                    toastr.error("Could not copy link (try selecting + copying manually)");
+                                  }
+                                }}
+                              >
+                                Copy reset link
+                              </button>
+                              <button
+                                type="button"
+                                className="Settings-admin-clear-btn"
+                                onClick={() => {
+                                  try {
+                                    localStorage.removeItem("adminCreateUserLastResult");
+                                  } catch (e) {
+                                    // ignore
+                                  }
+                                  this.setState({ adminCreateResult: null });
+                                }}
+                              >
+                                Clear
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </Col>
           </Row>
         </div>
@@ -501,6 +708,7 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => ({
   uid: state.auth.uid,
+  a: state.auth.a,
   subscriptionActive: state.auth.subscriptionActive,
   subscriptionExpires: state.auth.subscriptionExpires,
   paymentMethod: state.auth.paymentMethod,

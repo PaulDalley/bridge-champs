@@ -30,6 +30,14 @@ class Nav extends Component {
   }
 
   logout = () => {
+    // Clear post-checkout stored session data so it can't accidentally trigger /success activation later.
+    try {
+      localStorage.removeItem("postCheckoutSessionId");
+      localStorage.removeItem("lastStripeCheckoutSessionId");
+      localStorage.removeItem("postCheckoutExpectedUid");
+    } catch (e) {
+      // ignore
+    }
     firebase
       .auth()
       .signOut()
@@ -151,6 +159,12 @@ class Nav extends Component {
                   className="Nav-auth-icon"
                   to="/login"
                   activeClassName="Nav-active_link"
+                  onClick={() => {
+                    // Avoid stale paywall redirects affecting a normal "log in" action.
+                    localStorage.removeItem("contentRedirectId");
+                    localStorage.removeItem("contentRedirectType");
+                    localStorage.removeItem("contentRedirectAt");
+                  }}
                 >
                   {/*<div className="waves-effect waves-light Nav-menu-container">*/}
                   <i className="waves-effect waves-light Nav-auth-i fas fa-sign-in-alt left"></i>
@@ -294,6 +308,20 @@ class Nav extends Component {
                 <Icon>article</Icon>
               </div>
               <div className="Nav-tab-label">Extra</div>
+            </div>
+
+            <div
+              className={`Nav-tab-card ${this.props.location.pathname === '/ask' ? 'Nav-tab-active' : ''}`}
+              onClick={() => this.goTo("/ask")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/ask")}
+              aria-label="Ask a bridge question"
+            >
+              <div className="Nav-tab-icon Nav-tab-icon-ask">
+                <Icon>question_answer</Icon>
+              </div>
+              <div className="Nav-tab-label">Ask</div>
             </div>
           </div>
           {/*           

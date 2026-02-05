@@ -24,7 +24,7 @@ const Flyer = () => {
             </h1>
             
             <p className="Flyer-hero-subtitle">
-              I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. The focus is on simplicity and real improvement.
+              I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. I keep it simple and practical.
             </p>
           </div>
         </div>

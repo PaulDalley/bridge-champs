@@ -34,6 +34,7 @@ class SpecificArticles extends Component {
                              router={this.props.history}
                              a={this.props.a}
                              subscriptionActive={this.props.subscriptionActive}
+                             isFree={article.isFree === true}
                              clickHandler={this.setCurrentArticleAndGoTo}/>
         ));
 

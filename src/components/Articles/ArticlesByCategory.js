@@ -58,7 +58,8 @@ class ArticlesByCategory extends Component {
                                  a={this.props.a}
                                  subscriptionActive={this.props.subscriptionActive}
                                  clickHandler={this.setCurrentArticleAndGoTo}
-                                 hasVideo={article.hasVideo === true}/>
+                                 hasVideo={article.hasVideo === true}
+                                 isFree={article.isFree === true}/>
             ));
         }
 

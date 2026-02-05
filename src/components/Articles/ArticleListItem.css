@@ -44,6 +44,37 @@
   z-index: 1;
 }
 
+.ArticleCard--free::after {
+  content: '✓';
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  font-size: 10rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #0F4C3A;
+  opacity: 0.09;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(-10deg);
+}
+
+.ArticleCard--locked::after {
+  content: '🔒';
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.8rem;
+  font-size: 10rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #111827;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(-10deg);
+  filter: grayscale(100%);
+}
+
 .ArticleCard-lock {
   position: absolute;
   top: 1.5rem;
@@ -132,6 +163,7 @@
   flex-direction: column;
   position: relative;
   min-height: auto;
+  z-index: 2;
 }
 
 .ArticleCard-meta {

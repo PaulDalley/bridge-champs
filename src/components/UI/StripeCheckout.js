@@ -32,6 +32,20 @@ class StripeCheckout extends React.Component {
       .done((response) => {
         console.log("Checkout session response:", response);
         if (response && response.url) {
+          // Persist the Checkout Session ID locally so the /success page can verify/activate
+          // even if the session_id query param is lost/truncated.
+          try {
+            if (response.sessionId) {
+              localStorage.setItem("postCheckoutSessionId", response.sessionId);
+              localStorage.setItem("lastStripeCheckoutSessionId", response.sessionId);
+              // Track which user initiated checkout so we don't try to activate it for a different login.
+              if (this.props.uid) {
+                localStorage.setItem("postCheckoutExpectedUid", this.props.uid);
+              }
+            }
+          } catch (e) {
+            // ignore
+          }
           // Redirect to Stripe's hosted checkout page
           window.location.href = response.url;
         } else if (response && response.error) {

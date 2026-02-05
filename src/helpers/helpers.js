@@ -630,10 +630,9 @@ export const makeBoardObjectFromString = (boardString, showVuln = false) => {
 };
 
 export const findArticleById = (data, id) => {
-  if (data === undefined) return {};
-  const res = data.find((el) => el.body === id);
-  return res;
-  // return data.find(el => el.body === id);
+  // IMPORTANT: return `undefined` when we don't have data yet, so callers can trigger metadata fetches.
+  if (!Array.isArray(data)) return undefined;
+  return data.find((el) => el.body === id);
 };
 
 export const findQuizById = (data, id) => {
@@ -703,14 +702,23 @@ const extractYouTubeVideoId = (url) => {
   return null;
 };
 
-// Helper function to render video embed with premium gating
-const renderVideoEmbed = (videoUrl, key, tier, history) => {
+// Helper function to render video embed with premium gating.
+// `canWatchVideoOverride` allows callers (e.g. free articles) to bypass the premium check.
+const renderVideoEmbed = (
+  videoUrl,
+  key,
+  tier,
+  history,
+  canWatchVideoOverride = undefined
+) => {
   const videoId = extractYouTubeVideoId(videoUrl);
   if (!videoId) return null;
   
   const isPremium = tier === 'premium';
+  const canWatch =
+    canWatchVideoOverride !== undefined ? !!canWatchVideoOverride : isPremium;
   
-  if (isPremium) {
+  if (canWatch) {
     return (
       <div key={key} className="Article-video-container" role="region" aria-label="Video content">
         <iframe
@@ -748,7 +756,7 @@ const renderVideoEmbed = (videoUrl, key, tier, history) => {
             <p>Upgrade to Premium to watch this video</p>
             <button
               className="Article-video-upgrade-btn"
-              onClick={() => history.push('/membership')}
+              onClick={() => history && history.push && history.push('/membership')}
               aria-label="Upgrade to premium membership to watch this video"
             >
               Upgrade to Premium
@@ -794,7 +802,8 @@ export const parseDocumentIntoJSX = (
   callback = undefined,
   quizType = undefined,
   tier = undefined,
-  history = undefined
+  history = undefined,
+  canWatchVideoOverride = undefined
 ) => {
   // Ensure documentString is a string
   if (!documentString) return [];
@@ -920,7 +929,13 @@ export const parseDocumentIntoJSX = (
         const placeholderIdx = parseInt(placeholderMatch[1]);
         const videoData = videoPlaceholders[placeholderIdx];
         if (videoData) {
-          const videoEmbed = renderVideoEmbed(videoData.url, `video-${globalIdx}`, tier, history);
+          const videoEmbed = renderVideoEmbed(
+            videoData.url,
+            `video-${globalIdx}`,
+            tier,
+            history,
+            canWatchVideoOverride
+          );
           if (videoEmbed) {
             articleDataArray.push(videoEmbed);
             globalIdx++;

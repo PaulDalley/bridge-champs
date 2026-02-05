@@ -427,6 +427,47 @@ a:hover {
   border-radius: var(--radius-lg);
 }
 
+/* BridgeChampions modal close affordance (top-right X) */
+.BCModal-content {
+  position: relative;
+}
+
+.BCModal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(15, 76, 58, 0.14);
+  background: rgba(15, 76, 58, 0.06);
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.BCModal-close:hover {
+  background: rgba(15, 76, 58, 0.12);
+  transform: scale(1.03);
+}
+
+.BCModal-close:active {
+  transform: scale(0.98);
+}
+
+.BCModal-close:focus-visible {
+  outline: 3px solid rgba(212, 175, 55, 0.7);
+  outline-offset: 2px;
+}
+
+.BCModal-close i {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
 /* === ACTIVE STATUS === */
 .Active-Safe-Completed {
   color: #00E676;
