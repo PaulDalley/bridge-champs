@@ -117,17 +117,17 @@ const Flyer = () => {
 
           <section className="Flyer-section Flyer-promo">
             <div className="Flyer-promo-box">
-              <h2 className="Flyer-promo-title">Special Offer for Harbourview Bridge Club</h2>
+              <h2 className="Flyer-promo-title">Special Offer for Gold Coast Congress players</h2>
               <div className="Flyer-promo-code">
                 <span className="Flyer-promo-label">Use Promo Code:</span>
-                <span className="Flyer-promo-code-text">HARBOURVIEW</span>
+                <span className="Flyer-promo-code-text">GOLDY</span>
               </div>
               <div className="Flyer-promo-description">
                 <p className="Flyer-promo-text-white">
                   <strong>🎉 Get 1 Month FREE with Premium Membership!</strong>
                 </p>
                 <p className="Flyer-promo-text-white">
-                  Enter the code <strong>HARBOURVIEW</strong> when signing up for Premium membership and receive your first month completely free. This gives you full access to all Premium features including exclusive videos, the ability to submit questions to Paul, and expert responses—all at no cost for the first month.
+                  Enter <strong>GOLDY</strong> at checkout to start your free month. No commitment — cancel anytime.
                 </p>
                 <p className="Flyer-promo-text-white">
                   <strong>This is a free trial with no commitment—you can cancel anytime.</strong>
