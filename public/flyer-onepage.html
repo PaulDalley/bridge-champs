@@ -71,11 +71,11 @@
         font-weight: 800;
       }
       .hero-title .accent {
-        background: linear-gradient(135deg, var(--gold) 0%, #e8c767 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
+        /* Print-to-PDF safety: avoid background-clip/text-fill rendering bugs that can
+           turn the word into a solid rectangle in some Chrome/PDF renderers. */
+        color: var(--gold);
+        background: none;
+        -webkit-text-fill-color: initial;
       }
       .hero-subtitle {
         margin: 0 auto;
