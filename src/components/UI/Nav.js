@@ -134,6 +134,8 @@ class Nav extends Component {
 
 
 
+    const hideModernTabs = this.props.location && this.props.location.pathname === "/counting";
+
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -238,92 +240,95 @@ class Nav extends Component {
         </div>
 
         {/* Modern Navigation Cards */}
-        <div className="Nav-tabs-modern">
-          <div className="Nav-tabs-container">
-            <div 
-              className={`Nav-tab-card ${this.props.location.pathname === '/cardPlay' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/cardPlay")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/cardPlay")}
-              aria-label="Declarer Play section"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-cardplay">
-                <Icon>style</Icon>
+        {!hideModernTabs && (
+          <div className="Nav-tabs-modern">
+            <div className="Nav-tabs-container">
+              <div 
+                className={`Nav-tab-card ${this.props.location.pathname === '/cardPlay' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/cardPlay")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/cardPlay")}
+                aria-label="Declarer Play section"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-cardplay">
+                  <Icon>style</Icon>
+                </div>
+                <div className="Nav-tab-label">Declarer Play</div>
               </div>
-              <div className="Nav-tab-label">Declarer Play</div>
-            </div>
 
-            <div 
-              className={`Nav-tab-card ${this.props.location.pathname === '/defence' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/defence")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/defence")}
-              aria-label="Defence section"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-defence">
-                <Icon>shield</Icon>
+              <div 
+                className={`Nav-tab-card ${this.props.location.pathname === '/defence' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/defence")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/defence")}
+                aria-label="Defence section"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-defence">
+                  <Icon>shield</Icon>
+                </div>
+                <div className="Nav-tab-label">Defence</div>
               </div>
-              <div className="Nav-tab-label">Defence</div>
-            </div>
 
-            <div 
-              className={`Nav-tab-card ${this.props.location.pathname === '/bidding' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/bidding")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/bidding")}
-              aria-label="Bidding section"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-bidding">
-                <Icon>gavel</Icon>
+              <div 
+                className={`Nav-tab-card ${this.props.location.pathname === '/bidding' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/bidding")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/bidding")}
+                aria-label="Bidding section"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-bidding">
+                  <Icon>gavel</Icon>
+                </div>
+                <div className="Nav-tab-label">Bidding</div>
               </div>
-              <div className="Nav-tab-label">Bidding</div>
-            </div>
 
-            <div 
-              className={`Nav-tab-card ${this.props.location.pathname === '/quizzes' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/quizzes")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/quizzes")}
-              aria-label="Quizzes section"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-quizzes">
-                <Icon>quiz</Icon>
+              <div 
+                className={`Nav-tab-card ${this.props.location.pathname === '/quizzes' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/quizzes")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/quizzes")}
+                aria-label="Quizzes section"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-quizzes">
+                  <Icon>quiz</Icon>
+                </div>
+                <div className="Nav-tab-label">Quizzes</div>
               </div>
-              <div className="Nav-tab-label">Quizzes</div>
-            </div>
 
-            <div 
-              className={`Nav-tab-card ${this.props.location.pathname === '/articles' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/articles")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/articles")}
-              aria-label="Extra articles section"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-extra">
-                <Icon>article</Icon>
+              <div 
+                className={`Nav-tab-card ${this.props.location.pathname === '/articles' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/articles")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/articles")}
+                aria-label="Extra articles section"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-extra">
+                  <Icon>article</Icon>
+                </div>
+                <div className="Nav-tab-label">Extra</div>
               </div>
-              <div className="Nav-tab-label">Extra</div>
-            </div>
 
-            <div
-              className={`Nav-tab-card ${this.props.location.pathname === '/ask' ? 'Nav-tab-active' : ''}`}
-              onClick={() => this.goTo("/ask")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && this.goTo("/ask")}
-              aria-label="Ask a bridge question"
-            >
-              <div className="Nav-tab-icon Nav-tab-icon-ask">
-                <Icon>question_answer</Icon>
+              <div
+                className={`Nav-tab-card ${this.props.location.pathname === '/ask' ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/ask")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/ask")}
+                aria-label="Ask a bridge question"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-ask">
+                  <Icon>question_answer</Icon>
+                </div>
+                <div className="Nav-tab-label">Ask</div>
               </div>
-              <div className="Nav-tab-label">Ask</div>
             </div>
           </div>
+        )}
           {/*           
           <div
             style={{
@@ -400,7 +405,6 @@ class Nav extends Component {
               </li>
             </Dropdown>
             </div>  */}
-        </div>
       </header>
     );
   }

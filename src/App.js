@@ -45,6 +45,7 @@ import Settings from "./components/UI/Settings";
 import Flyer from "./components/Promotional/Flyer";
 import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage";
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
+import CountingTrumpsTrainer from "./components/Counting/CountingTrumpsTrainer";
 
 import { firebase } from "./firebase/config";
 
@@ -73,6 +74,7 @@ const store = configureStore();
 
 const routes = (
   <Switch>
+    <Route path="/counting" component={CountingTrumpsTrainer} />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
     <Route

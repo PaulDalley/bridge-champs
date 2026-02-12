@@ -1,0 +1,999 @@
+.ct-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  /* Nav header is fixed (Nav.css height: 5rem) */
+  padding: calc(5rem + 10px) 16px 16px;
+}
+
+.ct-page--fullhands {
+  max-width: 1560px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ct-layout {
+  display: grid;
+  grid-template-columns: minmax(640px, 1fr) 320px;
+  gap: 10px;
+  align-items: start;
+}
+
+.ct-stage {
+  min-width: 0;
+}
+
+.ct-topNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.ct-topNavLabel {
+  font-size: 13px;
+  font-weight: 900;
+  color: #374151;
+  letter-spacing: 0.04em;
+}
+
+.ct-topNavSpacer {
+  flex: 1 1 auto;
+  min-width: 12px;
+}
+
+.ct-diffTabs,
+.ct-problemTabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ct-diffTab,
+.ct-problemTab {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.ct-diffTab--active,
+.ct-problemTab--active {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ct-problemTab {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.ct-suitRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.ct-suitSym {
+  font-weight: 900;
+}
+
+.ct-suitSym--red {
+  color: #b91c1c;
+}
+
+.ct-suitSym--black {
+  color: #111827;
+}
+
+.ct-suitCards {
+  color: #111827;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.ct-handFan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0; /* cards right next to each other */
+  overflow: hidden;
+  padding: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.ct-handFan--full {
+  /* Make 13 cards ALWAYS fit with no scrolling */
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  justify-content: start;
+}
+
+.ct-fanFace {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  display: grid;
+  gap: 2cqi;
+  line-height: 1;
+  z-index: 1;
+}
+
+.ct-fanRank {
+  /* Use container units so text scales with the actual card size */
+  font-size: clamp(16px, 52cqi, 44px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.ct-fanSuit {
+  font-size: clamp(16px, 66cqi, 56px);
+  font-weight: 900;
+  margin-top: 0;
+}
+
+@media (max-width: 480px) {
+  .ct-fanRank {
+    font-size: 18px;
+  }
+  .ct-fanSuit {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* On phones, wrapping is clearer than tiny 13-wide cards */
+  .ct-handFan--full {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: visible;
+  }
+}
+
+.ct-layout--fullhands {
+  grid-template-columns: 1fr;
+}
+
+.ct-layout--fullhands .ct-rail {
+  position: static;
+  top: auto;
+  margin-top: 10px;
+}
+
+.ct-seat--span {
+  grid-column: 1 / -1;
+}
+
+.ct-rail {
+  position: sticky;
+  /* Nav tiles are hidden on /counting; keep this just below the fixed header */
+  top: calc(5rem + 12px);
+  align-self: start;
+}
+
+.ct-railMuted {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ct-promptRail {
+  color: #111827;
+}
+
+.ct-questionText {
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.25;
+  color: #111827;
+}
+
+.ct-railAnswer {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ct-numBox {
+  width: 76px; /* 1–2 digits */
+  height: 82px; /* extra vertical room to avoid glyph clipping */
+  border-radius: 14px;
+  border: 2px solid #d1d5db;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.ct-numBox--single {
+  height: 92px;
+}
+
+.ct-numBox:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+/* Override Materialize's underline inputs by styling the inner input as "unstyled". */
+.ct-numBoxInput {
+  width: 100%;
+  height: 100%;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  font-family: inherit !important;
+}
+
+.ct-numBoxInput:focus {
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.ct-numBoxValue {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #111827;
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ct-numBoxValue--single {
+  font-size: 52px;
+}
+
+.ct-numBoxValue--dist {
+  font-size: 44px;
+}
+
+.ct-numBoxInput--hidden {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  opacity: 0.01 !important; /* keep it focusable/clickable across browsers */
+  color: transparent !important;
+  caret-color: transparent !important;
+  cursor: text !important;
+}
+
+.ct-railActions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ct-distRow--numBoxes {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ct-distSeat {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.ct-numBox--dist {
+  width: 76px;
+  height: 82px;
+}
+
+.ct-numBoxInput--dist {
+  /* (kept for backwards compatibility; dist now uses the display layer too) */
+  font-size: 40px !important;
+}
+
+.ct-header {
+  margin-bottom: 8px;
+}
+
+.ct-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.ct-subtitle {
+  margin-top: 4px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.ct-trump {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ct-table {
+  display: grid;
+  /* Maximize space: LHO/RHO are labels only, keep them narrow */
+  grid-template-columns: 110px minmax(420px, 1fr) 110px;
+  grid-template-rows: auto auto auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.ct-seat {
+  /* Declutter: seats shouldn't feel like big boxed cards */
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 6px;
+  box-shadow: none;
+}
+
+.ct-seatLabel {
+  font-size: 13px;
+  font-weight: 900;
+  color: #374151;
+  letter-spacing: 0.06em;
+}
+
+.ct-seat--dummy {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+  min-width: 0;
+}
+
+.ct-seat--declarer {
+  grid-column: 2;
+  grid-row: 3;
+  text-align: center;
+  min-width: 0;
+}
+
+.ct-seat--lho {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.ct-seat--rho {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* With defender card-backs removed, keep LHO/RHO from looking like "floating" labels */
+.ct-seat--lho,
+.ct-seat--rho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 120px;
+  justify-self: center;
+}
+
+.ct-hand {
+  margin-top: 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ct-handWrap {
+  margin-top: 8px;
+}
+
+.ct-handLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ct-handCardsAsCards {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* Prevent layout reflow when a trump is played (cards disappear). */
+  min-height: 86px;
+}
+
+.ct-miniCard {
+  width: 56px;
+  height: 78px;
+  border-radius: 10px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.10);
+  position: relative;
+  user-select: none;
+}
+
+.ct-miniCard.ct-miniCard--fan {
+  /* BBO-style: square, no shadow, hard border, and size controlled by the 13-col grid */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 0.78;
+  border-radius: 0;
+  border: 1px solid #111827;
+  background: #ffffff;
+  box-shadow: none;
+  overflow: hidden;
+  container-type: inline-size;
+  will-change: transform;
+}
+
+.ct-miniCard--played {
+  /* Keep slot spacing, but hide played card */
+  visibility: hidden;
+}
+
+.ct-miniCard--ghost {
+  /* Placeholder slot at the far right (keeps 13-col sizing, but looks empty) */
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+.ct-handFan--full .ct-miniCard.ct-miniCard--fan {
+  /* Avoid double-thick borders between adjacent cards */
+  border-left: 0;
+}
+.ct-handFan--full .ct-miniCard.ct-miniCard--fan:first-child {
+  border-left: 1px solid #111827;
+}
+
+.ct-miniCardCorner {
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ct-miniCardCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.ct-emptyHand {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 0;
+}
+
+.ct-handSuit {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ct-handCards {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.ct-handCount {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ct-hiddenHand {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.ct-hiddenCard {
+  width: 24px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
+}
+
+.ct-trickBoard {
+  /* Keep board size stable while cards animate */
+  width: 460px;
+  max-width: 100%;
+  flex: 0 0 auto;
+
+  /* Card-table look: felt + lighting */
+  position: relative;
+  z-index: 0;
+  border-radius: 18px;
+  padding: 14px;
+  color: #ecfeff;
+  /* Frame kept INSIDE the element to avoid overlapping LHO/RHO columns */
+  border: 10px solid transparent;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.10), transparent 55%),
+    radial-gradient(circle at 72% 82%, rgba(0, 0, 0, 0.28), transparent 60%),
+    linear-gradient(135deg, #0f5a45 0%, #083426 100%) padding-box,
+    linear-gradient(135deg, #6b4a32 0%, #3b2417 100%) border-box;
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+}
+
+.ct-trickBoard::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ct-trickWrap {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: start;
+  gap: 14px;
+}
+
+.ct-trickSide {
+  padding-top: 0;
+  /* Keep button clear of the bottom card + shadow */
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.ct-trickWrap--sidePanel {
+  grid-template-columns: auto minmax(260px, 340px);
+  align-items: start;
+  justify-items: center;
+  column-gap: 14px;
+}
+
+.ct-trickWrap--sidePanel .ct-trickBoard {
+  grid-column: 1;
+}
+.ct-trickWrap--sidePanel .ct-trickSide {
+  grid-column: 2;
+  grid-row: 1;
+  margin-top: 0;
+  align-items: stretch;
+  width: 100%;
+}
+
+.ct-sidePrompt {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.ct-replayBtn {
+  white-space: nowrap;
+  padding: 10px 14px;
+  font-weight: 800;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.10);
+  border-radius: 12px;
+}
+
+.ct-replayBtn:hover:enabled {
+  transform: translateY(-1px);
+}
+
+.ct-trickGrid {
+  margin-top: 0px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  height: 240px;
+  width: 100%;
+  display: grid;
+  /* Ensure each card has enough vertical space; avoid equal rows that are shorter than the card */
+  grid-template-columns: 96px 1fr 96px;
+  grid-template-rows: 96px 1fr 96px;
+  align-items: center;
+  justify-items: center;
+  position: relative;
+  overflow: visible;
+  z-index: 2;
+}
+
+.ct-trickPos {
+  /* Fixed slot to prevent subtle re-centering jitters as new cards enter */
+  width: 78px;
+  height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-trickPos--top {
+  grid-column: 2;
+  grid-row: 1;
+}
+.ct-trickPos--left {
+  grid-column: 1;
+  grid-row: 2;
+}
+.ct-trickPos--right {
+  grid-column: 3;
+  grid-row: 2;
+}
+.ct-trickPos--bottom {
+  grid-column: 2;
+  grid-row: 3;
+  transform: translateY(-18px);
+}
+
+.ct-card {
+  width: 62px;
+  height: 86px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+  transform-origin: center;
+  /* Keep transform pipeline stable to avoid tiny "jumps" when the next card animates in */
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.ct-card--red {
+  color: #b91c1c;
+}
+.ct-card--black {
+  color: #111827;
+}
+
+@keyframes ctEnter {
+  from {
+    opacity: 0;
+    transform: translateZ(0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+  }
+}
+
+.ct-card--entered {
+  animation: ctEnter 160ms ease-out;
+  animation-fill-mode: both;
+}
+
+.ct-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.ct-btn {
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ct-btn:hover:enabled {
+  background: #1d4ed8;
+}
+
+.ct-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ct-btn--secondary {
+  border-color: #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ct-btn--secondary:hover:enabled {
+  background: #f3f4f6;
+}
+
+/* (Controls were moved out of the green table area) */
+
+/* (Prompt overlay/card removed in favor of the right-side rail) */
+
+.ct-promptDone {
+  margin-top: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.ct-promptTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.ct-promptTitleSmall {
+  font-size: 14px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.ct-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ct-answerRow {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ct-answerRow--compact {
+  margin-top: 10px;
+}
+
+.ct-actionsRow {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ct-actionsRow--compact {
+  margin-top: 8px;
+  gap: 8px;
+}
+
+.ct-input {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+  color: #111827;
+  width: 88px;
+}
+
+.ct-input--center {
+  text-align: center;
+}
+
+.ct-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ct-input--single {
+  width: 130px; /* larger target for accessibility */
+  font-size: 18px;
+  padding: 12px 12px;
+}
+
+.ct-input--compact {
+  width: 96px;
+  padding: 10px 10px;
+  font-size: 18px; /* keep readable */
+}
+
+.ct-distRow {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.ct-distCell {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.ct-distLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: #374151;
+  letter-spacing: 0.05em;
+}
+
+.ct-input--dist {
+  width: 100%;
+  margin-top: 8px;
+  height: 48px;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+  padding: 8px 8px;
+}
+
+.ct-feedback {
+  margin-top: 10px;
+  font-weight: 800;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.ct-feedback--ok {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.ct-feedback--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.ct-hint,
+.ct-reasoning {
+  margin-top: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.ct-hintTitle {
+  font-size: 12px;
+  font-weight: 900;
+  color: #374151;
+  letter-spacing: 0.05em;
+}
+
+.ct-hintBody {
+  margin-top: 8px;
+  color: #111827;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ct-hintList {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ct-chip {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  color: #374151;
+}
+
+.ct-hintDivider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 10px 0;
+}
+
+.ct-microHelp {
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+@media (max-width: 860px) {
+  .ct-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-rail {
+    position: static;
+    top: auto;
+    margin-top: 14px;
+  }
+
+  .ct-table {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+  }
+  .ct-seat--dummy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .ct-trickWrap {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .ct-trickWrap--sidePanel {
+    grid-template-columns: 1fr;
+  }
+  .ct-trickWrap--sidePanel .ct-trickSide {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .ct-sidePrompt {
+    width: 100%;
+  }
+
+  .ct-trickSide {
+    padding-top: 0;
+  }
+
+  .ct-trickBoard {
+    width: 100%;
+  }
+  .ct-seat--lho {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .ct-seat--rho {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .ct-seat--declarer {
+    grid-column: 1;
+    grid-row: 5;
+  }
+  .ct-distRow {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+
