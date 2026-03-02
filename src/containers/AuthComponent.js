@@ -21,6 +21,7 @@ const AuthComponent = ({
   signup,
   login,
   paypalSubscribe,
+  redirectPathAfterAuth,
 }) => {
   // console.log(history);
   let currentPath = location?.pathname;
@@ -45,28 +46,31 @@ const AuthComponent = ({
               emailLogin={signupEmailAndPasswordLogin}
               history={history}
               notMember={true}
+              redirectPathAfterAuth={redirectPathAfterAuth}
             />
           )}
-          {signup && !login && (
+          {signup && (
             <Signup
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={signupEmailAndPasswordLogin}
               history={history}
               notMember={true}
-              signup={signup}
+              signup={true}
               paypalSubscribe={paypalSubscribe}
+              redirectPathAfterAuth={redirectPathAfterAuth}
             />
           )}
-          {login && !signup && (
+          {login && (
             <Login
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={startEmailAndPasswordLogin}
               history={history}
               notMember={true}
-              login={login}
+              login={true}
               paypalSubscribe={paypalSubscribe}
+              redirectPathAfterAuth={redirectPathAfterAuth}
             />
           )}
         </Card>

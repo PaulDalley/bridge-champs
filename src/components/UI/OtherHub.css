@@ -1,0 +1,94 @@
+.oh-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 16px 28px;
+}
+
+.oh-hero {
+  margin-top: 10px;
+  padding: 16px 16px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(15, 76, 58, 0.06) 100%);
+}
+
+.oh-heroTitle {
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.oh-heroSub {
+  margin-top: 6px;
+  color: #374151;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.oh-cards {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.oh-card {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.oh-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
+  border-color: rgba(37, 99, 235, 0.28);
+}
+
+.oh-cardIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #111827 0%, #374151 100%);
+}
+
+.oh-cardIcon i {
+  font-size: 30px;
+}
+
+.oh-cardTitle {
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oh-cardText {
+  grid-column: 2 / -1;
+  margin-top: -2px;
+  color: #374151;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+@media (max-width: 860px) {
+  .oh-cards {
+    grid-template-columns: 1fr;
+  }
+}
+

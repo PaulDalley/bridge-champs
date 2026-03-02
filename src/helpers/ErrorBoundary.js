@@ -114,7 +114,9 @@ class MyErrorBoundary extends React.Component {
               </button>
             </div>
             {process.env.NODE_ENV === 'development' && this.state.error && (
-              <details style={{ 
+              <details
+                open
+                style={{ 
                 marginTop: '2rem', 
                 textAlign: 'left',
                 padding: '1.5rem',
@@ -133,7 +135,7 @@ class MyErrorBoundary extends React.Component {
                   overflow: 'auto',
                   color: '#c41e3a'
                 }}>
-                  {this.state.error.toString()}
+                  {this.state.error?.stack || this.state.error.toString()}
                   {this.state.errorInfo && this.state.errorInfo.componentStack}
                 </pre>
               </details>

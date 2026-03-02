@@ -66,7 +66,25 @@ class Profile extends Component {
       "https://us-central1-bridgechampions.cloudfunctions.net/stripeCancelSubscription";
 
     const uid = this.props.uid;
-    // console.log("Cancelling subscription for " + uid);
+
+    if (this.props.paymentMethod === "paypal") {
+      const paypalCancelUrl =
+        "https://us-central1-bridgechampions.cloudfunctions.net/paypalCancelSubscription";
+      return $.post(paypalCancelUrl, { uid: uid }, (data, status) => {
+        if (status === "success") {
+          this.setState({ cancelPending: false, cancelled: true });
+          this.props.changeSubscriptionActiveStatus(false);
+          toastr.success(data && data.message ? data.message : "Subscription cancelled successfully");
+        }
+      }).catch((err) => {
+        logger.error("Error cancelling PayPal subscription:", err);
+        this.setState({ cancelPending: false });
+        const msg = err.responseJSON && err.responseJSON.error
+          ? err.responseJSON.error
+          : "There was an error cancelling your subscription, please try again or contact support.";
+        toastr.error(msg);
+      });
+    }
 
     // return new Promise((resolve, reject) => {
     //     setTimeout(() => {
@@ -84,20 +102,22 @@ class Profile extends Component {
     //     });
 
     return $.post(cancelUrl, { uid: uid }, (data, status) => {
-      // const approval_url = data.approval_url;
-      // console.log(data);
-      // console.log(status);
       if (status === "success") {
         this.setState({ cancelPending: false, cancelled: true });
-        this.props.changeSubscriptionActiveStatus(false);
-        toastr.success("Subscription cancelled successfully");
+        if (data && data.cancelAtPeriodEnd) {
+          toastr.success(data.message || "Your subscription will end at the end of your billing period. You keep full access until then.");
+        } else {
+          this.props.changeSubscriptionActiveStatus(false);
+          toastr.success("Subscription cancelled successfully");
+        }
       }
     }).catch((err) => {
       logger.error("Error cancelling subscription:", err);
       this.setState({ cancelPending: false });
-      toastr.error(
-        "There was an error cancelling your subscription, please try again or contact support"
-      );
+      const msg = err.responseJSON && err.responseJSON.error
+        ? err.responseJSON.error
+        : "There was an error cancelling your subscription, please try again or contact support.";
+      toastr.error(msg);
     });
   };
 

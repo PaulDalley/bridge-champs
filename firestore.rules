@@ -75,6 +75,11 @@ service cloud.firestore {
         allow create, update, delete: if isAdmin();
     }    
 
+    match /counting/{countingId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
     match /quizzes/{quizId} {
         allow read;
         allow create, update, delete: if isAdmin();
@@ -113,9 +118,28 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /countingBody/{countingBodyId} {
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
+      allow create, update, delete: if isAdmin();
+    }
+
     match /quiz/{quizId} {
       allow read: if hasValidSubscription() || isAdmin();
       allow create, update, delete: if isAdmin();
+    }
+
+    // Article body backups - admin only
+    match /cardPlayBodyBackups/{backupId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+    match /defenceBodyBackups/{backupId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+    match /biddingBodyBackups/{backupId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+    match /countingBodyBackups/{backupId} {
+      allow read, create, update, delete: if isAdmin();
     }
 
     // Category banners - publicly readable, admin writable
@@ -141,6 +165,16 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow read: if isAdmin();
       allow update, delete: if isAdmin();
+    }
+
+    // Basic usage tracking: logged-in users can write their own events.
+    // View the logs in Firebase Console (admin). We do not expose read access to clients.
+    match /activityLogs/{logId} {
+      allow create: if request.auth != null &&
+                    request.resource.data.uid == request.auth.uid &&
+                    request.resource.data.eventType is string &&
+                    request.resource.data.path is string;
+      allow read, update, delete: if false;
     }
 
     // Quiz categories - publicly readable, admin writable

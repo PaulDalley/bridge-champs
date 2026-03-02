@@ -70,6 +70,10 @@ export const userLoggedOut = () => ({
   type: actions.USER_LOGOUT,
 });
 
+export const authReady = () => ({
+  type: actions.AUTH_READY,
+});
+
 export const setUser = (user) => {
   return (dispatch) => {
     // database.runTransaction((transaction) => {
@@ -127,4 +131,10 @@ export const resetUserProfileBlank = (uid) => {
 export const setUserAction = (b) => ({
   type: actions.USER_SET,
   a: b,
+});
+
+export const setProfileName = (firstName, surname) => ({
+  type: actions.USER_SET_PROFILE_NAME,
+  firstName: firstName || "",
+  surname: surname || "",
 });

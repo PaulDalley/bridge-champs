@@ -1,7 +1,10 @@
 import * as actions from "../actions/actionTypes";
 
-export default (state = {}, action) => {
+export default (state = { authReady: false }, action) => {
   switch (action.type) {
+    case actions.AUTH_READY:
+      return { ...state, authReady: true };
+
     case actions.USER_CHANGE_SUBSCRIPTION_ACTIVE_STATUS:
       return {
         ...state,
@@ -20,30 +23,39 @@ export default (state = {}, action) => {
         quizScore = action.user.totalQuizScore;
       }
 
+      const displayNameFromName =
+        action.user.firstName != null || action.user.surname != null
+          ? [action.user.firstName, action.user.surname].filter(Boolean).join(" ").trim()
+          : "";
+      const displayName = displayNameFromName || action.user.displayName || "";
+
       if (action.user.uid !== undefined) {
         return {
           ...state,
           uid: action.user.uid,
           email: action.user.email,
-          displayName: action.user.displayName,
+          displayName,
+          firstName: action.user.firstName,
+          surname: action.user.surname,
           photoURL: action.user.photoURL,
           quizScores: action.user.quizScores || {},
           totalQuizScore: quizScore,
           stripeCustomerId: action.user.stripeCustomerId || undefined,
           userName: action.user.username,
           paymentMethod: action.user.paymentMethod,
-          // subscriptionActive: action.user.subscriptionActive,
           subscriptionExpires: action.user.subscriptionExpires,
         };
       } else {
         return {
           ...state,
+          displayName,
+          firstName: action.user.firstName,
+          surname: action.user.surname,
           quizScores: action.user.quizScores || {},
           totalQuizScore: quizScore,
           stripeCustomerId: action.user.stripeCustomerId || undefined,
           userName: action.user.username,
           paymentMethod: action.user.paymentMethod,
-          // subscriptionActive: action.user.subscriptionActive,
           subscriptionExpires: action.user.subscriptionExpires,
         };
       }
@@ -62,13 +74,13 @@ export default (state = {}, action) => {
       };
 
     case actions.USER_LOGOUT:
-      // console.log(action);
-      // const resetState = {};
       return {
         ...state,
         uid: "",
         email: "",
         displayName: "",
+        firstName: "",
+        surname: "",
         photoURL: "",
       };
 
@@ -77,6 +89,16 @@ export default (state = {}, action) => {
         ...state,
         a: action.a,
       };
+
+    case actions.USER_SET_PROFILE_NAME: {
+      const displayName = [action.firstName, action.surname].filter(Boolean).join(" ").trim();
+      return {
+        ...state,
+        firstName: action.firstName,
+        surname: action.surname,
+        displayName: displayName || state.displayName,
+      };
+    }
 
     default:
       return state;

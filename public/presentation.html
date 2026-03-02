@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bridge Champions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+    <style>
+      @page {
+        size: A4;
+        margin: 15mm;
+      }
+      @media print {
+        .page-break { page-break-before: always; }
+        a[href]::after { content: none; }
+        body { padding: 0; max-width: none; }
+        .page-content { padding: 0; }
+        .count-statement { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .presentation-header { break-after: avoid; }
+        .section { break-inside: avoid; }
+        .footer { break-inside: avoid; }
+        .footer-offer { break-inside: avoid; }
+      }
+
+      :root {
+        --green: #0f4c3a;
+        --gold: #d4af37;
+        --text: #1a1d23;
+        --muted: #46525f;
+        --border: #e2e8f0;
+        --bg: #f8fafc;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: #fff;
+        padding: 12mm;
+        max-width: 210mm;
+        margin: 0 auto;
+      }
+      .page-content { padding: 0; }
+
+      h1 {
+        font-size: 28px;
+        color: var(--green);
+        margin: 0 0 20px 0;
+        padding-bottom: 8px;
+        border-bottom: 3px solid var(--green);
+      }
+
+      h2 {
+        font-size: 20px;
+        color: var(--green);
+        margin: 20px 0 10px 0;
+      }
+      @media print {
+        h2 { margin: 16px 0 8px 0; }
+      }
+
+      .section { margin-bottom: 22px; }
+      @media print {
+        .section { margin-bottom: 18px; }
+      }
+
+      /* First page: generous spacing so content fills the page */
+      .page-1-sections .section { margin-bottom: 52px; }
+      .page-1-sections .section:last-child { margin-bottom: 0; }
+      .page-1-sections h2 { margin-top: 36px; margin-bottom: 18px; }
+      .page-1-sections .quote { margin: 20px 0 24px 0; }
+      .page-1-sections .hand-grid { margin: 24px 0 28px 0; }
+      .page-1-sections .context { margin: 16px 0 24px 0; }
+      .page-1-sections .question { margin: 22px 0 16px 0; }
+      @media print {
+        .page-1-sections .section { margin-bottom: 48px; }
+        .page-1-sections h2 { margin-top: 32px; margin-bottom: 16px; }
+        .page-1-sections .quote { margin: 18px 0 22px 0; }
+        .page-1-sections .hand-grid { margin: 22px 0 26px 0; }
+        .page-1-sections .context { margin: 14px 0 22px 0; }
+      }
+
+      .hand-grid {
+        display: flex;
+        gap: 40px;
+        margin: 12px 0;
+        flex-wrap: wrap;
+      }
+
+      .hand {
+        font-family: "SF Mono", "Consolas", "Liberation Mono", monospace;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .hand-label { font-weight: 700; color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+
+      .suit-row { display: flex; align-items: baseline; gap: 6px; }
+      .suit-sym { font-weight: 800; }
+      .suit-sym.red { color: #c41e3a; }
+      .suit-sym.black { color: #111; }
+
+      .context {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 8px 0 16px 0;
+        font-style: italic;
+      }
+
+      .quote {
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 8px 0;
+      }
+
+      .question {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 12px 0 8px 0;
+        color: var(--green);
+      }
+
+      .count-boxes {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+        flex-wrap: wrap;
+      }
+
+      .count-statement {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        background: linear-gradient(135deg, var(--green) 0%, #083426 100%);
+        color: #fff;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .count-box {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: #fff;
+        color: var(--green);
+        border-radius: 8px;
+        font-weight: 900;
+        font-size: 20px;
+      }
+
+      .screenshot-placeholder {
+        border: 2px dashed var(--border);
+        border-radius: 10px;
+        background: #f8fafc;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 12px 0;
+        padding: 20px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .screenshot-placeholder img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+      }
+
+      .footer {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 2px solid var(--border);
+      }
+      @media print {
+        .footer { margin-top: 18px; padding-top: 16px; }
+      }
+
+      .footer-offer {
+        margin: 28px 0 0 0;
+        padding: 24px 28px;
+        border: 2px solid var(--green);
+        border-radius: 12px;
+        background: #f8fcf9;
+        break-inside: avoid;
+      }
+      @media print {
+        .footer-offer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      }
+      .footer-offer-title {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--green);
+        margin: 0 0 16px 0;
+        letter-spacing: 0.3px;
+      }
+      .footer-offer-code-line {
+        margin: 0 0 14px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .footer-offer-code {
+        display: inline-block;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: var(--green);
+        margin-left: 6px;
+      }
+      .footer-offer-text {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--text);
+      }
+      .footer-brand {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 2px solid var(--border);
+        text-align: center;
+      }
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0 0 6px 0;
+        letter-spacing: -0.5px;
+      }
+      .footer-logo .suit { font-size: 1.6rem; }
+      .footer-logo .suit.black { color: #111; }
+      .footer-logo .suit.red { color: #c41e3a; }
+      .footer-url { margin: 0; font-size: 18px; font-weight: 800; }
+      .footer-url a { color: var(--green); text-decoration: none; }
+
+      .presentation-header {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--border);
+      }
+      @media print {
+        .presentation-header { margin-bottom: 16px; padding-bottom: 12px; }
+      }
+      .url-top {
+        margin: 0 0 8px 0;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+      }
+      .url-top a { color: var(--green); text-decoration: none; }
+      .byline {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .byline a { color: var(--green); text-decoration: none; }
+      .header-subtitle { margin: 8px 0 0 0; font-size: 15px; color: var(--muted); font-weight: 500; }
+
+      /* Site logo style: ♣ ♦ ♠ ♥ BridgeChampions */
+      .presentation-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0 0 6px 0;
+        letter-spacing: -0.5px;
+      }
+      .presentation-logo-suit {
+        font-size: 2rem;
+        display: inline-block;
+      }
+      .presentation-logo-suit.black { color: #111; }
+      .presentation-logo-suit.red { color: #c41e3a; }
+    </style>
+  </head>
+  <body>
+    <div class="page-content">
+      <header class="presentation-header">
+        <div class="presentation-logo" aria-label="Bridge Champions">
+          <span class="presentation-logo-suit black">♣</span>
+          <span class="presentation-logo-suit red">♦</span>
+          <span class="presentation-logo-suit black">♠</span>
+          <span class="presentation-logo-suit red">♥</span>
+          <span class="presentation-logo-text">BridgeChampions</span>
+        </div>
+        <p class="url-top"><a href="https://www.bridgechampions.com">www.bridgechampions.com</a></p>
+        <p class="byline">By Paul Dalley — <a href="mailto:paul.dalley@hotmail.com">paul.dalley@hotmail.com</a></p>
+      </header>
+
+    <!-- Idea #1 (first page content — spaced to fill page) -->
+    <div class="page-1-sections">
+    <section class="section">
+      <h2>Idea #1 — Not creating extra losers</h2>
+      <p class="quote">"Draw the Ace", "Lose inevitable losers as soon as possible". This all ties into the idea of <strong>not creating extra losers</strong>.</p>
+
+      <div class="hand-grid">
+        <div class="hand">
+          <div class="hand-label">Hand 1</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> Qxx</div>
+          <div class="suit-row"><span class="suit-sym red">♥</span> AJ8xx</div>
+          <div class="suit-row"><span class="suit-sym red">♦</span> K10x</div>
+          <div class="suit-row"><span class="suit-sym black">♣</span> xx</div>
+        </div>
+        <div class="hand">
+          <div class="hand-label">Hand 2</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> J10</div>
+          <div class="suit-row"><span class="suit-sym red">♥</span> K109</div>
+          <div class="suit-row"><span class="suit-sym red">♦</span> QJxx</div>
+          <div class="suit-row"><span class="suit-sym black">♣</span> KQJx</div>
+        </div>
+      </div>
+
+      <p class="context">3NT, trick 1 — lead is 2♣ to the Ace.</p>
+    </section>
+
+    <!-- Idea #1 Example 2 -->
+    <section class="section">
+      <h2>Example 2</h2>
+      <div class="hand-grid">
+        <div class="hand">
+          <div class="hand-label">One hand</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> KJx</div>
+          <div class="suit-row"><span class="suit-sym red">♥</span> Q96</div>
+        </div>
+        <div class="hand">
+          <div class="hand-label">Opposite</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> xx</div>
+          <div class="suit-row"><span class="suit-sym red">♥</span> K1087x</div>
+        </div>
+      </div>
+      <p class="question">Which suit has 'inevitable losers'? And which suit has the potential to create extra losers?</p>
+    </section>
+    </div>
+
+    <!-- Counting (flows from page 1 to fill blank space) -->
+    <section class="section">
+      <h2>Counting</h2>
+
+      <p style="margin: 0 0 8px 0; font-weight: 700;">Counting — Difficulty 1, Problem 1</p>
+      <p class="context">Trumps are spades. Two rounds; LHO shows out on round 2.</p>
+      <div class="hand-grid">
+        <div class="hand">
+          <div class="hand-label">Dummy</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> Q 9 7 3</div>
+        </div>
+        <div class="hand">
+          <div class="hand-label">Declarer</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> A K J 4</div>
+        </div>
+      </div>
+      <div class="count-boxes">
+        <div class="count-statement">
+          When we have <span class="count-box">8</span> they have <span class="count-box">5</span>
+        </div>
+        <div class="count-statement">
+          When we have <span class="count-box">9</span> they have <span class="count-box">4</span>
+        </div>
+      </div>
+
+      <p style="margin: 20px 0 8px 0; font-weight: 700;">Counting — Difficulty 1, Problem 2</p>
+      <p class="context">Defending 4♠. You (East) see your trumps and dummy’s; partner shows out on round 3.</p>
+      <div class="hand-grid">
+        <div class="hand">
+          <div class="hand-label">You</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> J 7 3</div>
+        </div>
+        <div class="hand">
+          <div class="hand-label">Dummy</div>
+          <div class="suit-row"><span class="suit-sym black">♠</span> 2</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer / Advert -->
+    <footer class="footer">
+      <p class="quote" style="margin-top: 0;">I need you! A core of members who I can discuss bridge with is very important to me. It helps me create the best and most relevant content for you.</p>
+      <div class="footer-offer">
+        <h3 class="footer-offer-title">Special Offer — Harbourview Bridge Club</h3>
+        <p class="footer-offer-code-line">Use Promo Code: <span class="footer-offer-code">HARBOURVIEW</span></p>
+        <p class="footer-offer-text">Get 1 Month FREE with Standard or Premium membership! Enter the code HARBOURVIEW when signing up and receive your first month completely free. Cancel anytime, no commitment.</p>
+      </div>
+      <div class="footer-brand">
+        <div class="footer-logo" aria-label="Bridge Champions">
+          <span class="suit black">♣</span>
+          <span class="suit red">♦</span>
+          <span class="suit black">♠</span>
+          <span class="suit red">♥</span>
+          <span>BridgeChampions</span>
+        </div>
+        <p class="footer-url"><a href="https://www.bridgechampions.com">www.bridgechampions.com</a></p>
+      </div>
+    </footer>
+
+    </div>
+  </body>
+</html>

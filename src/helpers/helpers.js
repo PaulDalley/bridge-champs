@@ -349,6 +349,7 @@ export const getSuitFromBid = (bid) => {
 export const sortCategoryArticlesByLevelAndArticleNumber = (articles) => {
   // Sort numbers in ascending order:
   //.sort((a, b) => return a - b)
+  if (!Array.isArray(articles) || articles.length === 0) return [];
   const compareFnByArticleNumber = (a, b) =>
     Number(a?.articleNumber) - Number(b?.articleNumber);
 

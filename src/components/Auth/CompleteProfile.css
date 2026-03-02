@@ -1,0 +1,120 @@
+.CompleteProfile-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0F4C3A 0%, #083426 100%);
+  padding: 2rem;
+}
+
+.CompleteProfile-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 4rem;
+  max-width: 440px;
+  width: 100%;
+}
+
+.CompleteProfile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.CompleteProfile-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0F4C3A;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-display, 'Playfair Display', serif);
+}
+
+.CompleteProfile-subtitle {
+  font-size: 1.35rem;
+  color: #666;
+}
+
+.CompleteProfile-error {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.CompleteProfile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.CompleteProfile-input-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.CompleteProfile-input-half {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .CompleteProfile-input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.CompleteProfile-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.CompleteProfile-input-group label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.6rem;
+}
+
+.CompleteProfile-input-field {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  transition: border-color 0.2s;
+}
+
+.CompleteProfile-input-field:focus {
+  outline: none;
+  border-color: #0F4C3A;
+}
+
+.CompleteProfile-input-field:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.CompleteProfile-submit-button {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: #0F4C3A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.CompleteProfile-submit-button:hover:not(:disabled) {
+  background: #083426;
+}
+
+.CompleteProfile-submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

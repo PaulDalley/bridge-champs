@@ -41,6 +41,7 @@ class PremiumMembership extends Component {
   state = {
     authComplete: false,
     showLogin: false,
+    authChoice: null, // null = show chooser, 'login' | 'signup' = show that form
     alreadyLoggedIn: false,
     paypalRedirectLoading: false,
     selectedTier: null,
@@ -52,26 +53,13 @@ class PremiumMembership extends Component {
   };
 
   componentDidMount() {
-    // Don't auto-select a tier
-    // Check Firebase auth directly (available immediately) instead of Redux state
-    // which may not be loaded yet on page refresh
-    const currentUser = firebase.auth().currentUser;
-    // Only redirect if Firebase auth confirms user is not logged in
-    // AND Redux state also doesn't have uid (double-check)
-    if (!currentUser && !this.props.uid) {
-      this.props.history.push('/signup');
-    }
+    // Let both logged-in and logged-out users see the subscription page (no redirect to /signup)
   }
 
   componentDidUpdate(prevProps) {
-    // If uid becomes available after initial mount (auth state loaded), don't redirect
-    // This handles the case where auth state loads after componentDidMount
-    // Only redirect if we go from having a uid to not having one (logout scenario)
+    // When user logs out while on this page, just re-render (show tier cards again)
     if (prevProps.uid && !this.props.uid) {
-      const currentUser = firebase.auth().currentUser;
-      if (!currentUser) {
-        this.props.history.push('/signup');
-      }
+      this.setState({ showLogin: false, authChoice: null });
     }
   }
 
@@ -103,17 +91,22 @@ class PremiumMembership extends Component {
         const days = data?.daysFree || 0;
         const tier = data?.tier;
 
+        const nextStep = " Choose a subscription below and complete checkout to apply it.";
         if (tier && tier !== this.state.selectedTier) {
           const tierName = tier === "premium" ? "Premium" : "Basic";
           this.setState({
             promoError: "",
-            promoSuccess: `✓ Code valid! Select ${tierName} to use it (includes ${days} free day${days !== 1 ? "s" : ""}).`,
+            promoSuccess: `✓ Code valid for ${tierName} (${days} free day${days !== 1 ? "s" : ""}).${nextStep}`,
           });
         } else {
-          const msg =
-            days > 0
-              ? `✓ Code applied! You'll pay $0 today and get ${days} free day${days !== 1 ? "s" : ""} before billing starts.`
-              : `✓ Code valid!`;
+          let msg;
+          if (days > 0 && code.toLowerCase() === "harbourview") {
+            msg = `✓ Code valid! 1 month free with Standard or Premium.${nextStep}`;
+          } else if (days > 0) {
+            msg = `✓ Code valid! ${days} free day${days !== 1 ? "s" : ""} before billing.${nextStep}`;
+          } else {
+            msg = `✓ Code valid!${nextStep}`;
+          }
           this.setState({
             promoSuccess: msg,
             promoError: "",
@@ -146,7 +139,7 @@ class PremiumMembership extends Component {
   }
 
   showLogin = (tier) => {
-    this.setState({ showLogin: true, selectedTier: tier });
+    this.setState({ showLogin: true, authChoice: null, selectedTier: tier });
   };
 
   selectTier = (tier) => {
@@ -181,7 +174,7 @@ class PremiumMembership extends Component {
 
   render() {
     const { selectedTier, showLogin, authComplete, paypalRedirectLoading } = this.state;
-    const { uid, subscriptionActive } = this.props;
+    const { uid, subscriptionActive, authReady } = this.props;
 
     // Only redirect if user already has Premium tier
     if (uid && subscriptionActive && this.props.tier === "premium") {
@@ -190,18 +183,57 @@ class PremiumMembership extends Component {
     }
 
     const showTierSelection = uid && selectedTier && !authComplete;
-    const showBothTiers = (!uid && !showLogin) || (uid && !selectedTier && !authComplete);
+    const showBothTiers = !authReady || (!uid && !showLogin) || (uid && !selectedTier && !authComplete);
 
+    const subscribePath = this.props.location.pathname || "/subscribe";
     return (
       <div className="PremiumMembership-container">
-        {showLogin && !uid && (
+        {showLogin && !uid && authReady && (
           <Row>
-            <AuthComponent
-              signup={true}
-              location={this.props.location}
-              history={this.props.history}
-              paypalSubscribe={() => this.setState({ showLogin: false })}
-            />
+            <Card className="AuthComponent-container" style={{ maxWidth: "32rem", margin: "0 auto 2rem" }}>
+              {this.state.authChoice == null ? (
+                <>
+                  <p style={{ marginBottom: "1.5rem", fontSize: "1.1rem" }}>
+                    Log in or create an account to continue with your subscription.
+                  </p>
+                  <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
+                    <Button
+                      onClick={() => this.setState({ authChoice: "login" })}
+                      style={{ marginRight: "0.5rem" }}
+                    >
+                      Log in
+                    </Button>
+                    <Button
+                      flat
+                      onClick={() => this.setState({ authChoice: "signup" })}
+                    >
+                      Create new account
+                    </Button>
+                  </div>
+                  <p style={{ marginTop: "1rem" }}>
+                    <a href="#back" onClick={(e) => { e.preventDefault(); this.setState({ showLogin: false }); }}>
+                      ← Back to subscription options
+                    </a>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginBottom: "0.5rem" }}>
+                    <a href="#back" onClick={(e) => { e.preventDefault(); this.setState({ authChoice: null }); }}>
+                      ← Back
+                    </a>
+                  </p>
+                  <AuthComponent
+                    signup={this.state.authChoice === "signup"}
+                    login={this.state.authChoice === "login"}
+                    location={this.props.location}
+                    history={this.props.history}
+                    redirectPathAfterAuth={subscribePath}
+                    paypalSubscribe={() => this.setState({ showLogin: false, authChoice: null })}
+                  />
+                </>
+              )}
+            </Card>
           </Row>
         )}
 
@@ -213,7 +245,12 @@ class PremiumMembership extends Component {
             </span>
           )}
 
-          {!showLogin && !uid && (
+          {!showLogin && !authReady && (
+            <div className="PremiumMembership-header_text_small" style={{ color: "#666" }}>
+              Checking sign-in…
+            </div>
+          )}
+          {!showLogin && !uid && authReady && (
             <div className="PremiumMembership-header_text_small">
               Access to our paid content is for subscribers only. Already a
               member?&nbsp;
@@ -251,6 +288,11 @@ class PremiumMembership extends Component {
               {this.state.promoSuccess && (
                 <div style={{ color: "#2e7d32", marginTop: "0.5rem", fontSize: "1rem", fontWeight: "500" }}>
                   {this.state.promoSuccess}
+                </div>
+              )}
+              {this.state.promoSuccess && (
+                <div style={{ marginTop: "0.75rem", padding: "0.75rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem", fontWeight: "600" }}>
+                  Next step: choose a plan below, then complete checkout — your code will be applied at payment.
                 </div>
               )}
             </div>
@@ -415,6 +457,7 @@ class PremiumMembership extends Component {
 export default connect(
   ({ auth }) => ({
     uid: auth.uid,
+    authReady: !!auth.authReady,
     email: auth.email,
     subscriptionExpires: auth.subscriptionExpires,
     subscriptionActive: auth.subscriptionActive,

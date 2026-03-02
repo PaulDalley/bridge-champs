@@ -694,6 +694,26 @@
   color: white;
 }
 
+.Nav-tab-icon-counting {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.Nav-tab-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e11d48;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.25);
+}
+
 .Nav-tab-card:hover .Nav-tab-icon {
   transform: scale(1.1) rotate(5deg);
 }

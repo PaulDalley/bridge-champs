@@ -47,6 +47,11 @@ const cardPlayBodyBackupsRef = database.collection("cardPlayBodyBackups");
 const defenceBodyBackupsRef = database.collection("defenceBodyBackups");
 const biddingBodyBackupsRef = database.collection("biddingBodyBackups");
 
+// Counting articles (within the Counting tab)
+const countingSummaryRef = database.collection("counting");
+const countingBodyRef = database.collection("countingBody");
+const countingBodyBackupsRef = database.collection("countingBodyBackups");
+
 const usersRef = database.collection("users");
 const categoriesRef = database.collection("categories");
 const quizzesRef = database.collection("quizzes");
@@ -84,6 +89,9 @@ export {
   cardPlayBodyBackupsRef,
   defenceBodyBackupsRef,
   biddingBodyBackupsRef,
+  countingSummaryRef,
+  countingBodyRef,
+  countingBodyBackupsRef,
   categoriesRef,
   quizzesRef,
   quizRef,

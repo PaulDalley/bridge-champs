@@ -391,7 +391,7 @@ class HomePage extends Component {
             </h1>
             
             <p className="HomePage-hero-subtitle">
-              I've dedicated the last 15 years to studying and practicing bridge. Now I'm bringing the core lessons to my members. I keep it simple and practical.
+              Over the last 15 years, I’ve spent a lot of time studying and practicing bridge. Now I’m bringing the core lessons to my members. I keep it simple and practical.
             </p>
 
             {/* Welcome Video */}
@@ -469,6 +469,7 @@ class HomePage extends Component {
 
                 <h3 className="HomePage-about-subtitle">Recent Achievements</h3>
                 <ul className="HomePage-about-achievements">
+                  <li><strong>2026</strong> — Qualified for the Australian team.</li>
                   <li><strong>2026</strong> — 1st place: National Open Teams (Canberra)</li>
                   <li><strong>2026</strong> — 1st place: South West Pacific Teams (Canberra)</li>
                   <li><strong>2025</strong> — 1st place: Gold Coast Pairs</li>

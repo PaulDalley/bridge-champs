@@ -118,7 +118,17 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       return;
     }
     dispatch(setCurrentArticle(article));
-    history.push(`/${articleType}/${id}`);
+    // Most category article routes live at `/${articleType}/:id` where `:id` is the *body* doc id.
+    // Counting is nested under `/counting/articles/:id`.
+    const nextPath =
+      articleType === "counting"
+        ? `/counting/articles/${id}`
+        : articleType === "cardPlay"
+          ? `/cardPlay/articles/${id}`
+          : articleType === "defence"
+            ? `/defence/articles/${id}`
+        : `/${articleType}/${id}`;
+    history.push(nextPath);
   };
 
   // Video form helpers
@@ -260,6 +270,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
       case 'bidding': 
         return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
+      case 'counting':
+        return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
       default: 
         return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
     }
@@ -455,7 +467,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           {/* Add Article Button */}
           <div>
             <Button
-              onClick={(e) => history.push(`create/${articleType}`)}
+              onClick={(e) => history.push(`/create/${articleType}`)}
               floating
               large
               className="green darken-2"
@@ -469,7 +481,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       )}
       
       {/* Fallback: Show Add component if not admin (for other pages) */}
-      {a !== true && <Add goto={`create/${articleType}`} history={history} />}
+      {a !== true && <Add goto={`/create/${articleType}`} history={history} />}
 
       <div className="CategoryArticles-header">
         <div className="container">

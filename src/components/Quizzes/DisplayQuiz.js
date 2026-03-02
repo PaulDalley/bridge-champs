@@ -249,14 +249,14 @@ export class DisplayQuiz extends Component {
     }
     if (this.state.score === "10") {
       return (
-        "Congratulations, you have scored 10/10 Champion points for this quiz." +
+        "Congratulations! You have scored 10/10 Champion points for this quiz." +
         originalScoreString
       );
     } else {
       let score = 0;
       if (this.state.score !== undefined) score = this.state.score;
       return (
-        "You have scored " + score + " Champion points." + originalScoreString
+        "Well done! You have scored " + score + " Champion points." + originalScoreString
       );
     }
   };

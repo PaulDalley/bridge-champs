@@ -33,6 +33,7 @@ class About extends React.Component {
 
                                 <h5>Recent Achievements</h5>
                                 <ul className="About-achievements">
+                                    <li><strong>2026</strong> — Qualified for the Australian team.</li>
                                     <li><strong>2026</strong> — 1st place: National Open Teams (Canberra)</li>
                                     <li><strong>2026</strong> — 1st place: South West Pacific Teams (Canberra)</li>
                                     <li><strong>2025</strong> — 1st place: Gold Coast Pairs</li>

@@ -13,6 +13,9 @@ import database, {
   cardPlayBodyBackupsRef,
   defenceBodyBackupsRef,
   biddingBodyBackupsRef,
+  countingSummaryRef,
+  countingBodyRef,
+  countingBodyBackupsRef,
 } from "../../firebase/config";
 /*const articlesRef = database.ref('articles');
  const articleRef = database.ref('article');*/
@@ -24,12 +27,15 @@ const matchTypeToRef = {
   cardPlayBody: cardPlayBodyRef,
   defence: defenceSummaryRef,
   defenceBody: defenceBodyRef,
+  counting: countingSummaryRef,
+  countingBody: countingBodyRef,
 };
 
 const matchBodyRefToBackupRef = {
   biddingBody: biddingBodyBackupsRef,
   cardPlayBody: cardPlayBodyBackupsRef,
   defenceBody: defenceBodyBackupsRef,
+  countingBody: countingBodyBackupsRef,
 };
 
 export const setCurrentArticle = (article) => ({
@@ -242,11 +248,15 @@ export const fetchArticlesByCategory = (category, summaryRef) => {
 export const getArticles = (summaryRef) => {
   return (dispatch) => {
     const useSummaryRef = matchTypeToRef[summaryRef];
+    if (!useSummaryRef) {
+      console.error(`Unknown summaryRef '${summaryRef}' in getArticles`);
+      dispatch(setArticles([], false, summaryRef));
+      return;
+    }
     useSummaryRef
       .orderBy("difficulty", "asc") // ("createdAt", "desc")
       .get()
       .then((snapshot) => {
-        // console.log(snapshot);
         const articles = [];
         snapshot.forEach((childSnapshot) => {
           const data = childSnapshot.data();
@@ -255,9 +265,12 @@ export const getArticles = (summaryRef) => {
             ...data,
           });
         });
-        // console.log(`--- JUST FETCHED categoryArticles for ${summaryRef} ---`);
-        // console.log(articles);
         dispatch(setArticles(articles, false, summaryRef));
+      })
+      .catch((err) => {
+        console.error(`Failed to fetch articles for ${summaryRef}:`, err);
+        dispatch(setArticles([], false, summaryRef));
+        dispatch(articleError(err));
       });
   };
 };

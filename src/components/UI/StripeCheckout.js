@@ -28,8 +28,14 @@ class StripeCheckout extends React.Component {
 
     console.log("Creating checkout session with data:", postData);
 
-    $.post(stripeCreateCheckoutSessionUrl, postData)
-      .done((response) => {
+    $.ajax({
+      url: stripeCreateCheckoutSessionUrl,
+      method: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify(postData),
+    })
+    .done((response) => {
         console.log("Checkout session response:", response);
         if (response && response.url) {
           // Persist the Checkout Session ID locally so the /success page can verify/activate
@@ -61,7 +67,7 @@ class StripeCheckout extends React.Component {
           this.setState({ loading: false });
         }
       })
-      .fail((jqXHR, textStatus, errorThrown) => {
+    .fail((jqXHR, textStatus, errorThrown) => {
         console.error("Error creating checkout session:", {
           status: jqXHR.status,
           statusText: jqXHR.statusText,

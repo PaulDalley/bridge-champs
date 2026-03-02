@@ -134,7 +134,9 @@ class Nav extends Component {
 
 
 
-    const hideModernTabs = this.props.location && this.props.location.pathname === "/counting";
+    // Keep the modern navigation cards visible on /counting too (consistent with other tabs).
+    const hideModernTabs = false;
+    const pathname = this.props.location?.pathname || "";
 
     return (
       <header style={{ zIndex: 3500 }}>
@@ -244,7 +246,7 @@ class Nav extends Component {
           <div className="Nav-tabs-modern">
             <div className="Nav-tabs-container">
               <div 
-                className={`Nav-tab-card ${this.props.location.pathname === '/cardPlay' ? 'Nav-tab-active' : ''}`}
+                className={`Nav-tab-card ${pathname.startsWith('/cardPlay') ? 'Nav-tab-active' : ''}`}
                 onClick={() => this.goTo("/cardPlay")}
                 role="button"
                 tabIndex={0}
@@ -258,7 +260,7 @@ class Nav extends Component {
               </div>
 
               <div 
-                className={`Nav-tab-card ${this.props.location.pathname === '/defence' ? 'Nav-tab-active' : ''}`}
+                className={`Nav-tab-card ${pathname.startsWith('/defence') ? 'Nav-tab-active' : ''}`}
                 onClick={() => this.goTo("/defence")}
                 role="button"
                 tabIndex={0}
@@ -272,7 +274,7 @@ class Nav extends Component {
               </div>
 
               <div 
-                className={`Nav-tab-card ${this.props.location.pathname === '/bidding' ? 'Nav-tab-active' : ''}`}
+                className={`Nav-tab-card ${pathname.startsWith('/bidding') ? 'Nav-tab-active' : ''}`}
                 onClick={() => this.goTo("/bidding")}
                 role="button"
                 tabIndex={0}
@@ -285,46 +287,33 @@ class Nav extends Component {
                 <div className="Nav-tab-label">Bidding</div>
               </div>
 
-              <div 
-                className={`Nav-tab-card ${this.props.location.pathname === '/quizzes' ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/quizzes")}
+              <div
+                className={`Nav-tab-card ${pathname.startsWith('/counting') ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/counting")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/quizzes")}
-                aria-label="Quizzes section"
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/counting")}
+                aria-label="Counting trainer (new)"
               >
-                <div className="Nav-tab-icon Nav-tab-icon-quizzes">
-                  <Icon>quiz</Icon>
+                <div className="Nav-tab-badge" aria-hidden="true">NEW</div>
+                <div className="Nav-tab-icon Nav-tab-icon-counting">
+                  <Icon>calculate</Icon>
                 </div>
-                <div className="Nav-tab-label">Quizzes</div>
+                <div className="Nav-tab-label">Counting</div>
               </div>
 
               <div 
-                className={`Nav-tab-card ${this.props.location.pathname === '/articles' ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/articles")}
+                className={`Nav-tab-card ${pathname.startsWith('/other') ? 'Nav-tab-active' : ''}`}
+                onClick={() => this.goTo("/other")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/articles")}
-                aria-label="Extra articles section"
+                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/other")}
+                aria-label="Other section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-extra">
-                  <Icon>article</Icon>
+                  <Icon>more_horiz</Icon>
                 </div>
-                <div className="Nav-tab-label">Extra</div>
-              </div>
-
-              <div
-                className={`Nav-tab-card ${this.props.location.pathname === '/ask' ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/ask")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/ask")}
-                aria-label="Ask a bridge question"
-              >
-                <div className="Nav-tab-icon Nav-tab-icon-ask">
-                  <Icon>question_answer</Icon>
-                </div>
-                <div className="Nav-tab-label">Ask</div>
+                <div className="Nav-tab-label">Other</div>
               </div>
             </div>
           </div>

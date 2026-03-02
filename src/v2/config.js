@@ -23,6 +23,11 @@ export const ARTICLE_CATEGORIES = {
     summaryCollection: 'defence',
     bodyCollection: 'defenceBody',
   },
+  counting: {
+    name: 'Counting',
+    summaryCollection: 'counting',
+    bodyCollection: 'countingBody',
+  },
 };
 
 

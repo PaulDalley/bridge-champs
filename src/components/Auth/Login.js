@@ -72,8 +72,10 @@ class Login extends Component {
       .then((res) => {
         // Used by loginRedirectToContent to avoid redirecting to /success for the wrong account.
         this._lastLoginUid = res?.uid;
-        if (this.props.login) this.props.paypalSubscribe(res.uid);
-        else this.loginRedirectToContent();
+        if (this.props.login) {
+          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
+          else this.props.paypalSubscribe(res.uid);
+        } else this.loginRedirectToContent();
       })
       .catch((err) => {
         this.setState({ err: err.message });
@@ -85,8 +87,10 @@ class Login extends Component {
       .facebookLogin()
       .then((res) => {
         this._lastLoginUid = res?.user?.uid;
-        if (this.props.login) this.props.paypalSubscribe(res.user.uid);
-        else this.loginRedirectToContent();
+        if (this.props.login) {
+          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
+          else this.props.paypalSubscribe(res.user.uid);
+        } else this.loginRedirectToContent();
       })
       .catch((err) => {
         this.setState({ err: err.message });
@@ -98,8 +102,10 @@ class Login extends Component {
       .googleLogin()
       .then((res) => {
         this._lastLoginUid = res?.user?.uid;
-        if (this.props.login) this.props.paypalSubscribe(res.user.uid);
-        else this.loginRedirectToContent();
+        if (this.props.login) {
+          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
+          else this.props.paypalSubscribe(res.user.uid);
+        } else this.loginRedirectToContent();
       })
       .catch((err) => {
         this.setState({ err: err.message });

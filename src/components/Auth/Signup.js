@@ -10,10 +10,6 @@ class Signup extends Component {
     err: "",
   };
 
-  // componentDidMount() {
-  //     console.log(this.props);
-  // }
-
   onSubmit = (e) => {
     e.preventDefault();
     let { email, password, passwordConfirm } = this.state;
@@ -22,10 +18,13 @@ class Signup extends Component {
       this.props
         .emailLogin(email, password)
         .then((res) => {
-          // console.log(res);
+          const user = res.user || res;
+          const uid = user.uid;
           if (this.props.signup) {
-            this.props.paypalSubscribe(res.uid);
-          } else this.props.history.push("/membership");
+            this.props.paypalSubscribe(uid);
+          } else {
+            this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
+          }
         })
         .catch((err) => {
           this.setState({ err: err.message });
@@ -49,7 +48,7 @@ class Signup extends Component {
           // res.profile.first_name
           // res.profile.last_name
           this.props.paypalSubscribe(res.user.uid);
-        } else this.props.history.push("/membership");
+        } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
       })
       .catch((err) => {
         this.setState({ err: err.message });
@@ -63,7 +62,7 @@ class Signup extends Component {
         if (this.props.signup) {
           // console.log(res.user.uid);
           this.props.paypalSubscribe(res.user.uid);
-        } else this.props.history.push("/membership");
+        } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
       })
       .catch((err) => {
         this.setState({ err: err.message });

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import Auxiliary from './Auxiliary';
 import Nav from './UI/Nav';
 import Footer from './UI/Footer';
 import BackToTop from './UI/BackToTop';
+import ActivityLogger from "./Analytics/ActivityLogger";
 
 class Layout extends Component {
     render () {
         return (
             <Auxiliary>
+                <ActivityLogger />
                 <Nav />
                 <main>
                     {this.props.children}
@@ -20,6 +21,7 @@ class Layout extends Component {
         )
     }
 }
+
 export default Layout;
 
 // const mapStateToProps = state => {

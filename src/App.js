@@ -39,6 +39,7 @@ import CurrentTournaments from "./containers/CurrentTournaments";
 import Questions from "./containers/Questions";
 import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
+import CompleteProfile from "./components/Auth/CompleteProfile";
 import TestingGround from "./components/TestingGround";
 import SkeletonLoader from "./components/UI/SkeletonLoader";
 import Settings from "./components/UI/Settings";
@@ -46,6 +47,12 @@ import Flyer from "./components/Promotional/Flyer";
 import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage";
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
 import CountingTrumpsTrainer from "./components/Counting/CountingTrumpsTrainer";
+import CountingHub from "./components/Counting/CountingHub";
+import CardPlayHub from "./components/CardPlay/CardPlayHub";
+import CardPlayTrainer from "./components/CardPlay/CardPlayTrainer";
+import DefenceHub from "./components/Defence/DefenceHub";
+import DefenceTrainer from "./components/Defence/DefenceTrainer";
+import OtherHub from "./components/UI/OtherHub";
 
 import { firebase } from "./firebase/config";
 
@@ -65,6 +72,7 @@ import {
   userLoggedOut,
   setUser,
   userLoggedInSubscriptionExpires,
+  authReady,
 } from "./store/actions/authActions";
 import { setUserQuizScores } from "./store/actions/usersActions";
 
@@ -74,7 +82,29 @@ const store = configureStore();
 
 const routes = (
   <Switch>
-    <Route path="/counting" component={CountingTrumpsTrainer} />
+    <Route path="/other" component={OtherHub} exact />
+
+    <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
+    <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
+    <Route path="/cardPlay/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
+    <Route path="/cardPlay" component={CardPlayHub} exact />
+
+    <Route path="/defence/practice" component={DefenceTrainer} exact />
+    <Route path="/defence/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defence" bodyRef="defenceBody" />} exact />
+    <Route path="/defence/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defence" bodyRef="defenceBody" />} />
+    <Route path="/defence" component={DefenceHub} exact />
+
+    <Route
+      path="/counting/articles"
+      render={(routeProps) => <CategoryArticles {...routeProps} articleType="counting" bodyRef="countingBody" />}
+      exact
+    />
+    <Route
+      path="/counting/articles/:id"
+      render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="counting" bodyRef="countingBody" />}
+    />
+    <Route path="/counting/practice" render={() => <CountingTrumpsTrainer trainerLabel="Counting" />} exact />
+    <Route path="/counting" component={CountingHub} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
     <Route
@@ -163,6 +193,17 @@ const routes = (
     />
 
     <Route
+      path="/create/counting"
+      create={true}
+      creating={true}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle articleType="counting" bodyRef="countingBody" create={true} creating={true} />
+        </Suspense>
+      )}
+    />
+
+    <Route
       path="/edit/defence/:id"
       render={(routeProps) => (
         <Suspense fallback={<SkeletonLoader type="article" />}>
@@ -201,46 +242,13 @@ const routes = (
         </Suspense>
       )}
     />
+
     <Route
-      path="/defence"
+      path="/edit/counting/:id"
       render={(routeProps) => (
-        <CategoryArticles
-          {...routeProps}
-          articleType="defence"
-          bodyRef="defenceBody"
-        />
-      )}
-      exact
-    />
-    <Route
-      path="/defence/:id"
-      render={(routeProps) => (
-        <DisplayCategoryArticle
-          {...routeProps}
-          articleType="defence"
-          bodyRef="defenceBody"
-        />
-      )}
-    />
-    <Route
-      path="/cardPlay"
-      render={(routeProps) => (
-        <CategoryArticles
-          {...routeProps}
-          articleType="cardPlay"
-          bodyRef="cardPlayBody"
-        />
-      )}
-      exact
-    />
-    <Route
-      path="/cardPlay/:id"
-      render={(routeProps) => (
-        <DisplayCategoryArticle
-          {...routeProps}
-          articleType="cardPlay"
-          bodyRef="cardPlayBody"
-        />
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle {...routeProps} edit={true} articleType="counting" bodyRef="countingBody" />
+        </Suspense>
       )}
     />
     <Route
@@ -305,6 +313,7 @@ const routes = (
     <Route path="/testingground" component={TestingGround} />
 
     <Route path="/membership" component={PremiumMembership} />
+    <Route path="/subscribe" component={PremiumMembership} />
     <Route path="/settings" component={Settings} />
     <Route
       path="/articles"
@@ -350,6 +359,7 @@ const routes = (
     />
 
     <Route path="/signup" component={AuthComponent} />
+    <Route path="/complete-profile" component={CompleteProfile} />
     <Route path="/success" render={() => <HomePage success />} />
     <Route path="/error" render={() => <HomePage error />} />
     {/*<Route path="/error" component={RegistrationError} />*/}
@@ -613,6 +623,7 @@ firebase.auth().onAuthStateChanged((user) => {
     // console.log(store.getState().auth.uid);
     store.dispatch(setUser(user));
     // console.log(store.getState().auth.a);
+    store.dispatch(authReady());
   }
   // they just logged out - user == null:
   else {
@@ -621,6 +632,7 @@ firebase.auth().onAuthStateChanged((user) => {
       membersDataSubscriptionUnsubscribe();
     }
     store.dispatch(userLoggedOut());
+    store.dispatch(authReady());
   }
 });
 
