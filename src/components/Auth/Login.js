@@ -11,6 +11,8 @@ class Login extends Component {
     password: "",
     err: "",
     emailReset: "",
+    forgottenPasswordModalOpen: false,
+    resetPasswordMessage: "",
   };
 
   loginRedirectToContent = () => {
@@ -119,29 +121,50 @@ class Login extends Component {
 
   openForgottenPasswordModal = (e) => {
     e.preventDefault();
+    this.setState({
+      forgottenPasswordModalOpen: true,
+      emailReset: this.state.email || "",
+      resetPasswordMessage: "",
+    });
   };
-  
+
+  closeForgottenPasswordModal = () => {
+    this.setState({ forgottenPasswordModalOpen: false, resetPasswordMessage: "" });
+  };
+
   resetPassword = (e) => {
     e.preventDefault();
     const { emailReset } = this.state;
+    if (!emailReset || !emailReset.trim()) {
+      this.setState({ resetPasswordMessage: "Please enter your email address." });
+      return;
+    }
+    this.setState({ resetPasswordMessage: "" });
     firebase
       .auth()
-      .sendPasswordResetEmail(emailReset)
+      .sendPasswordResetEmail(emailReset.trim())
       .then(() => {
-        let modal = $(".modal");
-        let modalOverlay = $(".modal-overlay");
-        modal.removeClass("open");
-        modal.removeAttr("style");
-        modalOverlay.remove();
-        $("body").css({ overflow: "auto" });
+        this.setState({
+          resetPasswordMessage: "Check your email — we sent you a link to reset your password.",
+        });
+        setTimeout(() => {
+          this.closeForgottenPasswordModal();
+          this.setState({ emailReset: "" });
+        }, 2500);
       })
       .catch((err) => {
-        console.log(err);
+        const msg =
+          err.code === "auth/user-not-found"
+            ? "No account found with that email."
+            : err.code === "auth/invalid-email"
+              ? "Please enter a valid email address."
+              : err.message || "Something went wrong. Please try again.";
+        this.setState({ resetPasswordMessage: msg });
       });
   };
 
   render() {
-    const { email, password, err, forgottenPasswordModalOpen, emailReset } = this.state;
+    const { email, password, err, forgottenPasswordModalOpen, emailReset, resetPasswordMessage } = this.state;
 
     return (
       <div className="Login-container">
@@ -200,19 +223,37 @@ class Login extends Component {
         {forgottenPasswordModalOpen && (
           <Modal open={true}>
             <div className="BCModal-content">
-              <button className="BCModal-close modal-close" aria-label="Close dialog" title="Close">
+              <button
+                type="button"
+                className="BCModal-close modal-close"
+                aria-label="Close dialog"
+                title="Close"
+                onClick={this.closeForgottenPasswordModal}
+              >
                 <i className="material-icons">close</i>
               </button>
               <h4>Reset Password</h4>
+              <p className="grey-text text-darken-2" style={{ marginBottom: "1rem" }}>
+                Enter the email address for your account and we&apos;ll send you a link to reset your password.
+              </p>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={emailReset}
-                onChange={(e) => this.setState({ emailReset: e.target.value })}
+                onChange={(e) => this.setState({ emailReset: e.target.value, resetPasswordMessage: "" })}
               />
+              {resetPasswordMessage && (
+                <p className={resetPasswordMessage.startsWith("No account") || resetPasswordMessage.includes("valid") ? "red-text" : "green-text"} style={{ marginTop: "0.5rem" }}>
+                  {resetPasswordMessage}
+                </p>
+              )}
               <div style={{ marginTop: "1.25rem", display: "flex", justifyContent: "flex-end", gap: "0.75rem" }}>
-                <button className="btn-flat modal-close">Cancel</button>
-                <button className="btn" onClick={this.resetPassword}>Send Reset Email</button>
+                <button type="button" className="btn-flat" onClick={this.closeForgottenPasswordModal}>
+                  Cancel
+                </button>
+                <button type="button" className="btn" onClick={this.resetPassword}>
+                  Send Reset Email
+                </button>
               </div>
             </div>
           </Modal>
