@@ -1346,14 +1346,15 @@ const PUZZLES = [
     viewerCompass: "S",
     visibleFullHandSeats: ["DUMMY", "DECLARER"],
     promptOptions: {
-      prePromptsBeforePlay: true,
-      defendersStartedPromptText: "How many trumps do the opponents have?",
-      defendersHeartsStartedExpected: 6,
-      defendersHeartsStartedPromptText: "How many hearts do the opponents have?",
+      prePromptsBeforePlay: false,
       questionNumbers: [],
       manualTrickAdvance: true,
-      focusNote: "Spades are trumps. We are just looking at two suits for this problem. Let's set up our heart suit! Before we begin…",
+      focusNote: "Spades are trumps. We are just looking at two suits for this problem.",
       customPrompts: [
+        { id: "p2-2-intro", type: "INFO", atRoundIdx: -1, promptText: "We are playing 4♠ and we are going to try to set up our heart suit. Let's warm up with 2 practice questions." },
+        { id: "p2-2-trumps-started", type: "SINGLE_NUMBER", atRoundIdx: -1, promptText: "How many trumps have the opponents started with?", expectedAnswer: 5 },
+        { id: "p2-2-hearts-started", type: "SINGLE_NUMBER", atRoundIdx: -1, promptText: "How many hearts have the opponents started with?", expectedAnswer: 6 },
+        { id: "p2-2-we-have-7", type: "INFO", atRoundIdx: -1, promptText: "We have 7, they have 6. When you repetitively practice setting up '7 card side suits' like this, you will become familiar with the idea that we have 7, they have 6." },
         { id: "p2-2-hearts-left-1", type: "SINGLE_NUMBER", atRoundIdx: 1, promptText: "How many hearts do the opponents still have?", expectedAnswer: 2 },
         { id: "p2-2-break-33", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 3, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 3, RHO: 3, DUMMY: 6, DECLARER: 1 }, promptText: "Let's think about possible breaks for the heart suit. Fill in the missing number." },
         { id: "p2-2-break-24", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 2, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 2, RHO: 4, DUMMY: 6, DECLARER: 1 }, promptText: "Let's think about possible breaks for the heart suit. Fill in the missing number." },
@@ -1367,7 +1368,7 @@ const PUZZLES = [
           type: "INFO",
           atRoundIdx: 4,
           setDoneExtraText: true,
-          promptText: "We confidently know there are no trumps left, and we confidently know there is one heart outstanding. We can play 1 more round of hearts, losing it, but be sure the rest are good! Reveal the hand — East holds the final remaining heart.",
+          promptText: "You now give up 1 more heart and you have set up the suit. That was the very best you could've done.\n\nCongratulations — this is a significant achievement! Setting up a long suit while counting trumps and managing the defence is one of the harder skills in declarer play. Repeating this exercise will build the pattern recognition you need; don't be shy to do it again, even daily. Well done!",
         },
       ],
     },
@@ -1423,6 +1424,107 @@ const PUZZLES = [
           { seat: "DUMMY", card: { rank: "K", suit: "S" } },
           { seat: "RHO", card: { rank: "T", suit: "S" } },
           { seat: "DECLARER", card: { rank: "6", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p2-3",
+    difficulty: 2,
+    title: "Counting: set up hearts in 4♠ (two suits, no overruff)",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    promptOptions: {
+      prePromptsBeforePlay: false,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      focusNote: "Spades are trumps. We are just looking at two suits for this problem.",
+      customPrompts: [
+        { id: "p2-3-intro", type: "INFO", atRoundIdx: -1, promptText: "We are playing in 4♠, and are going to practice setting up hearts. Let's get ourselves ready by asking two important questions." },
+        { id: "p2-3-trumps-started", type: "SINGLE_NUMBER", atRoundIdx: -1, promptText: "How many trumps have the opponents started with?", expectedAnswer: 5 },
+        { id: "p2-3-hearts-started", type: "SINGLE_NUMBER", atRoundIdx: -1, promptText: "How many hearts (our side suit) do the opponents hold?", expectedAnswer: 6 },
+        { id: "p2-3-we-have-7", type: "INFO", atRoundIdx: -1, promptText: "The more of these type problems we do, the more we will naturally remember that \"When we start with 7, they start with 6\"." },
+        { id: "p2-3-hearts-left-2", type: "SINGLE_NUMBER", atRoundIdx: 1, promptText: "We've played two rounds of hearts. How many do the opponents have left?", expectedAnswer: 2 },
+        { id: "p2-3-break-33", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 3, DUMMY: 5, DECLARER: 2 }, expectedDistribution: { LHO: 3, RHO: 3, DUMMY: 5, DECLARER: 2 }, promptText: "What are some possible breaks? Fill in the missing number." },
+        { id: "p2-3-break-24", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 2, DUMMY: 5, DECLARER: 2 }, expectedDistribution: { LHO: 2, RHO: 4, DUMMY: 5, DECLARER: 2 }, promptText: "What are some possible breaks? Fill in the missing number." },
+        { id: "p2-3-hearts-left-1", type: "SINGLE_NUMBER", atRoundIdx: 2, promptText: "So how many hearts are still out now?", expectedAnswer: 1 },
+        { id: "p2-3-trumps-after-ace", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "Let's update our trump tally. How many do the opponents still have?", expectedAnswer: 3 },
+        { id: "p2-3-setup-note", type: "INFO", atRoundIdx: 4, promptText: "We now confidently note that we have set up our 5th heart." },
+        { id: "p2-3-trumps-left-1", type: "SINGLE_NUMBER", atRoundIdx: 5, promptText: "How many trumps are still left?", expectedAnswer: 1 },
+        {
+          id: "p2-3-closing",
+          type: "INFO",
+          atRoundIdx: 5,
+          setDoneExtraText: true,
+          promptText: "We can now draw the last trump, confidently knowing that no more trumps are out, and that our heart is a winner.\n\nWell done — counting trumps and the side suit like this is a core declarer skill.\n\nKeep repeating this exercise to build the habit.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "AKQ", H: "A9876", D: "", C: "" },
+      DECLARER: { S: "JT932", H: "K2", D: "", C: "" },
+      RHO: { S: "54", H: "T3", D: "", C: "" },
+      LHO: { S: "876", H: "QJ54", D: "", C: "" },
+    },
+    expectedInitialLengths: { LHO: 3, DUMMY: 3, RHO: 2, DECLARER: 5 },
+    preserveEndStateAtDone: false,
+    rounds: [
+      {
+        label: "Trick 1 (King of hearts)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
+          { seat: "RHO", card: { rank: "4", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (heart to the Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+          { seat: "LHO", card: { rank: "5", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (ruff heart with J, RHO discards)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "C" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "J", suit: "S" } },
+          { seat: "LHO", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (trump to the Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "3", suit: "S" } },
+          { seat: "LHO", card: { rank: "6", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "S" } },
+          { seat: "RHO", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (ruff heart with 10)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "C" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "T", suit: "S" } },
+          { seat: "LHO", card: { rank: "Q", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (another trump, both follow)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "9", suit: "S" } },
+          { seat: "LHO", card: { rank: "7", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "4", suit: "S" } },
         ],
       },
     ],
@@ -1916,13 +2018,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     // If override is provided (even empty), treat it as authoritative for this trainer instance.
     if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
     const list = PUZZLES;
-    const isLocal =
-      process.env.NODE_ENV === "development" ||
-      (typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location.hostname || ""));
-    if (!isLocal) {
-      return list.filter((p) => p.id !== "p2-2");
-    }
-    return list;
+    // d2-2 moved to Defence (df2-1); p2-2 and p2-3 are both counting difficulty 2 on live
+    return list.filter((p) => p.id !== "d2-2");
   }, [puzzlesOverride]);
   const fallbackPuzzle = useMemo(() => {
     // Stable placeholder so hooks don't rely on Counting puzzles when this trainer has none yet.
@@ -2966,9 +3063,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     continueAfterPrompts();
   };
 
-  const revealAfterTwoWrong = (kind) => {
-    const next = (wrongAttempts?.[kind] || 0) + 1;
-    setWrongAttempts((prev) => ({ ...prev, [kind]: next }));
+  const REVEAL_GOOD_TRY = "Good try! ";
+
+  const revealAfterTwoWrong = (kind, promptId) => {
+    const key = promptId ? `${kind}_${promptId}` : kind;
+    const next = (wrongAttempts?.[key] || 0) + 1;
+    setWrongAttempts((prev) => ({ ...prev, [key]: next }));
     return next >= 2;
   };
 
@@ -2995,7 +3095,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersStarted");
       if (shouldReveal) {
-        setFeedback({ type: "ok", text: `The correct answer is ${startedTrumpsCorrect}.` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${startedTrumpsCorrect}.` });
         setQueuedTimeout(() => {
           setFeedback(null);
           askedRef.current = { ...(askedRef.current || {}), defendersStarted: true };
@@ -3030,7 +3130,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersHeartsStarted");
       if (shouldReveal) {
-        setFeedback({ type: "ok", text: `The correct answer is ${expected}.` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
         setQueuedTimeout(() => {
           setFeedback(null);
           setPromptStep(null);
@@ -3055,7 +3155,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersRemaining");
       if (shouldReveal) {
-        setFeedback({ type: "ok", text: `The correct answer is ${remainingTrumpsCorrect}.` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${remainingTrumpsCorrect}.` });
         setQueuedTimeout(() => {
           setFeedback(null);
           askedRef.current = { ...(askedRef.current || {}), defendersRemaining: true };
@@ -3112,7 +3212,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         const suit = distributionSuit || showOutLedSuit;
         const suitName = suit === puzzle.trumpSuit ? "trump" : SUIT_NAME[suit] || suit;
         const answerText = `${roleLabelForSeat("LHO")}: ${expected.LHO}, ${roleLabelForSeat("DUMMY")}: ${expected.DUMMY}, ${roleLabelForSeat("RHO")}: ${expected.RHO}, ${roleLabelForSeat("DECLARER")}: ${expected.DECLARER}`;
-        setFeedback({ type: "ok", text: `The correct ${suitName} distribution is ${answerText}.` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct ${suitName} distribution is ${answerText}.` });
         setQueuedTimeout(() => {
           setFeedback(null);
           if (distributionSuit) {
@@ -3169,11 +3269,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     if (expectedDist && typeof expectedDist === "object") {
       const correct = SEATS.every((s) => Number(expectedDist[s]) === parsed[s]);
       if (!correct) {
-        const shouldReveal = revealAfterTwoWrong("distributionGuess");
+        const shouldReveal = revealAfterTwoWrong("distributionGuess", promptId);
         if (shouldReveal) {
           setFeedback({
             type: "ok",
-            text: `The correct answer is ${expectedDist.LHO}${expectedDist.DUMMY}${expectedDist.RHO}${expectedDist.DECLARER}.`,
+            text: `${REVEAL_GOOD_TRY}The correct answer is ${expectedDist.LHO}${expectedDist.DUMMY}${expectedDist.RHO}${expectedDist.DECLARER}.`,
           });
           setQueuedTimeout(() => {
             setFeedback(null);
@@ -3280,7 +3380,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       const shouldReveal = revealAfterTwoWrong("trickCount");
       if (shouldReveal) {
         const ansTotal = (expected.S || 0) + (expected.H || 0) + (expected.D || 0) + (expected.C || 0);
-        setFeedback({ type: "ok", text: `The correct answer is ${expected.S}${expected.H}${expected.D}${expected.C} (total ${ansTotal}).` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected.S}${expected.H}${expected.D}${expected.C} (total ${ansTotal}).` });
         setQueuedTimeout(() => {
           setFeedback(null);
           askedRef.current = { ...(askedRef.current || {}), trickCountAsked: true };
@@ -3340,9 +3440,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       return;
     }
 
-    const shouldReveal = revealAfterTwoWrong("seatSuitCount");
+    const shouldReveal = revealAfterTwoWrong("seatSuitCount", promptId);
     if (shouldReveal) {
-      setFeedback({ type: "ok", text: `The correct answer is ${expected}.` });
+      setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
       setQueuedTimeout(() => {
         setFeedback(null);
         askedRef.current = {
@@ -3375,9 +3475,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         afterManualTrick(completedRoundIdx);
       }, 550);
     } else {
-      const shouldReveal = revealAfterTwoWrong("singleNumber");
+      const shouldReveal = revealAfterTwoWrong("singleNumber", promptId);
       if (shouldReveal) {
-        setFeedback({ type: "ok", text: `The correct answer is ${expected}.` });
+        setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
         setQueuedTimeout(() => {
           setFeedback(null);
           setSingleNumberInput("");
@@ -3404,10 +3504,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     if (expectedChoice) {
       const correct = String(choiceId) === String(expectedChoice);
       if (!correct) {
-        const shouldReveal = revealAfterTwoWrong("playDecision");
+        const shouldReveal = revealAfterTwoWrong("playDecision", promptId);
         if (shouldReveal) {
-          const goodTry = activeCustomPrompt?.wrongTryText ? "Good try! " : "";
-          const text = `${goodTry}The correct answer is ${expectedChoice}. ${reveal}`;
+          const text = `${REVEAL_GOOD_TRY}The correct answer is ${expectedChoice}. ${reveal}`;
           // Mark asked now (since there may be no Continue button).
           askedRef.current = {
             ...(askedRef.current || {}),
@@ -3480,9 +3579,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       return;
     }
 
-    const shouldReveal = revealAfterTwoWrong("distributionNeed");
+    const shouldReveal = revealAfterTwoWrong("distributionNeed", promptId);
     if (shouldReveal) {
-      setFeedback({ type: "ok", text: `The correct answer is ${need[0]}-${need[1]} (in either order).` });
+      setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${need[0]}-${need[1]} (in either order).` });
       setQueuedTimeout(() => {
         setFeedback(null);
         askedRef.current = {
@@ -3627,11 +3726,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         advancePostPrompt();
       }, 450);
     } else {
-      const shouldReveal = revealAfterTwoWrong("seatShape");
+      const shouldReveal = revealAfterTwoWrong("seatShape", activeCustomPrompt?.id);
       if (shouldReveal) {
         setFeedback({
           type: "ok",
-          text: `The correct answer is ${seatShapeExpected.S}${seatShapeExpected.H}${seatShapeExpected.D}${seatShapeExpected.C}.`,
+          text: `${REVEAL_GOOD_TRY}The correct answer is ${seatShapeExpected.S}${seatShapeExpected.H}${seatShapeExpected.D}${seatShapeExpected.C}.`,
         });
         setQueuedTimeout(() => {
           setFeedback(null);
@@ -4002,7 +4101,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               </div>
             </div>
           )}
-          <div className="ct-roleLine">You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.</div>
+          {!hasStarted && (
+            <div className="ct-roleLine">You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.</div>
+          )}
         </div>
       )}
 
@@ -4771,7 +4872,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   );
 
   return (
-    <div className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""}`}>
+    <div className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}>
 
       <div className={`ct-layout ${showFullHands ? "ct-layout--fullhands" : ""}`}>
         <div className="ct-stage">
@@ -4860,7 +4961,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               <div className="ct-questionText">No problems yet for Difficulty {selectedDifficulty}.</div>
             </div>
           ) : (
-            <div className={useBottomRowLayout ? "ct-tableWithSidebar" : ""}>
+            <div className="ct-tableWithSidebar">
             <div
               className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""}`}
             >
@@ -5041,15 +5142,14 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               <div className="ct-sidePrompt">{promptNode}</div>
             </aside>
           )}
+          {!isBlankDifficulty && !showFullHands && (
+            <aside className="ct-rail ct-rail--inSidebar" aria-label="Counting prompt">
+              {promptNode}
+            </aside>
+          )}
           </div>
           )}
         </div>
-
-        {!isBlankDifficulty && !showFullHands && (
-          <aside className="ct-rail" aria-label="Counting prompt">
-            {promptNode}
-          </aside>
-        )}
       </div>
 
     </div>
