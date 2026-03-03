@@ -106,6 +106,8 @@ export const mapCategoryToVideoCategory = (articleType) => {
   const mapping = {
     cardPlay: 'Declarer Play',
     bidding: 'Bidding',
+    biddingBasics: 'Bidding',
+    biddingAdvanced: 'Bidding',
     defence: 'Defence',
   };
   return mapping[articleType] || articleType;

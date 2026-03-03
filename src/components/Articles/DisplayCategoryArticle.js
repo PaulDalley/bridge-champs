@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import {
   getArticle,
   getArticleMetadata,
+  startDeleteArticle,
 } from "../../store/actions/categoryArticlesActions";
 import "./DisplayArticle.css";
 import "./ArticleListItem.css";
@@ -13,10 +14,19 @@ import {
   articleRef,
   biddingSummaryRef,
   biddingBodyRef,
+  biddingBasicsSummaryRef,
+  biddingBasicsBodyRef,
+  biddingAdvancedSummaryRef,
+  biddingAdvancedBodyRef,
   cardPlaySummaryRef,
   cardPlayBodyRef,
+  cardPlayBasicsSummaryRef,
+  cardPlayBasicsBodyRef,
   defenceSummaryRef,
   defenceBodyRef,
+  defenceBasicsSummaryRef,
+  defenceBasicsBodyRef,
+  countingSummaryRef,
 } from "../../firebase/config";
 
 import {
@@ -34,15 +44,46 @@ import FeedbackForm from "./FeedbackForm";
 import { useSelector, useDispatch } from "react-redux";
 import SkeletonLoader from "../UI/SkeletonLoader";
 
-// Helper function to render admin edit button
-const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
+// List path for redirect after delete
+const getListPathForArticleType = (type) => {
+  if (type === "biddingBasics") return "/bidding/basics";
+  if (type === "bidding" || type === "biddingAdvanced") return "/bidding/advanced";
+  if (type === "cardPlayBasics") return "/cardPlay/basics";
+  if (type === "cardPlay") return "/cardPlay/articles";
+  if (type === "defenceBasics") return "/defence/basics";
+  if (type === "defence") return "/defence/articles";
+  if (type === "counting") return "/counting/articles";
+  return "/";
+};
+
+// Helper function to render admin edit and delete buttons
+const renderAdminEditButton = (isAdmin, articleType, articleId, bodyRef, history, dispatch, summaryRefMap) => {
   if (!isAdmin) return null;
-  
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this article? This cannot be undone.")) return;
+    const summaryRef = summaryRefMap[articleType];
+    if (!summaryRef || !bodyRef) return;
+    try {
+      const snap = await summaryRef.where("body", "==", articleId).limit(1).get();
+      if (snap.empty) {
+        window.alert("Could not find article metadata to delete.");
+        return;
+      }
+      const summaryDocId = snap.docs[0].id;
+      dispatch(startDeleteArticle(summaryDocId, articleId, articleType, bodyRef));
+      history.push(getListPathForArticleType(articleType));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      window.alert(err?.message || "Failed to delete article.");
+    }
+  };
+
   return (
-    <div style={{ 
-      display: 'flex', 
-      gap: '0.5rem', 
-      flexWrap: 'wrap', 
+    <div style={{
+      display: 'flex',
+      gap: '0.5rem',
+      flexWrap: 'wrap',
       marginTop: '1rem',
       position: 'relative',
       zIndex: 10
@@ -61,7 +102,7 @@ const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
         onClick={() => history.push('/edit-article-v2/' + articleType + '/' + articleId)}
         aria-label={`Edit ${articleType} article`}
         title="Edit this article (New V2 System)"
-        style={{ 
+        style={{
           backgroundColor: '#0F4C3A',
           position: 'relative',
           right: 'auto',
@@ -69,6 +110,16 @@ const renderAdminEditButton = (isAdmin, articleType, articleId, history) => {
         }}
       >
         Edit Article (V2)
+      </button>
+      <button
+        type="button"
+        className="DisplayArticle-edit-btn"
+        onClick={handleDelete}
+        aria-label={`Delete ${articleType} article`}
+        title="Delete this article"
+        style={{ backgroundColor: '#b71c1c', color: '#fff' }}
+      >
+        Delete Article
       </button>
     </div>
   );
@@ -312,14 +363,22 @@ const DisplayCategoryArticle = ({
 
   const getArticleUrl = () => {
     const baseUrl = "https://bridgechampions.com";
+    if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${articleId}`;
+    if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
+    if (articleType === "cardPlayBasics") return `${baseUrl}/cardPlay/basics/${articleId}`;
+    if (articleType === "defenceBasics") return `${baseUrl}/defence/basics/${articleId}`;
     return `${baseUrl}/${articleType}/${articleId}`;
   };
 
   const getCategoryName = () => {
     const categoryMap = {
       cardPlay: "Declarer Play",
+      cardPlayBasics: "Declarer Play – Learn the Basics",
       defence: "Defence",
-      bidding: "Bidding"
+      defenceBasics: "Defence – Learn the Basics",
+      bidding: "Bidding – Advanced ideas",
+      biddingBasics: "Bidding – Learn the Basics",
+      biddingAdvanced: "Bidding – Advanced Ideas",
     };
     return categoryMap[articleType] || articleType;
   };
@@ -429,7 +488,16 @@ const DisplayCategoryArticle = ({
       )}
       
       <div style={{ maxWidth: '75rem', marginLeft: 'auto', marginRight: 'auto' }}>
-        {renderAdminEditButton(a, articleType, articleId, history)}
+        {renderAdminEditButton(a, articleType, articleId, bodyRef, history, dispatch, {
+          cardPlay: cardPlaySummaryRef,
+          cardPlayBasics: cardPlayBasicsSummaryRef,
+          defence: defenceSummaryRef,
+          defenceBasics: defenceBasicsSummaryRef,
+          bidding: biddingSummaryRef,
+          biddingBasics: biddingBasicsSummaryRef,
+          biddingAdvanced: biddingAdvancedSummaryRef,
+          counting: countingSummaryRef,
+        })}
       </div>
 
       {a === true && (
@@ -451,14 +519,22 @@ const DisplayCategoryArticle = ({
                       try {
                         const summaryRefMap = {
                           cardPlay: cardPlaySummaryRef,
+                          cardPlayBasics: cardPlayBasicsSummaryRef,
                           defence: defenceSummaryRef,
+                          defenceBasics: defenceBasicsSummaryRef,
                           bidding: biddingSummaryRef,
+                          biddingBasics: biddingBasicsSummaryRef,
+                          biddingAdvanced: biddingAdvancedSummaryRef,
                           articles: articlesRef,
                         };
                         const bodyRefMap = {
                           cardPlay: cardPlayBodyRef,
+                          cardPlayBasics: cardPlayBasicsBodyRef,
                           defence: defenceBodyRef,
+                          defenceBasics: defenceBasicsBodyRef,
                           bidding: biddingBodyRef,
+                          biddingBasics: biddingBasicsBodyRef,
+                          biddingAdvanced: biddingAdvancedBodyRef,
                           articles: articleRef,
                         };
                         const summaryRef = summaryRefMap[articleType];

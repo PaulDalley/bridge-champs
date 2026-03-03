@@ -176,10 +176,23 @@ class PremiumMembership extends Component {
     const { selectedTier, showLogin, authComplete, paypalRedirectLoading } = this.state;
     const { uid, subscriptionActive, authReady } = this.props;
 
-    // Only redirect if user already has Premium tier
-    if (uid && subscriptionActive && this.props.tier === "premium") {
-      this.props.history.push("/");
-      return null;
+    // Show "already subscribed" message for any active subscriber
+    if (uid && subscriptionActive && authReady) {
+      const tierName = this.props.tier === "premium" ? "Premium" : "Basic";
+      return (
+        <div className="PremiumMembership-container">
+          <Card className="PremiumMembership-pricing-card" style={{ maxWidth: "32rem", margin: "4rem auto", padding: "2rem", textAlign: "center" }}>
+            <div style={{ fontSize: "3rem", marginBottom: "1rem", color: "#2e7d32" }}><Icon>check_circle</Icon></div>
+            <h4 style={{ marginBottom: "0.75rem" }}>You're already subscribed</h4>
+            <p style={{ color: "#555", marginBottom: "1.5rem" }}>
+              You have an active {tierName} subscription. There's no need to subscribe again — you have full access to all your content.
+            </p>
+            <Button waves="light" onClick={() => this.props.history.push("/")} style={{ backgroundColor: "#0F4C3A" }}>
+              Go to homepage
+            </Button>
+          </Card>
+        </div>
+      );
     }
 
     const showTierSelection = uid && selectedTier && !authComplete;
@@ -252,8 +265,7 @@ class PremiumMembership extends Component {
           )}
           {!showLogin && !uid && authReady && (
             <div className="PremiumMembership-header_text_small">
-              Access to our paid content is for subscribers only. Already a
-              member?&nbsp;
+              Access to our paid content is for subscribers only. Creating an account or logging in does not subscribe you — you must complete payment. Already subscribed?&nbsp;
               <Link to="/login?redirect=content">Log in now</Link> to access premium content.
             </div>
           )}
@@ -261,7 +273,7 @@ class PremiumMembership extends Component {
 
         {(this.state.alreadyLoggedIn || uid) && !showLogin && (
           <div className="PremiumMembership-header_text">
-            Access to our content is for subscribers only.
+            Access to our content is for subscribers only. You must complete payment to subscribe — creating an account alone does not give access.
           </div>
         )}
 

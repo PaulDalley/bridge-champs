@@ -1336,6 +1336,112 @@ const PUZZLES = [
     ],
   },
   {
+    id: "p2-2",
+    difficulty: 2,
+    title: "Counting: set up the heart suit (two suits)",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    promptOptions: {
+      prePromptsBeforePlay: true,
+      defendersStartedPromptText: "How many trumps do the opponents have?",
+      defendersHeartsStartedExpected: 6,
+      defendersHeartsStartedPromptText: "How many hearts did the defenders start with?",
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      focusNote: "Spades are trumps. We are just looking at two suits for this problem. Let's set up our heart suit! Before we begin…",
+      customPrompts: [
+        { id: "p2-2-hearts-left-1", type: "SINGLE_NUMBER", atRoundIdx: 1, promptText: "How many hearts do the opponents still have?", expectedAnswer: 2 },
+        { id: "p2-2-break-33", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 3, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 3, RHO: 3, DUMMY: 6, DECLARER: 1 }, promptText: "Hearts might be breaking 3–3. So the other defender has how many? (Enter for RHO in the compass.)" },
+        { id: "p2-2-break-24", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 2, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 2, RHO: 4, DUMMY: 6, DECLARER: 1 }, promptText: "Or hearts might be breaking 2–4. So the other defender has how many? (Enter for RHO in the compass.)" },
+        { id: "p2-2-hearts-out", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "How many hearts are still out?", expectedAnswer: 1 },
+        { id: "p2-2-trumps-out", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "How many trumps are now out? (Remember West just overruffed you.)", expectedAnswer: 4 },
+        { id: "p2-2-trumps-still-out", type: "SINGLE_NUMBER", atRoundIdx: 4, promptText: "How many trumps are still out now?", expectedAnswer: 2 },
+        { id: "p2-2-trumps-left", type: "SINGLE_NUMBER", atRoundIdx: 5, promptText: "How many trumps are left?", expectedAnswer: 1 },
+        {
+          id: "p2-2-closing",
+          type: "INFO",
+          atRoundIdx: 6,
+          setDoneExtraText: true,
+          promptText: "We are now confident that there is only 1 trump outstanding, and no hearts outstanding. You can now draw the final trump and enjoy your heart suit. Do you feel more in control? Don't be shy to do this exercise multiple times, or even daily, while your mind builds the pattern recognition.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "AKQ2", H: "A98765", D: "", C: "" },
+      DECLARER: { S: "JT98", H: "2", D: "", C: "" },
+    },
+    expectedInitialLengths: { LHO: 3, DUMMY: 4, RHO: 2, DECLARER: 4 },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "DUMMY", card: { rank: "A", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+          { seat: "RHO", card: { rank: "4", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
+          { seat: "LHO", card: { rank: "5", suit: "H" } },
+          { seat: "RHO", card: { rank: "6", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (spade to the Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "9", suit: "S" } },
+          { seat: "LHO", card: { rank: "3", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "S" } },
+          { seat: "RHO", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "LHO", card: { rank: "T", suit: "S" } },
+          { seat: "RHO", card: { rank: "K", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (West leads trump, you win with King)",
+        plays: [
+          { seat: "LHO", card: { rank: "5", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "6", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "T", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (final heart: you ruff, West overruffs)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
+          { seat: "LHO", card: { rank: "9", suit: "S" } },
+          { seat: "RHO", card: { rank: "Q", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "H" } },
+          { seat: "RHO", card: { rank: "3", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "T", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "d5-2",
     difficulty: 3,
     title: "BBO board 21 (5♥) — defender shows out on 2nd round of trumps",
@@ -1951,6 +2057,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const [feedback, setFeedback] = useState(null); // { type: "ok"|"error", text }
 
   const [defendersStartedInput, setDefendersStartedInput] = useState("");
+  const [defendersHeartsStartedInput, setDefendersHeartsStartedInput] = useState("");
   const [defendersRemainingInput, setDefendersRemainingInput] = useState("");
   const [distributionInput, setDistributionInput] = useState({ LHO: "", DUMMY: "", RHO: "", DECLARER: "" });
   const [distributionSuitKey, setDistributionSuitKey] = useState(null);
@@ -1963,6 +2070,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const [declarerTrumpGuessInput, setDeclarerTrumpGuessInput] = useState("");
   const [seatSuitCountInput, setSeatSuitCountInput] = useState("");
   const [seatSuitCountKey, setSeatSuitCountKey] = useState(null);
+  const [singleNumberInput, setSingleNumberInput] = useState("");
   const [activeCustomPrompt, setActiveCustomPrompt] = useState(null);
   const [playDecisionReveal, setPlayDecisionReveal] = useState(null); // { text, promptId, roundIdx }
   const [doneExtraText, setDoneExtraText] = useState(null);
@@ -1982,6 +2090,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const defendersSingleInputRef = useRef(null);
   const declarerTrumpGuessRef = useRef(null);
   const seatSuitCountRef = useRef(null);
+  const singleNumberRef = useRef(null);
   const playDecisionQuestionRef = useRef(null);
   const seatShapeRefs = {
     S: useRef(null),
@@ -1992,6 +2101,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
 
   const [wrongAttempts, setWrongAttempts] = useState({
     defendersStarted: 0,
+    defendersHeartsStarted: 0,
     defendersRemaining: 0,
     distribution: 0,
     distributionGuess: 0,
@@ -1999,6 +2109,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     seatShape: 0,
     trickCount: 0,
     seatSuitCount: 0,
+    singleNumber: 0,
     playDecision: 0,
   });
 
@@ -2282,6 +2393,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     setPromptStep(null);
     setFeedback(null);
     setDefendersStartedInput("");
+    setDefendersHeartsStartedInput("");
     setDefendersRemainingInput("");
     setDistributionInput({ LHO: "", DUMMY: "", RHO: "", DECLARER: "" });
     setDistributionSuitKey(null);
@@ -2292,11 +2404,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     setTrickCountInput({ S: "", H: "", D: "", C: "" });
     setDeclarerTrumpGuessInput("");
     setSeatSuitCountInput("");
+    setSingleNumberInput("");
     setActiveCustomPrompt(null);
     setPlayDecisionReveal(null);
     setDoneExtraText(null);
     setWrongAttempts({
       defendersStarted: 0,
+      defendersHeartsStarted: 0,
       defendersRemaining: 0,
       distribution: 0,
       distributionGuess: 0,
@@ -2304,6 +2418,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       seatShape: 0,
       trickCount: 0,
       seatSuitCount: 0,
+      singleNumber: 0,
       playDecision: 0,
     });
     askedRef.current = {
@@ -2493,6 +2608,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     setPostPromptIdx(0);
     setActiveCustomPrompt(computed.customPrompt || null);
     if (computed.prompts[0] === "DISTRIBUTION") setDistributionSuit(computed.distributionSuit);
+    if (computed.customPrompt?.type === "DISTRIBUTION_GUESS" && computed.customPrompt?.suit) setDistributionSuit(computed.customPrompt.suit);
     if (computed.customPrompt?.type === "SEAT_SHAPE" && computed.customPrompt?.seat) setShapeSeat(computed.customPrompt.seat);
     else if (computed.prompts[0] === "SEAT_SHAPE") setShapeSeat(computed.shapeSeat);
     setPromptStep(computed.prompts[0] || null);
@@ -2871,9 +2987,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         askedRef.current = { ...(askedRef.current || {}), defendersStarted: true };
         setAskedTick((t) => t + 1);
         if (prePrompts[0] === "DEFENDERS_STARTED") {
-          // Pre-play: user will advance tricks manually.
-          setPromptStep(null);
-          applyStateThroughRound(-1);
+          if (puzzle?.promptOptions?.defendersHeartsStartedExpected != null) {
+            setPromptStep("DEFENDERS_HEARTS_STARTED");
+          } else {
+            setPromptStep(null);
+            applyStateThroughRound(-1);
+          }
         } else {
           // Post-play: continue to next question.
           advancePostPrompt();
@@ -2888,11 +3007,40 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           askedRef.current = { ...(askedRef.current || {}), defendersStarted: true };
           setAskedTick((t) => t + 1);
           if (prePrompts[0] === "DEFENDERS_STARTED") {
-            setPromptStep(null);
-            applyStateThroughRound(-1);
+            if (puzzle?.promptOptions?.defendersHeartsStartedExpected != null) {
+              setPromptStep("DEFENDERS_HEARTS_STARTED");
+            } else {
+              setPromptStep(null);
+              applyStateThroughRound(-1);
+            }
           } else {
             advancePostPrompt();
           }
+        }, 900);
+      } else {
+        setFeedback({ type: "error", text: "Not quite — try again." });
+      }
+    }
+  };
+
+  const submitDefendersHeartsStarted = () => {
+    const expected = puzzle?.promptOptions?.defendersHeartsStartedExpected;
+    const val = Number(defendersHeartsStartedInput);
+    if (Number.isFinite(expected) && Number.isFinite(val) && val === expected) {
+      setFeedback({ type: "ok", text: "Well done — that's correct!" });
+      setQueuedTimeout(() => {
+        setFeedback(null);
+        setPromptStep(null);
+        applyStateThroughRound(-1);
+      }, 550);
+    } else {
+      const shouldReveal = revealAfterTwoWrong("defendersHeartsStarted");
+      if (shouldReveal) {
+        setFeedback({ type: "ok", text: `The correct answer is ${expected}.` });
+        setQueuedTimeout(() => {
+          setFeedback(null);
+          setPromptStep(null);
+          applyStateThroughRound(-1);
         }, 900);
       } else {
         setFeedback({ type: "error", text: "Not quite — try again." });
@@ -3215,6 +3363,43 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     }
   };
 
+  const submitSingleNumber = () => {
+    const promptId = activeCustomPrompt?.id;
+    const expected = activeCustomPrompt?.expectedAnswer;
+    const val = Number(singleNumberInput);
+    if (!promptId || typeof expected !== "number") return;
+    if (Number.isFinite(val) && val === expected) {
+      setFeedback({ type: "ok", text: "Well done — that's correct!" });
+      setQueuedTimeout(() => {
+        setFeedback(null);
+        setSingleNumberInput("");
+        askedRef.current = {
+          ...(askedRef.current || {}),
+          customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+        };
+        setAskedTick((t) => t + 1);
+        afterManualTrick(completedRoundIdx);
+      }, 550);
+    } else {
+      const shouldReveal = revealAfterTwoWrong("singleNumber");
+      if (shouldReveal) {
+        setFeedback({ type: "ok", text: `The correct answer is ${expected}.` });
+        setQueuedTimeout(() => {
+          setFeedback(null);
+          setSingleNumberInput("");
+          askedRef.current = {
+            ...(askedRef.current || {}),
+            customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+          };
+          setAskedTick((t) => t + 1);
+          afterManualTrick(completedRoundIdx);
+        }, 900);
+      } else {
+        setFeedback({ type: "error", text: "Not quite — try again." });
+      }
+    }
+  };
+
   const submitPlayDecision = (choiceId) => {
     const promptId = activeCustomPrompt?.id;
     if (!promptId) return;
@@ -3342,6 +3527,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
 
   const submitInfoPrompt = () => {
     const promptId = activeCustomPrompt?.id;
+    if (activeCustomPrompt?.setDoneExtraText && activeCustomPrompt?.promptText) {
+      setDoneExtraText(activeCustomPrompt.promptText);
+    }
     if (!promptId) {
       setPromptStep(null);
       continueFromRound(completedRoundIdx);
@@ -3663,6 +3851,18 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     }
   }, [promptStep, seatSuitCountKey, activeCustomPrompt]);
 
+  useEffect(() => {
+    if (promptStep === "SINGLE_NUMBER") {
+      const t = setTimeout(() => {
+        setSingleNumberInput("");
+        setFeedback(null);
+        singleNumberRef.current?.focus?.();
+        singleNumberRef.current?.select?.();
+      }, 50);
+      return () => clearTimeout(t);
+    }
+  }, [promptStep]);
+
   // When we reveal all cards at the end, show the original deal for ALL hands.
   useEffect(() => {
     if (promptStep !== "DONE") return;
@@ -3962,6 +4162,59 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
+          {promptStep === "SINGLE_NUMBER" && (
+            <>
+              <div className="ct-questionText">{activeCustomPrompt?.promptText || "Enter the number."}</div>
+              <div className="ct-railAnswer" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div
+                  className="ct-numBox ct-numBox--single"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    singleNumberRef.current?.focus?.({ preventScroll: true });
+                    singleNumberRef.current?.select?.();
+                  }}
+                >
+                  <div className="ct-numBoxValue ct-numBoxValue--single" aria-hidden="true">
+                    {singleNumberInput}
+                  </div>
+                  <input
+                    ref={singleNumberRef}
+                    className="ct-numBoxInput ct-numBoxInput--hidden"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={2}
+                    aria-label="Number answer"
+                    value={singleNumberInput}
+                    onChange={(e) => {
+                      const raw = String(e.target.value ?? "");
+                      const cleaned = raw.replace(/[^0-9]/g, "").slice(0, 2);
+                      setSingleNumberInput(cleaned);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        submitSingleNumber();
+                      }
+                    }}
+                    onFocus={(e) => e.target.select()}
+                    disabled={isPlaying}
+                  />
+                </div>
+                <button className="ct-btn" onClick={submitSingleNumber} disabled={isPlaying}>
+                  Enter
+                </button>
+              </div>
+              <div className="ct-railActions">
+                {feedback?.type === "error" && (
+                  <button className="ct-btn ct-btn--secondary" onClick={clearFeedback}>
+                    Try again
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+
           {promptStep === "PLAY_DECISION" && (
             <div ref={playDecisionQuestionRef} className="ct-playDecisionBlock" role="region" aria-label="Question">
               <div className="ct-playDecisionBlock-heading">Your turn — answer below</div>
@@ -3999,31 +4252,32 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
-          {(promptStep === "DEFENDERS_STARTED" || promptStep === "DEFENDERS_REMAINING") && (
+          {(promptStep === "DEFENDERS_STARTED" || promptStep === "DEFENDERS_REMAINING" || promptStep === "DEFENDERS_HEARTS_STARTED") && (
             <>
               <div className="ct-questionText">
-                {promptStep === "DEFENDERS_STARTED"
-                  ? (puzzle?.promptOptions?.defendersStartedPromptText ||
-                      (isDeclarerSide
-                        ? isPrePlayInManual
-                          ? "How many trumps do the defenders have?"
-                          : "How many trumps did the defenders start with?"
-                        : "How many trumps did declarer start with?"))
-                  : (puzzle?.promptOptions?.defendersRemainingPromptText ||
-                      (isDeclarerSide ? "How many trumps do the defenders still hold?" : "How many trumps does declarer have left?"))}
+                {promptStep === "DEFENDERS_HEARTS_STARTED"
+                  ? (puzzle?.promptOptions?.defendersHeartsStartedPromptText || "How many hearts did the defenders start with?")
+                  : promptStep === "DEFENDERS_STARTED"
+                    ? (puzzle?.promptOptions?.defendersStartedPromptText ||
+                        (isDeclarerSide
+                          ? isPrePlayInManual
+                            ? "How many trumps do the defenders have?"
+                            : "How many trumps did the defenders start with?"
+                          : "How many trumps did declarer start with?"))
+                    : (puzzle?.promptOptions?.defendersRemainingPromptText ||
+                        (isDeclarerSide ? "How many trumps do the defenders still hold?" : "How many trumps does declarer have left?"))}
               </div>
 
               <div className="ct-railAnswer">
                 <div
                   className="ct-numBox ct-numBox--single"
                   onMouseDown={(e) => {
-                    // Make the whole tile clickable/focusable (not just the border).
                     e.preventDefault();
                     defendersSingleInputRef.current?.focus?.({ preventScroll: true });
                   }}
                 >
                   <div className="ct-numBoxValue ct-numBoxValue--single" aria-hidden="true">
-                    {promptStep === "DEFENDERS_STARTED" ? defendersStartedInput : defendersRemainingInput}
+                    {promptStep === "DEFENDERS_HEARTS_STARTED" ? defendersHeartsStartedInput : promptStep === "DEFENDERS_STARTED" ? defendersStartedInput : defendersRemainingInput}
                   </div>
                   <input
                     ref={defendersSingleInputRef}
@@ -4031,24 +4285,28 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                        maxLength={1}
+                    maxLength={1}
                     aria-label={
-                      promptStep === "DEFENDERS_STARTED"
-                        ? "Defenders starting trumps total"
-                        : "Defenders trumps still held"
+                      promptStep === "DEFENDERS_HEARTS_STARTED"
+                        ? "Defenders starting hearts total"
+                        : promptStep === "DEFENDERS_STARTED"
+                          ? "Defenders starting trumps total"
+                          : "Defenders trumps still held"
                     }
-                    value={promptStep === "DEFENDERS_STARTED" ? defendersStartedInput : defendersRemainingInput}
+                    value={promptStep === "DEFENDERS_HEARTS_STARTED" ? defendersHeartsStartedInput : promptStep === "DEFENDERS_STARTED" ? defendersStartedInput : defendersRemainingInput}
                     onChange={(e) => {
-                          const raw = String(e.target.value ?? "");
-                          const cleaned = raw.replace(/[^0-9]/g, "").slice(0, 1);
-                          const n = cleaned === "" ? "" : String(Math.max(0, Math.min(9, Number(cleaned))));
-                          if (promptStep === "DEFENDERS_STARTED") setDefendersStartedInput(n);
-                          else setDefendersRemainingInput(n);
+                      const raw = String(e.target.value ?? "");
+                      const cleaned = raw.replace(/[^0-9]/g, "").slice(0, 1);
+                      const n = cleaned === "" ? "" : String(Math.max(0, Math.min(9, Number(cleaned))));
+                      if (promptStep === "DEFENDERS_HEARTS_STARTED") setDefendersHeartsStartedInput(n);
+                      else if (promptStep === "DEFENDERS_STARTED") setDefendersStartedInput(n);
+                      else setDefendersRemainingInput(n);
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        if (promptStep === "DEFENDERS_STARTED") submitDefendersStarted();
+                        if (promptStep === "DEFENDERS_HEARTS_STARTED") submitDefendersHeartsStarted();
+                        else if (promptStep === "DEFENDERS_STARTED") submitDefendersStarted();
                         else submitDefendersRemaining();
                       }
                     }}
@@ -4057,7 +4315,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
                 </div>
                 <button
                   className="ct-btn"
-                  onClick={promptStep === "DEFENDERS_STARTED" ? submitDefendersStarted : submitDefendersRemaining}
+                  onClick={promptStep === "DEFENDERS_HEARTS_STARTED" ? submitDefendersHeartsStarted : promptStep === "DEFENDERS_STARTED" ? submitDefendersStarted : submitDefendersRemaining}
                   disabled={isPlaying}
                 >
                   Enter

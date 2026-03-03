@@ -349,7 +349,7 @@ const CARDPLAY_PUZZLES = [
 ];
 
 function CardPlayTrainer() {
-  return <CountingTrumpsTrainer puzzlesOverride={CARDPLAY_PUZZLES} trainerLabel="Declarer Play" />;
+  return <CountingTrumpsTrainer puzzlesOverride={CARDPLAY_PUZZLES} trainerLabel="Declarer Play" categoryKey="declarer" />;
 }
 
 export default CardPlayTrainer;

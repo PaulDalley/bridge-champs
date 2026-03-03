@@ -182,6 +182,13 @@
   opacity: 0.72;
   transform: none !important;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+  pointer-events: none;
+}
+
+.ch-card--disabled:hover {
+  transform: none !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+  border-color: #e5e7eb;
 }
 
 .ch-soon {

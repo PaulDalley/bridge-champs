@@ -118,8 +118,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       return;
     }
     dispatch(setCurrentArticle(article));
-    // Most category article routes live at `/${articleType}/:id` where `:id` is the *body* doc id.
-    // Counting is nested under `/counting/articles/:id`.
+    // Most category article routes live at `/${articleType}/:id` or nested paths.
     const nextPath =
       articleType === "counting"
         ? `/counting/articles/${id}`
@@ -127,6 +126,16 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           ? `/cardPlay/articles/${id}`
           : articleType === "defence"
             ? `/defence/articles/${id}`
+          : articleType === "biddingBasics"
+            ? `/bidding/basics/${id}`
+          : articleType === "biddingAdvanced"
+            ? `/bidding/advanced/${id}`
+          : articleType === "cardPlayBasics"
+            ? `/cardPlay/basics/${id}`
+          : articleType === "defenceBasics"
+            ? `/defence/basics/${id}`
+          : articleType === "bidding"
+            ? `/bidding/advanced/${id}`
         : `/${articleType}/${id}`;
     history.push(nextPath);
   };
@@ -262,14 +271,33 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const groupedContent = groupContentByLevel(filteredArticles || [], videos || [], practiceQuestions || []);
 
   // Get category info
+  const getCreatePath = () => {
+    if (articleType === "biddingBasics") return "/create/bidding/basics";
+    if (articleType === "bidding") return "/create/bidding";
+    if (articleType === "cardPlayBasics") return "/create/cardPlay/basics";
+    if (articleType === "defenceBasics") return "/create/defence/basics";
+    return `/create/${articleType}`;
+  };
+
+  const isComingSoonBasics = articleType === "cardPlayBasics" || articleType === "defenceBasics";
+  const showComingSoon = isComingSoonBasics && a !== true;
+
   const getCategoryInfo = () => {
     switch (articleType) {
       case 'defence':
         return { name: 'Defence', subtitle: 'Master defensive play' };
       case 'cardPlay':
         return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
-      case 'bidding': 
-        return { name: 'Bidding', subtitle: 'Improve your bidding judgment' };
+      case 'bidding':
+        return { name: 'Bidding – Advanced ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
+      case 'biddingBasics':
+        return { name: 'Bidding – Learn the Basics', subtitle: 'Critically important to get this right. Build a solid foundation.' };
+      case 'biddingAdvanced':
+        return { name: 'Bidding – Advanced Ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
+      case 'cardPlayBasics':
+        return { name: 'Declarer Play – Learn the Basics', subtitle: 'Coming soon. Build a solid foundation.' };
+      case 'defenceBasics':
+        return { name: 'Defence – Learn the Basics', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'counting':
         return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
       default: 
@@ -467,7 +495,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           {/* Add Article Button */}
           <div>
             <Button
-              onClick={(e) => history.push(`/create/${articleType}`)}
+              onClick={(e) => history.push(getCreatePath())}
               floating
               large
               className="green darken-2"
@@ -480,8 +508,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       )}
       
-      {/* Fallback: Show Add component if not admin (for other pages) */}
-      {a !== true && <Add goto={`/create/${articleType}`} history={history} />}
+      {/* Fallback: Show Add component if not admin (for other pages) - hide for Coming Soon basics */}
+      {a !== true && !showComingSoon && <Add goto={getCreatePath()} history={history} />}
 
       <div className="CategoryArticles-header">
         <div className="container">
@@ -492,6 +520,18 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         </div>
       </div>
 
+      {showComingSoon && (
+        <div className="CategoryArticles-coming-soon container" style={{ textAlign: "center", padding: "4rem 2rem", maxWidth: "36rem", margin: "0 auto" }}>
+          <div style={{ fontSize: "3rem", marginBottom: "1rem" }} aria-hidden="true">🚧</div>
+          <h2 style={{ fontSize: "1.75rem", marginBottom: "0.75rem", color: "#0F4C3A" }}>Coming Soon</h2>
+          <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.6 }}>
+            We’re building a dedicated <strong>Learn the Basics</strong> section here. Check back later for focused, foundational content.
+          </p>
+        </div>
+      )}
+
+      {!showComingSoon && (
+      <>
       <div className="CategoryArticles-filters-section">
         <div className="container">
           <FiltersCategoryArticles />
@@ -601,6 +641,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           )}
         </div>
       </div>
+
+      </>
+      )}
 
     </div>
   );

@@ -82,6 +82,8 @@ export default (state = { authReady: false }, action) => {
         firstName: "",
         surname: "",
         photoURL: "",
+        subscriptionActive: false,
+        subscriptionExpires: undefined,
       };
 
     case actions.USER_SET:

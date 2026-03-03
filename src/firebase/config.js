@@ -37,15 +37,27 @@ const articleRef = database.collection("article");
 // 3 NEW TYPES OF ARTICLES:
 const biddingSummaryRef = database.collection("bidding");
 const biddingBodyRef = database.collection("biddingBody");
+const biddingBasicsSummaryRef = database.collection("biddingBasics");
+const biddingBasicsBodyRef = database.collection("biddingBasicsBody");
+const biddingAdvancedSummaryRef = database.collection("biddingAdvanced");
+const biddingAdvancedBodyRef = database.collection("biddingAdvancedBody");
 const cardPlaySummaryRef = database.collection("cardPlay");
 const cardPlayBodyRef = database.collection("cardPlayBody");
+const cardPlayBasicsSummaryRef = database.collection("cardPlayBasics");
+const cardPlayBasicsBodyRef = database.collection("cardPlayBasicsBody");
 const defenceSummaryRef = database.collection("defence");
 const defenceBodyRef = database.collection("defenceBody");
+const defenceBasicsSummaryRef = database.collection("defenceBasics");
+const defenceBasicsBodyRef = database.collection("defenceBasicsBody");
 
 // Backup collections for article version history
 const cardPlayBodyBackupsRef = database.collection("cardPlayBodyBackups");
+const cardPlayBasicsBodyBackupsRef = database.collection("cardPlayBasicsBodyBackups");
 const defenceBodyBackupsRef = database.collection("defenceBodyBackups");
+const defenceBasicsBodyBackupsRef = database.collection("defenceBasicsBodyBackups");
 const biddingBodyBackupsRef = database.collection("biddingBodyBackups");
+const biddingBasicsBodyBackupsRef = database.collection("biddingBasicsBodyBackups");
+const biddingAdvancedBodyBackupsRef = database.collection("biddingAdvancedBodyBackups");
 
 // Counting articles (within the Counting tab)
 const countingSummaryRef = database.collection("counting");
@@ -82,13 +94,25 @@ export {
   articleRef,
   biddingSummaryRef,
   biddingBodyRef,
+  biddingBasicsSummaryRef,
+  biddingBasicsBodyRef,
+  biddingAdvancedSummaryRef,
+  biddingAdvancedBodyRef,
   cardPlaySummaryRef,
   cardPlayBodyRef,
+  cardPlayBasicsSummaryRef,
+  cardPlayBasicsBodyRef,
   defenceSummaryRef,
   defenceBodyRef,
+  defenceBasicsSummaryRef,
+  defenceBasicsBodyRef,
   cardPlayBodyBackupsRef,
+  cardPlayBasicsBodyBackupsRef,
   defenceBodyBackupsRef,
+  defenceBasicsBodyBackupsRef,
   biddingBodyBackupsRef,
+  biddingBasicsBodyBackupsRef,
+  biddingAdvancedBodyBackupsRef,
   countingSummaryRef,
   countingBodyRef,
   countingBodyBackupsRef,

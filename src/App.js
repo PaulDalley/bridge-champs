@@ -18,7 +18,7 @@ import "materialize-css";
 
 import React, { Component, lazy, Suspense } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Switch } from "react-router-dom"; // Routes replaced Switch component deprecated.
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"; // Routes replaced Switch component deprecated.
 import "./App.css";
 import Contact from "./components/UI/Contact";
 import About from "./components/UI/About";
@@ -51,6 +51,7 @@ import CountingHub from "./components/Counting/CountingHub";
 import CardPlayHub from "./components/CardPlay/CardPlayHub";
 import CardPlayTrainer from "./components/CardPlay/CardPlayTrainer";
 import DefenceHub from "./components/Defence/DefenceHub";
+import BiddingHub from "./components/Bidding/BiddingHub";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 
@@ -87,11 +88,15 @@ const routes = (
     <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
     <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
     <Route path="/cardPlay/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
+    <Route path="/cardPlay/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} exact />
+    <Route path="/cardPlay/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} />
     <Route path="/cardPlay" component={CardPlayHub} exact />
 
     <Route path="/defence/practice" component={DefenceTrainer} exact />
     <Route path="/defence/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defence" bodyRef="defenceBody" />} exact />
     <Route path="/defence/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defence" bodyRef="defenceBody" />} />
+    <Route path="/defence/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defenceBasics" bodyRef="defenceBasicsBody" />} exact />
+    <Route path="/defence/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defenceBasics" bodyRef="defenceBasicsBody" />} />
     <Route path="/defence" component={DefenceHub} exact />
 
     <Route
@@ -103,7 +108,7 @@ const routes = (
       path="/counting/articles/:id"
       render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="counting" bodyRef="countingBody" />}
     />
-    <Route path="/counting/practice" render={() => <CountingTrumpsTrainer trainerLabel="Counting" />} exact />
+    <Route path="/counting/practice" render={() => <CountingTrumpsTrainer trainerLabel="Counting" categoryKey="counting" />} exact />
     <Route path="/counting" component={CountingHub} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
@@ -145,9 +150,25 @@ const routes = (
       )}
     />
 
-    {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
+    {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE - more specific paths first so /create/defence/basics matches before /create/defence */}
+    <Route
+      path="/create/defence/basics"
+      create={true}
+      creating={true}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="defenceBasics"
+            bodyRef="defenceBasicsBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
+      )}
+    />
     <Route
       path="/create/defence"
+      exact
       render={() => (
         <Suspense fallback={<SkeletonLoader type="article" />}>
           <CreateCategoryArticle
@@ -161,7 +182,23 @@ const routes = (
     />
 
     <Route
+      path="/create/cardPlay/basics"
+      create={true}
+      creating={true}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="cardPlayBasics"
+            bodyRef="cardPlayBasicsBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
+      )}
+    />
+    <Route
       path="/create/cardPlay"
+      exact
       create={true}
       creating={true}
       render={() => (
@@ -178,6 +215,7 @@ const routes = (
 
     <Route
       path="/create/bidding"
+      exact
       create={true}
       creating={true}
       render={() => (
@@ -185,6 +223,21 @@ const routes = (
           <CreateCategoryArticle
             articleType="bidding"
             bodyRef="biddingBody"
+            create={true}
+            creating={true}
+          />
+        </Suspense>
+      )}
+    />
+    <Route
+      path="/create/bidding/basics"
+      create={true}
+      creating={true}
+      render={() => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            articleType="biddingBasics"
+            bodyRef="biddingBasicsBody"
             create={true}
             creating={true}
           />
@@ -230,6 +283,32 @@ const routes = (
       )}
     />
     <Route
+      path="/edit/cardPlayBasics/:id"
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="cardPlayBasics"
+            bodyRef="cardPlayBasicsBody"
+          />
+        </Suspense>
+      )}
+    />
+    <Route
+      path="/edit/defenceBasics/:id"
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="defenceBasics"
+            bodyRef="defenceBasicsBody"
+          />
+        </Suspense>
+      )}
+    />
+    <Route
       path="/edit/bidding/:id"
       render={(routeProps) => (
         <Suspense fallback={<SkeletonLoader type="article" />}>
@@ -238,6 +317,19 @@ const routes = (
             edit={true}
             articleType="bidding"
             bodyRef="biddingBody"
+          />
+        </Suspense>
+      )}
+    />
+    <Route
+      path="/edit/biddingBasics/:id"
+      render={(routeProps) => (
+        <Suspense fallback={<SkeletonLoader type="article" />}>
+          <CreateCategoryArticle
+            {...routeProps}
+            edit={true}
+            articleType="biddingBasics"
+            bodyRef="biddingBasicsBody"
           />
         </Suspense>
       )}
@@ -251,27 +343,11 @@ const routes = (
         </Suspense>
       )}
     />
-    <Route
-      path="/bidding"
-      render={(routeProps) => (
-        <CategoryArticles
-          {...routeProps}
-          articleType="bidding"
-          bodyRef="biddingBody"
-        />
-      )}
-      exact
-    />
-    <Route
-      path="/bidding/:id"
-      render={(routeProps) => (
-        <DisplayCategoryArticle
-          {...routeProps}
-          articleType="bidding"
-          bodyRef="biddingBody"
-        />
-      )}
-    />
+    <Route path="/bidding" component={BiddingHub} exact />
+    <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
+    <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
+    <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
+    <Route path="/bidding/advanced/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="bidding" bodyRef="biddingBody" />} />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
 
     <Route
@@ -498,6 +574,7 @@ const updateDailies = () => {
 // Firebase subscription to auth state in current application:
 let subscribed = false;
 let membersDataSubscriptionUnsubscribe;
+let membersSubscriptionUnsubscribe;
 firebase.auth().onAuthStateChanged((user) => {
   // TESTING PURPOSES:
   // firebase.firestore().collection('members')
@@ -593,30 +670,32 @@ firebase.auth().onAuthStateChanged((user) => {
       });
     // subscribed = true;
 
-    firebase
+    if (membersSubscriptionUnsubscribe) {
+      membersSubscriptionUnsubscribe();
+    }
+    membersSubscriptionUnsubscribe = firebase
       .firestore()
       .collection("members")
       .doc(user.uid)
-      .get()
-      .then((snapshot) => {
-        // console.log(snapshot);
-        const data = snapshot.data();
-        // console.log("--- MORE USER DATA ---");
-        // console.log(data);
-        // console.log(data['subscriptionExpires']);
-        if (data) {
-          store.dispatch(
-            userLoggedInSubscriptionExpires(
-              data["subscriptionExpires"],
-              data["paymentMethod"],
-              data["subscriptionActive"],
-              data["trialUsed"],
-              data["tier"]
-            )
-          );
-        }
+      .onSnapshot((snapshot) => {
+        const data = snapshot.exists ? snapshot.data() : null;
+        const exp = data?.["subscriptionExpires"];
+        const expiresAt = exp ? (typeof exp.toMillis === "function" ? exp.toMillis() : (typeof exp.toDate === "function" ? exp.toDate().getTime() : new Date(exp).getTime())) : 0;
+        const hasValidExpiry = expiresAt > Date.now();
+        // Active if: (subscriptionActive is true AND not expired) OR (have a future expiry — handles legacy/manual docs)
+        const explicitlyActive = data && data["subscriptionActive"] === true;
+        const hasFutureExpiry = data && exp != null && hasValidExpiry;
+        const subscriptionActive = !!(explicitlyActive && hasValidExpiry) || !!hasFutureExpiry;
+        store.dispatch(
+          userLoggedInSubscriptionExpires(
+            data?.["subscriptionExpires"] ?? null,
+            data?.["paymentMethod"] ?? null,
+            subscriptionActive,
+            data?.["trialUsed"] ?? false,
+            data?.["tier"] ?? "basic"
+          )
+        );
       });
-    // }
 
     store.dispatch(userLoggedIn(user));
     // console.log("STUFF:");
@@ -630,6 +709,9 @@ firebase.auth().onAuthStateChanged((user) => {
     // console.log('logged out');
     if (membersDataSubscriptionUnsubscribe) {
       membersDataSubscriptionUnsubscribe();
+    }
+    if (membersSubscriptionUnsubscribe) {
+      membersSubscriptionUnsubscribe();
     }
     store.dispatch(userLoggedOut());
     store.dispatch(authReady());

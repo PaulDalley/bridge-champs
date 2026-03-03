@@ -12,10 +12,18 @@ import * as actions from "../actions/actionTypes";
 const articlesDefaultState = {
   bidding: [],
   biddingBody: {},
+  biddingBasics: [],
+  biddingBasicsBody: {},
+  biddingAdvanced: [],
+  biddingAdvancedBody: {},
   cardPlay: [],
   cardPlayBody: {},
+  cardPlayBasics: [],
+  cardPlayBasicsBody: {},
   defence: [],
   defenceBody: {},
+  defenceBasics: [],
+  defenceBasicsBody: {},
   article: {},
   currentArticle: undefined,
   fetchedByCategory: false,
@@ -56,7 +64,7 @@ export default (state = articlesDefaultState, action) => {
 
     case actions.CATEGORY_DELETE_ARTICLE:
       let articles = state?.[action.summaryRef]?.filter((article) => {
-        article.id !== action.articleId;
+        return article.id !== action.articleId;
       });
 
       let article = { ...state?.article };

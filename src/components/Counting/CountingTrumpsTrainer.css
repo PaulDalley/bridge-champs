@@ -308,6 +308,14 @@
   color: #b91c1c;
 }
 
+/* Ensure hearts/diamonds stay red in contract and auction lines (override parent color) */
+.ct-contractTop .ct-suitSym--red,
+.ct-contractLine .ct-suitSym--red,
+.ct-auctionTop .ct-suitSym--red,
+.ct-auctionInline .ct-suitSym--red {
+  color: #b91c1c;
+}
+
 .ct-suitSym--black {
   color: #111827;
 }

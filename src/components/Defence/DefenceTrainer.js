@@ -190,7 +190,7 @@ const DEFENCE_PUZZLES = [
 ];
 
 function DefenceTrainer() {
-  return <CountingTrumpsTrainer puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" />;
+  return <CountingTrumpsTrainer puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
 }
 
 export default DefenceTrainer;

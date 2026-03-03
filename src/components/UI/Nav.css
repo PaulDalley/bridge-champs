@@ -741,6 +741,60 @@
   font-weight: 700;
 }
 
+/* Bidding dropdown */
+.Nav-bidding-wrapper {
+  position: relative;
+}
+
+.Nav-tab-card .Nav-bidding-chevron {
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.Nav-bidding-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+  min-width: 280px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06);
+  z-index: 4000;
+  overflow: hidden;
+}
+
+.Nav-bidding-dropdown-item {
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  display: block;
+  border-bottom: 1px solid #eee;
+  transition: background 0.15s ease;
+}
+
+.Nav-bidding-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.Nav-bidding-dropdown-item:hover {
+  background: #f5f9f7;
+}
+
+.Nav-bidding-dropdown-item strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #0F4C3A;
+  margin-bottom: 0.35rem;
+}
+
+.Nav-bidding-dropdown-desc {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .Nav-tabs-modern {

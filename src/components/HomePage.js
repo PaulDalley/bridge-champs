@@ -249,7 +249,7 @@ class HomePage extends Component {
               </div>
               <h1 className="HomePage-success-title">Welcome to Bridge Champions!</h1>
               <p className="HomePage-success-subtitle">
-                {this.state.sessionId
+                {this.state.sessionId && !this.state.verifyResult?.ok
                   ? "Finalizing your subscription…"
                   : "Your subscription is now active"}
               </p>
@@ -314,12 +314,21 @@ class HomePage extends Component {
                     )}
                   </div>
                 )}
-                <p>
-                  Thank you for joining Bridge Champions! Your membership is now active and you have full access to all our premium content.
-                </p>
-                <p>
-                  You can start exploring our comprehensive articles, instructional videos, practice questions, and interactive quizzes right away.
-                </p>
+                {(!this.state.sessionId || this.state.verifyResult?.ok) && (
+                  <>
+                    <p>
+                      Thank you for subscribing! Your membership is now active and you have full access to all our premium content.
+                    </p>
+                    <p>
+                      You can start exploring our comprehensive articles, instructional videos, practice questions, and interactive quizzes right away.
+                    </p>
+                  </>
+                )}
+                {this.state.sessionId && !this.state.verifyResult?.ok && !this.state.verifyingCheckout && this.state.verifyError && (
+                  <p>
+                    We couldn’t activate your access automatically yet. Please use the options above to log in and retry, or wait a minute and refresh — if payment went through, the webhook may still be processing.
+                  </p>
+                )}
               </div>
               <div className="HomePage-success-footer">
                 <p className="HomePage-success-thanks">

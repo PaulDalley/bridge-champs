@@ -16,6 +16,7 @@ import { Dropdown, Button, Divider, Icon } from "react-materialize";
 class Nav extends Component {
   state = {
     sideDrawerOpen: false,
+    biddingDropdownOpen: false,
   };
 
   componentDidMount() {
@@ -59,10 +60,10 @@ class Nav extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { sideDrawerOpen: false };
 
     // COMMENTED OUT BECAUSE useHistory has been deprecated and withRouter has been deprecated
-    this.props.history.listen((location, action) => {
+    this.props.history.listen((location) => {
       let tabLinks = $(".nav-tabs li > a");
 
       tabLinks.each((idx, el) => {
@@ -273,12 +274,12 @@ class Nav extends Component {
                 <div className="Nav-tab-label">Defence</div>
               </div>
 
-              <div 
-                className={`Nav-tab-card ${pathname.startsWith('/bidding') ? 'Nav-tab-active' : ''}`}
+              <div
+                className={`Nav-tab-card ${pathname.startsWith("/bidding") ? "Nav-tab-active" : ""}`}
                 onClick={() => this.goTo("/bidding")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/bidding")}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/bidding")}
                 aria-label="Bidding section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-bidding">
