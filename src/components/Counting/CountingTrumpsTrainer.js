@@ -1349,7 +1349,7 @@ const PUZZLES = [
       prePromptsBeforePlay: true,
       defendersStartedPromptText: "How many trumps do the opponents have?",
       defendersHeartsStartedExpected: 6,
-      defendersHeartsStartedPromptText: "How many hearts did the defenders start with?",
+      defendersHeartsStartedPromptText: "How many hearts do the opponents have?",
       questionNumbers: [],
       manualTrickAdvance: true,
       focusNote: "Spades are trumps. We are just looking at two suits for this problem. Let's set up our heart suit! Before we begin…",
@@ -1357,23 +1357,28 @@ const PUZZLES = [
         { id: "p2-2-hearts-left-1", type: "SINGLE_NUMBER", atRoundIdx: 1, promptText: "How many hearts do the opponents still have?", expectedAnswer: 2 },
         { id: "p2-2-break-33", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 3, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 3, RHO: 3, DUMMY: 6, DECLARER: 1 }, promptText: "Let's think about possible breaks for the heart suit. Fill in the missing number." },
         { id: "p2-2-break-24", type: "DISTRIBUTION_GUESS", suit: "H", atRoundIdx: 1, fixed: { LHO: 2, DUMMY: 6, DECLARER: 1 }, expectedDistribution: { LHO: 2, RHO: 4, DUMMY: 6, DECLARER: 1 }, promptText: "Let's think about possible breaks for the heart suit. Fill in the missing number." },
-        { id: "p2-2-trumps-out-2", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "How many trumps are out (with the opponents)?", expectedAnswer: 2 },
-        { id: "p2-2-trumps-opps-0", type: "SINGLE_NUMBER", atRoundIdx: 4, promptText: "How many trumps do the opponents have left?", expectedAnswer: 0 },
-        { id: "p2-2-hearts-left-1-again", type: "SINGLE_NUMBER", atRoundIdx: 4, promptText: "How many hearts are left (with the opponents)?", expectedAnswer: 1 },
+        { id: "p2-2-trumps-still-3", type: "SINGLE_NUMBER", atRoundIdx: 2, promptText: "Let's update our tally of the outstanding trumps. How many are still out?", expectedAnswer: 3 },
+        { id: "p2-2-overruff-msg", type: "INFO", atRoundIdx: 3, promptText: "You have gotten overruffed. Take your time to make sure you know exactly what is going on with both suits." },
+        { id: "p2-2-trumps-after-overruff", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "How many trumps do the opponents still have after the overruff?", expectedAnswer: 2 },
+        { id: "p2-2-hearts-left-after-overruff", type: "SINGLE_NUMBER", atRoundIdx: 3, promptText: "How many hearts are left?", expectedAnswer: 1 },
+        { id: "p2-2-trumps-out-0", type: "SINGLE_NUMBER", atRoundIdx: 4, promptText: "How many trumps are outstanding?", expectedAnswer: 0 },
         {
           id: "p2-2-closing",
           type: "INFO",
-          atRoundIdx: 5,
+          atRoundIdx: 4,
           setDoneExtraText: true,
-          promptText: "You can now be confident that there are no more trumps left, and that your hearts are good. Don't be shy to do this exercise multiple times, or even daily, while your mind builds the pattern recognition.",
+          promptText: "We confidently know there are no trumps left, and we confidently know there is one heart outstanding. We can play 1 more round of hearts, losing it, but be sure the rest are good! Reveal the hand — East holds the final remaining heart.",
         },
       ],
     },
     shownHands: {
       DUMMY: { S: "AKQ2", H: "A98765", D: "", C: "" },
-      DECLARER: { S: "23567", H: "2", D: "", C: "" },
+      DECLARER: { S: "2356", H: "2", D: "", C: "" },
+      RHO: { S: "JT", H: "KQ84", D: "AK32", C: "765" },
+      LHO: { S: "489", H: "357", D: "QJT9", C: "842" },
     },
-    expectedInitialLengths: { LHO: 2, DUMMY: 4, RHO: 2, DECLARER: 5 },
+    expectedInitialLengths: { LHO: 3, DUMMY: 4, RHO: 2, DECLARER: 4 },
+    preserveEndStateAtDone: true,
     rounds: [
       {
         label: "Trick 1",
@@ -1388,7 +1393,7 @@ const PUZZLES = [
         label: "Trick 2",
         plays: [
           { seat: "DUMMY", card: { rank: "9", suit: "H" } },
-          { seat: "RHO", card: { rank: "6", suit: "H" } },
+          { seat: "RHO", card: { rank: "8", suit: "H" } },
           { seat: "DECLARER", card: { rank: "2", suit: "S" } },
           { seat: "LHO", card: { rank: "5", suit: "H" } },
         ],
@@ -1412,21 +1417,12 @@ const PUZZLES = [
         ],
       },
       {
-        label: "Trick 5 (West leads spade; North wins, East follows)",
+        label: "Trick 5 (West leads trump; North wins, East follows)",
         plays: [
           { seat: "LHO", card: { rank: "9", suit: "S" } },
           { seat: "DUMMY", card: { rank: "K", suit: "S" } },
           { seat: "RHO", card: { rank: "T", suit: "S" } },
           { seat: "DECLARER", card: { rank: "6", suit: "S" } },
-        ],
-      },
-      {
-        label: "Trick 6 (last heart from dummy; you ruff, no trumps left)",
-        plays: [
-          { seat: "DUMMY", card: { rank: "5", suit: "H" } },
-          { seat: "RHO", card: { rank: "Q", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "7", suit: "S" } },
-          { seat: "LHO", card: { rank: "2", suit: "C" } },
         ],
       },
     ],
@@ -1919,7 +1915,14 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const puzzlesAll = useMemo(() => {
     // If override is provided (even empty), treat it as authoritative for this trainer instance.
     if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
-    return PUZZLES;
+    const list = PUZZLES;
+    const isLocal =
+      process.env.NODE_ENV === "development" ||
+      (typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location.hostname || ""));
+    if (!isLocal) {
+      return list.filter((p) => p.id !== "p2-2");
+    }
+    return list;
   }, [puzzlesOverride]);
   const fallbackPuzzle = useMemo(() => {
     // Stable placeholder so hooks don't rely on Counting puzzles when this trainer has none yet.
@@ -2855,7 +2858,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     }
 
     const full = initialFullHands[seat] || [];
-    const playedMap = promptStep === "DONE" ? {} : playedFromHand?.[seat] || {};
+    const playedMap =
+      promptStep === "DONE" && !puzzle.preserveEndStateAtDone ? {} : playedFromHand?.[seat] || {};
     const unplayed = full.filter((c) => !playedMap[`${c.rank}${c.suit}`]);
     const ghostCount = Math.max(0, full.length - unplayed.length);
     const fanRef =
@@ -3853,9 +3857,10 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     }
   }, [promptStep]);
 
-  // When we reveal all cards at the end, show the original deal for ALL hands.
+  // When we reveal all cards at the end, show the original deal for ALL hands (unless puzzle asks to preserve end state).
   useEffect(() => {
     if (promptStep !== "DONE") return;
+    if (puzzle.preserveEndStateAtDone) return;
     setPlayedFromHand({ LHO: {}, DUMMY: {}, RHO: {}, DECLARER: {} });
     setRemainingHands(buildInitialRemainingHands(puzzle));
   }, [promptStep, puzzle]);
