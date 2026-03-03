@@ -15,8 +15,8 @@
 
 .ct-layout {
   display: grid;
-  /* Give the stage more width so the board/cards can be bigger */
-  grid-template-columns: minmax(0, 1fr) 300px;
+  /* Single column: stage contains table+prompt wrapper (table and rail/sidebar sit side by side inside) */
+  grid-template-columns: minmax(0, 1fr);
   gap: 6px;
   align-items: start;
 }
@@ -429,11 +429,13 @@
 
 /* Tight layout: bidding | table+hands | East — minimal gaps, table left-aligned; right column wide enough for East’s per-suit rows (50px per card) */
 /* Wrapper when prompt is in right sidebar: table stays fixed, explanation on the right */
+/* width: fit-content so table + prompt stay grouped on the left, not pushed apart */
 .ct-tableWithSidebar {
   display: flex;
-  gap: 10px;
+  gap: 52px;
   align-items: flex-start;
-  width: 100%;
+  justify-content: flex-start;
+  width: fit-content;
   max-width: 100%;
   overflow: visible;
   min-width: 0;
@@ -441,20 +443,30 @@
 
 /* Table grows to use space so South/center column isn’t squeezed; sidebar stays fixed on the right */
 .ct-tableWithSidebar .ct-table {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
   overflow: visible;
-  /* Prevent sidebar from squeezing table so East column is never cut off by the question box */
-  min-width: 930px;
+  max-width: 920px;
+  margin-right: 24px;
+  row-gap: 14px;
+}
+/* Keep East hand clear of the question box */
+.ct-tableWithSidebar .ct-seat--right {
+  margin-right: 0;
+  padding-right: 16px;
+}
+/* Keep South hand clear of the start overlay above */
+.ct-tableWithSidebar .ct-seat--bottom {
+  margin-top: 4px;
 }
 .ct-tableWithSidebar .ct-table.ct-table--westVisible {
-  min-width: 800px;
+  max-width: 840px;
 }
 
 /* Right sidebar: bidding + explanation — sized for projection/teaching (clear, readable) */
 .ct-explanationSidebar {
-  flex: 0 0 420px;
-  width: 420px;
+  flex: 0 0 380px;
+  width: 380px;
   max-width: 100%;
   max-height: 85vh;
   overflow-y: auto;
@@ -462,12 +474,58 @@
   top: calc(5rem + 6px);
   padding: 4px 0 0;
   box-sizing: border-box;
+  margin-left: 28px;
 }
 
 .ct-explanationSidebar .ct-sidePrompt {
   margin: 0;
   max-width: 100%;
   padding: 12px 14px;
+}
+
+/* Bidding box in rail: larger text, no outer box */
+.ct-rail .ct-auctionCard {
+  margin: 6px 0 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.ct-rail .ct-auctionTitle {
+  font-size: 18px;
+  font-weight: 950;
+  margin-bottom: 8px;
+}
+.ct-rail .ct-auctionHead,
+.ct-rail .ct-auctionRow {
+  gap: 2px;
+  grid-template-columns: repeat(4, minmax(54px, 72px));
+}
+.ct-rail .ct-auctionCell {
+  min-height: 36px;
+  padding: 4px 6px;
+  font-size: 24px;
+  font-weight: 900;
+}
+.ct-rail .ct-auctionCell--head {
+  min-height: 28px;
+  font-size: 15px;
+}
+.ct-rail .ct-auctionCall {
+  font-size: 24px;
+}
+
+/* When prompt is in rail (non–full-hands), same grouping as sidebar: fixed width, sits next to table */
+.ct-tableWithSidebar .ct-rail.ct-rail--inSidebar {
+  flex: 0 0 380px;
+  width: 380px;
+  max-width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: sticky;
+  top: calc(5rem + 6px);
+  box-sizing: border-box;
+  margin-left: 28px;
 }
 
 /* Contract + bidding in sidebar: large, clear text for projection/teaching */
@@ -1221,7 +1279,7 @@
 
 .ct-startOverlay {
   position: absolute;
-  inset: 10px;
+  inset: 24px;
   border-radius: 12px;
   z-index: 4;
   display: flex;
@@ -1434,14 +1492,14 @@
 /* Compact corner info box: contract + bidding + watch note — doesn't displace South */
 .ct-trickWrap--sidePanel .ct-sidePrompt,
 .ct-trickWrap--sidePanelLeft .ct-sidePrompt {
-  margin: 0 6px 6px 0;
+  margin: 0 14px 6px 14px;
   padding: 8px 10px;
   max-width: 240px;
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .ct-trickWrap--sidePanelLeft .ct-sidePrompt {
-  margin: 0 0 6px 6px;
+  margin: 0 0 6px 14px;
 }
 .ct-sidePrompt .ct-railMuted {
   font-size: 14px;
@@ -1457,25 +1515,25 @@
   border-radius: 8px;
 }
 .ct-sidePrompt .ct-auctionTitle {
-  font-size: 12px;
-  margin-bottom: 4px;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 .ct-sidePrompt .ct-auctionHead,
 .ct-sidePrompt .ct-auctionRow {
-  gap: 2px;
+  gap: 1px;
 }
 .ct-sidePrompt .ct-auctionCell {
-  min-height: 20px;
-  padding: 1px 2px;
-  font-size: 11px;
-  border-radius: 4px;
+  min-height: 26px;
+  padding: 3px 4px;
+  font-size: 17px;
+  border-radius: 6px;
 }
 .ct-sidePrompt .ct-auctionCell--head {
-  min-height: 18px;
-  font-size: 10px;
+  min-height: 22px;
+  font-size: 13px;
 }
 .ct-sidePrompt .ct-auctionCall {
-  font-size: 11px;
+  font-size: 17px;
 }
 
 .ct-sidePrompt {
@@ -1500,6 +1558,7 @@
 .ct-sidePrompt--seatLeft {
   margin-top: 10px;
   max-width: 320px;
+  margin-right: 20px; /* prevent overlap with table/dummy cards */
 }
 
 /* Bidding in left column (higher up): align to top, fit column width */
@@ -1508,6 +1567,7 @@
   margin-top: 0;
   max-width: 100%;
   box-sizing: border-box;
+  margin-right: 20px; /* prevent overlap with table/dummy cards */
 }
 
 /* On narrower screens, stack prompt under the table (avoid clipping). */
@@ -2035,5 +2095,60 @@
   .ct-distRow {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
   }
+}
+
+/* Localhost only: larger text for all problems (prompts, questions, buttons) */
+.ct-page--localhost .ct-railMuted {
+  font-size: 20px;
+}
+.ct-page--localhost .ct-questionText {
+  font-size: 22px;
+  line-height: 1.4;
+}
+.ct-page--localhost .ct-playDecisionBlock-heading {
+  font-size: 16px;
+}
+.ct-page--localhost .ct-playDecisionBlock-question {
+  font-size: 20px;
+}
+.ct-page--localhost .ct-btn {
+  font-size: 17px;
+  padding: 10px 16px;
+}
+.ct-page--localhost .ct-contractLine,
+.ct-page--localhost .ct-roleLine {
+  font-size: 20px;
+}
+.ct-page--localhost .ct-promptRail .ct-header {
+  font-size: 18px;
+}
+.ct-page--localhost .ct-revealContent,
+.ct-page--localhost .ct-revealParagraph {
+  font-size: 19px;
+  line-height: 1.5;
+}
+.ct-page--localhost .ct-doneExtraText .ct-revealParagraph {
+  font-size: 19px;
+}
+.ct-page--localhost .ct-doneNote {
+  font-size: 18px;
+}
+.ct-page--localhost .ct-sidePrompt .ct-railMuted {
+  font-size: 18px;
+}
+.ct-page--localhost .ct-sidePrompt .ct-questionText {
+  font-size: 20px;
+}
+.ct-page--localhost .ct-numBoxValue--single {
+  font-size: 44px;
+}
+.ct-page--localhost .ct-feedback {
+  font-size: 17px;
+}
+.ct-page--localhost .ct-revealMotivation {
+  font-size: 19px;
+}
+.ct-page--localhost .ct-revealSuccess {
+  font-size: 21px;
 }
 

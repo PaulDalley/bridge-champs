@@ -115,6 +115,165 @@ const DEFENCE_PUZZLES = [
     ],
   },
   {
+    id: "df2-1",
+    difficulty: 2,
+    title: "Defending 3♥: count declarer's shape (and duck the spade)",
+    trumpSuit: "H",
+    contract: "3♥",
+    auction: "1♥ 3♣ 3♥ P P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["RHO", "DUMMY"],
+    promptOptions: {
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      startAutoPlayThroughRoundIdx: 0,
+      focusNote: "West opened 1♥, showing at least 5 hearts.",
+      seatShapeTarget: "DECLARER",
+      customPrompts: [
+        {
+          id: "df2-1-clubs",
+          type: "SEAT_SUIT_COUNT",
+          seat: "DECLARER",
+          suit: "C",
+          atRoundIdx: 4,
+          promptText: "Declarer has shown out in clubs — how many clubs did declarer start with?",
+          expected: 2,
+        },
+        {
+          id: "df2-1-trumpDistPrefill",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 6,
+          expectedDistribution: { LHO: 2, DUMMY: 3, RHO: 3, DECLARER: 5 },
+          fixed: { LHO: 2, RHO: 3, DUMMY: 3 },
+          promptText:
+            "Partner has shown 2 hearts — we can figure out how many trumps declarer started with now. The original trump distribution was",
+        },
+        {
+          id: "df2-1-diamondDist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "D",
+          atRoundIdx: 8,
+          expectedDistribution: { LHO: 3, DUMMY: 3, RHO: 4, DECLARER: 3 },
+          promptText: "What was the ORIGINAL diamond distribution?",
+        },
+        {
+          id: "df2-1-shape",
+          type: "SEAT_SHAPE",
+          atRoundIdx: 8,
+          promptText:
+            "Now you have enough information for declarer's shape. What was it? (S H D C)",
+        },
+        {
+          id: "df2-1-duckSpade",
+          type: "PLAY_DECISION",
+          atRoundIdx: 8,
+          promptText:
+            "Declarer is about to play a spade up — do you need to grab the Ace in a hurry?",
+          options: [
+            { id: "yes", label: "Yes — take the Ace" },
+            { id: "no", label: "No — duck smoothly" },
+          ],
+          expectedChoice: "no",
+          endHandAfterReveal: true,
+          revealText:
+            "No. We know declarer started with 3 spades. If you duck smoothly, maybe he will play your partner for doubleton spade (Ax) and play low. Always give your opponents a chance to go wrong.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "72", H: "Q4", D: "AK6", C: "AQT982" },
+      DUMMY: { S: "943", H: "K72", D: "JT7", C: "K753" },
+      RHO: { S: "AJT85", H: "863", D: "8532", C: "6" },
+      DECLARER: { S: "KQ6", H: "AJT95", D: "Q94", C: "J4" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "C" } },
+          { seat: "RHO", card: { rank: "6", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (club ruff)",
+        plays: [
+          { seat: "LHO", card: { rank: "Q", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "C" } },
+          { seat: "RHO", card: { rank: "3", suit: "H" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "J", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "RHO", card: { rank: "2", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "D" } },
+          { seat: "LHO", card: { rank: "A", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Q on the K)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "T", suit: "D" } },
+          { seat: "RHO", card: { rank: "3", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (club ruff)",
+        plays: [
+          { seat: "LHO", card: { rank: "T", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "C" } },
+          { seat: "RHO", card: { rank: "5", suit: "S" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "9", suit: "H" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 6 (A♥)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "H" } },
+          { seat: "LHO", card: { rank: "4", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "H" } },
+          { seat: "RHO", card: { rank: "6", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (to dummy's K♥)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "T", suit: "H" } },
+          { seat: "LHO", card: { rank: "Q", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "H" } },
+          { seat: "RHO", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 8 (spade to the king)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "3", suit: "S" } },
+          { seat: "RHO", card: { rank: "T", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
+          { seat: "LHO", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 9 (third diamond to dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "9", suit: "D" } },
+          { seat: "LHO", card: { rank: "6", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "J", suit: "D" } },
+          { seat: "RHO", card: { rank: "5", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "df3-1",
     difficulty: 3,
     title: "4♥: you win the King of hearts — which suit now?",
