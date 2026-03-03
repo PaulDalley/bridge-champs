@@ -37,6 +37,36 @@ function displayRank(rank) {
   return String(rank);
 }
 
+/** Renders explanation/reveal text with paragraphs and styled ✓ lists for better readability */
+function FormattedRevealText({ text, className = "" }) {
+  if (!text || !String(text).trim()) return null;
+  const blocks = String(text).trim().split(/\n\n+/);
+  return (
+    <div className={`ct-revealContent ${className}`.trim()}>
+      {blocks.map((block, i) => {
+        const lines = block.split("\n").filter(Boolean);
+        const isList = lines.length > 0 && lines.every((l) => /^\s*✓/.test(l.trim()));
+        if (isList) {
+          return (
+            <ul key={i} className="ct-revealList">
+              {lines.map((line, j) => (
+                <li key={j} className="ct-revealListItem">
+                  {line.trim()}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        return (
+          <p key={i} className="ct-revealParagraph">
+            {block.trim()}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 function suitSymbol(suit) {
   return SUIT_SYMBOL[suit] || suit;
 }
@@ -165,6 +195,16 @@ function contractToText(puzzle) {
   if (!lvl || !strain) return "";
   if (strain === "NT") return `${lvl}NT`;
   return `${lvl}${SUIT_SYMBOL[strain] || strain}`;
+}
+
+/** Renders contract text (e.g. "4♥") with hearts/diamonds in red */
+function ContractWithColoredSuit({ text }) {
+  if (!text) return null;
+  const m = text.match(/^(\d)(♥|♦)$/);
+  if (m) return <>{m[1]}<span className="ct-suitSym--red">{m[2]}</span></>;
+  const m2 = text.match(/^(\d)(♠|♣)$/);
+  if (m2) return <>{m2[1]}<span className="ct-suitSym--black">{m2[2]}</span></>;
+  return <>{text}</>;
 }
 
 function auctionToText(puzzle) {
@@ -832,7 +872,7 @@ const PUZZLES = [
           revealText: "Yes — the suit has been set up, so the last card is now good.",
         },
       ],
-      watchNote: "Please watch the play, and at the end see if the suit is set up.",
+      watchNote: "Watch the play — see if the suit is set up.",
     },
     shownHands: {
       // One-suit display (spades). Dummy is North, declarer is South.
@@ -963,6 +1003,171 @@ const PUZZLES = [
           { seat: "LHO", card: { rank: "9", suit: "S" } },
           { seat: "DUMMY", card: { rank: "5", suit: "S" } },
           { seat: "RHO", card: { rank: "2", suit: "H" }, showOut: true },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-7",
+    difficulty: 1,
+    title: "Counting trumps: we have 9, they have ? (clubs)",
+    trumpSuit: "C",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      distributionPromptAsSuit: true,
+      questionNumbers: [QUESTION.ORIGINAL_SUIT_DISTRIBUTION_AT_EVENT],
+      distributionPrefill: { suit: "C", fixed: { DECLARER: 6, DUMMY: 3 }, lock: true },
+      distributionPromptText: "What is the distribution?",
+      customPrompts: [
+        {
+          id: "p1-7-they",
+          type: "SEAT_SUIT_COUNT",
+          seat: "RHO",
+          suit: "C",
+          atRoundIdx: -1,
+          promptText: "We have 9 cards, they have ?",
+          expected: 4,
+        },
+        {
+          id: "p1-7-break2",
+          type: "SEAT_SUIT_COUNT",
+          seat: "RHO",
+          suit: "C",
+          atRoundIdx: -1,
+          leftValue: 2,
+          promptText: "What are some possible breaks?",
+          expected: 2,
+        },
+        {
+          id: "p1-7-break3",
+          type: "SEAT_SUIT_COUNT",
+          seat: "RHO",
+          suit: "C",
+          atRoundIdx: -1,
+          leftValue: 3,
+          promptText: "Another possible break",
+          expected: 1,
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { suit: "C", cards: ["6", "5", "4"] },
+      DECLARER: { suit: "C", cards: ["A", "K", "Q", "9", "8", "7"] },
+    },
+    expectedInitialLengths: {
+      LHO: 1,
+      DUMMY: 3,
+      RHO: 3,
+      DECLARER: 6,
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "C" } },
+          { seat: "LHO", card: { rank: "J", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "RHO", card: { rank: "T", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (West shows out)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "K", suit: "C" } },
+          { seat: "LHO", card: { rank: "2", suit: "H" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "5", suit: "C" } },
+          { seat: "RHO", card: { rank: "T", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-8",
+    difficulty: 1,
+    title: "Can you make 4 tricks? (diamonds)",
+    trumpSuit: "D",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      customPrompts: [
+        {
+          id: "p1-8-can4",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Can you make 4 tricks in this suit?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText: "Well done — you're identifying important trick-taking ideas.",
+        },
+        {
+          id: "p1-8-break",
+          type: "DISTRIBUTION_GUESS",
+          suit: "D",
+          atRoundIdx: -1,
+          fixed: { DECLARER: 4, DUMMY: 3 },
+          expectedDistribution: { LHO: 3, RHO: 3, DUMMY: 3, DECLARER: 4 },
+          promptText: "What break (distribution) do you need the cards to be?",
+        },
+        {
+          id: "p1-8-fourth",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "Is the 4th card a trick?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText: "Yes — well done. When the break is 3-3, your AKQx opposite xxx takes four tricks.",
+        },
+      ],
+      watchNote: "Watch the play.",
+    },
+    shownHands: {
+      DUMMY: { suit: "D", cards: ["8", "7", "6"] },
+      DECLARER: { suit: "D", cards: ["A", "K", "Q", "9"] },
+    },
+    expectedInitialLengths: {
+      LHO: 3,
+      DUMMY: 3,
+      RHO: 3,
+      DECLARER: 4,
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "D" } },
+          { seat: "LHO", card: { rank: "5", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "D" } },
+          { seat: "RHO", card: { rank: "2", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "DECLARER", card: { rank: "K", suit: "D" } },
+          { seat: "LHO", card: { rank: "4", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "D" } },
+          { seat: "RHO", card: { rank: "T", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "DECLARER", card: { rank: "Q", suit: "D" } },
+          { seat: "LHO", card: { rank: "3", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "D" } },
+          { seat: "RHO", card: { rank: "J", suit: "D" } },
         ],
       },
     ],
@@ -1603,9 +1808,18 @@ function inferUniqueSuitLengths({ puzzle, throughRoundIdx, fixedFromHandsSeats =
   return { solutionsCount: solutions.length, uniqueSeat, uniqueSuit };
 }
 
-function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, trainerLabel = "Counting" }) {
+const CATEGORY_CONFIG = [
+  { key: "declarer", label: "Declarer", path: "/cardPlay/practice" },
+  { key: "defence", label: "Defence", path: "/defence/practice" },
+  { key: "counting", label: "Counting", path: "/counting/practice" },
+];
+
+const isLocalhost = typeof window !== "undefined" && (window.location?.hostname === "localhost" || window.location?.hostname === "127.0.0.1");
+
+function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, trainerLabel = "Counting", categoryKey = "counting" }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
-  const isMember = !!subscriptionActive; // paywall applies to all trainers
+  const isAdmin = a === true;
+  const isMember = isLocalhost || isAdmin || !!subscriptionActive; // admins + localhost get full access
   const puzzlesAll = useMemo(() => {
     // If override is provided (even empty), treat it as authoritative for this trainer instance.
     if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
@@ -3550,10 +3764,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             </div>
           )}
           {contractText ? (
-            <>
-              Contract is <strong>{contractText}</strong> by <strong>{declarerCompassName}</strong>
-              <br />
-            </>
+            <div className="ct-contractLine">
+              Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong>
+            </div>
           ) : null}
           {auctionGrid && !hideAuctionNow && (
             <div className="ct-auctionCard" aria-label="Bidding">
@@ -3594,18 +3807,18 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
               </div>
             </div>
           )}
-          You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.
+          <div className="ct-roleLine">You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.</div>
         </div>
       )}
 
       {/* Start button is shown as a large overlay on the table (clearer than a small corner button). */}
 
       {hasStarted && !promptStep && (
-        <div className="ct-railMuted">
+        <div className="ct-watchNote">
           {completedRoundIdx >= lastRoundIdx
             ? "Well done — hand complete."
-            : (puzzle?.promptOptions?.watchNote || "Watch the play, then answer the prompt.") +
-              (manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next → to continue." : "")}
+            : (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") +
+              (manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "")}
         </div>
       )}
 
@@ -3615,7 +3828,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             <>
               <div className="ct-questionText">
                 {(activeCustomPrompt?.type === "DECLARER_TRUMP_GUESS" && activeCustomPrompt?.promptText) ||
-                  "Training warm-up: take your best guess — how many trumps do you think Declarer has? (no wrong answers)"}
+                  "How many trumps does Declarer have? (best guess — no wrong answers)"}
               </div>
 
               <div className="ct-railAnswer">
@@ -3688,7 +3901,17 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             <>
               <div className="ct-questionText">{activeCustomPrompt?.promptText || "How many cards did declarer start with in this suit?"}</div>
 
-              <div className="ct-railAnswer">
+              <div className="ct-railAnswer" style={activeCustomPrompt?.leftValue != null ? { display: "flex", alignItems: "center", gap: 8 } : undefined}>
+                {activeCustomPrompt?.leftValue != null && (
+                  <>
+                    <div className="ct-numBox ct-numBox--single ct-numBox--locked">
+                      <div className="ct-numBoxValue ct-numBoxValue--single" aria-hidden="true">
+                        {activeCustomPrompt.leftValue}
+                      </div>
+                    </div>
+                    <span aria-hidden="true">–</span>
+                  </>
+                )}
                 <div
                   className="ct-numBox ct-numBox--single"
                   onMouseDown={(e) => {
@@ -3756,20 +3979,15 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
           {promptStep === "PLAY_DECISION_REVEAL" && (
             <>
               {!!playDecisionReveal?.text && (
-                <div className="ct-railMuted ct-playRevealText" style={{ marginTop: 0, whiteSpace: "pre-line" }}>
+                <div className="ct-playRevealWrap">
                   {playDecisionReveal?.correct && (
-                    <>
-                      <strong className="ct-feedback ct-feedback--ok" style={{ display: "block", marginBottom: 12 }}>Well done — that&apos;s correct!</strong>
-                      {"\n"}
-                    </>
+                    <strong className="ct-feedback ct-feedback--ok ct-revealSuccess">Well done — that&apos;s correct!</strong>
                   )}
-                  {playDecisionReveal.text}
+                  <FormattedRevealText text={playDecisionReveal.text} className="ct-playRevealText" />
                 </div>
               )}
               {!!activeCustomPrompt?.motivationText && (
-                <div className="ct-railMuted" style={{ marginTop: 10 }}>
-                  <strong>{activeCustomPrompt.motivationText}</strong>
-                </div>
+                <p className="ct-revealMotivation">{activeCustomPrompt.motivationText}</p>
               )}
               {!activeCustomPrompt?.noContinue && (
                 <div className="ct-railActions" style={{ marginTop: 12 }}>
@@ -3883,8 +4101,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
                     prefill && prefill.suit === suit && prefill.fixed ? prefill.fixed : {};
                   const lock = !!prefill?.lock && prefill?.suit === suit;
                   const isLocked = (seat) => lock && fixed?.[seat] !== undefined;
-                  return distSeatOrder.map((seat) => (
-                  <div key={seat} className="ct-distSeat">
+                  return distSeatOrder.map((seat, idx) => (
+                  <div key={seat} className="ct-distSeat" data-position={["left", "top", "right", "bottom"][idx]}>
                     <div className="ct-distLabel">{roleLabelForSeat(seat)}</div>
                     <div
                       className={`ct-numBox ct-numBox--dist ${isLocked(seat) ? "ct-numBox--locked" : ""}`}
@@ -3961,8 +4179,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
                     puzzle?.promptOptions?.preDistributionGuess?.fixed ||
                     {};
                   const isLocked = (seat) => fixed?.[seat] !== undefined;
-                  return distSeatOrder.map((seat) => (
-                    <div key={seat} className="ct-distSeat">
+                  return distSeatOrder.map((seat, idx) => (
+                    <div key={seat} className="ct-distSeat" data-position={["left", "top", "right", "bottom"][idx]}>
                       <div className="ct-distLabel">{roleLabelForSeat(seat)}</div>
                       <div
                         className={`ct-numBox ct-numBox--dist ${isLocked(seat) ? "ct-numBox--locked" : ""}`}
@@ -4038,8 +4256,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
                   const fixed = activeCustomPrompt?.fixed || {};
                   const lock = true;
                   const isLocked = (seat) => lock && fixed?.[seat] !== undefined;
-                  return distSeatOrder.map((seat) => (
-                    <div key={seat} className="ct-distSeat">
+                  return distSeatOrder.map((seat, idx) => (
+                    <div key={seat} className="ct-distSeat" data-position={["left", "top", "right", "bottom"][idx]}>
                       <div className="ct-distLabel">{roleLabelForSeat(seat)}</div>
                       <div
                         className={`ct-numBox ct-numBox--dist ${isLocked(seat) ? "ct-numBox--locked" : ""}`}
@@ -4281,11 +4499,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             {trainerLabel === "Counting" ? "Well done — you’ve counted the hand correctly." : "Well done — exercise complete."}
           </div>
           {!!doneExtraText && (
-            <div className="ct-railMuted" style={{ marginTop: 10, whiteSpace: "pre-line" }}>
-              {doneExtraText}
-            </div>
+            <FormattedRevealText text={doneExtraText} className="ct-railMuted ct-doneExtraText" />
           )}
-          <div className="ct-railMuted" style={{ marginTop: 6 }}>
+          <div className="ct-railMuted ct-doneNote">
             {trainerLabel === "Counting" ? "You’re building a good habit — keep going." : "Keep going — repetition builds instincts."}
           </div>
           <div className="ct-row">
@@ -4307,7 +4523,25 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
       <div className={`ct-layout ${showFullHands ? "ct-layout--fullhands" : ""}`}>
         <div className="ct-stage">
           <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
-            <div className="ct-topNavRow" aria-label="Difficulty tabs">
+            {/* Category tier: Declarer | Defence | Counting */}
+            <div className="ct-categoryRow" aria-label="Trainer category">
+              <div className="ct-categoryTabs" role="tablist">
+                {CATEGORY_CONFIG.map((c) => (
+                  <Link
+                    key={c.key}
+                    to={c.path}
+                    className={`ct-categoryTab ${c.key === categoryKey ? "ct-categoryTab--active" : ""}`}
+                    role="tab"
+                    aria-selected={c.key === categoryKey}
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Difficulty tier */}
+            <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Difficulty tabs">
               <div className="ct-topNavLabel">Difficulty</div>
               <div className="ct-diffTabs" role="tablist" aria-label="Difficulty levels">
                 {[1, 2, 3].map((d) => (
@@ -4328,6 +4562,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
               </div>
             </div>
 
+            {/* Problem tier */}
             <div className="ct-topNavSubRow" aria-label="Problem tabs">
               <div className="ct-topNavLabel ct-topNavLabel--sub">
                 Problems <span className="ct-topNavSubNote">in Difficulty {selectedDifficulty}</span>
@@ -4341,7 +4576,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
                     return (
                       <button
                         key={p.id}
-                        className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""}`}
+                        className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""}`}
                         onClick={() => {
                           if (!isUnlocked) return;
                           setPuzzleIdxInDifficulty(idx);
@@ -4361,10 +4596,6 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             </div>
           </div>
 
-          <div className="ct-newNote" aria-label={`${trainerLabel} trainer status`}>
-            New — more {trainerLabel.toLowerCase()} problems are coming regularly.
-          </div>
-
           {!!puzzle.promptOptions?.focusNote && (
             <div className="ct-focusNote" aria-label="Training focus note">
               {puzzle.promptOptions.focusNote}
@@ -4382,7 +4613,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
-            {!!contractText && !useBottomRowLayout && <div className="ct-contractTop">{contractDisplayText}</div>}
+            {!!contractText && !useBottomRowLayout && (
+              <div className="ct-contractTop">
+                Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong>
+              </div>
+            )}
             <div className="ct-seatLabel">{roleLabelForSeat(seatTop)}</div>
             {(!showFullHands || visibleFullHandSeats.includes(seatTop)) && (
               <div className="ct-handWrap">{renderSeatHand(seatTop)}</div>
@@ -4419,7 +4654,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
               {!hasStarted && (
                 <div className="ct-startOverlay" aria-label="Start exercise">
                   <div className="ct-startCard">
-                    {!!contractDisplayText && <div className="ct-startTitle">{contractDisplayText}</div>}
+                    {!!contractText && (
+                      <div className="ct-startTitle">
+                        Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
+                        {!puzzle?.promptOptions?.contractOnly && <> by <strong>{declarerCompassName}</strong></>}
+                      </div>
+                    )}
                     <div className="ct-startSub">
                       You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.
                     </div>
@@ -4428,10 +4668,10 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
                     </button>
                     {lastRoundIdx >= 0 ? (
                       <div className="ct-startHint">
-                        After each trick, click <strong>Next →</strong> to continue.
+                        After each trick, click <strong>Next →</strong>
                       </div>
                     ) : (
-                      <div className="ct-startHint">Click Start to begin the exercise.</div>
+                      <div className="ct-startHint">Click Start to begin.</div>
                     )}
                   </div>
                 </div>
@@ -4566,6 +4806,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, puzzlesOverride, train
 const mapStateToProps = (state) => ({
   uid: state.auth.uid,
   subscriptionActive: state.auth.subscriptionActive,
+  a: state.auth.a,
 });
 
 export default connect(mapStateToProps)(CountingTrumpsTrainer);

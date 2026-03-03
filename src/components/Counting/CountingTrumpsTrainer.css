@@ -2,21 +2,22 @@
   max-width: 100%;
   margin: 0;
   /* Nav header is fixed (Nav.css height: 5rem) */
-  padding: calc(5rem + 10px) 16px 16px;
+  padding: calc(5rem + 6px) 12px 12px;
   overflow-x: visible;
+  background: #f5f6f8;
 }
 
 .ct-page--fullhands {
   max-width: 100%;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .ct-layout {
   display: grid;
   /* Give the stage more width so the board/cards can be bigger */
   grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 10px;
+  gap: 6px;
   align-items: start;
 }
 
@@ -28,22 +29,154 @@
   display: grid;
   gap: 6px;
   margin-bottom: 6px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(17, 24, 39, 0.03);
+  background: #fafbfc;
   border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.ct-playRevealText {
+/* Category tier: Declarer | Defence | Counting */
+.ct-categoryRow {
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.ct-categoryTabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ct-categoryTab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #4b5563;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1.5px solid rgba(17, 24, 39, 0.1);
+  transition: all 0.15s ease;
+}
+
+.ct-categoryTab:hover {
+  color: #111827;
+  background: #fafbfc;
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+.ct-categoryTab--active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.ct-categoryTab--active:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+/* Explanation/reveal text: structured for readability (paragraphs, ✓ lists) */
+/* Watch/instruction note: clear, readable (not tiny) */
+.ct-watchNote {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.4;
+}
+
+.ct-explanationSidebar .ct-watchNote {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.ct-playRevealWrap {
+  margin-top: 0;
+}
+
+.ct-revealSuccess {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.ct-revealContent {
+  color: #374151;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.ct-revealContent.ct-playRevealText {
+  margin-top: 0;
+}
+
+.ct-revealParagraph {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.ct-revealParagraph:last-child {
+  margin-bottom: 0;
+}
+
+.ct-revealList {
+  margin: 10px 0 14px;
+  padding-left: 1.5em;
+  list-style: none;
+}
+
+.ct-revealList::before {
+  content: "";
+  display: block;
+  height: 4px;
+}
+
+.ct-revealListItem {
+  margin-bottom: 6px;
+  font-weight: 600;
+  padding-left: 0.25em;
+  position: relative;
+}
+
+.ct-revealListItem::marker {
+  content: "";
+}
+
+.ct-revealMotivation {
+  margin: 14px 0 0;
   font-size: 15px;
-  line-height: 1.45;
+  font-weight: 800;
+  color: #065f46;
+  line-height: 1.4;
+}
+
+.ct-doneExtraText {
+  margin-top: 12px;
+}
+
+.ct-doneNote {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .ct-topNavRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+.ct-topNavRow--diff {
+  padding-left: 4px;
 }
 
 .ct-topNavSubRow {
@@ -52,25 +185,34 @@
   gap: 10px;
   flex-wrap: wrap;
   padding-left: 14px;
-  border-left: 3px solid rgba(37, 99, 235, 0.18);
+  margin-left: 2px;
+  border-left: 3px solid rgba(37, 99, 235, 0.2);
+  background: rgba(255, 255, 255, 0.4);
+  margin-right: -2px;
+  padding-right: 2px;
+  padding-top: 6px;
+  padding-bottom: 2px;
+  border-radius: 0 8px 8px 0;
 }
 
 .ct-topNavLabel {
-  font-size: 14px;
-  font-weight: 900;
-  color: #374151;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-weight: 800;
+  color: #4b5563;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .ct-topNavLabel--sub {
-  font-size: 13px;
-  letter-spacing: 0.03em;
-  color: #334155;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #374151;
 }
 
 .ct-topNavSubNote {
-  font-weight: 800;
+  font-weight: 700;
   color: #6b7280;
+  font-size: 12px;
 }
 
 .ct-diffTabs,
@@ -81,33 +223,72 @@
 }
 
 .ct-problemTabs--sub .ct-problemTab {
-  /* Slightly smaller than difficulty pills */
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 }
 
-.ct-diffTab,
-.ct-problemTab {
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #111827;
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-weight: 900;
+.ct-diffTab {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  background: #fafbfc;
+  color: #374151;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 15px;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.ct-diffTab--active,
+.ct-diffTab:hover {
+  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.04);
+  color: #1d4ed8;
+}
+
+.ct-diffTab--active {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0.06) 100%);
+  color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.ct-problemTab {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1.5px solid #e5e7eb;
+  background: #fafbfc;
+  color: #374151;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-problemTab:hover:not(:disabled) {
+  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.04);
+  color: #1d4ed8;
+}
+
 .ct-problemTab--active {
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.14) 0%, rgba(37, 99, 235, 0.08) 100%);
+  color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
-.ct-problemTab {
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border-radius: 10px;
+.ct-problemTab--locked,
+.ct-problemTab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
 }
 
 .ct-suitRow {
@@ -242,7 +423,7 @@
 /* Wrapper when prompt is in right sidebar: table stays fixed, explanation on the right */
 .ct-tableWithSidebar {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   align-items: flex-start;
   width: 100%;
   max-width: 100%;
@@ -262,49 +443,159 @@
   min-width: 800px;
 }
 
-/* Right sidebar: bidding + explanation (cards stay in place, no displacement) */
+/* Right sidebar: bidding + explanation — sized for projection/teaching (clear, readable) */
 .ct-explanationSidebar {
-  flex: 0 0 320px;
-  width: 320px;
+  flex: 0 0 420px;
+  width: 420px;
   max-width: 100%;
   max-height: 85vh;
   overflow-y: auto;
   position: sticky;
-  top: calc(5rem + 12px);
-  padding: 10px 0 0;
+  top: calc(5rem + 6px);
+  padding: 4px 0 0;
   box-sizing: border-box;
 }
 
 .ct-explanationSidebar .ct-sidePrompt {
   margin: 0;
   max-width: 100%;
+  padding: 12px 14px;
+}
+
+/* Contract + bidding in sidebar: large, clear text for projection/teaching */
+.ct-explanationSidebar .ct-railMuted {
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 900;
+  color: #111827;
+}
+
+/* Contract line: prominent, easy to read when projected */
+.ct-explanationSidebar .ct-contractLine {
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 950;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+/* "You are declaring/defending": prominent role text */
+.ct-explanationSidebar .ct-roleLine {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 950;
+  color: #111827;
+  margin-top: 6px;
+}
+
+.ct-explanationSidebar .ct-auctionCard {
+  margin: 4px 0 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 2px solid #d1d5db;
+  background: #f1f5f9;
+  width: fit-content;
+}
+
+.ct-explanationSidebar .ct-auctionTitle {
+  font-size: 20px;
+  font-weight: 950;
+  margin-bottom: 2px;
+  color: #111827;
+}
+
+.ct-explanationSidebar .ct-auctionHead,
+.ct-explanationSidebar .ct-auctionRow {
+  gap: 2px;
+}
+
+.ct-explanationSidebar .ct-auctionGrid {
+  gap: 2px;
+}
+
+.ct-explanationSidebar .ct-auctionHead,
+.ct-explanationSidebar .ct-auctionRow {
+  grid-template-columns: repeat(4, 64px);
+}
+
+.ct-explanationSidebar .ct-auctionCell {
+  min-height: 0;
+  padding: 2px 4px;
+  font-size: 48px;
+  font-weight: 950;
+  border-radius: 6px;
+}
+
+.ct-explanationSidebar .ct-auctionCell--head {
+  min-height: 0;
+  padding: 2px 4px;
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.ct-explanationSidebar .ct-auctionCall {
+  font-size: 48px;
+  font-weight: 950;
+}
+
+/* Explanation text in sidebar: larger, clearer for projection */
+.ct-explanationSidebar .ct-revealContent {
+  font-size: 18px;
+  line-height: 1.65;
+  color: #1f2937;
+}
+
+.ct-explanationSidebar .ct-revealParagraph {
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.ct-explanationSidebar .ct-revealList {
+  margin: 12px 0 16px;
+}
+
+.ct-explanationSidebar .ct-revealListItem {
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ct-explanationSidebar .ct-revealSuccess {
+  font-size: 22px;
+}
+
+.ct-explanationSidebar .ct-revealMotivation {
+  font-size: 18px;
+  margin-top: 16px;
 }
 
 .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout {
-  grid-template-columns: 220px minmax(580px, 1fr) 250px;
+  grid-template-columns: 220px minmax(580px, 1fr) minmax(110px, 150px);
   width: 100%;
   max-width: 1060px;
   justify-items: start;
-  gap: 4px;
+  gap: 2px;
 }
 
 /* When prompt is on right: sidebar has its own space so table isn’t encroached; center column gets plenty of room for South */
 /* No gap between table and East: center only as wide as content when possible */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight {
-  grid-template-columns: 0 minmax(680px, 1fr) 250px;
-  width: 100%;
-  max-width: none;
-  justify-items: end;
-  gap: 0;
-}
-
-/* When West visible: center column = exact table width so table fills it → no gap West or East. (Table is clamp(300px, 34vw, 420px).) */
-.ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
-  grid-template-columns: 250px clamp(300px, 34vw, 420px) 250px;
+  grid-template-columns: 0 clamp(300px, 34vw, 420px) minmax(110px, 150px);
   width: 100%;
   max-width: none;
   justify-items: start;
-  gap: 0;
+  column-gap: 10px;
+  row-gap: 0;
+}
+
+/* When West visible: wider left column so West hand isn't cut off; center = table width */
+.ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
+  grid-template-columns: 220px clamp(300px, 34vw, 420px) minmax(110px, 150px);
+  width: 100%;
+  max-width: none;
+  justify-items: start;
+  column-gap: 10px;
+  row-gap: 0;
 }
 
 /* When left column is 0 (West not visible), clip so nothing spills */
@@ -317,7 +608,7 @@
 .ct-layout--fullhands .ct-rail {
   position: static;
   top: auto;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .ct-seat--span {
@@ -327,21 +618,21 @@
 .ct-rail {
   position: sticky;
   /* Nav tiles are hidden on /counting; keep this just below the fixed header */
-  top: calc(5rem + 12px);
+  top: calc(5rem + 6px);
   align-self: start;
 }
 
 .ct-railMuted {
-  color: #6b7280;
-  font-size: 14px;
+  color: #4b5563;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .ct-newNote {
-  margin: 6px auto 0;
+  margin: 4px auto 0;
   max-width: 980px;
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
   background: rgba(37, 99, 235, 0.08);
   border: 1px solid rgba(37, 99, 235, 0.18);
   color: #1f2937;
@@ -351,10 +642,10 @@
 }
 
 .ct-focusNote {
-  margin: 6px auto 0;
+  margin: 4px auto 0;
   max-width: 980px;
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
   background: rgba(15, 76, 58, 0.08);
   border: 1px solid rgba(15, 76, 58, 0.18);
   color: #111827;
@@ -364,13 +655,14 @@
 }
 
 .ct-paywallNote {
-  margin-bottom: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
+  margin-bottom: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
   background: rgba(15, 76, 58, 0.08);
   border: 1px solid rgba(15, 76, 58, 0.18);
   color: #111827;
-  font-size: 13px;
+  font-size: 15px;
+  font-size: 12px;
   font-weight: 800;
   line-height: 1.25;
 }
@@ -395,19 +687,19 @@
 }
 
 .ct-questionText {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
-  line-height: 1.25;
+  line-height: 1.35;
   color: #111827;
 }
 
 /* Prominent block when a play-decision question appears (scrolls into view). */
 .ct-playDecisionBlock {
-  margin-top: 10px;
-  padding: 10px 12px;
+  margin-top: 6px;
+  padding: 8px 10px;
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   border: 2px solid #f59e0b;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 .ct-playDecisionBlock-heading {
@@ -425,10 +717,10 @@
 }
 
 .ct-railAnswer {
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -437,7 +729,7 @@
   height: 82px; /* extra vertical room to avoid glyph clipping */
   border-radius: 14px;
   border: 2px solid #d1d5db;
-  background: #ffffff;
+  background: #fafbfc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -508,23 +800,46 @@
 }
 
 .ct-railActions {
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   flex-wrap: wrap;
 }
 
+/* Distribution inputs in diamond/compass layout: N top, W left, E right, S bottom */
 .ct-distRow--numBoxes {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
   gap: 12px;
+  justify-items: center;
+  align-items: center;
+  max-width: 280px;
+  margin: 0 auto;
+}
+.ct-distRow--numBoxes .ct-distSeat[data-position="top"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+.ct-distRow--numBoxes .ct-distSeat[data-position="left"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+.ct-distRow--numBoxes .ct-distSeat[data-position="right"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+.ct-distRow--numBoxes .ct-distSeat[data-position="bottom"] {
+  grid-column: 2;
+  grid-row: 3;
 }
 
 .ct-shapeRow {
-  margin-top: 12px;
+  margin-top: 8px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
 
 @media (max-width: 860px) {
@@ -588,9 +903,9 @@
   display: grid;
   grid-template-columns: 86px minmax(440px, 1fr) 86px;
   grid-template-rows: auto auto auto;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .ct-seat {
@@ -633,7 +948,7 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: flex-start;
-  gap: 16px;
+  gap: 10px;
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -725,15 +1040,15 @@
 }
 
 .ct-hand {
-  margin-top: 8px;
+  margin-top: 4px;
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ct-handWrap {
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .ct-handLine {
@@ -873,8 +1188,8 @@
 
   position: relative;
   z-index: 0;
-  border-radius: 16px;
-  padding: 10px;
+  border-radius: 14px;
+  padding: 6px;
   color: #ecfeff;
   border: 8px solid transparent;
   background:
@@ -923,15 +1238,17 @@
 }
 
 .ct-startTitle {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 950;
   letter-spacing: -0.01em;
+  color: #111827;
 }
 
 .ct-startSub {
-  margin-top: 6px;
+  margin-top: 10px;
+  font-size: 20px;
   color: #374151;
-  font-weight: 850;
+  font-weight: 900;
 }
 
 .ct-startBtn {
@@ -961,9 +1278,10 @@
 
 .ct-startHint {
   margin-top: 10px;
-  color: #6b7280;
+  color: #4b5563;
+  font-size: 16px;
   font-weight: 850;
-  line-height: 1.25;
+  line-height: 1.4;
 }
 
 .ct-trickWrap {
@@ -976,10 +1294,13 @@
   gap: 6px;
 }
 
-/* Fullhands: table and cards left-aligned in center column — no blank space between bidding and table */
+/* Fullhands: table and cards left-aligned in center column; slight margin so hands have breathing room from table */
 .ct-table--bottomRowLayout .ct-trickWrap {
   justify-items: start;
   gap: 4px;
+}
+.ct-layout--fullhands .ct-table--bottomRowLayout .ct-trickBoard {
+  margin: 6px 0 0 0;
 }
 
 /* East/RHO column: don’t clip the hand; column is 220–260px so per-suit rows fit */
@@ -1002,6 +1323,24 @@
 .ct-layout--fullhands .ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--right {
   justify-self: start;
   align-items: flex-start;
+}
+/* East hand: pack cards tightly, no wasted space */
+.ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--right .ct-suitHand {
+  width: max-content;
+  max-width: 100%;
+  gap: 2px;
+}
+.ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--right .ct-suitLine {
+  width: max-content;
+}
+/* West hand: same compact packing */
+.ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--left .ct-suitHand {
+  width: max-content;
+  max-width: 100%;
+  gap: 2px;
+}
+.ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--left .ct-suitLine {
+  width: max-content;
 }
 
 /* Dummy (top) and Declarer (bottom) hands: keep a readable minimum width so cards aren’t microscopic */
@@ -1090,15 +1429,19 @@
   margin: 0 6px 6px 0;
   padding: 8px 10px;
   max-width: 240px;
-  font-size: 12px;
+  font-size: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .ct-trickWrap--sidePanelLeft .ct-sidePrompt {
   margin: 0 0 6px 6px;
 }
 .ct-sidePrompt .ct-railMuted {
-  font-size: 12px;
-  line-height: 1.3;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.ct-sidePrompt .ct-watchNote {
+  font-size: 15px;
+  font-weight: 800;
 }
 .ct-sidePrompt .ct-auctionCard {
   margin: 4px 0 6px;
@@ -1106,7 +1449,7 @@
   border-radius: 8px;
 }
 .ct-sidePrompt .ct-auctionTitle {
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 4px;
 }
 .ct-sidePrompt .ct-auctionHead,
@@ -1129,15 +1472,15 @@
 
 .ct-sidePrompt {
   width: 100%;
-  background: #ffffff;
+  background: #fafbfc;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 12px 12px;
+  border-radius: 12px;
+  padding: 8px 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
   position: relative;
   z-index: 5;
   box-sizing: border-box;
-  max-width: 360px;
+  max-width: 420px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1179,21 +1522,22 @@
 }
 
 .ct-contractTop {
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: #111827;
-  opacity: 0.72;
-  margin-bottom: 6px;
+  opacity: 1;
+  margin-bottom: 8px;
+  line-height: 1.3;
 }
 
 .ct-auctionTop {
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 800;
   color: #111827;
-  opacity: 0.72;
-  line-height: 1.2;
-  margin-bottom: 6px;
+  opacity: 1;
+  line-height: 1.3;
+  margin-bottom: 8px;
   word-break: break-word;
 }
 
@@ -1203,11 +1547,11 @@
 }
 
 .ct-auctionCard {
-  margin: 10px 0 10px;
-  padding: 10px 10px;
+  margin: 6px 0 6px;
+  padding: 8px 8px;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #ffffff;
+  border-radius: 10px;
+  background: #fafbfc;
 }
 
 .ct-auctionTitle {
@@ -1292,11 +1636,11 @@
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 12px;
-  height: 220px;
+  height: 260px;
   width: 100%;
   display: grid;
-  grid-template-columns: 80px 1fr 80px;
-  grid-template-rows: 80px 1fr 80px;
+  grid-template-columns: 92px 1fr 92px;
+  grid-template-rows: 92px 1fr 92px;
   align-items: center;
   justify-items: center;
   position: relative;
@@ -1305,8 +1649,8 @@
 }
 
 .ct-trickPos {
-  width: 64px;
-  height: 88px;
+  width: 78px;
+  height: 106px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1331,18 +1675,18 @@
 }
 
 .ct-card {
-  width: 58px;
-  height: 80px;
-  border-radius: 8px;
+  width: 72px;
+  height: 100px;
+  border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.18);
   background: #ffffff;
   color: #111827;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+  font-size: 26px;
+  font-weight: 900;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
   transform-origin: center;
   transform: translateZ(0) scale(1);
   backface-visibility: hidden;
@@ -1354,6 +1698,14 @@
 }
 .ct-card--black {
   color: #111827;
+}
+
+/* Hearts and diamonds always red (cards, bidding, fan) */
+.ct-miniCard.ct-card--red .ct-fanRank,
+.ct-miniCard.ct-card--red .ct-fanSuit,
+.ct-miniCard.ct-card--red .ct-miniCardCorner,
+.ct-miniCard.ct-card--red .ct-miniCardCenter {
+  color: #b91c1c;
 }
 
 @keyframes ctEnter {
@@ -1423,10 +1775,10 @@
 }
 
 .ct-promptTitle {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 900;
   color: #111827;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .ct-promptTitleSmall {
@@ -1507,10 +1859,15 @@
   gap: 10px;
 }
 
-/* In prompt rail, distribution inputs must be 2x2 (avoid clipping). */
+/* Distribution inputs: diamond/compass layout (N top, W left, E right, S bottom). */
 .ct-distRow.ct-distRow--numBoxes {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
   gap: 12px;
+  justify-items: center;
+  align-items: center;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 .ct-distCell {
@@ -1588,7 +1945,7 @@
 }
 
 .ct-chip {
-  background: #ffffff;
+  background: #fafbfc;
   border: 1px solid #e5e7eb;
   padding: 6px 8px;
   border-radius: 999px;
