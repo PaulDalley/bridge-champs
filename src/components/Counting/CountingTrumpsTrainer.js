@@ -2018,7 +2018,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     // If override is provided (even empty), treat it as authoritative for this trainer instance.
     if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
     const list = PUZZLES;
-    // d2-2 moved to Defence (df2-1); p2-2 and p2-3 are both counting difficulty 2 on live
+    // Counting difficulty 2 must show 2 problems: p2-2 and p2-3. Only exclude d2-2 (moved to Defence as df2-1).
     return list.filter((p) => p.id !== "d2-2");
   }, [puzzlesOverride]);
   const fallbackPuzzle = useMemo(() => {
