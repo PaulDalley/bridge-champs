@@ -513,6 +513,79 @@ const DEFENCE_PUZZLES = [
     ],
   },
   {
+    id: "df1-8",
+    difficulty: 1,
+    title: "4♥: Gold Coast Finals — passive or active?",
+    trumpSuit: "H",
+    contract: "4♥",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "E",
+    visibleFullHandSeats: ["RHO", "DUMMY"],
+    auction: "P P 1♦ 1N P 2♦ P 2♥ P 2N P 3♥ P 4♥ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "active",
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "df1-8-passiveOrActive",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText:
+            "This was a hand from the Gold Coast Championship Finals. It proved to be a blind spot.\n\nIs this a time to go passive or active?",
+          options: [
+            { id: "passive", label: "Passive" },
+            { id: "active", label: "Active" },
+          ],
+          expectedChoice: "active",
+          noContinue: true,
+          revealText:
+            "Actually it is time to go active, the spade suit turned out to be menacing. However, it was difficult to see, because it was hidden in declarer's hand, not visible in dummy.\n\nHow could we have known this? One strong indication is that our spade suit is weak and short, whereas our diamond suit is long and strong. It's not very surprising that declarer had a long and strong spade suit, ready to use!\n\n(Gold Coast 2022 final, set 1 hand 4)\n\nWell done — take your diamond tricks before declarer uses the spades.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "8763", H: "93", D: "AT64", C: "T63" },
+      DUMMY: { S: "K52", H: "AJT64", D: "87", C: "754" },
+      RHO: { S: "T4", H: "K87", D: "KJ93", C: "AQ82" },
+      DECLARER: { S: "AQJ9", H: "Q52", D: "Q52", C: "KJ9" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (club lead)",
+        plays: [
+          { seat: "LHO", card: { rank: "3", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "RHO", card: { rank: "A", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "9", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (you lead a club back)",
+        plays: [
+          { seat: "RHO", card: { rank: "2", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "C" } },
+          { seat: "LHO", card: { rank: "6", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (you win the King of hearts)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+          { seat: "LHO", card: { rank: "9", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "J", suit: "H" } },
+          { seat: "RHO", card: { rank: "K", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "df2-1",
     difficulty: 2,
     title: "Defending 3♥: count declarer's shape (and duck the spade)",
