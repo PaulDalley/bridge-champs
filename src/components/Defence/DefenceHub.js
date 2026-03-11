@@ -44,26 +44,26 @@ function DefenceHub() {
         </Link>
 
         {isAdmin ? (
-          <Link to="/defence/basics" className="ch-card" role="listitem" aria-label="Learn the basics">
+          <Link to="/defence/basics" className="ch-card" role="listitem" aria-label="Improve your fundamentals">
             <div className="ch-cardHeader">
               <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
                 <Icon>menu_book</Icon>
               </div>
               <div>
-                <div className="ch-cardTitle">Learn the basics</div>
+                <div className="ch-cardTitle">Improve your fundamentals</div>
                 <div className="ch-cardMicro">Coming soon</div>
               </div>
             </div>
             <div className="ch-cardText">Foundational defence concepts. New content being added.</div>
           </Link>
         ) : (
-          <div className="ch-card ch-card--disabled" role="listitem" aria-label="Learn the basics (coming soon)">
+          <div className="ch-card ch-card--disabled" role="listitem" aria-label="Improve your fundamentals (coming soon)">
             <div className="ch-cardHeader">
               <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
                 <Icon>menu_book</Icon>
               </div>
               <div>
-                <div className="ch-cardTitle">Learn the basics</div>
+                <div className="ch-cardTitle">Improve your fundamentals</div>
                 <div className="ch-cardMicro">Coming soon</div>
               </div>
             </div>

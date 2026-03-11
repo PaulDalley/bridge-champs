@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import DailyFreeSingleton from "./HomePage/DailyFreeSingleton";
 import AnimatedButton from "./UI/AnimatedButton";
 import CategorySelector from "./HomePage/CategorySelector";
+import RecentlyAdded from "./HomePage/RecentlyAdded";
+import HowToUse from "./HomePage/HowToUse";
 import WelcomeVideo from "./HomePage/WelcomeVideo";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -221,6 +223,13 @@ class HomePage extends Component {
           <meta property="og:description" content="Learn Bridge from world class experts and champions. Improve your game with daily insights and quizzes." />
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
+
+        {/* Theme + progress: compact, one link */}
+        <div className="HomePage-themeAndPlan">
+          <RecentlyAdded />
+        </div>
+
+        <HowToUse />
 
         {/* SUCCESS MODAL */}
         {this.props.success && (
