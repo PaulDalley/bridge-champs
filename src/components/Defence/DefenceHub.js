@@ -16,8 +16,8 @@ function DefenceHub() {
         </div>
       </div>
 
-      <div className="ch-cards" role="list" aria-label="Defence options">
-        <Link to="/defence/practice" className="ch-card ch-card--practiceTile" role="listitem" aria-label="Practice defence">
+      <div className="ch-spotlight" role="presentation">
+        <Link to="/defence/practice" className="ch-card ch-card--practiceTile ch-card--spotlight" role="listitem" aria-label="Practice defence">
           <div className="ch-cardHeader">
             <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
               <Icon>fitness_center</Icon>
@@ -29,7 +29,9 @@ function DefenceHub() {
           </div>
           <div className="ch-cardText">Short, focused problems with teaching prompts.</div>
         </Link>
+      </div>
 
+      <div className="ch-cards ch-cards--secondary" role="list" aria-label="Defence options">
         <Link to="/defence/articles" className="ch-card" role="listitem" aria-label="Advanced ideas">
           <div className="ch-cardHeader">
             <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">

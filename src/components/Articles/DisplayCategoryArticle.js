@@ -178,7 +178,10 @@ const renderVideoSection = (videoUrl, canWatchVideo, history) => {
             <p>Upgrade to Premium to watch this video</p>
             <button
               className="Article-video-upgrade-btn"
-              onClick={() => history.push('/membership')}
+              onClick={() => {
+                if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
+                history.push("/membership");
+              }}
               aria-label="Upgrade to premium membership to watch this video"
             >
               Upgrade to Premium
@@ -373,11 +376,11 @@ const DisplayCategoryArticle = ({
   const getCategoryName = () => {
     const categoryMap = {
       cardPlay: "Declarer Play",
-      cardPlayBasics: "Declarer Play – Learn the Basics",
+      cardPlayBasics: "Declarer Play – Improve your fundamentals",
       defence: "Defence",
-      defenceBasics: "Defence – Learn the Basics",
+      defenceBasics: "Defence – Improve your fundamentals",
       bidding: "Bidding – Advanced ideas",
-      biddingBasics: "Bidding – Learn the Basics",
+      biddingBasics: "Bidding – Improve your fundamentals",
       biddingAdvanced: "Bidding – Advanced Ideas",
     };
     return categoryMap[articleType] || articleType;

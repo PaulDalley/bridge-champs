@@ -396,7 +396,12 @@ class Videos extends Component {
                                 Upgrade to Premium to access our exclusive video library!
                             </p>
                         )}
-                        <Link to="/membership">
+                        <Link
+                            to="/membership"
+                            onClick={() => {
+                              if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
+                            }}
+                          >
                             <Button waves="light" large>
                                 Upgrade to Premium
                                 <Icon right>arrow_forward</Icon>

@@ -291,13 +291,13 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       case 'bidding':
         return { name: 'Bidding – Advanced ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
       case 'biddingBasics':
-        return { name: 'Bidding – Learn the Basics', subtitle: 'Critically important to get this right. Build a solid foundation.' };
+        return { name: 'Bidding – Improve your fundamentals', subtitle: 'Critically important to get this right. Build a solid foundation.' };
       case 'biddingAdvanced':
         return { name: 'Bidding – Advanced Ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
       case 'cardPlayBasics':
-        return { name: 'Declarer Play – Learn the Basics', subtitle: 'Coming soon. Build a solid foundation.' };
+        return { name: 'Declarer Play – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'defenceBasics':
-        return { name: 'Defence – Learn the Basics', subtitle: 'Coming soon. Build a solid foundation.' };
+        return { name: 'Defence – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'counting':
         return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
       default: 
@@ -525,7 +525,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           <div style={{ fontSize: "3rem", marginBottom: "1rem" }} aria-hidden="true">🚧</div>
           <h2 style={{ fontSize: "1.75rem", marginBottom: "0.75rem", color: "#0F4C3A" }}>Coming Soon</h2>
           <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.6 }}>
-            We’re building a dedicated <strong>Learn the Basics</strong> section here. Check back later for focused, foundational content.
+            We’re building a dedicated <strong>Improve your fundamentals</strong> section here. Check back later for focused, foundational content.
           </p>
         </div>
       )}

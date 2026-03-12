@@ -26,11 +26,74 @@
   line-height: 1.35;
 }
 
+/* Spotlight: Practice card — main tool, prominent and readable */
+.ch-spotlight {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.ch-spotlight .ch-card--spotlight {
+  min-height: 220px;
+  padding: 24px 26px;
+  grid-template-columns: 1fr;
+  max-width: 480px;
+  width: 100%;
+  border-width: 2px;
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.ch-spotlight .ch-card--spotlight:hover {
+  border-color: rgba(37, 99, 235, 0.5);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+.ch-spotlight .ch-cardIcon {
+  width: 96px;
+  height: 96px;
+}
+
+.ch-spotlight .ch-cardIcon i {
+  font-size: 56px;
+}
+
+.ch-spotlight .ch-cardTitle {
+  font-size: 2.25rem;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.ch-spotlight .ch-cardMicro {
+  font-size: 1.5rem;
+  margin-top: 6px;
+  color: #4b5563;
+  font-weight: 850;
+}
+
+.ch-spotlight .ch-cardText {
+  font-size: 1.5rem;
+  line-height: 1.45;
+  margin-top: 8px;
+  color: #374151;
+  font-weight: 800;
+}
+
+.ch-spotlight .ch-cardNote {
+  font-size: 1.2rem;
+  margin-top: 12px;
+  padding: 14px 16px;
+}
+
 .ch-cards {
   margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.ch-cards--secondary {
+  margin-top: 14px;
 }
 
 .ch-card {
@@ -125,6 +188,19 @@
   border: 1px solid rgba(225, 29, 72, 0.22);
 }
 
+.ch-newBadge {
+  vertical-align: super;
+  font-size: 0.65em;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #16a34a;
+  margin-left: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
 .ch-cardText {
   margin-top: 2px;
   color: #374151;
@@ -206,6 +282,38 @@
 @media (max-width: 860px) {
   .ch-cards {
     grid-template-columns: 1fr;
+  }
+
+  .ch-spotlight .ch-cardTitle {
+    font-size: 1.75rem;
+  }
+  .ch-spotlight .ch-cardMicro {
+    font-size: 1.25rem;
+  }
+  .ch-spotlight .ch-cardText {
+    font-size: 1.3rem;
+  }
+  .ch-spotlight .ch-cardIcon {
+    width: 84px;
+    height: 84px;
+  }
+  .ch-spotlight .ch-cardIcon i {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 500px) {
+  .ch-spotlight .ch-card--spotlight {
+    padding: 20px 20px;
+  }
+  .ch-spotlight .ch-cardTitle {
+    font-size: 1.5rem;
+  }
+  .ch-spotlight .ch-cardText {
+    font-size: 1.15rem;
+  }
+  .ch-spotlight .ch-cardMicro {
+    font-size: 1.1rem;
   }
 }
 

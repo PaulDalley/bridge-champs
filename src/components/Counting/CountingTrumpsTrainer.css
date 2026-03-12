@@ -13,6 +13,50 @@
   padding-right: 16px;
 }
 
+/* Mobile: trainer is desktop-only; show message instead of broken layout */
+.ct-page--mobileMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem 1.5rem;
+}
+
+.ct-mobileMessage {
+  text-align: center;
+  max-width: 320px;
+}
+
+.ct-mobileMessage-icon {
+  font-size: 64px;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.ct-mobileMessage-icon .material-icons {
+  font-size: 64px;
+}
+
+.ct-mobileMessage-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 0.75rem;
+}
+
+.ct-mobileMessage-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #475569;
+  margin: 0 0 0.5rem;
+}
+
+.ct-mobileMessage-sub {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
 .ct-layout {
   display: grid;
   /* Single column: stage contains table+prompt wrapper (table and rail/sidebar sit side by side inside) */
@@ -25,64 +69,101 @@
   min-width: 0;
 }
 
+/* Centered, compact gamified nav panel */
+.ct-topNavWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 0 8px;
+}
+
 .ct-topNav {
-  display: grid;
-  gap: 6px;
-  margin-bottom: 6px;
-  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 10px 16px 8px;
   border-radius: 12px;
-  background: #fafbfc;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-width: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 /* Category tier: Declarer | Defence | Counting */
 .ct-categoryRow {
   display: flex;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  width: 100%;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+  margin-bottom: 4px;
+}
+
+.ct-topNavSubscribe {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 18px;
+  background: linear-gradient(135deg, #D4AF37 0%, #E8C767 100%);
+  color: #1b4332;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ct-topNavSubscribe:hover {
+  transform: translateY(-50%) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.45);
+  color: #1b4332;
 }
 
 .ct-categoryTabs {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .ct-categoryTab {
   display: inline-flex;
   align-items: center;
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.02em;
-  color: #4b5563;
+  color: #475569;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1.5px solid rgba(17, 24, 39, 0.1);
-  transition: all 0.15s ease;
+  background: #f1f5f9;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  transition: all 0.18s ease;
 }
 
 .ct-categoryTab:hover {
-  color: #111827;
-  background: #fafbfc;
-  border-color: rgba(37, 99, 235, 0.25);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+  color: #0f172a;
+  background: #e2e8f0;
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .ct-categoryTab--active {
-  color: #ffffff;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  background: linear-gradient(145deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
   border-color: transparent;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
 }
 
 .ct-categoryTab--active:hover {
-  color: #ffffff;
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.4);
 }
 
 /* Explanation/reveal text: structured for readability (paragraphs, ✓ lists) */
@@ -150,6 +231,24 @@
   content: "";
 }
 
+.ct-revealList--cross .ct-revealListItem {
+  color: #6b7280;
+}
+
+.ct-revealList--lettered {
+  list-style-type: lower-alpha;
+  padding-left: 1.8em;
+  margin: 10px 0 14px;
+}
+.ct-revealList--lettered .ct-revealListItem {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.ct-revealList--lettered .ct-revealListItem::marker {
+  content: unset;
+  font-weight: 600;
+}
+
 .ct-revealMotivation {
   margin: 14px 0 0;
   font-size: 15px;
@@ -171,124 +270,285 @@
 .ct-topNavRow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 8px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .ct-topNavRow--diff {
-  padding-left: 4px;
+  margin-bottom: 4px;
 }
 
 .ct-topNavSubRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   flex-wrap: wrap;
-  padding-left: 14px;
-  margin-left: 2px;
-  border-left: 3px solid rgba(37, 99, 235, 0.2);
-  background: rgba(255, 255, 255, 0.4);
-  margin-right: -2px;
-  padding-right: 2px;
-  padding-top: 6px;
-  padding-bottom: 2px;
-  border-radius: 0 8px 8px 0;
+  width: 100%;
+  padding: 4px 0 0;
 }
 
 .ct-topNavLabel {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 800;
-  color: #4b5563;
-  letter-spacing: 0.05em;
+  color: #64748b;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .ct-topNavLabel--sub {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.04em;
-  color: #374151;
+  color: #64748b;
 }
 
 .ct-topNavSubNote {
   font-weight: 700;
-  color: #6b7280;
-  font-size: 12px;
+  color: #94a3b8;
+  font-size: 10px;
+  letter-spacing: 0.02em;
 }
 
 .ct-diffTabs,
 .ct-problemTabs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .ct-problemTabs--sub .ct-problemTab {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
 }
 
 .ct-diffTab {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 14px;
-  border: 1.5px solid #e5e7eb;
-  background: #fafbfc;
-  color: #374151;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.ct-diffTab:hover {
-  border-color: rgba(37, 99, 235, 0.3);
-  background: rgba(37, 99, 235, 0.04);
-  color: #1d4ed8;
-}
-
-.ct-diffTab--active {
-  border-color: #2563eb;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0.06) 100%);
-  color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-}
-
-.ct-problemTab {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 1.5px solid #e5e7eb;
-  background: #fafbfc;
-  color: #374151;
-  border-radius: 10px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  border-radius: 8px;
   font-weight: 800;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-diffTab:hover {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.06);
+  color: #2563eb;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.1);
+}
+
+.ct-diffTab--active {
+  border-color: #3b82f6;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.18) 0%, rgba(37, 99, 235, 0.1) 100%);
+  color: #1d4ed8;
+  box-shadow: 0 0 0 1.5px rgba(59, 130, 246, 0.25);
+}
+
+.ct-diffTab--active:hover {
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.15), 0 0 0 1.5px rgba(59, 130, 246, 0.25);
+}
+
+.ct-diffTab {
+  position: relative;
+}
+
+.ct-diffTab--completed .ct-diffTabTick {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  top: auto;
+  width: 12px;
+  height: 12px;
+  color: #16a34a;
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.ct-problemTab {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .ct-problemTab:hover:not(:disabled) {
-  border-color: rgba(37, 99, 235, 0.3);
-  background: rgba(37, 99, 235, 0.04);
-  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.06);
+  color: #2563eb;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.1);
 }
 
 .ct-problemTab--active {
-  border-color: #2563eb;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.14) 0%, rgba(37, 99, 235, 0.08) 100%);
+  border: 2px solid #2563eb;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.35) 0%, rgba(37, 99, 235, 0.2) 100%);
   color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.5);
 }
 
 .ct-problemTab--locked,
 .ct-problemTab:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
-  background: #f9fafb;
+  background: #f1f5f9;
+}
+
+.ct-problemTab--completed {
+  position: relative;
+}
+
+.ct-problemTab--completed .ct-problemTabTick {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  top: auto;
+  width: 12px;
+  height: 12px;
+  color: #16a34a;
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Different theme (e.g. points/counting) — subtle tint so it doesn’t look like completed */
+.ct-problemTab--themePoints {
+  background: linear-gradient(180deg, #fef9e6 0%, #fdf6dc 100%);
+  border-color: rgba(180, 140, 50, 0.2);
+}
+.ct-problemTab--themePoints:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fdf6dc 0%, #fbf0c8 100%);
+}
+.ct-problemTab--themePoints.ct-problemTab--active {
+  border: 2px solid #b88632;
+  background: linear-gradient(180deg, #f9ebc0 0%, #f5e0a0 100%);
+  color: #92400e;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(180, 140, 50, 0.55);
+}
+
+.ct-sidePrompt--themePoints {
+  background: linear-gradient(180deg, #fefcf5 0%, #fdf9ed 100%);
+  border-left: 3px solid rgba(180, 140, 50, 0.35);
+}
+
+.ct-sidePrompt--themePoints .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #92400e;
+  font-weight: 700;
+}
+
+.ct-sidePrompt--themePoints .ct-revealList {
+  background: rgba(180, 140, 50, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
+/* Theme: passive vs active (defence problems 5–9) */
+.ct-problemTab--themeActive {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+.ct-problemTab--themeActive:hover:not(:disabled) {
+  background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+}
+.ct-problemTab--themeActive.ct-problemTab--active {
+  border: 2px solid #0d9668;
+  background: linear-gradient(180deg, #6ee7b7 0%, #34d399 100%);
+  color: #065f46;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.55);
+}
+.ct-sidePrompt--themeActive {
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+  border-left: 3px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Theme: responding (bidding problems 6–10) */
+.ct-problemTab--themeRespond {
+  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+  border-color: rgba(79, 70, 229, 0.25);
+}
+.ct-problemTab--themeRespond:hover:not(:disabled) {
+  background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+}
+.ct-problemTab--themeRespond.ct-problemTab--active {
+  border: 2px solid #4f46e5;
+  background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 100%);
+  color: #312e81;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.55);
+}
+.ct-sidePrompt--themeRespond {
+  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+  border-left: 3px solid rgba(79, 70, 229, 0.4);
+}
+.ct-sidePrompt--themeRespond .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #3730a3;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeRespond .ct-revealList {
+  background: rgba(79, 70, 229, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
+.ct-newBadge {
+  vertical-align: super;
+  font-size: 0.65em;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #16a34a;
+  margin-left: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.ct-diffTab .ct-newBadge,
+.ct-problemTab .ct-newBadge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: auto;
+  margin-left: 0;
+  font-size: 9px;
+}
+
+.ct-diffTab,
+.ct-problemTab {
+  position: relative;
 }
 
 .ct-suitRow {
@@ -431,29 +691,41 @@
 /* Wrapper when prompt is in right sidebar: table stays fixed, explanation on the right */
 /* width: fit-content so table + prompt stay grouped on the left, not pushed apart */
 .ct-tableWithSidebar {
-  display: flex;
-  gap: 52px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: fit-content;
+  position: relative;
   max-width: 100%;
   overflow: visible;
   min-width: 0;
 }
 
+/* LAYOUT CONTRACT: Do not change without explicit user request. Questions must stay
+   right of table; gap >= 56px; sidebar margin-left >= 32px; table width auto;
+   stacking only in @media (max-width: 860px). See block above .ct-tableWithSidebar. */
+/* PROBLEM LAYOUT: questions to the RIGHT of table. Large gap so panel never overlaps East hand. */
+.ct-tableWithSidebar-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 56px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
 /* Table grows to use space so South/center column isn’t squeezed; sidebar stays fixed on the right */
+/* Table only as wide as cards; margin-right = space before questions panel. */
 .ct-tableWithSidebar .ct-table {
-  flex: 0 1 auto;
+  flex: 0 0 auto;
+  width: auto;
   min-width: 0;
   overflow: visible;
   max-width: 920px;
-  margin-right: 24px;
+  margin-right: 32px;
   row-gap: 14px;
 }
-/* Keep East hand clear of the question box */
+/* East hand: extra padding so cards stay clear of the questions panel. */
 .ct-tableWithSidebar .ct-seat--right {
   margin-right: 0;
-  padding-right: 16px;
+  padding-right: 24px;
 }
 /* Keep South hand clear of the start overlay above */
 .ct-tableWithSidebar .ct-seat--bottom {
@@ -463,18 +735,21 @@
   max-width: 840px;
 }
 
-/* Right sidebar: bidding + explanation — sized for projection/teaching (clear, readable) */
+/* Prevent table stretching to 100% so questions stay next to table (not far right). */
+.ct-tableWithSidebar .ct-table.ct-table--promptOnRight {
+  width: auto;
+}
+
+/* Right sidebar: must not overlap East hand — margin keeps panel clear of cards. */
 .ct-explanationSidebar {
   flex: 0 0 380px;
   width: 380px;
   max-width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
   position: sticky;
   top: calc(5rem + 6px);
   padding: 4px 0 0;
   box-sizing: border-box;
-  margin-left: 28px;
+  margin-left: 32px;
 }
 
 .ct-explanationSidebar .ct-sidePrompt {
@@ -515,17 +790,15 @@
   font-size: 24px;
 }
 
-/* When prompt is in rail (non–full-hands), same grouping as sidebar: fixed width, sits next to table */
+/* When prompt is in rail (non–full-hands), margin so panel never overlaps cards. */
 .ct-tableWithSidebar .ct-rail.ct-rail--inSidebar {
   flex: 0 0 380px;
   width: 380px;
   max-width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
   position: sticky;
   top: calc(5rem + 6px);
   box-sizing: border-box;
-  margin-left: 28px;
+  margin-left: 32px;
 }
 
 /* Contract + bidding in sidebar: large, clear text for projection/teaching */
@@ -654,14 +927,20 @@
   row-gap: 0;
 }
 
-/* When West visible: wider left column so West hand isn't cut off; center = table width */
+/* When West visible (reveal): wider left column so West’s long suits (e.g. 6 spades) fit without squashing */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
-  grid-template-columns: 220px clamp(300px, 34vw, 420px) minmax(110px, 150px);
+  grid-template-columns: 260px clamp(300px, 34vw, 420px) minmax(110px, 150px);
   width: 100%;
   max-width: none;
   justify-items: start;
   column-gap: 10px;
   row-gap: 0;
+}
+
+/* Override: when table is in sidebar layout, do NOT stretch to 100% — keep questions next to table */
+.ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight,
+.ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight.ct-table--westVisible {
+  width: auto;
 }
 
 /* When left column is 0 (West not visible), clip so nothing spills */
@@ -720,6 +999,147 @@
   letter-spacing: -0.01em;
 }
 
+/* Overlay for locked problems (problem visible in background) */
+.ct-paywallOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  padding: 1.5rem;
+}
+
+.ct-tableWithSidebar {
+  position: relative;
+}
+
+/* Full paywall for non-members (subscribers only) */
+.ct-paywallFull {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  padding: 2rem;
+  margin: 1rem 0;
+}
+
+.ct-paywallFullCta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, #D4AF37 0%, #E8C767 100%);
+  border-radius: 16px;
+  color: #1b4332;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.5);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 420px;
+}
+
+.ct-paywallFullCta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(212, 175, 55, 0.6);
+  color: #1b4332;
+}
+
+.ct-paywallFullIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 32px !important;
+}
+
+.ct-paywallFullDesc {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.ct-paywallFullBtn {
+  padding: 0.75rem 1.5rem;
+  background: #1b4332;
+  color: #fff !important;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+}
+
+.ct-paywallFullCta:hover .ct-paywallFullBtn {
+  background: #0F4C3A;
+}
+
+/* Prominent subscribe banner for non-members (and mockPaywall=1 on localhost) */
+.ct-subscribeBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #D4AF37 0%, #E8C767 100%);
+  border-radius: 12px;
+  color: #1b4332;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ct-subscribeBanner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+  color: #1b4332;
+}
+
+.ct-subscribeBannerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #1b4332;
+  font-size: 22px !important;
+  flex-shrink: 0;
+}
+
+.ct-subscribeBannerContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.ct-subscribeBannerBtn {
+  padding: 6px 14px;
+  background: #1b4332;
+  color: #fff !important;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ct-subscribeBanner:hover .ct-subscribeBannerBtn {
+  background: #0F4C3A;
+  color: #fff !important;
+}
+
 .ct-paywallNote {
   margin-bottom: 6px;
   padding: 8px 12px;
@@ -750,6 +1170,30 @@
 
 .ct-promptRail {
   color: #111827;
+}
+
+/* When success + Continue is showing, put it beside the question so it stays visible without scrolling */
+.ct-promptRail.ct-promptRail--withFeedback {
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 280px);
+  gap: 1rem;
+  align-items: start;
+}
+
+.ct-promptRail--withFeedback .ct-promptRail-content {
+  min-width: 0;
+}
+
+/* Hide the answer "Enter" button once success + Continue is showing (avoids confusion) */
+.ct-promptRail--withFeedback .ct-promptRail-content .ct-railAnswer .ct-btn,
+.ct-promptRail--withFeedback .ct-promptRail-content .ct-railActions .ct-btn {
+  display: none;
+}
+
+.ct-promptRail--withFeedback .ct-feedback {
+  margin-top: 0;
+  position: sticky;
+  top: 0;
 }
 
 .ct-questionText {
@@ -1292,6 +1736,53 @@
   backdrop-filter: blur(2px);
 }
 
+/* Prompt pop-up overlay (same style as Start card) */
+.ct-promptOverlay {
+  position: absolute;
+  inset: 24px;
+  border-radius: 12px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 55%),
+    rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(2px);
+}
+
+.ct-promptCard {
+  width: min(520px, 96%);
+  max-width: 100%;
+  max-height: 90%;
+  overflow-y: auto;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+  padding: 20px 24px;
+  text-align: center;
+  color: #111827;
+}
+
+.ct-promptCard-text {
+  white-space: pre-line;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.ct-promptCard .ct-railActions,
+.ct-promptCard .ct-railAnswer {
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.ct-promptCard .ct-distRow--numBoxes {
+  justify-content: center;
+  margin-top: 12px;
+}
+
 .ct-startCard {
   width: min(520px, 96%);
   border-radius: 16px;
@@ -1315,6 +1806,14 @@
   font-size: 20px;
   color: #374151;
   font-weight: 900;
+}
+
+.ct-startNote {
+  margin-top: 10px;
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .ct-startBtn {
@@ -1407,6 +1906,14 @@
 }
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--left .ct-suitLine {
   width: max-content;
+}
+
+/* Reveal only (West visible): cap West’s card size so long suits (e.g. 6 spades) fit in the 260px column; East and play phase unchanged */
+.ct-layout--fullhands .ct-table--bottomRowLayout.ct-table--westVisible .ct-seat--left .ct-suitLine .ct-miniCard.ct-miniCard--fan {
+  max-width: 42px;
+  min-width: 24px;
+  min-height: 34px;
+  max-height: 54px;
 }
 
 /* Dummy (top) and Declarer (bottom) hands: keep a readable minimum width so cards aren’t microscopic */
@@ -1982,6 +2489,26 @@
   color: #991b1b;
 }
 
+/* Feedback + Continue on one row to avoid extending the screen */
+.ct-feedbackWithContinue {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+.ct-feedbackWithContinue-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ct-feedbackWithContinue-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .ct-hint,
 .ct-reasoning {
   margin-top: 12px;
@@ -2037,6 +2564,11 @@
 @media (max-width: 860px) {
   .ct-layout {
     grid-template-columns: 1fr;
+  }
+
+  .ct-tableWithSidebar-inner {
+    flex-direction: column;
+    gap: 16px;
   }
 
   .ct-rail {
@@ -2150,5 +2682,166 @@
 }
 .ct-page--localhost .ct-revealSuccess {
   font-size: 21px;
+}
+
+/* Practice video block (small inline or locked) */
+.ct-practiceVideo {
+  margin-top: 12px;
+}
+.ct-practiceVideo-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 2px;
+}
+.ct-practiceVideo-sublabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+.ct-practiceVideo-embed {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  padding-bottom: 56.25%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+}
+.ct-practiceVideo-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ct-practiceVideo-embedInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ct-practiceVideo-embedInner iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ct-practiceVideo-replayOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.ct-practiceVideo-replayOverlayScrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ct-practiceVideo-replayBtn {
+  position: relative;
+  z-index: 1;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: #1b4332;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ct-practiceVideo-replayBtn:hover {
+  background: #0F4C3A;
+}
+.ct-practiceVideo--locked .ct-practiceVideo-locked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  max-width: 280px;
+}
+.ct-practiceVideo-lockedIcon {
+  font-size: 2rem;
+  color: #9ca3af;
+}
+.ct-practiceVideo-lockedText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+}
+.ct-practiceVideo-lockedSublabel {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+.ct-practiceVideo-upgradeBtn {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #0F4C3A;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.ct-practiceVideo-upgradeBtn:hover {
+  background: #083426;
+  color: #fff;
+}
+
+/* Persistent video slot: stays visible for the full problem so user can play and continue without it disappearing */
+.ct-practiceVideoSlot:not(:empty) {
+  position: sticky;
+  top: calc(5rem + 6px);
+  z-index: 2;
+  background: #fafbfc;
+  padding-bottom: 10px;
+  margin-bottom: 6px;
+  margin-top: 8px;
+}
+.ct-sidePrompt .ct-practiceVideoSlot:not(:empty) {
+  background: #fafbfc;
+}
+.ct-sidePrompt--themePoints .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--themeActive .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty) {
+  background: inherit;
+}
+
+/* Admin-only: placeholder when no video URL set (so admin sees slot exists) */
+.ct-practiceVideo--adminEmpty {
+  padding: 10px 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  max-width: 280px;
+}
+.ct-practiceVideo--adminEmpty .ct-practiceVideo-sublabel {
+  color: #9ca3af;
+  font-size: 11px;
 }
 

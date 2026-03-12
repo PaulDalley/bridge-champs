@@ -10,6 +10,7 @@ import logger from "../../utils/logger";
 import toastr from "toastr";
 import $ from "jquery";
 import { firebase } from "../../firebase/config";
+import { sendSubscriptionEvent } from "../../utils/analytics";
 import "./Settings.css";
 
 class Settings extends Component {
@@ -30,6 +31,17 @@ class Settings extends Component {
     adminCreateDays: 365,
     adminCreateLoading: false,
     adminCreateResult: null,
+    // Upgrade to Premium
+    upgradeLoading: false,
+    upgradeError: null,
+    // Email all / subscribers
+    emailAllSubject: "",
+    emailAllBody: "",
+    emailAllLoading: false,
+    emailAllResult: null,
+    // Email list export
+    emailListLoading: false,
+    emailListResult: null,
   };
 
   componentDidMount() {
@@ -65,6 +77,35 @@ class Settings extends Component {
         [field]: value
       }
     });
+  };
+
+  stripeUpgradeUrl = "https://us-central1-bridgechampions.cloudfunctions.net/stripeUpgradeSubscription";
+
+  handleUpgradeToPremium = () => {
+    const { uid, paymentMethod } = this.props;
+    if (!uid) return;
+    this.setState({ upgradeLoading: true, upgradeError: null });
+    if (paymentMethod === "paypal") {
+      const paypalUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PRUK4P42SGVDC";
+      const successCallback = "https://us-central1-bridgechampions.cloudfunctions.net/ipnHandler";
+      const returnUrl = `https://us-central1-bridgechampions.cloudfunctions.net/process?uid=${encodeURIComponent(uid)}&upgraded=1`;
+      const url = `${paypalUrl}&notify_url=${encodeURIComponent(successCallback)}&custom=${encodeURIComponent(uid)}&return=${encodeURIComponent(returnUrl)}`;
+      window.location.href = url;
+      return;
+    }
+    $.post(this.stripeUpgradeUrl, { uid })
+      .done((data) => {
+        this.setState({ upgradeLoading: false, upgradeError: null });
+        sendSubscriptionEvent("subscription_upgraded", { from_tier: "basic", to_tier: "premium", upgrade_source: "settings" });
+        toastr.success(data.message || "Upgraded to Premium!");
+        this.props.changeSubscriptionActiveStatus(true);
+        window.location.reload();
+      })
+      .fail((jqXHR) => {
+        const err = jqXHR.responseJSON?.error || jqXHR.responseText || "Upgrade failed.";
+        this.setState({ upgradeLoading: false, upgradeError: err });
+        toastr.error(err);
+      });
   };
 
   handleContactFormSubmit = (e) => {
@@ -199,6 +240,94 @@ class Settings extends Component {
     }
   };
 
+  sendEmailToUsers = async (audience) => {
+    const { emailAllSubject, emailAllBody } = this.state;
+    if (!emailAllSubject.trim() || !emailAllBody.trim()) {
+      toastr.warning("Please enter both subject and message.");
+      return;
+    }
+    this.setState({ emailAllLoading: true, emailAllResult: null });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not logged in");
+      const token = await user.getIdToken();
+      const res = await fetch(
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminEmailAllOrSubscribers",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            subject: emailAllSubject.trim(),
+            body: emailAllBody.trim().replace(/\n/g, "<br/>"),
+            audience,
+          }),
+        }
+      );
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || res.statusText);
+      this.setState({
+        emailAllResult: { sent: data.sent, recipientCount: data.recipientCount },
+      });
+      toastr.success(`Sent to ${data.sent} recipient(s).`);
+    } catch (err) {
+      toastr.error(err.message || "Failed to send");
+      this.setState({ emailAllResult: { error: err.message || String(err) } });
+    } finally {
+      this.setState({ emailAllLoading: false });
+    }
+  };
+
+  getEmailListSince2026 = async () => {
+    this.setState({ emailListLoading: true, emailListResult: null });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not logged in");
+      const token = await user.getIdToken();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000);
+      const res = await fetch(
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetUserEmailsSinceDate?since=2026-01-01",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+          signal: controller.signal,
+        }
+      );
+      clearTimeout(timeoutId);
+      const raw = await res.text();
+      let data = {};
+      try {
+        if (raw) data = JSON.parse(raw);
+      } catch (_) {}
+      if (!res.ok) {
+        const msg = (data && data.error) || res.statusText || `HTTP ${res.status}`;
+        throw new Error(msg);
+      }
+      this.setState({ emailListResult: data });
+      const emailStr = (data.emails || []).join("\n");
+      if (navigator.clipboard && emailStr) {
+        await navigator.clipboard.writeText(emailStr);
+        toastr.success(`${data.count} email(s) copied to clipboard`);
+      } else {
+        toastr.success(`${data.count} email(s) fetched`);
+      }
+    } catch (err) {
+      const message = err.message || String(err);
+      const isAbort = err.name === "AbortError";
+      const isNetworkError = message === "Failed to fetch" || err.name === "TypeError";
+      let displayError = message;
+      if (isAbort) {
+        displayError = "Request timed out (60s). The function may be cold-starting — try again.";
+      } else if (isNetworkError) {
+        displayError = "Network error — try again. If it persists, the function may be cold-starting, or ensure the Cloud Function is deployed (firebase deploy --only functions from the cloud-functions folder).";
+      }
+      this.setState({ emailListResult: { error: displayError } });
+      toastr.error(displayError);
+    } finally {
+      this.setState({ emailListLoading: false });
+    }
+  };
+
   render() {
     const {
       uid,
@@ -285,6 +414,31 @@ class Settings extends Component {
                       <p className="Settings-payment-method">
                         Payment method: <strong>{paymentMethod.toUpperCase()}</strong>
                       </p>
+                    )}
+
+                    {tier === "basic" && !this.state.cancelPending && !this.state.cancelled && (
+                      <div className="Settings-upgrade-row" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                        <button
+                          className="Settings-upgrade-btn"
+                          onClick={this.handleUpgradeToPremium}
+                          disabled={this.state.upgradeLoading}
+                          style={{
+                            padding: "0.6rem 1.2rem",
+                            fontSize: "1rem",
+                            fontWeight: 600,
+                            color: "#fff",
+                            backgroundColor: "#0F4C3A",
+                            border: "none",
+                            borderRadius: "8px",
+                            cursor: this.state.upgradeLoading ? "wait" : "pointer",
+                          }}
+                        >
+                          {this.state.upgradeLoading ? "Processing…" : "Upgrade to Premium ($50/mo)"}
+                        </button>
+                        <p className="Settings-upgrade-note" style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "#666" }}>
+                          Get access to exclusive videos and more.
+                        </p>
+                      </div>
                     )}
 
                     {this.state.cancelPending && (
@@ -700,6 +854,86 @@ class Settings extends Component {
                           </>
                         )}
                       </div>
+                    )}
+
+                    <h3 className="Settings-admin-title" style={{ marginTop: "24px" }}>Email users</h3>
+                    <p className="Settings-admin-subtitle">
+                      Send one email to all users or to current subscribers only. Uses the same Gmail account as the Contact form and welcome emails (set in Firebase Functions config).
+                    </p>
+                    <div className="Settings-admin-form">
+                      <div className="Settings-form-group">
+                        <label className="Settings-form-label">Subject</label>
+                        <input
+                          className="Settings-form-input"
+                          type="text"
+                          value={this.state.emailAllSubject}
+                          onChange={(e) => this.setState({ emailAllSubject: e.target.value })}
+                          placeholder="e.g. New practice hands added"
+                        />
+                      </div>
+                      <div className="Settings-form-group">
+                        <label className="Settings-form-label">Message</label>
+                        <textarea
+                          className="Settings-admin-textarea"
+                          rows={5}
+                          value={this.state.emailAllBody}
+                          onChange={(e) => this.setState({ emailAllBody: e.target.value })}
+                          placeholder="Type your message. Line breaks become paragraphs in the email."
+                        />
+                      </div>
+                      <div className="Settings-admin-actions" style={{ marginTop: "8px" }}>
+                        <button
+                          type="button"
+                          className="Settings-submit-btn"
+                          disabled={this.state.emailAllLoading}
+                          onClick={() => this.sendEmailToUsers("subscribers")}
+                        >
+                          {this.state.emailAllLoading ? "Sending…" : "Email subscribers"}
+                        </button>
+                        <button
+                          type="button"
+                          className="Settings-admin-copy-btn"
+                          disabled={this.state.emailAllLoading}
+                          onClick={() => this.sendEmailToUsers("all")}
+                          style={{ marginLeft: "8px" }}
+                        >
+                          Email all users
+                        </button>
+                      </div>
+                    </div>
+                    {this.state.emailAllResult && (
+                      <div className="Settings-admin-result" style={{ marginTop: "12px" }}>
+                        {this.state.emailAllResult.error ? (
+                          <p className="Settings-admin-error">{this.state.emailAllResult.error}</p>
+                        ) : (
+                          <p>Sent to {this.state.emailAllResult.sent} recipient(s).</p>
+                        )}
+                      </div>
+                    )}
+
+                    <h3 className="Settings-admin-title" style={{ marginTop: "24px" }}>Export email list</h3>
+                    <p className="Settings-admin-subtitle">
+                      Get emails of users who signed up since 2026. Copies to clipboard.
+                    </p>
+                    <div className="Settings-admin-actions" style={{ marginTop: "8px" }}>
+                      <button
+                        type="button"
+                        className="Settings-submit-btn"
+                        disabled={this.state.emailListLoading}
+                        onClick={this.getEmailListSince2026}
+                      >
+                        {this.state.emailListLoading ? "Loading…" : "Get emails since 2026"}
+                      </button>
+                    </div>
+                    {this.state.emailListResult && !this.state.emailListResult.error && (
+                      <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
+                        {this.state.emailListResult.count} user(s) since 2026-01-01.
+                      </p>
+                    )}
+                    {this.state.emailListResult && this.state.emailListResult.error && (
+                      <p className="Settings-admin-error" style={{ marginTop: "8px" }}>
+                        {this.state.emailListResult.error}
+                      </p>
                     )}
                   </div>
                 </div>

@@ -757,7 +757,10 @@ const renderVideoEmbed = (
             <p>Upgrade to Premium to watch this video</p>
             <button
               className="Article-video-upgrade-btn"
-              onClick={() => history && history.push && history.push('/membership')}
+              onClick={() => {
+                if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
+                if (history && history.push) history.push("/membership");
+              }}
               aria-label="Upgrade to premium membership to watch this video"
             >
               Upgrade to Premium

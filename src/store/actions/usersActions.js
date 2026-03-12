@@ -75,3 +75,30 @@ export const setCurrentQuizScore = (scoresObject, quizId) => ({
     type: actions.SET_USER_CURRENT_QUIZ,
     currentQuizScore: scoresObject[quizId],
 });
+
+export const setUserCompletedPractice = (completedPractice) => ({
+    type: actions.SET_USER_COMPLETED_PRACTICE,
+    completedPractice: completedPractice || {},
+});
+
+/** Save a practice problem as completed to Firebase (membersData). Merges into completedPractice[categoryKey] array. */
+export const savePracticeCompletion = (uid, categoryKey, problemId) => {
+    return (dispatch, getState) => {
+        if (!uid || !categoryKey || !problemId) return;
+        const docRef = membersDataRef.doc(uid);
+        docRef.get()
+            .then((doc) => {
+                const data = doc.data() || {};
+                const existing = data.completedPractice || {};
+                const list = Array.isArray(existing[categoryKey]) ? [...existing[categoryKey]] : [];
+                if (list.includes(problemId)) return;
+                list.push(problemId);
+                const completedPractice = { ...existing, [categoryKey]: list };
+                return docRef.set({ completedPractice }, { merge: true }).then(() => completedPractice);
+            })
+            .then((completedPractice) => {
+                if (completedPractice) dispatch(setUserCompletedPractice(completedPractice));
+            })
+            .catch((err) => console.error('savePracticeCompletion failed:', err));
+    };
+};

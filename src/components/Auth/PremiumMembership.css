@@ -1,7 +1,6 @@
 .PremiumMembership-container {
     position: relative;
-    /*padding: 5rem 10rem 10rem;*/
-    padding: 2rem 90rem 2rem;
+    padding: 2rem 1rem 2rem;
     background-color: #F5F5F5;
 }
 
@@ -74,6 +73,18 @@
     0% {
         max-width: 0;
     }
+}
+
+/* Ensure login/signup form on membership page is not clipped */
+.PremiumMembership-container .AuthComponent-container,
+.PremiumMembership-container .AuthComponent-container .card-content {
+  overflow: visible !important;
+  min-height: auto;
+}
+
+.PremiumMembership-container .Login-container {
+  min-height: auto;
+  padding: 1rem 0;
 }
 
 .PremiumMembership-loading {

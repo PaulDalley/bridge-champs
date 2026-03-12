@@ -1,0 +1,74 @@
+/* Small billboard / notice strip — compact, same width as theme strip */
+.JustAdded {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(135deg, #f0f7f4 0%, #e8f2ee 100%);
+  border: 1px solid rgba(45, 106, 79, 0.2);
+  border-left: 4px solid #2d6a4f;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.JustAdded-labelWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.JustAdded-pin {
+  color: #2d6a4f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.JustAdded-pin .material-icons {
+  font-size: 32px;
+}
+
+.JustAdded-label {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #1b4332;
+  letter-spacing: -0.01em;
+}
+
+.JustAdded-links {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.JustAdded-link {
+  color: #0d5c3a;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(13, 92, 58, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.JustAdded-link:hover {
+  color: #0f4c3a;
+  border-bottom-width: 2px;
+  border-bottom-color: #0d5c3a;
+}
+
+.JustAdded-sep {
+  color: #9ca3af;
+  font-weight: 600;
+  margin: 0 4px;
+}
+
+@media (max-width: 640px) {
+  .JustAdded-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .JustAdded-sep {
+    display: none;
+  }
+}

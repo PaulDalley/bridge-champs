@@ -16,6 +16,7 @@ import paypalPayNow from "../../assets/images/paypal-paynow.png";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
 import { firebase } from "../../firebase/config";
 import StripeCheckout from "../UI/StripeCheckout";
+import { sendSubscriptionEvent } from "../../utils/analytics";
 
 
 // Pricing tiers
@@ -36,6 +37,10 @@ const PRICING_TIERS = {
 
 const successCallback =
   "https://us-central1-bridgechampions.cloudfunctions.net/ipnHandler";
+const processReturnBase =
+  "https://us-central1-bridgechampions.cloudfunctions.net/process";
+const storePayPalPendingPromoUrl =
+  "https://us-central1-bridgechampions.cloudfunctions.net/storePayPalPendingPromo";
 
 class PremiumMembership extends Component {
   state = {
@@ -100,7 +105,7 @@ class PremiumMembership extends Component {
           });
         } else {
           let msg;
-          if (days > 0 && code.toLowerCase() === "harbourview") {
+          if (days > 0 && code.toLowerCase().replace(/\s+/g, "") === "harbourview") {
             msg = `✓ Code valid! 1 month free with Standard or Premium.${nextStep}`;
           } else if (days > 0) {
             msg = `✓ Code valid! ${days} free day${days !== 1 ? "s" : ""} before billing.${nextStep}`;
@@ -146,30 +151,65 @@ class PremiumMembership extends Component {
     this.setState({ selectedTier: tier });
   };
 
-  paypalSubscribe = (uid, redirect = false) => {
+  paypalSubscribe = async (uid, redirect = false) => {
     if (!redirect || !this.state.selectedTier) {
       this.setState({ showLogin: false });
       return;
-    } else {
-      this.setState({
-        authComplete: true,
-        showLogin: false,
-        paypalRedirectLoading: true,
-      });
-      
-      const tier = PRICING_TIERS[this.state.selectedTier];
-      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
-      let url = `${paypalUrl}&notify_url=${successCallback}&custom=${uid}`;
-      
-      if (this.state.promoCode) url = url + `&invoice=${this.state.promoCode}`;
-      window.location = url;
     }
+    this.setState({
+      authComplete: true,
+      showLogin: false,
+      paypalRedirectLoading: true,
+    });
+
+    const tier = PRICING_TIERS[this.state.selectedTier];
+    const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
+    let returnUrl = `${processReturnBase}?uid=${encodeURIComponent(uid)}`;
+    if (this.state.promoCode) {
+      const promoNormalized = this.state.promoCode.replace(/\s+/g, "").trim();
+      if (promoNormalized) {
+        returnUrl = returnUrl + "&promo=" + encodeURIComponent(promoNormalized);
+      }
+    }
+    const url = `${paypalUrl}&notify_url=${encodeURIComponent(successCallback)}&custom=${encodeURIComponent(uid)}&return=${encodeURIComponent(returnUrl)}`;
+    window.location = url;
   };
 
   signupClicked = (e) => {
     e.preventDefault();
     this.setState({ authComplete: true });
     this.paypalSubscribe(this.props.uid, true);
+  };
+
+  handleUpgradeClick = () => {
+    const { paymentMethod, uid } = this.props;
+    if (!uid) return;
+    this.setState({ paypalRedirectLoading: true });
+    if (paymentMethod === "paypal") {
+      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${PRICING_TIERS.premium.paypalButton}`;
+      const returnUrl = `${processReturnBase}?uid=${encodeURIComponent(uid)}&upgraded=1`;
+      const url = `${paypalUrl}&notify_url=${encodeURIComponent(successCallback)}&custom=${encodeURIComponent(uid)}&return=${encodeURIComponent(returnUrl)}`;
+      window.location.href = url;
+      return;
+    }
+    const stripeUpgradeUrl = "https://us-central1-bridgechampions.cloudfunctions.net/stripeUpgradeSubscription";
+    $.post(stripeUpgradeUrl, { uid })
+      .done((data) => {
+        this.setState({ paypalRedirectLoading: false });
+        const source = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("subscription_upgrade_source") : null;
+        sendSubscriptionEvent("subscription_upgraded", {
+          from_tier: "basic",
+          to_tier: "premium",
+          upgrade_source: source || "membership_page",
+        });
+        if (typeof sessionStorage !== "undefined") sessionStorage.removeItem("subscription_upgrade_source");
+        this.props.changeSubscriptionActiveStatus(true);
+        window.location.reload();
+      })
+      .fail(() => {
+        this.setState({ paypalRedirectLoading: false });
+        alert("Upgrade failed. Please try again or contact support.");
+      });
   };
 
   render() {
@@ -179,15 +219,27 @@ class PremiumMembership extends Component {
     // Show "already subscribed" message for any active subscriber
     if (uid && subscriptionActive && authReady) {
       const tierName = this.props.tier === "premium" ? "Premium" : "Basic";
+      const isBasic = this.props.tier === "basic";
       return (
         <div className="PremiumMembership-container">
           <Card className="PremiumMembership-pricing-card" style={{ maxWidth: "32rem", margin: "4rem auto", padding: "2rem", textAlign: "center" }}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem", color: "#2e7d32" }}><Icon>check_circle</Icon></div>
             <h4 style={{ marginBottom: "0.75rem" }}>You're already subscribed</h4>
             <p style={{ color: "#555", marginBottom: "1.5rem" }}>
-              You have an active {tierName} subscription. There's no need to subscribe again — you have full access to all your content.
+              You have an active {tierName} subscription. {!isBasic && "There's no need to subscribe again — you have full access to all your content."}
+              {isBasic && "Upgrade to Premium for exclusive videos and more."}
             </p>
-            <Button waves="light" onClick={() => this.props.history.push("/")} style={{ backgroundColor: "#0F4C3A" }}>
+            {isBasic && (
+              <Button
+                waves="light"
+                onClick={this.handleUpgradeClick}
+                disabled={this.state.paypalRedirectLoading}
+                style={{ backgroundColor: "#0F4C3A", marginBottom: "1rem" }}
+              >
+                {this.state.paypalRedirectLoading ? "Redirecting…" : "Upgrade to Premium"}
+              </Button>
+            )}
+            <Button waves="light" onClick={() => this.props.history.push("/")} style={{ backgroundColor: isBasic ? "#666" : "#0F4C3A" }}>
               Go to homepage
             </Button>
           </Card>
@@ -403,6 +455,12 @@ class PremiumMembership extends Component {
                   </button>
                 </div>
 
+                {this.state.promoCode && this.state.promoSuccess && (
+                  <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem" }}>
+                    <strong>Promo applied:</strong> {this.state.promoCode.toUpperCase()} will give you free days before first charge.
+                  </div>
+                )}
+
                 <div className="PremiumMembership-payment-options">
                   <div className="PremiumMembership-payment-divider">
                     <span>Choose Payment Method</span>
@@ -415,6 +473,11 @@ class PremiumMembership extends Component {
                         <i className="fab fa-paypal" style={{ fontSize: '2rem', color: '#0070ba', marginRight: '0.5rem' }}></i>
                         <span>PayPal</span>
                       </div>
+                      <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
+                        {this.state.promoCode && this.state.promoSuccess
+                          ? "You'll pay $0 now — your promo gives you free time before billing."
+                          : `You'll pay $${PRICING_TIERS[selectedTier].price}/month at PayPal`}
+                      </p>
                       <img
                         src={paypalPayNow}
                         className="PremiumMembership-paypal-button"
@@ -429,6 +492,11 @@ class PremiumMembership extends Component {
                         <i className="fab fa-cc-stripe" style={{ fontSize: '2rem', color: '#635bff', marginRight: '0.5rem' }}></i>
                         <span>Credit Card</span>
                       </div>
+                      <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
+                        {this.state.promoCode && this.state.promoSuccess
+                          ? "You'll pay $0 now — your promo gives you free time before billing."
+                          : `You'll pay $${PRICING_TIERS[selectedTier].price}/month`}
+                      </p>
                       <StripeCheckout
                         uid={this.props.uid}
                         email={this.props.email}
@@ -437,6 +505,7 @@ class PremiumMembership extends Component {
                         tierPrice={PRICING_TIERS[selectedTier].price}
                         getToken={() => this.state.promoCode}
                         processing={() => this.setState({ stripeProcessing: true })}
+                        clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}
                         history={this.props.history}
                       />
@@ -474,6 +543,8 @@ export default connect(
     subscriptionExpires: auth.subscriptionExpires,
     subscriptionActive: auth.subscriptionActive,
     trialUsed: auth.trialUsed,
+    tier: auth.tier ?? "basic",
+    paymentMethod: auth.paymentMethod,
   }),
   { changeSubscriptionActiveStatus }
 )(PremiumMembership);

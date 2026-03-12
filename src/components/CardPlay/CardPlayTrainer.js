@@ -19,7 +19,15 @@ const CARDPLAY_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://www.youtube.com/embed/FFURF5yHtCs",
       customPrompts: [
+        {
+          id: "cp1-1-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This is pattern recognition practice. We won't play the hand out — we're just using the layout to train your eye. Take a good look at dummy and come up with an impression of the main theme.",
+        },
         {
           id: "cp1-1-q1",
           type: "PLAY_DECISION",
@@ -31,8 +39,10 @@ const CARDPLAY_PUZZLES = [
             { id: "setup", label: "Set up dummy’s long suit" },
           ],
           expectedChoice: "setup",
+          noContinue: true,
           revealText:
             "This meets the conditions for setting up a long suit.\n\n✓ Dummy has opening strength values\n✓ Dummy has a long suit\n\nIn these type of hands it is preferable to go after the long suit rather than look for ruffs.",
+          videoUrl: "",
         },
       ],
     },
@@ -61,9 +71,16 @@ const CARDPLAY_PUZZLES = [
       hideAuction: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
-      // Start by showing Trick 1 only; user clicks → for Trick 2.
+      videoUrlBeforeStart: "https://www.youtube.com/embed/ym_K5LU58P8",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
+        {
+          id: "cp1-2-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "We'll look at a couple of tricks only. The main aim is again to build an impression of the main themes — pattern recognition. When you're ready, continue to the play.",
+        },
         {
           id: "cp1-2-plan",
           type: "PLAY_DECISION",
@@ -77,6 +94,7 @@ const CARDPLAY_PUZZLES = [
           expectedChoice: "ruff_hearts",
           noContinue: true,
           motivationText: "Nice work — keep practising these patterns. Reps build instincts.",
+          videoUrl: "",
           revealText:
             "With this type of dummy it is typically best to go after ruffs, because\n\n✓ Dummy is weaker than opening values\n✓ Dummy has a shortage\n\nIt is worth noting — it’s typically not of much use to try setup a long suit in such a weak dummy.",
         },
@@ -126,8 +144,16 @@ const CARDPLAY_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://www.youtube.com/embed/ss01mt3cHmk",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
+        {
+          id: "cp1-3-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "We'll only play out one trick here. The goal is to build your pattern recognition — get an impression of the main themes, then we'll ask what you'd do next.",
+        },
         {
           id: "cp1-3-trick2",
           type: "PLAY_DECISION",
@@ -145,6 +171,7 @@ const CARDPLAY_PUZZLES = [
           motivationText: "Well done — setting up your trick source first is a key habit.",
           revealText:
             "The right idea is to set up your trick source in spades first. Trick sources like that are often our #1 priority. We will try to get a ruff in dummy as well, but step 1 is often to set up your trick source.\n\nThis also lines up with the idea of \"drawing the ace\" — do not create any additional losers; just lose the ace you were always going to lose anyway.",
+          videoUrl: "",
         },
       ],
     },
@@ -165,6 +192,281 @@ const CARDPLAY_PUZZLES = [
     ],
   },
   {
+    id: "cp1-4",
+    difficulty: 1,
+    newUntil: "2026-03-25",
+    title: "1NT: which suit creates no extra losers?",
+    trumpSuit: "NT",
+    contract: "1NT",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "1NT P P P",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://www.youtube.com/embed/Swmhaela-Ic",
+      focusNote: "We are just looking at 2 suits for this question.",
+      customPrompts: [
+        {
+          id: "cp1-4-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: "This is a quick visual puzzle. Glance at the hand and decide which suit you can aim to play without creating extra losers.",
+        },
+        {
+          id: "cp1-4-suit",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Which suit can you aim to play without creating extra losers?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+          ],
+          expectedChoice: "spades",
+          noContinue: true,
+          revealText:
+            "Spades.\n\nThis is a classic case of \"knocking out the Ace\". In spades you only lose the Ace you were always going to lose. In hearts, by contrast, you risk losing the Queen — which the defence otherwise have no chance of scoring on their own if you do not play the suit.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "KQJ2", H: "AJ543", D: "", C: "" },
+      DECLARER: { S: "876", H: "KT9", D: "", C: "" },
+    },
+    rounds: [],
+  },
+  {
+    id: "cp1-5",
+    difficulty: 1,
+    title: "1NT: focus on spades — knock out the Ace and King",
+    newUntil: "2026-03-25",
+    trumpSuit: "NT",
+    contract: "1NT",
+    auction: "1NT P P P",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-5-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "Before we play the hand, let's get our pattern recognition going. We first want to consider playing a suit that does NOT create any extra losers.",
+        },
+        {
+          id: "cp1-5-suit",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Which suit is that?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "spades",
+          noContinue: false,
+          motivationText: "Exactly! Well done.",
+          revealText:
+            "Spades! Our eyes need to first focus on spades. We would like to \"knock out the Ace\" and king, thereby opening up a trick source.",
+          videoUrl: "",
+        },
+        {
+          id: "cp1-5-now-1",
+          type: "PLAY_DECISION",
+          atRoundIdx: 4,
+          promptText: "What do we play now?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "spades",
+          noContinue: false,
+          wrongTryText:
+            "If we had played diamonds, we may have lost to the Queen and gone down. By playing spades we ensure our contract.",
+          motivationText: "Spades — we need to knock out the Ace and King.",
+          revealText: "Spades! We need to knock out the Ace and King to set up our trick source.",
+        },
+        {
+          id: "cp1-5-now-2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 6,
+          promptText: "So what do we play now?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "spades",
+          noContinue: true,
+          revealText:
+            "We need to keep going with spades — we have almost created those two extra tricks, without creating any extra losers. Well done!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "QJT9", H: "8765", D: "KT2", C: "32" },
+      DECLARER: { S: "76", H: "5432", D: "AJ98", C: "AKQ" },
+      LHO: { S: "A54", H: "AKQJ", D: "Q43", C: "8765" },
+      RHO: { S: "K832", H: "9", D: "7652", C: "JT94" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West cashes ♥A)",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "RHO", card: { rank: "9", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (West cashes ♥K)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "RHO", card: { rank: "8", suit: "S" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (West cashes ♥Q)",
+        plays: [
+          { seat: "LHO", card: { rank: "Q", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
+          { seat: "RHO", card: { rank: "3", suit: "S" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (West cashes ♥J)",
+        plays: [
+          { seat: "LHO", card: { rank: "J", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "S" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (West plays a club, South wins)",
+        plays: [
+          { seat: "LHO", card: { rank: "8", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "C" } },
+          { seat: "RHO", card: { rank: "J", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 6 (We play a spade, they win)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "7", suit: "S" } },
+          { seat: "LHO", card: { rank: "5", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "9", suit: "S" } },
+          { seat: "RHO", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7 (They play a club, South wins)",
+        plays: [
+          { seat: "RHO", card: { rank: "T", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "C" } },
+          { seat: "LHO", card: { rank: "7", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-6",
+    difficulty: 1,
+    title: "3NT: heart lead — what suit do you play?",
+    newUntil: "2026-04-15",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-6-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This is also a quick problem that combines pattern recognition along with some simple counting.",
+        },
+        {
+          id: "cp1-6-suit",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "What suit do you play?",
+          options: [
+            { id: "hearts", label: "Hearts" },
+            { id: "spades", label: "Spades" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "clubs",
+          noContinue: true,
+          revealText:
+            "It is correct to play Clubs. Bridge is a game that changes from hand to hand. The diamond suit is an excellent candidate for setting up tricks without creating extra losers.\n\nUnfortunately we do not have the luxury of \"time\". If we lose the lead, the opponents will cash 4 hearts (as well as the Ace of diamonds) and we will go 1 down.\n\nSo cash the ♣ King and then take the club finesse — hope it works. If it doesn't, at least you gave yourself a chance!\n\nYou plan to make 3 spade tricks, 1 heart, 5 clubs for a total of 9 tricks.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "K92", H: "76", D: "762", C: "AJT84" },
+      DECLARER: { S: "AQ32", H: "K4", D: "KQJT", C: "K93" },
+      LHO: { S: "876", H: "9532", D: "985", C: "Q76" },
+      RHO: { S: "JT5", H: "AQ982", D: "A43", C: "98" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (♥5 lead to the Ace)",
+        plays: [
+          { seat: "LHO", card: { rank: "5", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
+          { seat: "RHO", card: { rank: "A", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Heart back, your King wins)",
+        plays: [
+          { seat: "RHO", card: { rank: "9", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "cp2-2",
     difficulty: 2,
     title: "4♠: diamond lead — goal and trick 2",
@@ -180,6 +482,7 @@ const CARDPLAY_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -195,6 +498,7 @@ const CARDPLAY_PUZZLES = [
           motivationText: "Right — dummy has opening values and a long suit. Go after the long suit!",
           revealText:
             "Set up hearts. Since dummy has opening values and a long suit (5+ cards), it's very often a good idea to go after the long suit!",
+          videoUrl: "",
         },
         {
           id: "cp2-2-trick2",
@@ -210,6 +514,7 @@ const CARDPLAY_PUZZLES = [
           motivationText: "Using entries productively is a key habit.",
           revealText:
             "Play a heart. There are two very good reasons for this.\n\nReason 1 — We often set up our long suits before drawing trumps. More than 50% of the time we delay drawing trumps for this reason. If in doubt, go after the long suit first.\n\nReason 2 — We want to use our entries productively. We are in dummy and poised to play a heart towards the Jack. Let's not squander that entry by playing a trump — which is something we can do from either hand. Put simply, use our entries productively: do something from hand that we can't do from the other hand — play a heart!",
+          videoUrl: "",
         },
       ],
     },
@@ -245,6 +550,7 @@ const CARDPLAY_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -309,6 +615,7 @@ const CARDPLAY_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -327,6 +634,7 @@ const CARDPLAY_PUZZLES = [
           wrongTryText: "Good try! Think about where your tricks will come from — the long club suit is the key.",
           revealText:
             "Play a club. Is ruffing a tempting idea? It shouldn't be — go for the long club suit; that's what yields the best results.\n\nIs drawing trumps the obvious move? Even with 9 trumps, we should lay off the trumps till we have set up the clubs, or at least started them. Trumps are also entries, which you may need to either hand. Laying off trumps keeps you flexible to begin with.\n\nFire off a club, confidently begin to set up your long suit!",
+          videoUrl: "",
         },
       ],
     },
@@ -346,7 +654,150 @@ const CARDPLAY_PUZZLES = [
       },
     ],
   },
+  {
+    id: "cp2-4",
+    difficulty: 2,
+    title: "4♠: club lead — what's the key theme?",
+    newUntil: "2026-04-01",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "1♠ P 2♠ P 4♠ P P P",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp2-4-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This was a hand from recent play where a top international expert went wrong.\n\nThis is a quick problem, to help improve your pattern recognition, we won't play the hand out.",
+        },
+        {
+          id: "cp2-4-theme",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Glance at dummy and try to figure out what the key theme is.",
+          options: [
+            { id: "setup_side", label: "Setup side suit" },
+            { id: "draw_trumps", label: "Draw trumps" },
+            { id: "setup_tricks", label: "Setup trick sources" },
+            { id: "ruff_dummy", label: "Ruff stuff in dummy" },
+          ],
+          expectedChoice: "ruff_dummy",
+          noContinue: true,
+          revealText:
+            "Ruff stuff in dummy. This hand is all about ruffing a diamond in dummy. Cash ♦A and ♦K, then play a diamond and ruff in dummy. Don't draw any trumps first — if you do, the defence can continue trumps and prevent you getting the ruff.\n\nRuff stuff in dummy does not always mean a singleton or doubleton in dummy!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "A98", H: "AQT", D: "762", C: "AT84" },
+      DECLARER: { S: "QJT73", H: "43", D: "AKJ4", C: "K3" },
+      LHO: { S: "652", H: "986", D: "QT98", C: "762" },
+      RHO: { S: "K4", H: "KJ752", D: "53", C: "QJ98" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (2♣ lead, East plays 9, you play the K)",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "RHO", card: { rank: "9", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-5",
+    difficulty: 2,
+    title: "3NT: use your entries productively",
+    newUntil: "2026-04-30",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "W",
+    auction: "1NT P 3NT P P P",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "",
+      startAutoPlayThroughRoundIdx: 1,
+      customPrompts: [
+        {
+          id: "cp2-5-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This was a hand from the 2026 US National in St Louis. One player made it while the other didn't.\n\nThe key theme is — always use your entries productively. When you are in a hand, ask yourself: what can I do from this hand that I can't do from the other hand?",
+        },
+        {
+          id: "cp2-5-trick3",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "What do we play now?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "hearts",
+          noContinue: true,
+          wrongTryText: "Think: what suit can we play to good effect from dummy that we can't play from our own hand?",
+          motivationText: "",
+          revealText:
+            "Hearts. Lead low from dummy towards your QJx — you may need to do it twice. Use this entry while you have it; treat every entry like gold!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "AT6", H: "9874", D: "AT72", C: "T5" },
+      DECLARER: { S: "QJ85", H: "QJ3", D: "84", C: "AKQJ" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (King of diamonds, all small)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "D" } },
+          { seat: "RHO", card: { rank: "3", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Queen of diamonds, Ace wins)",
+        plays: [
+          { seat: "LHO", card: { rank: "Q", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "D" } },
+          { seat: "RHO", card: { rank: "6", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "8", suit: "D" } },
+        ],
+      },
+    ],
+  },
 ];
+
+function isPuzzleNew(puzzle) {
+  return !!(puzzle && puzzle.newUntil && new Date() < new Date(puzzle.newUntil));
+}
+
+export const CARDPLAY_HAS_NEW = CARDPLAY_PUZZLES.some(isPuzzleNew);
 
 function CardPlayTrainer() {
   return <CountingTrumpsTrainer puzzlesOverride={CARDPLAY_PUZZLES} trainerLabel="Declarer Play" categoryKey="declarer" />;

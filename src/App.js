@@ -52,6 +52,7 @@ import CardPlayHub from "./components/CardPlay/CardPlayHub";
 import CardPlayTrainer from "./components/CardPlay/CardPlayTrainer";
 import DefenceHub from "./components/Defence/DefenceHub";
 import BiddingHub from "./components/Bidding/BiddingHub";
+import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 
@@ -75,7 +76,7 @@ import {
   userLoggedInSubscriptionExpires,
   authReady,
 } from "./store/actions/authActions";
-import { setUserQuizScores } from "./store/actions/usersActions";
+import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
@@ -108,7 +109,7 @@ const routes = (
       path="/counting/articles/:id"
       render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="counting" bodyRef="countingBody" />}
     />
-    <Route path="/counting/practice" render={() => <CountingTrumpsTrainer trainerLabel="Counting" categoryKey="counting" />} exact />
+    <Route path="/counting/practice" render={(routeProps) => <CountingTrumpsTrainer {...routeProps} trainerLabel="Counting" categoryKey="counting" />} exact />
     <Route path="/counting" component={CountingHub} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
@@ -343,6 +344,7 @@ const routes = (
         </Suspense>
       )}
     />
+    <Route path="/bidding/practice" component={BiddingTrainer} exact />
     <Route path="/bidding" component={BiddingHub} exact />
     <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
     <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
@@ -666,6 +668,8 @@ firebase.auth().onAuthStateChanged((user) => {
               false
             )
           );
+          const cp = docData.completedPractice;
+          store.dispatch(setUserCompletedPractice(typeof cp === "object" && cp !== null ? cp : {}));
         }
       });
     // subscribed = true;
@@ -686,13 +690,15 @@ firebase.auth().onAuthStateChanged((user) => {
         const explicitlyActive = data && data["subscriptionActive"] === true;
         const hasFutureExpiry = data && exp != null && hasValidExpiry;
         const subscriptionActive = !!(explicitlyActive && hasValidExpiry) || !!hasFutureExpiry;
+        const rawTier = data?.["tier"] ?? "basic";
+        const tier = typeof rawTier === "string" ? rawTier.toLowerCase() : "basic";
         store.dispatch(
           userLoggedInSubscriptionExpires(
             data?.["subscriptionExpires"] ?? null,
             data?.["paymentMethod"] ?? null,
             subscriptionActive,
             data?.["trialUsed"] ?? false,
-            data?.["tier"] ?? "basic"
+            tier
           )
         );
       });
@@ -728,7 +734,7 @@ class App extends Component {
             {/*<Navbar />*/}
             <Layout>
               {routes}
-              {/* <GoogleAnalytics /> */}
+              <GoogleAnalytics />
             </Layout>
             {/*<CreateArticle type="article" />*/}
           </div>

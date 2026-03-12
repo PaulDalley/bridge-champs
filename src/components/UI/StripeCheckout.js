@@ -61,13 +61,17 @@ class StripeCheckout extends React.Component {
           const errorDetails = response.details ? ` (${response.details})` : '';
           alert(`Error: ${errorMsg}${errorDetails}\n\nPlease check:\n1. Price IDs exist in Stripe Dashboard\n2. Stripe API key is correct\n3. Contact support if issue persists.`);
           this.setState({ loading: false });
+          if (this.props.clearProcessing) this.props.clearProcessing();
         } else {
           console.error("Invalid response format:", response);
           alert("Invalid response from server. Please try again.");
           this.setState({ loading: false });
+          if (this.props.clearProcessing) this.props.clearProcessing();
         }
       })
     .fail((jqXHR, textStatus, errorThrown) => {
+        this.setState({ loading: false });
+        if (this.props.clearProcessing) this.props.clearProcessing();
         console.error("Error creating checkout session:", {
           status: jqXHR.status,
           statusText: jqXHR.statusText,
@@ -75,7 +79,6 @@ class StripeCheckout extends React.Component {
           textStatus,
           errorThrown
         });
-        this.setState({ loading: false });
         
         let errorMessage = "Unknown error";
         let errorDetails = "";
@@ -100,7 +103,8 @@ class StripeCheckout extends React.Component {
           const alertMsg = `Server Error (500): ${errorMessage}${errorDetails ? '\nDetails: ' + errorDetails : ''}\n\nCheck browser console (F12) for full error details.\n\nCommon issues:\n- Price ID doesn't exist in Stripe\n- Stripe API key incorrect\n- Invalid session parameters`;
           alert(alertMsg);
         } else if (jqXHR.status === 400) {
-          alert(`Invalid Request: ${errorMessage}\n\nPlease check that all required fields are provided.`);
+          const detailMsg = errorDetails ? `\n\n${errorDetails}` : "\n\nPlease check that all required fields are provided.";
+          alert(`Invalid Request: ${errorMessage}${detailMsg}`);
         } else {
           alert(`Payment Error (${jqXHR.status}): ${errorMessage}\n\nPlease try again or contact support.`);
         }

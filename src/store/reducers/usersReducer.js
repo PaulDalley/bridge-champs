@@ -5,6 +5,7 @@ const userDefaultState = {
     totalQuizScore: undefined,
     quizScoresFetched: false,
     currentQuizScore: false,
+    completedPractice: {},
 };
 
 export default (state = userDefaultState, action) => {
@@ -25,6 +26,12 @@ export default (state = userDefaultState, action) => {
                 ...state,
                 currentQuizScore: action.currentQuizScore,
             }
+
+        case actions.SET_USER_COMPLETED_PRACTICE: {
+            const cp = action.completedPractice;
+            const completedPractice = typeof cp === "object" && cp !== null && !Array.isArray(cp) ? cp : {};
+            return { ...state, completedPractice };
+        }
 
         default:
             return state;

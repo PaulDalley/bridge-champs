@@ -1,6 +1,9 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { savePracticeCompletion } from "../../store/actions/usersActions";
+import { sendPracticeEvent } from "../../utils/analytics";
+import PracticeVideoBlock from "./PracticeVideoBlock";
 import "./CountingTrumpsTrainer.css";
 
 // Seats arranged like a typical bridge diagram:
@@ -37,7 +40,7 @@ function displayRank(rank) {
   return String(rank);
 }
 
-/** Renders explanation/reveal text with paragraphs and styled ✓ lists for better readability */
+/** Renders explanation/reveal text with paragraphs and styled ✓/✗/lettered lists for better readability */
 function FormattedRevealText({ text, className = "" }) {
   if (!text || !String(text).trim()) return null;
   const blocks = String(text).trim().split(/\n\n+/);
@@ -45,8 +48,10 @@ function FormattedRevealText({ text, className = "" }) {
     <div className={`ct-revealContent ${className}`.trim()}>
       {blocks.map((block, i) => {
         const lines = block.split("\n").filter(Boolean);
-        const isList = lines.length > 0 && lines.every((l) => /^\s*✓/.test(l.trim()));
-        if (isList) {
+        const isTickList = lines.length > 0 && lines.every((l) => /^\s*✓/.test(l.trim()));
+        const isCrossList = lines.length > 0 && lines.every((l) => /^\s*[✗×]/.test(l.trim()));
+        const isLetteredList = lines.length > 0 && lines.every((l) => /^\s*\([a-z]\)\s+/.test(l.trim()));
+        if (isTickList) {
           return (
             <ul key={i} className="ct-revealList">
               {lines.map((line, j) => (
@@ -55,6 +60,28 @@ function FormattedRevealText({ text, className = "" }) {
                 </li>
               ))}
             </ul>
+          );
+        }
+        if (isCrossList) {
+          return (
+            <ul key={i} className="ct-revealList ct-revealList--cross">
+              {lines.map((line, j) => (
+                <li key={j} className="ct-revealListItem">
+                  {line.trim()}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if (isLetteredList) {
+          return (
+            <ol key={i} className="ct-revealList ct-revealList--lettered">
+              {lines.map((line, j) => (
+                <li key={j} className="ct-revealListItem">
+                  {line.trim().replace(/^\s*\([a-z]\)\s+/, "")}
+                </li>
+              ))}
+            </ol>
           );
         }
         return (
@@ -520,6 +547,8 @@ function useTimeoutQueue() {
 /**
  * Minimal MVP: scripted puzzle(s) to validate flow.
  * You can add more puzzles by appending objects to this list.
+ * For a "New" badge, set newUntil: "YYYY-MM-DD" (e.g. ~2 weeks from add date).
+ * Optional video: promptOptions.videoUrlBeforeStart (intro), customPrompts[].videoUrl (explanation after reveal).
  */
 const PUZZLES = [
   {
@@ -530,6 +559,7 @@ const PUZZLES = [
     promptOptions: {
       // Start -> ask the first question immediately (before any cards are played).
       prePromptsBeforePlay: true,
+      videoUrlBeforeStart: "",
     },
     shownHands: {
       DUMMY: { suit: "S", cards: ["Q", "9", "7", "3"] }, // 4 spades
@@ -545,7 +575,7 @@ const PUZZLES = [
     endRevealTrumpHands: {
       LHO: ["8"],
       DUMMY: ["Q", "9", "7", "3"],
-      RHO: ["6", "5", "2", "T"],
+      RHO: ["T", "6", "5", "2"],
       DECLARER: ["A", "K", "J", "4"],
     },
     // Two rounds (two tricks). Cards are shown as they are played into the trick area.
@@ -1173,6 +1203,458 @@ const PUZZLES = [
     ],
   },
   {
+    id: "p1-9",
+    difficulty: 1,
+    title: "5 hearts opposite a void — can you make 4 tricks? (No Trump)",
+    trumpSuit: "H",
+    contract: "3NT",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      focusNote: "You are declarer in No Trump. We are looking at the heart suit.",
+      customPrompts: [
+        {
+          id: "p1-9-can4",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is there a chance to make 4 heart tricks?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText: "Yes.",
+        },
+        {
+          id: "p1-9-break",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: -1,
+          fixed: { DECLARER: 5, DUMMY: 0 },
+          expectedDistribution: { LHO: 4, RHO: 4, DUMMY: 0, DECLARER: 5 },
+          promptText: "What distribution do you need (East and West)?",
+        },
+        {
+          id: "p1-9-fifth",
+          type: "PLAY_DECISION",
+          atRoundIdx: 3,
+          promptText: "Is your final heart a trick or not?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: true,
+          revealText: "Yes — with 4-4 break, your final heart is high. Any 5-card suit can be set up for extra tricks, even opposite a void! Keep your eye on your 5-card suits; they will improve your bridge scores!",
+        },
+      ],
+      watchNote: "Watch the play.",
+    },
+    shownHands: {
+      DUMMY: { S: "", H: "", D: "", C: "" },
+      DECLARER: { S: "", H: "AKQJ2", D: "", C: "" },
+    },
+    expectedInitialLengths: {
+      LHO: 4,
+      DUMMY: 0,
+      RHO: 4,
+      DECLARER: 5,
+    },
+    endRevealTrumpHands: {
+      LHO: ["5", "4", "3", "2"],
+      DUMMY: [],
+      RHO: ["T", "9", "8", "7"],
+      DECLARER: ["A", "K", "Q", "J", "2"],
+    },
+    preserveEndStateAtDone: false,
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "H" } },
+          { seat: "LHO", card: { rank: "5", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "S" }, showOut: true },
+          { seat: "RHO", card: { rank: "T", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "4", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "S" }, showOut: true },
+          { seat: "RHO", card: { rank: "9", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "DECLARER", card: { rank: "Q", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "S" }, showOut: true },
+          { seat: "RHO", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "S" }, showOut: true },
+          { seat: "RHO", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-10",
+    difficulty: 1,
+    title: "3NT: counting points — how many does partner have?",
+    newUntil: "2026-04-15",
+    trumpSuit: null,
+    contract: "3NT",
+    auction: "1NT P 3NT P P P",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "W",
+    visibleFullHandSeats: ["LHO", "DUMMY"],
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideAuction: false,
+      promptThemeTint: "points",
+      focusNote: "You are West on lead. This is a quick exercise — we will only look at trick 1.",
+      customPrompts: [
+        {
+          id: "p1-10-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "The point of this exercise is to get acquainted with the idea of counting points. This is a quick exercise; we will only look at trick 1.\n\nIt can look scary at first if you don't like arithmetic, but I encourage you to build the habit.",
+        },
+        {
+          id: "p1-10-partner-points",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Declarer has 15–17 points for their opening bid. How many points does partner have?",
+          options: [
+            { id: "4-6", label: "4–6" },
+            { id: "6-8", label: "6–8" },
+            { id: "8-10", label: "8–10" },
+            { id: "10-12", label: "10–12" },
+          ],
+          expectedChoice: "8-10",
+          noContinue: true,
+          revealText:
+            "8–10.\n\nA key habit on every hand is to know roughly how many points partner has — and how many declarer has. It really pays off.\n\nYou have 4 points. Dummy has 11. That’s 15 in total. If declarer has 15 points, that leaves 10 for partner. If declarer has 17, that leaves 8 for partner. So partner has 8–10 points.\n\n✓ Add your points to dummy’s and get the total.\n✓ Add declarer’s minimum (15 for 1NT) to that total.\n✓ What’s left is roughly partner’s points.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "KJ953", H: "876", D: "43", C: "762" },
+      DUMMY: { S: "A32", H: "Q9", D: "KJT987", C: "J4" },
+      RHO: {},
+      DECLARER: {},
+    },
+    rounds: [
+      {
+        label: "Trick 1 (you lead ♠5)",
+        plays: [{ seat: "LHO", card: { rank: "5", suit: "S" } }],
+      },
+    ],
+  },
+  {
+    id: "p1-11",
+    difficulty: 1,
+    newUntil: "2026-03-25",
+    title: "1NT defence: 4th highest lead — partner has how many?",
+    trumpSuit: "S",
+    contract: "1NT",
+    auction: "P P 1NT P",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "E",
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideAuction: false,
+      focusNote: "Assume we are defending 1NT and partner leads their 4th highest. You are East.",
+      customPrompts: [
+        {
+          id: "p1-11-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This is a single-suit, quick pattern-recognition idea that builds on our knowledge of shapes.\n\nAssume we are defending 1NT and partner leads their 4th highest card.",
+        },
+        {
+          id: "p1-11-partner-count",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many of the suit does partner have?",
+          expectedAnswer: 4,
+        },
+        {
+          id: "p1-11-partner-4-reason",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "4 exactly. If the 4th highest card is the 2♠, partner cannot have 5 cards in the suit.",
+        },
+        {
+          id: "p1-11-declarer-count",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          fixed: { LHO: 4, DUMMY: 2, RHO: 4 },
+          expectedDistribution: { LHO: 4, DUMMY: 2, RHO: 4, DECLARER: 3 },
+          promptText: "How many does that leave declarer?",
+        },
+        {
+          id: "p1-11-declarer-3-reveal",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "Declarer has 3, so the Spade distribution is 4243.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { suit: "S", cards: ["3", "6"] },
+      RHO: { suit: "S", cards: ["K", "9", "8", "4"] },
+    },
+    endRevealTrumpHands: {
+      LHO: ["2", "5", "7", "T"],
+      DUMMY: ["3", "6"],
+      RHO: ["K", "9", "8", "4"],
+      DECLARER: ["A", "J", "Q"],
+    },
+    rounds: [
+      {
+        label: "Partner's lead",
+        plays: [{ seat: "LHO", card: { rank: "2", suit: "S" } }],
+      },
+    ],
+  },
+  {
+    id: "p1-12",
+    difficulty: 1,
+    newUntil: "2026-03-25",
+    title: "1NT defence: 4th highest lead — distribution 4441",
+    trumpSuit: "S",
+    contract: "1NT",
+    auction: "P P 1NT P",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "E",
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideAuction: false,
+      focusNote: "Assume we are defending 1NT and partner leads their 4th highest. You are East. Dummy has one spade.",
+      customPrompts: [
+        {
+          id: "p1-12-partner-count",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many of the suit does partner have?",
+          expectedAnswer: 4,
+        },
+        {
+          id: "p1-12-partner-4-reason",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "4 exactly. If the 4th highest card is the 2♠, partner cannot have 5 cards in the suit.",
+        },
+        {
+          id: "p1-12-declarer-count",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          fixed: { LHO: 4, DUMMY: 1, RHO: 4 },
+          expectedDistribution: { LHO: 4, DUMMY: 1, RHO: 4, DECLARER: 4 },
+          promptText: "How many does that leave declarer?",
+        },
+        {
+          id: "p1-12-declarer-4-reveal",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "Declarer has 4, so the Spade distribution is 4144.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { suit: "S", cards: ["9"] },
+      RHO: { suit: "S", cards: ["A", "7", "5", "4"] },
+    },
+    endRevealTrumpHands: {
+      LHO: ["2", "5", "7", "T"],
+      DUMMY: ["9"],
+      RHO: ["A", "7", "5", "4"],
+      DECLARER: ["K", "Q", "J", "6"],
+    },
+    rounds: [
+      {
+        label: "Partner's lead",
+        plays: [{ seat: "LHO", card: { rank: "2", suit: "S" } }],
+      },
+    ],
+  },
+  {
+    id: "p1-13",
+    difficulty: 1,
+    newUntil: "2026-03-25",
+    title: "1NT after 1♠: partner leads 3♠ — 4th highest from 5",
+    trumpSuit: "S",
+    contract: "1NT",
+    auction: "1♠ P P 1NT P P P",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "E",
+    promptOptions: {
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideAuction: false,
+      focusNote: "4th highest leads. Partner (West) leads the 3♠. You are East.",
+      customPrompts: [
+        {
+          id: "p1-13-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: "Hint: always watch the bidding.",
+        },
+        {
+          id: "p1-13-partner-count",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many spades does partner have?",
+          expectedAnswer: 5,
+        },
+        {
+          id: "p1-13-partner-5-reason",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "5. Leading 4th highest: there is only 1 card lower than the 3 (the 2). So partner must have exactly 5 cards in the suit — not 6.",
+        },
+        {
+          id: "p1-13-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          fixed: { LHO: 5, DUMMY: 1, RHO: 3 },
+          expectedDistribution: { LHO: 5, DUMMY: 1, RHO: 3, DECLARER: 4 },
+          promptText: "So what is the distribution of the suit? West 5, North 1, You 3 — how many does declarer have?",
+        },
+        {
+          id: "p1-13-distribution-reveal",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "Declarer has 4. The Spade distribution is 5134.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { suit: "S", cards: ["9"] },
+      RHO: { suit: "S", cards: ["A", "7", "5"] },
+    },
+    endRevealTrumpHands: {
+      LHO: ["K", "T", "8", "3", "2"],
+      DUMMY: ["9"],
+      RHO: ["A", "7", "5"],
+      DECLARER: ["Q", "J", "6", "4"],
+    },
+    rounds: [
+      {
+        label: "Partner's lead",
+        plays: [{ seat: "LHO", card: { rank: "3", suit: "S" } }],
+      },
+    ],
+  },
+  {
+    id: "p1-14",
+    difficulty: 1,
+    newUntil: "2026-04-01",
+    title: "4♥: After ruffing the 4th spade — where is the ♥Q?",
+    trumpSuit: "H",
+    contract: "4♥",
+    auction: "P P P 1♥ P 2♥ P 4♥ P P P",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    promptOptions: {
+      questionNumbers: [],
+      disableWarmupTrumpGuess: true,
+      promptThemeTint: "points",
+      focusNote: "West is dealer. You are declarer in 4♥. Our job is to find the Q♥.",
+      customPrompts: [
+        {
+          id: "p1-14-heart-play",
+          type: "PLAY_DECISION",
+          atRoundIdx: 3,
+          promptText:
+            "We have no further losers, other than potentially the Q♥. How are we going to play the heart suit?",
+          options: [
+            { id: "drop", label: "Play for the drop — cash the Ace and King" },
+            { id: "finesse-west", label: "Finesse West (assume West holds the Queen)" },
+            { id: "finesse-east", label: "Finesse East" },
+          ],
+          expectedChoice: "finesse-east",
+          noContinue: true,
+          revealText:
+            "Finesse East for the Queen!\n\nWest was a passed hand and has turned up with 10 points so far (the A-K-Q-J of spades). With the Q♥, West would have had enough to open the bidding. So the Queen is marked with East — we finesse East for it.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "AKQJ", H: "7", D: "398", C: "6T932" },
+      DUMMY: { S: "8765", H: "KT2", D: "KQ3", C: "987" },
+      RHO: { S: "T9", H: "Q72", D: "J6542", C: "QJ3" },
+      DECLARER: { S: "432", H: "AJ9862", D: "A7", C: "AK" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♠A)",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "S" } },
+          { seat: "RHO", card: { rank: "9", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (West leads ♠K)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "S" } },
+          { seat: "RHO", card: { rank: "T", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (West leads ♠Q; East pitches a diamond)",
+        plays: [
+          { seat: "LHO", card: { rank: "Q", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "S" } },
+          { seat: "RHO", card: { rank: "5", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (West leads ♠J; East pitches; you ruff with a heart, winning)",
+        plays: [
+          { seat: "LHO", card: { rank: "J", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "S" } },
+          { seat: "RHO", card: { rank: "6", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "d2-2",
     difficulty: 2,
     title: "Defending 3♥: count declarer’s shape (and duck the spade)",
@@ -1338,6 +1820,7 @@ const PUZZLES = [
   {
     id: "p2-2",
     difficulty: 2,
+    newUntil: "2026-03-25",
     title: "Counting: set up the heart suit (two suits)",
     trumpSuit: "S",
     contract: "4♠",
@@ -1368,7 +1851,7 @@ const PUZZLES = [
           type: "INFO",
           atRoundIdx: 4,
           setDoneExtraText: true,
-          promptText: "You now give up 1 more heart and you have set up the suit. That was the very best you could've done.\n\nCongratulations — this is a significant achievement! Setting up a long suit while counting trumps and managing the defence is one of the harder skills in declarer play. Repeating this exercise will build the pattern recognition you need; don't be shy to do it again, even daily. Well done!",
+          promptText: "You now give up 1 more heart and you have set up the suit. That was the very best you could've done.\n\nCongratulations — this is a significant achievement! Repeating this exercise will build the pattern recognition you need; don't be shy to do it again, even daily. Well done!",
         },
       ],
     },
@@ -1431,6 +1914,7 @@ const PUZZLES = [
   {
     id: "p2-3",
     difficulty: 2,
+    newUntil: "2026-03-25",
     title: "Counting: set up hearts in 4♠ (two suits, no overruff)",
     trumpSuit: "S",
     contract: "4♠",
@@ -1786,6 +2270,8 @@ const PUZZLES = [
   },
 ];
 
+export const COUNTING_HAS_NEW = PUZZLES.some(isPuzzleNew);
+
 function buildInitialRemainingHands(puzzle) {
   const trumpSuit = puzzle.trumpSuit;
   const out = {};
@@ -2006,14 +2492,66 @@ const CATEGORY_CONFIG = [
   { key: "declarer", label: "Declarer", path: "/cardPlay/practice" },
   { key: "defence", label: "Defence", path: "/defence/practice" },
   { key: "counting", label: "Counting", path: "/counting/practice" },
+  { key: "bidding", label: "Bidding", path: "/bidding/practice", new: true },
 ];
+
+/** Short positive messages for correct-answer feedback (keeps layout compact). */
+const SHORT_SUCCESS = ["Great!", "Well done!", "Correct!", "Nice one!", "Spot on!", "Good!"];
+function getShortSuccess() {
+  return SHORT_SUCCESS[Math.floor(Math.random() * SHORT_SUCCESS.length)];
+}
+
+const DONE_TITLES = [
+  "Well done — you've counted the hand correctly.",
+  "Correct — your counting is spot on.",
+  "Nice work — that's the right count.",
+  "Spot on — you've got the distribution.",
+  "Well done — exercise complete.",
+];
+
+const DONE_NOTES = [
+  "You're building a good habit — keep going.",
+  "Repetition builds instincts — keep at it.",
+  "Counting becomes automatic with practice — you're on the right track.",
+  "This skill pays off at the table — keep going.",
+  "Keep going — repetition builds instincts.",
+  "Small steps add up — you're building a real skill.",
+];
+
+function doneMessageIndex(puzzleId, arrayLength) {
+  if (!puzzleId || arrayLength < 1) return 0;
+  let n = 0;
+  for (let i = 0; i < puzzleId.length; i++) n += puzzleId.charCodeAt(i);
+  return Math.abs(n) % arrayLength;
+}
+
+/** Puzzle is "new" until this date (ISO string). Keep for ~2 weeks then remove or extend newUntil. */
+function isPuzzleNew(puzzle) {
+  return !!(puzzle && puzzle.newUntil && new Date() < new Date(puzzle.newUntil));
+}
 
 const isLocalhost = typeof window !== "undefined" && (window.location?.hostname === "localhost" || window.location?.hostname === "127.0.0.1");
 
-function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, trainerLabel = "Counting", categoryKey = "counting" }) {
+function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, paymentMethod, a, puzzlesOverride, trainerLabel = "Counting", categoryKey = "counting", location, completedPractice, dispatch }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
   const isAdmin = a === true;
-  const isMember = isLocalhost || isAdmin || !!subscriptionActive; // admins + localhost get full access
+  const mockUnsub = useMemo(() => {
+    if (!location?.search) return false;
+    return new URLSearchParams(location.search).get("mockUnsub") === "1";
+  }, [location?.search]);
+  const isMember = (isLocalhost && !mockUnsub) || isAdmin || !!subscriptionActive;
+  const mockPaywall = useMemo(() => {
+    if (!location?.search) return false;
+    return new URLSearchParams(location.search).get("mockPaywall") === "1";
+  }, [location?.search]);
+  /** On localhost: ?mockTier=basic forces Basic tier (for testing locked video, upgrade prompt). */
+  const mockTier = useMemo(() => {
+    if (!isLocalhost || !location?.search) return null;
+    const t = new URLSearchParams(location.search).get("mockTier");
+    return t === "basic" || t === "premium" ? t : null;
+  }, [location?.search]);
+  const effectiveTier = mockTier || propsTier;
+  const showSubscribeBanner = !isMember || (isLocalhost && mockPaywall);
   const puzzlesAll = useMemo(() => {
     // If override is provided (even empty), treat it as authoritative for this trainer instance.
     if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
@@ -2034,7 +2572,6 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     };
   }, [trainerLabel]);
   const previewPuzzleIdByDifficulty = useMemo(() => {
-    // Allow preview access to the first problem in EACH difficulty.
     const byDiff = {};
     for (const p of puzzlesAll) {
       const d = Number(p?.difficulty || 1);
@@ -2046,6 +2583,75 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     return puzzlesAll.filter((p) => (p.difficulty || 1) === selectedDifficulty);
   }, [puzzlesAll, selectedDifficulty]);
   const [puzzleIdxInDifficulty, setPuzzleIdxInDifficulty] = useState(0);
+
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobileViewport(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // Deep-link: open specific problem from ?problem=id in URL
+  useEffect(() => {
+    if (!location?.search || !puzzlesAll.length) return;
+    const params = new URLSearchParams(location.search);
+    const problemId = params.get("problem");
+    if (!problemId) return;
+    const puzzle = puzzlesAll.find((p) => p.id === problemId);
+    if (!puzzle) return;
+    const diff = Number(puzzle.difficulty || 1);
+    const inDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === diff);
+    const idx = inDiff.findIndex((p) => p.id === problemId);
+    if (idx >= 0) {
+      setSelectedDifficulty(diff);
+      setPuzzleIdxInDifficulty(idx);
+    }
+  }, [location?.search, puzzlesAll]);
+
+  // GA4: fire once per trainer view (when user lands on this practice section)
+  const practiceViewSentRef = useRef(false);
+  useEffect(() => {
+    if (practiceViewSentRef.current || !categoryKey || !trainerLabel) return;
+    practiceViewSentRef.current = true;
+    sendPracticeEvent("practice_view", {
+      trainer: trainerLabel,
+      category_key: categoryKey,
+    });
+  }, [categoryKey, trainerLabel]);
+
+  const completedStorageKey = `bridgechamps_trainer_completed_${categoryKey}`;
+  const [completedProblemIds, setCompletedProblemIds] = useState(() => {
+    try {
+      const fromRedux = completedPractice && completedPractice[categoryKey];
+      if (Array.isArray(fromRedux) && fromRedux.length > 0) {
+        const obj = {};
+        fromRedux.forEach((id) => { obj[id] = true; });
+        return obj;
+      }
+      if (typeof localStorage === "undefined") return {};
+      const raw = localStorage.getItem(completedStorageKey);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+  useEffect(() => {
+    const fromRedux = completedPractice && completedPractice[categoryKey];
+    if (Array.isArray(fromRedux) && fromRedux.length > 0) {
+      const fromReduxObj = {};
+      fromRedux.forEach((id) => { fromReduxObj[id] = true; });
+      setCompletedProblemIds((prev) => ({ ...fromReduxObj, ...prev }));
+    }
+  }, [completedPractice, categoryKey]);
+  useEffect(() => {
+    try {
+      if (typeof localStorage === "undefined") return;
+      localStorage.setItem(completedStorageKey, JSON.stringify(completedProblemIds));
+    } catch (e) {}
+  }, [completedStorageKey, completedProblemIds]);
   const hasPuzzles = puzzlesForDifficultyAll.length > 0;
   const isBlankDifficulty = !hasPuzzles;
   const previewPuzzleIdForSelectedDifficulty = previewPuzzleIdByDifficulty?.[selectedDifficulty] || null;
@@ -2054,12 +2660,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     const idx = puzzlesForDifficultyAll.findIndex((p) => p.id === previewPuzzleIdForSelectedDifficulty);
     return idx >= 0 ? idx : 0;
   }, [puzzlesForDifficultyAll, previewPuzzleIdForSelectedDifficulty]);
-  const effectivePuzzleIdx = isMember ? puzzleIdxInDifficulty : previewIdxInDifficulty;
-
-  useEffect(() => {
-    if (isMember) return;
-    if (puzzleIdxInDifficulty !== previewIdxInDifficulty) setPuzzleIdxInDifficulty(previewIdxInDifficulty);
-  }, [isMember, puzzleIdxInDifficulty, previewIdxInDifficulty]);
+  const effectivePuzzleIdx = puzzleIdxInDifficulty;
+  const currentPuzzleIsPreview = !isMember && previewPuzzleIdForSelectedDifficulty && puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
+  const showPaywallOverlay = !isMember && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
   // when a difficulty is blank we render a placeholder instead of the table.
@@ -2085,10 +2688,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   }, [declarerCompass]);
 
   const contractDisplayText = useMemo(() => {
+    if (puzzle?.promptOptions?.contractLabel) return puzzle.promptOptions.contractLabel;
     if (!contractText) return "";
     if (puzzle?.promptOptions?.contractOnly) return `Contract is ${contractText}`;
     return `Contract is ${contractText} by ${declarerCompassName}`;
-  }, [contractText, declarerCompassName, puzzle?.promptOptions?.contractOnly]);
+  }, [contractText, declarerCompassName, puzzle?.promptOptions?.contractOnly, puzzle?.promptOptions?.contractLabel]);
 
   const seatAtCompass = useMemo(() => {
     const out = { N: "DUMMY", E: "RHO", S: "DECLARER", W: "LHO" }; // default app convention
@@ -2145,6 +2749,17 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const [postPromptIdx, setPostPromptIdx] = useState(0);
   const [currentPostPrompts, setCurrentPostPrompts] = useState([]);
   const [feedback, setFeedback] = useState(null); // { type: "ok"|"error", text }
+  const [waitingForContinue, setWaitingForContinue] = useState(false);
+  const pendingAdvanceRef = useRef(null);
+  const promptDoneRef = useRef(null);
+
+  const runPendingAdvance = () => {
+    const fn = pendingAdvanceRef.current;
+    pendingAdvanceRef.current = null;
+    setWaitingForContinue(false);
+    setFeedback(null);
+    if (fn) fn();
+  };
 
   const [defendersStartedInput, setDefendersStartedInput] = useState("");
   const [defendersHeartsStartedInput, setDefendersHeartsStartedInput] = useState("");
@@ -2176,6 +2791,39 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     customAsked: {}, // {promptId:true,...}
   });
   const [askedTick, setAskedTick] = useState(0);
+
+  const puzzleIdWhenReachedDoneRef = useRef(null);
+
+  useEffect(() => {
+    if (promptStep === "DONE" && promptDoneRef.current) {
+      promptDoneRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [promptStep]);
+
+  useEffect(() => {
+    if (!puzzle?.id) return;
+    const done = promptStep === "DONE";
+    const noContinueReveal = promptStep === "PLAY_DECISION_REVEAL" && activeCustomPrompt?.noContinue;
+    // If we're in DONE/reveal state but just switched to a different puzzle (e.g. clicked next tab), don't mark this puzzle complete — the DONE state is from the previous puzzle.
+    if (puzzleIdWhenReachedDoneRef.current !== puzzle.id && (done || noContinueReveal)) {
+      puzzleIdWhenReachedDoneRef.current = puzzle.id;
+      return;
+    }
+    if (done || noContinueReveal) {
+      setCompletedProblemIds((prev) => {
+        if (prev[puzzle.id]) return prev;
+        sendPracticeEvent("practice_problem_complete", {
+          trainer: trainerLabel,
+          category_key: categoryKey,
+          puzzle_id: puzzle.id,
+          difficulty: puzzle.difficulty ?? 1,
+        });
+        if (uid && categoryKey && puzzle?.id) dispatch(savePracticeCompletion(uid, categoryKey, puzzle.id));
+        return { ...prev, [puzzle.id]: true };
+      });
+    }
+    puzzleIdWhenReachedDoneRef.current = puzzle.id;
+  }, [puzzle?.id, puzzle?.difficulty, promptStep, activeCustomPrompt?.noContinue, uid, categoryKey, trainerLabel, dispatch]);
 
   const defendersSingleInputRef = useRef(null);
   const declarerTrumpGuessRef = useRef(null);
@@ -2482,6 +3130,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     setHasStarted(false);
     setPromptStep(null);
     setFeedback(null);
+    setWaitingForContinue(false);
+    pendingAdvanceRef.current = null;
     setDefendersStartedInput("");
     setDefendersHeartsStartedInput("");
     setDefendersRemainingInput("");
@@ -2955,8 +3605,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     }
 
     const full = initialFullHands[seat] || [];
+    const noContinueRevealAllHands =
+      promptStep === "PLAY_DECISION_REVEAL" && activeCustomPrompt?.noContinue && visibleFullHandSeats.length === 4;
     const playedMap =
-      promptStep === "DONE" && !puzzle.preserveEndStateAtDone ? {} : playedFromHand?.[seat] || {};
+      (promptStep === "DONE" && !puzzle.preserveEndStateAtDone) || noContinueRevealAllHands
+        ? {}
+        : playedFromHand?.[seat] || {};
     const unplayed = full.filter((c) => !playedMap[`${c.rank}${c.suit}`]);
     const ghostCount = Math.max(0, full.length - unplayed.length);
     const fanRef =
@@ -3075,9 +3729,10 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const submitDefendersStarted = () => {
     const val = Number(defendersStartedInput);
     if (Number.isFinite(val) && String(defendersStartedInput).trim() !== "" && val === startedTrumpsCorrect) {
-      setFeedback({ type: "ok", text: "Well done — that’s correct!" });
-      setQueuedTimeout(() => {
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         setFeedback(null);
+        setWaitingForContinue(false);
         askedRef.current = { ...(askedRef.current || {}), defendersStarted: true };
         setAskedTick((t) => t + 1);
         if (prePrompts[0] === "DEFENDERS_STARTED") {
@@ -3088,16 +3743,17 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             applyStateThroughRound(-1);
           }
         } else {
-          // Post-play: continue to next question.
           advancePostPrompt();
         }
-      }, 550);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersStarted");
       if (shouldReveal) {
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${startedTrumpsCorrect}.` });
-        setQueuedTimeout(() => {
+        pendingAdvanceRef.current = () => {
           setFeedback(null);
+          setWaitingForContinue(false);
           askedRef.current = { ...(askedRef.current || {}), defendersStarted: true };
           setAskedTick((t) => t + 1);
           if (prePrompts[0] === "DEFENDERS_STARTED") {
@@ -3110,7 +3766,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           } else {
             advancePostPrompt();
           }
-        }, 900);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({ type: "error", text: "Not quite — try again." });
       }
@@ -3121,21 +3778,25 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     const expected = puzzle?.promptOptions?.defendersHeartsStartedExpected;
     const val = Number(defendersHeartsStartedInput);
     if (Number.isFinite(expected) && Number.isFinite(val) && val === expected) {
-      setFeedback({ type: "ok", text: "Well done — that's correct!" });
-      setQueuedTimeout(() => {
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         setFeedback(null);
+        setWaitingForContinue(false);
         setPromptStep(null);
         applyStateThroughRound(-1);
-      }, 550);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersHeartsStarted");
       if (shouldReveal) {
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
-        setQueuedTimeout(() => {
+        pendingAdvanceRef.current = () => {
           setFeedback(null);
+          setWaitingForContinue(false);
           setPromptStep(null);
           applyStateThroughRound(-1);
-        }, 900);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({ type: "error", text: "Not quite — try again." });
       }
@@ -3145,23 +3806,27 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
   const submitDefendersRemaining = () => {
     const val = Number(defendersRemainingInput);
     if (Number.isFinite(val) && String(defendersRemainingInput).trim() !== "" && val === remainingTrumpsCorrect) {
-      setFeedback({ type: "ok", text: "Well done — that’s correct!" });
-      setQueuedTimeout(() => {
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         setFeedback(null);
+        setWaitingForContinue(false);
         askedRef.current = { ...(askedRef.current || {}), defendersRemaining: true };
         setAskedTick((t) => t + 1);
         advancePostPrompt();
-      }, 400);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("defendersRemaining");
       if (shouldReveal) {
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${remainingTrumpsCorrect}.` });
-        setQueuedTimeout(() => {
+        pendingAdvanceRef.current = () => {
           setFeedback(null);
+          setWaitingForContinue(false);
           askedRef.current = { ...(askedRef.current || {}), defendersRemaining: true };
           setAskedTick((t) => t + 1);
           advancePostPrompt();
-        }, 900);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({ type: "error", text: "Not quite — try again." });
       }
@@ -3180,9 +3845,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       SEATS.every((s) => parsed[s] === expected[s]);
 
     if (correct) {
-      setFeedback({ type: "ok", text: "Well done — that’s correct!" });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         if (distributionSuit) {
           askedRef.current = {
             ...(askedRef.current || {}),
@@ -3194,7 +3858,6 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           };
           setAskedTick((t) => t + 1);
         }
-        // If another suit is already known at this same point, ask it next (no need to advance play yet).
         const ctxRound = manualTrickMode ? completedRoundIdx : activePauseRoundIdx;
         const computed = manualTrickMode ? computePostPromptsForRound(ctxRound) : computePostPromptsForPause(pauseIdx);
         if (computed.prompts.includes("DISTRIBUTION") && computed.distributionSuit && computed.distributionSuit !== distributionSuit) {
@@ -3205,7 +3868,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           return;
         }
         advancePostPrompt();
-      }, 450);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("distribution");
       if (shouldReveal) {
@@ -3213,8 +3877,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         const suitName = suit === puzzle.trumpSuit ? "trump" : SUIT_NAME[suit] || suit;
         const answerText = `${roleLabelForSeat("LHO")}: ${expected.LHO}, ${roleLabelForSeat("DUMMY")}: ${expected.DUMMY}, ${roleLabelForSeat("RHO")}: ${expected.RHO}, ${roleLabelForSeat("DECLARER")}: ${expected.DECLARER}`;
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct ${suitName} distribution is ${answerText}.` });
-        setQueuedTimeout(() => {
-          setFeedback(null);
+        pendingAdvanceRef.current = () => {
           if (distributionSuit) {
             askedRef.current = {
               ...(askedRef.current || {}),
@@ -3236,7 +3899,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             return;
           }
           advancePostPrompt();
-        }, 1300);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({
           type: "error",
@@ -3275,8 +3939,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             type: "ok",
             text: `${REVEAL_GOOD_TRY}The correct answer is ${expectedDist.LHO}${expectedDist.DUMMY}${expectedDist.RHO}${expectedDist.DECLARER}.`,
           });
-          setQueuedTimeout(() => {
-            setFeedback(null);
+          pendingAdvanceRef.current = () => {
             askedRef.current = {
               ...(askedRef.current || {}),
               customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
@@ -3284,7 +3947,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             setAskedTick((t) => t + 1);
             setDistributionSuit(suit);
             continueFromRound(completedRoundIdx);
-          }, 1100);
+          };
+          setWaitingForContinue(true);
         } else {
           setFeedback({ type: "error", text: "Not quite — try again." });
         }
@@ -3292,22 +3956,19 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       }
     }
 
-    setFeedback({ type: "ok", text: "Well done — let’s play!" });
-    setQueuedTimeout(() => {
-      setFeedback(null);
-      if (promptId) {
-        askedRef.current = {
-          ...(askedRef.current || {}),
-          customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
-        };
-        setActiveCustomPrompt(null);
-      } else {
-        askedRef.current = { ...(askedRef.current || {}), preDistGuessAsked: true };
-      }
-      setAskedTick((t) => t + 1);
-      setDistributionSuit(suit);
-      continueFromRound(completedRoundIdx);
-    }, 650);
+    /* Advance without showing "Let's play!" — just continue to the next step */
+    if (promptId) {
+      askedRef.current = {
+        ...(askedRef.current || {}),
+        customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+      };
+      setActiveCustomPrompt(null);
+    } else {
+      askedRef.current = { ...(askedRef.current || {}), preDistGuessAsked: true };
+    }
+    setAskedTick((t) => t + 1);
+    setDistributionSuit(suit);
+    continueFromRound(completedRoundIdx);
   };
 
   const setShapeSuitValue = (suit, rawValue) => {
@@ -3368,25 +4029,25 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     if (correct) {
       setFeedback({
         type: "ok",
-        text: `Well done! Correct — ${isDeclarerSide ? "your side" : "declarer"} has ${total} sure tricks.`,
+        text: `Correct — ${isDeclarerSide ? "your side" : "declarer"} has ${total} sure tricks.`,
       });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      pendingAdvanceRef.current = () => {
         askedRef.current = { ...(askedRef.current || {}), trickCountAsked: true };
         setAskedTick((t) => t + 1);
         advancePostPrompt();
-      }, 1100);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("trickCount");
       if (shouldReveal) {
         const ansTotal = (expected.S || 0) + (expected.H || 0) + (expected.D || 0) + (expected.C || 0);
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected.S}${expected.H}${expected.D}${expected.C} (total ${ansTotal}).` });
-        setQueuedTimeout(() => {
-          setFeedback(null);
+        pendingAdvanceRef.current = () => {
           askedRef.current = { ...(askedRef.current || {}), trickCountAsked: true };
           setAskedTick((t) => t + 1);
           advancePostPrompt();
-        }, 1400);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({ type: "error", text: allFilled ? "Not quite — try again." : "Please enter all 4 numbers, then try again." });
       }
@@ -3427,31 +4088,31 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       return;
     }
     if (Number.isFinite(val) && val === expected) {
-      setFeedback({ type: "ok", text: "Well done — that's correct!" });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         askedRef.current = {
           ...(askedRef.current || {}),
           customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
         };
         setAskedTick((t) => t + 1);
         afterManualTrick(completedRoundIdx);
-      }, 650);
+      };
+      setWaitingForContinue(true);
       return;
     }
 
     const shouldReveal = revealAfterTwoWrong("seatSuitCount", promptId);
     if (shouldReveal) {
       setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      pendingAdvanceRef.current = () => {
         askedRef.current = {
           ...(askedRef.current || {}),
           customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
         };
         setAskedTick((t) => t + 1);
         afterManualTrick(completedRoundIdx);
-      }, 1100);
+      };
+      setWaitingForContinue(true);
     } else {
       setFeedback({ type: "error", text: "Not quite — try again." });
     }
@@ -3463,9 +4124,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     const val = Number(singleNumberInput);
     if (!promptId || typeof expected !== "number") return;
     if (Number.isFinite(val) && val === expected) {
-      setFeedback({ type: "ok", text: "Well done — that's correct!" });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         setSingleNumberInput("");
         askedRef.current = {
           ...(askedRef.current || {}),
@@ -3473,13 +4133,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         };
         setAskedTick((t) => t + 1);
         afterManualTrick(completedRoundIdx);
-      }, 550);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("singleNumber", promptId);
       if (shouldReveal) {
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected}.` });
-        setQueuedTimeout(() => {
-          setFeedback(null);
+        pendingAdvanceRef.current = () => {
           setSingleNumberInput("");
           askedRef.current = {
             ...(askedRef.current || {}),
@@ -3487,7 +4147,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           };
           setAskedTick((t) => t + 1);
           afterManualTrick(completedRoundIdx);
-        }, 900);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({ type: "error", text: "Not quite — try again." });
       }
@@ -3501,12 +4162,18 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     const reveal = activeCustomPrompt?.revealText || "Thanks — let’s continue.";
     const endHandAfter = !!activeCustomPrompt?.endHandAfterReveal;
 
-    if (expectedChoice) {
-      const correct = String(choiceId) === String(expectedChoice);
+    if (expectedChoice !== undefined && expectedChoice !== null) {
+      const allowed = Array.isArray(expectedChoice)
+        ? expectedChoice.map((c) => String(c))
+        : [String(expectedChoice)];
+      const correct = allowed.includes(String(choiceId));
+      const correctAnswerText = Array.isArray(expectedChoice)
+        ? (expectedChoice.length === 2 ? `${expectedChoice[0]} or ${expectedChoice[1]}` : expectedChoice.join(", "))
+        : String(expectedChoice);
       if (!correct) {
         const shouldReveal = revealAfterTwoWrong("playDecision", promptId);
         if (shouldReveal) {
-          const text = `${REVEAL_GOOD_TRY}The correct answer is ${expectedChoice}. ${reveal}`;
+          const text = `${REVEAL_GOOD_TRY}The correct answer is ${correctAnswerText}. ${reveal}`;
           // Mark asked now (since there may be no Continue button).
           askedRef.current = {
             ...(askedRef.current || {}),
@@ -3530,7 +4197,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       }
     }
 
-    // Either ungraded or correct.
+    // Ungraded, or choice was correct.
     // Teaching reveal is shown in the PLAY_DECISION_REVEAL panel; show congratulations when correct.
     setFeedback(null);
     askedRef.current = {
@@ -3543,7 +4210,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       setPromptStep("DONE"); // also reveals all hands
       return;
     }
-    setPlayDecisionReveal({ text: reveal, promptId, roundIdx: completedRoundIdx, correct: !!expectedChoice });
+    const hadExpected = expectedChoice !== undefined && expectedChoice !== null;
+    setPlayDecisionReveal({ text: reveal, promptId, roundIdx: completedRoundIdx, correct: hadExpected });
+    if (activeCustomPrompt?.noContinue && SEATS.every((s) => isFullHandShape(puzzle.shownHands?.[s]))) {
+      applyStateThroughRound(-1);
+      setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+    }
     setPromptStep("PLAY_DECISION_REVEAL");
   };
 
@@ -3566,31 +4238,31 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       ((a === need[0] && b === need[1]) || (a === need[1] && b === need[0]));
 
     if (correct) {
-      setFeedback({ type: "ok", text: "Well done — that's correct!" });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         askedRef.current = {
           ...(askedRef.current || {}),
           customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
         };
         setAskedTick((t) => t + 1);
         continueFromRound(completedRoundIdx);
-      }, 650);
+      };
+      setWaitingForContinue(true);
       return;
     }
 
     const shouldReveal = revealAfterTwoWrong("distributionNeed", promptId);
     if (shouldReveal) {
       setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${need[0]}-${need[1]} (in either order).` });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      pendingAdvanceRef.current = () => {
         askedRef.current = {
           ...(askedRef.current || {}),
           customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
         };
         setAskedTick((t) => t + 1);
         continueFromRound(completedRoundIdx);
-      }, 1100);
+      };
+      setWaitingForContinue(true);
     } else {
       setFeedback({ type: "error", text: "Not quite — try again." });
     }
@@ -3693,9 +4365,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       parsed.C === seatShapeExpected.C;
 
     if (correct) {
-      setFeedback({ type: "ok", text: "Well done — that’s correct!" });
-      setQueuedTimeout(() => {
-        setFeedback(null);
+      setFeedback({ type: "ok", text: getShortSuccess() });
+      pendingAdvanceRef.current = () => {
         if (seatShapeTarget) {
           askedRef.current = {
             ...(askedRef.current || {}),
@@ -3712,7 +4383,6 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           afterManualTrick(completedRoundIdx);
           return;
         }
-        // If another seat's shape is already knowable at this same point, ask it next.
         const ctxRound = manualTrickMode ? completedRoundIdx : activePauseRoundIdx;
         const computed = manualTrickMode ? computePostPromptsForRound(ctxRound) : computePostPromptsForPause(pauseIdx);
         if (computed.prompts.includes("SEAT_SHAPE") && computed.shapeSeat && computed.shapeSeat !== seatShapeTarget) {
@@ -3724,7 +4394,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
         }
         if (manualTrickMode && completedRoundIdx >= lastRoundIdx) setPromptStep("DONE");
         advancePostPrompt();
-      }, 450);
+      };
+      setWaitingForContinue(true);
     } else {
       const shouldReveal = revealAfterTwoWrong("seatShape", activeCustomPrompt?.id);
       if (shouldReveal) {
@@ -3732,8 +4403,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           type: "ok",
           text: `${REVEAL_GOOD_TRY}The correct answer is ${seatShapeExpected.S}${seatShapeExpected.H}${seatShapeExpected.D}${seatShapeExpected.C}.`,
         });
-        setQueuedTimeout(() => {
-          setFeedback(null);
+        pendingAdvanceRef.current = () => {
           if (seatShapeTarget) {
             askedRef.current = {
               ...(askedRef.current || {}),
@@ -3761,7 +4431,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
           }
           if (manualTrickMode && completedRoundIdx >= lastRoundIdx) setPromptStep("DONE");
           advancePostPrompt();
-        }, 1400);
+        };
+        setWaitingForContinue(true);
       } else {
         setFeedback({
           type: "error",
@@ -3784,12 +4455,19 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     return out;
   };
 
-  const focusNextSeatNoWrap = (seat) => {
+  const focusNextSeatNoWrap = (seat, isLockedSeat = () => false) => {
     const idx = distSeatOrder.indexOf(seat);
-    if (idx === -1 || idx === distSeatOrder.length - 1) return;
-    const next = distSeatOrder[idx + 1];
-    distributionRefs[next]?.current?.focus?.();
-    distributionRefs[next]?.current?.select?.();
+    if (idx === -1) return;
+    for (let i = idx + 1; i < distSeatOrder.length; i++) {
+      const next = distSeatOrder[i];
+      if (!isLockedSeat(next)) {
+        setTimeout(() => {
+          distributionRefs[next]?.current?.focus?.();
+          distributionRefs[next]?.current?.select?.();
+        }, 0);
+        return;
+      }
+    }
   };
 
   const distributionRefs = {
@@ -3964,18 +4642,6 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     setRemainingHands(buildInitialRemainingHands(puzzle));
   }, [promptStep, puzzle]);
 
-  // When a play-decision question appears, scroll it into view so the user notices.
-  useEffect(() => {
-    if (promptStep !== "PLAY_DECISION") return;
-    const el = playDecisionQuestionRef.current;
-    if (el) {
-      const t = setTimeout(() => {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 100);
-      return () => clearTimeout(t);
-    }
-  }, [promptStep]);
-
   const clearFeedback = () => setFeedback(null);
 
   const isDeclarerSide = viewerSeat === "DECLARER" || viewerSeat === "DUMMY";
@@ -4047,19 +4713,22 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     <>
       {showHeaderRail && (
         <div className="ct-railMuted">
-          {!isMember && (
-            <div className="ct-paywallNote" aria-label="Members only notice">
-              Preview mode: you can try <strong>1 problem per difficulty</strong>. Members get full access to {trainerLabel}.
-              <span className="ct-paywallActions">
-                <Link to="/membership" className="ct-paywallLink">
-                  Subscribe to unlock
-                </Link>
+          {showSubscribeBanner && (
+            <Link to="/membership" className="ct-subscribeBanner" aria-label="Subscribe to unlock full access">
+              <span className="ct-subscribeBannerIcon">
+                <i className="material-icons" aria-hidden>star</i>
               </span>
-            </div>
+              <span className="ct-subscribeBannerContent">
+                <strong>Subscribe to unlock</strong> — Get full access to all {trainerLabel} exercises
+              </span>
+              <span className="ct-subscribeBannerBtn">Subscribe now</span>
+            </Link>
           )}
-          {contractText ? (
+          {contractDisplayText ? (
             <div className="ct-contractLine">
-              Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong>
+              {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+                <>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></>
+              )}
             </div>
           ) : null}
           {auctionGrid && !hideAuctionNow && (
@@ -4101,9 +4770,16 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               </div>
             </div>
           )}
-          {!hasStarted && (
-            <div className="ct-roleLine">You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.</div>
-          )}
+          {/* Persistent video slot: stable key so video isn’t remounted when prompt step changes; stays for full problem */}
+          <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
+            <PracticeVideoBlock
+              videoUrl={puzzle?.promptOptions?.videoUrlBeforeStart}
+              isPremium={effectiveTier === "premium"}
+              label="30s intro"
+              className="ct-practiceVideo--beforeStart"
+              isAdmin={isAdmin}
+            />
+          </div>
         </div>
       )}
 
@@ -4112,14 +4788,15 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
       {hasStarted && !promptStep && (
         <div className="ct-watchNote">
           {completedRoundIdx >= lastRoundIdx
-            ? "Well done — hand complete."
+            ? "Hand complete."
             : (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") +
               (manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "")}
         </div>
       )}
 
       {promptStep && promptStep !== "DONE" && (
-        <div className="ct-promptRail">
+        <div className={`ct-promptRail ${feedback?.type === "ok" && waitingForContinue ? "ct-promptRail--withFeedback" : ""}`}>
+          <div className="ct-promptRail-content">
           {promptStep === "DECLARER_TRUMP_GUESS" && (
             <>
               <div className="ct-questionText">
@@ -4182,9 +4859,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
-          {promptStep === "INFO" && (
+          {promptStep === "INFO" && !puzzle?.promptOptions?.promptsInOverlay && (
             <>
-              <div className="ct-questionText">{activeCustomPrompt?.promptText || "Continue."}</div>
+              <div className="ct-questionText ct-questionText--formatted">
+                <FormattedRevealText text={activeCustomPrompt?.promptText || "Continue."} />
+              </div>
               <div className="ct-railActions" style={{ marginTop: 12 }}>
                 <button className="ct-btn" onClick={submitInfoPrompt} disabled={isPlaying}>
                   Continue
@@ -4258,7 +4937,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
-          {promptStep === "SINGLE_NUMBER" && (
+          {promptStep === "SINGLE_NUMBER" && !puzzle?.promptOptions?.promptsInOverlay && (
             <>
               <div className="ct-questionText">{activeCustomPrompt?.promptText || "Enter the number."}</div>
               <div className="ct-railAnswer" style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -4313,6 +4992,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
 
           {promptStep === "PLAY_DECISION" && (
             <div ref={playDecisionQuestionRef} className="ct-playDecisionBlock" role="region" aria-label="Question">
+              <PracticeVideoBlock
+                videoUrl={activeCustomPrompt?.videoUrlStart}
+                isPremium={effectiveTier === "premium"}
+                label="30s intro"
+                className="ct-practiceVideo--start"
+                isAdmin={isAdmin}
+              />
               <div className="ct-playDecisionBlock-heading">Your turn — answer below</div>
               <div className="ct-questionText ct-playDecisionBlock-question">{activeCustomPrompt?.promptText || "What’s your play?"}</div>
               <div className="ct-railActions" style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -4330,7 +5016,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               {!!playDecisionReveal?.text && (
                 <div className="ct-playRevealWrap">
                   {playDecisionReveal?.correct && (
-                    <strong className="ct-feedback ct-feedback--ok ct-revealSuccess">Well done — that&apos;s correct!</strong>
+                    <strong className="ct-feedback ct-feedback--ok ct-revealSuccess">{getShortSuccess()}</strong>
                   )}
                   <FormattedRevealText text={playDecisionReveal.text} className="ct-playRevealText" />
                 </div>
@@ -4338,10 +5024,24 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               {!!activeCustomPrompt?.motivationText && (
                 <p className="ct-revealMotivation">{activeCustomPrompt.motivationText}</p>
               )}
+              <PracticeVideoBlock
+                videoUrl={activeCustomPrompt?.videoUrl}
+                isPremium={effectiveTier === "premium"}
+                label="30s explanation"
+                className="ct-practiceVideo--reveal"
+                isAdmin={isAdmin}
+              />
               {!activeCustomPrompt?.noContinue && (
                 <div className="ct-railActions" style={{ marginTop: 12 }}>
                   <button className="ct-btn" onClick={continueAfterPlayDecision} disabled={isPlaying}>
                     {manualTrickMode && completedRoundIdx < lastRoundIdx ? "Next →" : "Continue"}
+                  </button>
+                </div>
+              )}
+              {activeCustomPrompt?.noContinue && puzzlesForDifficultyAll.length > 0 && (
+                <div className="ct-railActions" style={{ marginTop: 12 }}>
+                  <button className="ct-btn" onClick={nextHand} disabled={isPlaying}>
+                    Next problem
                   </button>
                 </div>
               )}
@@ -4485,13 +5185,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
                           const v = setDistSeatDigit(seat, e.target.value);
                           if (!v) return;
                           if (seat === distSeatOrder[distSeatOrder.length - 1]) e.target.blur();
-                          else focusNextSeatNoWrap(seat);
+                          else focusNextSeatNoWrap(seat, isLocked);
                         }}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
                             if (seat === distSeatOrder[distSeatOrder.length - 1]) submitDistribution();
-                            else focusNextSeatNoWrap(seat);
+                            else focusNextSeatNoWrap(seat, isLocked);
                           }
                         }}
                         onFocus={(e) => e.target.select()}
@@ -4518,7 +5218,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
-          {promptStep === "DISTRIBUTION_GUESS" && (
+          {promptStep === "DISTRIBUTION_GUESS" && !puzzle?.promptOptions?.promptsInOverlay && (
             <>
               <div className="ct-questionText">
                 {((activeCustomPrompt?.type === "DISTRIBUTION_GUESS" && activeCustomPrompt?.promptText) ? activeCustomPrompt.promptText : null) ||
@@ -4563,13 +5263,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
                             const v = setDistSeatDigit(seat, e.target.value);
                             if (!v) return;
                             if (seat === distSeatOrder[distSeatOrder.length - 1]) e.target.blur();
-                            else focusNextSeatNoWrap(seat);
+                            else focusNextSeatNoWrap(seat, isLocked);
                           }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               e.preventDefault();
                               if (seat === distSeatOrder[distSeatOrder.length - 1]) submitDistributionGuess();
-                              else focusNextSeatNoWrap(seat);
+                              else focusNextSeatNoWrap(seat, isLocked);
                             }
                           }}
                           onFocus={(e) => e.target.select()}
@@ -4640,13 +5340,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
                             const v = setDistSeatDigit(seat, e.target.value);
                             if (!v) return;
                             if (seat === distSeatOrder[distSeatOrder.length - 1]) e.target.blur();
-                            else focusNextSeatNoWrap(seat);
+                            else focusNextSeatNoWrap(seat, isLocked);
                           }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               e.preventDefault();
                               if (seat === distSeatOrder[distSeatOrder.length - 1]) submitDistributionNeed();
-                              else focusNextSeatNoWrap(seat);
+                              else focusNextSeatNoWrap(seat, isLocked);
                             }
                           }}
                           onFocus={(e) => e.target.select()}
@@ -4835,28 +5535,38 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </>
           )}
 
-          {feedback && (
+          </div>
+          {feedback && (feedback.type === "ok" && waitingForContinue ? (
+            <div className={`ct-feedback ct-feedback--ok ct-feedbackWithContinue`}>
+              <span className="ct-feedbackWithContinue-text">
+                <strong>{feedback.text}</strong>
+              </span>
+              <button className="ct-btn ct-feedbackWithContinue-btn" onClick={runPendingAdvance} disabled={isPlaying}>
+                Continue
+              </button>
+            </div>
+          ) : (
             <div className={`ct-feedback ${feedback.type === "ok" ? "ct-feedback--ok" : "ct-feedback--error"}`}>
-              {feedback.type === "ok" && feedback.text.startsWith("Well done") ? (
+              {feedback.type === "ok" ? (
                 <strong>{feedback.text}</strong>
               ) : (
                 feedback.text
               )}
             </div>
-          )}
+          ))}
         </div>
       )}
 
       {promptStep === "DONE" && (
-        <div className="ct-promptDone">
+        <div className="ct-promptDone" ref={promptDoneRef}>
           <div className="ct-promptTitle">
-            {trainerLabel === "Counting" ? "Well done — you’ve counted the hand correctly." : "Well done — exercise complete."}
+            {trainerLabel === "Counting" ? DONE_TITLES[doneMessageIndex(puzzle?.id, DONE_TITLES.length)] : "Well done — exercise complete."}
           </div>
           {!!doneExtraText && (
             <FormattedRevealText text={doneExtraText} className="ct-railMuted ct-doneExtraText" />
           )}
           <div className="ct-railMuted ct-doneNote">
-            {trainerLabel === "Counting" ? "You’re building a good habit — keep going." : "Keep going — repetition builds instincts."}
+            {trainerLabel === "Counting" ? DONE_NOTES[doneMessageIndex((puzzle?.id || "") + "n", DONE_NOTES.length)] : "Keep going — repetition builds instincts."}
           </div>
           <div className="ct-row">
             <button className="ct-btn" onClick={nextHand}>
@@ -4871,105 +5581,147 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
     </>
   );
 
+  if (isMobileViewport) {
+    return (
+      <div className="ct-page ct-page--mobileMessage">
+        <div className="ct-mobileMessage">
+          <div className="ct-mobileMessage-icon" aria-hidden="true">
+            <i className="material-icons">computer</i>
+          </div>
+          <h2 className="ct-mobileMessage-title">Designed for computer</h2>
+          <p className="ct-mobileMessage-text">
+            This trainer works best on a desktop or tablet. Please use a computer for the full experience.
+          </p>
+          <p className="ct-mobileMessage-sub">You can still browse the rest of Bridge Champions on your phone.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}>
 
       <div className={`ct-layout ${showFullHands ? "ct-layout--fullhands" : ""}`}>
         <div className="ct-stage">
-          <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
-            {/* Category tier: Declarer | Defence | Counting */}
-            <div className="ct-categoryRow" aria-label="Trainer category">
-              <div className="ct-categoryTabs" role="tablist">
-                {CATEGORY_CONFIG.map((c) => (
-                  <Link
-                    key={c.key}
-                    to={c.path}
-                    className={`ct-categoryTab ${c.key === categoryKey ? "ct-categoryTab--active" : ""}`}
-                    role="tab"
-                    aria-selected={c.key === categoryKey}
-                  >
-                    {c.label}
+          <div className="ct-topNavWrap">
+            <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
+              {/* Category tier: Declarer | Defence | Counting + Subscribe */}
+              <div className="ct-categoryRow" aria-label="Trainer category">
+                <div className="ct-categoryTabs" role="tablist">
+                  {CATEGORY_CONFIG.map((c) => (
+                    <Link
+                      key={c.key}
+                      to={c.path}
+                      className={`ct-categoryTab ${c.key === categoryKey ? "ct-categoryTab--active" : ""}`}
+                      role="tab"
+                      aria-selected={c.key === categoryKey}
+                    >
+                      {c.label}
+                      {c.new && <span className="ct-newBadge" aria-label="New">New</span>}
+                    </Link>
+                  ))}
+                </div>
+                {!subscriptionActive && a !== true && (
+                  <Link to="/membership" className="ct-topNavSubscribe" title="Subscribe for full access to all problems">
+                    Subscribe for full access
                   </Link>
-                ))}
+                )}
               </div>
-            </div>
 
-            {/* Difficulty tier */}
-            <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Difficulty tabs">
-              <div className="ct-topNavLabel">Difficulty</div>
-              <div className="ct-diffTabs" role="tablist" aria-label="Difficulty levels">
-                {[1, 2, 3].map((d) => (
-                  <button
-                    key={d}
-                    className={`ct-diffTab ${d === selectedDifficulty ? "ct-diffTab--active" : ""}`}
-                    onClick={() => {
-                      setSelectedDifficulty(d);
-                      setPuzzleIdxInDifficulty(0);
-                    }}
-                    type="button"
-                    role="tab"
-                    aria-selected={d === selectedDifficulty}
-                  >
-                    {d}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Problem tier */}
-            <div className="ct-topNavSubRow" aria-label="Problem tabs">
-              <div className="ct-topNavLabel ct-topNavLabel--sub">
-                Problems <span className="ct-topNavSubNote">in Difficulty {selectedDifficulty}</span>
-              </div>
-              <div className="ct-problemTabs ct-problemTabs--sub" role="tablist" aria-label="Problems in difficulty">
-                {isBlankDifficulty ? (
-                  <span className="ct-railMuted">—</span>
-                ) : (
-                  puzzlesForDifficultyAll.map((p, idx) => {
-                    const isUnlocked = isMember || (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
+              {/* Difficulty tier */}
+              <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Difficulty tabs">
+                <span className="ct-topNavLabel">Difficulty</span>
+                <div className="ct-diffTabs" role="tablist" aria-label="Difficulty levels">
+                  {[1, 2, 3].map((d) => {
+                    const puzzlesInDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === d);
+                    const hasNewInDiff = puzzlesInDiff.some(isPuzzleNew);
+                    const allCompletedInDiff = puzzlesInDiff.length > 0 && puzzlesInDiff.every((p) => !!completedProblemIds[p.id]);
                     return (
                       <button
-                        key={p.id}
-                        className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""}`}
+                        key={d}
+                        className={`ct-diffTab ${d === selectedDifficulty ? "ct-diffTab--active" : ""} ${allCompletedInDiff ? "ct-diffTab--completed" : ""}`}
                         onClick={() => {
-                          if (!isUnlocked) return;
-                          setPuzzleIdxInDifficulty(idx);
+                          setSelectedDifficulty(d);
+                          setPuzzleIdxInDifficulty(0);
                         }}
                         type="button"
                         role="tab"
-                        aria-selected={idx === puzzleIdxInDifficulty}
-                        title={p.title}
-                        disabled={!isUnlocked}
+                        aria-selected={d === selectedDifficulty}
                       >
-                        {idx + 1}
+                        {allCompletedInDiff && <span className="ct-diffTabTick" aria-hidden="true">✓</span>}
+                        {d}
+                        {hasNewInDiff && <span className="ct-newBadge" aria-label="New">New</span>}
                       </button>
                     );
-                  })
-                )}
+                  })}
+                </div>
+              </div>
+
+              {/* Problem tier */}
+              <div className="ct-topNavSubRow" aria-label="Problem tabs">
+                <span className="ct-topNavLabel ct-topNavLabel--sub">
+                  Problems <span className="ct-topNavSubNote">in Difficulty {selectedDifficulty}</span>
+                </span>
+                <div className="ct-problemTabs ct-problemTabs--sub" role="tablist" aria-label="Problems in difficulty">
+                  {isBlankDifficulty ? (
+                    <span className="ct-railMuted">—</span>
+                  ) : (
+                    puzzlesForDifficultyAll.map((p, idx) => {
+                      const isUnlocked = isMember || (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
+                      const isCompleted = !!completedProblemIds[p.id];
+                      return (
+                        <button
+                          key={p.id}
+                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""}`}
+                          onClick={() => setPuzzleIdxInDifficulty(idx)}
+                          type="button"
+                          role="tab"
+                          aria-selected={idx === puzzleIdxInDifficulty}
+                          title={p.title}
+                        >
+                          {isCompleted && <span className="ct-problemTabTick" aria-hidden="true">✓</span>}
+                          {idx + 1}
+                          {isPuzzleNew(p) && <span className="ct-newBadge" aria-label="New">New</span>}
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
               </div>
             </div>
           </div>
-
-          {!!puzzle.promptOptions?.focusNote && (
-            <div className="ct-focusNote" aria-label="Training focus note">
-              {puzzle.promptOptions.focusNote}
-            </div>
-          )}
 
           {isBlankDifficulty ? (
             <div className="ct-sidePrompt" style={{ maxWidth: 520, margin: "24px auto" }}>
               <div className="ct-questionText">No problems yet for Difficulty {selectedDifficulty}.</div>
             </div>
           ) : (
-            <div className="ct-tableWithSidebar">
+            <>
+            {/* Layout: table + questions side-by-side. Do not change structure without user request. See LAYOUT-CONTRACT.md and CountingTrumpsTrainer.css */}
+            <div className="ct-tableWithSidebar ct-tableWithSidebar--hasOverlay" style={{ position: "relative" }}>
+            {showPaywallOverlay && (
+              <div className="ct-paywallOverlay">
+                <Link to="/membership" className="ct-paywallFullCta">
+                  <span className="ct-paywallFullIcon">
+                    <i className="material-icons" aria-hidden>lock</i>
+                  </span>
+                  <strong>Subscribe to unlock</strong>
+                  <span className="ct-paywallFullDesc">Get full access to all {trainerLabel} exercises</span>
+                  <span className="ct-paywallFullBtn">Subscribe now</span>
+                </Link>
+              </div>
+            )}
+            <div className="ct-tableWithSidebar-inner">
             <div
               className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""}`}
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
-            {!!contractText && !useBottomRowLayout && (
+            {!!contractDisplayText && !useBottomRowLayout && (
               <div className="ct-contractTop">
-                Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong>
+                {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+                  <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></React.Fragment>
+                )}
               </div>
             )}
             <div className="ct-seatLabel">{roleLabelForSeat(seatTop)}</div>
@@ -4984,7 +5736,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               !useBottomRowLayout &&
               (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) &&
               (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && (
-                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""}`} aria-label="Bidding and prompts">
+                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""}`} aria-label="Bidding and prompts">
                   {promptNode}
                 </div>
               )}
@@ -5008,24 +5760,170 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               {!hasStarted && (
                 <div className="ct-startOverlay" aria-label="Start exercise">
                   <div className="ct-startCard">
-                    {!!contractText && (
+                    {!!contractDisplayText && (
                       <div className="ct-startTitle">
-                        Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
-                        {!puzzle?.promptOptions?.contractOnly && <> by <strong>{declarerCompassName}</strong></>}
+                        {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+                          <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
+                          {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>
+                        )}
                       </div>
                     )}
-                    <div className="ct-startSub">
-                      You are <strong>{isDeclarerSide ? "declaring" : "defending"}</strong>.
-                    </div>
+                    {!!puzzle.promptOptions?.focusNote && (
+                      <div className="ct-startNote">{puzzle.promptOptions.focusNote}</div>
+                    )}
                     <button className="ct-startBtn" onClick={startPuzzle} disabled={isPlaying}>
                       Start
                     </button>
-                    {lastRoundIdx >= 0 ? (
+                    {lastRoundIdx >= 0 && !puzzle?.promptOptions?.contractLabel ? (
                       <div className="ct-startHint">
                         After each trick, click <strong>Next →</strong>
                       </div>
-                    ) : (
+                    ) : lastRoundIdx < 0 ? (
                       <div className="ct-startHint">Click Start to begin.</div>
+                    ) : null}
+                  </div>
+                </div>
+              )}
+              {hasStarted && puzzle?.promptOptions?.promptsInOverlay && activeCustomPrompt && (promptStep === "INFO" || promptStep === "SINGLE_NUMBER" || promptStep === "DISTRIBUTION_GUESS") && (
+                <div className="ct-promptOverlay" aria-label="Question">
+                  <div className="ct-promptCard">
+                    {promptStep === "INFO" && (
+                      <>
+                        <div className="ct-questionText ct-promptCard-text ct-questionText--formatted">
+                          <FormattedRevealText text={activeCustomPrompt?.promptText || "Continue."} />
+                        </div>
+                        <div className="ct-railActions" style={{ marginTop: 12 }}>
+                          <button className="ct-btn" onClick={submitInfoPrompt} disabled={isPlaying}>
+                            Continue
+                          </button>
+                        </div>
+                      </>
+                    )}
+                    {promptStep === "SINGLE_NUMBER" && (
+                      <>
+                        <div className="ct-questionText ct-promptCard-text">{activeCustomPrompt?.promptText || "Enter the number."}</div>
+                        <div className="ct-railAnswer" style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+                          <div
+                            className="ct-numBox ct-numBox--single"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              singleNumberRef.current?.focus?.({ preventScroll: true });
+                              singleNumberRef.current?.select?.();
+                            }}
+                          >
+                            <div className="ct-numBoxValue ct-numBoxValue--single" aria-hidden="true">
+                              {singleNumberInput}
+                            </div>
+                            <input
+                              ref={singleNumberRef}
+                              className="ct-numBoxInput ct-numBoxInput--hidden"
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              maxLength={2}
+                              aria-label="Number answer"
+                              value={singleNumberInput}
+                              onChange={(e) => {
+                                const raw = String(e.target.value ?? "");
+                                const cleaned = raw.replace(/[^0-9]/g, "").slice(0, 2);
+                                setSingleNumberInput(cleaned);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  submitSingleNumber();
+                                }
+                              }}
+                              onFocus={(e) => e.target.select()}
+                              disabled={isPlaying}
+                            />
+                          </div>
+                          <button className="ct-btn" onClick={submitSingleNumber} disabled={isPlaying}>
+                            Enter
+                          </button>
+                        </div>
+                        {feedback?.type === "error" && (
+                          <div className="ct-railActions" style={{ marginTop: 8 }}>
+                            <button className="ct-btn ct-btn--secondary" onClick={clearFeedback}>
+                              Try again
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {promptStep === "DISTRIBUTION_GUESS" && (
+                      <>
+                        <div className="ct-questionText ct-promptCard-text">
+                          {((activeCustomPrompt?.type === "DISTRIBUTION_GUESS" && activeCustomPrompt?.promptText) ? activeCustomPrompt.promptText : null) ||
+                            puzzle?.promptOptions?.preDistributionGuess?.promptText ||
+                            "What do you think the original distribution is?"}
+                        </div>
+                        <div className="ct-distRow ct-distRow--numBoxes" role="group" aria-label="Distribution guess inputs">
+                          {(() => {
+                            const fixed =
+                              (activeCustomPrompt?.type === "DISTRIBUTION_GUESS" && activeCustomPrompt?.fixed) ||
+                              puzzle?.promptOptions?.preDistributionGuess?.fixed ||
+                              {};
+                            const isLocked = (seat) => fixed?.[seat] !== undefined;
+                            return distSeatOrder.map((seat, idx) => (
+                              <div key={seat} className="ct-distSeat" data-position={["left", "top", "right", "bottom"][idx]}>
+                                <div className="ct-distLabel">{roleLabelForSeat(seat)}</div>
+                                <div
+                                  className={`ct-numBox ct-numBox--dist ${isLocked(seat) ? "ct-numBox--locked" : ""}`}
+                                  onMouseDown={(e) => {
+                                    if (isLocked(seat)) return;
+                                    e.preventDefault();
+                                    distributionRefs[seat]?.current?.focus?.({ preventScroll: true });
+                                    distributionRefs[seat]?.current?.select?.();
+                                  }}
+                                  title={isLocked(seat) ? "Prefilled for this exercise" : undefined}
+                                >
+                                  <div className="ct-numBoxValue ct-numBoxValue--dist" aria-hidden="true">
+                                    {distributionInput[seat]}
+                                  </div>
+                                  <input
+                                    ref={distributionRefs[seat]}
+                                    className="ct-numBoxInput ct-numBoxInput--hidden"
+                                    type="text"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
+                                    maxLength={1}
+                                    aria-label={`${roleLabelForSeat(seat)} count`}
+                                    value={distributionInput[seat]}
+                                    onChange={(e) => {
+                                      if (isLocked(seat)) return;
+                                      const v = setDistSeatDigit(seat, e.target.value);
+                                      if (!v) return;
+                                      if (seat === distSeatOrder[distSeatOrder.length - 1]) e.target.blur();
+                                      else focusNextSeatNoWrap(seat, isLocked);
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        if (seat === distSeatOrder[distSeatOrder.length - 1]) submitDistribution();
+                                        else focusNextSeatNoWrap(seat, isLocked);
+                                      }
+                                    }}
+                                    onFocus={(e) => e.target.select()}
+                                    onBlur={clearFeedback}
+                                    disabled={isPlaying || isLocked(seat)}
+                                  />
+                                </div>
+                              </div>
+                            ));
+                          })()}
+                        </div>
+                        <div className="ct-railActions">
+                          <button className="ct-btn" onClick={submitDistribution} disabled={isPlaying}>
+                            Enter
+                          </button>
+                          {feedback?.type === "error" && (
+                            <button className="ct-btn ct-btn--secondary" onClick={clearFeedback}>
+                              Try again
+                            </button>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
@@ -5066,7 +5964,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
               {showFullHands &&
                 !useBottomRowLayout &&
                 (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && (
-                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""}`} aria-label="Counting prompt">
+                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""}`} aria-label="Counting prompt">
                   {promptNode}
                 </div>
               )}
@@ -5148,6 +6046,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
             </aside>
           )}
           </div>
+          </div>
+          </>
           )}
         </div>
       </div>
@@ -5159,7 +6059,10 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, a, puzzlesOverride, tr
 const mapStateToProps = (state) => ({
   uid: state.auth.uid,
   subscriptionActive: state.auth.subscriptionActive,
+  tier: state.auth.tier ?? "basic",
+  paymentMethod: state.auth.paymentMethod ?? null,
   a: state.auth.a,
+  completedPractice: state.user?.completedPractice || {},
 });
 
 export default connect(mapStateToProps)(CountingTrumpsTrainer);

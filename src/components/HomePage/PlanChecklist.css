@@ -1,0 +1,122 @@
+.PlanChecklist {
+  padding: 2rem 0 2.5rem;
+  background: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+}
+
+.PlanChecklist .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.PlanChecklist-header {
+  margin-bottom: 1rem;
+}
+
+.PlanChecklist-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--color-secondary-dark, #B8941F);
+  letter-spacing: 0.02em;
+}
+
+.PlanChecklist-progress {
+  height: 6px;
+  background: rgba(184, 148, 31, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.PlanChecklist-progressBar {
+  height: 100%;
+  background: var(--color-secondary, #D4AF37);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.PlanChecklist-subtitle {
+  font-size: 15px;
+  color: #555;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.PlanChecklist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.PlanChecklist-item {
+  margin: 0;
+  padding: 0;
+}
+
+.PlanChecklist-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(184, 148, 31, 0.15);
+  transition: background 0.15s ease, border-left-color 0.15s ease;
+}
+
+.PlanChecklist-link--todo {
+  border-left-color: rgba(212, 175, 55, 0.5);
+}
+
+.PlanChecklist-link--todo:hover {
+  border-left-color: var(--color-secondary, #D4AF37);
+}
+
+.PlanChecklist-link:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.PlanChecklist-link--done .PlanChecklist-label {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.PlanChecklist-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-secondary-dark, #B8941F);
+  border: 2px solid var(--color-secondary, #D4AF37);
+  border-radius: 50%;
+}
+
+/* Done: filled tick */
+.PlanChecklist-link--done .PlanChecklist-check {
+  background: var(--color-secondary, #D4AF37);
+  color: #1a1a1a;
+}
+
+/* To do: empty dashed square so it’s clearly “not done yet” */
+.PlanChecklist-link--todo .PlanChecklist-check {
+  background: rgba(212, 175, 55, 0.12);
+  border: 2px dashed var(--color-secondary, #D4AF37);
+  border-radius: 4px;
+  color: transparent;
+}
+
+.PlanChecklist-label {
+  flex: 1;
+}

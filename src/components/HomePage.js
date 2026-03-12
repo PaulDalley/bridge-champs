@@ -10,6 +10,7 @@ import AnimatedButton from "./UI/AnimatedButton";
 import CategorySelector from "./HomePage/CategorySelector";
 import RecentlyAdded from "./HomePage/RecentlyAdded";
 import HowToUse from "./HomePage/HowToUse";
+import JustAdded from "./HomePage/JustAdded";
 import WelcomeVideo from "./HomePage/WelcomeVideo";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -224,12 +225,14 @@ class HomePage extends Component {
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
-        {/* Theme + progress: compact, one link */}
-        <div className="HomePage-themeAndPlan">
-          <RecentlyAdded />
+        {/* Theme + How to use + Just added: wider strip on desktop (800px) */}
+        <div className="HomePage-themeStrip">
+          <div className="HomePage-themeAndPlan">
+            <RecentlyAdded />
+          </div>
+          <HowToUse />
+          <JustAdded />
         </div>
-
-        <HowToUse />
 
         {/* SUCCESS MODAL */}
         {this.props.success && (

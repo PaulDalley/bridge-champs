@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Icon } from "react-materialize";
+import { COUNTING_HAS_NEW } from "./CountingTrumpsTrainer";
 import "./CountingHub.css";
 
 function CountingHub({ subscriptionActive }) {
@@ -16,8 +17,8 @@ function CountingHub({ subscriptionActive }) {
         </div>
       </div>
 
-      <div className="ch-cards" role="list" aria-label="Counting options">
-        <Link to="/counting/practice" className="ch-card ch-card--practiceTile" role="listitem" aria-label="Practice counting">
+      <div className="ch-spotlight" role="presentation">
+        <Link to="/counting/practice" className="ch-card ch-card--practiceTile ch-card--spotlight" role="listitem" aria-label="Practice counting">
           <div className="ch-cardHeader">
             <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
               <Icon>fitness_center</Icon>
@@ -25,6 +26,7 @@ function CountingHub({ subscriptionActive }) {
             <div>
               <div className="ch-cardTitle">
                 Practice
+                {COUNTING_HAS_NEW && <span className="ch-newBadge" aria-label="New content">New</span>}
                 {!isMember && <span className="ch-badge">Preview</span>}
               </div>
               <div className="ch-cardMicro">Quick, interactive hands</div>
@@ -39,7 +41,9 @@ function CountingHub({ subscriptionActive }) {
             </div>
           )}
         </Link>
+      </div>
 
+      <div className="ch-cards ch-cards--secondary" role="list" aria-label="Counting options">
         <Link to="/counting/articles" className="ch-card" role="listitem" aria-label="Learn correct technique">
           <div className="ch-cardHeader">
             <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">

@@ -255,7 +255,7 @@ class Nav extends Component {
                 aria-label="Declarer Play section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-cardplay">
-                  <Icon>style</Icon>
+                  <i className="fas fa-flag" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Declarer Play</div>
               </div>
@@ -269,7 +269,7 @@ class Nav extends Component {
                 aria-label="Defence section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-defence">
-                  <Icon>shield</Icon>
+                  <i className="fas fa-shield-alt" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Defence</div>
               </div>
@@ -283,7 +283,7 @@ class Nav extends Component {
                 aria-label="Bidding section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-bidding">
-                  <Icon>gavel</Icon>
+                  <i className="fas fa-gavel" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Bidding</div>
               </div>
@@ -294,11 +294,10 @@ class Nav extends Component {
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && this.goTo("/counting")}
-                aria-label="Counting trainer (new)"
+                aria-label="Counting trainer"
               >
-                <div className="Nav-tab-badge" aria-hidden="true">NEW</div>
                 <div className="Nav-tab-icon Nav-tab-icon-counting">
-                  <Icon>calculate</Icon>
+                  <i className="fas fa-calculator" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Counting</div>
               </div>
@@ -312,7 +311,7 @@ class Nav extends Component {
                 aria-label="Other section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-extra">
-                  <Icon>more_horiz</Icon>
+                  <i className="fas fa-ellipsis-h" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Other</div>
               </div>

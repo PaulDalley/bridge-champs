@@ -84,6 +84,7 @@ export default (state = { authReady: false }, action) => {
         photoURL: "",
         subscriptionActive: false,
         subscriptionExpires: undefined,
+        a: false,
       };
 
     case actions.USER_SET:

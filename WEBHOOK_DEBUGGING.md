@@ -109,3 +109,21 @@ The enhanced logging I just added will show:
 - ✅ If Firestore document creation is succeeding
 - ❌ Exact error messages if anything fails
 
+## Stripe "Other errors" / Webhook must return 200–299
+
+If Stripe emails you that the webhook endpoint is failing with "other errors" or that you must return HTTP 200–299:
+
+1. **Code fixes (already in place):** The handler now:
+   - Uses `res.status(200).send("OK")` consistently so Stripe gets a clear 200.
+   - Uses `res.status(500).send(...)` for real failures (so Stripe retries).
+   - Handles `invoice.payment_succeeded` when no member is found (returns 200 and logs, so Stripe doesn’t retry forever).
+   - Wraps event handling in a try/catch so unhandled errors return 500 instead of hanging.
+
+2. **Raw body:** Stripe requires the **raw** request body for signature verification. If you see "Missing raw body" in Firebase logs:
+   - Firebase Cloud Functions should provide `req.rawBody` by default for `onRequest`; if it’s missing, check that no middleware is parsing the body before the handler runs.
+   - Redeploy: `firebase deploy --only functions:stripeWebhookHandler`
+
+3. **Webhook signing secret:** Ensure the live webhook secret in Stripe (Dashboard → Webhooks → your endpoint → Signing secret) matches the secret configured for the function (e.g. `STRIPE_WEBHOOK_SECRET_LIVE` or Firebase config `stripe_webhook_secret.live`).
+
+4. **Timeout:** If the function times out, Stripe gets no 200. In Firebase, you can increase the timeout for this function (e.g. 120s) in the function options if needed.
+
