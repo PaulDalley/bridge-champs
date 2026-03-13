@@ -9,7 +9,12 @@ function getYouTubeVideoId(url) {
   if (!url || typeof url !== "string") return null;
   try {
     const u = new URL(url);
-    if (u.hostname.includes("youtube.com")) return u.searchParams.get("v");
+    if (u.hostname.includes("youtube.com")) {
+      const v = u.searchParams.get("v");
+      if (v) return v;
+      const embedMatch = u.pathname.match(/^\/embed\/([a-zA-Z0-9_-]+)/);
+      if (embedMatch) return embedMatch[1];
+    }
     if (u.hostname.includes("youtu.be")) return u.pathname.slice(1).split("/")[0];
   } catch (_) {}
   return null;

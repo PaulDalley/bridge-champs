@@ -523,6 +523,37 @@
   margin: 14px 0;
 }
 
+/* Theme: 1NT opening (bidding problems 11–14) */
+.ct-problemTab--theme1nt {
+  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+  border-color: rgba(109, 40, 217, 0.25);
+}
+.ct-problemTab--theme1nt:hover:not(:disabled) {
+  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+}
+.ct-problemTab--theme1nt.ct-problemTab--active {
+  border: 2px solid #6d28d9;
+  background: linear-gradient(180deg, #c4b5fd 0%, #a78bfa 100%);
+  color: #4c1d95;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.55);
+}
+.ct-sidePrompt--theme1nt {
+  background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+  border-left: 3px solid rgba(109, 40, 217, 0.4);
+}
+.ct-sidePrompt--theme1nt .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #5b21b6;
+  font-weight: 700;
+}
+.ct-sidePrompt--theme1nt .ct-revealList {
+  background: rgba(109, 40, 217, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
 .ct-newBadge {
   vertical-align: super;
   font-size: 0.65em;
