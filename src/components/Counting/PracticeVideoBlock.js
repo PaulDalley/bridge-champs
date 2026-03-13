@@ -14,6 +14,8 @@ function getYouTubeVideoId(url) {
       if (v) return v;
       const embedMatch = u.pathname.match(/^\/embed\/([a-zA-Z0-9_-]+)/);
       if (embedMatch) return embedMatch[1];
+      const shortsMatch = u.pathname.match(/^\/shorts\/([a-zA-Z0-9_-]+)/);
+      if (shortsMatch) return shortsMatch[1];
     }
     if (u.hostname.includes("youtu.be")) return u.pathname.slice(1).split("/")[0];
   } catch (_) {}
@@ -51,22 +53,25 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
     );
   }
 
+  const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
   return (
     <div className={`ct-practiceVideo ct-practiceVideo--locked ${className}`.trim()}>
       {label && <div className="ct-practiceVideo-label">{label}</div>}
-      <div className="ct-practiceVideo-locked">
-        <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">🔒</span>
-        <p className="ct-practiceVideo-lockedText">Premium video</p>
-        <p className="ct-practiceVideo-lockedSublabel">Upgrade to watch</p>
-        <Link
-          to="/membership"
-          className="ct-practiceVideo-upgradeBtn"
-          onClick={() => {
-            if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
-          }}
-        >
-          Upgrade to watch
-        </Link>
+      <div className={`ct-practiceVideo-locked ${thumbnailUrl ? "ct-practiceVideo-locked--withThumb" : ""}`} style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}>
+        <div className="ct-practiceVideo-lockedOverlay">
+          <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">🔒</span>
+          <p className="ct-practiceVideo-lockedText">Premium video</p>
+          <p className="ct-practiceVideo-lockedSublabel">Upgrade to watch</p>
+          <Link
+            to="/membership"
+            className="ct-practiceVideo-upgradeBtn"
+            onClick={() => {
+              if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
+            }}
+          >
+            Upgrade to watch
+          </Link>
+        </div>
       </div>
     </div>
   );

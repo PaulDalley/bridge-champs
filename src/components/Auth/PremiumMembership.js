@@ -329,7 +329,6 @@ class PremiumMembership extends Component {
           </div>
         )}
 
-
         {/* PROMO CODE INPUT */}
         <Row>
           <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>

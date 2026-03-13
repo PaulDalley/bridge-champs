@@ -96,9 +96,18 @@ function FormattedRevealText({ text, className = "" }) {
             </ol>
           );
         }
+        // Support **bold** and ##gold## inside paragraphs
+        const parts = block.trim().split(/(\*\*.+?\*\*|##.+?##)/g);
+        const content = parts.map((seg, j) => {
+          const boldMatch = seg.match(/^\*\*(.+?)\*\*$/s);
+          if (boldMatch) return <strong key={j}>{boldMatch[1]}</strong>;
+          const goldMatch = seg.match(/^##(.+?)##$/s);
+          if (goldMatch) return <span key={j} className="ct-revealGold">{goldMatch[1]}</span>;
+          return <React.Fragment key={j}>{seg}</React.Fragment>;
+        });
         return (
           <p key={i} className="ct-revealParagraph">
-            {block.trim()}
+            {content}
           </p>
         );
       })}
@@ -2674,7 +2683,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   }, [puzzlesForDifficultyAll, previewPuzzleIdForSelectedDifficulty]);
   const effectivePuzzleIdx = puzzleIdxInDifficulty;
   const currentPuzzleIsPreview = !isMember && previewPuzzleIdForSelectedDifficulty && puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
-  const showPaywallOverlay = !isMember && !currentPuzzleIsPreview && !isBlankDifficulty;
+  const biddingD2Free = categoryKey === "bidding" && selectedDifficulty === 2;
+  const showPaywallOverlay = !isMember && !biddingD2Free && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
   // when a difficulty is blank we render a placeholder instead of the table.
@@ -2866,6 +2876,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   const { clearAll, setQueuedTimeout } = useTimeoutQueue();
   const [hasStarted, setHasStarted] = useState(false);
   const [pauseIdx, setPauseIdx] = useState(0);
+  // When contractLabel is intro-only, hide it after Start so it doesn't show again as "Contract is — by South"
+  const effectiveContractDisplayText = useMemo(() => {
+    if (puzzle?.promptOptions?.contractLabelBeforeStartOnly && hasStarted && puzzle?.promptOptions?.contractLabel) return "";
+    return contractDisplayText;
+  }, [contractDisplayText, hasStarted, puzzle?.promptOptions?.contractLabel, puzzle?.promptOptions?.contractLabelBeforeStartOnly]);
   const [nextRoundToPlay, setNextRoundToPlay] = useState(0);
 
   // All puzzles are manual trick-advance: user controls pace with arrows.
@@ -2947,12 +2962,19 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   }, [puzzle.visibleFullHandSeats]);
 
   const visibleFullHandSeats = useMemo(() => {
-    // At the end, reveal everything we know.
-    if (promptStep === "DONE") return SEATS;
+    // At the end: if puzzle has revealFullHandsAtEnd, add those seats to the base list; otherwise reveal all.
+    if (promptStep === "DONE") {
+      const toReveal = puzzle.revealFullHandsAtEnd;
+      if (Array.isArray(toReveal) && toReveal.length > 0) {
+        const combined = [...new Set([...(visibleFullHandSeatsBase || []), ...toReveal])];
+        return combined;
+      }
+      return SEATS;
+    }
     // When showing a noContinue reveal, treat as end of hand and show full hand if puzzle has all four in shownHands.
     if (promptStep === "PLAY_DECISION_REVEAL" && activeCustomPrompt?.noContinue && SEATS.every((s) => isFullHandShape(puzzle.shownHands?.[s]))) return SEATS;
     return visibleFullHandSeatsBase;
-  }, [promptStep, visibleFullHandSeatsBase, activeCustomPrompt?.noContinue, puzzle.shownHands]);
+  }, [promptStep, visibleFullHandSeatsBase, activeCustomPrompt?.noContinue, puzzle.shownHands, puzzle.revealFullHandsAtEnd]);
 
   const showFullHands = useMemo(() => {
     return visibleFullHandSeats.every((seat) => isFullHandShape(puzzle.shownHands?.[seat]));
@@ -4736,9 +4758,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               <span className="ct-subscribeBannerBtn">Subscribe now</span>
             </Link>
           )}
-          {contractDisplayText ? (
+          {effectiveContractDisplayText ? (
             <div className="ct-contractLine">
-              {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+              {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
                 <>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></>
               )}
             </div>
@@ -4746,10 +4768,17 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           {auctionGrid && !hideAuctionNow && (
             <div className="ct-auctionCard" aria-label="Bidding">
               <div className="ct-auctionTitle">Bidding</div>
+              {(puzzle?.vulnerability || puzzle?.promptOptions?.vulnerability) ? (
+                <div className="ct-auctionVul" aria-label="Vulnerability">{puzzle.vulnerability || puzzle.promptOptions.vulnerability}</div>
+              ) : null}
               <div className="ct-auctionGrid" role="table" aria-label="Auction grid">
                 <div className="ct-auctionHead" role="row">
                   {auctionGrid.order.map((seat) => (
-                    <div key={`h-${seat}`} className="ct-auctionCell ct-auctionCell--head" role="columnheader">
+                    <div
+                      key={`h-${seat}`}
+                      className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                      role="columnheader"
+                    >
                       {seatCompassLabel(seat)}
                     </div>
                   ))}
@@ -4759,7 +4788,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                     {auctionGrid.order.map((seat) => {
                       const c = row[seat];
                       return (
-                        <div key={`c-${idx}-${seat}`} className="ct-auctionCell" role="cell">
+                        <div
+                          key={`c-${idx}-${seat}`}
+                          className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                          role="cell"
+                        >
                           {c ? (
                             <span className={`ct-auctionCall ct-auctionCall--${c.kind}`}>
                               <span className="ct-auctionCallText">{c.text}</span>
@@ -4786,7 +4819,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
             <PracticeVideoBlock
               videoUrl={puzzle?.promptOptions?.videoUrlBeforeStart}
-              isPremium={effectiveTier === "premium"}
+              isPremium={effectiveTier === "premium" || biddingD2Free}
               label="30s intro"
               className="ct-practiceVideo--beforeStart"
               isAdmin={isAdmin}
@@ -5006,7 +5039,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             <div ref={playDecisionQuestionRef} className="ct-playDecisionBlock" role="region" aria-label="Question">
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrlStart}
-                isPremium={effectiveTier === "premium"}
+                isPremium={effectiveTier === "premium" || biddingD2Free}
                 label="30s intro"
                 className="ct-practiceVideo--start"
                 isAdmin={isAdmin}
@@ -5038,7 +5071,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               )}
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrl}
-                isPremium={effectiveTier === "premium"}
+                isPremium={effectiveTier === "premium" || biddingD2Free}
                 label="30s explanation"
                 className="ct-practiceVideo--reveal"
                 isAdmin={isAdmin}
@@ -5679,12 +5712,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                     <span className="ct-railMuted">—</span>
                   ) : (
                     puzzlesForDifficultyAll.map((p, idx) => {
-                      const isUnlocked = isMember || (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
+                      const isUnlocked = isMember || biddingD2Free || (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
                       const isCompleted = !!completedProblemIds[p.id];
                       return (
                         <button
                           key={p.id}
-                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""}`}
+                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""}`}
                           onClick={() => setPuzzleIdxInDifficulty(idx)}
                           type="button"
                           role="tab"
@@ -5729,9 +5762,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
-            {!!contractDisplayText && !useBottomRowLayout && (
+            {!!effectiveContractDisplayText && !useBottomRowLayout && (
               <div className="ct-contractTop">
-                {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+                {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
                   <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></React.Fragment>
                 )}
               </div>
@@ -5748,7 +5781,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               !useBottomRowLayout &&
               (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) &&
               (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && (
-                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""}`} aria-label="Bidding and prompts">
+                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""}`} aria-label="Bidding and prompts">
                   {promptNode}
                 </div>
               )}
@@ -5772,9 +5805,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               {!hasStarted && (
                 <div className="ct-startOverlay" aria-label="Start exercise">
                   <div className="ct-startCard">
-                    {!!contractDisplayText && (
+                    {!!effectiveContractDisplayText && (
                       <div className="ct-startTitle">
-                        {puzzle?.promptOptions?.contractLabel ? contractDisplayText : (
+                        {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
                           <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
                           {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>
                         )}
@@ -5976,7 +6009,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               {showFullHands &&
                 !useBottomRowLayout &&
                 (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && (
-                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""}`} aria-label="Counting prompt">
+                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""}`} aria-label="Counting prompt">
                   {promptNode}
                 </div>
               )}
