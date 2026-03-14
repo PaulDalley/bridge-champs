@@ -1207,12 +1207,13 @@ const BIDDING_PUZZLES = [
   },
 ];
 
-function BiddingTrainer() {
+function BiddingTrainer({ location }) {
   return (
     <CountingTrumpsTrainer
       puzzlesOverride={BIDDING_PUZZLES}
       trainerLabel="Bidding"
       categoryKey="bidding"
+      location={location}
     />
   );
 }

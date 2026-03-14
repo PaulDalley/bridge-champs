@@ -2615,12 +2615,17 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  // Deep-link: open specific problem from ?problem=id in URL
+  // Deep-link: open specific problem/difficulty from ?problem=id and/or ?difficulty=N in URL
   useEffect(() => {
-    if (!location?.search || !puzzlesAll.length) return;
+    if (!location?.search) return;
     const params = new URLSearchParams(location.search);
+    const difficultyParam = params.get("difficulty");
+    if (difficultyParam) {
+      const d = Number(difficultyParam);
+      if (d >= 1) setSelectedDifficulty(d);
+    }
     const problemId = params.get("problem");
-    if (!problemId) return;
+    if (!problemId || !puzzlesAll.length) return;
     const puzzle = puzzlesAll.find((p) => p.id === problemId);
     if (!puzzle) return;
     const diff = Number(puzzle.difficulty || 1);
