@@ -621,6 +621,69 @@
   margin: 14px 0;
 }
 
+/* Theme: Knocking out the Ace (declarer difficulty 1, problems 3–6) */
+.ct-problemTab--themeKnockAce {
+  background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%);
+  border-color: rgba(194, 65, 12, 0.25);
+}
+.ct-problemTab--themeKnockAce:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fed7aa 0%, #fdba74 100%);
+}
+.ct-problemTab--themeKnockAce.ct-problemTab--active {
+  border: 2px solid #c2410c;
+  background: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
+  color: #9a3412;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.55);
+}
+.ct-sidePrompt--themeKnockAce {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-left: 3px solid rgba(194, 65, 12, 0.4);
+}
+.ct-sidePrompt--themeKnockAce .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #9a3412;
+  font-weight: 700;
+}
+
+/* Theme: Drawing and not drawing trumps (declarer difficulty 1, problems 7–8) */
+.ct-problemTab--themeDrawTrumps {
+  background: linear-gradient(180deg, #cffafe 0%, #a5f3fc 100%);
+  border-color: rgba(6, 182, 212, 0.25);
+}
+.ct-problemTab--themeDrawTrumps:hover:not(:disabled) {
+  background: linear-gradient(180deg, #a5f3fc 0%, #67e8f9 100%);
+}
+.ct-problemTab--themeDrawTrumps.ct-problemTab--active {
+  border: 2px solid #0891b2;
+  background: linear-gradient(180deg, #67e8f9 0%, #22d3ee 100%);
+  color: #155e75;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.55);
+}
+.ct-sidePrompt--themeDrawTrumps {
+  background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%);
+  border-left: 3px solid rgba(6, 182, 212, 0.4);
+}
+.ct-sidePrompt--themeDrawTrumps .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #155e75;
+  font-weight: 700;
+}
+
+/* Theme label (e.g. on start overlay and in rail) */
+.ct-themeLabel {
+  font-size: 0.95em;
+  color: #374151;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+.ct-themeLabel--rail {
+  margin: 6px 0 0;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .ct-newBadge {
   vertical-align: super;
   font-size: 0.65em;
@@ -1712,6 +1775,14 @@
   background: transparent !important;
   box-shadow: none !important;
   pointer-events: none;
+}
+
+.ct-miniCard--playable {
+  cursor: pointer;
+}
+.ct-miniCard--playable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .ct-handFan--full .ct-miniCard.ct-miniCard--fan {

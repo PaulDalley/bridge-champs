@@ -1,7 +1,7 @@
 import React from "react";
 import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
 
-const CARDPLAY_PUZZLES = [
+const CARDPLAY_PUZZLES_ALL = [
   {
     id: "cp1-1",
     difficulty: 1,
@@ -139,6 +139,8 @@ const CARDPLAY_PUZZLES = [
     viewerCompass: "S",
     auction: "1♥ P 2♥ P 4♥ P P P",
     promptOptions: {
+      promptThemeTint: "knockAce",
+      themeLabel: "Theme: Knocking out the Ace",
       promptPlacement: "right",
       hideAuction: true,
       disableWarmupTrumpGuess: true,
@@ -203,6 +205,8 @@ const CARDPLAY_PUZZLES = [
     viewerCompass: "S",
     auction: "1NT P P P",
     promptOptions: {
+      promptThemeTint: "knockAce",
+      themeLabel: "Theme: Knocking out the Ace",
       promptPlacement: "right",
       hideAuction: true,
       disableWarmupTrumpGuess: true,
@@ -252,6 +256,8 @@ const CARDPLAY_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     promptOptions: {
+      promptThemeTint: "knockAce",
+      themeLabel: "Theme: Knocking out the Ace",
       promptPlacement: "right",
       hideAuction: true,
       disableWarmupTrumpGuess: true,
@@ -405,6 +411,8 @@ const CARDPLAY_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     promptOptions: {
+      promptThemeTint: "knockAce",
+      themeLabel: "Theme: Knocking out the Ace",
       promptPlacement: "right",
       hideAuction: true,
       disableWarmupTrumpGuess: true,
@@ -462,6 +470,294 @@ const CARDPLAY_PUZZLES = [
           { seat: "DECLARER", card: { rank: "K", suit: "H" } },
           { seat: "LHO", card: { rank: "3", suit: "H" } },
           { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-7",
+    difficulty: 1,
+    newUntil: "2026-04-30",
+    title: "2♠: ruff in dummy before drawing trumps",
+    trumpSuit: "S",
+    contract: "2♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Drawing and not drawing trumps",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      watchNote: "Watch what happens if we try to cross to dummy in order to play a heart to our King. To get the play going",
+      watchNoteOnlyAfterPlayCardReveal: true,
+      customPrompts: [
+        {
+          id: "cp1-7-trick2",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please play your trick 2 card by clicking on it.",
+          expectedSuit: "H",
+          correctRevealText: "Well done!",
+          wrongRevealText: "Good try, that looks logical but it doesn't work.",
+          revealText:
+            "We must get our heart ruffs going straight away by playing a heart at trick 2!\n\nThis is a typical \"ruff stuff in dummy before drawing trumps\".\n\nIt is important to do that before drawing ANY trumps.\n\nWere you thinking of crossing to dummy with a spade to play a heart up to the King?\n\nWatch what happens if we do that.",
+          noContinue: false,
+          motivationText: "",
+        },
+        {
+          id: "cp1-7-note",
+          type: "INFO",
+          atRoundIdx: 5,
+          promptText:
+            "Now we don't get any ruffs! The defenders drew the rest of our trumps.\n\nPlaying even one trump is an error. When we say \"ruff in dummy before drawing trumps\", we often mean before drawing any trumps.\n\nKeep going — you're building good habits.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "854", H: "AQ10", D: "J1098", C: "J96" },
+      DUMMY: { S: "AK2", H: "43", D: "Q432", C: "Q432" },
+      RHO: { S: "653", H: "9872", D: "A76", C: "AKT8" },
+      DECLARER: { S: "QJT97", H: "K432", D: "A2", C: "32" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (J♦ lead, low from dummy, low from East — you win the Ace)",
+        plays: [
+          { seat: "LHO", card: { rank: "J", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "D" } },
+          { seat: "RHO", card: { rank: "3", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Spade to the Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "7", suit: "S" } },
+          { seat: "LHO", card: { rank: "4", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "S" } },
+          { seat: "RHO", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (Heart to the King — loses to West's Ace)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "3", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (West leads another spade — you win with the Queen)",
+        plays: [
+          { seat: "LHO", card: { rank: "5", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
+          { seat: "RHO", card: { rank: "6", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (You play another heart — West wins)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+          { seat: "LHO", card: { rank: "Q", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
+          { seat: "RHO", card: { rank: "7", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (West leads third spade — East discards a club)",
+        plays: [
+          { seat: "LHO", card: { rank: "8", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "2", suit: "C" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "9", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-8",
+    difficulty: 1,
+    newUntil: "2026-04-30",
+    title: "6♠: club lead — what at trick 2?",
+    trumpSuit: "S",
+    contract: "6♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Drawing and not drawing trumps",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-8-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: "You pick up a beautiful 23 point hand, and end up in the contract of 6♠.",
+        },
+        {
+          id: "cp1-8-trick2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What is our plan?",
+          options: [
+            { id: "setup_clubs", label: "Setup the long clubs" },
+            { id: "ruff_stuff", label: "Ruff stuff in dummy" },
+            { id: "draw_trumps", label: "Just draw trumps" },
+          ],
+          expectedChoice: "ruff_stuff",
+          noContinue: false,
+          revealText:
+            "It's too weak for setting up the club suit, but it is useful for ruffing stuff!",
+        },
+        {
+          id: "cp1-8-ruff-what",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What are we going to ruff?",
+          options: [
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "diamonds",
+          noContinue: false,
+          revealText:
+            "We will aim to ruff a diamond. On this hand we will \"create a shortage\" in dummy, by pitching dummy's diamonds on our setup heart tricks.",
+        },
+        {
+          id: "cp1-8-draw-trumps",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Finally, last piece of the puzzle. Can we start by drawing any trumps?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          noContinue: false,
+          continueButtonLabel: "Show me the play",
+          revealText:
+            "No — if we draw a trump, the opponents can draw a second trump after we knock out the ♥A. So, we table a heart at trick 2, and follow the rule \"Ruff stuff in dummy BEFORE drawing trumps\".",
+        },
+        {
+          id: "cp1-8-shortage-message",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: "This is the key, \"creating a shortage\" in diamonds.",
+        },
+        {
+          id: "cp1-8-draw-trumps-done",
+          type: "INFO",
+          atRoundIdx: 8,
+          promptText: "Now we just draw trumps, making our contract.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "854", H: "A862", D: "864", C: "JT9" },
+      DUMMY: { S: "82", H: "43", D: "A32", C: "J98765" },
+      RHO: { S: "63", H: "9875", D: "9752", C: "876" },
+      DECLARER: { S: "AKQJT9", H: "KQJ", D: "K32", C: "A" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    // RULE: Every trick's plays array MUST be in clockwise order: leader first, then next player clockwise (N→E→S→W). Leader = who won previous trick (trick 1 = opening leader).
+    rounds: [
+      {
+        label: "Trick 1 (Club lead, you win with the Ace)",
+        plays: [
+          { seat: "LHO", card: { rank: "9", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "C" } },
+          { seat: "RHO", card: { rank: "6", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Heart lead, Ace wins)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "H" } },
+          { seat: "RHO", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (Spade back, you win Ace, dummy plays 2♠)",
+        plays: [
+          { seat: "LHO", card: { rank: "4", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
+          { seat: "RHO", card: { rank: "6", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Queen of hearts, both follow)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "Q", suit: "H" } },
+          { seat: "LHO", card: { rank: "6", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
+          { seat: "RHO", card: { rank: "7", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Jack of hearts, both follow, pitch diamond from dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "D" } },
+          { seat: "RHO", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South leads diamond, dummy wins with Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "D" } },
+          { seat: "LHO", card: { rank: "4", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "D" } },
+          { seat: "RHO", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 7 (Dummy leads 3♦, declarer wins K♦)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "3", suit: "D" } },
+          { seat: "RHO", card: { rank: "7", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "D" } },
+          { seat: "LHO", card: { rank: "6", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Diamond ruffed with 8♠ in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "3", suit: "D" } },
+          { seat: "LHO", card: { rank: "8", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "S" } },
+          { seat: "RHO", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 9 (Club from dummy, spade from hand)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "6", suit: "C" } },
+          { seat: "RHO", card: { rank: "7", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "9", suit: "S" } },
+          { seat: "LHO", card: { rank: "T", suit: "C" } },
         ],
       },
     ],
@@ -792,6 +1088,8 @@ const CARDPLAY_PUZZLES = [
     ],
   },
 ];
+
+const CARDPLAY_PUZZLES = CARDPLAY_PUZZLES_ALL;
 
 function isPuzzleNew(puzzle) {
   return !!(puzzle && puzzle.newUntil && new Date() < new Date(puzzle.newUntil));
