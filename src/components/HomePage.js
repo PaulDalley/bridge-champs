@@ -15,6 +15,7 @@ import WelcomeVideo from "./HomePage/WelcomeVideo";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { firebase } from "../firebase/config";
+import { sendSubscriptionEvent } from "../utils/analytics";
 
 const photo = require("../assets/images/logo-small-inv-t-greybg.png");
 const stripeVerifyCheckoutSessionUrl =
@@ -177,6 +178,11 @@ class HomePage extends Component {
         } catch (e) {
           // ignore
         }
+        // GA4: new subscribers were not tracked before — fire subscription_activated when checkout verification succeeds
+        sendSubscriptionEvent("subscription_activated", {
+          tier: resp?.data?.tier || "premium",
+          source: "stripe_checkout",
+        });
         this.setState({ verifyingCheckout: false, verifyResult: resp, verifyError: null });
       })
       .fail((jqXHR) => {

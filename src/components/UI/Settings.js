@@ -42,6 +42,10 @@ class Settings extends Component {
     // Email list export
     emailListLoading: false,
     emailListResult: null,
+    subscriberListLoading: false,
+    subscriberListResult: null,
+    nonSubscriberListLoading: false,
+    nonSubscriberListResult: null,
   };
 
   componentDidMount() {
@@ -325,6 +329,108 @@ class Settings extends Component {
       toastr.error(displayError);
     } finally {
       this.setState({ emailListLoading: false });
+    }
+  };
+
+  getSubscriberEmails = async () => {
+    this.setState({ subscriberListLoading: true, subscriberListResult: null });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not logged in");
+      const token = await user.getIdToken();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000);
+      const res = await fetch(
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetSubscriberEmails",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+          signal: controller.signal,
+        }
+      );
+      clearTimeout(timeoutId);
+      const raw = await res.text();
+      let data = {};
+      try {
+        if (raw) data = JSON.parse(raw);
+      } catch (_) {}
+      if (!res.ok) {
+        const msg = (data && data.error) || res.statusText || `HTTP ${res.status}`;
+        throw new Error(msg);
+      }
+      this.setState({ subscriberListResult: data });
+      const emailStr = (data.emails || []).join("\n");
+      if (navigator.clipboard && emailStr) {
+        await navigator.clipboard.writeText(emailStr);
+        toastr.success(`${data.count} subscriber email(s) copied to clipboard`);
+      } else {
+        toastr.success(`${data.count} subscriber email(s) fetched`);
+      }
+    } catch (err) {
+      const message = err.message || String(err);
+      const isAbort = err.name === "AbortError";
+      const isNetworkError = message === "Failed to fetch" || err.name === "TypeError";
+      let displayError = message;
+      if (isAbort) {
+        displayError = "Request timed out (60s). The function may be cold-starting — try again.";
+      } else if (isNetworkError) {
+        displayError = "Network error — try again. If it persists, ensure adminGetSubscriberEmails is deployed.";
+      }
+      this.setState({ subscriberListResult: { error: displayError } });
+      toastr.error(displayError);
+    } finally {
+      this.setState({ subscriberListLoading: false });
+    }
+  };
+
+  getNonSubscriberEmailsSince2026 = async () => {
+    this.setState({ nonSubscriberListLoading: true, nonSubscriberListResult: null });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not logged in");
+      const token = await user.getIdToken();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
+      const res = await fetch(
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetNonSubscriberEmailsSinceDate?since=2026-01-01",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+          signal: controller.signal,
+        }
+      );
+      clearTimeout(timeoutId);
+      const raw = await res.text();
+      let data = {};
+      try {
+        if (raw) data = JSON.parse(raw);
+      } catch (_) {}
+      if (!res.ok) {
+        const msg = (data && data.error) || res.statusText || `HTTP ${res.status}`;
+        throw new Error(msg);
+      }
+      this.setState({ nonSubscriberListResult: data });
+      const emailStr = (data.emails || []).join("\n");
+      if (navigator.clipboard && emailStr) {
+        await navigator.clipboard.writeText(emailStr);
+        toastr.success(`${data.count} non-subscriber email(s) copied to clipboard`);
+      } else {
+        toastr.success(`${data.count} non-subscriber email(s) fetched`);
+      }
+    } catch (err) {
+      const message = err.message || String(err);
+      const isAbort = err.name === "AbortError";
+      const isNetworkError = message === "Failed to fetch" || err.name === "TypeError";
+      let displayError = message;
+      if (isAbort) {
+        displayError = "Request timed out. The function may be cold-starting — try again.";
+      } else if (isNetworkError) {
+        displayError = "Network error — try again.";
+      }
+      this.setState({ nonSubscriberListResult: { error: displayError } });
+      toastr.error(displayError);
+    } finally {
+      this.setState({ nonSubscriberListLoading: false });
     }
   };
 
@@ -913,21 +1019,59 @@ class Settings extends Component {
 
                     <h3 className="Settings-admin-title" style={{ marginTop: "24px" }}>Export email list</h3>
                     <p className="Settings-admin-subtitle">
-                      Get emails of users who signed up since 2026. Copies to clipboard.
+                      Get subscriber emails, non-subscribers since 2026, or all users since 2026. Copies to clipboard.
                     </p>
                     <div className="Settings-admin-actions" style={{ marginTop: "8px" }}>
                       <button
                         type="button"
                         className="Settings-submit-btn"
+                        disabled={this.state.subscriberListLoading}
+                        onClick={this.getSubscriberEmails}
+                      >
+                        {this.state.subscriberListLoading ? "Loading…" : "Get subscriber emails"}
+                      </button>
+                      <button
+                        type="button"
+                        className="Settings-admin-copy-btn"
+                        disabled={this.state.nonSubscriberListLoading}
+                        onClick={this.getNonSubscriberEmailsSince2026}
+                        style={{ marginLeft: "8px" }}
+                      >
+                        {this.state.nonSubscriberListLoading ? "Loading…" : "Since 2026 (non-subscribers)"}
+                      </button>
+                      <button
+                        type="button"
+                        className="Settings-admin-copy-btn"
                         disabled={this.state.emailListLoading}
                         onClick={this.getEmailListSince2026}
+                        style={{ marginLeft: "8px" }}
                       >
-                        {this.state.emailListLoading ? "Loading…" : "Get emails since 2026"}
+                        Get emails since 2026 (all)
                       </button>
                     </div>
+                    {this.state.subscriberListResult && !this.state.subscriberListResult.error && (
+                      <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
+                        {this.state.subscriberListResult.count} subscriber(s).
+                      </p>
+                    )}
+                    {this.state.subscriberListResult && this.state.subscriberListResult.error && (
+                      <p className="Settings-admin-error" style={{ marginTop: "8px" }}>
+                        {this.state.subscriberListResult.error}
+                      </p>
+                    )}
+                    {this.state.nonSubscriberListResult && !this.state.nonSubscriberListResult.error && (
+                      <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
+                        {this.state.nonSubscriberListResult.count} non-subscriber(s) since 2026-01-01.
+                      </p>
+                    )}
+                    {this.state.nonSubscriberListResult && this.state.nonSubscriberListResult.error && (
+                      <p className="Settings-admin-error" style={{ marginTop: "8px" }}>
+                        {this.state.nonSubscriberListResult.error}
+                      </p>
+                    )}
                     {this.state.emailListResult && !this.state.emailListResult.error && (
                       <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
-                        {this.state.emailListResult.count} user(s) since 2026-01-01.
+                        {this.state.emailListResult.count} user(s) since 2026-01-01 (all).
                       </p>
                     )}
                     {this.state.emailListResult && this.state.emailListResult.error && (

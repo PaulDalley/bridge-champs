@@ -39,8 +39,6 @@ const successCallback =
   "https://us-central1-bridgechampions.cloudfunctions.net/ipnHandler";
 const processReturnBase =
   "https://us-central1-bridgechampions.cloudfunctions.net/process";
-const storePayPalPendingPromoUrl =
-  "https://us-central1-bridgechampions.cloudfunctions.net/storePayPalPendingPromo";
 
 class PremiumMembership extends Component {
   state = {
@@ -355,7 +353,7 @@ class PremiumMembership extends Component {
               )}
               {this.state.promoSuccess && (
                 <div style={{ marginTop: "0.75rem", padding: "0.75rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem", fontWeight: "600" }}>
-                  Next step: choose a plan below, then complete checkout — your code will be applied at payment.
+                  Next step: choose a plan below, then complete checkout — your code will be applied to your subscription period.
                 </div>
               )}
             </div>
@@ -456,7 +454,7 @@ class PremiumMembership extends Component {
 
                 {this.state.promoCode && this.state.promoSuccess && (
                   <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem" }}>
-                    <strong>Promo applied:</strong> {this.state.promoCode.toUpperCase()} will give you free days before first charge.
+                    <strong>Promo applied:</strong> {this.state.promoCode.toUpperCase()} will extend your subscription with free days.
                   </div>
                 )}
 
@@ -474,7 +472,7 @@ class PremiumMembership extends Component {
                       </div>
                       <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
                         {this.state.promoCode && this.state.promoSuccess
-                          ? "You'll pay $0 now — your promo gives you free time before billing."
+                          ? `PayPal may charge now. To guarantee $0 today with promo, use Credit Card checkout.`
                           : `You'll pay $${PRICING_TIERS[selectedTier].price}/month at PayPal`}
                       </p>
                       <img

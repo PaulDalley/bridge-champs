@@ -1034,13 +1034,13 @@ const BIDDING_PUZZLES = [
           expectedChoice: ["2s", "invite"],
           noContinue: true,
           revealText:
-            "I would invite at most, and even consider bidding 2♠.\n\nThere are three reasons for that.\n\n1. This is a very bad 12 point hand — the next 5 problems are on hand evaluation and will revisit this hand.\n\n2. Matchpoints is about staying low and making your contracts. Getting too high and going down is a matchpoint sin.\n\n3. I don't want to punish partner for opening NV — I know we get in there aggressively.\n\nTo be a good matchpoint player, you need to learn to do less with your 11's and bad 12's when partner opens NV.",
+            "I would just bid 2♠. Inviting is acceptable but will score lower in the long run.\n\nThere are three reasons for that.\n\n1. This is a very bad 11 point hand — the next 5 problems are on hand evaluation and will revisit this hand.\n\n2. Matchpoints is about staying low and making your contracts. Getting too high and going down is a matchpoint sin.\n\n3. I don't want to punish partner for opening NV — I know we get in there aggressively.\n\nTo be a good matchpoint player, you need to learn to do less with your 11's and even bad 12's when partner opens NV.",
           videoUrl: "",
         },
       ],
     },
     shownHands: {
-      DECLARER: { S: "QJ4", H: "J92", D: "A73", C: "KJ85" },
+      DECLARER: { S: "Q74", H: "J92", D: "A73", C: "KJ85" },
     },
     rounds: [],
   },

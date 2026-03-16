@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 /**
  * Inline practice video: embed when user can watch, locked "Upgrade to watch" otherwise.
+ * Uses YouTube IFrame API to reset to start when video ends, avoiding end-screen ads/suggestions.
  * Props: videoUrl, isPremium, label, className, isAdmin
  */
 function getYouTubeVideoId(url) {
@@ -22,9 +23,57 @@ function getYouTubeVideoId(url) {
   return null;
 }
 
+function loadYouTubeAPI() {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  return new Promise((resolve) => {
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (prev) prev();
+      resolve();
+    };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      const s = document.createElement("script");
+      s.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(s);
+    } else {
+      const check = () => (window.YT ? resolve() : setTimeout(check, 50));
+      check();
+    }
+  });
+}
+
 function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmin }) {
   const canWatch = isPremium || isAdmin;
   const videoId = getYouTubeVideoId(videoUrl);
+  const embedRef = useRef(null);
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    if (!canWatch || !videoId || !embedRef.current) return;
+    loadYouTubeAPI().then(() => {
+      if (!embedRef.current) return;
+      playerRef.current = new window.YT.Player(embedRef.current, {
+        videoId,
+        playerVars: { rel: 0, modestbranding: 1 },
+        events: {
+          onStateChange(ev) {
+            if (ev.data === window.YT.PlayerState.ENDED) {
+              const p = playerRef.current;
+              if (p && p.seekTo && p.pauseVideo) {
+                p.seekTo(0.1);
+                p.pauseVideo();
+              }
+            }
+          },
+        },
+      });
+    });
+    return () => {
+      if (playerRef.current && playerRef.current.destroy) playerRef.current.destroy();
+      playerRef.current = null;
+    };
+  }, [canWatch, videoId]);
 
   if (!videoUrl) {
     if (isAdmin) {
@@ -42,12 +91,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
       <div className={`ct-practiceVideo ${className}`.trim()}>
         {label && <div className="ct-practiceVideo-label">{label}</div>}
         <div className="ct-practiceVideo-embed">
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}`}
-            title={label || "Practice video"}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <div ref={embedRef} className="ct-practiceVideo-embedInner" />
         </div>
       </div>
     );
