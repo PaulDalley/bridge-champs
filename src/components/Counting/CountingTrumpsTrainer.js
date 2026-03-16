@@ -5002,7 +5002,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               </div>
               <div className="ct-railActions" style={{ marginTop: 12 }}>
                 <button className="ct-btn" onClick={submitInfoPrompt} disabled={isPlaying}>
-                  Continue
+                  {activeCustomPrompt?.continueButtonLabel || "Continue"}
                 </button>
               </div>
             </>

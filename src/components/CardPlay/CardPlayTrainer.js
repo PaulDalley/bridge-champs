@@ -763,6 +763,174 @@ const CARDPLAY_PUZZLES_ALL = [
     ],
   },
   {
+    id: "cp1-9",
+    difficulty: 1,
+    newUntil: "2026-04-30",
+    title: "6♣: diamond lead — can we just draw trumps?",
+    trumpSuit: "C",
+    contract: "6♣",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Drawing and not drawing trumps",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-9-intro-1",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "This is a hand from the 2023 Gold Coast round of 4, where a player from the team that won the entire event managed to go down in 6♣.",
+        },
+        {
+          id: "cp1-9-intro-2",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "I've been trying to train your instincts to appreciate that very often we want to ruff stuff in dummy before drawing trumps. However, even though that is my instinct, I always ask myself one question:\n\n**Can I just draw trumps?**",
+        },
+        {
+          id: "cp1-9-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Can I just draw trumps?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: false,
+          revealText:
+            "Yes. The key is counting tricks.\n\nIf trumps break 3-1, we still have 12 tricks: 5 clubs, 2 spades, 1 heart, 3 diamonds, and 1 spade ruff.\n\nSo we can safely draw trumps.\n\nOn this deal trumps broke 2-2, so declarer should make 13 tricks.",
+        },
+        {
+          id: "cp1-9-how-ruff",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "Wait but how did we ruff a spade, dummy has 3?",
+        },
+        {
+          id: "cp1-9-watch-prompt",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "We pitched a spade on our diamond, once again we \"created the shortage\".",
+          continueButtonLabel: "watch the play",
+        },
+        {
+          id: "cp1-9-critical-moment",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: "This is the critical moment, we \"create a shortage\".",
+        },
+        {
+          id: "cp1-9-end-message",
+          type: "INFO",
+          atRoundIdx: 8,
+          promptText: "There are no trumps out, you have the rest.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "QT632", H: "987", D: "J62", C: "Q2" },
+      DUMMY: { S: "K98", H: "AJT53", D: "K3", C: "754" },
+      RHO: { S: "J", H: "KQ642", D: "T9875", C: "T9" },
+      DECLARER: { S: "A754", H: "", D: "AQ4", C: "AKJ863" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (Diamond lead, king wins in dummy)",
+        plays: [
+          { seat: "LHO", card: { rank: "J", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "D" } },
+          { seat: "RHO", card: { rank: "5", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Ace of clubs)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "RHO", card: { rank: "9", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "C" } },
+          { seat: "LHO", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (King of clubs)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "K", suit: "C" } },
+          { seat: "LHO", card: { rank: "Q", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "C" } },
+          { seat: "RHO", card: { rank: "T", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Ace of diamonds)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "D" } },
+          { seat: "LHO", card: { rank: "2", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "D" } },
+          { seat: "RHO", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Queen of diamonds, pitch a spade from dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "Q", suit: "D" } },
+          { seat: "LHO", card: { rank: "6", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "S" } },
+          { seat: "RHO", card: { rank: "8", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (King of spades)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "4", suit: "S" } },
+          { seat: "LHO", card: { rank: "2", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7 (Ace of spades)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "9", suit: "S" } },
+          { seat: "RHO", card: { rank: "2", suit: "H" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
+          { seat: "LHO", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Spade ruffed in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "5", suit: "S" } },
+          { seat: "LHO", card: { rank: "6", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "C" } },
+          { seat: "RHO", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 9 (Ace of hearts, pitch a spade)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "K", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "7", suit: "S" } },
+          { seat: "LHO", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "cp2-2",
     difficulty: 2,
     title: "4♠: diamond lead — goal and trick 2",
