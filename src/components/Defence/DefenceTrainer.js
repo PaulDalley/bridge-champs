@@ -271,6 +271,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "active",
+      themeLabel: "Theme: Go active or stay passive?",
       videoUrlBeforeStart: "",
       customPrompts: [
         {
@@ -365,6 +366,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "active",
+      themeLabel: "Theme: Go active or stay passive?",
       videoUrlBeforeStart: "",
       customPrompts: [
         {
@@ -456,6 +458,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "active",
+      themeLabel: "Theme: Go active or stay passive?",
       videoUrlBeforeStart: "",
       customPrompts: [
         {
@@ -529,6 +532,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "active",
+      themeLabel: "Theme: Go active or stay passive?",
       videoUrlBeforeStart: "",
       customPrompts: [
         {

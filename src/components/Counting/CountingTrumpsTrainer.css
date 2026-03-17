@@ -673,15 +673,49 @@
 
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
-  font-size: 0.95em;
-  color: #374151;
-  font-weight: 600;
-  margin: 8px 0 0;
+  font-size: 1.08em;
+  color: #111827;
+  font-weight: 800;
+  margin: 10px 0 0;
+  display: inline-block;
+  border-radius: 10px;
+  padding: 6px 10px;
+  line-height: 1.2;
 }
 .ct-themeLabel--rail {
-  margin: 6px 0 0;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin: 8px 0 0;
+}
+.ct-themeLabel--themePoints {
+  background: #fef3c7;
+  color: #92400e;
+}
+.ct-themeLabel--themeActive {
+  background: #d1fae5;
+  color: #065f46;
+}
+.ct-themeLabel--themeRespond {
+  background: #e0e7ff;
+  color: #312e81;
+}
+.ct-themeLabel--theme1nt {
+  background: #ede9fe;
+  color: #4c1d95;
+}
+.ct-themeLabel--themeMatchpoints {
+  background: #b2dfdb;
+  color: #004d40;
+}
+.ct-themeLabel--themeHandEval {
+  background: #fde68a;
+  color: #78350f;
+}
+.ct-themeLabel--themeKnockAce {
+  background: #ffedd5;
+  color: #9a3412;
+}
+.ct-themeLabel--themeDrawTrumps {
+  background: #cffafe;
+  color: #155e75;
 }
 
 .ct-newBadge {
