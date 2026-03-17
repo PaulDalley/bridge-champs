@@ -671,6 +671,40 @@
   font-weight: 700;
 }
 
+/* Theme: Ruffing a lot / cross ruffing (declarer difficulty 1, problem 10) */
+.ct-problemTab--themeRuffingLot {
+  background: linear-gradient(180deg, #f3e8ff 0%, #e9d5ff 100%);
+  border-color: rgba(147, 51, 234, 0.25);
+}
+.ct-problemTab--themeRuffingLot:hover:not(:disabled) {
+  background: linear-gradient(180deg, #e9d5ff 0%, #d8b4fe 100%);
+}
+.ct-problemTab--themeRuffingLot.ct-problemTab--active {
+  border: 2px solid #7e22ce;
+  background: linear-gradient(180deg, #d8b4fe 0%, #c084fc 100%);
+  color: #581c87;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.55);
+}
+.ct-sidePrompt--themeRuffingLot {
+  background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+  border-left: 3px solid rgba(147, 51, 234, 0.4);
+}
+.ct-sidePrompt--themeRuffingLot .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #6b21a8;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeRuffingLot .ct-revealList {
+  background: rgba(147, 51, 234, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeRuffingLot .ct-revealList .ct-revealListItem {
+  color: #5b21b6;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
   font-size: 1.08em;
@@ -716,6 +750,10 @@
 .ct-themeLabel--themeDrawTrumps {
   background: #cffafe;
   color: #155e75;
+}
+.ct-themeLabel--themeRuffingLot {
+  background: #f3e8ff;
+  color: #6b21a8;
 }
 
 .ct-newBadge {

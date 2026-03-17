@@ -263,7 +263,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/TtJjusUvE1k",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -418,7 +418,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/lf4rid34UWI",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -492,6 +492,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/_wLCdwVH2Ro",
       startAutoPlayThroughRoundIdx: 0,
       watchNote: "Watch what happens if we try to cross to dummy in order to play a heart to our King. To get the play going",
       watchNoteOnlyAfterPlayCardReveal: true,
@@ -602,6 +603,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/lIEdLDG0Yyw",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -781,6 +783,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/Y0b3rq-rKtQ",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -931,6 +934,236 @@ const CARDPLAY_PUZZLES_ALL = [
     ],
   },
   {
+    id: "cp1-10",
+    difficulty: 1,
+    newUntil: "2026-04-30",
+    title: "4♥: heart lead — Ruffing a lot (cross ruffing)",
+    trumpSuit: "H",
+    contract: "4♥",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "ruffingLot",
+      themeLabel: "Theme: Ruffing a lot (cross ruffing)",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/1P949kKAanI",
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-10-intro-1",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText:
+            "These problems look at hands where \"Ruffing a lot\" might be a good idea, or might not.\n\nLet's build this into our pattern recognition.\n\nI call it \"ruffing a lot\", but similar ideas are often called \"cross ruffing\".",
+        },
+        {
+          id: "cp1-10-intro-2",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "What are the first thoughts that come to mind when looking at this?\n\nA common first thought is: \"There is a 5-card suit, and I want to think about setting that up.\"\n\nHowever, sometimes we can count enough tricks on a cross ruff.",
+        },
+        {
+          id: "cp1-10-intro-3",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "The typical features of a cross ruff include:\n\n✓ High trumps — often (not always) we need strong trumps so we can't get overruffed.\n✓ Few side winners — not many tricks to set up outside trumps; usually just a few cashable aces and kings.\n✓ Cash first, then ruff — use those winners before ruffing everything, or you might not get to cash them later.",
+        },
+        {
+          id: "cp1-10-watch",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Watch the play",
+          promptText: "This hand is a very beautiful example of a cross ruff.",
+        },
+        {
+          id: "cp1-10-cash-winners",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "Continue",
+          promptText:
+            "As you can see, we first cash our winners in the side suits before embarking on a cross ruff.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "K432", H: "AQ84", D: "8", C: "A432" },
+      DECLARER: { S: "", H: "KJT97", D: "A5432", C: "Q32" },
+      LHO: { S: "A9865", H: "6532", D: "K863", C: "7" },
+      RHO: { S: "QJT7", H: "", D: "QT97", C: "KJT986" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (Heart lead shown on table)",
+        plays: [{ seat: "LHO", card: { rank: "2", suit: "H" } }],
+      },
+      {
+        label: "Trick 1 (continued — win the lead in hand)",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
+          { seat: "RHO", card: { rank: "8", suit: "C" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Ace of diamonds, all follow)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "D" } },
+          { seat: "LHO", card: { rank: "3", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "D" } },
+          { seat: "RHO", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 3 (Low club to the Ace in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "C" } },
+          { seat: "LHO", card: { rank: "7", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "C" } },
+          { seat: "RHO", card: { rank: "6", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Low spade from dummy, ruff in hand)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
+          { seat: "RHO", card: { rank: "7", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "7", suit: "H" } },
+          { seat: "LHO", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Diamond ruffed in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "4", suit: "D" } },
+          { seat: "LHO", card: { rank: "6", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "RHO", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Spade from dummy, ruff in hand)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "3", suit: "S" } },
+          { seat: "RHO", card: { rank: "T", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "9", suit: "H" } },
+          { seat: "LHO", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7 (Diamond ruffed in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "5", suit: "D" } },
+          { seat: "LHO", card: { rank: "8", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "Q", suit: "H" } },
+          { seat: "RHO", card: { rank: "T", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Spade from dummy, ruff in hand)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "4", suit: "S" } },
+          { seat: "RHO", card: { rank: "J", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "T", suit: "H" } },
+          { seat: "LHO", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 9 (Diamond ruffed in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "3", suit: "D" } },
+          { seat: "LHO", card: { rank: "K", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "Q", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 10 (Spade from dummy, ruff in hand)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "Q", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
+          { seat: "LHO", card: { rank: "9", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-11",
+    difficulty: 1,
+    newUntil: "2026-04-30",
+    title: "5♦: club lead — can we just draw trumps?",
+    trumpSuit: "D",
+    contract: "5♦",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "ruffingLot",
+      themeLabel: "Theme: Ruffing a lot (cross ruffing)",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/h14m5rRY6Cg",
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-11-clue",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Clue: this is a bit of a trick question.\n\nWe learn excellent ideas including:\n\n• Set up trick sources\n• Set up 5-card suits\n• Ruff stuff in dummy\n• Cross ruff",
+        },
+        {
+          id: "cp1-11-plan",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "So, let's take a deep breath. Dummy has come down - what are we going to do?",
+          options: [
+            { id: "ruff_stuff", label: "Ruff stuff" },
+            { id: "setup_side", label: "Setup our side suit" },
+            { id: "cross_ruff", label: "Cross ruff" },
+            { id: "draw_trumps", label: "Draw trumps" },
+          ],
+          expectedChoice: "draw_trumps",
+          noContinue: true,
+          revealText:
+            "We can and should simply draw trumps.\n\nThis is a trick question, and it's one we have to ask ourselves every time dummy comes down. Even though the answer is often \"no\", it is the start of any good plan.\n\nWe have 11 top tricks, provided we take those trumps out as soon as possible. Any delay and the opponents will get a club ruff.\n\nSo always ask, no matter what you have just learned about declarer play:\n\n\"Can I just draw trumps?\"",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "A72", H: "74", D: "T86", C: "AQ743" },
+      DECLARER: { S: "65", H: "A93", D: "KQJ75", C: "KJ6" },
+      // East has exactly 2 clubs. West holds the Ace of diamonds.
+      LHO: { S: "KQJ9", H: "KQ6", D: "A43", C: "T52" },
+      RHO: { S: "T843", H: "JT852", D: "92", C: "98" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (2♣ lead shown on table)",
+        plays: [{ seat: "LHO", card: { rank: "2", suit: "C" } }],
+      },
+    ],
+  },
+  {
     id: "cp2-2",
     difficulty: 2,
     title: "4♠: diamond lead — goal and trick 2",
@@ -946,7 +1179,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/GEJcHaaWVeg",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1014,7 +1247,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/KBA3CXalFkQ",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1079,7 +1312,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/-b60sY7rNuc",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1097,7 +1330,7 @@ const CARDPLAY_PUZZLES_ALL = [
           noContinue: true,
           wrongTryText: "Good try! Think about where your tricks will come from — the long club suit is the key.",
           revealText:
-            "Play a club. Is ruffing a tempting idea? It shouldn't be — go for the long club suit; that's what yields the best results.\n\nIs drawing trumps the obvious move? Even with 9 trumps, we should lay off the trumps till we have set up the clubs, or at least started them. Trumps are also entries, which you may need to either hand. Laying off trumps keeps you flexible to begin with.\n\nFire off a club, confidently begin to set up your long suit!",
+            "Play a club. Is ruffing a tempting idea? It shouldn't be — go for the long club suit; that's what yields the best results.\n\nIs drawing trumps the obvious move? Even with 9 trumps, we should lay off the trumps till we have set up the clubs, or at least started them. Trumps are also entries, which you may need to either hand. Laying off trumps keeps you flexible to begin with.\n\nFire off a club, confidently begin to set up your long suit!\n\nOnce again, we are using entries productively by playing a club towards the King.",
           videoUrl: "",
         },
       ],

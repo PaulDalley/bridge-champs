@@ -19,6 +19,14 @@ function JustAdded() {
         <Link to="/defence/practice?problem=df1-5" className="JustAdded-link">
           4 new defence problems →
         </Link>
+        <span className="JustAdded-sep" aria-hidden> · </span>
+        <Link to="/cardPlay/practice?difficulty=1&problem=cp1-5" className="JustAdded-link">
+          Videos added to declarer difficulty 1 problems 5–11 →
+        </Link>
+        <span className="JustAdded-sep" aria-hidden> · </span>
+        <Link to="/cardPlay/practice?difficulty=2&problem=cp2-1" className="JustAdded-link">
+          Videos added to declarer difficulty 2 problems 1–3 →
+        </Link>
       </div>
     </section>
   );
