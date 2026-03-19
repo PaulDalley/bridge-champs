@@ -92,31 +92,32 @@
 
 .RecentlyAdded-theme {
   font-family: var(--font-display, "Playfair Display", Georgia, serif);
-  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 700;
   color: #fff;
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.5rem;
   letter-spacing: 0.02em;
   line-height: 1.2;
 }
 
-.RecentlyAdded-todo {
+.RecentlyAdded-subtitle {
+  margin: 0 0 1.5rem;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.RecentlyAdded-packGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
-@media (max-width: 400px) {
-  .RecentlyAdded-todo {
-    grid-template-columns: 1fr;
-  }
-}
-
-.RecentlyAdded-box {
+.RecentlyAdded-packCard {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem 1.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.25rem 1.2rem 1.3rem;
   background: #fff;
   border-radius: 12px;
   color: #1b4332;
@@ -125,41 +126,129 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.RecentlyAdded-box:hover {
+.RecentlyAdded-packCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   color: #1b4332;
 }
 
-.RecentlyAdded-boxIcon {
+.RecentlyAdded-packHead {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.RecentlyAdded-packIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 14px;
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
   color: var(--color-secondary-dark, #B8941F);
-  font-size: 34px !important;
+  font-size: 30px !important;
   flex-shrink: 0;
 }
 
-.RecentlyAdded-boxContent {
-  flex: 1;
-  min-width: 0;
-}
-
-.RecentlyAdded-boxLabel {
-  display: block;
-  font-size: 2rem;
+.RecentlyAdded-packBadge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #166534;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
   font-weight: 700;
-  color: #1b4332;
-  margin-bottom: 0.25rem;
 }
 
-.RecentlyAdded-boxCount {
-  font-size: 2.5rem;
+.RecentlyAdded-packTitle {
+  margin: 0;
+  font-size: 1.55rem;
   font-weight: 800;
   color: #1b4332;
-  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+.RecentlyAdded-packDesc {
+  margin: 0;
+  font-size: 1.28rem;
+  color: #475569;
+  min-height: 2.8em;
+  line-height: 1.35;
+}
+
+.RecentlyAdded-freeStarter {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #14532d;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+.RecentlyAdded-packMeta {
+  margin-top: 0.2rem;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.RecentlyAdded-packCount {
+  font-size: 1.12rem;
+  color: #334155;
+  font-weight: 700;
+}
+
+.RecentlyAdded-packPercent {
+  font-size: 1.12rem;
+  color: #166534;
+  font-weight: 800;
+}
+
+.RecentlyAdded-packProgress {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.RecentlyAdded-packProgress > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #15803d);
+}
+
+.RecentlyAdded-packCta {
+  margin-top: 0.25rem;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #14532d;
+}
+
+@media (max-width: 980px) {
+  .RecentlyAdded-packGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .RecentlyAdded-packGrid {
+    grid-template-columns: 1fr;
+  }
+  .RecentlyAdded-subtitle {
+    font-size: 1rem;
+  }
+  .RecentlyAdded-packTitle {
+    font-size: 1.35rem;
+  }
+  .RecentlyAdded-packDesc {
+    font-size: 1.1rem;
+    min-height: 0;
+  }
 }

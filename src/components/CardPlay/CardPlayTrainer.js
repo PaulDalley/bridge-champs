@@ -1368,7 +1368,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/Pn-N-AYXCCo",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1432,7 +1432,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/pKVWX3tFZoM",
       startAutoPlayThroughRoundIdx: 1,
       customPrompts: [
         {
@@ -1498,8 +1498,8 @@ function isPuzzleNew(puzzle) {
 
 export const CARDPLAY_HAS_NEW = CARDPLAY_PUZZLES.some(isPuzzleNew);
 
-function CardPlayTrainer() {
-  return <CountingTrumpsTrainer puzzlesOverride={CARDPLAY_PUZZLES} trainerLabel="Declarer Play" categoryKey="declarer" />;
+function CardPlayTrainer(routeProps) {
+  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={CARDPLAY_PUZZLES} trainerLabel="Declarer Play" categoryKey="declarer" />;
 }
 
 export default CardPlayTrainer;

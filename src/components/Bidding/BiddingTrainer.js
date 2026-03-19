@@ -239,7 +239,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "You are responder, what will you do?",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/LrGvzkV9WMI",
       customPrompts: [
         {
           id: "bid1-6-intro",
@@ -291,7 +291,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "You are responder, what will you do?",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/H4HYh8L9ZWg",
       customPrompts: [
         {
           id: "bid1-7-q1",
@@ -365,7 +365,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "You are responder, what will you do?",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/APpEVzvkdkU",
       customPrompts: [
         {
           id: "bid1-8-q1",
@@ -438,7 +438,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "You are responder, what will you do?",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/DA7UluniZLo",
       customPrompts: [
         {
           id: "bid1-9-q",
@@ -482,7 +482,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "You are responder, what will you do?",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/PukSNA8mqGo",
       customPrompts: [
         {
           id: "bid1-10-q",
@@ -525,7 +525,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/X1wCFm0sPx0",
       customPrompts: [
         {
           id: "bid1-11-intro",
@@ -591,7 +591,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/8kDxMREow_A",
       customPrompts: [
         {
           id: "bid1-12-intro",
@@ -641,7 +641,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/GedUP68ZQ8I",
       customPrompts: [
         {
           id: "bid1-13-q",
@@ -683,7 +683,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/OJd8b--QDBo",
       customPrompts: [
         {
           id: "bid1-14-intro",
@@ -732,7 +732,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/VSm58Q0IU14",
       customPrompts: [
         {
           id: "bid1-15-q",
@@ -774,7 +774,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/Jrz2zRRlP5g",
       customPrompts: [
         {
           id: "bid1-16-q",

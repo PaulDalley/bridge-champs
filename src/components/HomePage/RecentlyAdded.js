@@ -1,29 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { MONTHLY_THEME } from "../../data/monthlyTheme";
-import { PLAN_CHECKLIST_ITEMS, getPlanCompletion } from "../../data/planChecklist";
 import "./RecentlyAdded.css";
+import { THEME_PACKS } from "../../data/themePacks";
 
-function RecentlyAdded({ uid, subscriptionActive, a, quizScores, completedPractice }) {
-  const theme = MONTHLY_THEME;
-  const completion = getPlanCompletion(PLAN_CHECKLIST_ITEMS, quizScores || {}, completedPractice || {});
-
-  const trainingItems = PLAN_CHECKLIST_ITEMS.filter((p) => p.type === "practice" || p.type === "quiz");
-  const articleItems = PLAN_CHECKLIST_ITEMS.filter((p) => p.type === "article");
-
-  const trainingDone = trainingItems.filter((p) => completion[p.id]).length;
-  const trainingTotal = trainingItems.length;
-  const articleDone = articleItems.filter((p) => completion[p.id]).length;
-  const articleTotal = articleItems.length;
-
-  const firstTraining = trainingItems.find((p) => !completion[p.id]);
-  const firstArticle = articleItems.find((p) => !completion[p.id]);
-
+function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
   const showSubscribeCta = !subscriptionActive && a !== true;
+  const completed = completedPractice || {};
+  const packs = THEME_PACKS.map((pack) => {
+    const done = uid ? pack.handIds.filter((id) => !!completed[id]).length : 0;
+    const total = pack.handIds.length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    return { ...pack, done, total, pct };
+  });
+  const originalPacks = packs.slice(0, 3);
+  const originalPackIds = new Set(originalPacks.map((pack) => pack.id));
+  const isPackComplete = (pack) => pack.total > 0 && pack.done >= pack.total;
+  const allPacksComplete = packs.length > 0 && packs.every(isPackComplete);
+  const packsToShow = (() => {
+    if (packs.length <= 3 || allPacksComplete) return originalPacks;
+
+    const unfinished = packs.filter((pack) => !isPackComplete(pack));
+    const completedNonOriginal = packs.filter((pack) => isPackComplete(pack) && !originalPackIds.has(pack.id));
+    const completedOriginal = packs.filter((pack) => isPackComplete(pack) && originalPackIds.has(pack.id));
+
+    return [...unfinished, ...completedNonOriginal, ...completedOriginal].slice(0, 3);
+  })();
+  const cleanPackTitle = (title = "") => title.replace(/^Theme:\s*/i, "");
 
   return (
-    <section className="RecentlyAdded" aria-label="Monthly theme and plan">
+    <section className="RecentlyAdded" aria-label="Choose a topic">
       {showSubscribeCta && (
         <Link to="/membership" className="RecentlyAdded-subscribeCta">
           <span className="RecentlyAdded-subscribeCtaIcon">
@@ -35,36 +41,29 @@ function RecentlyAdded({ uid, subscriptionActive, a, quizScores, completedPracti
           <span className="RecentlyAdded-subscribeCtaBtn">Subscribe now</span>
         </Link>
       )}
-      <p className="RecentlyAdded-label">This month&apos;s theme</p>
-      <h2 className="RecentlyAdded-theme">{theme.label}</h2>
+      <h2 className="RecentlyAdded-theme">Choose a topic</h2>
 
-      <div className="RecentlyAdded-todo">
-        <Link
-          to={firstTraining?.path || "/counting/practice"}
-          className="RecentlyAdded-box"
-          title="Training exercises"
-        >
-          <span className="RecentlyAdded-boxIcon">
-            <i className="material-icons" aria-hidden>fitness_center</i>
-          </span>
-          <span className="RecentlyAdded-boxContent">
-            <span className="RecentlyAdded-boxLabel">Training exercises</span>
-            <span className="RecentlyAdded-boxCount">{uid ? `${trainingDone}/${trainingTotal}` : `0/${trainingTotal}`}</span>
-          </span>
-        </Link>
-        <Link
-          to={firstArticle?.path || "/counting/articles"}
-          className="RecentlyAdded-box"
-          title="Articles"
-        >
-          <span className="RecentlyAdded-boxIcon">
-            <i className="material-icons" aria-hidden>menu_book</i>
-          </span>
-          <span className="RecentlyAdded-boxContent">
-            <span className="RecentlyAdded-boxLabel">Articles</span>
-            <span className="RecentlyAdded-boxCount">{uid ? `${articleDone}/${articleTotal}` : `0/${articleTotal}`}</span>
-          </span>
-        </Link>
+      <div className="RecentlyAdded-packGrid">
+        {packsToShow.map((pack) => (
+          <Link key={pack.id} to={pack.to} className="RecentlyAdded-packCard" title={pack.title}>
+            <div className="RecentlyAdded-packHead">
+              <span className="RecentlyAdded-packIcon">
+                <i className="material-icons" aria-hidden>{pack.icon}</i>
+              </span>
+            </div>
+            <h3 className="RecentlyAdded-packTitle">{cleanPackTitle(pack.title)}</h3>
+            {!!pack.description && <p className="RecentlyAdded-packDesc">{pack.description}</p>}
+            {showSubscribeCta && <span className="RecentlyAdded-freeStarter">Free starter included</span>}
+            <div className="RecentlyAdded-packMeta">
+              <span className="RecentlyAdded-packCount">{pack.done}/{pack.total} complete</span>
+              <span className="RecentlyAdded-packPercent">{pack.pct}%</span>
+            </div>
+            <div className="RecentlyAdded-packProgress" aria-hidden>
+              <span style={{ width: `${pack.pct}%` }} />
+            </div>
+            <span className="RecentlyAdded-packCta">{pack.done > 0 ? "Continue pack" : "Start pack"} →</span>
+          </Link>
+        ))}
       </div>
     </section>
   );
@@ -74,6 +73,5 @@ export default connect(({ auth, user }) => ({
   uid: auth?.uid,
   subscriptionActive: auth?.subscriptionActive,
   a: auth?.a,
-  quizScores: user?.quizScores,
   completedPractice: user?.completedPractice,
 }))(RecentlyAdded);

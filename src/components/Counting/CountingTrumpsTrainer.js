@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { savePracticeCompletion } from "../../store/actions/usersActions";
 import { sendPracticeEvent } from "../../utils/analytics";
+import { TRIAL_STARTER_IDS_BY_CATEGORY } from "../../data/themePacks";
+import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
 import PracticeVideoBlock from "./PracticeVideoBlock";
 import "./CountingTrumpsTrainer.css";
 
@@ -541,6 +543,52 @@ function sortCardsSuitRank(cards) {
   });
 }
 
+function suitOrderForSeat(seat, trumpSuit, seatAtPosition) {
+  // Mirror table-view card orientation:
+  // top/right -> trump first, bottom/left -> trump last.
+  if (!["S", "H", "D", "C"].includes(trumpSuit)) return SUIT_ORDER;
+  const rest = SUIT_ORDER.filter((s) => s !== trumpSuit);
+  const suitColor = (s) => (s === "H" || s === "D" ? "red" : "black");
+
+  const trumpColor = suitColor(trumpSuit);
+  // When trump is at one end, we want the first suit after/before it to be opposite color.
+  const desiredFirstColor = trumpColor === "red" ? "black" : "red";
+
+  const reds = rest.filter((s) => suitColor(s) === "red");
+  const blacks = rest.filter((s) => suitColor(s) === "black");
+
+  // Arrange non-trump suits to alternate colors (e.g. black, red, black, red).
+  const restAlt = [];
+  let takeColor = desiredFirstColor;
+  while (reds.length > 0 || blacks.length > 0) {
+    if (takeColor === "red" && reds.length > 0) {
+      restAlt.push(reds.shift());
+      takeColor = "black";
+      continue;
+    }
+    if (takeColor === "black" && blacks.length > 0) {
+      restAlt.push(blacks.shift());
+      takeColor = "red";
+      continue;
+    }
+    // If the desired color pool is empty, take whatever remains.
+    if (reds.length > 0) {
+      restAlt.push(reds.shift());
+      takeColor = "black";
+    } else if (blacks.length > 0) {
+      restAlt.push(blacks.shift());
+      takeColor = "red";
+    } else {
+      break;
+    }
+  }
+
+  if (!seatAtPosition) return [trumpSuit, ...restAlt];
+  if (seat === seatAtPosition.top || seat === seatAtPosition.right) return [trumpSuit, ...restAlt];
+  if (seat === seatAtPosition.bottom || seat === seatAtPosition.left) return [...restAlt, trumpSuit];
+  return SUIT_ORDER;
+}
+
 function buildFullHandCards(handObj) {
   if (!handObj) return [];
   // Legacy one-suit shape
@@ -587,7 +635,7 @@ const PUZZLES = [
     promptOptions: {
       // Start -> ask the first question immediately (before any cards are played).
       prePromptsBeforePlay: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/89TwhfB2biM",
     },
     shownHands: {
       DUMMY: { suit: "S", cards: ["Q", "9", "7", "3"] }, // 4 spades
@@ -640,6 +688,7 @@ const PUZZLES = [
     dealerCompass: "S", // declarer opened 4♠ as dealer
     viewerCompass: "E", // you are East, defending (RHO)
     promptOptions: {
+      videoUrlBeforeStart: "https://youtube.com/shorts/S_Hhj87iXOw",
       disableWarmupTrumpGuess: true,
       // After we count partner, ask for the full suit distribution.
       questionNumbers: [QUESTION.ORIGINAL_SUIT_DISTRIBUTION_AT_EVENT],
@@ -2694,11 +2743,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     return idx >= 0 ? idx : 0;
   }, [puzzlesForDifficultyAll, previewPuzzleIdForSelectedDifficulty]);
   const effectivePuzzleIdx = puzzleIdxInDifficulty;
+  const trialStarterProblemId = TRIAL_STARTER_IDS_BY_CATEGORY?.[categoryKey] || null;
+  const currentProblemId = puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id || null;
   const currentPuzzleIsPreview = !isMember && previewPuzzleIdForSelectedDifficulty && puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
-  const biddingD2FreeCount = 5;
-  const biddingD2Free = categoryKey === "bidding" && selectedDifficulty === 2 && puzzleIdxInDifficulty < biddingD2FreeCount;
-  const biddingD2ProblemFree = (idx) => categoryKey === "bidding" && selectedDifficulty === 2 && idx < biddingD2FreeCount;
-  const showPaywallOverlay = !isMember && !biddingD2Free && !currentPuzzleIsPreview && !isBlankDifficulty;
+  const isTrialStarterProblem = (problemId) => !!problemId && !!trialStarterProblemId && problemId === trialStarterProblemId;
+  const currentPuzzleIsTrialStarter = !isMember && isTrialStarterProblem(currentProblemId);
+  const showPaywallOverlay = !isMember && !currentPuzzleIsTrialStarter && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
   // when a difficulty is blank we render a placeholder instead of the table.
@@ -2911,8 +2961,50 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     if (tint === "knockAce") return "Theme: Knocking out the Ace";
     if (tint === "drawTrumps") return "Theme: Drawing and not drawing trumps";
     if (tint === "ruffingLot") return "Theme: Ruffing a lot (cross ruffing)";
+    if (tint === "enemyFive") return "The enemy's 5 card suit";
     return "";
   }, [puzzle?.promptOptions?.themeLabel, puzzle?.promptOptions?.promptThemeTint]);
+  const activeThemeTint = puzzle?.promptOptions?.promptThemeTint || "";
+  const activeThemeIntro = useMemo(() => {
+    if (!activeThemeTint) return null;
+    return THEME_INTRO_BY_TINT?.[activeThemeTint] || null;
+  }, [activeThemeTint]);
+  const activeThemeIntroUrl = (activeThemeIntro?.url || "").trim();
+  const perProblemIntroVideoUrl = (puzzle?.promptOptions?.videoUrlBeforeStart || "").trim();
+  const normalizeVideoUrl = (url = "") => url.replace(/\/+$/, "");
+  const themeIntroIsDistinct = !!activeThemeIntroUrl && normalizeVideoUrl(activeThemeIntroUrl) !== normalizeVideoUrl(perProblemIntroVideoUrl);
+  const effectiveThemeIntroUrl = themeIntroIsDistinct ? activeThemeIntroUrl : "";
+  const activeThemeIntroVersion = Number(activeThemeIntro?.version || 1);
+  const themeIntroStorageKey = useMemo(() => {
+    if (!activeThemeTint || !effectiveThemeIntroUrl) return "";
+    const userKey = uid || "anon";
+    return `bridgechamps_theme_intro_seen_${activeThemeTint}_${userKey}_${activeThemeIntroVersion}`;
+  }, [activeThemeTint, effectiveThemeIntroUrl, activeThemeIntroVersion, uid]);
+  const [themeIntroExpanded, setThemeIntroExpanded] = useState(false);
+  useEffect(() => {
+    if (!themeIntroStorageKey) {
+      setThemeIntroExpanded(false);
+      return;
+    }
+    let seen = false;
+    try {
+      seen = typeof localStorage !== "undefined" && localStorage.getItem(themeIntroStorageKey) === "1";
+    } catch (e) {
+      seen = false;
+    }
+    setThemeIntroExpanded(!seen);
+  }, [themeIntroStorageKey]);
+  const markThemeIntroSeen = () => {
+    if (!themeIntroStorageKey) return;
+    try {
+      if (typeof localStorage !== "undefined") localStorage.setItem(themeIntroStorageKey, "1");
+    } catch (e) {}
+    setThemeIntroExpanded(false);
+  };
+  const showThemeIntroAgain = () => setThemeIntroExpanded(true);
+  const usingThemeIntro = !!effectiveThemeIntroUrl;
+  const showThemeIntroInRail = usingThemeIntro && themeIntroExpanded;
+  const showPerProblemIntroInRail = !!perProblemIntroVideoUrl;
   const [nextRoundToPlay, setNextRoundToPlay] = useState(0);
 
   // All puzzles are manual trick-advance: user controls pace with arrows.
@@ -2989,9 +3081,15 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   }, [puzzle.shownHands, seatShapeTarget]);
 
   const visibleFullHandSeatsBase = useMemo(() => {
-    if (Array.isArray(puzzle.visibleFullHandSeats) && puzzle.visibleFullHandSeats.length > 0) return puzzle.visibleFullHandSeats;
-    return ["DUMMY", "DECLARER"];
-  }, [puzzle.visibleFullHandSeats]);
+    // Always show "You + Dummy" on the first reveal.
+    // "You" is defined per-problem by `viewerCompass`, which we map to an internal seat key (`viewerSeat`).
+    // This prevents orientation-specific mistakes where a puzzle mistakenly reveals e.g. LHO instead of "you".
+    const youSeat = viewerSeat;
+    const hasDummy = isFullHandShape(puzzle?.shownHands?.DUMMY);
+    const out = [youSeat];
+    if (hasDummy) out.push("DUMMY");
+    return [...new Set(out)];
+  }, [viewerSeat, puzzle?.shownHands]);
 
   const visibleFullHandSeats = useMemo(() => {
     // At the end: if puzzle has revealFullHandsAtEnd, add those seats to the base list; otherwise reveal all.
@@ -3696,13 +3794,25 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
 
     // For wide slots (top/bottom), use the large BBO-like 13-wide grid.
     // For side slots (left/right), use the compact per-suit rows.
+    const orderedSuits = suitOrderForSeat(seat, puzzle.trumpSuit, {
+      top: seatTop,
+      right: seatRight,
+      bottom: seatBottom,
+      left: seatLeft,
+    });
+    const orderedUnplayed = [...unplayed].sort((a, b) => {
+      const suitA = orderedSuits.indexOf(a.suit);
+      const suitB = orderedSuits.indexOf(b.suit);
+      if (suitA !== suitB) return suitA - suitB;
+      return rankSortValue(a.rank) - rankSortValue(b.rank);
+    });
+
     if (!isWideSeat) {
-      const SUITS = ["S", "H", "D", "C"];
       const isPlayCardModeSide = seat === "DECLARER" && promptStep === "PLAY_CARD" && activeCustomPrompt?.type === "PLAY_CARD";
       return (
         <div ref={fanRef} className="ct-suitHand" aria-label={`${seat} suit layout`}>
-          {SUITS.map((s) => {
-            const suitCards = unplayed.filter((c) => c.suit === s);
+          {orderedSuits.map((s) => {
+            const suitCards = orderedUnplayed.filter((c) => c.suit === s);
             if (suitCards.length === 0) return null;
             return (
               <div
@@ -3739,7 +3849,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     const isPlayCardMode = seat === "DECLARER" && promptStep === "PLAY_CARD" && activeCustomPrompt?.type === "PLAY_CARD";
     return (
       <div ref={fanRef} className="ct-handFan ct-handFan--full" aria-label={`${seat} full hand`}>
-        {unplayed.map((c, idx) => {
+        {orderedUnplayed.map((c, idx) => {
           const key = `${c.rank}${c.suit}`;
           return (
             <div
@@ -4860,7 +4970,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             </div>
           ) : null}
           {!!effectiveThemeLabel && (
-            <div className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""}`}>{effectiveThemeLabel}</div>
+            <div className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""}`}>{effectiveThemeLabel}</div>
           )}
           {auctionGrid && !hideAuctionNow && (
             <div className="ct-auctionCard" aria-label="Bidding">
@@ -4914,13 +5024,37 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           )}
           {/* Persistent video slot: stable key so video isn’t remounted when prompt step changes; stays for full problem */}
           <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
-            <PracticeVideoBlock
-              videoUrl={puzzle?.promptOptions?.videoUrlBeforeStart}
-              isPremium={effectiveTier === "premium" || biddingD2Free}
-              label="30s intro"
-              className="ct-practiceVideo--beforeStart"
-              isAdmin={isAdmin}
-            />
+            {showThemeIntroInRail && (
+              <PracticeVideoBlock
+                videoUrl={effectiveThemeIntroUrl}
+                isPremium={true}
+                label="Theme intro"
+                className="ct-practiceVideo--beforeStart"
+                isAdmin={isAdmin}
+              />
+            )}
+            {usingThemeIntro && (
+              <div className="ct-themeIntroControls">
+                {themeIntroExpanded ? (
+                  <button type="button" className="ct-themeIntroBtn" onClick={markThemeIntroSeen}>
+                    Dismiss intro
+                  </button>
+                ) : (
+                  <button type="button" className="ct-themeIntroBtn ct-themeIntroBtn--secondary" onClick={showThemeIntroAgain}>
+                    Watch theme intro again
+                  </button>
+                )}
+              </div>
+            )}
+            {showPerProblemIntroInRail && (
+              <PracticeVideoBlock
+                videoUrl={perProblemIntroVideoUrl}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
+                label="30s problem intro"
+                className="ct-practiceVideo--beforeStart"
+                isAdmin={isAdmin}
+              />
+            )}
           </div>
         </div>
       )}
@@ -4945,7 +5079,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       )}
 
       {promptStep && promptStep !== "DONE" && (
-        <div className={`ct-promptRail ${feedback?.type === "ok" && waitingForContinue ? "ct-promptRail--withFeedback" : ""}`}>
+        <div className={`ct-promptRail ${
+          feedback?.type === "ok" &&
+          waitingForContinue &&
+          !["SINGLE_NUMBER", "SEAT_SUIT_COUNT", "DEFENDERS_STARTED", "DEFENDERS_REMAINING", "DEFENDERS_HEARTS_STARTED"].includes(promptStep)
+            ? "ct-promptRail--withFeedback"
+            : ""
+        }`}>
           <div className="ct-promptRail-content">
           {promptStep === "DECLARER_TRUMP_GUESS" && (
             <>
@@ -5150,7 +5290,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             <div ref={playDecisionQuestionRef} className="ct-playDecisionBlock" role="region" aria-label="Question">
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrlStart}
-                isPremium={effectiveTier === "premium" || biddingD2Free}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
                 label="30s intro"
                 className="ct-practiceVideo--start"
                 isAdmin={isAdmin}
@@ -5182,7 +5322,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               )}
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrl}
-                isPremium={effectiveTier === "premium" || biddingD2Free}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
                 label="30s explanation"
                 className="ct-practiceVideo--reveal"
                 isAdmin={isAdmin}
@@ -5823,12 +5963,16 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                     <span className="ct-railMuted">—</span>
                   ) : (
                     puzzlesForDifficultyAll.map((p, idx) => {
-                      const isUnlocked = isMember || biddingD2ProblemFree(idx) || (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
+                      const isUnlocked =
+                        isMember ||
+                        isTrialStarterProblem(p.id) ||
+                        (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
                       const isCompleted = !!completedProblemIds[p.id];
+                      const showFreeBadge = !isMember && isTrialStarterProblem(p.id);
                       return (
                         <button
                           key={p.id}
-                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${p?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""}`}
+                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${p?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""}`}
                           onClick={() => setPuzzleIdxInDifficulty(idx)}
                           type="button"
                           role="tab"
@@ -5838,6 +5982,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                           {isCompleted && <span className="ct-problemTabTick" aria-hidden="true">✓</span>}
                           {idx + 1}
                           {isPuzzleNew(p) && <span className="ct-newBadge" aria-label="New">New</span>}
+                          {showFreeBadge && <span className="ct-freeBadge" aria-label="Free starter">Free</span>}
                         </button>
                       );
                     })
@@ -5892,7 +6037,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               !useBottomRowLayout &&
               (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) &&
               (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && (
-                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""}`} aria-label="Bidding and prompts">
+                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""}`} aria-label="Bidding and prompts">
                   {promptNode}
                 </div>
               )}
@@ -5925,7 +6070,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                       </div>
                     )}
                     {!!effectiveThemeLabel && (
-                      <div className={`ct-themeLabel ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""}`}>{effectiveThemeLabel}</div>
+                      <div className={`ct-themeLabel ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""}`}>{effectiveThemeLabel}</div>
                     )}
                     {!!puzzle.promptOptions?.focusNote && (
                       <div className="ct-startNote">{puzzle.promptOptions.focusNote}</div>
@@ -6123,7 +6268,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               {showFullHands &&
                 !useBottomRowLayout &&
                 (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && (
-                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""}`} aria-label="Counting prompt">
+                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${puzzle?.promptOptions?.promptThemeTint === "drawTrumps" ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""}`} aria-label="Counting prompt">
                   {promptNode}
                 </div>
               )}

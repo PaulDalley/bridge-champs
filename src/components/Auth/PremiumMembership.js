@@ -81,6 +81,20 @@ class PremiumMembership extends Component {
     }
   };
 
+  normalizePromoCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
+
+  resolvePromoCodeAlias = (code) => {
+    const normalized = this.normalizePromoCode(code);
+    // BLUE should behave exactly like HARBOURVIEW (1 month free for either tier).
+    if (normalized === "blue") return "harbourview";
+    return normalized;
+  };
+
+  isOneMonthFreeAnyTierCode = (code) => {
+    const normalized = this.normalizePromoCode(code);
+    return normalized === "harbourview" || normalized === "blue";
+  };
+
   validatePromoCode = (code) => {
     if (!code) {
       this.setState({ promoError: "", promoSuccess: "" });
@@ -89,7 +103,8 @@ class PremiumMembership extends Component {
 
     // Use the backend validator so UI always matches what checkout will do.
     const url = "https://us-central1-bridgechampions.cloudfunctions.net/validateUserToken";
-    $.post(url, { token: code })
+    const codeForValidation = this.resolvePromoCodeAlias(code);
+    $.post(url, { token: codeForValidation })
       .then((data) => {
         const days = data?.daysFree || 0;
         const tier = data?.tier;
@@ -103,7 +118,7 @@ class PremiumMembership extends Component {
           });
         } else {
           let msg;
-          if (days > 0 && code.toLowerCase().replace(/\s+/g, "") === "harbourview") {
+          if (days > 0 && this.isOneMonthFreeAnyTierCode(code)) {
             msg = `✓ Code valid! 1 month free with Standard or Premium.${nextStep}`;
           } else if (days > 0) {
             msg = `✓ Code valid! ${days} free day${days !== 1 ? "s" : ""} before billing.${nextStep}`;
@@ -164,7 +179,7 @@ class PremiumMembership extends Component {
     const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
     let returnUrl = `${processReturnBase}?uid=${encodeURIComponent(uid)}`;
     if (this.state.promoCode) {
-      const promoNormalized = this.state.promoCode.replace(/\s+/g, "").trim();
+      const promoNormalized = this.resolvePromoCodeAlias(this.state.promoCode);
       if (promoNormalized) {
         returnUrl = returnUrl + "&promo=" + encodeURIComponent(promoNormalized);
       }
@@ -500,7 +515,7 @@ class PremiumMembership extends Component {
                         tierPriceId={PRICING_TIERS[selectedTier].stripePriceId}
                         tierName={PRICING_TIERS[selectedTier].name}
                         tierPrice={PRICING_TIERS[selectedTier].price}
-                        getToken={() => this.state.promoCode}
+                        getToken={() => this.resolvePromoCodeAlias(this.state.promoCode)}
                         processing={() => this.setState({ stripeProcessing: true })}
                         clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}

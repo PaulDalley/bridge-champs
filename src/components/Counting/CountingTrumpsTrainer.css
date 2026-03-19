@@ -705,6 +705,40 @@
   color: #5b21b6;
 }
 
+/* Theme: The enemy's 5 card suit (defence d1 problems 9-11) */
+.ct-problemTab--themeEnemyFive {
+  background: linear-gradient(180deg, #ffe4e6 0%, #fecdd3 100%);
+  border-color: rgba(190, 24, 93, 0.25);
+}
+.ct-problemTab--themeEnemyFive:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fecdd3 0%, #fda4af 100%);
+}
+.ct-problemTab--themeEnemyFive.ct-problemTab--active {
+  border: 2px solid #be185d;
+  background: linear-gradient(180deg, #fda4af 0%, #fb7185 100%);
+  color: #881337;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(190, 24, 93, 0.55);
+}
+.ct-sidePrompt--themeEnemyFive {
+  background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%);
+  border-left: 3px solid rgba(190, 24, 93, 0.4);
+}
+.ct-sidePrompt--themeEnemyFive .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #9f1239;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeEnemyFive .ct-revealList {
+  background: rgba(190, 24, 93, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeEnemyFive .ct-revealList .ct-revealListItem {
+  color: #9f1239;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
   font-size: 1.08em;
@@ -755,6 +789,10 @@
   background: #f3e8ff;
   color: #6b21a8;
 }
+.ct-themeLabel--themeEnemyFive {
+  background: #ffe4e6;
+  color: #9f1239;
+}
 
 .ct-newBadge {
   vertical-align: super;
@@ -777,6 +815,21 @@
   right: auto;
   margin-left: 0;
   font-size: 9px;
+}
+
+.ct-freeBadge {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #14532d;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 999px;
+  padding: 1px 4px;
+  line-height: 1.1;
 }
 
 .ct-diffTab,
@@ -3141,6 +3194,37 @@
 .ct-sidePrompt--themeActive .ct-practiceVideoSlot:not(:empty),
 .ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty) {
   background: inherit;
+}
+
+.ct-themeIntroControls {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ct-themeIntroBtn {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #1f2937;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.ct-themeIntroBtn:hover {
+  background: #f8fafc;
+}
+
+.ct-themeIntroBtn--secondary {
+  border-color: #86efac;
+  color: #166534;
+  background: #f0fdf4;
+}
+
+.ct-themeIntroBtn--secondary:hover {
+  background: #dcfce7;
 }
 
 /* Admin-only: placeholder when no video URL set (so admin sees slot exists) */

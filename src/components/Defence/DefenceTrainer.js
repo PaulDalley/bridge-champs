@@ -17,7 +17,8 @@ const DEFENCE_PUZZLES = [
       hideAuction: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
-      videoUrlBeforeStart: "",
+      themeLabel: "Theme: Recognising dummy types",
+      videoUrlBeforeStart: "https://youtube.com/shorts/DSSMOXi1HnY",
       customPrompts: [
         {
           id: "df1-1-intro",
@@ -78,7 +79,8 @@ const DEFENCE_PUZZLES = [
       hideAuction: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
-      videoUrlBeforeStart: "",
+      themeLabel: "Theme: Recognising dummy types",
+      videoUrlBeforeStart: "https://youtube.com/shorts/vW6VnyF4nHE",
       customPrompts: [
         {
           id: "df1-2-intro",
@@ -147,7 +149,8 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
-      videoUrlBeforeStart: "",
+      themeLabel: "Theme: Recognising dummy types",
+      videoUrlBeforeStart: "https://youtube.com/shorts/sfN5H5fI7Og",
       customPrompts: [
         {
           id: "df1-3-duck",
@@ -209,7 +212,8 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
-      videoUrlBeforeStart: "",
+      themeLabel: "Theme: Recognising dummy types",
+      videoUrlBeforeStart: "https://youtube.com/shorts/qsUHYkHMQ1c",
       customPrompts: [
         {
           id: "df1-4-win",
@@ -272,7 +276,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "active",
       themeLabel: "Theme: Go active or stay passive?",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/36lwXCVBvnA",
       customPrompts: [
         {
           id: "df1-5-theme",
@@ -367,7 +371,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "active",
       themeLabel: "Theme: Go active or stay passive?",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/DJnRNI3DYog",
       customPrompts: [
         {
           id: "df1-6-passiveOrActive",
@@ -459,7 +463,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "active",
       themeLabel: "Theme: Go active or stay passive?",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/zYqpGro5IZw",
       customPrompts: [
         {
           id: "df1-7-passiveOrActive",
@@ -533,7 +537,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "active",
       themeLabel: "Theme: Go active or stay passive?",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/_F4BreFEpk0",
       customPrompts: [
         {
           id: "df1-8-passiveOrActive",
@@ -585,6 +589,355 @@ const DEFENCE_PUZZLES = [
           { seat: "LHO", card: { rank: "9", suit: "H" } },
           { seat: "DUMMY", card: { rank: "J", suit: "H" } },
           { seat: "RHO", card: { rank: "K", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-9",
+    difficulty: 1,
+    title: "4♠: partner discourages clubs — trust the switch",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["RHO", "DUMMY"],
+    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    auction: "1C 1S P 4S P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "enemyFive",
+      themeLabel: "The enemy's 5 card suit",
+      videoUrlBeforeStart: "https://youtube.com/shorts/VO9Empu4-oA",
+      customPrompts: [
+        {
+          id: "df1-9-no-switch",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "Partner's club signal is discouraging. If we switch suits, is one suit clearly wrong to lead?",
+          options: [
+            { id: "no_trump", label: "Never a trump" },
+            { id: "no_heart", label: "Never a heart" },
+            { id: "no_diamond", label: "Never a diamond" },
+          ],
+          expectedChoice: "no_diamond",
+          noContinue: false,
+          revealText:
+            "Diamond — dummy's long suit. Leading it again is almost never right.\n\nIshmael put it bluntly: \"If you never play dummy's 5-card suit again, it's still too soon.\" (Exceptions exist; we'll cover them later.)",
+          videoUrl: "",
+        },
+        {
+          id: "df1-9-partnership",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "So diamonds are out. That leaves hearts as the real switch.\n\nWorth agreeing with partner: discouraging clubs here often means \"don't tap dummy's diamonds — I'd rather hearts.\"",
+        },
+        {
+          id: "df1-9-partnership-2",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Finer point: if partner had nothing in hearts, they'd usually encourage clubs instead — \"hearts aren't the answer; don't switch.\"\n\n(Leading a trump can make sense sometimes; not this problem.)",
+        },
+        {
+          id: "df1-9-trick2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What do you lead at trick 2?",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "heart",
+          noContinue: true,
+          revealText:
+            "Heart. Partner steered you away from diamonds — trust it.\n\n(Australian Teams Trial 2026; a strong player missed this.)",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      // South (you): 964 / J32 / 743 / AK43
+      LHO: { S: "964", H: "J32", D: "743", C: "AK43" },
+      // West (dummy): 732 / A64 / AQT62 / 86
+      DUMMY: { S: "732", H: "A64", D: "AQT62", C: "86" },
+      // East (declarer): AQT85 / T75 / 9 / QJT2
+      DECLARER: { S: "AQT85", H: "T75", D: "9", C: "QJT2" },
+      // North (partner): KJ / KQ98 / KJ85 / 975
+      RHO: { S: "KJ", H: "KQ98", D: "KJ85", C: "975" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (A♣ lead, all follow)",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "C" } },
+          { seat: "RHO", card: { rank: "9", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-10",
+    difficulty: 1,
+    title: "4♠: partner discourages hearts — switch to diamonds",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "W",
+    declarerCompass: "N",
+    viewerCompass: "E",
+    visibleFullHandSeats: ["LHO", "DUMMY"],
+    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    auction: "P 4S P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "enemyFive",
+      themeLabel: "The enemy's 5 card suit",
+      videoUrlBeforeStart: "https://youtube.com/shorts/Vva7oLnQOrI",
+      customPrompts: [
+        {
+          id: "df1-10-switch",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "Partner has discouraged hearts. Let's say you decide to switch - what will you switch to?",
+          options: [
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "diamonds",
+          noContinue: true,
+          revealText:
+            "Diamonds.\n\nBridge is becoming easier: there is only one serious option for us to switch to, since dummy's 5-card (or longer) suits are out of the question.\n\nPartner discouraging hearts is the same as encouraging a switch to diamonds.\n\nTrust partner and play a diamond - maybe even the ##K♦## to make it easy for partner to know you have that card.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      // You are East = LHO when declarer is North.
+      LHO: { S: "64", H: "AK753", D: "KT2", C: "JT4" },
+      DECLARER: { S: "AKJ1097", H: "82", D: "543", C: "K" },
+      DUMMY: { S: "Q32", H: "4", D: "Q87", C: "AQ9876" },
+      RHO: { S: "85", H: "QJT96", D: "AJ96", C: "532" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (A♥ lead, all follow)",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
+          { seat: "RHO", card: { rank: "6", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-11",
+    difficulty: 1,
+    title: "5♦: count visible tricks, then cash dummy's spades",
+    trumpSuit: "D",
+    contract: "5♦",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "E",
+    visibleFullHandSeats: ["LHO", "DUMMY"],
+    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    auction: "4D P 5D P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "enemyFive",
+      themeLabel: "The enemy's 5 card suit",
+      videoUrlBeforeStart: "https://youtube.com/shorts/DDSRlEcHtBE",
+      customPrompts: [
+        {
+          id: "df1-11-intro",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Let's assume declarer has 8 diamonds, including the Ace. Let's count the tricks we can see.",
+        },
+        {
+          id: "df1-11-diamonds",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many diamond tricks does declarer have?",
+          expectedAnswer: 8,
+          revealText: "Declarer has 8 diamond tricks!",
+        },
+        {
+          id: "df1-11-clubs",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many club tricks can we see that declarer has?",
+          expectedAnswer: 1,
+          revealText: "Just one, the Ace.",
+        },
+        {
+          id: "df1-11-hearts",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many heart tricks does declarer have?",
+          expectedAnswer: 2,
+          revealText: "Two, if declarer has a second heart.",
+        },
+        {
+          id: "df1-11-summary",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "So we can see declarer has 11 tricks by way of 2 hearts, 8 diamonds, and 1 club.",
+        },
+        {
+          id: "df1-11-switch",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "So do we have any chance to beat the contract? If so what suit should we play?",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "spades",
+          noContinue: false,
+          revealText:
+            "Spades — rare case where cashing dummy's 5-card side suit is right. Take our spade winners before declarer throws losers on hearts.",
+          videoUrl: "",
+        },
+        {
+          id: "df1-11-note",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "One of the few exceptions to the \"never play dummy's 5-card suit\" idea is when we need to cash out. This will typically only happen when:\n\n• Declarer is very distributional. In such situations, for example when they have shown a 7+ card suit, or a 5-5 shape, etc, we can consider it.\n• Nevertheless, it's still not typically correct, however at least it's a consideration.",
+        },
+      ],
+    },
+    shownHands: {
+      LHO: { S: "A72", H: "Q754", D: "3", C: "T9862" },
+      DUMMY: { S: "QT963", H: "KJT", D: "K82", C: "A4" },
+      RHO: { S: "KJ7", H: "A983", D: "6", C: "KQJ75" },
+      DECLARER: { S: "84", H: "62", D: "AQJT9754", C: "3" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (Heart lead, all follow)",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "T", suit: "H" } },
+          { seat: "RHO", card: { rank: "A", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "6", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-12",
+    difficulty: 1,
+    title: "4♠: strong dummy — find the diamond switch",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["LHO", "DUMMY"],
+    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    auction: "1N P 3C P 3S P 4S P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "enemyFive",
+      themeLabel: "The enemy's 5 card suit",
+      videoUrlBeforeStart: "https://youtube.com/shorts/cqB_4doDsLc",
+      customPrompts: [
+        {
+          id: "df1-12-trick1-plan",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText:
+            "A strong dummy has come down, and you can already see 3 tricks in your hand. Have a think about where your 4th trick might come from.",
+        },
+        {
+          id: "df1-12-trick1-cash-heart",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Let's cash a second heart first, and then decide what to do.",
+        },
+        {
+          id: "df1-12-switch",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText:
+            "There is actually a very straightforward way of beating this. Like most things in bridge, it's straightforward - but you need to see it.\n\nWhat do you play next?",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "diamond",
+          noContinue: false,
+          revealText:
+            "The answer is a diamond. Here we break the rule and play dummy's 5+ card suit.\n\nRemember: declarer opened 1NT, so declarer typically has at least 2 diamonds. How many does that leave partner? At most 1.\n\nSo this is one of the exceptions to \"never play dummy's 5-card suit\" - we do it when we are trying to get, or give, a ruff.",
+          videoUrl: "",
+        },
+        {
+          id: "df1-12-note",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText:
+            "Even in those circumstances, think twice - it's still not always right, even for a ruff.\n\nBut the point is that all bridge rules can be broken.\n\n\"Never play dummy's 5-card suit\" is such a reliable rule that even if you never break it, you'll usually be fine. I still wanted to show one of the few reasons we very occasionally do.",
+        },
+      ],
+    },
+    shownHands: {
+      // South (you)
+      LHO: { S: "A", H: "AK84", D: "7642", C: "9875" },
+      // West (dummy)
+      DUMMY: { S: "QJ3", H: "65", D: "AKJT83", C: "42" },
+      // North (partner)
+      RHO: { S: "6542", H: "T932", D: "9", C: "QT63" },
+      // East (declarer) - 16 HCP, 5 spades, 2 diamonds
+      DECLARER: { S: "KT987", H: "QJ7", D: "Q5", C: "AKJ" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (A♥ lead, all follow)",
+        plays: [
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "7", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (K♥ cash, all follow)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
+          { seat: "RHO", card: { rank: "3", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
         ],
       },
     ],
@@ -827,8 +1180,8 @@ const DEFENCE_PUZZLES = [
   },
 ];
 
-function DefenceTrainer() {
-  return <CountingTrumpsTrainer puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
+function DefenceTrainer(routeProps) {
+  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
 }
 
 export default DefenceTrainer;
