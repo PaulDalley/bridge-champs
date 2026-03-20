@@ -55,6 +55,7 @@ import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
+import SystemPage from "./components/System/SystemPage";
 
 import { firebase } from "./firebase/config";
 
@@ -85,6 +86,7 @@ const store = configureStore();
 const routes = (
   <Switch>
     <Route path="/other" component={OtherHub} exact />
+    <Route path="/system" component={SystemPage} exact />
 
     <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
     <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />

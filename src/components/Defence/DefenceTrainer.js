@@ -628,7 +628,7 @@ const DEFENCE_PUZZLES = [
           expectedChoice: "no_diamond",
           noContinue: false,
           revealText:
-            "Diamond — dummy's long suit. Leading it again is almost never right.\n\nIshmael put it bluntly: \"If you never play dummy's 5-card suit again, it's still too soon.\" (Exceptions exist; we'll cover them later.)",
+            "Diamond — dummy's long suit. Leading it again is almost never right.\n\n99% of the time its a bad idea to play the opponent's 5 card suit. (Exceptions exist; we'll cover them later.)",
           videoUrl: "",
         },
         {

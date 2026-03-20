@@ -289,6 +289,21 @@ class Nav extends Component {
               </div>
 
               <div
+                className={`Nav-tab-card ${pathname.startsWith("/system") ? "Nav-tab-active" : ""}`}
+                onClick={() => this.goTo("/system")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/system")}
+                aria-label="System reference"
+              >
+                <div className="Nav-tab-icon Nav-tab-icon-system">
+                  <span className="Nav-tab-badge" aria-hidden="true">New</span>
+                  <i className="fas fa-clipboard-list" aria-hidden="true" />
+                </div>
+                <div className="Nav-tab-label">System</div>
+              </div>
+
+              <div
                 className={`Nav-tab-card ${pathname.startsWith('/counting') ? 'Nav-tab-active' : ''}`}
                 onClick={() => this.goTo("/counting")}
                 role="button"
