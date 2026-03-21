@@ -73,7 +73,7 @@ function PrescriptionLineBlock({ line }) {
             onClick={() => setVideoOpen((v) => !v)}
             aria-expanded={videoOpen}
           >
-            {videoOpen ? "Hide video" : line.videoLabel || "Watch"}
+            {videoOpen ? "Hide video" : line.videoLabel || "Show video"}
           </button>
           {videoOpen && (
             <div className="sy-videoFrame sy-videoFrame--line">
@@ -153,7 +153,7 @@ function TopicTile({ topic }) {
           )}
           {embed && (
             <button type="button" className="sy-watchBtn" onClick={toggleVideo} aria-expanded={videoOpen}>
-              {videoOpen ? "Hide video" : topic.videoLabel || "Watch"}
+              {videoOpen ? "Hide video" : topic.videoLabel || "Show video"}
             </button>
           )}
           {!hasLines && topic.detailUrl ? (
