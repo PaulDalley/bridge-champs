@@ -43,6 +43,54 @@ function SectionIntroVideo({ url, label }) {
   );
 }
 
+/** One prescription row: notes, article link, optional per-line YouTube */
+function PrescriptionLineBlock({ line }) {
+  const [videoOpen, setVideoOpen] = useState(false);
+  const embed = line.videoUrl ? getYouTubeEmbedUrl(line.videoUrl) : null;
+
+  return (
+    <div className="sy-prescriptionLine">
+      <p className="sy-tilePrescription sy-tilePrescription--line">{line.text}</p>
+      {line.notes != null && line.notes !== "" ? (
+        <div className="sy-prescriptionNotes">
+          {(Array.isArray(line.notes) ? line.notes : [line.notes]).map((note, j) => (
+            <p key={j} className="sy-prescriptionNote">
+              {note}
+            </p>
+          ))}
+        </div>
+      ) : null}
+      {line.detailUrl ? (
+        <DetailLink href={line.detailUrl} className="sy-lineLink">
+          {line.linkLabel || "Read more →"}
+        </DetailLink>
+      ) : null}
+      {embed ? (
+        <div className="sy-lineVideo">
+          <button
+            type="button"
+            className="sy-watchBtn sy-watchBtn--ghost"
+            onClick={() => setVideoOpen((v) => !v)}
+            aria-expanded={videoOpen}
+          >
+            {videoOpen ? "Hide video" : line.videoLabel || "Watch"}
+          </button>
+          {videoOpen && (
+            <div className="sy-videoFrame sy-videoFrame--line">
+              <iframe
+                title={line.videoLabel || line.text}
+                src={embed}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function TopicTile({ topic }) {
   const [expanded, setExpanded] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
@@ -66,23 +114,7 @@ function TopicTile({ topic }) {
             ) : null}
             <div className="sy-prescriptionLines">
               {topic.prescriptionLines.map((line, i) => (
-                <div key={i} className="sy-prescriptionLine">
-                  <p className="sy-tilePrescription sy-tilePrescription--line">{line.text}</p>
-                  {line.notes != null && line.notes !== "" ? (
-                    <div className="sy-prescriptionNotes">
-                      {(Array.isArray(line.notes) ? line.notes : [line.notes]).map((note, j) => (
-                        <p key={j} className="sy-prescriptionNote">
-                          {note}
-                        </p>
-                      ))}
-                    </div>
-                  ) : null}
-                  {line.detailUrl ? (
-                    <DetailLink href={line.detailUrl} className="sy-lineLink">
-                      {line.linkLabel || "Read more →"}
-                    </DetailLink>
-                  ) : null}
-                </div>
+                <PrescriptionLineBlock key={i} line={line} />
               ))}
             </div>
             {topic.notes != null && topic.notes !== "" ? (

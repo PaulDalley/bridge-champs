@@ -4,7 +4,7 @@
  *
  * detailUrl: optional link on the whole tile (when not using prescriptionLines).
  * detailLinkLabel: optional label for that link (default "Read more →").
- * prescriptionLines: optional array of { text, notes?: string | string[], detailUrl?, linkLabel? }.
+ * prescriptionLines: optional array of { text, notes?, detailUrl?, linkLabel?, videoUrl?, videoLabel? }.
  * notes: optional string | string[] below plain prescription (when not using prescriptionLines).
  */
 
@@ -28,14 +28,20 @@ export const SYSTEM_TOPICS = [
         notes: ["System notes coming soon"],
         detailUrl: "/article/KuGcYGJmIm6Ei02VOGVo",
         linkLabel: "Article: 2♣ opening →",
+        videoUrl: "https://youtube.com/shorts/giQbM_MspsI",
+        videoLabel: "Watch (2♣)",
       },
       {
         text: "2♦ — 18–19 balanced",
         notes: ["Strongly recommend this!", "System notes coming soon"],
+        videoUrl: "https://youtube.com/shorts/kJ9IA9adKgQ",
+        videoLabel: "Watch (2♦)",
       },
       {
         text: "2♥ or 2♠ — Natural 6-card suit.",
         notes: ["System notes coming soon"],
+        videoUrl: "https://youtube.com/shorts/NfoiiFDNNfU",
+        videoLabel: "Watch (2♥/2♠)",
       },
     ],
     extraBullets: [],
