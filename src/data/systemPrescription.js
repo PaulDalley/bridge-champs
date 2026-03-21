@@ -4,7 +4,7 @@
  *
  * detailUrl: optional link on the whole tile (when not using prescriptionLines).
  * detailLinkLabel: optional label for that link (default "Read more →").
- * prescriptionLines: optional array of { text, notes?, detailUrl?, linkLabel?, videoUrl?, videoLabel? }.
+ * prescriptionLines: optional array of { text?, notes?, detailUrl?, linkLabel?, videoUrl?, videoLabel?, divider?: true }.
  * notes: optional string | string[] below plain prescription (when not using prescriptionLines).
  */
 
@@ -16,7 +16,23 @@ export const SYSTEM_GROUPS = [
 ];
 
 export const SYSTEM_TOPICS = [
-  /* Opening — only 2-level openings for now */
+  /* Opening — 1 minor (consolidated) + 2-level */
+  {
+    id: "open-1minor",
+    groupId: "opening",
+    title: "1 minor opening",
+    prescription: "",
+    prescriptionLines: [
+      { text: "1♣ — 2+ (short club)" },
+      { divider: true },
+      { text: "1♣ — 3+ (better minor)" },
+    ],
+    notes: ["Style and continuations coming soon."],
+    extraBullets: [],
+    videoUrl: "",
+    videoLabel: "Show video",
+    detailUrl: "",
+  },
   {
     id: "open-2level",
     groupId: "opening",

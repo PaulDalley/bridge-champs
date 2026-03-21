@@ -43,10 +43,18 @@ function SectionIntroVideo({ url, label }) {
   );
 }
 
-/** One prescription row: notes, article link, optional per-line YouTube */
+/** One prescription row: notes, article link, optional per-line YouTube, or divider (or) */
 function PrescriptionLineBlock({ line }) {
   const [videoOpen, setVideoOpen] = useState(false);
   const embed = line.videoUrl ? getYouTubeEmbedUrl(line.videoUrl) : null;
+
+  if (line.divider) {
+    return (
+      <div className="sy-prescriptionLine sy-prescriptionLine--divider" role="presentation">
+        <p className="sy-prescriptionOr">or</p>
+      </div>
+    );
+  }
 
   return (
     <div className="sy-prescriptionLine">
