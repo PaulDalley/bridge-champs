@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Preloader } from "react-materialize";
+import { Preloader } from "react-materialize";
 import $ from "jquery";
 
 const stripeCreateCheckoutSessionUrl =
@@ -124,7 +124,10 @@ class StripeCheckout extends React.Component {
             <span style={{ marginLeft: '0.5rem' }}>Loading...</span>
           </>
         ) : (
-          "Pay with Credit Card"
+          <>
+            <span className="PremiumMembership-stripe-buttonTitle">Start 7-day free trial</span>
+            <span className="PremiumMembership-stripe-buttonSub">Secure checkout with Stripe</span>
+          </>
         )}
       </button>
     );

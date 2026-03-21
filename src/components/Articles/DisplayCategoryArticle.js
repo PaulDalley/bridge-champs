@@ -451,7 +451,7 @@ const DisplayCategoryArticle = ({
               marginLeft: 'auto',
               marginRight: 'auto'
             }}>
-              <strong>📹 Premium Video:</strong> This article includes a video version. Subscribe to watch.
+              <strong>📹 Premium Video:</strong> This article includes a video version. Start a 7-day free trial to watch.
             </div>
           )}
           {hasVideos && canWatchVideo && (

@@ -105,7 +105,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
         <div className="ct-practiceVideo-lockedOverlay">
           <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">🔒</span>
           <p className="ct-practiceVideo-lockedText">Premium video</p>
-          <p className="ct-practiceVideo-lockedSublabel">Upgrade to watch</p>
+          <p className="ct-practiceVideo-lockedSublabel">Start a 7-day free trial to watch</p>
           <Link
             to="/membership"
             className="ct-practiceVideo-upgradeBtn"
@@ -113,7 +113,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
               if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
             }}
           >
-            Upgrade to watch
+            Start 7-day free trial
           </Link>
         </div>
       </div>

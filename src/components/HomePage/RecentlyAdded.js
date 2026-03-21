@@ -36,9 +36,9 @@ function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
             <i className="material-icons" aria-hidden>star</i>
           </span>
           <span className="RecentlyAdded-subscribeCtaContent">
-            <strong>Get full access</strong> — Subscribe to unlock all training exercises, articles, and quizzes
+            <strong>Start 7-day free trial</strong> — Unlock all training exercises, articles, and quizzes
           </span>
-          <span className="RecentlyAdded-subscribeCtaBtn">Subscribe now</span>
+          <span className="RecentlyAdded-subscribeCtaBtn">Start free trial</span>
         </Link>
       )}
       <h2 className="RecentlyAdded-theme">Choose a topic</h2>

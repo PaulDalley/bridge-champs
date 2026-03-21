@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { savePracticeCompletion } from "../../store/actions/usersActions";
 import { sendPracticeEvent } from "../../utils/analytics";
-import { TRIAL_STARTER_IDS_BY_CATEGORY } from "../../data/themePacks";
+import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY } from "../../data/themePacks";
 import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
 import PracticeVideoBlock from "./PracticeVideoBlock";
 import "./CountingTrumpsTrainer.css";
@@ -2744,11 +2744,22 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   }, [puzzlesForDifficultyAll, previewPuzzleIdForSelectedDifficulty]);
   const effectivePuzzleIdx = puzzleIdxInDifficulty;
   const trialStarterProblemId = TRIAL_STARTER_IDS_BY_CATEGORY?.[categoryKey] || null;
+  const freeProblemIdsForCategory = FREE_PROBLEM_IDS_BY_CATEGORY?.[categoryKey];
   const currentProblemId = puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id || null;
+  const isFreeProblem = (problemId) => {
+    if (!problemId) return false;
+    if (Array.isArray(freeProblemIdsForCategory) && freeProblemIdsForCategory.length > 0) {
+      return freeProblemIdsForCategory.includes(problemId);
+    }
+    return (
+      (!!trialStarterProblemId && problemId === trialStarterProblemId) ||
+      (!!previewPuzzleIdForSelectedDifficulty && problemId === previewPuzzleIdForSelectedDifficulty)
+    );
+  };
   const currentPuzzleIsPreview = !isMember && previewPuzzleIdForSelectedDifficulty && puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
   const isTrialStarterProblem = (problemId) => !!problemId && !!trialStarterProblemId && problemId === trialStarterProblemId;
-  const currentPuzzleIsTrialStarter = !isMember && isTrialStarterProblem(currentProblemId);
-  const showPaywallOverlay = !isMember && !currentPuzzleIsTrialStarter && !currentPuzzleIsPreview && !isBlankDifficulty;
+  const currentPuzzleIsFree = !isMember && isFreeProblem(currentProblemId);
+  const showPaywallOverlay = !isMember && !currentPuzzleIsFree && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
   // when a difficulty is blank we render a placeholder instead of the table.
@@ -4952,14 +4963,14 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       {showHeaderRail && (
         <div className="ct-railMuted">
           {showSubscribeBanner && (
-            <Link to="/membership" className="ct-subscribeBanner" aria-label="Subscribe to unlock full access">
+            <Link to="/membership" className="ct-subscribeBanner" aria-label="Start 7-day free trial">
               <span className="ct-subscribeBannerIcon">
                 <i className="material-icons" aria-hidden>star</i>
               </span>
               <span className="ct-subscribeBannerContent">
-                <strong>Subscribe to unlock</strong> — Get full access to all {trainerLabel} exercises
+                <strong>Start 7-day free trial</strong> — Get full access to all {trainerLabel} exercises
               </span>
-              <span className="ct-subscribeBannerBtn">Subscribe now</span>
+              <span className="ct-subscribeBannerBtn">Start free trial</span>
             </Link>
           )}
           {effectiveContractDisplayText ? (
@@ -5049,7 +5060,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             {showPerProblemIntroInRail && (
               <PracticeVideoBlock
                 videoUrl={perProblemIntroVideoUrl}
-                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsFree}
                 label="30s problem intro"
                 className="ct-practiceVideo--beforeStart"
                 isAdmin={isAdmin}
@@ -5290,7 +5301,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
             <div ref={playDecisionQuestionRef} className="ct-playDecisionBlock" role="region" aria-label="Question">
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrlStart}
-                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsFree}
                 label="30s intro"
                 className="ct-practiceVideo--start"
                 isAdmin={isAdmin}
@@ -5322,7 +5333,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               )}
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrl}
-                isPremium={effectiveTier === "premium" || currentPuzzleIsTrialStarter}
+                isPremium={effectiveTier === "premium" || currentPuzzleIsFree}
                 label="30s explanation"
                 className="ct-practiceVideo--reveal"
                 isAdmin={isAdmin}
@@ -5918,8 +5929,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                   ))}
                 </div>
                 {!subscriptionActive && a !== true && (
-                  <Link to="/membership" className="ct-topNavSubscribe" title="Subscribe for full access to all problems">
-                    Subscribe for full access
+                  <Link to="/membership" className="ct-topNavSubscribe" title="Start your 7-day free trial for full access">
+                    Start 7-day free trial
                   </Link>
                 )}
               </div>
@@ -5963,12 +5974,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                     <span className="ct-railMuted">—</span>
                   ) : (
                     puzzlesForDifficultyAll.map((p, idx) => {
-                      const isUnlocked =
-                        isMember ||
-                        isTrialStarterProblem(p.id) ||
-                        (!!previewPuzzleIdForSelectedDifficulty && p.id === previewPuzzleIdForSelectedDifficulty);
+                      const isUnlocked = isMember || isFreeProblem(p.id);
                       const isCompleted = !!completedProblemIds[p.id];
-                      const showFreeBadge = !isMember && isTrialStarterProblem(p.id);
+                      const showFreeBadge = !isMember && isFreeProblem(p.id);
                       return (
                         <button
                           key={p.id}
@@ -6006,9 +6014,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                   <span className="ct-paywallFullIcon">
                     <i className="material-icons" aria-hidden>lock</i>
                   </span>
-                  <strong>Subscribe to unlock</strong>
+                  <strong>Start 7-day free trial</strong>
                   <span className="ct-paywallFullDesc">Get full access to all {trainerLabel} exercises</span>
-                  <span className="ct-paywallFullBtn">Subscribe now</span>
+                  <span className="ct-paywallFullBtn">Start free trial</span>
                 </Link>
               </div>
             )}

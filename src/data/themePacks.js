@@ -46,6 +46,18 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
   return acc;
 }, {});
 
+/** Problem IDs that are free for non-members in that category. When set, overrides single trial-starter logic. */
+export const FREE_PROBLEM_IDS_BY_CATEGORY = {
+  bidding: [
+    "bid1-1", // Difficulty 1, problem 1 — opening theme intro video + hand
+    "bid2-1",
+    "bid2-2",
+    "bid2-3",
+    "bid2-4",
+    "bid2-5", // Matchpoint theme: first 5 free
+  ],
+};
+
 export const THEME_INTRO_BY_TINT = THEME_PACKS.reduce((acc, pack) => {
   if (!pack?.themeTint) return acc;
   acc[pack.themeTint] = {

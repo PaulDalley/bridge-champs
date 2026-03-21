@@ -440,7 +440,7 @@ class HomePage extends Component {
                   new Date() > whenSubExpiresMinus2Days)) &&
                 !this.state.successPage && (
                   <Link to="/membership" className="btn btn-outline btn-large">
-                    Subscribe Now
+                    Start 7-day free trial
                   </Link>
                 )}
             </div>

@@ -58,83 +58,91 @@ function TopicTile({ topic }) {
       <h3 className="sy-tileTitle" id={`sy-topic-${topic.id}`}>
         {topic.title}
       </h3>
-      {hasLines ? (
-        <>
-          {topic.prescription != null && String(topic.prescription).trim() !== "" ? (
-            <p className="sy-tilePrescription">{topic.prescription}</p>
-          ) : null}
-          <div className="sy-prescriptionLines">
-            {topic.prescriptionLines.map((line, i) => (
-              <div key={i} className="sy-prescriptionLine">
-                <p className="sy-tilePrescription sy-tilePrescription--line">{line.text}</p>
-                {line.notes != null && line.notes !== "" ? (
-                  <div className="sy-prescriptionNotes">
-                    {(Array.isArray(line.notes) ? line.notes : [line.notes]).map((note, j) => (
-                      <p key={j} className="sy-prescriptionNote">
-                        {note}
-                      </p>
-                    ))}
-                  </div>
-                ) : null}
-                {line.detailUrl ? (
-                  <DetailLink href={line.detailUrl} className="sy-lineLink">
-                    {line.linkLabel || "Read more →"}
-                  </DetailLink>
-                ) : null}
+      <div className="sy-tileBody">
+        {hasLines ? (
+          <>
+            {topic.prescription != null && String(topic.prescription).trim() !== "" ? (
+              <p className="sy-tilePrescription sy-tilePrescription--lead">{topic.prescription}</p>
+            ) : null}
+            <div className="sy-prescriptionLines">
+              {topic.prescriptionLines.map((line, i) => (
+                <div key={i} className="sy-prescriptionLine">
+                  <p className="sy-tilePrescription sy-tilePrescription--line">{line.text}</p>
+                  {line.notes != null && line.notes !== "" ? (
+                    <div className="sy-prescriptionNotes">
+                      {(Array.isArray(line.notes) ? line.notes : [line.notes]).map((note, j) => (
+                        <p key={j} className="sy-prescriptionNote">
+                          {note}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
+                  {line.detailUrl ? (
+                    <DetailLink href={line.detailUrl} className="sy-lineLink">
+                      {line.linkLabel || "Read more →"}
+                    </DetailLink>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            {topic.notes != null && topic.notes !== "" ? (
+              <div className="sy-prescriptionNotes sy-prescriptionNotes--afterLines">
+                {(Array.isArray(topic.notes) ? topic.notes : [topic.notes]).map((note, j) => (
+                  <p key={j} className="sy-prescriptionNote">
+                    {note}
+                  </p>
+                ))}
               </div>
-            ))}
-          </div>
-          {topic.notes != null && topic.notes !== "" ? (
-            <div className="sy-prescriptionNotes sy-prescriptionNotes--afterLines">
-              {(Array.isArray(topic.notes) ? topic.notes : [topic.notes]).map((note, j) => (
-                <p key={j} className="sy-prescriptionNote">
-                  {note}
-                </p>
-              ))}
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <p className="sy-tilePrescription">{topic.prescription}</p>
-          {topic.notes != null && topic.notes !== "" ? (
-            <div className="sy-prescriptionNotes">
-              {(Array.isArray(topic.notes) ? topic.notes : [topic.notes]).map((note, j) => (
-                <p key={j} className="sy-prescriptionNote">
-                  {note}
-                </p>
-              ))}
-            </div>
-          ) : null}
-        </>
-      )}
-      <div className="sy-tileActions">
-        {hasBullets && (
-          <button type="button" className="sy-watchBtn" onClick={toggleExpand} aria-expanded={expanded}>
-            {expanded ? "Less" : "More"}
-          </button>
+            ) : null}
+          </>
+        ) : (
+          <>
+            {topic.prescription != null && String(topic.prescription).trim() !== "" ? (
+              <div className="sy-tileBlurb">
+                <p className="sy-tilePrescription">{topic.prescription}</p>
+              </div>
+            ) : null}
+            {topic.notes != null && topic.notes !== "" ? (
+              <div className="sy-prescriptionNotes">
+                {(Array.isArray(topic.notes) ? topic.notes : [topic.notes]).map((note, j) => (
+                  <p key={j} className="sy-prescriptionNote">
+                    {note}
+                  </p>
+                ))}
+              </div>
+            ) : null}
+          </>
         )}
-        {embed && (
-          <button type="button" className="sy-watchBtn" onClick={toggleVideo} aria-expanded={videoOpen}>
-            {videoOpen ? "Hide video" : topic.videoLabel || "Watch"}
-          </button>
-        )}
-        {!hasLines && topic.detailUrl ? (
-          <DetailLink href={topic.detailUrl}>Read more →</DetailLink>
-        ) : null}
-      </div>
-      {expanded && hasBullets && (
-        <ul className="sy-tileBullets">
-          {topic.extraBullets.map((line, i) => (
-            <li key={i}>{line}</li>
-          ))}
-        </ul>
-      )}
-      {videoOpen && embed && (
-        <div className="sy-videoFrame sy-videoFrame--tile">
-          <iframe title={topic.videoLabel || topic.title} src={embed} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+        <div className="sy-tileActions">
+          {hasBullets && (
+            <button type="button" className="sy-watchBtn" onClick={toggleExpand} aria-expanded={expanded}>
+              {expanded ? "Less" : "More"}
+            </button>
+          )}
+          {embed && (
+            <button type="button" className="sy-watchBtn" onClick={toggleVideo} aria-expanded={videoOpen}>
+              {videoOpen ? "Hide video" : topic.videoLabel || "Watch"}
+            </button>
+          )}
+          {!hasLines && topic.detailUrl ? (
+            <DetailLink href={topic.detailUrl} className="sy-tileCta">
+              {topic.detailLinkLabel || "Read more →"}
+            </DetailLink>
+          ) : null}
         </div>
-      )}
+        {expanded && hasBullets && (
+          <ul className="sy-tileBullets">
+            {topic.extraBullets.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ul>
+        )}
+        {videoOpen && embed && (
+          <div className="sy-videoFrame sy-videoFrame--tile">
+            <iframe title={topic.videoLabel || topic.title} src={embed} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+          </div>
+        )}
+      </div>
     </article>
   );
 }
@@ -157,16 +165,6 @@ function SystemPage() {
           are coming soon.
         </p>
       </header>
-
-      <nav className="sy-jump" aria-label="Jump to section">
-        <div className="sy-jumpInner">
-          {SYSTEM_GROUPS.map((g) => (
-            <a key={g.id} className="sy-jumpLink" href={`#${g.anchorId}`}>
-              {g.title}
-            </a>
-          ))}
-        </div>
-      </nav>
 
       <main className="sy-main">
         {SYSTEM_GROUPS.map((group) => {

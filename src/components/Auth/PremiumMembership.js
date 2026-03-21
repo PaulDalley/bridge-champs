@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom";
 import AuthComponent from "../../containers/AuthComponent";
 import $ from "jquery";
-import paypalPayNow from "../../assets/images/paypal-paynow.png";
 import { changeSubscriptionActiveStatus } from "../../store/actions/authActions";
 import { firebase } from "../../firebase/config";
 import StripeCheckout from "../UI/StripeCheckout";
@@ -39,6 +38,8 @@ const successCallback =
   "https://us-central1-bridgechampions.cloudfunctions.net/ipnHandler";
 const processReturnBase =
   "https://us-central1-bridgechampions.cloudfunctions.net/process";
+const DEFAULT_TRIAL_TOKEN = "weekfree";
+const DEFAULT_TRIAL_DAYS = 7;
 
 class PremiumMembership extends Component {
   state = {
@@ -93,6 +94,11 @@ class PremiumMembership extends Component {
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
     return normalized === "harbourview" || normalized === "blue";
+  };
+
+  getAppliedPromoToken = () => {
+    const enteredCode = this.resolvePromoCodeAlias(this.state.promoCode);
+    return enteredCode || DEFAULT_TRIAL_TOKEN;
   };
 
   validatePromoCode = (code) => {
@@ -178,11 +184,9 @@ class PremiumMembership extends Component {
     const tier = PRICING_TIERS[this.state.selectedTier];
     const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
     let returnUrl = `${processReturnBase}?uid=${encodeURIComponent(uid)}`;
-    if (this.state.promoCode) {
-      const promoNormalized = this.resolvePromoCodeAlias(this.state.promoCode);
-      if (promoNormalized) {
-        returnUrl = returnUrl + "&promo=" + encodeURIComponent(promoNormalized);
-      }
+    const appliedToken = this.getAppliedPromoToken();
+    if (appliedToken) {
+      returnUrl = returnUrl + "&promo=" + encodeURIComponent(appliedToken);
     }
     const url = `${paypalUrl}&notify_url=${encodeURIComponent(successCallback)}&custom=${encodeURIComponent(uid)}&return=${encodeURIComponent(returnUrl)}`;
     window.location = url;
@@ -268,7 +272,7 @@ class PremiumMembership extends Component {
       <div className="PremiumMembership-container">
         {showLogin && !uid && authReady && (
           <Row>
-            <Card className="AuthComponent-container" style={{ maxWidth: "32rem", margin: "0 auto 2rem" }}>
+            <div className="PremiumMembership-authShell">
               {this.state.authChoice == null ? (
                 <>
                   <p style={{ marginBottom: "1.5rem", fontSize: "1.1rem" }}>
@@ -311,14 +315,14 @@ class PremiumMembership extends Component {
                   />
                 </>
               )}
-            </Card>
+            </div>
           </Row>
         )}
 
         <div className="PremiumMembership-header">
           {!showLogin && (
             <span>
-              Subscribe to{" "}
+              Start your {DEFAULT_TRIAL_DAYS}-day free trial with{" "}
               <span className="PremiumMembership-title">Bridge Champions</span>
             </span>
           )}
@@ -330,7 +334,7 @@ class PremiumMembership extends Component {
           )}
           {!showLogin && !uid && authReady && (
             <div className="PremiumMembership-header_text_small">
-              Access to our paid content is for subscribers only. Creating an account or logging in does not subscribe you — you must complete payment. Already subscribed?&nbsp;
+              Start with a {DEFAULT_TRIAL_DAYS}-day free trial. Creating an account or logging in does not start access by itself — complete checkout to activate your trial. Already subscribed?&nbsp;
               <Link to="/login?redirect=content">Log in now</Link> to access premium content.
             </div>
           )}
@@ -338,7 +342,7 @@ class PremiumMembership extends Component {
 
         {(this.state.alreadyLoggedIn || uid) && !showLogin && (
           <div className="PremiumMembership-header_text">
-            Access to our content is for subscribers only. You must complete payment to subscribe — creating an account alone does not give access.
+            Start your {DEFAULT_TRIAL_DAYS}-day free trial, then continue monthly. You must complete checkout to activate access.
           </div>
         )}
 
@@ -347,7 +351,7 @@ class PremiumMembership extends Component {
           <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>
             <div style={{ textAlign: "center", padding: "1.5rem", background: "#f8f9fa", borderRadius: "8px" }}>
               <label style={{ fontSize: "1.1rem", fontWeight: "500", marginBottom: "0.5rem", display: "block" }}>
-                Have a promo code?
+                Have a promo code? (Optional)
               </label>
               <input
                 type="text"
@@ -401,7 +405,7 @@ class PremiumMembership extends Component {
                   className="PremiumMembership-custom-button PremiumMembership-custom-button-basic"
                   onClick={() => uid ? this.selectTier('basic') : this.showLogin('basic')}
                 >
-                  Choose Basic
+                  Start {DEFAULT_TRIAL_DAYS}-day free trial (Basic)
                 </button>
               </Card>
             </Col>
@@ -439,7 +443,7 @@ class PremiumMembership extends Component {
                   className="PremiumMembership-custom-button PremiumMembership-custom-button-premium"
                   onClick={() => uid ? this.selectTier('premium') : this.showLogin('premium')}
                 >
-                  Choose Premium
+                  Start {DEFAULT_TRIAL_DAYS}-day free trial (Premium)
                 </button>
               </Card>
             </Col>
@@ -454,7 +458,7 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-payment-header">
                   <h4>{PRICING_TIERS[selectedTier].name}</h4>
                   <div className="PremiumMembership-payment-price">
-                    ${PRICING_TIERS[selectedTier].price} <span>per month</span>
+                    ${PRICING_TIERS[selectedTier].price} <span>per month after {DEFAULT_TRIAL_DAYS} days free</span>
                   </div>
                 </div>
                 
@@ -472,42 +476,28 @@ class PremiumMembership extends Component {
                     <strong>Promo applied:</strong> {this.state.promoCode.toUpperCase()} will extend your subscription with free days.
                   </div>
                 )}
+                {!this.state.promoCode && (
+                  <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem" }}>
+                    <strong>Free trial included:</strong> Your first {DEFAULT_TRIAL_DAYS} days are free.
+                  </div>
+                )}
 
                 <div className="PremiumMembership-payment-options">
                   <div className="PremiumMembership-payment-divider">
-                    <span>Choose Payment Method</span>
+                    <span>Secure card checkout</span>
                   </div>
                   
                   <div className="PremiumMembership-payment-methods">
-                    {/* PayPal Option */}
-                    <div className="PremiumMembership-payment-method">
-                      <div className="PremiumMembership-payment-method-header">
-                        <i className="fab fa-paypal" style={{ fontSize: '2rem', color: '#0070ba', marginRight: '0.5rem' }}></i>
-                        <span>PayPal</span>
-                      </div>
-                      <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
-                        {this.state.promoCode && this.state.promoSuccess
-                          ? `PayPal may charge now. To guarantee $0 today with promo, use Credit Card checkout.`
-                          : `You'll pay $${PRICING_TIERS[selectedTier].price}/month at PayPal`}
-                      </p>
-                      <img
-                        src={paypalPayNow}
-                        className="PremiumMembership-paypal-button"
-                        onClick={(e) => this.signupClicked(e)}
-                        alt="Pay with PayPal"
-                      />
-                    </div>
-
-                    {/* Stripe Option */}
                     <div className="PremiumMembership-payment-method">
                       <div className="PremiumMembership-payment-method-header">
                         <i className="fab fa-cc-stripe" style={{ fontSize: '2rem', color: '#635bff', marginRight: '0.5rem' }}></i>
-                        <span>Credit Card</span>
+                        <span>Official Stripe Checkout</span>
                       </div>
-                      <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
-                        {this.state.promoCode && this.state.promoSuccess
-                          ? "You'll pay $0 now — your promo gives you free time before billing."
-                          : `You'll pay $${PRICING_TIERS[selectedTier].price}/month`}
+                      <p className="PremiumMembership-trialLead">
+                        <strong>{DEFAULT_TRIAL_DAYS} days free today</strong>, then ${PRICING_TIERS[selectedTier].price}/month unless canceled.
+                      </p>
+                      <p className="PremiumMembership-trialSub">
+                        Secure card payment powered by Stripe.
                       </p>
                       <StripeCheckout
                         uid={this.props.uid}
@@ -515,7 +505,7 @@ class PremiumMembership extends Component {
                         tierPriceId={PRICING_TIERS[selectedTier].stripePriceId}
                         tierName={PRICING_TIERS[selectedTier].name}
                         tierPrice={PRICING_TIERS[selectedTier].price}
-                        getToken={() => this.resolvePromoCodeAlias(this.state.promoCode)}
+                        getToken={this.getAppliedPromoToken}
                         processing={() => this.setState({ stripeProcessing: true })}
                         clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}

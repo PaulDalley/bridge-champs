@@ -3,6 +3,7 @@
  * Edit this file to add topics, prescriptions, optional bullets, videos, and read-more links.
  *
  * detailUrl: optional link on the whole tile (when not using prescriptionLines).
+ * detailLinkLabel: optional label for that link (default "Read more →").
  * prescriptionLines: optional array of { text, notes?: string | string[], detailUrl?, linkLabel? }.
  * notes: optional string | string[] below plain prescription (when not using prescriptionLines).
  */
@@ -46,14 +47,15 @@ export const SYSTEM_TOPICS = [
   {
     id: "jacoby",
     groupId: "responses",
-    title: "Jacoby 2NT (4-card game-forcing raise after 1♥/1♠)",
+    title: "Jacoby 2NT",
     prescription:
       "A simple structure that lets either player show shortage, and also define the strength of their hand quite clearly.",
-    notes: ["System notes coming soon"],
+    notes: [],
     extraBullets: [],
     videoUrl: "",
     videoLabel: "Watch",
-    detailUrl: "",
+    detailUrl: "/bidding/worthwhile-conventions/jacoby-2nt",
+    detailLinkLabel: "System notes →",
   },
   {
     id: "resp-1m-suit",

@@ -108,7 +108,7 @@ const CategoryArticleListItem = ({
           <div className="ArticleCard-locked-overlay">
             <div className="ArticleCard-locked-cta">
               <button className="btn btn-secondary btn-small">
-                subscribe
+                Start 7-day free trial
               </button>
             </div>
           </div>

@@ -53,6 +53,7 @@ import CardPlayTrainer from "./components/CardPlay/CardPlayTrainer";
 import DefenceHub from "./components/Defence/DefenceHub";
 import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
+import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticle";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
@@ -348,6 +349,7 @@ const routes = (
     />
     <Route path="/bidding/practice" component={BiddingTrainer} exact />
     <Route path="/bidding" component={BiddingHub} exact />
+    <Route path="/bidding/worthwhile-conventions/jacoby-2nt" component={JacobyConventionArticle} exact />
     <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
     <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
     <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
