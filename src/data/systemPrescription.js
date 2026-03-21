@@ -35,7 +35,7 @@ export const SYSTEM_TOPICS = [
       },
       {
         text: "2♥ or 2♠ — Natural 6-card suit.",
-        notes: ["Simple and best", "System notes coming soon"],
+        notes: ["System notes coming soon"],
       },
     ],
     extraBullets: [],
