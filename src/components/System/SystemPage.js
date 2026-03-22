@@ -191,19 +191,24 @@ function SystemPage() {
   return (
     <div className="sy-page">
       <Helmet>
-        <title>System — Bridge Champions</title>
+        <title>{`Paul's System recommendation — Bridge Champions`}</title>
         <meta
           name="description"
-          content="Paul's recommended bridge system on Bridge Champions — under construction; more topics, videos, and write-ups coming soon."
+          content="Paul's System recommendation on Bridge Champions — agreements, notes, and videos (page under construction)."
         />
       </Helmet>
 
       <header className="sy-hero">
-        <h1 className="sy-heroTitle">System</h1>
-        <p className="sy-heroScope" role="note">
-          This page is <strong>under construction</strong> — more topics, deeper write-ups, and <strong>videos</strong>{" "}
-          are coming soon.
+        <h1 className="sy-heroTitle">{`Paul's System recommendation`}</h1>
+        <p className="sy-heroTagline" role="note">
+          Under construction — more soon.
         </p>
+        <div className="sy-heroVision">
+          <h2 className="sy-heroVisionLabel">Vision</h2>
+          <p className="sy-heroVisionText">
+            System notes you can share with partners and evolve together.
+          </p>
+        </div>
       </header>
 
       <main className="sy-main">
