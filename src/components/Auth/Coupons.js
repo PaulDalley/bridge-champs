@@ -13,12 +13,20 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
+    /** Same as membership page: BLUE is the public alias for harbourview. */
+    tokenForApi = (token) => {
+        const t = String(token || "").trim();
+        const norm = t.toLowerCase().replace(/\s+/g, "");
+        if (norm === "blue") return "harbourview";
+        return t;
+    };
+
     validateUserToken = () => {
         this.setState({ message: "", error: "" });
         const url = "https://us-central1-bridgechampions.cloudfunctions.net/validateUserToken";
         return $.post(
             url,
-            {token: this.state.token},
+            { token: this.tokenForApi(this.state.token) },
             (data, status) => {
                 // console.log(status);
                 // console.log(data);

@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { connect } from "react-redux";
 import { SYSTEM_GROUPS, getTopicsByGroupId } from "../../data/systemPrescription";
+import { TOPIC_ID_TO_PDF_FIELDS } from "../../data/systemCardAbfLayout";
 import { getYouTubeEmbedUrl } from "../../utils/youtubeId";
 import "./SystemPage.css";
 
@@ -99,7 +101,7 @@ function PrescriptionLineBlock({ line }) {
   );
 }
 
-function TopicTile({ topic }) {
+function TopicTile({ topic, uid, addToCardLink }) {
   const [expanded, setExpanded] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const hasBullets = Array.isArray(topic.extraBullets) && topic.extraBullets.length > 0;
@@ -164,6 +166,11 @@ function TopicTile({ topic }) {
               {videoOpen ? "Hide video" : topic.videoLabel || "Show video"}
             </button>
           )}
+          {addToCardLink && uid && (
+            <Link to={addToCardLink} className="sy-tileCta sy-tileCta--add">
+              Add to my card
+            </Link>
+          )}
           {!hasLines && topic.detailUrl ? (
             <DetailLink href={topic.detailUrl} className="sy-tileCta">
               {topic.detailLinkLabel || "Read more →"}
@@ -187,7 +194,7 @@ function TopicTile({ topic }) {
   );
 }
 
-function SystemPage() {
+function SystemPage({ uid }) {
   return (
     <div className="sy-page">
       <Helmet>
@@ -203,6 +210,9 @@ function SystemPage() {
         <p className="sy-heroTagline" role="note">
           Under construction — more soon.
         </p>
+        <Link to="/system/card" className="sy-heroCta">
+          My system card →
+        </Link>
         <div className="sy-heroVision">
           <h2 className="sy-heroVisionLabel">Vision</h2>
           <p className="sy-heroVisionText">
@@ -221,9 +231,19 @@ function SystemPage() {
               </h2>
               <SectionIntroVideo url={group.introVideoUrl} label="Section video" />
               <div className="sy-grid">
-                {topics.map((topic) => (
-                  <TopicTile key={topic.id} topic={topic} />
-                ))}
+                {topics.map((topic) => {
+                  const addToCardLink = TOPIC_ID_TO_PDF_FIELDS[topic.id]
+                    ? `/system/card?topic=${encodeURIComponent(topic.id)}`
+                    : null;
+                  return (
+                    <TopicTile
+                      key={topic.id}
+                      topic={topic}
+                      uid={uid}
+                      addToCardLink={addToCardLink}
+                    />
+                  );
+                })}
               </div>
             </section>
           );
@@ -233,4 +253,8 @@ function SystemPage() {
   );
 }
 
-export default SystemPage;
+const mapStateToProps = (state) => ({
+  uid: state.auth.uid,
+});
+
+export default connect(mapStateToProps)(SystemPage);

@@ -57,6 +57,7 @@ import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticl
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
+import SystemCardEditor from "./components/System/SystemCardEditor";
 
 import { firebase } from "./firebase/config";
 
@@ -88,6 +89,7 @@ const routes = (
   <Switch>
     <Route path="/other" component={OtherHub} exact />
     <Route path="/system" component={SystemPage} exact />
+    <Route path="/system/card" component={SystemCardEditor} exact />
 
     <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
     <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />

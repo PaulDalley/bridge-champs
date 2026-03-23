@@ -1,0 +1,343 @@
+/* System card editor — reuses sy- vars where possible */
+.sy-card-page {
+  --sy-green: #0f4c3a;
+  --sy-green-soft: #ecfdf5;
+  --sy-green-border: #bbf7d0;
+  --sy-ink: #0f172a;
+  --sy-muted: #475569;
+  --sy-line: #e2e8f0;
+  --sy-font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  font-family: var(--sy-font);
+  font-size: 1.1rem;
+  color: var(--sy-ink);
+}
+
+.sy-card-page--abf {
+  max-width: 960px;
+}
+
+.sy-card-hero {
+  margin-bottom: 2rem;
+}
+
+.sy-card-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--sy-green);
+  margin: 0 0 0.5rem;
+}
+
+.sy-card-subtitle {
+  margin: 0 0 1rem;
+  color: var(--sy-muted);
+  font-size: 1.05rem;
+}
+
+.sy-card-login-msg {
+  margin: 1rem 0 0;
+}
+
+.sy-card-login-msg a {
+  color: var(--sy-green);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sy-card-login-msg a:hover {
+  text-decoration: underline;
+}
+
+.sy-card-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sy-card-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--sy-line);
+  background: #fff;
+  color: var(--sy-ink);
+}
+
+.sy-card-btn--primary {
+  background: var(--sy-green);
+  color: #fff;
+  border-color: var(--sy-green);
+}
+
+.sy-card-btn--primary:hover:not(:disabled) {
+  background: #0d4032;
+}
+
+.sy-card-btn--secondary:hover {
+  background: var(--sy-green-soft);
+  border-color: var(--sy-green-border);
+}
+
+.sy-card-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sy-card-save-msg {
+  color: var(--sy-green);
+  font-size: 0.95rem;
+}
+
+.sy-card-loading {
+  padding: 3rem;
+  text-align: center;
+  color: var(--sy-muted);
+}
+
+.sy-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sy-card-section {
+  border: 1px solid var(--sy-line);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+}
+
+.sy-card-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--sy-green);
+  color: var(--sy-ink);
+}
+
+.sy-card-group {
+  margin-bottom: 1.25rem;
+}
+
+.sy-card-group:last-child {
+  margin-bottom: 0;
+}
+
+.sy-card-group-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--sy-ink);
+}
+
+.sy-card-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sy-card-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.sy-card-choice input {
+  flex-shrink: 0;
+}
+
+.sy-card-choice-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sy-card-choice-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  background: var(--sy-green-soft);
+  color: var(--sy-green);
+  border-radius: 4px;
+}
+
+.sy-card-custom-input {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid var(--sy-line);
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.sy-card-append {
+  margin-top: 0.75rem;
+}
+
+.sy-card-append-label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--sy-muted);
+  margin-bottom: 0.25rem;
+}
+
+.sy-card-append-input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid var(--sy-line);
+  border-radius: 6px;
+}
+
+.sy-card-preview {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: var(--sy-green-soft);
+  border: 1px solid var(--sy-green-border);
+  border-radius: 12px;
+}
+
+.sy-card-preview-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--sy-green);
+}
+
+.sy-card-preview-empty {
+  color: var(--sy-muted);
+  margin: 0;
+}
+
+.sy-card-preview-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.sy-card-preview-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.sy-card-filter {
+  margin: 1rem 0 0.5rem;
+}
+
+.sy-card-filter-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sy-muted);
+  margin-bottom: 0.35rem;
+}
+
+.sy-card-filter-input {
+  width: 100%;
+  max-width: 28rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--sy-line);
+  border-radius: 8px;
+}
+
+.sy-card-main--abf {
+  gap: 0.75rem;
+}
+
+.sy-card-abf-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.sy-card-abf-summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--sy-line);
+  color: var(--sy-ink);
+  background: #f8fafc;
+}
+
+.sy-card-abf-summary::-webkit-details-marker {
+  display: none;
+}
+
+.sy-card-abf-summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 0.15s ease;
+  color: var(--sy-green);
+}
+
+.sy-card-abf-section[open] .sy-card-abf-summary::before {
+  transform: rotate(90deg);
+}
+
+.sy-card-abf-fields {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sy-card-abf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.sy-card-abf-label {
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: var(--sy-ink);
+}
+
+.sy-card-abf-meta {
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  color: var(--sy-muted);
+}
+
+.sy-card-abf-textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.4;
+  border: 1px solid var(--sy-line);
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.sy-card-abf-textarea:focus {
+  outline: 2px solid var(--sy-green-border);
+  border-color: var(--sy-green);
+}
+
+.sy-card-preview-more {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--sy-muted);
+}

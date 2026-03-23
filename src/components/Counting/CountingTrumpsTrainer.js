@@ -3805,12 +3805,19 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
 
     // For wide slots (top/bottom), use the large BBO-like 13-wide grid.
     // For side slots (left/right), use the compact per-suit rows.
-    const orderedSuits = suitOrderForSeat(seat, puzzle.trumpSuit, {
+    const seatAtPosition = {
       top: seatTop,
       right: seatRight,
       bottom: seatBottom,
       left: seatLeft,
-    });
+    };
+    // Requested behavior (declarer POV only):
+    // keep dummy trump placement as-is, then mirror Declarer's suit ordering to Dummy
+    // so suit rows/groups are directly opposite each other (vertical, not diagonal).
+    const orderedSuits =
+      viewerSeat === "DECLARER" && seat === "DECLARER"
+        ? suitOrderForSeat("DUMMY", puzzle.trumpSuit, seatAtPosition)
+        : suitOrderForSeat(seat, puzzle.trumpSuit, seatAtPosition);
     const orderedUnplayed = [...unplayed].sort((a, b) => {
       const suitA = orderedSuits.indexOf(a.suit);
       const suitB = orderedSuits.indexOf(b.suit);
