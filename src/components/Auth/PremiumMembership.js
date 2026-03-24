@@ -92,6 +92,26 @@ class PremiumMembership extends Component {
     }
   };
 
+  validatePromoCodeNow = (rawCode) => {
+    const promoCode = String(rawCode || "").toLowerCase().trim();
+    if (this.promoTimeout) clearTimeout(this.promoTimeout);
+    if (!promoCode) {
+      this.validatePromoCode("");
+      return;
+    }
+    this.validatePromoCode(promoCode);
+  };
+
+  handlePromoCodeKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    this.validatePromoCodeNow(this.state.promoCode);
+  };
+
+  handlePromoCodeBlur = () => {
+    this.validatePromoCodeNow(this.state.promoCode);
+  };
+
   normalizePromoCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
 
   resolvePromoCodeAlias = (code) => {
@@ -384,6 +404,8 @@ class PremiumMembership extends Component {
                     history={this.props.history}
                     redirectPathAfterAuth={subscribePath}
                     paypalSubscribe={() => this.setState({ showLogin: false, authChoice: null })}
+                    switchToSignup={() => this.setState({ authChoice: "signup" })}
+                    switchToLogin={() => this.setState({ authChoice: "login" })}
                   />
                 </>
               )}
@@ -430,6 +452,8 @@ class PremiumMembership extends Component {
                 placeholder="Enter promo code"
                 value={this.state.promoCode}
                 onChange={this.handlePromoCodeChange}
+                onKeyDown={this.handlePromoCodeKeyDown}
+                onBlur={this.handlePromoCodeBlur}
                 className="PremiumMembership-promo-input-large"
               />
               {this.state.promoError && (

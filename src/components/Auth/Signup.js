@@ -70,6 +70,10 @@ class Signup extends Component {
   };
 
   render() {
+    const loginLink = this.props.redirectPathAfterAuth
+      ? `/login?redirectTo=${encodeURIComponent(this.props.redirectPathAfterAuth)}`
+      : "/login";
+
     return (
       <div className="Signup-container">
         <div className="Signup-card">
@@ -130,7 +134,20 @@ class Signup extends Component {
 
           <div className="Signup-footer">
             <span>Already have an account? </span>
-            <Link to="/login" className="Signup-footer-link">Sign in</Link>
+            {this.props.onSwitchToLogin ? (
+              <a
+                href="#login"
+                className="Signup-footer-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.props.onSwitchToLogin();
+                }}
+              >
+                Sign in
+              </a>
+            ) : (
+              <Link to={loginLink} className="Signup-footer-link">Sign in</Link>
+            )}
           </div>
         </div>
       </div>

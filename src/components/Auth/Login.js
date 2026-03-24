@@ -165,6 +165,9 @@ class Login extends Component {
 
   render() {
     const { email, password, err, forgottenPasswordModalOpen, emailReset, resetPasswordMessage } = this.state;
+    const signupLink = this.props.redirectPathAfterAuth
+      ? `/signup?redirectTo=${encodeURIComponent(this.props.redirectPathAfterAuth)}`
+      : "/signup";
 
     return (
       <div className="Login-container">
@@ -216,7 +219,20 @@ class Login extends Component {
 
           <div className="Login-footer">
             <span style={{fontSize: '1.3rem', color: '#666'}}>Don't have an account? </span>
-            <Link to="/signup" className="Login-footer-link">Sign up</Link>
+            {this.props.onSwitchToSignup ? (
+              <a
+                href="#signup"
+                className="Login-footer-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.props.onSwitchToSignup();
+                }}
+              >
+                Sign up
+              </a>
+            ) : (
+              <Link to={signupLink} className="Login-footer-link">Sign up</Link>
+            )}
           </div>
         </div>
 

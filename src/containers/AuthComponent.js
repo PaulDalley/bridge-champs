@@ -22,9 +22,14 @@ const AuthComponent = ({
   login,
   paypalSubscribe,
   redirectPathAfterAuth,
+  switchToLogin,
+  switchToSignup,
 }) => {
   // console.log(history);
   let currentPath = location?.pathname;
+  const params = new URLSearchParams(location?.search || "");
+  const redirectFromQuery = params.get("redirectTo");
+  const effectiveRedirectPathAfterAuth = redirectPathAfterAuth || redirectFromQuery || undefined;
 
   return (
     <div>
@@ -37,6 +42,7 @@ const AuthComponent = ({
               googleLogin={startGoogleLogin}
               emailLogin={startEmailAndPasswordLogin}
               history={history}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
             />
           )}
           {currentPath === "/signup" && (
@@ -46,7 +52,7 @@ const AuthComponent = ({
               emailLogin={signupEmailAndPasswordLogin}
               history={history}
               notMember={true}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
             />
           )}
           {signup && (
@@ -58,7 +64,8 @@ const AuthComponent = ({
               notMember={true}
               signup={true}
               paypalSubscribe={paypalSubscribe}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+              onSwitchToLogin={switchToLogin}
             />
           )}
           {login && (
@@ -70,7 +77,8 @@ const AuthComponent = ({
               notMember={true}
               login={true}
               paypalSubscribe={paypalSubscribe}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+              onSwitchToSignup={switchToSignup}
             />
           )}
         </Card>

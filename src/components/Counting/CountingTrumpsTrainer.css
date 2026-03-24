@@ -2838,6 +2838,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.ct-feedbackWithContinue-text--fading {
+  opacity: 0.25;
+  transition: opacity 0.16s ease;
+}
 .ct-feedbackWithContinue-btn {
   flex-shrink: 0;
   white-space: nowrap;

@@ -2851,8 +2851,16 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   const [waitingForContinue, setWaitingForContinue] = useState(false);
   const pendingAdvanceRef = useRef(null);
   const promptDoneRef = useRef(null);
+  const [successFeedbackFading, setSuccessFeedbackFading] = useState(false);
   /** Set when user clicks Continue from PLAY_CARD_REVEAL; used so custom watch note only shows after first explanation. */
   const continuedFromPlayCardRevealRef = useRef(false);
+  const enableUnifiedPromptCtaFlow =
+    typeof window !== "undefined" &&
+    ["localhost", "127.0.0.1", "[::1]"].includes(window.location?.hostname || "");
+  const promptStepRef = useRef(promptStep);
+  const completedRoundIdxRef = useRef(completedRoundIdx);
+  const isPlayingRef = useRef(isPlaying);
+  const hasStartedRef = useRef(false);
 
   const runPendingAdvance = () => {
     const fn = pendingAdvanceRef.current;
@@ -2860,6 +2868,47 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     setWaitingForContinue(false);
     setFeedback(null);
     if (fn) fn();
+  };
+  const hasFollowUpPromptQueued = () => {
+    if (Array.isArray(currentPostPrompts) && postPromptIdx + 1 < currentPostPrompts.length) return true;
+    if (
+      promptStep === "DEFENDERS_STARTED" &&
+      prePrompts?.[0] === "DEFENDERS_STARTED" &&
+      puzzle?.promptOptions?.defendersHeartsStartedExpected != null
+    ) {
+      return true;
+    }
+    if (promptStep === "PLAY_DECISION_REVEAL" && !activeCustomPrompt?.noContinue) return true;
+    return false;
+  };
+  const canAdvanceToNextTrickFromSuccess = () =>
+    enableUnifiedPromptCtaFlow &&
+    manualTrickMode &&
+    hasStarted &&
+    completedRoundIdx < lastRoundIdx &&
+    !hasFollowUpPromptQueued();
+  const runSuccessPrimaryCta = () => {
+    const fn = pendingAdvanceRef.current;
+    pendingAdvanceRef.current = null;
+    setWaitingForContinue(false);
+    setSuccessFeedbackFading(true);
+    setTimeout(() => {
+      setFeedback(null);
+      setSuccessFeedbackFading(false);
+      if (fn) fn();
+    }, 170);
+    if (!canAdvanceToNextTrickFromSuccess()) return;
+    setTimeout(() => {
+      const canAdvanceNow =
+        manualTrickMode &&
+        hasStartedRef.current &&
+        !isPlayingRef.current &&
+        !promptStepRef.current &&
+        completedRoundIdxRef.current >= -1 &&
+        completedRoundIdxRef.current < lastRoundIdx;
+      if (!canAdvanceNow) return;
+      playOneTrick(completedRoundIdxRef.current + 1, { ignorePromptLock: true });
+    }, 220);
   };
 
   const [defendersStartedInput, setDefendersStartedInput] = useState("");
@@ -2955,6 +3004,18 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   const { clearAll, setQueuedTimeout } = useTimeoutQueue();
   const [hasStarted, setHasStarted] = useState(false);
   const [pauseIdx, setPauseIdx] = useState(0);
+  useLayoutEffect(() => {
+    promptStepRef.current = promptStep;
+  }, [promptStep]);
+  useLayoutEffect(() => {
+    completedRoundIdxRef.current = completedRoundIdx;
+  }, [completedRoundIdx]);
+  useLayoutEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+  useLayoutEffect(() => {
+    hasStartedRef.current = hasStarted;
+  }, [hasStarted]);
   // When contractLabel is intro-only, hide it after Start so it doesn't show again as "Contract is — by South"
   const effectiveContractDisplayText = useMemo(() => {
     if (puzzle?.promptOptions?.contractLabelBeforeStartOnly && hasStarted && puzzle?.promptOptions?.contractLabel) return "";
@@ -3540,9 +3601,10 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     return computed;
   };
 
-  const playOneTrick = (idx) => {
+  const playOneTrick = (idx, opts = {}) => {
+    const { ignorePromptLock = false } = opts;
     if (idx < 0 || idx > lastRoundIdx) return;
-    if (promptStep && promptStep !== "DONE") return; // must answer prompts before advancing
+    if (!ignorePromptLock && promptStep && promptStep !== "DONE") return; // must answer prompts before advancing
     playSegment(idx, idx, () => {
       setCompletedRoundIdx(idx);
       afterManualTrick(idx);
@@ -5080,20 +5142,37 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       {/* Start button is shown as a large overlay on the table (clearer than a small corner button). */}
 
       {hasStarted && !promptStep && (
-        <div className="ct-watchNote">
-          {completedRoundIdx >= lastRoundIdx
-            ? "Hand complete."
-            : (() => {
-                const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound;
-                const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal;
-                const showNote =
-                  (onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) &&
-                  (onlyAfterRound == null || completedRoundIdx >= onlyAfterRound);
-                const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : "";
-                const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "";
-                return noteText ? noteText + suffix : (suffix ? suffix.trim() : "");
-              })()}
-        </div>
+        <>
+          <div className="ct-watchNote">
+            {completedRoundIdx >= lastRoundIdx
+              ? "Hand complete."
+              : (() => {
+                  const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound;
+                  const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal;
+                  const showNote =
+                    (onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) &&
+                    (onlyAfterRound == null || completedRoundIdx >= onlyAfterRound);
+                  const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : "";
+                  const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "";
+                  return noteText ? noteText + suffix : (suffix ? suffix.trim() : "");
+                })()}
+          </div>
+          {enableUnifiedPromptCtaFlow && manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx && (
+            <div className="ct-railActions" style={{ marginTop: 8 }}>
+              <button
+                className="ct-btn"
+                onClick={() => {
+                  const next = completedRoundIdx + 1;
+                  if (next > lastRoundIdx) return;
+                  playOneTrick(next);
+                }}
+                disabled={!hasStarted || isPlaying}
+              >
+                Next trick →
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {promptStep && promptStep !== "DONE" && (
@@ -5852,12 +5931,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           </div>
           {feedback && (feedback.type === "ok" && waitingForContinue ? (
             <div className={`ct-feedback ct-feedback--ok ct-feedbackWithContinue`}>
-              <span className="ct-feedbackWithContinue-text">
+              <button className="ct-btn ct-feedbackWithContinue-btn" onClick={runSuccessPrimaryCta} disabled={isPlaying}>
+                {canAdvanceToNextTrickFromSuccess() ? "Next trick!" : "Continue"}
+              </button>
+              <span className={`ct-feedbackWithContinue-text ${successFeedbackFading ? "ct-feedbackWithContinue-text--fading" : ""}`}>
                 <strong>{feedback.text}</strong>
               </span>
-              <button className="ct-btn ct-feedbackWithContinue-btn" onClick={runPendingAdvance} disabled={isPlaying}>
-                Continue
-              </button>
             </div>
           ) : (
             <div className={`ct-feedback ${feedback.type === "ok" ? "ct-feedback--ok" : "ct-feedback--error"}`}>
