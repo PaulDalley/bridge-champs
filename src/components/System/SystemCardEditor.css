@@ -259,6 +259,155 @@
   gap: 0.75rem;
 }
 
+.sy-card-main--visual {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.sy-card-visual {
+  border: 1px solid var(--sy-line);
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.sy-card-visual-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 842 / 595;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sy-card-visual-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
+}
+
+.sy-card-hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sy-card-hotspot {
+  position: absolute;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent !important;
+  color: var(--sy-ink);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0.22rem;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+}
+
+.sy-card-hotspot:hover {
+  background: transparent !important;
+  border-color: rgba(15, 76, 58, 0.5);
+}
+
+.sy-card-hotspot--active {
+  background: transparent !important;
+  border-color: var(--sy-green);
+  box-shadow: inset 0 0 0 2px rgba(15, 76, 58, 0.42);
+}
+
+.sy-card-hotspot--has-values {
+  border-color: rgba(15, 76, 58, 0.28);
+}
+
+.sy-card-hotspot:focus,
+.sy-card-hotspot:active {
+  background: transparent !important;
+}
+
+.sy-card-hotspot:focus-visible {
+  outline: 2px solid #0f4c3a;
+  outline-offset: 1px;
+}
+
+.sy-card-hotspot-count {
+  min-width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: rgba(15, 76, 58, 0.86);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.sy-card-visual-status {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--sy-muted);
+}
+
+.sy-card-visual-jump-list {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.sy-card-visual-jump {
+  border: 1px solid var(--sy-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--sy-ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.sy-card-visual-jump:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.sy-card-visual-jump--active {
+  background: rgba(15, 76, 58, 0.12);
+  border-color: var(--sy-green);
+  color: var(--sy-green);
+}
+
+.sy-card-section--visual-editor {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.sy-card-section-title--visual {
+  border-bottom: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.sy-card-visual-help {
+  margin: 0.4rem 0 0.95rem;
+  color: var(--sy-muted);
+  font-size: 0.95rem;
+}
+
+.sy-card-filter--visual {
+  margin: 0 0 1rem;
+}
+
 .sy-card-abf-section {
   padding: 0;
   overflow: hidden;
@@ -340,4 +489,10 @@
   margin: 0.75rem 0 0;
   font-size: 0.9rem;
   color: var(--sy-muted);
+}
+
+@media (max-width: 780px) {
+  .sy-card-hotspot {
+    border-radius: 6px;
+  }
 }
