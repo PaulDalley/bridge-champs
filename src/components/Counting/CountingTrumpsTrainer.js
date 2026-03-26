@@ -1298,7 +1298,7 @@ const PUZZLES = [
           id: "p1-9-can4",
           type: "PLAY_DECISION",
           atRoundIdx: -1,
-          promptText: "Is there a chance to make 4 heart tricks?",
+          promptText: "Is there a chance to make 5 heart tricks opposite partners void?",
           options: [
             { id: "yes", label: "Yes" },
             { id: "no", label: "No" },

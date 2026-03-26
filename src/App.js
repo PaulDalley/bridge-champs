@@ -88,8 +88,15 @@ const store = configureStore();
 const routes = (
   <Switch>
     <Route path="/other" component={OtherHub} exact />
-    <Route path="/system" component={SystemPage} exact />
-    <Route path="/system/card" component={SystemCardEditor} exact />
+    <Route path="/system" component={SystemCardEditor} exact />
+    <Route
+      path="/system/card"
+      exact
+      render={(routeProps) => (
+        <Redirect to={{ pathname: "/system", search: routeProps.location.search }} />
+      )}
+    />
+    <Route path="/system/recommendations" component={SystemPage} exact />
 
     <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
     <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />

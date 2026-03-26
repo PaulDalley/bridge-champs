@@ -1,0 +1,2064 @@
+{
+  "responses": [
+    {
+      "id": "p2_resp2h_2s",
+      "label": "2♥ -> 2♠",
+      "pdfFields": [
+        "Resp2H_2S"
+      ],
+      "cardRect": {
+        "top": 1.99,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_3d",
+      "label": "2♥ -> 3♦",
+      "pdfFields": [
+        "Resp2H_3D"
+      ],
+      "cardRect": {
+        "top": 1.99,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_3nt",
+      "label": "2♥ -> 3NT",
+      "pdfFields": [
+        "Resp2H_3NT"
+      ],
+      "cardRect": {
+        "top": 1.99,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_2nt",
+      "label": "2♥ -> 2NT",
+      "pdfFields": [
+        "Resp2H_2NT"
+      ],
+      "cardRect": {
+        "top": 4.36,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_3h",
+      "label": "2♥ -> 3♥",
+      "pdfFields": [
+        "Resp2H_3H"
+      ],
+      "cardRect": {
+        "top": 4.36,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_4c",
+      "label": "2♥ -> 4♣",
+      "pdfFields": [
+        "Resp2H_4C"
+      ],
+      "cardRect": {
+        "top": 4.36,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_3c",
+      "label": "2♥ -> 3♣",
+      "pdfFields": [
+        "Resp2H_3C"
+      ],
+      "cardRect": {
+        "top": 6.74,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_3s",
+      "label": "2♥ -> 3♠",
+      "pdfFields": [
+        "Resp2H_3S"
+      ],
+      "cardRect": {
+        "top": 6.74,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_4h",
+      "label": "2♥ -> 4♥",
+      "pdfFields": [
+        "Resp2H_4H"
+      ],
+      "cardRect": {
+        "top": 6.74,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_1d",
+      "label": "1♣ -> 1♦",
+      "pdfFields": [
+        "Resp1C_1D"
+      ],
+      "cardRect": {
+        "top": 6.99,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_2d",
+      "label": "1♣ -> 2♦",
+      "pdfFields": [
+        "Resp1C_2D"
+      ],
+      "cardRect": {
+        "top": 6.99,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_3d",
+      "label": "1♣ -> 3♦",
+      "pdfFields": [
+        "Resp1C_3D"
+      ],
+      "cardRect": {
+        "top": 6.99,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2h_other",
+      "label": "2♥ -> other",
+      "pdfFields": [
+        "Resp2H_Other"
+      ],
+      "cardRect": {
+        "top": 9.11,
+        "left": 55.5,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_1h",
+      "label": "1♣ -> 1♥",
+      "pdfFields": [
+        "Resp1C_1H"
+      ],
+      "cardRect": {
+        "top": 9.37,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_2h",
+      "label": "1♣ -> 2♥",
+      "pdfFields": [
+        "Resp1C_2H"
+      ],
+      "cardRect": {
+        "top": 9.37,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_3h",
+      "label": "1♣ -> 3♥",
+      "pdfFields": [
+        "Resp1C_3H"
+      ],
+      "cardRect": {
+        "top": 9.37,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_1s",
+      "label": "1♣ -> 1♠",
+      "pdfFields": [
+        "Resp1C_1S"
+      ],
+      "cardRect": {
+        "top": 11.74,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_2s",
+      "label": "1♣ -> 2♠",
+      "pdfFields": [
+        "Resp1C_2S"
+      ],
+      "cardRect": {
+        "top": 11.74,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_3s",
+      "label": "1♣ -> 3♠",
+      "pdfFields": [
+        "Resp1C_3S"
+      ],
+      "cardRect": {
+        "top": 11.74,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_2nt",
+      "label": "2♠ -> 2NT",
+      "pdfFields": [
+        "Resp2S_2NT"
+      ],
+      "cardRect": {
+        "top": 11.98,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_3h",
+      "label": "2♠ -> 3♥",
+      "pdfFields": [
+        "Resp2S_3H"
+      ],
+      "cardRect": {
+        "top": 11.98,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_4c",
+      "label": "2♠ -> 4♣",
+      "pdfFields": [
+        "Resp2S_4C"
+      ],
+      "cardRect": {
+        "top": 11.98,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_1nt",
+      "label": "1♣ -> 1NT",
+      "pdfFields": [
+        "Resp1C_1NT"
+      ],
+      "cardRect": {
+        "top": 14.11,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_2nt",
+      "label": "1♣ -> 2NT",
+      "pdfFields": [
+        "Resp1C_2NT"
+      ],
+      "cardRect": {
+        "top": 14.11,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_3nt",
+      "label": "1♣ -> 3NT",
+      "pdfFields": [
+        "Resp1C_3NT"
+      ],
+      "cardRect": {
+        "top": 14.11,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_3c",
+      "label": "2♠ -> 3♣",
+      "pdfFields": [
+        "Resp2S_3C"
+      ],
+      "cardRect": {
+        "top": 14.35,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_3s",
+      "label": "2♠ -> 3♠",
+      "pdfFields": [
+        "Resp2S_3S"
+      ],
+      "cardRect": {
+        "top": 14.35,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_4h",
+      "label": "2♠ -> 4♥",
+      "pdfFields": [
+        "Resp2S_4H"
+      ],
+      "cardRect": {
+        "top": 14.35,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_2c",
+      "label": "1♣ -> 2♣",
+      "pdfFields": [
+        "Resp1C_2C"
+      ],
+      "cardRect": {
+        "top": 16.49,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_3c",
+      "label": "1♣ -> 3♣",
+      "pdfFields": [
+        "Resp1C_3C"
+      ],
+      "cardRect": {
+        "top": 16.49,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_4c",
+      "label": "1♣ -> 4♣",
+      "pdfFields": [
+        "Resp1C_4C"
+      ],
+      "cardRect": {
+        "top": 16.49,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_3d",
+      "label": "2♠ -> 3♦",
+      "pdfFields": [
+        "Resp2S_3D"
+      ],
+      "cardRect": {
+        "top": 16.73,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_3nt",
+      "label": "2♠ -> 3NT",
+      "pdfFields": [
+        "Resp2S_3NT"
+      ],
+      "cardRect": {
+        "top": 16.73,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_4s",
+      "label": "2♠ -> 4♠",
+      "pdfFields": [
+        "Resp2S_4S"
+      ],
+      "cardRect": {
+        "top": 16.73,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1c_other",
+      "label": "1♣ -> other",
+      "pdfFields": [
+        "Resp1C_Other"
+      ],
+      "cardRect": {
+        "top": 18.86,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2s_other",
+      "label": "2♠ -> other",
+      "pdfFields": [
+        "Resp2S_Other"
+      ],
+      "cardRect": {
+        "top": 19.1,
+        "left": 55.5,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_1h",
+      "label": "1♦ -> 1♥",
+      "pdfFields": [
+        "Resp1D_1H"
+      ],
+      "cardRect": {
+        "top": 21.73,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_2h",
+      "label": "1♦ -> 2♥",
+      "pdfFields": [
+        "Resp1D_2H"
+      ],
+      "cardRect": {
+        "top": 21.73,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_3h",
+      "label": "1♦ -> 3♥",
+      "pdfFields": [
+        "Resp1D_3H"
+      ],
+      "cardRect": {
+        "top": 21.73,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_3c",
+      "label": "2NT -> 3♣",
+      "pdfFields": [
+        "Resp2NT_3C"
+      ],
+      "cardRect": {
+        "top": 21.97,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_3s",
+      "label": "2NT -> 3♠",
+      "pdfFields": [
+        "Resp2NT_3S"
+      ],
+      "cardRect": {
+        "top": 21.97,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_4d",
+      "label": "2NT -> 4♦",
+      "pdfFields": [
+        "Resp2NT_4D"
+      ],
+      "cardRect": {
+        "top": 21.97,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_1s",
+      "label": "1♦ -> 1♠",
+      "pdfFields": [
+        "Resp1D_1S"
+      ],
+      "cardRect": {
+        "top": 24.1,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_2s",
+      "label": "1♦ -> 2♠",
+      "pdfFields": [
+        "Resp1D_2S"
+      ],
+      "cardRect": {
+        "top": 24.1,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_3s",
+      "label": "1♦ -> 3♠",
+      "pdfFields": [
+        "Resp1D_3S"
+      ],
+      "cardRect": {
+        "top": 24.1,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_3d",
+      "label": "2NT -> 3♦",
+      "pdfFields": [
+        "Resp2NT_3D"
+      ],
+      "cardRect": {
+        "top": 24.34,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_3nt",
+      "label": "2NT -> 3NT",
+      "pdfFields": [
+        "Resp2NT_3NT"
+      ],
+      "cardRect": {
+        "top": 24.34,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_4h",
+      "label": "2NT -> 4♥",
+      "pdfFields": [
+        "Resp2NT_4H"
+      ],
+      "cardRect": {
+        "top": 24.34,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_1nt",
+      "label": "1♦ -> 1NT",
+      "pdfFields": [
+        "Resp1D_1NT"
+      ],
+      "cardRect": {
+        "top": 26.48,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_2nt",
+      "label": "1♦ -> 2NT",
+      "pdfFields": [
+        "Resp1D_2NT"
+      ],
+      "cardRect": {
+        "top": 26.48,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_3nt",
+      "label": "1♦ -> 3NT",
+      "pdfFields": [
+        "Resp1D_3NT"
+      ],
+      "cardRect": {
+        "top": 26.48,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_3h",
+      "label": "2NT -> 3♥",
+      "pdfFields": [
+        "Resp2NT_3H"
+      ],
+      "cardRect": {
+        "top": 26.72,
+        "left": 55.5,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_4c",
+      "label": "2NT -> 4♣",
+      "pdfFields": [
+        "Resp2NT_4C"
+      ],
+      "cardRect": {
+        "top": 26.72,
+        "left": 70.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_4s",
+      "label": "2NT -> 4♠",
+      "pdfFields": [
+        "Resp2NT_4S"
+      ],
+      "cardRect": {
+        "top": 26.72,
+        "left": 85.85,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_2c",
+      "label": "1♦ -> 2♣",
+      "pdfFields": [
+        "Resp1D_2C"
+      ],
+      "cardRect": {
+        "top": 28.85,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_3c",
+      "label": "1♦ -> 3♣",
+      "pdfFields": [
+        "Resp1D_3C"
+      ],
+      "cardRect": {
+        "top": 28.85,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_4c",
+      "label": "1♦ -> 4♣",
+      "pdfFields": [
+        "Resp1D_4C"
+      ],
+      "cardRect": {
+        "top": 28.85,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2nt_other",
+      "label": "2NT -> other",
+      "pdfFields": [
+        "Resp2NT_Other"
+      ],
+      "cardRect": {
+        "top": 29.09,
+        "left": 55.5,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_2d",
+      "label": "1♦ -> 2♦",
+      "pdfFields": [
+        "Resp1D_2D"
+      ],
+      "cardRect": {
+        "top": 31.22,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_3d",
+      "label": "1♦ -> 3♦",
+      "pdfFields": [
+        "Resp1D_3D"
+      ],
+      "cardRect": {
+        "top": 31.22,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_4d",
+      "label": "1♦ -> 4♦",
+      "pdfFields": [
+        "Resp1D_4D"
+      ],
+      "cardRect": {
+        "top": 31.22,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1d_other",
+      "label": "1♦ -> other",
+      "pdfFields": [
+        "Resp1D_Other"
+      ],
+      "cardRect": {
+        "top": 33.6,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_1s",
+      "label": "1♥ -> 1♠",
+      "pdfFields": [
+        "Resp1H_1S"
+      ],
+      "cardRect": {
+        "top": 36.47,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_2h",
+      "label": "1♥ -> 2♥",
+      "pdfFields": [
+        "Resp1H_2H"
+      ],
+      "cardRect": {
+        "top": 36.47,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_3d",
+      "label": "1♥ -> 3♦",
+      "pdfFields": [
+        "Resp1H_3D"
+      ],
+      "cardRect": {
+        "top": 36.47,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_1nt",
+      "label": "1♥ -> 1NT",
+      "pdfFields": [
+        "Resp1H_1NT"
+      ],
+      "cardRect": {
+        "top": 38.84,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_2s",
+      "label": "1♥ -> 2♠",
+      "pdfFields": [
+        "Resp1H_2S"
+      ],
+      "cardRect": {
+        "top": 38.84,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_3h",
+      "label": "1♥ -> 3♥",
+      "pdfFields": [
+        "Resp1H_3H"
+      ],
+      "cardRect": {
+        "top": 38.84,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_2c",
+      "label": "1♥ -> 2♣",
+      "pdfFields": [
+        "Resp1H_2C"
+      ],
+      "cardRect": {
+        "top": 41.21,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_2nt",
+      "label": "1♥ -> 2NT",
+      "pdfFields": [
+        "Resp1H_2NT"
+      ],
+      "cardRect": {
+        "top": 41.21,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_3s",
+      "label": "1♥ -> 3♠",
+      "pdfFields": [
+        "Resp1H_3S"
+      ],
+      "cardRect": {
+        "top": 41.21,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_2d",
+      "label": "1♥ -> 2♦",
+      "pdfFields": [
+        "Resp1H_2D"
+      ],
+      "cardRect": {
+        "top": 43.59,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_3c",
+      "label": "1♥ -> 3♣",
+      "pdfFields": [
+        "Resp1H_3C"
+      ],
+      "cardRect": {
+        "top": 43.59,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_3nt",
+      "label": "1♥ -> 3NT",
+      "pdfFields": [
+        "Resp1H_3NT"
+      ],
+      "cardRect": {
+        "top": 43.59,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1h_other",
+      "label": "1♥ -> other",
+      "pdfFields": [
+        "Resp1H_Other"
+      ],
+      "cardRect": {
+        "top": 45.96,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_1nt",
+      "label": "1♠ -> 1NT",
+      "pdfFields": [
+        "Resp1S_1NT"
+      ],
+      "cardRect": {
+        "top": 48.84,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_2s",
+      "label": "1♠ -> 2♠",
+      "pdfFields": [
+        "Resp1S_2S"
+      ],
+      "cardRect": {
+        "top": 48.84,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_3h",
+      "label": "1♠ -> 3♥",
+      "pdfFields": [
+        "Resp1S_3H"
+      ],
+      "cardRect": {
+        "top": 48.84,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_2c",
+      "label": "1♠ -> 2♣",
+      "pdfFields": [
+        "Resp1S_2C"
+      ],
+      "cardRect": {
+        "top": 51.21,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_2nt",
+      "label": "1♠ -> 2NT",
+      "pdfFields": [
+        "Resp1S_2NT"
+      ],
+      "cardRect": {
+        "top": 51.21,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_3s",
+      "label": "1♠ -> 3♠",
+      "pdfFields": [
+        "Resp1S_3S"
+      ],
+      "cardRect": {
+        "top": 51.21,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_2d",
+      "label": "1♠ -> 2♦",
+      "pdfFields": [
+        "Resp1S_2D"
+      ],
+      "cardRect": {
+        "top": 53.59,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_3c",
+      "label": "1♠ -> 3♣",
+      "pdfFields": [
+        "Resp1S_3C"
+      ],
+      "cardRect": {
+        "top": 53.59,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_3nt",
+      "label": "1♠ -> 3NT",
+      "pdfFields": [
+        "Resp1S_3NT"
+      ],
+      "cardRect": {
+        "top": 53.59,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_2h",
+      "label": "1♠ -> 2♥",
+      "pdfFields": [
+        "Resp1S_2H"
+      ],
+      "cardRect": {
+        "top": 55.96,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_3d",
+      "label": "1♠ -> 3♦",
+      "pdfFields": [
+        "Resp1S_3D"
+      ],
+      "cardRect": {
+        "top": 55.96,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_4c",
+      "label": "1♠ -> 4♣",
+      "pdfFields": [
+        "Resp1S_4C"
+      ],
+      "cardRect": {
+        "top": 55.96,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1s_other",
+      "label": "1♠ -> other",
+      "pdfFields": [
+        "Resp1S_Other"
+      ],
+      "cardRect": {
+        "top": 58.33,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_3c",
+      "label": "1NT -> 3♣",
+      "pdfFields": [
+        "Resp1NT_3C"
+      ],
+      "cardRect": {
+        "top": 61.2,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_3s",
+      "label": "1NT -> 3♠",
+      "pdfFields": [
+        "Resp1NT_3S"
+      ],
+      "cardRect": {
+        "top": 61.2,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_4d",
+      "label": "1NT -> 4♦",
+      "pdfFields": [
+        "Resp1NT_4D"
+      ],
+      "cardRect": {
+        "top": 61.2,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_3d",
+      "label": "1NT -> 3♦",
+      "pdfFields": [
+        "Resp1NT_3D"
+      ],
+      "cardRect": {
+        "top": 63.58,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_3nt",
+      "label": "1NT -> 3NT",
+      "pdfFields": [
+        "Resp1NT_3NT"
+      ],
+      "cardRect": {
+        "top": 63.58,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_4h",
+      "label": "1NT -> 4♥",
+      "pdfFields": [
+        "Resp1NT_4H"
+      ],
+      "cardRect": {
+        "top": 63.58,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_3h",
+      "label": "1NT -> 3♥",
+      "pdfFields": [
+        "Resp1NT_3H"
+      ],
+      "cardRect": {
+        "top": 65.95,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_4c",
+      "label": "1NT -> 4♣",
+      "pdfFields": [
+        "Resp1NT_4C"
+      ],
+      "cardRect": {
+        "top": 65.95,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_4s",
+      "label": "1NT -> 4♠",
+      "pdfFields": [
+        "Resp1NT_4S"
+      ],
+      "cardRect": {
+        "top": 65.95,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp1nt_other",
+      "label": "1NT -> other",
+      "pdfFields": [
+        "Resp1NT_Other"
+      ],
+      "cardRect": {
+        "top": 68.32,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_2d",
+      "label": "2♣ -> 2♦",
+      "pdfFields": [
+        "Resp2C_2D"
+      ],
+      "cardRect": {
+        "top": 71.19,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_2nt",
+      "label": "2♣ -> 2NT",
+      "pdfFields": [
+        "Resp2C_2NT"
+      ],
+      "cardRect": {
+        "top": 71.19,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_3h",
+      "label": "2♣ -> 3♥",
+      "pdfFields": [
+        "Resp2C_3H"
+      ],
+      "cardRect": {
+        "top": 71.19,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_2h",
+      "label": "2♣ -> 2♥",
+      "pdfFields": [
+        "Resp2C_2H"
+      ],
+      "cardRect": {
+        "top": 73.57,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_3c",
+      "label": "2♣ -> 3♣",
+      "pdfFields": [
+        "Resp2C_3C"
+      ],
+      "cardRect": {
+        "top": 73.57,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_3s",
+      "label": "2♣ -> 3♠",
+      "pdfFields": [
+        "Resp2C_3S"
+      ],
+      "cardRect": {
+        "top": 73.57,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_2s",
+      "label": "2♣ -> 2♠",
+      "pdfFields": [
+        "Resp2C_2S"
+      ],
+      "cardRect": {
+        "top": 75.94,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_3d",
+      "label": "2♣ -> 3♦",
+      "pdfFields": [
+        "Resp2C_3D"
+      ],
+      "cardRect": {
+        "top": 75.94,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_3nt",
+      "label": "2♣ -> 3NT",
+      "pdfFields": [
+        "Resp2C_3NT"
+      ],
+      "cardRect": {
+        "top": 75.94,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2c_other",
+      "label": "2♣ -> other",
+      "pdfFields": [
+        "Resp2C_Other"
+      ],
+      "cardRect": {
+        "top": 78.31,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_2h",
+      "label": "2♦ -> 2♥",
+      "pdfFields": [
+        "Resp2D_2H"
+      ],
+      "cardRect": {
+        "top": 81.19,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_3c",
+      "label": "2♦ -> 3♣",
+      "pdfFields": [
+        "Resp2D_3C"
+      ],
+      "cardRect": {
+        "top": 81.19,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_3s",
+      "label": "2♦ -> 3♠",
+      "pdfFields": [
+        "Resp2D_3S"
+      ],
+      "cardRect": {
+        "top": 81.19,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_2s",
+      "label": "2♦ -> 2♠",
+      "pdfFields": [
+        "Resp2D_2S"
+      ],
+      "cardRect": {
+        "top": 83.57,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_3d",
+      "label": "2♦ -> 3♦",
+      "pdfFields": [
+        "Resp2D_3D"
+      ],
+      "cardRect": {
+        "top": 83.57,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_3nt",
+      "label": "2♦ -> 3NT",
+      "pdfFields": [
+        "Resp2D_3NT"
+      ],
+      "cardRect": {
+        "top": 83.57,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_2nt",
+      "label": "2♦ -> 2NT",
+      "pdfFields": [
+        "Resp2D_2NT"
+      ],
+      "cardRect": {
+        "top": 85.94,
+        "left": 5.67,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_3h",
+      "label": "2♦ -> 3♥",
+      "pdfFields": [
+        "Resp2D_3H"
+      ],
+      "cardRect": {
+        "top": 85.94,
+        "left": 20.84,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_4c",
+      "label": "2♦ -> 4♣",
+      "pdfFields": [
+        "Resp2D_4C"
+      ],
+      "cardRect": {
+        "top": 85.94,
+        "left": 36.02,
+        "width": 12.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_resp2d_other",
+      "label": "2♦ -> other",
+      "pdfFields": [
+        "Resp2D_Other"
+      ],
+      "cardRect": {
+        "top": 88.31,
+        "left": 5.67,
+        "width": 42.86,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_responsenotes_1",
+      "label": "Response notes 1",
+      "pdfFields": [
+        "ResponseNotes_1"
+      ],
+      "cardRect": {
+        "top": 91.01,
+        "left": 4.92,
+        "width": 43.85,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_responsenotes_2",
+      "label": "Response notes 2",
+      "pdfFields": [
+        "ResponseNotes_2"
+      ],
+      "cardRect": {
+        "top": 93.38,
+        "left": 1.34,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_responsenotes_3",
+      "label": "Response notes 3",
+      "pdfFields": [
+        "ResponseNotes_3"
+      ],
+      "cardRect": {
+        "top": 95.75,
+        "left": 1.34,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    }
+  ],
+  "defence": [
+    {
+      "id": "p2_conventions_0",
+      "label": "Conventions",
+      "pdfFields": [
+        "Conventions_0"
+      ],
+      "cardRect": {
+        "top": 32.01,
+        "left": 68.47,
+        "width": 30.12,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_unusualnotrump",
+      "label": "Unusual No Trump",
+      "pdfFields": [
+        "UnusualNoTrump"
+      ],
+      "cardRect": {
+        "top": 34.65,
+        "left": 58.27,
+        "width": 40.33,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_fourthsuitforcing",
+      "label": "Fourth suit forcing",
+      "pdfFields": [
+        "FourthSuitForcing"
+      ],
+      "cardRect": {
+        "top": 37.29,
+        "left": 66.96,
+        "width": 23.68,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_checkbackpriorities",
+      "label": "Checkback priorities",
+      "pdfFields": [
+        "CheckbackPriorities"
+      ],
+      "cardRect": {
+        "top": 39.93,
+        "left": 66.41,
+        "width": 32.18,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defence3nt",
+      "label": "Defence to 3NT",
+      "pdfFields": [
+        "Defence3NT"
+      ],
+      "cardRect": {
+        "top": 42.57,
+        "left": 64.48,
+        "width": 34.11,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defenceopening2",
+      "label": "Defence to opening 2 bids",
+      "pdfFields": [
+        "DefenceOpening2"
+      ],
+      "cardRect": {
+        "top": 45.22,
+        "left": 65.42,
+        "width": 33.18,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencemulti",
+      "label": "Defence to Multi",
+      "pdfFields": [
+        "DefenceMulti"
+      ],
+      "cardRect": {
+        "top": 47.86,
+        "left": 57.73,
+        "width": 40.87,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencerco",
+      "label": "Defence to RCO",
+      "pdfFields": [
+        "DefenceRCO"
+      ],
+      "cardRect": {
+        "top": 50.5,
+        "left": 57.73,
+        "width": 40.87,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defenceothertwos",
+      "label": "Defence to other twos",
+      "pdfFields": [
+        "DefenceOtherTwos"
+      ],
+      "cardRect": {
+        "top": 53.14,
+        "left": 57.73,
+        "width": 40.87,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencestrongc_1",
+      "label": "Defence to strong ♣ 1",
+      "pdfFields": [
+        "DefenceStrongC_1"
+      ],
+      "cardRect": {
+        "top": 55.78,
+        "left": 56.32,
+        "width": 42.06,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencestrongc_2",
+      "label": "Defence to strong ♣ 2",
+      "pdfFields": [
+        "DefenceStrongC_2"
+      ],
+      "cardRect": {
+        "top": 58.43,
+        "left": 56.32,
+        "width": 42.06,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencestrongc_3",
+      "label": "Defence to strong ♣ 3",
+      "pdfFields": [
+        "DefenceStrongC_3"
+      ],
+      "cardRect": {
+        "top": 61.07,
+        "left": 56.32,
+        "width": 42.06,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_defencestrongc_4",
+      "label": "Defence to strong ♣ 4",
+      "pdfFields": [
+        "DefenceStrongC_4"
+      ],
+      "cardRect": {
+        "top": 63.71,
+        "left": 56.32,
+        "width": 42.06,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_over1ntinterf",
+      "label": "Over 1NT interference",
+      "pdfFields": [
+        "Over1NTInterf"
+      ],
+      "cardRect": {
+        "top": 66.64,
+        "left": 63.36,
+        "width": 35.23,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_lebensohlother",
+      "label": "Lebensohl / other",
+      "pdfFields": [
+        "LebensohlOther"
+      ],
+      "cardRect": {
+        "top": 69.28,
+        "left": 64.23,
+        "width": 34.36,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_takeoutof4c4d",
+      "label": "Takeout of 4♣/4♦",
+      "pdfFields": [
+        "TakeOutOf4C4D"
+      ],
+      "cardRect": {
+        "top": 71.92,
+        "left": 71.43,
+        "width": 27.16,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_takeoutof4h",
+      "label": "Takeout of 4♥",
+      "pdfFields": [
+        "TakeOutOf4H"
+      ],
+      "cardRect": {
+        "top": 74.56,
+        "left": 54.3,
+        "width": 20.41,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_takeoutof4s",
+      "label": "Takeout of 4♠",
+      "pdfFields": [
+        "TakeOutOf4S"
+      ],
+      "cardRect": {
+        "top": 74.56,
+        "left": 78.1,
+        "width": 20.49,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_0",
+      "label": "Other notes",
+      "pdfFields": [
+        "OtherNotes_0"
+      ],
+      "cardRect": {
+        "top": 77.2,
+        "left": 69.26,
+        "width": 29.33,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_1",
+      "label": "Other notes 1",
+      "pdfFields": [
+        "OtherNotes_1"
+      ],
+      "cardRect": {
+        "top": 79.85,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_2",
+      "label": "Other notes 2",
+      "pdfFields": [
+        "OtherNotes_2"
+      ],
+      "cardRect": {
+        "top": 82.49,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_3",
+      "label": "Other notes 3",
+      "pdfFields": [
+        "OtherNotes_3"
+      ],
+      "cardRect": {
+        "top": 85.13,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_4",
+      "label": "Other notes 4",
+      "pdfFields": [
+        "OtherNotes_4"
+      ],
+      "cardRect": {
+        "top": 87.77,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_5",
+      "label": "Other notes 5",
+      "pdfFields": [
+        "OtherNotes_5"
+      ],
+      "cardRect": {
+        "top": 90.41,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_6",
+      "label": "Other notes 6",
+      "pdfFields": [
+        "OtherNotes_6"
+      ],
+      "cardRect": {
+        "top": 93.06,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "p2_othernotes_7",
+      "label": "Other notes 7",
+      "pdfFields": [
+        "OtherNotes_7"
+      ],
+      "cardRect": {
+        "top": 95.7,
+        "left": 51.17,
+        "width": 47.42,
+        "height": 2.22,
+        "maxLines": 1
+      }
+    }
+  ]
+}

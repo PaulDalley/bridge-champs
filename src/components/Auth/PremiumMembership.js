@@ -367,33 +367,70 @@ class PremiumMembership extends Component {
             <div className="PremiumMembership-authShell">
               {this.state.authChoice == null ? (
                 <>
-                  <p style={{ marginBottom: "1.5rem", fontSize: "1.1rem" }}>
+                  <p className="PremiumMembership-authPrompt">
                     Log in or create an account to continue with your subscription.
                   </p>
-                  <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
-                    <Button
-                      onClick={() => this.setState({ authChoice: "login" })}
-                      style={{ marginRight: "0.5rem" }}
+                  <div className="PremiumMembership-authCtaWrap">
+                    <button
+                      type="button"
+                      className="PremiumMembership-authCta"
+                      onClick={() => this.setState({ authChoice: "chooseAuthMethod" })}
                     >
-                      Log in
-                    </Button>
-                    <Button
-                      flat
+                      Log in or Create Account
+                    </button>
+                  </div>
+                  <p className="PremiumMembership-authCtaHint">Primary step: click the button above to continue.</p>
+                  <p className="PremiumMembership-authBackLinkWrap">
+                    <a
+                      className="PremiumMembership-authBackLink"
+                      href="#back"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ showLogin: false });
+                      }}
+                    >
+                      ← Back to subscription options
+                    </a>
+                  </p>
+                </>
+              ) : this.state.authChoice === "chooseAuthMethod" ? (
+                <>
+                  <p className="PremiumMembership-authPrompt">
+                    Choose how you want to continue:
+                  </p>
+                  <div className="PremiumMembership-authChoiceGrid">
+                    <button
+                      type="button"
+                      className="PremiumMembership-authChoiceBtn"
+                      onClick={() => this.setState({ authChoice: "login" })}
+                    >
+                      I have an existing login
+                    </button>
+                    <button
+                      type="button"
+                      className="PremiumMembership-authChoiceBtn PremiumMembership-authChoiceBtn--secondary"
                       onClick={() => this.setState({ authChoice: "signup" })}
                     >
-                      Create new account
-                    </Button>
+                      I need to make a login
+                    </button>
                   </div>
-                  <p style={{ marginTop: "1rem" }}>
-                    <a href="#back" onClick={(e) => { e.preventDefault(); this.setState({ showLogin: false }); }}>
-                      ← Back to subscription options
+                  <p className="PremiumMembership-authBackLinkWrap">
+                    <a
+                      className="PremiumMembership-authBackLink"
+                      href="#back"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ authChoice: null });
+                      }}
+                    >
+                      ← Back
                     </a>
                   </p>
                 </>
               ) : (
                 <>
                   <p style={{ marginBottom: "0.5rem" }}>
-                    <a href="#back" onClick={(e) => { e.preventDefault(); this.setState({ authChoice: null }); }}>
+                    <a href="#back" onClick={(e) => { e.preventDefault(); this.setState({ authChoice: "chooseAuthMethod" }); }}>
                       ← Back
                     </a>
                   </p>
@@ -443,8 +480,8 @@ class PremiumMembership extends Component {
         {/* PROMO CODE INPUT */}
         <Row>
           <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>
-            <div style={{ textAlign: "center", padding: "1.5rem", background: "#f8f9fa", borderRadius: "8px" }}>
-              <label style={{ fontSize: "1.1rem", fontWeight: "500", marginBottom: "0.5rem", display: "block" }}>
+            <div className="PremiumMembership-promoShell">
+              <label className="PremiumMembership-promoLabel">
                 Have a promo code? (Optional)
               </label>
               <input
@@ -457,17 +494,17 @@ class PremiumMembership extends Component {
                 className="PremiumMembership-promo-input-large"
               />
               {this.state.promoError && (
-                <div style={{ color: "#d32f2f", marginTop: "0.5rem", fontSize: "0.9rem" }}>
+                <div className="PremiumMembership-promoError">
                   {this.state.promoError}
                 </div>
               )}
               {this.state.promoSuccess && (
-                <div style={{ color: "#2e7d32", marginTop: "0.5rem", fontSize: "1rem", fontWeight: "500" }}>
+                <div className="PremiumMembership-promoSuccess">
                   {this.state.promoSuccess}
                 </div>
               )}
               {this.state.promoSuccess && (
-                <div style={{ marginTop: "0.75rem", padding: "0.75rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem", fontWeight: "600" }}>
+                <div className="PremiumMembership-promoNextStep">
                   {this.state.effectiveMonthlyPrice != null
                     ? `Next step: choose Premium below, then complete checkout — your rate will be $${this.state.effectiveMonthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial.`
                     : this.state.promoDaysFree > 0
