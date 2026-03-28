@@ -1433,7 +1433,7 @@ const CARDPLAY_PUZZLES_ALL = [
       questionNumbers: [],
       hideOpponentLabels: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/pKVWX3tFZoM",
-      startAutoPlayThroughRoundIdx: 1,
+      startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
           id: "cp2-5-intro",
@@ -1484,6 +1484,963 @@ const CARDPLAY_PUZZLES_ALL = [
           { seat: "DUMMY", card: { rank: "A", suit: "D" } },
           { seat: "RHO", card: { rank: "6", suit: "D" } },
           { seat: "DECLARER", card: { rank: "8", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-6",
+    difficulty: 2,
+    title: "4♠: use entries, then draw trumps",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Using entries productively",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp2-6-trick2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "We have just won the Ace of diamonds. What should we do now?",
+          options: [
+            { id: "draw_trump_or_two", label: "1. Draw a trump or 2" },
+            { id: "play_hearts", label: "2. Play hearts" },
+            { id: "play_diamonds", label: "3. Play diamonds" },
+            { id: "play_clubs", label: "4. Play clubs" },
+          ],
+          expectedChoice: "play_hearts",
+          revealText:
+            "Play a heart. Let's follow two guiding principles.\n\n1) Always use our entry productively. We are in dummy, so ask ourselves: what can we do in dummy that we can't do from our hand?\n\nTaking a heart finesse needs to be done by leading a heart from the north hand, so do it now.\n\n2) Sometimes it's best to think of trumps as entries, or even the \"entry suit\". We are perfectly positioned in dummy, so there is no reason to start playing our entry suit yet.",
+        },
+        {
+          id: "cp2-6-what-now",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "Going well so far, what now?",
+          options: [
+            { id: "continue_hearts", label: "1. Continue with the heart suit" },
+            { id: "play_trumps", label: "2. Play some trumps" },
+            { id: "play_diamonds", label: "3. Play diamonds" },
+            { id: "play_clubs", label: "4. Play clubs" },
+          ],
+          expectedChoice: "play_trumps",
+          revealText:
+            "It's a good idea now to draw some trumps.\n\nWe are now in our hand. There is nothing productive we can do from our hand, and there is no gain in playing either minor suit.\n\nSo, since we have nothing productive to do, we should look closely at the trump suit.\n\nWe want to take another heart finesse, so whatever we do with trumps, let's make sure to use our only remaining entry productively.",
+        },
+        {
+          id: "cp2-6-how-many-trumps",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "So what should we do with trumps?",
+          options: [
+            { id: "draw_1", label: "1. Just draw 1 round" },
+            { id: "draw_2", label: "2. Draw 2 rounds" },
+            { id: "draw_3", label: "3. Draw 3 rounds" },
+            { id: "draw_4_if_needed", label: "4. Draw 4 rounds if needed" },
+          ],
+          expectedChoice: "draw_3",
+          revealText:
+            "Draw 3 rounds. There is no reason to delay. Draw 3 rounds, but make sure to end in dummy, as we want to use that entry.",
+        },
+        {
+          id: "cp2-6-spade-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 3,
+          fixed: { DUMMY: 3, DECLARER: 5, LHO: 1 },
+          expectedDistribution: { LHO: 1, DUMMY: 3, RHO: 4, DECLARER: 5 },
+          promptText:
+            "What is the spade distribution?\n\nNorth is 3, South is 5, West is 1. Fill in East.",
+        },
+        {
+          id: "cp2-6-east-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 3,
+          promptText:
+            "How many trumps are still outstanding?\n\n(Hint: remember how many trumps East started with, and how many rounds have been played.)",
+          expectedAnswer: 2,
+        },
+        {
+          id: "cp2-6-east-trumps-left-explain",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText:
+            "The answer is 2. East started with 4, and we have drawn two rounds, East following both times, with 2 trumps remaining.",
+        },
+        {
+          id: "cp2-6-one-more-trump",
+          type: "INFO",
+          atRoundIdx: 5,
+          promptText: "We know East has 1 more trump, so let's draw the final trump now.",
+        },
+        {
+          id: "cp2-6-hearts-winners",
+          type: "PLAY_DECISION",
+          atRoundIdx: 6,
+          promptText: "Are our remaining hearts winners, or not sure yet?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: true,
+          revealText:
+            "Yes.\n\nSince both opponents followed to two rounds of hearts, the suit is breaking 3-2. Therefore our last two hearts will be winners.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "K72", H: "9876", D: "A5", C: "7642" },
+      DECLARER: { S: "AQJ95", H: "AQJ4", D: "32", C: "A5" },
+      LHO: { S: "T", H: "K32", D: "Q864", C: "JT983" },
+      RHO: { S: "8643", H: "T5", D: "KJT97", C: "KQ" },
+    },
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (Q♦ lead, dummy wins A♦)",
+        plays: [
+          { seat: "LHO", card: { rank: "Q", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "D" } },
+          { seat: "RHO", card: { rank: "7", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Heart from dummy: small, Q, small)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "H" } },
+          { seat: "RHO", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (A♠, all follow)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
+          { seat: "LHO", card: { rank: "T", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
+          { seat: "RHO", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Q♠, West discards a club)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "Q", suit: "S" } },
+          { seat: "LHO", card: { rank: "3", suit: "C" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "7", suit: "S" } },
+          { seat: "RHO", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Spade to the King; West discards a diamond)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "5", suit: "S" } },
+          { seat: "LHO", card: { rank: "4", suit: "D" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Heart from dummy: small, J, small)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "RHO", card: { rank: "T", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (J♠, West and North discard clubs, East follows)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "J", suit: "S" } },
+          { seat: "LHO", card: { rank: "8", suit: "C" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "2", suit: "C" }, showOut: true },
+          { seat: "RHO", card: { rank: "8", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-7",
+    difficulty: 2,
+    title: "4♠: entries first, long suit priority",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Using entries productively",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp2-7-general-plan",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: "Have a think about what you want to do on this hand, a general plan.",
+        },
+        {
+          id: "cp2-7-theme-intro",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText:
+            "Throughout this site I emphasise setting up long suits as a priority, before drawing trumps.\n\nThe question often arises, when should I draw trumps though, and how many?\n\nLet's call trumps the \"entry suit\" for this hand. And see if that label helps us answer the question.",
+        },
+        {
+          id: "cp2-7-which-hand-hearts",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText:
+            "We have decided to set up our 5 card heart suit as a matter of priority. Which hand would it be best to play the heart suit from?",
+          options: [
+            { id: "doesnt_matter", label: "1. Doesn't matter" },
+            { id: "lead_from_dummy", label: "2. I want to lead hearts from dummy" },
+            { id: "play_from_hand", label: "3. I want to play hearts immediately out of hand." },
+          ],
+          expectedChoice: "lead_from_dummy",
+          revealText:
+            "Keep it simple. It looks natural to play low towards AQJxx. So let's use our \"entry suit\" to jump over to dummy, in order for us to play a heart.",
+        },
+        {
+          id: "cp2-7-draw-another-trump",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "Should we draw another trump?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          revealText:
+            "No, we do not need to draw more trumps.\n\nRemember we are calling it our entry suit. No need to touch our entry suit, we are in the perfect hand.",
+        },
+        {
+          id: "cp2-7-what-now-spade-entry",
+          type: "PLAY_DECISION",
+          atRoundIdx: 3,
+          promptText: "What now?",
+          options: [
+            { id: "play_spade", label: "1. Play a spade" },
+            { id: "play_heart", label: "2. Play a heart" },
+            { id: "play_diamond", label: "3. Play a diamond" },
+            { id: "play_club", label: "4. Play a club" },
+          ],
+          expectedChoice: "play_spade",
+          revealText:
+            "Play a trump.\n\nWe want to jump back over to dummy so let's use our entry suit.\n\nWe want to continue setting up our heart suit as a matter of priority. It still looks natural to take the heart finesse again.",
+        },
+        {
+          id: "cp2-7-spade-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 4,
+          fixed: { DUMMY: 4, DECLARER: 4, RHO: 1 },
+          expectedDistribution: { LHO: 4, DUMMY: 4, RHO: 1, DECLARER: 4 },
+          promptText:
+            "What was the original spade distribution?\n\nNorth is 4, South is 4, East is 1. Fill in West.",
+        },
+        {
+          id: "cp2-7-west-started-4",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: "West started with 4 trumps.",
+        },
+        {
+          id: "cp2-7-west-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 4,
+          promptText:
+            "How many trumps does West have left?\n\n(Hint: think of the number West started with, and also think about how many rounds we have played.)",
+          expectedAnswer: 2,
+          autoContinueOnCorrect: true,
+        },
+        {
+          id: "cp2-7-west-trumps-left-explain",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText:
+            "West has two left. We know West started with 4 trumps and has followed twice to both rounds, leaving 2 left.",
+        },
+        {
+          id: "cp2-7-what-now-keep-hearts",
+          type: "PLAY_DECISION",
+          atRoundIdx: 5,
+          promptText: "What now?",
+          options: [
+            { id: "play_trumps", label: "Play trumps" },
+            { id: "play_hearts", label: "Play hearts" },
+            { id: "play_diamonds", label: "Play diamonds" },
+            { id: "play_clubs", label: "Play clubs" },
+          ],
+          expectedChoice: "play_hearts",
+          revealText:
+            "We keep the focus from the start of the hand till the end of the hand. We want to set up the long suit.\n\nAs for trumps, that is our entry suit. We are in the correct hand. We may want to use our queen of spades later to jump back to our hand.",
+        },
+        {
+          id: "cp2-7-ruffing-choice",
+          type: "INFO",
+          atRoundIdx: 5,
+          promptText:
+            "We have played two rounds of the suit. The Ace will take care of the third round, but if the suit breaks 4-2 we need to ruff one. So we decide to ruff one now.",
+        },
+        {
+          id: "cp2-7-heart-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 6,
+          fixed: { DUMMY: 2, DECLARER: 5, LHO: 2 },
+          expectedDistribution: { LHO: 2, DUMMY: 2, RHO: 4, DECLARER: 5 },
+          promptText: "So the initial heart distribution was?",
+        },
+        {
+          id: "cp2-7-entry-wrap",
+          type: "INFO",
+          atRoundIdx: 6,
+          promptText:
+            "As you can see, the Queen of spades is once again our entry suit. We want to get back to our hand and enjoy our heart winners.",
+        },
+        {
+          id: "cp2-7-final-message",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText:
+            "We will make 10 tricks now.\n\nWe will just play our heart and club winners.\n\nWe will lose a diamond, and the J of spades. That, along with the Ace of clubs will be 3 losers in total.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "AK94", H: "72", D: "KT64", C: "842" },
+      DECLARER: { S: "QT63", H: "AQJ85", D: "5", C: "KQ7" },
+      LHO: { S: "J875", H: "43", D: "A983", C: "T64" },
+      RHO: { S: "2", H: "KT96", D: "QJ72", C: "AJ95" },
+    },
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (2♣ lead, East wins A♣)",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "RHO", card: { rank: "A", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "7", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (East continues clubs, South wins K♣)",
+        plays: [
+          { seat: "RHO", card: { rank: "J", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "C" } },
+          { seat: "LHO", card: { rank: "4", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (Low spade to the Ace)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "3", suit: "S" } },
+          { seat: "LHO", card: { rank: "5", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "S" } },
+          { seat: "RHO", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Heart to the Queen finesse)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "2", suit: "H" } },
+          { seat: "RHO", card: { rank: "6", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Spade to King; West discards diamond)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "6", suit: "S" } },
+          { seat: "LHO", card: { rank: "7", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "K", suit: "S" } },
+          { seat: "RHO", card: { rank: "2", suit: "D" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 6 (Heart to the Jack finesse)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "RHO", card: { rank: "9", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "H" } },
+          { seat: "LHO", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (Ruff a heart in dummy)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "5", suit: "H" } },
+          { seat: "LHO", card: { rank: "8", suit: "D" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "4", suit: "S" }, showOut: true },
+          { seat: "RHO", card: { rank: "T", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Spade entry to the 10; West discards diamond)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "9", suit: "S" } },
+          { seat: "RHO", card: { rank: "7", suit: "D" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "Q", suit: "S" } },
+          { seat: "LHO", card: { rank: "8", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-8",
+    difficulty: 2,
+    title: "3NT: entries productively — majors and knock-out",
+    newUntil: "2026-12-31",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Using entries productively",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp2-8-intro-focus",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "There is usually lots to think about on a bridge hand, interpreting the lead, the auction and many other factors.\n\nHowever, I want to narrow our focus for this hand, like the previous two, and focus only on using our entries productively.",
+        },
+        {
+          id: "cp2-8-knock-ace-prior",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "If you have worked through declarer difficulty 1 (problems 3–6), you have already seen this idea.\n\nA suit like hearts is a strong candidate: you \"knock out the Ace\" and turn the suit into winners for our side.",
+        },
+        {
+          id: "cp2-8-combine-entries",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "However, on this hand, we want to combine with the idea of using our entries productively.",
+        },
+        {
+          id: "cp2-8-spade-hand-matters",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "Let's look at the major suits.\n\nHearts and spades will both matter — but not in the same way.\n\nStart with spades — does it matter which hand we tackle that suit from?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText:
+            "Yes it does.\n\nWe want to play toward dummy's ♠AJ109 — lead low toward that tenace. If West has the king or queen, a finesse can pick up an extra trick; if not, your entries still let you develop the suit in an orderly way.",
+        },
+        {
+          id: "cp2-8-heart-hand-matters",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Does it matter which hand we play the ♥ suit from?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          revealText:
+            "No it doesn't. We can play ♥ from either hand — it's a straightforward suit: cash honors and eventually lose to the ace.",
+        },
+        {
+          id: "cp2-8-which-suit-first",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "Which suit should we play first — hearts or spades?\n\nBe guided now, and always, by the idea of using your entries productively.\n\nYou are in your hand: seize the moment and do something from your hand that can't be done from dummy.\n\nI will play:",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+          ],
+          expectedChoice: "spade",
+          revealText: "Let's lead a spade up.",
+        },
+        {
+          id: "cp2-8-jack-surprise",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText:
+            "Interesting — the Jack won the trick, a slight surprise. What should we do now?",
+        },
+        {
+          id: "cp2-8-after-jack",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "Play:",
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "hearts",
+          revealText:
+            "Now is an excellent time to play hearts. You were looking forward to playing that suit. Since there is nothing you particularly want to do from dummy, now is the time to play a heart.\n\nWe want to stay off spades, as those are best played from our hand, finessing.",
+        },
+        {
+          id: "cp2-8-continue-hearts-or-what",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "We win another trick. Should we continue with hearts or what?\n\nI would play:",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "spade",
+          revealText:
+            "Play a spade. Once again, without wanting to sound repetitive, we use our entry to do what cannot be done from the other hand.",
+        },
+        {
+          id: "cp2-8-after-diamond-return",
+          type: "PLAY_DECISION",
+          atRoundIdx: 4,
+          promptText: "A question I expect you to get right — what do we play now?",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "spade",
+          revealText:
+            "Spade — from the start to the end, we have kept our focus on using entries productively.",
+        },
+        {
+          id: "cp2-8-spade-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 5,
+          fixed: { DECLARER: 3, DUMMY: 4, RHO: 2 },
+          expectedDistribution: { LHO: 4, DUMMY: 4, RHO: 2, DECLARER: 3 },
+          promptText: "What was the original spade distribution?",
+        },
+        {
+          id: "cp2-8-hearts-going-well",
+          type: "INFO",
+          atRoundIdx: 6,
+          promptText: "We are doing well — now all that's left is to continue with our heart suit.",
+        },
+        {
+          id: "cp2-8-knock-ace-hearts",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText: "We keep persisting — let's \"knock out the Ace\" and set up our 9th trick.",
+        },
+        {
+          id: "cp2-8-done-9",
+          type: "INFO",
+          atRoundIdx: 11,
+          promptText: "Our final heart is good, for a total of 9 tricks.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "AJ109", H: "J1098", D: "32", C: "AJ7" },
+      DECLARER: { S: "876", H: "KQ3", D: "AQ5", C: "10432" },
+      LHO: { S: "Q432", H: "65", D: "8762", C: "K5" },
+      RHO: { S: "K5", H: "A42", D: "KJT9", C: "Q986" },
+    },
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (2♦ lead: low, King, Ace)",
+        plays: [
+          { seat: "LHO", card: { rank: "2", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "D" } },
+          { seat: "RHO", card: { rank: "K", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Low spade to the Jack)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "8", suit: "S" } },
+          { seat: "LHO", card: { rank: "3", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "J", suit: "S" } },
+          { seat: "RHO", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (Heart: low, King, low)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "H" } },
+          { seat: "LHO", card: { rank: "6", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (Spade: low, low, 10, King)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "7", suit: "S" } },
+          { seat: "LHO", card: { rank: "4", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "T", suit: "S" } },
+          { seat: "RHO", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Diamond return: win the Queen — Ace already cashed)",
+        plays: [
+          { seat: "RHO", card: { rank: "9", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "D" } },
+          { seat: "LHO", card: { rank: "6", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Spade: low, 9, East discards club)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "6", suit: "S" } },
+          { seat: "LHO", card: { rank: "2", suit: "S" } },
+          { seat: "DUMMY", card: { rank: "9", suit: "S" } },
+          { seat: "RHO", card: { rank: "9", suit: "C" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 7 (Ace of spades)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "A", suit: "S" } },
+          { seat: "RHO", card: { rank: "8", suit: "C" }, showOut: true },
+          { seat: "DECLARER", card: { rank: "4", suit: "C" }, showOut: true },
+          { seat: "LHO", card: { rank: "Q", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Heart: low, Queen, low)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "RHO", card: { rank: "4", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "Q", suit: "H" } },
+          { seat: "LHO", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 9 (Heart: South leads; Ace wins for East)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "3", suit: "H" } },
+          { seat: "LHO", card: { rank: "8", suit: "D" }, showOut: true },
+          { seat: "DUMMY", card: { rank: "J", suit: "H" } },
+          { seat: "RHO", card: { rank: "A", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 10 (Diamond — East leads; North pitches lowest club)",
+        plays: [
+          { seat: "RHO", card: { rank: "J", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "5", suit: "D" } },
+          { seat: "LHO", card: { rank: "7", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "C" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 11 (Diamond — East leads; discards)",
+        plays: [
+          { seat: "RHO", card: { rank: "T", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "3", suit: "C" }, showOut: true },
+          { seat: "LHO", card: { rank: "8", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "J", suit: "C" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 12 (East leads a club; North wins the Ace)",
+        plays: [
+          { seat: "RHO", card: { rank: "6", suit: "C" } },
+          { seat: "DECLARER", card: { rank: "2", suit: "C" } },
+          { seat: "LHO", card: { rank: "K", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-9",
+    difficulty: 2,
+    title: "4♠: heart finesse — dummy's entry and the five-card suit",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Using entries productively",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp2-9-plan-trick2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What is your plan here, and what do you play to trick 2?",
+          options: [
+            { id: "trumps", label: "Trumps" },
+            { id: "hearts", label: "Hearts" },
+            { id: "diamonds", label: "Diamonds" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "hearts",
+          revealText: "Hearts. Use Dummy's only sure entry wisely, don't waste it!",
+        },
+        {
+          id: "cp2-9-dummy-five",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Before explaining why, did you notice dummy's five-card ♣ suit?\n\nI talk a lot about the power of five-card suits, and I always at least glance to see whether I can set one up.",
+        },
+        {
+          id: "cp2-9-dummy-weak",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Here dummy is too weak for that (see my Declarer Play article \"Pattern recognition #2 — Suss\").",
+        },
+        {
+          id: "cp2-9-play-heart-ten",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "So how do you play the heart suit? Please play the trick by clicking the cards.",
+          playCardUserPlaysDummyFirst: true,
+          playCardAutoPlaysBefore: [{ seat: "RHO", card: { rank: "2", suit: "H" } }],
+          playCardAutoPlayAfter: { seat: "LHO", card: { rank: "A", suit: "H" } },
+          playCardEndHandAfterContinue: true,
+          expectedSuit: "H",
+          expectedRank: "T",
+          correctRevealText: "Well done!",
+          wrongRevealText: "Nice try.",
+          revealText:
+            "The winning play is to finesse the ♥J — that gives you the best chance of making 2 ♥ tricks.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "43", H: "Q76", D: "A32", C: "JT985" },
+      DECLARER: { S: "AKQ1098", H: "K108", D: "54", C: "32" },
+      LHO: { S: "762", H: "A543", D: "KQJT", C: "AK7" },
+      RHO: { S: "J5", H: "J92", D: "9876", C: "Q64" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (♦K lead: ♦A wins in dummy)",
+        plays: [
+          { seat: "LHO", card: { rank: "K", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "D" } },
+          { seat: "RHO", card: { rank: "9", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (Low ♥ from dummy — ♥10 from hand; West wins ♥A)",
+        plays: [
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "H" } },
+          { seat: "DECLARER", card: { rank: "T", suit: "H" } },
+          { seat: "LHO", card: { rank: "A", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-10",
+    difficulty: 2,
+    title: "4♠: spectacular crossruff — two 5–0 breaks",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Using entries productively",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: true,
+      skipAutoPlayOnStart: true,
+      customPrompts: [
+        {
+          id: "cp2-10-spectacular",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: "This is a spectacular declarer-play hand.",
+        },
+        {
+          id: "cp2-10-prelim",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: "Before we go further, let's do some preliminary work.",
+        },
+        {
+          id: "cp2-10-dist-hearts",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 1,
+          fixed: { DUMMY: 5, RHO: 0, DECLARER: 3 },
+          expectedDistribution: { LHO: 5, DUMMY: 5, RHO: 0, DECLARER: 3 },
+          promptText: "The ♥ distribution is — fill in the missing seat.",
+        },
+        {
+          id: "cp2-10-exp-hearts",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: "We can work out that West started with 5 ♥.",
+        },
+        {
+          id: "cp2-10-dist-spades",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 1,
+          fixed: { DUMMY: 4, DECLARER: 4, LHO: 0 },
+          expectedDistribution: { LHO: 0, DUMMY: 4, RHO: 5, DECLARER: 4 },
+          promptText: "What about the trump distribution? Fill in the missing seat.",
+        },
+        {
+          id: "cp2-10-exp-spades",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText:
+            "East started with 5 ♠. Two 5–0 breaks — is that going to slow you down, or are you going to treat this hand like any other and stick with good principles?",
+        },
+        {
+          id: "cp2-10-which-suit",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "Which suit do you think declarer played next?",
+          options: [
+            { id: "trump", label: "Trump" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "heart",
+          revealText:
+            "Play a ♥. Good bridge principles like this don't have many exceptions — this hand was no exception.",
+        },
+        {
+          id: "cp2-10-east-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 3,
+          promptText:
+            "Let's keep track of trumps — we know East started with 5. How many does East have left?\n\n(hint: think about how many rounds have been drawn and how many times East has ruffed)",
+          expectedAnswer: 1,
+        },
+        {
+          id: "cp2-10-exp-trumps-left",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText:
+            "East has 1 ♠ left — after ruffing twice and drawing two rounds.",
+        },
+        {
+          id: "cp2-10-claimed",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText:
+            "Declarer actually claimed: the hand was high, with ♥ all winners and the rest a crossruff. One trump is still out with East — it wins eventually.",
+        },
+        {
+          id: "cp2-10-wrap",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText: "Two 5–0 breaks didn't slow declarer down — entries were used productively.",
+        },
+      ],
+    },
+    shownHands: {
+      DUMMY: { S: "8765", H: "AKQ97", D: "A32", C: "2" },
+      DECLARER: { S: "AK43", H: "982", D: "4", C: "A9876" },
+      LHO: { S: "", H: "JT654", D: "K765", C: "9842" },
+      RHO: { S: "QJT92", H: "", D: "QJT98", C: "QT7" },
+    },
+    visibleFullHandSeats: ["DUMMY", "DECLARER"],
+    revealFullHandsAtEnd: ["LHO", "RHO"],
+    rounds: [
+      {
+        label: "Trick 1 (♥J, ♥A; ♠2 ruff — East wins)",
+        plays: [
+          { seat: "LHO", card: { rank: "J", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "2", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (East leads — East, South, West, North: ♠Q, ♠A, ♦4, ♠5)",
+        plays: [
+          { seat: "RHO", card: { rank: "Q", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
+          { seat: "LHO", card: { rank: "4", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♥2, ♥4, ♥7, ♠6 ruff)",
+        plays: [
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+          { seat: "LHO", card: { rank: "4", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
+          { seat: "RHO", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♠J, ♠K, ♣8, ♠6 from dummy)",
+        plays: [
+          { seat: "RHO", card: { rank: "J", suit: "S" } },
+          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
+          { seat: "LHO", card: { rank: "8", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "6", suit: "S" } },
         ],
       },
     ],

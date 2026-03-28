@@ -1512,6 +1512,21 @@
   color: #1f2937;
 }
 
+/* Split promptText on blank lines into real paragraphs (FormattedRevealText). */
+.ct-playDecisionBlock-question--formatted .ct-revealContent {
+  font-size: 15px;
+  font-weight: 900;
+  color: #1f2937;
+  line-height: 1.45;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph {
+  font-weight: 900;
+  margin: 0 0 14px;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph:last-child {
+  margin-bottom: 0;
+}
+
 .ct-railAnswer {
   margin-top: 8px;
   display: flex;

@@ -46,16 +46,17 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
   return acc;
 }, {});
 
-/** Problem IDs that are free for non-members in that category. When set, overrides single trial-starter logic. */
+/**
+ * Free problems for non-members by category.
+ * If a category key is present, ONLY listed IDs are free (empty array = none free in that category).
+ * If a category is omitted, legacy rules apply (trial starter + first problem per difficulty as preview).
+ */
 export const FREE_PROBLEM_IDS_BY_CATEGORY = {
-  bidding: [
-    "bid1-1", // Difficulty 1, problem 1 — opening theme intro video + hand
-    "bid2-1",
-    "bid2-2",
-    "bid2-3",
-    "bid2-4",
-    "bid2-5", // Matchpoint theme: first 5 free
-  ],
+  /** Bidding: d1 problems 1 & 6; d2 problems 1–5 (promotion — keep in sync with marketing). */
+  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5"],
+  declarer: [],
+  defence: [],
+  counting: [],
 };
 
 export const THEME_INTRO_BY_TINT = THEME_PACKS.reduce((acc, pack) => {
