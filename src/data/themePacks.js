@@ -54,7 +54,8 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
 export const FREE_PROBLEM_IDS_BY_CATEGORY = {
   /** Bidding: d1 problems 1 & 6; d2 problems 1–5 (promotion — keep in sync with marketing). */
   bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5"],
-  declarer: [],
+  /** Declarer: difficulty 2 problem 6 — first free hand in the “entries” series (videos unlocked for everyone on this id). */
+  declarer: ["cp2-6"],
   defence: [],
   counting: [],
 };

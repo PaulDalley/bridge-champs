@@ -1507,6 +1507,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/LhjJh25vzG4",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1693,6 +1694,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ArED5qGmybs",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -1931,6 +1933,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/U43p6sSuHyU",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -2212,6 +2215,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/cC7f208jmeg",
       startAutoPlayThroughRoundIdx: 0,
       customPrompts: [
         {
@@ -2308,6 +2312,7 @@ const CARDPLAY_PUZZLES_ALL = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       hideOpponentLabels: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/WvrNS2Kkbtw",
       skipAutoPlayOnStart: true,
       customPrompts: [
         {
