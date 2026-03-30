@@ -33,6 +33,42 @@
   margin: 0 0 0.5rem;
 }
 
+.sy-card-page-switch {
+  display: inline-flex;
+  gap: 0;
+  margin-top: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--sy-line);
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.sy-card-page-switch-btn {
+  padding: 0.45rem 1.15rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--sy-muted);
+  cursor: pointer;
+  font-family: var(--sy-font);
+}
+
+.sy-card-page-switch-btn:hover {
+  background: #eef2ff;
+  color: var(--sy-ink);
+}
+
+.sy-card-page-switch-btn--active {
+  background: var(--sy-accent);
+  color: #fff;
+}
+
+.sy-card-page-switch-btn--active:hover {
+  background: #162c4f;
+  color: #fff;
+}
+
 .sy-card-subtitle {
   margin: 0 0 1rem;
   color: var(--sy-muted);
@@ -303,6 +339,11 @@
   overflow: hidden;
 }
 
+/* Calibration: live text previews use pointer-events auto; without this they steal clicks from boxes below. */
+.sy-card-visual-frame--calibrate .sy-card-live-box {
+  pointer-events: none;
+}
+
 .sy-card-visual-image {
   display: block;
   width: 100%;
@@ -322,7 +363,7 @@
 .sy-card-calibration-layer {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 10;
   pointer-events: none;
 }
 

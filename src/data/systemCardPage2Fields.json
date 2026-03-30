@@ -1697,6 +1697,62 @@
   ],
   "defence": [
     {
+      "id": "tick_nt_checkback",
+      "label": "NT checkback",
+      "pdfFields": [
+        "IsNTCheckback"
+      ],
+      "cardRect": {
+        "top": 39.93,
+        "left": 56.0,
+        "width": 10.0,
+        "height": 2.05,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "tick_4th_forcing_game",
+      "label": "4th suit forcing (game)",
+      "pdfFields": [
+        "Is4thForcingGame"
+      ],
+      "cardRect": {
+        "top": 37.29,
+        "left": 56.0,
+        "width": 10.0,
+        "height": 2.05,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "tick_cue_bids",
+      "label": "Cue bids",
+      "pdfFields": [
+        "IsCueBids"
+      ],
+      "cardRect": {
+        "top": 27.85,
+        "left": 56.0,
+        "width": 10.0,
+        "height": 2.05,
+        "maxLines": 1
+      }
+    },
+    {
+      "id": "tick_asking_bids",
+      "label": "Asking bids",
+      "pdfFields": [
+        "IsAskingBids"
+      ],
+      "cardRect": {
+        "top": 26.0,
+        "left": 56.0,
+        "width": 10.0,
+        "height": 2.05,
+        "maxLines": 1
+      }
+    },
+    {
       "id": "p2_conventions_0",
       "label": "Conventions",
       "pdfFields": [
@@ -1880,9 +1936,10 @@
     },
     {
       "id": "p2_over1ntinterf",
-      "label": "Over 1NT interference",
+      "label": "Interference over 1NT",
       "pdfFields": [
-        "Over1NTInterf"
+        "Over1NTInterf",
+        "Over1NTInterfMore"
       ],
       "cardRect": {
         "top": 66.64,

@@ -174,13 +174,6 @@
     "height": 8.158152082279548,
     "maxLines": 2
   },
-  "comp_general": {
-    "top": 67.87,
-    "left": 77.81,
-    "width": 20.89,
-    "height": 2.22,
-    "maxLines": 1
-  },
   "doubles_1": {
     "top": 70.51,
     "left": 55.38,
@@ -189,8 +182,8 @@
     "maxLines": 1
   },
   "neg_x_limit": {
-    "top": 73.59307440325651,
-    "left": 93.68786492374727,
+    "top": 70.603351575477,
+    "left": 93.60961766240142,
     "width": 5.23,
     "height": 2.22,
     "maxLines": 1
@@ -203,8 +196,8 @@
     "maxLines": 1
   },
   "resp_x_limit": {
-    "top": 75.6164595226052,
-    "left": 94.97572984749456,
+    "top": 72.95892812013453,
+    "left": 93.95851544999847,
     "width": 3.9521350762527234,
     "height": 2.374153720162825,
     "maxLines": 1
@@ -217,8 +210,8 @@
     "maxLines": 1
   },
   "unusual_nt": {
-    "top": 77.96708095478961,
-    "left": 83.10196078431372,
+    "top": 75.64174097762776,
+    "left": 82.7889717389303,
     "width": 16.003485838779955,
     "height": 2.825233037069152,
     "maxLines": 1
@@ -231,8 +224,8 @@
     "maxLines": 1
   },
   "reopen_1nt": {
-    "top": 81.05061324276802,
-    "left": 82.99106753812636,
+    "top": 78.39308184029736,
+    "left": 82.83457301543466,
     "width": 15.61,
     "height": 2.22,
     "maxLines": 1
@@ -245,50 +238,50 @@
     "maxLines": 1
   },
   "immed_cue_major": {
-    "top": 83.39230580244238,
-    "left": 82.48252723311546,
+    "top": 80.62404392486876,
+    "left": 81.62180735831107,
     "width": 16.118540305010892,
     "height": 2.8366148806513,
     "maxLines": 1
   },
   "compete_weak2": {
-    "top": 86.49476696293084,
-    "left": 59.578932461873634,
+    "top": 83.61577461025428,
+    "left": 59.657179723219485,
     "width": 13.77,
     "height": 2.22,
     "maxLines": 1
   },
   "compete_open3": {
-    "top": 86.95722812341933,
-    "left": 80.87786492374727,
+    "top": 84.1889662458457,
+    "left": 80.64312313970972,
     "width": 18.04,
     "height": 2.22,
     "maxLines": 1
   },
   "transfers_1": {
-    "top": 89.75138184358215,
-    "left": 59.813202614379094,
+    "top": 86.09727616518498,
+    "left": 59.578460830341534,
     "width": 38.57,
     "height": 2.22,
     "maxLines": 1
   },
   "compete_1nt_1": {
-    "top": 92.30138184358213,
+    "top": 89.31165901580263,
     "left": 58.293202614379084,
     "width": 40.08,
     "height": 2.22,
     "maxLines": 1
   },
   "compete_1nt_2": {
-    "top": 94.17061324276801,
-    "left": 51.061067538126366,
+    "top": 91.29162089009145,
+    "left": 51.217562060818075,
     "width": 47.74786492374727,
     "height": 3.1449223209769497,
     "maxLines": 1
   },
   "compete_1nt_3": {
-    "top": 97.2730744032565,
-    "left": 50.73427015250545,
+    "top": 94.61554300078583,
+    "left": 50.96901193654301,
     "width": 47.53,
     "height": 2.22,
     "maxLines": 1
@@ -342,89 +335,194 @@
     "height": 2.22,
     "maxLines": 1
   },
-  "leads_sequences": {
-    "top": 29.6,
-    "left": 8.5,
-    "width": 12.6,
-    "height": 4.2,
+  "play_priorities": {
+    "top": 20.73,
+    "left": 23.79,
+    "width": 24.97,
+    "height": 2.22,
     "maxLines": 1
   },
-  "discards": {
-    "top": 42.7,
-    "left": 7.8,
-    "width": 14.5,
-    "height": 4.1,
+  "seq_lead_s": {
+    "top": 25.62,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
     "maxLines": 1
   },
-  "signals": {
-    "top": 47.6,
-    "left": 6.8,
-    "width": 16.2,
-    "height": 8.2,
-    "maxLines": 2
+  "seq_lead_nt": {
+    "top": 25.62,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
   },
-  "play_notes": {
-    "top": 23,
-    "left": 2,
-    "width": 42.2,
-    "height": 6,
-    "maxLines": 2
+  "four_honour_s": {
+    "top": 28.27,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
   },
-  "rkcb_style": {
-    "top": 61.1,
-    "left": 13.982135076252723,
-    "width": 8.7,
-    "height": 3.8,
+  "four_honour_nt": {
+    "top": 28.27,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "four_small_s": {
+    "top": 30.91,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "four_small_nt": {
+    "top": 30.91,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "three_small_s": {
+    "top": 33.55,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "three_small_nt": {
+    "top": 33.55,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "partner_suit_s": {
+    "top": 36.21,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "partner_suit_nt": {
+    "top": 36.21,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "discard_s": {
+    "top": 38.83,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "discard_nt": {
+    "top": 38.83,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "count_s": {
+    "top": 41.48,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "count_nt": {
+    "top": 41.48,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "signal_partner_s": {
+    "top": 44.14,
+    "left": 13.15,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "signal_partner_nt": {
+    "top": 44.14,
+    "left": 31.33,
+    "width": 17.43,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "signal_declarer": {
+    "top": 46.78,
+    "left": 13.13,
+    "width": 35.63,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "play_notes_1": {
+    "top": 49.42,
+    "left": 4.81,
+    "width": 43.96,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "play_notes_2": {
+    "top": 52.06,
+    "left": 1.23,
+    "width": 47.53,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "play_notes_3": {
+    "top": 54.71,
+    "left": 1.23,
+    "width": 47.53,
+    "height": 2.22,
     "maxLines": 1
   },
   "gerber_when": {
-    "top": 59.1998446419539,
-    "left": 31.798540305010896,
+    "top": 57.53888751540973,
+    "left": 32.42451839577772,
     "width": 16.1,
     "height": 2.22,
     "maxLines": 1
   },
+  "rkcb_style": {
+    "top": 59.43904287345584,
+    "left": 14.764607689711253,
+    "width": 7.761032863849764,
+    "height": 2.6926952489705522,
+    "maxLines": 1
+  },
   "four_nt_other": {
-    "top": 61.8398446419539,
-    "left": 22.72106753812636,
+    "top": 59.73596561499795,
+    "left": 22.642820276780505,
     "width": 25.93,
     "height": 2.22,
     "maxLines": 1
   },
   "slam_notes_1": {
-    "top": 64.17153720162825,
-    "left": 15.437472766884529,
+    "top": 62.510580075084086,
+    "left": 16.376439903034765,
     "width": 32.56,
     "height": 2.22,
     "maxLines": 1
   },
   "slam_notes_2": {
-    "top": 66.81153720162824,
-    "left": 0.46747276688453154,
+    "top": 65.26131055018702,
+    "left": 0.9369563349596489,
     "width": 47.53,
     "height": 2.22,
     "maxLines": 1
   },
   "slam_notes_3": {
-    "top": 68.99907604113977,
-    "left": 0.5446623093681917,
+    "top": 67.55957986480149,
+    "left": 0.8576513547516034,
     "width": 47.53,
     "height": 2.22,
     "maxLines": 1
-  },
-  "gerber": {
-    "top": 59.8,
-    "left": 42.8,
-    "width": 6.4,
-    "height": 3.8,
-    "maxLines": 1
-  },
-  "slam_notes": {
-    "top": 64.8,
-    "left": 1.8,
-    "width": 42.4,
-    "height": 5.8,
-    "maxLines": 2
   },
   "defence_vs_1nt": {
     "top": 90,
@@ -433,6 +531,34 @@
     "height": 5.1,
     "maxLines": 2
   },
+  "tick_nt_checkback": {
+    "top": 39.93,
+    "left": 56.0,
+    "width": 10.0,
+    "height": 2.05,
+    "maxLines": 1
+  },
+  "tick_4th_forcing_game": {
+    "top": 37.29,
+    "left": 56.0,
+    "width": 10.0,
+    "height": 2.05,
+    "maxLines": 1
+  },
+  "tick_cue_bids": {
+    "top": 27.85,
+    "left": 56.0,
+    "width": 10.0,
+    "height": 2.05,
+    "maxLines": 1
+  },
+  "tick_asking_bids": {
+    "top": 26.0,
+    "left": 56.0,
+    "width": 10.0,
+    "height": 2.05,
+    "maxLines": 1
+  },
   "other_conventions": {
     "top": 76,
     "left": 1.8,
@@ -440,60 +566,1033 @@
     "height": 14.6,
     "maxLines": 4
   },
-  "special_agreements": {
-    "top": 54,
-    "left": 35.2,
-    "width": 13.8,
-    "height": 5.9,
-    "maxLines": 2
-  },
-  "open_1major_style": {
-    "top": 25.8,
-    "left": 58.2,
-    "width": 39,
-    "height": 5,
+  "p2_resp2h_2s": {
+    "top": 1.99,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
     "maxLines": 1
   },
-  "open_1minor_style": {
-    "top": 21.2,
-    "left": 58.2,
-    "width": 39,
-    "height": 4.2,
+  "p2_resp2h_3d": {
+    "top": 1.99,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
     "maxLines": 1
   },
-  "weak_twos": {
-    "top": 44.4,
-    "left": 58.2,
-    "width": 17.6,
-    "height": 8.6,
-    "maxLines": 2
-  },
-  "nt_responses": {
-    "top": 36.2,
-    "left": 58.2,
-    "width": 39.2,
-    "height": 8,
-    "maxLines": 2
-  },
-  "negative_double": {
-    "top": 77.4,
-    "left": 82.6,
-    "width": 14,
-    "height": 5.6,
+  "p2_resp2h_3nt": {
+    "top": 1.99,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
     "maxLines": 1
   },
-  "jump_overcalls": {
-    "top": 82.9,
-    "left": 58.4,
-    "width": 18.4,
-    "height": 5.6,
+  "p2_resp2h_2nt": {
+    "top": 4.36,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
     "maxLines": 1
   },
-  "competition_summary": {
-    "top": 77.4,
-    "left": 58.4,
-    "width": 23.4,
-    "height": 5.4,
+  "p2_resp2h_3h": {
+    "top": 4.36,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2h_4c": {
+    "top": 4.36,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2h_3c": {
+    "top": 6.74,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2h_3s": {
+    "top": 6.74,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2h_4h": {
+    "top": 6.74,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_1d": {
+    "top": 6.99,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_2d": {
+    "top": 6.99,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_3d": {
+    "top": 6.99,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2h_other": {
+    "top": 9.11,
+    "left": 55.5,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_1h": {
+    "top": 9.37,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_2h": {
+    "top": 9.37,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_3h": {
+    "top": 9.37,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_1s": {
+    "top": 11.74,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_2s": {
+    "top": 11.74,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_3s": {
+    "top": 11.74,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_2nt": {
+    "top": 11.98,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_3h": {
+    "top": 11.98,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_4c": {
+    "top": 11.98,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_1nt": {
+    "top": 14.11,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_2nt": {
+    "top": 14.11,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_3nt": {
+    "top": 14.11,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_3c": {
+    "top": 14.35,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_3s": {
+    "top": 14.35,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_4h": {
+    "top": 14.35,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_2c": {
+    "top": 16.49,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_3c": {
+    "top": 16.49,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_4c": {
+    "top": 16.49,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_3d": {
+    "top": 16.73,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_3nt": {
+    "top": 16.73,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_4s": {
+    "top": 16.73,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1c_other": {
+    "top": 18.86,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2s_other": {
+    "top": 19.1,
+    "left": 55.5,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_1h": {
+    "top": 21.73,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_2h": {
+    "top": 21.73,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_3h": {
+    "top": 21.73,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_3c": {
+    "top": 21.97,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_3s": {
+    "top": 21.97,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_4d": {
+    "top": 21.97,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_1s": {
+    "top": 24.1,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_2s": {
+    "top": 24.1,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_3s": {
+    "top": 24.1,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_3d": {
+    "top": 24.34,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_3nt": {
+    "top": 24.34,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_4h": {
+    "top": 24.34,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_1nt": {
+    "top": 26.48,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_2nt": {
+    "top": 26.48,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_3nt": {
+    "top": 26.48,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_3h": {
+    "top": 26.72,
+    "left": 55.5,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_4c": {
+    "top": 26.72,
+    "left": 70.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_4s": {
+    "top": 26.72,
+    "left": 85.85,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_2c": {
+    "top": 28.85,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_3c": {
+    "top": 28.85,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_4c": {
+    "top": 28.85,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2nt_other": {
+    "top": 29.09,
+    "left": 55.5,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_2d": {
+    "top": 31.22,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_3d": {
+    "top": 31.22,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_4d": {
+    "top": 31.22,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1d_other": {
+    "top": 33.6,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_1s": {
+    "top": 36.47,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_2h": {
+    "top": 36.47,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_3d": {
+    "top": 36.47,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_1nt": {
+    "top": 38.84,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_2s": {
+    "top": 38.84,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_3h": {
+    "top": 38.84,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_2c": {
+    "top": 41.21,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_2nt": {
+    "top": 41.21,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_3s": {
+    "top": 41.21,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_2d": {
+    "top": 43.59,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_3c": {
+    "top": 43.59,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_3nt": {
+    "top": 43.59,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1h_other": {
+    "top": 45.96,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_1nt": {
+    "top": 48.84,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_2s": {
+    "top": 48.84,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_3h": {
+    "top": 48.84,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_2c": {
+    "top": 51.21,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_2nt": {
+    "top": 51.21,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_3s": {
+    "top": 51.21,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_2d": {
+    "top": 53.59,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_3c": {
+    "top": 53.59,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_3nt": {
+    "top": 53.59,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_2h": {
+    "top": 55.96,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_3d": {
+    "top": 55.96,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_4c": {
+    "top": 55.96,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1s_other": {
+    "top": 58.33,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_3c": {
+    "top": 61.2,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_3s": {
+    "top": 61.2,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_4d": {
+    "top": 61.2,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_3d": {
+    "top": 63.58,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_3nt": {
+    "top": 63.58,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_4h": {
+    "top": 63.58,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_3h": {
+    "top": 65.95,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_4c": {
+    "top": 65.95,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_4s": {
+    "top": 65.95,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp1nt_other": {
+    "top": 68.32,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_2d": {
+    "top": 71.19,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_2nt": {
+    "top": 71.19,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_3h": {
+    "top": 71.19,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_2h": {
+    "top": 73.57,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_3c": {
+    "top": 73.57,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_3s": {
+    "top": 73.57,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_2s": {
+    "top": 75.94,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_3d": {
+    "top": 75.94,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_3nt": {
+    "top": 75.94,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2c_other": {
+    "top": 78.31,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_2h": {
+    "top": 81.19,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_3c": {
+    "top": 81.19,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_3s": {
+    "top": 81.19,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_2s": {
+    "top": 83.57,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_3d": {
+    "top": 83.57,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_3nt": {
+    "top": 83.57,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_2nt": {
+    "top": 85.94,
+    "left": 5.67,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_3h": {
+    "top": 85.94,
+    "left": 20.84,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_4c": {
+    "top": 85.94,
+    "left": 36.02,
+    "width": 12.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_resp2d_other": {
+    "top": 88.31,
+    "left": 5.67,
+    "width": 42.86,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_responsenotes_1": {
+    "top": 91.01,
+    "left": 4.92,
+    "width": 43.85,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_responsenotes_2": {
+    "top": 93.38,
+    "left": 1.34,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_responsenotes_3": {
+    "top": 95.75,
+    "left": 1.34,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_conventions_0": {
+    "top": 32.01,
+    "left": 68.47,
+    "width": 30.12,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_unusualnotrump": {
+    "top": 34.65,
+    "left": 58.27,
+    "width": 40.33,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_fourthsuitforcing": {
+    "top": 37.29,
+    "left": 66.96,
+    "width": 23.68,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_checkbackpriorities": {
+    "top": 39.93,
+    "left": 66.41,
+    "width": 32.18,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defence3nt": {
+    "top": 42.57,
+    "left": 64.48,
+    "width": 34.11,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defenceopening2": {
+    "top": 45.22,
+    "left": 65.42,
+    "width": 33.18,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencemulti": {
+    "top": 47.86,
+    "left": 57.73,
+    "width": 40.87,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencerco": {
+    "top": 50.5,
+    "left": 57.73,
+    "width": 40.87,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defenceothertwos": {
+    "top": 53.14,
+    "left": 57.73,
+    "width": 40.87,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencestrongc_1": {
+    "top": 55.78,
+    "left": 56.32,
+    "width": 42.06,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencestrongc_2": {
+    "top": 58.43,
+    "left": 56.32,
+    "width": 42.06,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencestrongc_3": {
+    "top": 61.07,
+    "left": 56.32,
+    "width": 42.06,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_defencestrongc_4": {
+    "top": 63.71,
+    "left": 56.32,
+    "width": 42.06,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_over1ntinterf": {
+    "top": 66.64,
+    "left": 63.36,
+    "width": 35.23,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_lebensohlother": {
+    "top": 69.28,
+    "left": 64.23,
+    "width": 34.36,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_takeoutof4c4d": {
+    "top": 71.92,
+    "left": 71.43,
+    "width": 27.16,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_takeoutof4h": {
+    "top": 74.56,
+    "left": 54.3,
+    "width": 20.41,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_takeoutof4s": {
+    "top": 74.56,
+    "left": 78.1,
+    "width": 20.49,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_0": {
+    "top": 77.2,
+    "left": 69.26,
+    "width": 29.33,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_1": {
+    "top": 79.85,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_2": {
+    "top": 82.49,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_3": {
+    "top": 85.13,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_4": {
+    "top": 87.77,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_5": {
+    "top": 90.41,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_6": {
+    "top": 93.06,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
+    "maxLines": 1
+  },
+  "p2_othernotes_7": {
+    "top": 95.7,
+    "left": 51.17,
+    "width": 47.42,
+    "height": 2.22,
     "maxLines": 1
   }
 }

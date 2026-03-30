@@ -514,12 +514,6 @@ export const VISIBLE_CARD_SECTIONS = [
     title: "3. COMPETITIVE BIDS / OVERCALLS",
     fields: [
       {
-        id: "comp_general",
-        label: "Competitive bids",
-        pdfFields: ["Competitive_0"],
-        cardRect: { top: 67.87, left: 77.81, width: 20.89, height: 2.22, maxLines: 1 },
-      },
-      {
         id: "doubles_1",
         label: "Doubles",
         pdfFields: ["Doubles_1"],
@@ -844,28 +838,10 @@ export const VISIBLE_CARD_SECTIONS = [
     title: "7. OTHER CONVENTIONS & DEFENCE",
     fields: [
       {
-        id: "defence_vs_1nt",
-        label: "Defence vs 1NT",
-        pdfFields: ["Over1NTInterf", "Over1NTInterfMore"],
-        cardRect: { top: 90.0, left: 58.4, width: 39.0, height: 5.1, maxLines: 2 },
-      },
-      {
         id: "other_conventions",
-        label: "Other conventions",
-        pdfFields: ["Other_0", "Conventions_0", "OtherNotes_0"],
+        label: "Other notes",
+        pdfFields: ["Other_0", "OtherNotes_0"],
         cardRect: { top: 76.0, left: 1.8, width: 42.2, height: 14.6, maxLines: 4 },
-      },
-    ],
-  },
-  {
-    id: "sec_9",
-    title: "Tick-box style fields (if used)",
-    fields: [
-      {
-        id: "special_agreements",
-        label: "Special agreements",
-        pdfFields: ["IsNTCheckback", "Is4thForcingGame", "IsCueBids", "IsAskingBids"],
-        cardRect: { top: 54.0, left: 35.2, width: 13.8, height: 5.9, maxLines: 2 },
       },
     ],
   },

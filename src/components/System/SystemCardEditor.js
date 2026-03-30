@@ -19,6 +19,12 @@ const VISUAL_CARD_IMAGE_BY_PAGE = {
   1: "/system-card/abf-card-blank-official-upright.jpg",
   2: "/system-card/abf-card-blank-official-page2-upright.jpg",
 };
+/** Page 2: two large regions — responses (left) and other methods / conventions (right). */
+const VISUAL_HOTSPOTS_PAGE2 = [
+  { id: "hotspot-p2-responses", sectionId: "p2_responses", label: "PAGE 2: RESPONSES", top: 1.5, left: 1.5, width: 47.5, height: 97 },
+  { id: "hotspot-p2-defence", sectionId: "p2_defence", label: "PAGE 2: OTHER METHODS", top: 1.5, left: 51.0, width: 47.5, height: 97 },
+];
+
 const VISUAL_HOTSPOTS = [
   // Split-card model: each section spans from center line to page edge for its side.
   { id: "hotspot-basics", sectionId: "sec_1", label: "ABF Nos., names and basic system", top: 5.0, left: 50.0, width: 49.0, height: 12.2 },
@@ -29,7 +35,6 @@ const VISUAL_HOTSPOTS = [
   { id: "hotspot-play", sectionId: "sec_6", label: "5. PLAY CONVENTIONS", top: 19.8, left: 1.0, width: 49.0, height: 38.8 },
   { id: "hotspot-slam", sectionId: "sec_7", label: "6. SLAM CONVENTIONS", top: 58.9, left: 1.0, width: 49.0, height: 12.3 },
   { id: "hotspot-other-defence", sectionId: "sec_8", label: "7. Other conventions & defence", top: 71.5, left: 1.0, width: 49.0, height: 24.0 },
-  { id: "hotspot-tickboxes", sectionId: "sec_9", label: "Tick-box style fields", top: 53.8, left: 28.5, width: 21.5, height: 7.2 },
 ];
 
 /** Migrate v1 Firestore `selections` into v2 `abfValues` (PDF field names). */
@@ -87,7 +92,7 @@ function buildDefaultRectMap() {
 function SystemCardEditor({ uid }) {
   const [abfValues, setAbfValues] = useState({});
   const [loading, setLoading] = useState(true);
-  const [cardPage] = useState(1);
+  const [cardPage, setCardPage] = useState(1);
   const [selectedVisualSectionId, setSelectedVisualSectionId] = useState("sec_1");
   const [assistantMsg, setAssistantMsg] = useState("");
   const [guidedSectionClicked, setGuidedSectionClicked] = useState(false);
@@ -216,12 +221,11 @@ function SystemCardEditor({ uid }) {
     });
     return overlays;
   }, [abfValues, cardRects, cardPage]);
+  // While editing a section, hide *all* live preview boxes — otherwise fields from other
+  // sections (e.g. sec_8) still render on the card and overlap the wrong area (e.g. sec_4).
   const displayedLiveFieldOverlays = useMemo(
-    () =>
-      liveFieldOverlays.filter(
-        (entry) => !(guidedSectionClicked && entry.sectionId === selectedVisualSectionId)
-      ),
-    [guidedSectionClicked, liveFieldOverlays, selectedVisualSectionId]
+    () => (guidedSectionClicked ? [] : liveFieldOverlays),
+    [guidedSectionClicked, liveFieldOverlays]
   );
   const selectedSectionCardEditors = useMemo(() => {
     if (!guidedSectionClicked || !selectedVisibleSection) return [];
@@ -475,11 +479,34 @@ function SystemCardEditor({ uid }) {
 
       <header className="sy-card-hero">
         <h1 className="sy-card-title">My system card</h1>
+        <div className="sy-card-page-switch" role="tablist" aria-label="ABF system card page">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={cardPage === 1}
+            className={`sy-card-page-switch-btn${cardPage === 1 ? " sy-card-page-switch-btn--active" : ""}`}
+            onClick={() => setCardPage(1)}
+          >
+            Page 1
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={cardPage === 2}
+            className={`sy-card-page-switch-btn${cardPage === 2 ? " sy-card-page-switch-btn--active" : ""}`}
+            onClick={() => setCardPage(2)}
+          >
+            Page 2
+          </button>
+        </div>
       </header>
 
       <main className="sy-card-main sy-card-main--visual">
         <section className="sy-card-visual">
-          <div className="sy-card-visual-frame" ref={cardFrameRef}>
+          <div
+            className={`sy-card-visual-frame${calibrateMode ? " sy-card-visual-frame--calibrate" : ""}`}
+            ref={cardFrameRef}
+          >
             <img
               src={VISUAL_CARD_IMAGE_BY_PAGE[cardPage]}
               alt={`ABF system card page ${cardPage}`}
@@ -530,35 +557,37 @@ function SystemCardEditor({ uid }) {
             )}
             {calibrateMode && (
               <div className="sy-card-calibration-layer">
-                {(selectedVisibleSection?.fields || []).map((field) => {
-                  const rect = getRect(field, cardRects);
-                  return (
-                    <div
-                      key={`cal-${field.id}`}
-                      className={`sy-card-calibration-box ${calibrateFieldId === field.id ? "sy-card-calibration-box--active" : ""}`}
-                      style={{
-                        top: `${rect.top}%`,
-                        left: `${rect.left}%`,
-                        width: `${rect.width}%`,
-                        height: `${rect.height}%`,
-                      }}
-                      onMouseDown={(e) => beginDrag(e, field.id)}
-                    >
-                      <span className="sy-card-calibration-label">{field.label}</span>
-                      <button
-                        type="button"
-                        className="sy-card-calibration-handle"
-                        onMouseDown={(e) => beginResize(e, field.id)}
-                        aria-label={`Resize ${field.label}`}
-                      />
-                    </div>
-                  );
-                })}
+                {visibleSectionsForPage.flatMap((sec) =>
+                  (sec.fields || []).map((field) => {
+                    const rect = getRect(field, cardRects);
+                    return (
+                      <div
+                        key={`cal-${field.id}`}
+                        className={`sy-card-calibration-box ${calibrateFieldId === field.id ? "sy-card-calibration-box--active" : ""}`}
+                        style={{
+                          top: `${rect.top}%`,
+                          left: `${rect.left}%`,
+                          width: `${rect.width}%`,
+                          height: `${rect.height}%`,
+                        }}
+                        onMouseDown={(e) => beginDrag(e, field.id)}
+                      >
+                        <span className="sy-card-calibration-label">{field.label}</span>
+                        <button
+                          type="button"
+                          className="sy-card-calibration-handle"
+                          onMouseDown={(e) => beginResize(e, field.id)}
+                          aria-label={`Resize ${field.label}`}
+                        />
+                      </div>
+                    );
+                  })
+                )}
               </div>
             )}
-              {cardPage === 1 && (
+              {!calibrateMode && (
               <div className="sy-card-hotspots">
-                {VISUAL_HOTSPOTS.map((hotspot) => {
+                {(cardPage === 1 ? VISUAL_HOTSPOTS : VISUAL_HOTSPOTS_PAGE2).map((hotspot) => {
                   const filled = sectionFilledCounts[hotspot.sectionId] || 0;
                   const total = visibleSectionById[hotspot.sectionId]?.fields?.length || 0;
                   return (
