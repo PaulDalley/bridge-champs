@@ -1500,7 +1500,7 @@ const CARDPLAY_PUZZLES_ALL = [
     viewerCompass: "S",
     auction: "",
     promptOptions: {
-      promptThemeTint: "drawTrumps",
+      promptThemeTint: "entriesProductive",
       themeLabel: "Theme: Using entries productively",
       promptPlacement: "right",
       hideAuction: true,
@@ -1687,7 +1687,7 @@ const CARDPLAY_PUZZLES_ALL = [
     viewerCompass: "S",
     auction: "",
     promptOptions: {
-      promptThemeTint: "drawTrumps",
+      promptThemeTint: "entriesProductive",
       themeLabel: "Theme: Using entries productively",
       promptPlacement: "right",
       hideAuction: true,
@@ -1926,7 +1926,7 @@ const CARDPLAY_PUZZLES_ALL = [
     viewerCompass: "S",
     auction: "",
     promptOptions: {
-      promptThemeTint: "drawTrumps",
+      promptThemeTint: "entriesProductive",
       themeLabel: "Theme: Using entries productively",
       promptPlacement: "right",
       hideAuction: true,
@@ -2208,7 +2208,7 @@ const CARDPLAY_PUZZLES_ALL = [
     viewerCompass: "S",
     auction: "",
     promptOptions: {
-      promptThemeTint: "drawTrumps",
+      promptThemeTint: "entriesProductive",
       themeLabel: "Theme: Using entries productively",
       promptPlacement: "right",
       hideAuction: true,
@@ -2305,7 +2305,7 @@ const CARDPLAY_PUZZLES_ALL = [
     viewerCompass: "S",
     auction: "",
     promptOptions: {
-      promptThemeTint: "drawTrumps",
+      promptThemeTint: "entriesProductive",
       themeLabel: "Theme: Using entries productively",
       promptPlacement: "right",
       hideAuction: true,

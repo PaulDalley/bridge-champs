@@ -1,88 +1,182 @@
 .ch-page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 18px 16px 28px;
+  padding: 20px 18px 32px;
 }
 
+/* —— Hero: one title size, one body size —— */
 .ch-hero {
-  margin-top: 10px;
-  padding: 16px 16px;
+  margin-top: 8px;
+  padding: 22px 24px 24px;
   border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(15, 76, 58, 0.06) 100%);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 48%, #eef2ff 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
+/* Topic name (e.g. Defence) — colour + accent, editorial style */
 .ch-heroTitle {
-  font-size: 26px;
-  font-weight: 950;
-  letter-spacing: -0.02em;
-  color: #111827;
+  display: inline-block;
+  margin: 0;
+  padding: 2px 0 14px 18px;
+  border-left: 4px solid #2563eb;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  color: #1e3a8a;
+}
+
+.ch-heroTitle::after {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 3px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+  opacity: 0.95;
 }
 
 .ch-heroSub {
-  margin-top: 6px;
-  color: #374151;
-  font-weight: 800;
-  line-height: 1.35;
+  margin: 14px 0 0;
+  color: #475569;
+  font-weight: 500;
+  font-size: 1.65rem;
+  line-height: 1.55;
+  max-width: 38rem;
 }
 
-/* Spotlight: Practice card — main tool, prominent and readable */
+/* —— Two columns: hands-on | articles —— */
+.ch-hubPaths {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px 40px;
+  align-items: start;
+}
+
+.ch-path {
+  min-width: 0;
+}
+
+.ch-sectionLabel {
+  margin: 0 0 14px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.ch-sectionLabel--minor {
+  margin-top: 22px;
+  font-size: 1.25rem;
+  font-weight: 650;
+  color: #64748b;
+}
+
+/* Spotlight sits in left column — full width, not centered float */
 .ch-spotlight {
-  margin-top: 18px;
-  display: flex;
-  justify-content: center;
+  margin-top: 0;
+  display: block;
 }
 
 .ch-spotlight .ch-card--spotlight {
-  min-height: 220px;
-  padding: 24px 26px;
+  min-height: 0;
+  padding: 22px 22px 18px;
   grid-template-columns: 1fr;
-  max-width: 480px;
+  max-width: none;
   width: 100%;
-  border-width: 2px;
-  border-color: rgba(37, 99, 235, 0.35);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  border-width: 1px;
+  border-color: rgba(37, 99, 235, 0.28);
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 55%, #eff6ff 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 14px 40px rgba(37, 99, 235, 0.12),
+    0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .ch-spotlight .ch-card--spotlight:hover {
-  border-color: rgba(37, 99, 235, 0.5);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 18px 48px rgba(37, 99, 235, 0.16),
+    0 6px 16px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
 }
 
 .ch-spotlight .ch-cardIcon {
-  width: 96px;
-  height: 96px;
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
 }
 
 .ch-spotlight .ch-cardIcon i {
-  font-size: 56px;
+  font-size: 38px;
 }
 
-.ch-spotlight .ch-cardTitle {
-  font-size: 2.25rem;
-  font-weight: 950;
-  letter-spacing: -0.02em;
+.ch-spotlight .ch-cardCta {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
-.ch-spotlight .ch-cardMicro {
-  font-size: 1.5rem;
-  margin-top: 6px;
-  color: #4b5563;
-  font-weight: 850;
+.ch-spotlight .ch-cardCta i {
+  font-size: 22px;
+  opacity: 0.9;
 }
 
-.ch-spotlight .ch-cardText {
-  font-size: 1.5rem;
-  line-height: 1.45;
-  margin-top: 8px;
-  color: #374151;
-  font-weight: 800;
+.ch-spotlight .ch-card--spotlight:hover .ch-cardCta {
+  color: #1d4ed8;
 }
 
 .ch-spotlight .ch-cardNote {
-  font-size: 1.2rem;
+  font-size: 0.9375rem;
   margin-top: 12px;
-  padding: 14px 16px;
+  padding: 12px 14px;
+  line-height: 1.45;
+}
+
+/* Unified card typography in hubs (primary + secondary) */
+.ch-hubPaths .ch-cardTitle {
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.ch-hubPaths .ch-cardMicro {
+  margin-top: 6px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ch-hubPaths .ch-cardText {
+  margin-top: 12px;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.ch-cards--stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 0;
 }
 
 .ch-cards {
@@ -101,7 +195,7 @@
   grid-template-columns: 1fr;
   grid-auto-rows: min-content;
   gap: 10px;
-  padding: 16px 16px;
+  padding: 18px 20px;
   border-radius: 16px;
   border: 1px solid #e5e7eb;
   background: #ffffff;
@@ -109,16 +203,19 @@
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-  /* “Tile” feel: fun + compact (not a huge square) */
-  min-height: 190px;
+  min-height: 0;
   overflow: hidden;
   position: relative;
 }
 
+.ch-card--article {
+  min-height: 160px;
+}
+
 .ch-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
-  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(15, 76, 58, 0.35);
 }
 
 .ch-card--practiceTile::before {
@@ -127,20 +224,20 @@
   inset: -60px -80px auto auto;
   width: 260px;
   height: 260px;
-  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.22), rgba(37, 99, 235, 0.0) 62%);
+  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.18), rgba(37, 99, 235, 0) 62%);
   pointer-events: none;
 }
 
 .ch-cardHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .ch-cardIcon {
-  width: 74px;
-  height: 74px;
-  border-radius: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,7 +246,7 @@
 }
 
 .ch-cardIcon i {
-  font-size: 44px; /* bigger dumbbell (and other icons) */
+  font-size: 40px;
 }
 
 .ch-cardIcon--practice {
@@ -160,27 +257,36 @@
   background: linear-gradient(135deg, #0f4c3a 0%, #1b6b52 100%);
 }
 
+/* Fallback when .ch-hubPaths not used */
 .ch-cardTitle {
-  font-size: 18px;
-  font-weight: 950;
-  letter-spacing: -0.01em;
-  color: #111827;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .ch-cardMicro {
-  margin-top: 2px;
-  color: #6b7280;
-  font-weight: 850;
-  letter-spacing: -0.01em;
+  margin-top: 6px;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.ch-cardText {
+  margin-top: 8px;
+  color: #334155;
+  font-weight: 500;
+  font-size: 1.35rem;
+  line-height: 1.5;
 }
 
 .ch-badge {
   font-size: 11px;
-  font-weight: 950;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   padding: 4px 8px;
   border-radius: 999px;
   background: rgba(225, 29, 72, 0.12);
@@ -201,22 +307,16 @@
   border: none;
 }
 
-.ch-cardText {
-  margin-top: 2px;
-  color: #374151;
-  font-weight: 800;
-  line-height: 1.35;
-}
-
 .ch-cardNote {
-  margin-top: 8px;
-  padding: 10px 10px;
+  margin-top: 10px;
+  padding: 12px 14px;
   border-radius: 12px;
   background: rgba(15, 76, 58, 0.06);
   border: 1px solid rgba(15, 76, 58, 0.14);
-  color: #111827;
-  font-weight: 850;
-  font-size: 13px;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.45;
 }
 
 .ch-cardFooter {
@@ -237,7 +337,7 @@
   background: rgba(37, 99, 235, 0.12);
   border: 1px solid rgba(37, 99, 235, 0.22);
   color: #1d4ed8;
-  font-weight: 950;
+  font-weight: 800;
   letter-spacing: -0.01em;
 }
 
@@ -249,7 +349,7 @@
 
 .ch-pill--disabled {
   background: rgba(17, 24, 39, 0.06);
-  border: 1px solid rgba(17, 24, 39, 0.10);
+  border: 1px solid rgba(17, 24, 39, 0.1);
   color: #111827;
 }
 
@@ -269,7 +369,7 @@
 
 .ch-soon {
   font-size: 12px;
-  font-weight: 950;
+  font-weight: 800;
   letter-spacing: 0.08em;
   padding: 4px 8px;
   border-radius: 999px;
@@ -279,41 +379,38 @@
   text-transform: uppercase;
 }
 
+@media (max-width: 960px) {
+  .ch-hubPaths {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ch-path--secondary {
+    padding-top: 4px;
+    border-top: 1px solid #e2e8f0;
+  }
+}
+
 @media (max-width: 860px) {
   .ch-cards {
     grid-template-columns: 1fr;
   }
-
-  .ch-spotlight .ch-cardTitle {
-    font-size: 1.75rem;
-  }
-  .ch-spotlight .ch-cardMicro {
-    font-size: 1.25rem;
-  }
-  .ch-spotlight .ch-cardText {
-    font-size: 1.3rem;
-  }
-  .ch-spotlight .ch-cardIcon {
-    width: 84px;
-    height: 84px;
-  }
-  .ch-spotlight .ch-cardIcon i {
-    font-size: 48px;
-  }
 }
 
 @media (max-width: 500px) {
+  .ch-heroTitle {
+    font-size: 2rem;
+  }
+  .ch-heroSub {
+    font-size: 1.4rem;
+  }
+  .ch-hubPaths .ch-cardTitle {
+    font-size: 1.25rem;
+  }
+  .ch-hubPaths .ch-cardText {
+    font-size: 1.05rem;
+  }
   .ch-spotlight .ch-card--spotlight {
-    padding: 20px 20px;
-  }
-  .ch-spotlight .ch-cardTitle {
-    font-size: 1.5rem;
-  }
-  .ch-spotlight .ch-cardText {
-    font-size: 1.15rem;
-  }
-  .ch-spotlight .ch-cardMicro {
-    font-size: 1.1rem;
+    padding: 18px 18px 16px;
   }
 }
-

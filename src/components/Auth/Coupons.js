@@ -13,12 +13,9 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
-    /** Same as membership page: BLUE is the public alias for harbourview. */
+    /** Send token as entered; backend accepts "blue" and maps to Firestore. "harbourview" is disabled. */
     tokenForApi = (token) => {
-        const t = String(token || "").trim();
-        const norm = t.toLowerCase().replace(/\s+/g, "");
-        if (norm === "blue") return "harbourview";
-        return t;
+        return String(token || "").trim();
     };
 
     validateUserToken = () => {

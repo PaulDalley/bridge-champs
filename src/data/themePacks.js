@@ -26,15 +26,15 @@ export const THEME_PACKS = [
     introVideoVersion: 1,
   },
   {
-    id: "drawing-trumps",
-    title: "Theme: Drawing and not drawing trumps",
+    id: "using-entries",
+    title: "Theme: Using entries productively",
     description: "",
-    to: { pathname: "/cardPlay/practice", search: "?problem=cp1-7" },
+    to: { pathname: "/cardPlay/practice", search: "?difficulty=2&problem=cp2-6" },
     categoryKey: "declarer",
-    themeTint: "drawTrumps",
-    starterProblemId: "cp1-7",
-    handIds: ["cp1-7", "cp1-8", "cp1-9"],
-    icon: "insights",
+    themeTint: "entriesProductive",
+    starterProblemId: "cp2-6",
+    handIds: ["cp2-6", "cp2-7", "cp2-8", "cp2-9", "cp2-10"],
+    icon: "swap_horiz",
     introVideoUrl: "",
     introVideoVersion: 1,
   },
@@ -60,12 +60,22 @@ export const FREE_PROBLEM_IDS_BY_CATEGORY = {
   counting: [],
 };
 
-export const THEME_INTRO_BY_TINT = THEME_PACKS.reduce((acc, pack) => {
-  if (!pack?.themeTint) return acc;
-  acc[pack.themeTint] = {
-    url: pack.introVideoUrl || "",
-    version: Number(pack.introVideoVersion || 1),
-    title: pack.title || "",
+export const THEME_INTRO_BY_TINT = (() => {
+  const acc = {
+    // Legacy: declarer d1 problems 7–9 still use promptThemeTint "drawTrumps" but are not a homepage pack.
+    drawTrumps: {
+      url: "",
+      version: 1,
+      title: "Theme: Drawing and not drawing trumps",
+    },
   };
+  THEME_PACKS.forEach((pack) => {
+    if (!pack?.themeTint) return;
+    acc[pack.themeTint] = {
+      url: pack.introVideoUrl || "",
+      version: Number(pack.introVideoVersion || 1),
+      title: pack.title || "",
+    };
+  });
   return acc;
-}, {});
+})();

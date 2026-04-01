@@ -116,20 +116,19 @@ class PremiumMembership extends Component {
 
   resolvePromoCodeAlias = (code) => {
     const normalized = this.normalizePromoCode(code);
-    // BLUE should behave exactly like HARBOURVIEW (1 month free for either tier).
-    if (normalized === "blue") return "harbourview";
+    // "blue" is the public code; backend resolves to legacy Firestore doc ids. "harbourview" is no longer accepted.
     return normalized;
   };
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "harbourview" || normalized === "blue";
+    return normalized === "blue";
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "harbourview" || normalized === "blue" || normalized === "goldy";
+    return normalized === "blue" || normalized === "goldy";
   };
 
   getAppliedPromoToken = () => {

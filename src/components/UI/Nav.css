@@ -712,7 +712,7 @@
   border-radius: 999px;
   background: #e11d48;
   color: #fff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1;
@@ -795,9 +795,9 @@
 
 .Nav-bidding-dropdown-desc {
   display: block;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #555;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 /* Responsive */

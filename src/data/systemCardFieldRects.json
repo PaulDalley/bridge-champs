@@ -559,12 +559,82 @@
     "height": 2.05,
     "maxLines": 1
   },
-  "other_conventions": {
+  "other_0": {
     "top": 76,
     "left": 1.8,
     "width": 42.2,
-    "height": 14.6,
-    "maxLines": 4
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_1_1": {
+    "top": 78.35,
+    "left": 1.8,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_2_1": {
+    "top": 78.35,
+    "left": 23,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_1_2": {
+    "top": 80.7,
+    "left": 1.8,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_2_2": {
+    "top": 80.7,
+    "left": 23,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_1_3": {
+    "top": 83.05,
+    "left": 1.8,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_2_3": {
+    "top": 83.05,
+    "left": 23,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_1_4": {
+    "top": 85.4,
+    "left": 1.8,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_2_4": {
+    "top": 85.4,
+    "left": 23,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_1_5": {
+    "top": 87.75,
+    "left": 1.8,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
+  },
+  "other_2_5": {
+    "top": 87.75,
+    "left": 23,
+    "width": 21,
+    "height": 2.35,
+    "maxLines": 1
   },
   "p2_resp2h_2s": {
     "top": 1.99,

@@ -191,8 +191,8 @@
 
 .ct-revealContent {
   color: #374151;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 20px;
+  line-height: 1.58;
 }
 
 .ct-revealContent.ct-playRevealText {
@@ -202,6 +202,29 @@
 .ct-revealGold {
   color: #b45309;
   font-weight: 700;
+}
+
+/* Callout box: wrap content in [[ALERT]]...[[/ALERT]] in FormattedRevealText */
+.ct-promptAlert {
+  margin: 10px 0 14px;
+  padding: 12px 14px 12px 16px;
+  border-radius: 10px;
+  border-left: 5px solid #ea580c;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(249, 115, 22, 0.12));
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.12);
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout {
+  margin: 0;
+  font-weight: 700;
+  color: #9a3412;
+  font-size: 1.05em;
+  line-height: 1.45;
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout + .ct-revealParagraph--alertCallout {
+  margin-top: 10px;
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  color: #7c2d12;
 }
 
 .ct-revealParagraph {
@@ -497,63 +520,63 @@
   border-left: 3px solid rgba(16, 185, 129, 0.4);
 }
 
-/* Theme: responding (bidding problems 6–10) */
+/* Theme: responding (bidding problems 6–10) — sky blue (distinct from 1NT rose) */
 .ct-problemTab--themeRespond {
-  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
-  border-color: rgba(79, 70, 229, 0.25);
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  border-color: rgba(2, 132, 199, 0.35);
 }
 .ct-problemTab--themeRespond:hover:not(:disabled) {
-  background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+  background: linear-gradient(180deg, #bae6fd 0%, #7dd3fc 100%);
 }
 .ct-problemTab--themeRespond.ct-problemTab--active {
-  border: 2px solid #4f46e5;
-  background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 100%);
-  color: #312e81;
+  border: 2px solid #0284c7;
+  background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%);
+  color: #0c4a6e;
   font-weight: 900;
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.55);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5);
 }
 .ct-sidePrompt--themeRespond {
-  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
-  border-left: 3px solid rgba(79, 70, 229, 0.4);
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 3px solid rgba(2, 132, 199, 0.55);
 }
 .ct-sidePrompt--themeRespond .ct-revealContent .ct-revealParagraph:first-child {
   font-size: 1.1em;
-  color: #3730a3;
+  color: #075985;
   font-weight: 700;
 }
 .ct-sidePrompt--themeRespond .ct-revealList {
-  background: rgba(79, 70, 229, 0.08);
+  background: rgba(14, 165, 233, 0.12);
   border-radius: 8px;
   padding: 12px 12px 12px 1.5em;
   margin: 14px 0;
 }
 
-/* Theme: 1NT opening (bidding problems 11–14) */
+/* Theme: 1NT opening (bidding problems 11–16) — rose / fuchsia (clearly not indigo/violet like old respond) */
 .ct-problemTab--theme1nt {
-  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
-  border-color: rgba(109, 40, 217, 0.25);
+  background: linear-gradient(180deg, #fce7f3 0%, #fbcfe8 100%);
+  border-color: rgba(192, 38, 211, 0.35);
 }
 .ct-problemTab--theme1nt:hover:not(:disabled) {
-  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  background: linear-gradient(180deg, #fbcfe8 0%, #f9a8d4 100%);
 }
 .ct-problemTab--theme1nt.ct-problemTab--active {
-  border: 2px solid #6d28d9;
-  background: linear-gradient(180deg, #c4b5fd 0%, #a78bfa 100%);
-  color: #4c1d95;
+  border: 2px solid #a21caf;
+  background: linear-gradient(180deg, #f0abfc 0%, #e879f9 100%);
+  color: #86198f;
   font-weight: 900;
-  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.55);
+  box-shadow: 0 0 0 2px rgba(192, 38, 211, 0.45);
 }
 .ct-sidePrompt--theme1nt {
-  background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
-  border-left: 3px solid rgba(109, 40, 217, 0.4);
+  background: linear-gradient(180deg, #fdf4ff 0%, #fae8ff 100%);
+  border-left: 3px solid rgba(162, 28, 175, 0.55);
 }
 .ct-sidePrompt--theme1nt .ct-revealContent .ct-revealParagraph:first-child {
   font-size: 1.1em;
-  color: #5b21b6;
+  color: #9d174d;
   font-weight: 700;
 }
 .ct-sidePrompt--theme1nt .ct-revealList {
-  background: rgba(109, 40, 217, 0.08);
+  background: rgba(192, 38, 211, 0.1);
   border-radius: 8px;
   padding: 12px 12px 12px 1.5em;
   margin: 14px 0;
@@ -739,16 +762,50 @@
   color: #9f1239;
 }
 
+/* Theme: 2-level overcalls (bidding difficulty 1) */
+.ct-problemTab--themeTwoLevel {
+  background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+  border-color: rgba(67, 56, 202, 0.3);
+}
+.ct-problemTab--themeTwoLevel:hover:not(:disabled) {
+  background: linear-gradient(180deg, #c7d2fe 0%, #a5b4fc 100%);
+}
+.ct-problemTab--themeTwoLevel.ct-problemTab--active {
+  border: 2px solid #4338ca;
+  background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 100%);
+  color: #312e81;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(67, 56, 202, 0.45);
+}
+.ct-sidePrompt--themeTwoLevel {
+  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+  border-left: 3px solid rgba(67, 56, 202, 0.45);
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #3730a3;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealList {
+  background: rgba(67, 56, 202, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealList .ct-revealListItem {
+  color: #3730a3;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
-  font-size: 1.08em;
+  font-size: 1.15rem;
   color: #111827;
   font-weight: 800;
   margin: 10px 0 0;
   display: inline-block;
   border-radius: 10px;
-  padding: 6px 10px;
-  line-height: 1.2;
+  padding: 8px 12px;
+  line-height: 1.25;
 }
 .ct-themeLabel--rail {
   margin: 8px 0 0;
@@ -762,12 +819,12 @@
   color: #065f46;
 }
 .ct-themeLabel--themeRespond {
-  background: #e0e7ff;
-  color: #312e81;
+  background: #bae6fd;
+  color: #0c4a6e;
 }
 .ct-themeLabel--theme1nt {
-  background: #ede9fe;
-  color: #4c1d95;
+  background: #fbcfe8;
+  color: #86198f;
 }
 .ct-themeLabel--themeMatchpoints {
   background: #b2dfdb;
@@ -792,6 +849,10 @@
 .ct-themeLabel--themeEnemyFive {
   background: #ffe4e6;
   color: #9f1239;
+}
+.ct-themeLabel--themeTwoLevel {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
 .ct-newBadge {
@@ -1483,9 +1544,9 @@
 }
 
 .ct-questionText {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 900;
-  line-height: 1.35;
+  line-height: 1.38;
   color: #111827;
 }
 
@@ -1499,7 +1560,7 @@
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 .ct-playDecisionBlock-heading {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   color: #92400e;
   text-transform: uppercase;
@@ -1507,14 +1568,14 @@
   margin-bottom: 6px;
 }
 .ct-playDecisionBlock-question {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 900;
   color: #1f2937;
 }
 
 /* Split promptText on blank lines into real paragraphs (FormattedRevealText). */
 .ct-playDecisionBlock-question--formatted .ct-revealContent {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 900;
   color: #1f2937;
   line-height: 1.45;
@@ -1693,7 +1754,7 @@
 }
 
 .ct-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #111827;
@@ -1702,11 +1763,11 @@
 .ct-subtitle {
   margin-top: 4px;
   color: #4b5563;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .ct-trump {
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 700;
 }
 
@@ -2104,7 +2165,7 @@
 }
 
 .ct-startTitle {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 950;
   letter-spacing: -0.01em;
   color: #111827;
@@ -2112,14 +2173,14 @@
 
 .ct-startSub {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 24px;
   color: #374151;
   font-weight: 900;
 }
 
 .ct-startNote {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 17px;
   color: #6b7280;
   font-weight: 700;
   line-height: 1.35;
@@ -2127,12 +2188,15 @@
 
 .ct-startBtn {
   margin-top: 12px;
-  width: min(260px, 90%);
-  height: 48px;
+  width: min(280px, 90%);
+  min-height: 52px;
+  height: auto;
+  padding: 12px 18px;
   border-radius: 14px;
   border: 1px solid rgba(37, 99, 235, 0.28);
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
+  font-size: 18px;
   font-weight: 950;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -2153,7 +2217,7 @@
 .ct-startHint {
   margin-top: 10px;
   color: #4b5563;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 850;
   line-height: 1.4;
 }
@@ -2439,7 +2503,7 @@
 }
 
 .ct-auctionTitle {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   color: #111827;
   letter-spacing: 0.06em;
@@ -2448,7 +2512,7 @@
 }
 
 .ct-auctionVul {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #374151;
   margin-bottom: 6px;
@@ -2484,7 +2548,7 @@
   border-color: #111827;
   color: #ffffff;
   min-height: 26px;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.06em;
 }
 
@@ -2525,7 +2589,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .ct-auctionSuit--red {
@@ -2660,8 +2724,9 @@
   border: 1px solid #d1d5db;
   background: #2563eb;
   color: #ffffff;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 10px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -3211,7 +3276,9 @@
 }
 .ct-sidePrompt--themePoints .ct-practiceVideoSlot:not(:empty),
 .ct-sidePrompt--themeActive .ct-practiceVideoSlot:not(:empty),
-.ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty) {
+.ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--theme1nt .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--themeDrawTrumps .ct-practiceVideoSlot:not(:empty) {
   background: inherit;
 }
 

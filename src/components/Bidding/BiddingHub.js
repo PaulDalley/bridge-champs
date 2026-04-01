@@ -8,40 +8,68 @@ function BiddingHub() {
     <div className="ch-page" aria-label="Bidding home">
       <div className="ch-hero">
         <div className="ch-heroTitle">Bidding</div>
-        <div className="ch-heroSub">
-          Choose <strong>Practice</strong> for interactive bidding, or <strong>Advanced ideas</strong> for lessons and examples.
-        </div>
-
+        <p className="ch-heroSub">
+          Interactive deals and explanatory articles — two paths below.
+        </p>
       </div>
 
-      <div className="ch-spotlight" role="presentation">
-        <Link to="/bidding/practice" className="ch-card ch-card--practiceTile ch-card--spotlight" role="listitem" aria-label="Practice bidding">
-          <div className="ch-cardHeader">
-            <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
-              <Icon>fitness_center</Icon>
-            </div>
-            <div>
-              <div className="ch-cardTitle">Practice</div>
-              <div className="ch-cardMicro">Interactive hands</div>
-            </div>
+      <div className="ch-hubPaths">
+        <section className="ch-path ch-path--primary" aria-labelledby="hub-bidding-hands-on">
+          <h2 className="ch-sectionLabel" id="hub-bidding-hands-on">
+            Hands-on practice
+          </h2>
+          <div className="ch-spotlight">
+            <Link
+              to="/bidding/practice"
+              className="ch-card ch-card--practiceTile ch-card--spotlight"
+              aria-label="Learn by doing — interactive bidding"
+            >
+              <div className="ch-cardHeader">
+                <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
+                  <Icon>touch_app</Icon>
+                </div>
+                <div>
+                  <div className="ch-cardTitle">Learn by doing</div>
+                  <div className="ch-cardMicro">Interactive hands at the table</div>
+                </div>
+              </div>
+              <div className="ch-cardText">
+                Short, focused deals with teaching prompts — the main path to improve.
+              </div>
+              <div className="ch-cardCta" aria-hidden="true">
+                <span>Continue</span>
+                <Icon>arrow_forward</Icon>
+              </div>
+            </Link>
           </div>
-          <div className="ch-cardText">Short, focused problems with teaching prompts.</div>
-        </Link>
-      </div>
+        </section>
 
-      <div className="ch-cards ch-cards--secondary" role="list" aria-label="Bidding options">
-        <Link to="/bidding/advanced" className="ch-card" role="listitem" aria-label="Advanced ideas">
-          <div className="ch-cardHeader">
-            <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
-              <Icon>school</Icon>
-            </div>
-            <div>
-              <div className="ch-cardTitle">Advanced ideas</div>
-              <div className="ch-cardMicro">Short lessons + examples</div>
-            </div>
+        <section className="ch-path ch-path--secondary" aria-labelledby="hub-bidding-articles">
+          <h2 className="ch-sectionLabel" id="hub-bidding-articles">
+            Articles & explanations
+          </h2>
+          <div className="ch-cards ch-cards--stack" role="list">
+            <Link
+              to="/bidding/advanced"
+              className="ch-card ch-card--article"
+              role="listitem"
+              aria-label="Articles and explanations — bidding"
+            >
+              <div className="ch-cardHeader">
+                <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
+                  <Icon>article</Icon>
+                </div>
+                <div>
+                  <div className="ch-cardTitle">Read in depth</div>
+                  <div className="ch-cardMicro">Explanatory articles and video</div>
+                </div>
+              </div>
+              <div className="ch-cardText">
+                Written explanations, examples, and video for bidding ideas.
+              </div>
+            </Link>
           </div>
-          <div className="ch-cardText">Articles, videos and examples for bidding.</div>
-        </Link>
+        </section>
       </div>
     </div>
   );

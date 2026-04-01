@@ -60,17 +60,17 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Space Mono', 'Courier New', monospace;
   
-  /* Font Sizes */
-  --text-xs: 1.2rem;
-  --text-sm: 1.4rem;
-  --text-base: 1.6rem;
-  --text-lg: 1.8rem;
-  --text-xl: 2rem;
-  --text-2xl: 2.4rem;
-  --text-3xl: 3rem;
-  --text-4xl: 3.6rem;
-  --text-5xl: 4.8rem;
-  --text-6xl: 6rem;
+  /* Font Sizes (rem × html font-size — tuned for readable body ~18–20px) */
+  --text-xs: 1.25rem;
+  --text-sm: 1.45rem;
+  --text-base: 1.55rem;
+  --text-lg: 1.75rem;
+  --text-xl: 1.95rem;
+  --text-2xl: 2.35rem;
+  --text-3xl: 2.9rem;
+  --text-4xl: 3.5rem;
+  --text-5xl: 4.2rem;
+  --text-6xl: 5.25rem;
   
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -92,8 +92,9 @@
   --transition-slow: 350ms ease;
 }
 
+/* 75% of 16px ≈ 12px per rem — was 62.5% (10px), too small for many readers */
 html {
-  font-size: 62.5%; /* 1rem = 10px */
+  font-size: 75%;
   scroll-behavior: smooth;
 }
 

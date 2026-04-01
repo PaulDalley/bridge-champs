@@ -289,11 +289,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       case 'cardPlay':
         return { name: 'Declarer Play', subtitle: 'Skilled declarer play comes from simple counting and basic pattern recognition' };
       case 'bidding':
-        return { name: 'Bidding – Advanced ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
+        return { name: 'Bidding – Articles & explanations', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
       case 'biddingBasics':
         return { name: 'Bidding – Improve your fundamentals', subtitle: 'Critically important to get this right. Build a solid foundation.' };
       case 'biddingAdvanced':
-        return { name: 'Bidding – Advanced Ideas', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
+        return { name: 'Bidding – Articles & explanations', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
       case 'cardPlayBasics':
         return { name: 'Declarer Play – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'defenceBasics':

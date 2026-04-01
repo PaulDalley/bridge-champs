@@ -379,9 +379,9 @@ const DisplayCategoryArticle = ({
       cardPlayBasics: "Declarer Play – Improve your fundamentals",
       defence: "Defence",
       defenceBasics: "Defence – Improve your fundamentals",
-      bidding: "Bidding – Advanced ideas",
+      bidding: "Bidding – Articles & explanations",
       biddingBasics: "Bidding – Improve your fundamentals",
-      biddingAdvanced: "Bidding – Advanced Ideas",
+      biddingAdvanced: "Bidding – Articles & explanations",
     };
     return categoryMap[articleType] || articleType;
   };
