@@ -6,6 +6,7 @@ import {
   startFacebookLogin,
   startGoogleLogin,
   signupEmailAndPasswordLogin,
+  setProfileName,
 } from "../store/actions/authActions";
 
 import Login from "../components/Auth/Login";
@@ -17,6 +18,7 @@ const AuthComponent = ({
   startFacebookLogin,
   startEmailAndPasswordLogin,
   signupEmailAndPasswordLogin,
+  setProfileName,
   history,
   signup,
   login,
@@ -50,6 +52,7 @@ const AuthComponent = ({
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={signupEmailAndPasswordLogin}
+              setProfileName={setProfileName}
               history={history}
               notMember={true}
               redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
@@ -60,6 +63,7 @@ const AuthComponent = ({
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={signupEmailAndPasswordLogin}
+              setProfileName={setProfileName}
               history={history}
               notMember={true}
               signup={true}
@@ -93,6 +97,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(startEmailAndPasswordLogin(email, password)),
   signupEmailAndPasswordLogin: (email, password) =>
     dispatch(signupEmailAndPasswordLogin(email, password)),
+  setProfileName: (firstName, surname) => dispatch(setProfileName(firstName, surname)),
 });
 
 export default connect(undefined, mapDispatchToProps)(AuthComponent);

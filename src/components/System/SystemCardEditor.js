@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { firebase } from "../../firebase/config";
 import { MENU_GROUPS, getMenuGroupById, getMenuGroupByTopicId } from "../../data/systemCardSchema";
@@ -89,6 +90,19 @@ function buildDefaultRectMap() {
   return out;
 }
 
+function SystemCardDevBanner() {
+  return (
+    <div className="sy-card-notice sy-card-dev-banner" role="status" aria-live="polite">
+      <p className="sy-card-dev-banner-lead">
+        <strong>Under development</strong>
+      </p>
+      <p className="sy-card-dev-banner-text">
+        This page is still being built. What you see here is only a glimpse of the planned system card editor — it is not fully working yet, and things may change.
+      </p>
+    </div>
+  );
+}
+
 function SystemCardEditor({ uid }) {
   const [abfValues, setAbfValues] = useState({});
   const [loading, setLoading] = useState(true);
@@ -96,7 +110,8 @@ function SystemCardEditor({ uid }) {
   const [selectedVisualSectionId, setSelectedVisualSectionId] = useState("sec_1");
   const [assistantMsg, setAssistantMsg] = useState("");
   const [guidedSectionClicked, setGuidedSectionClicked] = useState(false);
-  const [aiPrefillApplied, setAiPrefillApplied] = useState(false);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const suggestionsMenuRef = useRef(null);
   const [cardRects, setCardRects] = useState(() => ({
     ...buildDefaultRectMap(),
     ...(cardFieldRects || {}),
@@ -104,7 +119,7 @@ function SystemCardEditor({ uid }) {
   const [calibrateFieldId, setCalibrateFieldId] = useState("abf_no_a");
   const [dragState, setDragState] = useState(null);
   const [resizeState, setResizeState] = useState(null);
-  const visualEditorRef = useRef(null);
+  const [saveStatus, setSaveStatus] = useState("idle");
   const cardFrameRef = useRef(null);
   const calibrateMode = getCalibrateMode();
 
@@ -200,6 +215,39 @@ function SystemCardEditor({ uid }) {
     return out;
   }, [abfValues]);
   const allowedFieldWhitelist = useMemo(() => getAllowedFieldWhitelist(), []);
+
+  const abfValuesForSave = useMemo(() => {
+    const out = {};
+    Object.keys(abfValues).forEach((key) => {
+      if (!allowedFieldWhitelist.has(key)) return;
+      out[key] = String(abfValues[key] ?? "").slice(0, 120);
+    });
+    return out;
+  }, [abfValues, allowedFieldWhitelist]);
+
+  const saveCardToAccount = useCallback(async () => {
+    if (!uid) return;
+    setSaveStatus("saving");
+    try {
+      await firebase
+        .firestore()
+        .collection(COLLECTION)
+        .doc(uid)
+        .set(
+          {
+            abfValues: abfValuesForSave,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        );
+      setSaveStatus("saved");
+      window.setTimeout(() => setSaveStatus("idle"), 3500);
+    } catch (err) {
+      console.error("System card save error:", err);
+      setSaveStatus("error");
+      window.setTimeout(() => setSaveStatus("idle"), 5000);
+    }
+  }, [uid, abfValuesForSave]);
   const liveFieldOverlays = useMemo(() => {
     const overlays = [];
     VISIBLE_CARD_SECTIONS.forEach((sec) => {
@@ -221,12 +269,12 @@ function SystemCardEditor({ uid }) {
     });
     return overlays;
   }, [abfValues, cardRects, cardPage]);
-  // While editing a section, hide *all* live preview boxes — otherwise fields from other
-  // sections (e.g. sec_8) still render on the card and overlap the wrong area (e.g. sec_4).
-  const displayedLiveFieldOverlays = useMemo(
-    () => (guidedSectionClicked ? [] : liveFieldOverlays),
-    [guidedSectionClicked, liveFieldOverlays]
-  );
+  // While editing a section, hide preview boxes only for that section (textareas replace them).
+  // Other sections' previews stay visible so the card does not "blank out" when you click in.
+  const displayedLiveFieldOverlays = useMemo(() => {
+    if (!guidedSectionClicked) return liveFieldOverlays;
+    return liveFieldOverlays.filter((entry) => entry.sectionId !== selectedVisualSectionId);
+  }, [guidedSectionClicked, liveFieldOverlays, selectedVisualSectionId]);
   const selectedSectionCardEditors = useMemo(() => {
     if (!guidedSectionClicked || !selectedVisibleSection) return [];
     return (selectedVisibleSection.fields || [])
@@ -241,10 +289,6 @@ function SystemCardEditor({ uid }) {
   const selectVisualSection = useCallback((sectionId) => {
     setSelectedVisualSectionId(sectionId);
     setGuidedSectionClicked(true);
-    // Make the interaction obvious by jumping the user to the active editor panel.
-    window.requestAnimationFrame(() => {
-      visualEditorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   }, []);
 
   const applySafePatch = useCallback((patchIn) => {
@@ -326,47 +370,48 @@ function SystemCardEditor({ uid }) {
     ];
   }, [selectedVisibleSection]);
 
+  const clearSectionPatch = useMemo(
+    () =>
+      Object.fromEntries(
+        (selectedVisibleSection?.fields || []).flatMap((field) =>
+          (field.pdfFields || []).slice(0, 1).map((pdfField) => [pdfField, ""])
+        )
+      ),
+    [selectedVisibleSection]
+  );
+
+  const suggestionActions = useMemo(
+    () => sectionQuickActions.filter((a) => a.id !== "qa-clear"),
+    [sectionQuickActions]
+  );
+
   useEffect(() => {
-    if (aiPrefillApplied) return;
-    const prefillPatch = applySafePatch({
-      BasicSystem: "2/1 game forcing, 5-card majors, better minor",
-      Open1C: "3+ and 10+ points",
-      Open1D: "3+ and 10+ points",
-      Open1H: "5+ and 10+ points",
-      Open1S: "5+ and 10+ points",
-      Resp1NT2CStyle: "Stayman",
-      Resp1NT2D: "Transfer to ♥",
-      Resp1NT2H: "Transfer to ♠",
-      Resp1NT2S: "Transfer to ♣",
-      Resp1NT2NT: "Transfer to ♦",
-      Resp1NTDoubled: "System on",
-      Open2C: "Strong, game forcing",
-      Open2D: "6+ natural",
-      Open2H: "6+ less than opening hand (natural weak 2)",
-      Open2S: "6+ less than opening hand (natural weak 2)",
-      PreAlert_0: "None",
-      Competitive_0: "Mostly natural",
-      Doubles_1: "Takeout then penalty",
-      BasicResponses_0: "Mostly natural",
-      BasicPlay_0: "Standard count and attitude",
-      RKCBStyle: "1430 RKCB",
-      Over1NTInterf: "Natural",
-      Other_0: "Standard style agreements",
-    });
-    setAbfValues((prev) => {
-      const next = { ...prev };
-      Object.entries(prefillPatch).forEach(([field, value]) => {
-        if (!String(prev[field] || "").trim()) {
-          next[field] = value;
-        }
-      });
-      return next;
-    });
-    setAiPrefillApplied(true);
-    setAssistantMsg(
-      "I've prefilled the card with common agreements. Click a section and I can help you change things quickly, or type your own changes."
-    );
-  }, [aiPrefillApplied, applySafePatch]);
+    if (!assistantMsg) return undefined;
+    const t = window.setTimeout(() => setAssistantMsg(""), 4000);
+    return () => window.clearTimeout(t);
+  }, [assistantMsg]);
+
+  useEffect(() => {
+    if (!suggestionsOpen) return undefined;
+    const onDocMouseDown = (e) => {
+      if (suggestionsMenuRef.current && !suggestionsMenuRef.current.contains(e.target)) {
+        setSuggestionsOpen(false);
+      }
+    };
+    const onKey = (e) => {
+      if (e.key === "Escape") setSuggestionsOpen(false);
+    };
+    document.addEventListener("mousedown", onDocMouseDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocMouseDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [suggestionsOpen]);
+
+  useEffect(() => {
+    setSuggestionsOpen(false);
+  }, [selectedVisualSectionId]);
 
   const setFieldRect = useCallback((fieldId, patch) => {
     setCardRects((prev) => {
@@ -453,22 +498,27 @@ function SystemCardEditor({ uid }) {
   const copyRectJson = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(rectJsonText);
-      setAssistantMsg("Copied rect JSON to clipboard.");
+      setAssistantMsg("Copied.");
     } catch (e) {
-      setAssistantMsg("Could not copy JSON. Select and copy manually.");
+      setAssistantMsg("Copy failed.");
     }
   }, [rectJsonText]);
 
   if (loading) {
     return (
-      <div className="sy-card-page">
+      <div className="sy-card-page sy-card-page--abf">
+        <SystemCardDevBanner />
         <p className="sy-card-loading">Loading…</p>
       </div>
     );
   }
 
   return (
-    <div className="sy-card-page sy-card-page--abf">
+    <div
+      className={`sy-card-page sy-card-page--abf${
+        guidedSectionClicked && !calibrateMode ? " sy-card-page--with-float-bar" : ""
+      }`}
+    >
       <Helmet>
         <title>My system card — Bridge Champions</title>
         <meta
@@ -477,8 +527,38 @@ function SystemCardEditor({ uid }) {
         />
       </Helmet>
 
+      <SystemCardDevBanner />
+
       <header className="sy-card-hero">
-        <h1 className="sy-card-title">My system card</h1>
+        <div className="sy-card-hero-top">
+          <h1 className="sy-card-title">My system card</h1>
+          {uid ? (
+            <div className="sy-card-save-row">
+              <button
+                type="button"
+                className="sy-card-btn sy-card-btn--primary sy-card-save-btn"
+                disabled={saveStatus === "saving"}
+                onClick={() => saveCardToAccount()}
+              >
+                {saveStatus === "saving" ? "Saving…" : "Save card"}
+              </button>
+              {saveStatus === "saved" && (
+                <span className="sy-card-save-feedback" role="status">
+                  Saved to your account
+                </span>
+              )}
+              {saveStatus === "error" && (
+                <span className="sy-card-save-feedback sy-card-save-feedback--error" role="alert">
+                  Could not save. Try again.
+                </span>
+              )}
+            </div>
+          ) : (
+            <p className="sy-card-login-msg">
+              <Link to="/login?redirectTo=/system">Sign in</Link> to save your card to your account.
+            </p>
+          )}
+        </div>
         <div className="sy-card-page-switch" role="tablist" aria-label="ABF system card page">
           <button
             type="button"
@@ -532,11 +612,23 @@ function SystemCardEditor({ uid }) {
               ))}
             </div>
             {selectedSectionCardEditors.length > 0 && !calibrateMode && (
-              <div className="sy-card-edit-layer">
+              <form
+                className="sy-card-edit-layer"
+                autoComplete="off"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 {selectedSectionCardEditors.map(({ field, rect }) => (
                   <textarea
                     key={`edit-${field.id}`}
                     className="sy-card-card-input"
+                    id={`sy-card-input-${field.id}`}
+                    name={`sy-card-field-${field.id}`}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck
+                    data-lpignore="true"
+                    data-1p-ignore
+                    data-form-type="other"
                     style={{
                       top: `${rect.top}%`,
                       left: `${rect.left}%`,
@@ -550,10 +642,9 @@ function SystemCardEditor({ uid }) {
                     placeholder={field.label}
                     title={`Edit ${field.label}`}
                     rows={field.cardRect?.maxLines > 1 ? 2 : 1}
-                    spellCheck
                   />
                 ))}
-              </div>
+              </form>
             )}
             {calibrateMode && (
               <div className="sy-card-calibration-layer">
@@ -673,40 +764,75 @@ function SystemCardEditor({ uid }) {
             </section>
           )}
         </section>
-
-        <section className="sy-card-section sy-card-section--visual-editor sy-card-section--minimal" ref={visualEditorRef}>
-          <p className="sy-card-minimal-line">
-            {assistantMsg ||
-              "I've prefilled the card with common agreements. Click a section and I can help you change things quickly, or type your own changes."}
-          </p>
-
-          {guidedSectionClicked && (
-            <section className="sy-card-assistant sy-card-assistant--minimal">
-              <h3 className="sy-card-assistant-title">{selectedVisibleSection?.title || "Selected section"}</h3>
-              <p className="sy-card-assistant-help">Let me help you:</p>
-              <div className="sy-card-chip-row">
-                {sectionQuickActions.map((action) => (
-                  <button
-                    key={action.id}
-                    type="button"
-                    className="sy-card-chip"
-                    onClick={() =>
-                      applyQuickPatch(
-                        action.patch,
-                        `Applied: ${action.label}. You can type your own changes below.`
-                      )
-                    }
-                  >
-                    {action.label}
-                  </button>
-                ))}
-              </div>
-
-              <p className="sy-card-assistant-help">Now click directly into any box on the card to type.</p>
-            </section>
-          )}
-        </section>
       </main>
+
+      {guidedSectionClicked && !calibrateMode && (
+        <div className="sy-card-float-bar" role="region" aria-label="Actions for the section you selected on the card">
+          <div className="sy-card-float-bar-inner">
+            <div className="sy-card-float-bar-text">
+              <span className="sy-card-float-bar-lead">You’re editing</span>
+              <span className="sy-card-float-bar-title" title={selectedVisibleSection?.title || ""}>
+                {selectedVisibleSection?.title || "Section"}
+              </span>
+              <span className="sy-card-float-bar-hint">Use Clear or Options — then type on the card above.</span>
+            </div>
+            <div className="sy-card-float-bar-actions" role="toolbar" aria-label="Section actions">
+              <button
+                type="button"
+                className="sy-card-float-btn sy-card-float-btn--primary"
+                onClick={() => applyQuickPatch(clearSectionPatch, "Cleared.")}
+              >
+                Clear section
+              </button>
+              {suggestionActions.length > 0 && (
+                <div className="sy-card-float-menu" ref={suggestionsMenuRef}>
+                  <button
+                    type="button"
+                    className="sy-card-float-btn sy-card-float-btn--primary"
+                    aria-haspopup="menu"
+                    aria-expanded={suggestionsOpen}
+                    aria-controls={suggestionsOpen ? "sy-card-options-menu" : undefined}
+                    id="sy-card-options-trigger"
+                    onClick={() => setSuggestionsOpen((o) => !o)}
+                  >
+                    Options
+                  </button>
+                  {suggestionsOpen && (
+                    <ul
+                      id="sy-card-options-menu"
+                      className="sy-card-float-popover"
+                      role="menu"
+                      aria-labelledby="sy-card-options-trigger"
+                    >
+                      {suggestionActions.map((action) => (
+                        <li key={action.id} role="none">
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className="sy-card-float-popover-item"
+                            title={action.label}
+                            onClick={() => {
+                              applyQuickPatch(action.patch, "Updated.");
+                              setSuggestionsOpen(false);
+                            }}
+                          >
+                            {action.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          {assistantMsg ? (
+            <p className="sy-card-float-status" aria-live="polite">
+              {assistantMsg}
+            </p>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }
