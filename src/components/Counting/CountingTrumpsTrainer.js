@@ -47,15 +47,48 @@ function displayRank(rank) {
   return String(rank);
 }
 
-/** **bold**, ##gold## inside a single paragraph block */
+/** Split text into spans: ♥/♦ red, ♠/♣ black (bridge convention). */
+function suitColoredParts(text) {
+  if (text == null || text === "") return null;
+  const parts = String(text).split(/([♠♥♦♣])/);
+  return parts.map((part, i) => {
+    if (part === "♥" || part === "♦") {
+      return (
+        <span key={i} className="ct-suitSym--red">
+          {part}
+        </span>
+      );
+    }
+    if (part === "♠" || part === "♣") {
+      return (
+        <span key={i} className="ct-suitSym--black">
+          {part}
+        </span>
+      );
+    }
+    return part ? <React.Fragment key={i}>{part}</React.Fragment> : null;
+  });
+}
+
+/** **bold**, ##gold## inside a single paragraph block; suit symbols colored */
 function renderRevealInlineParts(block) {
   const parts = block.trim().split(/(\*\*.+?\*\*|##.+?##)/g);
   return parts.map((seg, j) => {
     const boldMatch = seg.match(/^\*\*(.+?)\*\*$/s);
-    if (boldMatch) return <strong key={j}>{boldMatch[1]}</strong>;
+    if (boldMatch) {
+      return (
+        <strong key={j}>{suitColoredParts(boldMatch[1])}</strong>
+      );
+    }
     const goldMatch = seg.match(/^##(.+?)##$/s);
-    if (goldMatch) return <span key={j} className="ct-revealGold">{goldMatch[1]}</span>;
-    return <React.Fragment key={j}>{seg}</React.Fragment>;
+    if (goldMatch) {
+      return (
+        <span key={j} className="ct-revealGold">
+          {suitColoredParts(goldMatch[1])}
+        </span>
+      );
+    }
+    return <React.Fragment key={j}>{suitColoredParts(seg)}</React.Fragment>;
   });
 }
 
@@ -89,7 +122,7 @@ function FormattedRevealText({ text, className = "" }) {
             <ul key={i} className="ct-revealList">
               {lines.map((line, j) => (
                 <li key={j} className="ct-revealListItem">
-                  {line.trim()}
+                  {suitColoredParts(line.trim())}
                 </li>
               ))}
             </ul>
@@ -100,7 +133,7 @@ function FormattedRevealText({ text, className = "" }) {
             <ul key={i} className="ct-revealList">
               {lines.map((line, j) => (
                 <li key={j} className="ct-revealListItem">
-                  {line.trim().replace(/^•\s*/, "")}
+                  {suitColoredParts(line.trim().replace(/^•\s*/, ""))}
                 </li>
               ))}
             </ul>
@@ -111,7 +144,7 @@ function FormattedRevealText({ text, className = "" }) {
             <ul key={i} className="ct-revealList ct-revealList--cross">
               {lines.map((line, j) => (
                 <li key={j} className="ct-revealListItem">
-                  {line.trim()}
+                  {suitColoredParts(line.trim())}
                 </li>
               ))}
             </ul>
@@ -122,7 +155,7 @@ function FormattedRevealText({ text, className = "" }) {
             <ol key={i} className="ct-revealList ct-revealList--lettered">
               {lines.map((line, j) => (
                 <li key={j} className="ct-revealListItem">
-                  {line.trim().replace(/^\s*\([a-z]\)\s+/, "")}
+                  {suitColoredParts(line.trim().replace(/^\s*\([a-z]\)\s+/, ""))}
                 </li>
               ))}
             </ol>
@@ -276,14 +309,16 @@ function contractToText(puzzle) {
   return `${lvl}${SUIT_SYMBOL[strain] || strain}`;
 }
 
+/** Renders any string with ♥/♦ in red and ♠/♣ in black (bridge convention). */
+function TextWithColoredSuits({ text }) {
+  const nodes = suitColoredParts(text);
+  if (!nodes) return null;
+  return <>{nodes}</>;
+}
+
 /** Renders contract text (e.g. "4♥") with hearts/diamonds in red */
 function ContractWithColoredSuit({ text }) {
-  if (!text) return null;
-  const m = text.match(/^(\d)(♥|♦)$/);
-  if (m) return <>{m[1]}<span className="ct-suitSym--red">{m[2]}</span></>;
-  const m2 = text.match(/^(\d)(♠|♣)$/);
-  if (m2) return <>{m2[1]}<span className="ct-suitSym--black">{m2[2]}</span></>;
-  return <>{text}</>;
+  return <TextWithColoredSuits text={text} />;
 }
 
 function auctionToText(puzzle) {
@@ -2624,7 +2659,7 @@ const BIDDING_DONE_TITLES = [
   "Well done — on to the next hand.",
   "Good — that's one more in the bank.",
   "Solid — keep the run going.",
-  "That's a wrap — what's next?",
+  "Nice — another hand is ready when you are.",
   "One down — pick another when you're ready.",
 ];
 
@@ -5392,7 +5427,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           )}
           {effectiveContractDisplayText ? (
             <div className="ct-contractLine">
-              {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
+              {puzzle?.promptOptions?.contractLabel ? (
+                <TextWithColoredSuits text={effectiveContractDisplayText} />
+              ) : (
                 <>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></>
               )}
             </div>
@@ -5749,7 +5786,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               <div className="ct-railActions" style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
                 {(activeCustomPrompt?.options || []).map((o) => (
                   <button key={o.id} className="ct-btn" onClick={() => submitPlayDecision(o.id)} disabled={isPlaying}>
-                    {o.label}
+                    <TextWithColoredSuits text={o.label} />
                   </button>
                 ))}
               </div>
@@ -6474,7 +6511,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
             {!!effectiveContractDisplayText && !useBottomRowLayout && (
               <div className="ct-contractTop">
-                {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
+                {puzzle?.promptOptions?.contractLabel ? (
+                  <TextWithColoredSuits text={effectiveContractDisplayText} />
+                ) : (
                   <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></React.Fragment>
                 )}
               </div>
@@ -6517,7 +6556,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                   <div className="ct-startCard">
                     {!!effectiveContractDisplayText && (
                       <div className="ct-startTitle">
-                        {puzzle?.promptOptions?.contractLabel ? effectiveContractDisplayText : (
+                        {puzzle?.promptOptions?.contractLabel ? (
+                          <TextWithColoredSuits text={effectiveContractDisplayText} />
+                        ) : (
                           <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
                           {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>
                         )}

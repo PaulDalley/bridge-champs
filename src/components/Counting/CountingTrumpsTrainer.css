@@ -915,11 +915,13 @@
   color: #b91c1c;
 }
 
-/* Ensure hearts/diamonds stay red in contract and auction lines (override parent color) */
+/* Ensure hearts/diamonds stay red in contract, auction, prompts, and buttons (override parent color) */
 .ct-contractTop .ct-suitSym--red,
 .ct-contractLine .ct-suitSym--red,
 .ct-auctionTop .ct-suitSym--red,
-.ct-auctionInline .ct-suitSym--red {
+.ct-auctionInline .ct-suitSym--red,
+.ct-revealContent .ct-suitSym--red,
+.ct-playDecisionBlock .ct-btn .ct-suitSym--red {
   color: #b91c1c;
 }
 

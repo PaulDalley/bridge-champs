@@ -825,6 +825,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/F4HW3pNwKoo",
       customPrompts: [
         {
           id: "bid1-17-intro",
@@ -903,6 +904,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/OAX93O9g3qQ",
       customPrompts: [
         {
           id: "bid1-18-q",
@@ -957,6 +959,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/eMqvRa3H8PQ",
       customPrompts: [
         {
           id: "bid1-19-q",
@@ -1011,6 +1014,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ayQv94xbDyY",
       customPrompts: [
         {
           id: "bid1-20-q",
@@ -1170,6 +1174,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/zap0W7SAEBk",
       customPrompts: [
         {
           id: "bid1-22-intro",
@@ -1219,7 +1224,7 @@ const BIDDING_PUZZLES = [
     auction: "1♥ ?",
     vulnerability: "All Vul",
     shownHands: {
-      DECLARER: { S: "2", H: "987", D: "A10832", C: "AQ32" },
+      DECLARER: { S: "32", H: "97", D: "A10832", C: "AQ32" },
     },
     rounds: [],
     promptOptions: {
@@ -1233,15 +1238,8 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ZbzfkJ8sR3k",
       customPrompts: [
-        {
-          id: "bid1-24-intro",
-          type: "INFO",
-          atRoundIdx: -1,
-          promptText:
-            "##Two-level overcalls##\n\nAll vulnerable. East opens 1♥.",
-          videoUrl: "",
-        },
         {
           id: "bid1-24-q",
           type: "PLAY_DECISION",
@@ -1262,7 +1260,7 @@ const BIDDING_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "When we overcall a 5-card suit at the 2 level, we generally need:\n\n✓ Good opening hand or better\n\n✓ Distribution\n\nThis hand has some distribution (it has a singleton!) but it lacks values. Also the diamond suit is a bit bare.",
+            "When we overcall a 5-card suit at the 2 level, we generally need:\n\n✓ Good opening hand or better\n\n✓ Distribution\n\nThis hand is only 2254 shape — doubletons in the majors — and it lacks values. Also the diamond suit is a bit bare.",
           videoUrl: "",
         },
         {
@@ -1303,6 +1301,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/BXFYnIV2rKY",
       customPrompts: [
         {
           id: "bid1-25-q",
@@ -1365,6 +1364,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/eyx0Eztx6Wg",
       customPrompts: [
         {
           id: "bid1-26-q",
@@ -1414,7 +1414,7 @@ const BIDDING_PUZZLES = [
     auction: "1♠ ?",
     vulnerability: "None Vul",
     shownHands: {
-      DECLARER: { S: "32", H: "J9876", D: "AKQ", C: "A32" },
+      DECLARER: { S: "32", H: "J8532", D: "AKQ", C: "A32" },
     },
     rounds: [],
     promptOptions: {
@@ -1428,6 +1428,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/moyEnVBNlEs",
       customPrompts: [
         {
           id: "bid1-27-q",
