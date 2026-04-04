@@ -592,7 +592,7 @@
 }
 
 .Nav-tabs-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
@@ -607,15 +607,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 2rem;
-  min-width: 140px;
+  padding: 1.35rem 1.7rem;
+  min-width: 220px;
   background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
+  border: 1px solid #d9e2e8;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .Nav-tab-card::before {
@@ -632,9 +633,9 @@
 }
 
 .Nav-tab-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 76, 58, 0.14);
+  border-color: #c8d7cf;
 }
 
 .Nav-tab-card:hover::before {
@@ -644,7 +645,7 @@
 .Nav-tab-card.Nav-tab-active {
   border-color: #0F4C3A;
   background: linear-gradient(135deg, rgba(15, 76, 58, 0.08) 0%, rgba(27, 107, 82, 0.08) 100%);
-  box-shadow: 0 4px 16px rgba(15, 76, 58, 0.2);
+  box-shadow: 0 8px 20px rgba(15, 76, 58, 0.2);
 }
 
 .Nav-tab-card.Nav-tab-active::before {
@@ -660,7 +661,7 @@
   justify-content: center;
   margin-bottom: 0.8rem;
   font-size: 2.4rem;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.2s ease;
   position: relative;
 }
 
@@ -704,6 +705,16 @@
   color: white;
 }
 
+.Nav-tab-icon-trainer {
+  background: linear-gradient(135deg, #0f4c3a 0%, #1b6b52 100%);
+  color: white;
+}
+
+.Nav-tab-icon-articles {
+  background: linear-gradient(135deg, #d4af37 0%, #e8c767 100%);
+  color: #083426;
+}
+
 .Nav-tab-badge {
   position: absolute;
   top: 10px;
@@ -719,18 +730,13 @@
   box-shadow: 0 6px 18px rgba(225, 29, 72, 0.25);
 }
 
-.Nav-tab-card:hover .Nav-tab-icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
 .Nav-tab-card.Nav-tab-active .Nav-tab-icon {
-  transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .Nav-tab-label {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.55rem;
+  font-weight: 700;
   color: #333;
   text-align: center;
   transition: color 0.3s ease;
@@ -812,8 +818,8 @@
   }
 
   .Nav-tab-card {
-    min-width: 110px;
-    padding: 1.2rem 1.5rem;
+    min-width: 170px;
+    padding: 1.1rem 1.2rem;
   }
 
   .Nav-tab-icon {
@@ -823,8 +829,9 @@
   }
 
   .Nav-tab-label {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
+
 }
 
 @media (max-width: 480px) {
@@ -833,8 +840,8 @@
   }
 
   .Nav-tab-card {
-    min-width: 90px;
-    padding: 1rem 1rem;
+    min-width: 145px;
+    padding: 0.95rem 0.95rem;
   }
 
   .Nav-tab-icon {
@@ -844,6 +851,7 @@
   }
 
   .Nav-tab-label {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
+
 }

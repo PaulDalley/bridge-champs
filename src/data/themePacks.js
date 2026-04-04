@@ -57,7 +57,7 @@ export const FREE_PROBLEM_IDS_BY_CATEGORY = {
   /** Declarer: difficulty 2 problem 6 — first free hand in the “entries” series (videos unlocked for everyone on this id). */
   declarer: ["cp2-6"],
   defence: [],
-  counting: [],
+  counting: ["p1-15"],
 };
 
 export const THEME_INTRO_BY_TINT = (() => {

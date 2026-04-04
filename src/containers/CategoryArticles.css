@@ -29,6 +29,64 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Topic nav under header */
+.CategoryArticles-topicNavWrap {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #dbe3ea;
+  padding: 1.5rem 0;
+  position: sticky;
+  top: 5rem;
+  z-index: 950;
+  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.08);
+}
+
+.CategoryArticles-topicNav {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.CategoryArticles-topicPill {
+  border: 1px solid #c7d2dc;
+  background: #fff;
+  color: #374151;
+  border-radius: 999px;
+  padding: 0.72rem 1.28rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 1px 4px rgba(17, 24, 39, 0.08);
+}
+
+.CategoryArticles-topicPill:hover {
+  border-color: #0f4c3a;
+  color: #0f4c3a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 76, 58, 0.16);
+}
+
+.CategoryArticles-topicPill--active {
+  background: linear-gradient(135deg, #0f4c3a 0%, #1b6b52 100%);
+  border-color: #0f4c3a;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(15, 76, 58, 0.25);
+}
+
+@media screen and (max-width: 768px) {
+  .CategoryArticles-topicNavWrap {
+    top: 7rem;
+    padding: 1rem 0;
+  }
+
+  .CategoryArticles-topicPill {
+    font-size: 1.25rem;
+    padding: 0.62rem 1rem;
+  }
+}
+
 /* === FILTERS SECTION === */
 .CategoryArticles-filters-section {
   padding: var(--space-xl) 0;

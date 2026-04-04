@@ -1292,6 +1292,27 @@
   width: auto;
 }
 
+/* Fullhands: on common laptop widths, stack sidebar below table to avoid reveal clipping/off-screen hands. */
+@media (max-width: 1400px) {
+  .ct-layout--fullhands .ct-tableWithSidebar-inner {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .ct-layout--fullhands .ct-tableWithSidebar .ct-table {
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .ct-layout--fullhands .ct-explanationSidebar {
+    position: static;
+    top: auto;
+    margin-left: 0;
+    flex: 1 1 520px;
+    width: min(520px, 100%);
+  }
+}
+
 /* When left column is 0 (West not visible), clip so nothing spills */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight:not(.ct-table--westVisible) .ct-seat--left {
   overflow: hidden;
@@ -1521,12 +1542,9 @@
   color: #111827;
 }
 
-/* When success + Continue is showing, put it beside the question so it stays visible without scrolling */
+/* When success + Continue is showing, keep a stable stacked layout (avoid squeezing/distorting prompt text). */
 .ct-promptRail.ct-promptRail--withFeedback {
-  display: grid;
-  grid-template-columns: 1fr minmax(200px, 280px);
-  gap: 1rem;
-  align-items: start;
+  display: block;
 }
 
 .ct-promptRail--withFeedback .ct-promptRail-content {
@@ -1541,8 +1559,8 @@
 
 .ct-promptRail--withFeedback .ct-feedback {
   margin-top: 0;
-  position: sticky;
-  top: 0;
+  position: static;
+  margin-bottom: 8px;
 }
 
 .ct-questionText {
@@ -1691,6 +1709,8 @@
   align-items: center;
   max-width: 280px;
   margin: 0 auto;
+  position: relative;
+  overflow: visible;
 }
 .ct-distRow--numBoxes .ct-distSeat[data-position="top"] {
   grid-column: 2;
@@ -1726,6 +1746,200 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
+}
+
+.ct-distSeat--pairA .ct-numBox--dist {
+  background: #fff7ed;
+  border-color: #fdba74;
+}
+
+.ct-distSeat--pairA .ct-distLabel {
+  color: #9a3412;
+}
+
+.ct-distSeat--pairB .ct-numBox--dist {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.ct-distSeat--pairB .ct-distLabel {
+  color: #1e3a8a;
+}
+
+.ct-distPairMarkers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ct-distPairConnector {
+  position: absolute;
+  height: 0;
+  border-top: 1.5px solid currentColor;
+  border-radius: 999px;
+  transform-origin: left center;
+  z-index: 2;
+  opacity: 0.92;
+}
+
+.ct-distPairConnector::before,
+.ct-distPairConnector::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+.ct-distPairConnector::before {
+  left: -5px;
+  border-right: 5px solid currentColor;
+}
+
+.ct-distPairConnector::after {
+  right: -5px;
+  border-left: 5px solid currentColor;
+}
+
+.ct-distPairConnector--a {
+  color: #9a3412;
+}
+
+.ct-distPairConnector--b {
+  color: #1e3a8a;
+}
+
+.ct-distPairMarker {
+  position: relative;
+  border-radius: 10px;
+  padding: 6px 8px 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: absolute;
+  z-index: 5;
+  min-width: 108px;
+  max-width: 132px;
+  transform: translate(-50%, -50%);
+}
+
+.ct-distPairMarker::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  bottom: 4px;
+  width: 7px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-radius: 5px 0 0 5px;
+}
+
+.ct-distPairMarker--a {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.ct-distPairMarker--b {
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.ct-distPairMarkerMembers {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.ct-distPairMarkerTarget {
+  font-size: 10px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 6px;
+}
+
+.ct-distPairConnector--topLeft {
+  left: 33%;
+  top: 41%;
+  width: 14%;
+  transform: rotate(-43deg);
+}
+
+.ct-distPairConnector--topRight {
+  left: 53%;
+  top: 41%;
+  width: 14%;
+  transform: rotate(43deg);
+}
+
+.ct-distPairConnector--bottomLeft {
+  left: 33%;
+  top: 68%;
+  width: 14%;
+  transform: rotate(43deg);
+}
+
+.ct-distPairConnector--bottomRight {
+  left: 53%;
+  top: 68%;
+  width: 14%;
+  transform: rotate(-43deg);
+}
+
+.ct-distPairConnector--centerHorizontal {
+  left: 30%;
+  top: 58%;
+  width: 40%;
+}
+
+.ct-distPairConnector--centerVertical {
+  left: 50%;
+  top: 35%;
+  width: 30%;
+  transform: rotate(90deg);
+}
+
+.ct-distPairMarker--topLeft {
+  left: -4%;
+  top: 18%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--topRight {
+  left: 104%;
+  top: 18%;
+  transform: translate(0, -50%);
+}
+
+.ct-distPairMarker--bottomLeft {
+  left: -4%;
+  top: 82%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--bottomRight {
+  left: 104%;
+  top: 82%;
+  transform: translate(0, -50%);
+}
+
+.ct-distPairMarker--centerHorizontal {
+  left: -4%;
+  top: 58%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--centerVertical {
+  left: 66%;
+  top: 82%;
+  transform: translate(0, -50%);
 }
 
 .ct-numBox--dist {
@@ -2295,11 +2509,11 @@
 /* Dummy and South: enforce readable size so cards never go microscopic (sidebar is separate on the right) */
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
-  min-width: 640px;
+  min-width: clamp(460px, 52vw, 640px);
 }
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
-  min-width: 640px;
+  min-width: clamp(460px, 52vw, 640px);
 }
 
 .ct-bottomPrompt {
@@ -2908,7 +3122,7 @@
 /* Feedback + Continue on one row to avoid extending the screen */
 .ct-feedbackWithContinue {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   max-width: 100%;
@@ -2916,9 +3130,9 @@
 .ct-feedbackWithContinue-text {
   flex: 1 1 auto;
   min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .ct-feedbackWithContinue-text--fading {
   opacity: 0.25;

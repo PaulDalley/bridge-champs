@@ -56,6 +56,13 @@ const getListPathForArticleType = (type) => {
   return "/";
 };
 
+const ARTICLE_TOPIC_TABS = [
+  { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
+  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
+  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
+  { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+];
+
 // Helper function to render admin edit and delete buttons
 const renderAdminEditButton = (isAdmin, articleType, articleId, bodyRef, history, dispatch, summaryRefMap) => {
   if (!isAdmin) return null;
@@ -385,6 +392,8 @@ const DisplayCategoryArticle = ({
     };
     return categoryMap[articleType] || articleType;
   };
+  const activeTopicId =
+    ARTICLE_TOPIC_TABS.find((tab) => tab.types.includes(articleType))?.id || "declarer";
 
   return (
     <>
@@ -489,6 +498,25 @@ const DisplayCategoryArticle = ({
           </div>
         </header>
       )}
+
+      <div className="DisplayArticle-topicNavWrap">
+        <div className="DisplayArticle-topicNav" role="tablist" aria-label="Article topics">
+          {ARTICLE_TOPIC_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={activeTopicId === tab.id}
+              className={`DisplayArticle-topicPill ${
+                activeTopicId === tab.id ? "DisplayArticle-topicPill--active" : ""
+              }`}
+              onClick={() => history.push(tab.path)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
       
       <div style={{ maxWidth: '75rem', marginLeft: 'auto', marginRight: 'auto' }}>
         {renderAdminEditButton(a, articleType, articleId, bodyRef, history, dispatch, {

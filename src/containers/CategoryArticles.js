@@ -26,6 +26,13 @@ import SkeletonLoader from "../components/UI/SkeletonLoader";
 import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
 
+const ARTICLE_TOPIC_TABS = [
+  { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
+  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
+  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
+  { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+];
+
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
 
@@ -306,6 +313,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   };
 
   const categoryInfo = getCategoryInfo();
+  const activeTopicId =
+    ARTICLE_TOPIC_TABS.find((tab) => tab.types.includes(articleType))?.id || "declarer";
 
   // Fetch banner texts for all levels when content changes
   useEffect(() => {
@@ -517,6 +526,27 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           <p className="CategoryArticles-subtitle">
             {categoryInfo.subtitle}
           </p>
+        </div>
+      </div>
+
+      <div className="CategoryArticles-topicNavWrap">
+        <div className="container">
+          <div className="CategoryArticles-topicNav" role="tablist" aria-label="Article topics">
+            {ARTICLE_TOPIC_TABS.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={activeTopicId === tab.id}
+                className={`CategoryArticles-topicPill ${
+                  activeTopicId === tab.id ? "CategoryArticles-topicPill--active" : ""
+                }`}
+                onClick={() => history.push(tab.path)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
