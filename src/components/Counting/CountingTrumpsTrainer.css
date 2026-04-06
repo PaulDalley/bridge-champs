@@ -2438,6 +2438,19 @@
   line-height: 1.4;
 }
 
+.ct-startCard .ct-themeLabel {
+  margin-bottom: 10px;
+}
+
+.ct-startFooter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(229, 231, 235, 0.95);
+  font-size: 16px;
+  font-weight: 800;
+  color: #4b5563;
+}
+
 .ct-trickWrap {
   grid-column: 2;
   grid-row: 2;

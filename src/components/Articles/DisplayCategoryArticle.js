@@ -50,6 +50,10 @@ const getListPathForArticleType = (type) => {
   if (type === "bidding" || type === "biddingAdvanced") return "/bidding/advanced";
   if (type === "cardPlayBasics") return "/cardPlay/basics";
   if (type === "cardPlay") return "/cardPlay/articles";
+  if (type === "beginnerCardPlay") return "/beginner/articles/declarer";
+  if (type === "beginnerDefence") return "/beginner/articles/defence";
+  if (type === "beginnerBidding") return "/beginner/articles/bidding";
+  if (type === "beginnerCounting") return "/beginner/articles/counting";
   if (type === "defenceBasics") return "/defence/basics";
   if (type === "defence") return "/defence/articles";
   if (type === "counting") return "/counting/articles";
@@ -61,6 +65,32 @@ const ARTICLE_TOPIC_TABS = [
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
   { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
   { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+];
+const BEGINNER_ARTICLE_TOPIC_TABS = [
+  {
+    id: "declarer",
+    label: "Declarer",
+    path: "/beginner/articles/declarer",
+    types: ["beginnerCardPlay"],
+  },
+  {
+    id: "defence",
+    label: "Defence",
+    path: "/beginner/articles/defence",
+    types: ["beginnerDefence"],
+  },
+  {
+    id: "bidding",
+    label: "Bidding",
+    path: "/beginner/articles/bidding",
+    types: ["beginnerBidding"],
+  },
+  {
+    id: "counting",
+    label: "Counting",
+    path: "/beginner/articles/counting",
+    types: ["beginnerCounting"],
+  },
 ];
 
 // Helper function to render admin edit and delete buttons
@@ -377,6 +407,10 @@ const DisplayCategoryArticle = ({
     if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
     if (articleType === "cardPlayBasics") return `${baseUrl}/cardPlay/basics/${articleId}`;
     if (articleType === "defenceBasics") return `${baseUrl}/defence/basics/${articleId}`;
+    if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${articleId}`;
+    if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${articleId}`;
+    if (articleType === "beginnerBidding") return `${baseUrl}/beginner/articles/bidding/${articleId}`;
+    if (articleType === "beginnerCounting") return `${baseUrl}/beginner/articles/counting/${articleId}`;
     return `${baseUrl}/${articleType}/${articleId}`;
   };
 
@@ -389,11 +423,19 @@ const DisplayCategoryArticle = ({
       bidding: "Bidding – Articles & explanations",
       biddingBasics: "Bidding – Improve your fundamentals",
       biddingAdvanced: "Bidding – Articles & explanations",
+      beginnerCardPlay: "Beginner Declarer",
+      beginnerDefence: "Beginner Defence",
+      beginnerBidding: "Beginner Bidding",
+      beginnerCounting: "Beginner Counting",
     };
     return categoryMap[articleType] || articleType;
   };
+  const isBeginnerArticleType = articleType?.startsWith("beginner");
+  const topicTabs = isBeginnerArticleType
+    ? BEGINNER_ARTICLE_TOPIC_TABS
+    : ARTICLE_TOPIC_TABS;
   const activeTopicId =
-    ARTICLE_TOPIC_TABS.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+    topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
 
   return (
     <>
@@ -500,8 +542,9 @@ const DisplayCategoryArticle = ({
       )}
 
       <div className="DisplayArticle-topicNavWrap">
+        <div className="DisplayArticle-topicNavRow">
         <div className="DisplayArticle-topicNav" role="tablist" aria-label="Article topics">
-          {ARTICLE_TOPIC_TABS.map((tab) => (
+          {topicTabs.map((tab) => (
             <button
               key={tab.id}
               type="button"
@@ -515,6 +558,7 @@ const DisplayCategoryArticle = ({
               {tab.label}
             </button>
           ))}
+        </div>
         </div>
       </div>
       

@@ -138,3 +138,8 @@ export const setProfileName = (firstName, surname) => ({
   firstName: firstName || "",
   surname: surname || "",
 });
+
+export const setBeginnerMode = (enabled) => ({
+  type: actions.USER_SET_BEGINNER_MODE,
+  beginnerMode: !!enabled,
+});

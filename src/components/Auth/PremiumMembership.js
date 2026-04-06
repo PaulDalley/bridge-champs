@@ -178,7 +178,8 @@ class PremiumMembership extends Component {
     $.ajax({
       url,
       method: "POST",
-      data: { token: codeForValidation },
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ token: codeForValidation }),
       dataType: "json",
     })
       .then((raw) => {

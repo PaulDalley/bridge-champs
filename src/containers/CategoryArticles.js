@@ -25,12 +25,39 @@ import FiltersCategoryArticles from "./FiltersCategoryArticles";
 import SkeletonLoader from "../components/UI/SkeletonLoader";
 import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
+import { filterBeginnerArticleItems } from "../data/beginnerModeConfig";
 
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
   { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
   { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+];
+const BEGINNER_ARTICLE_TOPIC_TABS = [
+  {
+    id: "declarer",
+    label: "Declarer",
+    path: "/beginner/articles/declarer",
+    types: ["beginnerCardPlay"],
+  },
+  {
+    id: "defence",
+    label: "Defence",
+    path: "/beginner/articles/defence",
+    types: ["beginnerDefence"],
+  },
+  {
+    id: "bidding",
+    label: "Bidding",
+    path: "/beginner/articles/bidding",
+    types: ["beginnerBidding"],
+  },
+  {
+    id: "counting",
+    label: "Counting",
+    path: "/beginner/articles/counting",
+    types: ["beginnerCounting"],
+  },
 ];
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
@@ -54,6 +81,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     (state) => state.categoryArticles?.[articleType]
   );
   const a = useSelector((state) => state.auth.a);
+  const beginnerMode = useSelector((state) => !!state.auth.beginnerMode);
   const subscriptionActive = useSelector((state) => state.auth.subscriptionActive);
   const uid = useSelector((state) => state.auth.uid);
   
@@ -131,6 +159,14 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         ? `/counting/articles/${id}`
         : articleType === "cardPlay"
           ? `/cardPlay/articles/${id}`
+          : articleType === "beginnerCardPlay"
+            ? `/beginner/articles/declarer/${id}`
+          : articleType === "beginnerDefence"
+            ? `/beginner/articles/defence/${id}`
+          : articleType === "beginnerBidding"
+            ? `/beginner/articles/bidding/${id}`
+          : articleType === "beginnerCounting"
+            ? `/beginner/articles/counting/${id}`
           : articleType === "defence"
             ? `/defence/articles/${id}`
           : articleType === "biddingBasics"
@@ -275,10 +311,27 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   // Group articles, videos, and practice questions by level for banner display
   const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
-  const groupedContent = groupContentByLevel(filteredArticles || [], videos || [], practiceQuestions || []);
+  const beginnerFilteredArticles = beginnerMode
+    ? filterBeginnerArticleItems(filteredArticles, articleType)
+    : filteredArticles;
+  const beginnerFilteredVideos = beginnerMode
+    ? filterBeginnerArticleItems(videos, articleType)
+    : videos;
+  const beginnerFilteredPracticeQuestions = beginnerMode
+    ? filterBeginnerArticleItems(practiceQuestions, articleType)
+    : practiceQuestions;
+  const groupedContent = groupContentByLevel(
+    beginnerFilteredArticles || [],
+    beginnerFilteredVideos || [],
+    beginnerFilteredPracticeQuestions || []
+  );
 
   // Get category info
   const getCreatePath = () => {
+    if (articleType === "beginnerCardPlay") return "/create/beginner/declarer";
+    if (articleType === "beginnerDefence") return "/create/beginner/defence";
+    if (articleType === "beginnerBidding") return "/create/beginner/bidding";
+    if (articleType === "beginnerCounting") return "/create/beginner/counting";
     if (articleType === "biddingBasics") return "/create/bidding/basics";
     if (articleType === "bidding") return "/create/bidding";
     if (articleType === "cardPlayBasics") return "/create/cardPlay/basics";
@@ -307,14 +360,26 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         return { name: 'Defence – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'counting':
         return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
+      case 'beginnerCardPlay':
+        return { name: 'Beginner Declarer', subtitle: 'Beginner-friendly declarer lessons and foundations.' };
+      case 'beginnerDefence':
+        return { name: 'Beginner Defence', subtitle: 'Beginner-friendly defence explanations and examples.' };
+      case 'beginnerBidding':
+        return { name: 'Beginner Bidding', subtitle: 'Beginner bidding lessons from first principles.' };
+      case 'beginnerCounting':
+        return { name: 'Beginner Counting', subtitle: 'Beginner counting concepts and walkthroughs.' };
       default: 
         return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
     }
   };
 
   const categoryInfo = getCategoryInfo();
+  const isBeginnerArticleType = articleType?.startsWith("beginner");
+  const topicTabs = isBeginnerArticleType
+    ? BEGINNER_ARTICLE_TOPIC_TABS
+    : ARTICLE_TOPIC_TABS;
   const activeTopicId =
-    ARTICLE_TOPIC_TABS.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+    topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
 
   // Fetch banner texts for all levels when content changes
   useEffect(() => {
@@ -531,8 +596,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
       <div className="CategoryArticles-topicNavWrap">
         <div className="container">
+          <div className="CategoryArticles-topicNavRow">
           <div className="CategoryArticles-topicNav" role="tablist" aria-label="Article topics">
-            {ARTICLE_TOPIC_TABS.map((tab) => (
+            {topicTabs.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
@@ -546,6 +612,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                 {tab.label}
               </button>
             ))}
+          </div>
           </div>
         </div>
       </div>

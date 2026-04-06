@@ -27,7 +27,7 @@ class Settings extends Component {
     formSubmitted: false,
     // Admin tool: create account + grant access
     adminCreateEmail: "",
-    adminCreateTier: "premium",
+    adminCreateTier: "basic",
     adminCreateDays: 365,
     adminCreateLoading: false,
     adminCreateResult: null,

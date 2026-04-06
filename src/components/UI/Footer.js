@@ -20,10 +20,7 @@ const footer = (props) => {
                                 <Link to="/about" className="grey-text text-lighten-3">About</Link>
                             </li>
                             <li>
-                                {/*<a className="grey-text text-lighten-3" href="#!">Contact us</a>*/}
-                                { props.uid &&
-                                    <Link to="/contact" className="grey-text text-lighten-3">Contact Us</Link>
-                                }
+                                <Link to="/contact" className="grey-text text-lighten-3">Contact Us</Link>
                             </li>
                             <li>
                                 <Link to="/privacy" className="grey-text text-lighten-3">Privacy Policy</Link>
@@ -37,9 +34,15 @@ const footer = (props) => {
 
             >
                 <h5 className="white-text">
-                    <img className="Footer-logo" src={photo}/>
+                    <img className="Footer-logo" src={photo} alt="Bridge Champions" />
                 </h5>
                 <p className="grey-text text-lighten-4">Insights from World Class experts.</p>
+                <p className="Footer-contactText">
+                    Contact:{" "}
+                    <a className="Footer-emailLink" href="mailto:paul.dalley@hotmail.com">
+                        paul.dalley@hotmail.com
+                    </a>
+                </p>
             </Footer>
         );
 }

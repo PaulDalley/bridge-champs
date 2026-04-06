@@ -138,7 +138,14 @@ class Nav extends Component {
     // Keep the modern navigation cards visible on /counting too (consistent with other tabs).
     const hideModernTabs = false;
     const pathname = this.props.location?.pathname || "";
-    const trainerPaths = ["/practice", "/cardPlay", "/defence", "/bidding", "/counting"];
+    const trainerPaths = [
+      "/practice",
+      "/cardPlay",
+      "/defence",
+      "/bidding",
+      "/counting",
+      "/beginner/practice",
+    ];
     const articlePaths = [
       "/learn",
       "/articles",
@@ -150,10 +157,10 @@ class Nav extends Component {
       "/bidding/advanced",
       "/bidding/basics",
       "/counting/articles",
+      "/beginner/articles",
     ];
     const trainerActive = trainerPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
     const articlesActive = articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -263,10 +270,10 @@ class Nav extends Component {
             <div className="Nav-tabs-container">
               <div
                 className={`Nav-tab-card ${trainerActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/bidding/practice")}
+                onClick={() => this.goTo("/practice")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/bidding/practice")}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/practice")}
                 aria-label="Practical learning section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-trainer">
@@ -277,10 +284,10 @@ class Nav extends Component {
 
               <div
                 className={`Nav-tab-card ${articlesActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/cardPlay/articles")}
+                onClick={() => this.goTo("/learn")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/cardPlay/articles")}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/learn")}
                 aria-label="Articles section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-articles">
@@ -389,6 +396,7 @@ const mapStateToProps = (state) => ({
   subscriptionExpires: state.auth.subscriptionExpires,
   subscriptionActive: state.auth.subscriptionActive,
   totalQuizScore: state.auth.totalQuizScore,
+  beginnerMode: !!state.auth.beginnerMode,
 });
 
 // const mapStateToProps = ({ auth }, ownProps) => ({

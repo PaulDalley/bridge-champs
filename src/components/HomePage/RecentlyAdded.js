@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./RecentlyAdded.css";
-import { THEME_PACKS } from "../../data/themePacks";
+import { THEME_PACKS, BEGINNER_THEME_PACKS } from "../../data/themePacks";
 
-function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
+function RecentlyAdded({ uid, subscriptionActive, a, completedPractice, beginnerMode }) {
   const showSubscribeCta = !subscriptionActive && a !== true;
   const completed = completedPractice || {};
-  const packs = THEME_PACKS.map((pack) => {
+  const sourcePacks = beginnerMode ? BEGINNER_THEME_PACKS : THEME_PACKS;
+  const packs = sourcePacks.map((pack) => {
     const done = uid ? pack.handIds.filter((id) => !!completed[id]).length : 0;
     const total = pack.handIds.length;
     const pct = total ? Math.round((done / total) * 100) : 0;
@@ -43,6 +44,12 @@ function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
       )}
       <h2 className="RecentlyAdded-theme">Choose a topic</h2>
 
+      {packsToShow.length === 0 && (
+        <div className="RecentlyAdded-emptyState">
+          Beginner topic packs will appear here as you add them.
+        </div>
+      )}
+
       <div className="RecentlyAdded-packGrid">
         {packsToShow.map((pack) => (
           <Link key={pack.id} to={pack.to} className="RecentlyAdded-packCard" title={pack.title}>
@@ -73,5 +80,6 @@ export default connect(({ auth, user }) => ({
   uid: auth?.uid,
   subscriptionActive: auth?.subscriptionActive,
   a: auth?.a,
+  beginnerMode: !!auth?.beginnerMode,
   completedPractice: user?.completedPractice,
 }))(RecentlyAdded);

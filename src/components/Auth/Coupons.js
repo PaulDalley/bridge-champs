@@ -21,10 +21,14 @@ class Coupons extends Component {
     validateUserToken = () => {
         this.setState({ message: "", error: "" });
         const url = "https://us-central1-bridgechampions.cloudfunctions.net/validateUserToken";
-        return $.post(
+        return $.ajax({
             url,
-            { token: this.tokenForApi(this.state.token) },
-            (data, status) => {
+            method: "POST",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({ token: this.tokenForApi(this.state.token) }),
+            dataType: "json",
+        }).then(
+            (data) => {
                 // console.log(status);
                 // console.log(data);
                 let userMessage = `Token validated`;
@@ -40,8 +44,8 @@ class Coupons extends Component {
                     data.percentOffFirstMonth,
                     data.paypalButtonUrl,
                 );
-            })
-            .catch(err => {
+            }
+        ).catch(err => {
                 console.log(err);
                 this.setState({
                     error: "Your token was invalid, try again",

@@ -16,6 +16,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { firebase } from "../firebase/config";
 import { sendSubscriptionEvent } from "../utils/analytics";
+import { setBeginnerMode } from "../store/actions/authActions";
+import BeginnerModeToggle from "./UI/BeginnerModeToggle";
+import {
+  persistBeginnerMode,
+  isLocalhostBuild,
+} from "../utils/beginnerMode";
 
 const photo = require("../assets/images/logo-small-inv-t-greybg.png");
 const stripeVerifyCheckoutSessionUrl =
@@ -211,6 +217,15 @@ class HomePage extends Component {
     }
   };
 
+  setBeginnerModeChoice = (enableBeginner) => {
+    try {
+      persistBeginnerMode(enableBeginner);
+    } catch (error) {
+      // ignore
+    }
+    this.props.setBeginnerMode(enableBeginner);
+  };
+
   render() {
     let whenSubExpiresMinus2Days = undefined;
     if (this.props.subscriptionExpires) {
@@ -230,6 +245,14 @@ class HomePage extends Component {
           <meta property="og:description" content="Learn Bridge from world class experts and champions. Improve your game with daily insights and quizzes." />
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
+
+        <div className="HomePage-beginnerToggleRow">
+          <BeginnerModeToggle
+            visible={isLocalhostBuild()}
+            enabled={!!this.props.beginnerMode}
+            onToggle={() => this.setBeginnerModeChoice(!this.props.beginnerMode)}
+          />
+        </div>
 
         {/* Theme + How to use + Just added: wider strip on desktop (800px) */}
         <div className="HomePage-themeStrip">
@@ -524,7 +547,8 @@ export default withRouter(
       subscriptionExpires: auth.subscriptionExpires,
       a: auth.a,
       uid: auth.uid,
+      beginnerMode: !!auth.beginnerMode,
     }),
-    null
+    { setBeginnerMode }
   )(HomePage)
 );

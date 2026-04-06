@@ -106,6 +106,16 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.RecentlyAdded-emptyState {
+  margin: 0.25rem 0 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1.06rem;
+  font-weight: 600;
+}
+
 .RecentlyAdded-packGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

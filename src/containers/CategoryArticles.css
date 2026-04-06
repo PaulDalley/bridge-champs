@@ -47,6 +47,14 @@
   align-items: center;
 }
 
+.CategoryArticles-topicNavRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .CategoryArticles-topicPill {
   border: 1px solid #c7d2dc;
   background: #fff;

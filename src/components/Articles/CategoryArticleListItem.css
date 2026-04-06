@@ -175,6 +175,8 @@
 .badge-number {
   background: var(--color-secondary);
   color: var(--color-dark);
+  font-family: var(--font-body);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .badge-locked {
@@ -189,13 +191,14 @@
 
 /* === TITLE === */
 .ArticleCard-title {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 2.4rem;
-  font-weight: 700;
+  font-weight: 650;
   color: var(--color-dark);
   margin-bottom: 1.5rem;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  line-height: 1.38;
+  letter-spacing: -0.005em;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 /* === TEASER === */

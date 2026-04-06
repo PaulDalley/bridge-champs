@@ -2452,7 +2452,7 @@ const CARDPLAY_PUZZLES_ALL = [
   },
 ];
 
-const CARDPLAY_PUZZLES = CARDPLAY_PUZZLES_ALL;
+export const CARDPLAY_PUZZLES = CARDPLAY_PUZZLES_ALL;
 
 function isPuzzleNew(puzzle) {
   return !!(puzzle && puzzle.newUntil && new Date() < new Date(puzzle.newUntil));

@@ -602,6 +602,13 @@
   flex-wrap: wrap;
 }
 
+.Nav-beginner-toggle-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.35rem;
+}
+
 .Nav-tab-card {
   display: flex;
   flex-direction: column;

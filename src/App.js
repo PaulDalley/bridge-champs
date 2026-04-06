@@ -58,6 +58,7 @@ import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
+import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
 
 import { firebase } from "./firebase/config";
 
@@ -78,27 +79,196 @@ import {
   setUser,
   userLoggedInSubscriptionExpires,
   authReady,
+  setBeginnerMode,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
+import {
+  getArticlesRootPath,
+  getPracticeRootPath,
+  getStoredBeginnerMode,
+  isLocalhostBuild,
+} from "./utils/beginnerMode";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
 const store = configureStore();
+const beginnerLocalOnlyEnabled = isLocalhostBuild();
+
+if (typeof window !== "undefined") {
+  store.dispatch(setBeginnerMode(beginnerLocalOnlyEnabled ? getStoredBeginnerMode() : false));
+}
 
 const routes = (
   <Switch>
     <Route
+      path="/beginner/practice"
+      exact
+      render={(routeProps) =>
+        beginnerLocalOnlyEnabled ? (
+          <Redirect
+            to={{
+              pathname: "/beginner/practice/declarer",
+              search: routeProps.location.search,
+            }}
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      }
+    />
+    <Route
+      path="/beginner/practice/:categoryKey"
+      exact
+      render={(routeProps) =>
+        beginnerLocalOnlyEnabled ? <BeginnerPracticePage {...routeProps} /> : <Redirect to="/" />
+      }
+    />
+    <Route
+      path="/beginner/articles"
+      exact
+      render={() =>
+        beginnerLocalOnlyEnabled ? <Redirect to="/beginner/articles/bidding" /> : <Redirect to="/" />
+      }
+    />
+    <Route
+      path="/beginner/articles/declarer"
+      exact
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerCardPlay"
+            bodyRef="beginnerCardPlayBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/declarer/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerCardPlay"
+            bodyRef="beginnerCardPlayBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/defence"
+      exact
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerDefence"
+            bodyRef="beginnerDefenceBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/defence/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerDefence"
+            bodyRef="beginnerDefenceBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/bidding"
+      exact
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerBidding"
+            bodyRef="beginnerBiddingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/bidding/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerBidding"
+            bodyRef="beginnerBiddingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/counting"
+      exact
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerCounting"
+            bodyRef="beginnerCountingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/counting/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerCounting"
+            bodyRef="beginnerCountingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+
+    <Route
       path="/practice"
       exact
       render={(routeProps) => (
-        <Redirect to={{ pathname: "/bidding/practice", search: routeProps.location.search }} />
+        <Redirect
+          to={{
+            pathname: getPracticeRootPath(!!store.getState()?.auth?.beginnerMode),
+            search: routeProps.location.search,
+          }}
+        />
       )}
     />
     <Route
       path="/learn"
       exact
       render={(routeProps) => (
-        <Redirect to={{ pathname: "/cardPlay/articles", search: routeProps.location.search }} />
+        <Redirect
+          to={{
+            pathname: getArticlesRootPath(!!store.getState()?.auth?.beginnerMode),
+            search: routeProps.location.search,
+          }}
+        />
       )}
     />
     <Route path="/other" component={OtherHub} exact />
@@ -178,6 +348,78 @@ const routes = (
     />
 
     {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE - more specific paths first so /create/defence/basics matches before /create/defence */}
+    <Route
+      path="/create/beginner/declarer"
+      exact
+      render={() => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerCardPlay"
+              bodyRef="beginnerCardPlayBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/defence"
+      exact
+      render={() => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerDefence"
+              bodyRef="beginnerDefenceBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/bidding"
+      exact
+      render={() => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerBidding"
+              bodyRef="beginnerBiddingBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/counting"
+      exact
+      render={() => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerCounting"
+              bodyRef="beginnerCountingBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
     <Route
       path="/create/defence/basics"
       create={true}
@@ -283,6 +525,74 @@ const routes = (
       )}
     />
 
+    <Route
+      path="/edit/beginnerCardPlay/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerCardPlay"
+              bodyRef="beginnerCardPlayBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerDefence/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerDefence"
+              bodyRef="beginnerDefenceBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerBidding/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerBidding"
+              bodyRef="beginnerBiddingBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerCounting/:id"
+      render={(routeProps) => (
+        beginnerLocalOnlyEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerCounting"
+              bodyRef="beginnerCountingBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
     <Route
       path="/edit/defence/:id"
       render={(routeProps) => (

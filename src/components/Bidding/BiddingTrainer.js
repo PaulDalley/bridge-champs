@@ -823,6 +823,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "active",
       contractLabel: "East opens 1♥ — you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/F4HW3pNwKoo",
@@ -902,6 +903,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "active",
       contractLabel: "East opens 1♣ — you are South (not vulnerable)",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/OAX93O9g3qQ",
@@ -957,6 +959,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "active",
       contractLabel: "East opens 1♣ — you are South (not vulnerable)",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/eMqvRa3H8PQ",
@@ -1012,6 +1015,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "active",
       contractLabel: "East opens 1♣ — both sides vulnerable, you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/ayQv94xbDyY",
@@ -1063,6 +1067,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "active",
       contractLabel: "Summary — three quick questions",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       hidePlayDecisionHeading: true,
       customPrompts: [
         {
@@ -1172,6 +1177,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "twoLevel",
       contractLabel: "East opens 1♠ — all vulnerable, you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/zap0W7SAEBk",
@@ -1236,6 +1242,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "twoLevel",
       contractLabel: "East opens 1♥ — all vulnerable, you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllRed: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/ZbzfkJ8sR3k",
@@ -1299,6 +1306,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "twoLevel",
       contractLabel: "East opens 1♠ — not vulnerable, you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/BXFYnIV2rKY",
@@ -1362,6 +1370,7 @@ const BIDDING_PUZZLES = [
       promptThemeTint: "twoLevel",
       contractLabel: "East opens 1♠ — neither side vulnerable, you are South",
       contractLabelBeforeStartOnly: true,
+      startFooterText: "Modern Overcalls",
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/eyx0Eztx6Wg",
@@ -1864,6 +1873,8 @@ const BIDDING_PUZZLES = [
     rounds: [],
   },
 ];
+
+export { BIDDING_PUZZLES };
 
 function BiddingTrainer({ location }) {
   return (

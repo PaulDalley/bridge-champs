@@ -40,6 +40,10 @@ export const THEME_PACKS = [
   },
 ];
 
+// Keep this list separate so beginner mode can show its own homepage packs.
+// Intentionally empty for now until beginner packs are added.
+export const BEGINNER_THEME_PACKS = [];
+
 export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
   if (!pack.categoryKey || !pack.starterProblemId) return acc;
   acc[pack.categoryKey] = pack.starterProblemId;

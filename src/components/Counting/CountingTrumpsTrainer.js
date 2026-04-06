@@ -5,6 +5,7 @@ import { savePracticeCompletion } from "../../store/actions/usersActions";
 import { sendPracticeEvent } from "../../utils/analytics";
 import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY } from "../../data/themePacks";
 import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
+import { filterBeginnerTrainerPuzzles } from "../../data/beginnerModeConfig";
 import PracticeVideoBlock from "./PracticeVideoBlock";
 import "./CountingTrumpsTrainer.css";
 
@@ -431,6 +432,176 @@ function normalizeRoundsClockwise(rounds, declarerCompass) {
     const plays = Array.isArray(round?.plays) ? round.plays : [];
     return { ...round, plays: normalizeTrickPlaysClockwise(plays, declarerCompass) };
   });
+}
+
+/** Compass seats in puzzle data (plays, distribution keys). Hands use {@link COMPASS_HAND_KEYS} to avoid clashing with suit key "S". */
+const COMPASS_LETTERS = new Set(["N", "E", "S", "W"]);
+const COMPASS_HAND_KEYS = { north: "N", east: "E", south: "S", west: "W" };
+
+/**
+ * Reorder trick plays in true compass order (N→E→S→W) starting from the leader (plays[0]).
+ * Supports fewer than four cards (e.g. teaching layouts). Only runs when all seats are compass letters.
+ */
+function normalizeTrickPlaysCompassOrder(plays) {
+  if (!Array.isArray(plays) || plays.length === 0) return plays;
+  let hasCompass = false;
+  let hasLegacy = false;
+  for (const p of plays) {
+    const s = p?.seat;
+    if (!s) continue;
+    if (COMPASS_LETTERS.has(s)) hasCompass = true;
+    else if (SEATS.includes(s)) hasLegacy = true;
+  }
+  if (!hasCompass || hasLegacy) return plays;
+  const leader = plays[0]?.seat;
+  if (!COMPASS_LETTERS.has(leader)) return plays;
+  const playBySeat = {};
+  for (const p of plays) {
+    const s = p?.seat;
+    if (!COMPASS_LETTERS.has(s)) return plays;
+    if (playBySeat[s]) return plays;
+    playBySeat[s] = p;
+  }
+  const leaderIdx = CLOCKWISE.indexOf(leader);
+  const ordered = [];
+  for (let i = 0; i < 4; i++) {
+    const c = CLOCKWISE[(leaderIdx + i) % 4];
+    if (playBySeat[c]) ordered.push(playBySeat[c]);
+  }
+  if (ordered.length !== plays.length) return plays;
+  return ordered;
+}
+
+/**
+ * New puzzles only: `seatMode: "compass"` with plays/seat keys N/E/S/W and optional hand keys north/east/south/west.
+ * Converted once to legacy LHO/DUMMY/RHO/DECLARER so existing trainer logic is unchanged. Legacy puzzles omit seatMode.
+ */
+function compassPuzzleToLegacy(puzzle) {
+  if (!puzzle || puzzle.seatMode !== "compass") return puzzle;
+  const dec = puzzle.declarerCompass || "S";
+  const { compassToSeat } = buildSeatCompassMaps(dec);
+
+  const letterToLegacy = (letter) => {
+    const leg = compassToSeat[letter];
+    if (!leg) throw new Error(`compassPuzzleToLegacy: no legacy seat for compass "${letter}"`);
+    return leg;
+  };
+
+  const remapPlaySeat = (seat) => {
+    if (!seat) return seat;
+    if (COMPASS_LETTERS.has(seat)) return letterToLegacy(seat);
+    if (COMPASS_HAND_KEYS[seat]) return letterToLegacy(COMPASS_HAND_KEYS[seat]);
+    if (SEATS.includes(seat)) return seat;
+    throw new Error(`compassPuzzleToLegacy: unknown seat "${seat}"`);
+  };
+
+  const remapHandKey = (key) => {
+    if (COMPASS_HAND_KEYS[key]) return letterToLegacy(COMPASS_HAND_KEYS[key]);
+    if (SEATS.includes(key)) return key;
+    return key;
+  };
+
+  /** Seat-only keyed maps (counts, lengths). Do not use for nested suit-keyed objects. */
+  const remapTopLevelSeatKeys = (obj) => {
+    if (!obj || typeof obj !== "object") return obj;
+    const out = {};
+    for (const [k, v] of Object.entries(obj)) {
+      let nk = k;
+      if (COMPASS_LETTERS.has(k)) nk = letterToLegacy(k);
+      else if (COMPASS_HAND_KEYS[k]) nk = letterToLegacy(COMPASS_HAND_KEYS[k]);
+      else if (SEATS.includes(k)) nk = k;
+      out[nk] = v;
+    }
+    return out;
+  };
+
+  /** PLAY_CARD: outer keys are seats; inner keys are suits (S/H/D/C) — only remap outer. */
+  const remapPlayCardAutoFollowBySuit = (obj) => {
+    if (!obj || typeof obj !== "object") return obj;
+    const out = {};
+    for (const [k, v] of Object.entries(obj)) {
+      let nk = k;
+      if (COMPASS_LETTERS.has(k)) nk = letterToLegacy(k);
+      else if (COMPASS_HAND_KEYS[k]) nk = letterToLegacy(COMPASS_HAND_KEYS[k]);
+      else if (SEATS.includes(k)) nk = k;
+      out[nk] = v;
+    }
+    return out;
+  };
+
+  const remapPrompt = (p) => {
+    if (!p || typeof p !== "object") return p;
+    const out = { ...p };
+    if (typeof out.seat === "string") out.seat = remapPlaySeat(out.seat);
+    if (out.fixed) out.fixed = remapTopLevelSeatKeys(out.fixed);
+    if (out.expectedDistribution) out.expectedDistribution = remapTopLevelSeatKeys(out.expectedDistribution);
+    if (out.playCardAutoFollowBySuit) out.playCardAutoFollowBySuit = remapPlayCardAutoFollowBySuit(out.playCardAutoFollowBySuit);
+    if (Array.isArray(out.playCardAutoPlaysBefore)) {
+      out.playCardAutoPlaysBefore = out.playCardAutoPlaysBefore.map((x) =>
+        x && typeof x === "object" ? { ...x, seat: x.seat ? remapPlaySeat(x.seat) : x.seat } : x
+      );
+    }
+    if (out.playCardAutoPlayAfter && typeof out.playCardAutoPlayAfter === "object") {
+      out.playCardAutoPlayAfter = {
+        ...out.playCardAutoPlayAfter,
+        seat: out.playCardAutoPlayAfter.seat ? remapPlaySeat(out.playCardAutoPlayAfter.seat) : out.playCardAutoPlayAfter.seat,
+      };
+    }
+    return out;
+  };
+
+  const shownHands = {};
+  if (puzzle.shownHands) {
+    for (const [k, v] of Object.entries(puzzle.shownHands)) {
+      shownHands[remapHandKey(k)] = v;
+    }
+  }
+
+  const rounds = (puzzle.rounds || []).map((r) => {
+    const rawPlays = r.plays || [];
+    const compassOrdered = normalizeTrickPlaysCompassOrder(rawPlays);
+    const plays = compassOrdered.map((p) => ({ ...p, seat: remapPlaySeat(p.seat) }));
+    return { ...r, plays };
+  });
+
+  const out = {
+    ...puzzle,
+    shownHands,
+    rounds,
+  };
+  delete out.seatMode;
+
+  if (puzzle.endRevealTrumpHands) {
+    const er = {};
+    for (const [k, v] of Object.entries(puzzle.endRevealTrumpHands)) {
+      er[remapHandKey(k)] = v;
+    }
+    out.endRevealTrumpHands = er;
+  }
+
+  if (puzzle.expectedInitialLengths) {
+    out.expectedInitialLengths = remapTopLevelSeatKeys(puzzle.expectedInitialLengths);
+  }
+
+  if (Array.isArray(puzzle.visibleFullHandSeats)) {
+    out.visibleFullHandSeats = puzzle.visibleFullHandSeats.map((s) => (typeof s === "string" ? remapPlaySeat(s) : s));
+  }
+
+  if (Array.isArray(puzzle.revealFullHandsAtEnd)) {
+    out.revealFullHandsAtEnd = puzzle.revealFullHandsAtEnd.map((s) => (typeof s === "string" ? remapPlaySeat(s) : s));
+  }
+
+  if (puzzle.promptOptions && typeof puzzle.promptOptions === "object") {
+    const po = { ...puzzle.promptOptions };
+    if (typeof po.seatShapeTarget === "string") po.seatShapeTarget = remapPlaySeat(po.seatShapeTarget);
+    if (Array.isArray(po.customPrompts)) po.customPrompts = po.customPrompts.map(remapPrompt);
+    if (po.distributionPrefill?.fixed) {
+      po.distributionPrefill = { ...po.distributionPrefill, fixed: remapTopLevelSeatKeys(po.distributionPrefill.fixed) };
+    }
+    out.promptOptions = po;
+  }
+
+  return out;
 }
 
 function parseBidToken(token) {
@@ -3034,6 +3205,9 @@ const PUZZLES = [
   },
 ];
 
+/** Same list the counting route uses (excludes moved puzzle d2-2). Exported for beginner practice isolation. */
+export const DEFAULT_COUNTING_PUZZLES_FOR_TRAINER = PUZZLES.filter((p) => p.id !== "d2-2");
+
 export const COUNTING_HAS_NEW = PUZZLES.some(isPuzzleNew);
 
 function buildInitialRemainingHands(puzzle) {
@@ -3316,7 +3490,27 @@ function isPuzzleNew(puzzle) {
 
 const isLocalhost = typeof window !== "undefined" && (window.location?.hostname === "localhost" || window.location?.hostname === "127.0.0.1");
 
-function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, paymentMethod, a, puzzlesOverride, trainerLabel = "Counting", categoryKey = "counting", location, completedPractice, dispatch }) {
+function CountingTrumpsTrainer({
+  uid,
+  subscriptionActive,
+  tier: propsTier,
+  paymentMethod,
+  a,
+  puzzlesOverride,
+  trainerLabel = "Counting",
+  categoryKey = "counting",
+  location,
+  completedPractice,
+  dispatch,
+  beginnerModeOverride = false,
+  /** When true with beginnerModeOverride: puzzlesOverride is the full beginner library (no main-site featuredProblemIds filter). */
+  beginnerIsolatedPuzzleList = false,
+  /** Beginner Stages 1–3: hide Difficulty 1/2/3 tabs; list all problems in one row. */
+  hideDifficultyTabs = false,
+  puzzleIdWhitelist = null,
+  categoryLabelsOverride = null,
+  categoryPathOverrides = null,
+}) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
   const isAdmin = a === true;
   const mockUnsub = useMemo(() => {
@@ -3337,12 +3531,57 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   const effectiveTier = mockTier || propsTier;
   const showSubscribeBanner = !isMember || (isLocalhost && mockPaywall);
   const puzzlesAll = useMemo(() => {
-    // If override is provided (even empty), treat it as authoritative for this trainer instance.
-    if (Array.isArray(puzzlesOverride)) return puzzlesOverride;
-    const list = PUZZLES;
-    // Counting difficulty 2: p2-2 and p2-3. Exclude d2-2 (moved to Defence as df2-1).
-    return list.filter((p) => p.id !== "d2-2");
-  }, [puzzlesOverride]);
+    let list;
+    if (Array.isArray(puzzlesOverride)) {
+      list = puzzlesOverride;
+    } else {
+      const raw = PUZZLES;
+      list = raw.filter((p) => p.id !== "d2-2");
+    }
+    if (!beginnerModeOverride) return list;
+
+    // Isolated beginner files: list is already curated — never intersect with main-site featuredProblemIds.
+    if (beginnerIsolatedPuzzleList) {
+      if (puzzleIdWhitelist != null && Array.isArray(puzzleIdWhitelist) && puzzleIdWhitelist.length === 0) return [];
+      let out = list;
+      if (Array.isArray(puzzleIdWhitelist) && puzzleIdWhitelist.length > 0) {
+        const positionById = new Map(puzzleIdWhitelist.map((id, idx) => [id, idx]));
+        out = out.filter((p) => positionById.has(p?.id));
+        out = [...out].sort((a, b) => {
+          const aPos = positionById.has(a?.id) ? positionById.get(a.id) : Number.MAX_SAFE_INTEGER;
+          const bPos = positionById.has(b?.id) ? positionById.get(b.id) : Number.MAX_SAFE_INTEGER;
+          if (aPos !== bPos) return aPos - bPos;
+          return (a?.id || "").localeCompare(b?.id || "");
+        });
+      }
+      return out;
+    }
+
+    // Legacy: beginner view filtered from main trainer pools + beginnerModeConfig featuredProblemIds.
+    if (Array.isArray(puzzleIdWhitelist) && puzzleIdWhitelist.length === 0) return [];
+    let out = filterBeginnerTrainerPuzzles(list, categoryKey);
+    if (Array.isArray(puzzleIdWhitelist) && puzzleIdWhitelist.length > 0) {
+      const positionById = new Map(puzzleIdWhitelist.map((id, idx) => [id, idx]));
+      out = out.filter((p) => positionById.has(p?.id));
+      out = [...out].sort((a, b) => {
+        const aPos = positionById.has(a?.id) ? positionById.get(a.id) : Number.MAX_SAFE_INTEGER;
+        const bPos = positionById.has(b?.id) ? positionById.get(b.id) : Number.MAX_SAFE_INTEGER;
+        if (aPos !== bPos) return aPos - bPos;
+        return (a?.id || "").localeCompare(b?.id || "");
+      });
+    }
+    return out;
+  }, [puzzlesOverride, beginnerModeOverride, beginnerIsolatedPuzzleList, categoryKey, puzzleIdWhitelist]);
+
+  const effectiveCategoryTabs = useMemo(() => {
+    if (!beginnerModeOverride) return CATEGORY_CONFIG;
+    return CATEGORY_CONFIG.map((c) => ({
+      ...c,
+      label: categoryLabelsOverride?.[c.key] ?? c.label,
+      path: categoryPathOverrides?.[c.key] ?? c.path,
+    }));
+  }, [beginnerModeOverride, categoryLabelsOverride, categoryPathOverrides]);
+
   const fallbackPuzzle = useMemo(() => {
     // Stable placeholder so hooks don't rely on Counting puzzles when this trainer has none yet.
     return {
@@ -3364,8 +3603,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     return byDiff;
   }, [puzzlesAll]);
   const puzzlesForDifficultyAll = useMemo(() => {
+    if (hideDifficultyTabs) return puzzlesAll;
     return puzzlesAll.filter((p) => (p.difficulty || 1) === selectedDifficulty);
-  }, [puzzlesAll, selectedDifficulty]);
+  }, [puzzlesAll, selectedDifficulty, hideDifficultyTabs]);
   const [puzzleIdxInDifficulty, setPuzzleIdxInDifficulty] = useState(0);
 
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -3483,24 +3723,33 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     ? puzzlesForDifficultyAll[effectivePuzzleIdx] || puzzlesForDifficultyAll[0]
     : puzzlesAll[0] || fallbackPuzzle;
 
-  const contractText = contractToText(rawPuzzle);
-  const auctionText = auctionToText(rawPuzzle);
+  /** New-format puzzles only (`seatMode: "compass"`); legacy puzzles pass through unchanged. */
+  const rawPuzzleResolved = useMemo(() => {
+    if (rawPuzzle?.seatMode === "compass") return compassPuzzleToLegacy(rawPuzzle);
+    return rawPuzzle;
+  }, [rawPuzzle]);
+
+  const contractText = contractToText(rawPuzzleResolved);
+  const auctionText = auctionToText(rawPuzzleResolved);
 
   // Viewer is always a compass seat (N/E/S/W) for true-table orientation.
-  const viewerCompass = rawPuzzle.viewerCompass || "S";
-  const dealerCompass = rawPuzzle.dealerCompass || "N";
+  const viewerCompass = rawPuzzleResolved.viewerCompass || "S";
+  const dealerCompass = rawPuzzleResolved.dealerCompass || "N";
   const declarerCompass = useMemo(() => {
-    if (rawPuzzle.declarerCompass) return rawPuzzle.declarerCompass;
+    if (rawPuzzleResolved.declarerCompass) return rawPuzzleResolved.declarerCompass;
     const inferred = inferDeclarerCompassFromAuction({ auctionText, dealerCompass });
     return inferred || "S";
-  }, [rawPuzzle.id, rawPuzzle.declarerCompass, auctionText, dealerCompass]);
+  }, [rawPuzzleResolved.id, rawPuzzleResolved.declarerCompass, auctionText, dealerCompass]);
 
   // Major reliability fix:
   // always normalize full-trick play order to clockwise from the trick leader.
   // This removes recurring authoring mistakes around LHO/RHO ordering.
   const puzzle = useMemo(
-    () => ({ ...rawPuzzle, rounds: normalizeRoundsClockwise(rawPuzzle.rounds || [], declarerCompass) }),
-    [rawPuzzle, declarerCompass]
+    () => ({
+      ...rawPuzzleResolved,
+      rounds: normalizeRoundsClockwise(rawPuzzleResolved.rounds || [], declarerCompass),
+    }),
+    [rawPuzzleResolved, declarerCompass]
   );
 
   const declarerCompassName = useMemo(() => {
@@ -3565,6 +3814,8 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   /** For playCardUserPlaysDummyFirst: dummy_lead → wait_rho → declarer. */
   const [playCardInteractiveStep, setPlayCardInteractiveStep] = useState(null);
   const playCardDummyAfterTimeoutRef = useRef(null);
+  /** PLAY_CARD stagger: ids for follow-card timeouts (cleared on continue / next play). */
+  const playCardFollowStaggerTimeoutsRef = useRef([]);
 
   const dummyHandFanRef = useRef(null);
   const declarerHandFanRef = useRef(null);
@@ -4196,9 +4447,25 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       for (const p of lastPlays) lastTrick[p.seat] = p.card;
     }
 
-    setPlayedFromHand(playedMap);
+    // Rounds often omit the user's last card (played via PLAY_CARD). Merge prior declarer plays
+    // so Continue after a reveal does not put those cards back in the hand.
+    setPlayedFromHand((prev) => {
+      if (end < 0) return playedMap;
+      return {
+        LHO: playedMap.LHO,
+        DUMMY: playedMap.DUMMY,
+        RHO: playedMap.RHO,
+        DECLARER: { ...(playedMap.DECLARER || {}), ...(prev?.DECLARER || {}) },
+      };
+    });
     setRemainingHands(rem);
-    setTrickCards(lastTrick);
+    // Rounds data may omit the declarer's card when the learner plays it via PLAY_CARD; keep it on the table.
+    setTrickCards((prev) => {
+      if (end < 0) return { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
+      const merged = { ...lastTrick };
+      if (!merged.DECLARER && prev?.DECLARER) merged.DECLARER = prev.DECLARER;
+      return merged;
+    });
     setRoundIdx(Math.max(0, end));
     setPlayIdx(end >= 0 ? (puzzle.rounds?.[end]?.plays || []).length - 1 : -1);
     setCompletedRoundIdx(end);
@@ -4223,6 +4490,12 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     }
     const before = activeCustomPrompt.playCardAutoPlaysBefore;
     if (!Array.isArray(before) || before.length === 0) {
+      setPlayCardAutoPhaseDone(true);
+      setPlayCardInteractiveStep(null);
+      return;
+    }
+    // Scripted preface already on the table (e.g. user advanced with Next →); do not replay.
+    if (activeCustomPrompt.playCardKeepExistingTrickCards) {
       setPlayCardAutoPhaseDone(true);
       setPlayCardInteractiveStep(null);
       return;
@@ -5582,6 +5855,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     }, staggerMs);
   };
 
+  const clearPlayCardFollowStaggerTimeouts = () => {
+    playCardFollowStaggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    playCardFollowStaggerTimeoutsRef.current = [];
+  };
+
   const handleDeclarerPlayCard = (card) => {
     if (userPlayedCard || !activeCustomPrompt || activeCustomPrompt.type !== "PLAY_CARD" || isPlaying) return;
     const userDummyFirst = !!activeCustomPrompt.playCardUserPlaysDummyFirst;
@@ -5597,32 +5875,119 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
     const suitOk = expectedSuit == null || expectedSuit === "" || card.suit === expectedSuit;
     const rankOk = expectedRank == null || expectedRank === "" || String(card.rank) === String(expectedRank);
     const correct = suitOk && rankOk;
+    if (!correct && activeCustomPrompt?.playCardRequireCorrect) {
+      setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." });
+      return;
+    }
+
+    clearPlayCardFollowStaggerTimeouts();
+
+    const followBySuit = activeCustomPrompt?.playCardAutoFollowBySuit;
+    /** Clockwise from declarer: LHO → dummy → RHO (matches table order for auto-follow). */
+    const followAutoSeatsOrder = ["LHO", "DUMMY", "RHO"];
+    const resolveFollows = () => {
+      const follows = [];
+      if (followBySuit && typeof followBySuit === "object") {
+        for (const seat of followAutoSeatsOrder) {
+          const seatMap = followBySuit?.[seat];
+          if (!seatMap || typeof seatMap !== "object") continue;
+          const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
+          if (followCard?.rank && followCard?.suit) {
+            follows.push({
+              seat,
+              card: { rank: String(followCard.rank), suit: String(followCard.suit) },
+            });
+          }
+        }
+      }
+      return follows;
+    };
+    const follows = resolveFollows();
+    const staggerMs = Number(activeCustomPrompt?.playCardAutoFollowStaggerMs);
+    const useStagger = Number.isFinite(staggerMs) && staggerMs > 0 && follows.length > 0;
+
+    const keepExistingTrickCards = !!activeCustomPrompt?.playCardKeepExistingTrickCards;
+    const computeTrickBase = (prev) =>
+      hasAutoPreface || userDummyFirst || keepExistingTrickCards
+        ? prev
+        : { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
+
+    const firstLine = correct
+      ? (activeCustomPrompt.correctRevealText || "Well done!")
+      : (activeCustomPrompt.wrongRevealText || "Good try, that looks logical but it doesn't work.");
+    const text = activeCustomPrompt.revealText ? firstLine + "\n\n" + activeCustomPrompt.revealText : firstLine;
+
+    const finishPlayCardReveal = () => {
+      setPlayDecisionReveal({ text, correct, promptId, roundIdx: completedRoundIdx, fromPlayCard: true });
+      askedRef.current = {
+        ...(askedRef.current || {}),
+        customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+      };
+      setAskedTick((t) => t + 1);
+      setPromptStep("PLAY_CARD_REVEAL");
+    };
+
     setUserPlayedCard(card);
     setPlayedFromHand((prev) => ({
       ...prev,
       DECLARER: { ...(prev.DECLARER || {}), [`${card.rank}${card.suit}`]: true },
     }));
+
+    if (useStagger) {
+      const afterPlay = activeCustomPrompt.playCardAutoPlayAfter;
+      setTrickCards((prev) => {
+        const base = computeTrickBase(prev);
+        const startTrick = { ...base, DECLARER: card };
+        queueMicrotask(() => {
+          let acc = { ...startTrick };
+          follows.forEach((item, i) => {
+            const tid = setTimeout(() => {
+              acc = { ...acc, [item.seat]: item.card };
+              setTrickCards({ ...acc });
+            }, (i + 1) * staggerMs);
+            playCardFollowStaggerTimeoutsRef.current.push(tid);
+          });
+          const doneMs = follows.length * staggerMs + 120;
+          const tidDone = setTimeout(() => {
+            if (afterPlay?.seat && afterPlay?.card) {
+              setTrickCards((prev) => ({
+                ...prev,
+                [afterPlay.seat]: {
+                  rank: String(afterPlay.card.rank),
+                  suit: String(afterPlay.card.suit),
+                },
+              }));
+            }
+            finishPlayCardReveal();
+          }, doneMs);
+          playCardFollowStaggerTimeoutsRef.current.push(tidDone);
+        });
+        return startTrick;
+      });
+      return;
+    }
+
     setTrickCards((prev) => {
-      const base =
-        hasAutoPreface || userDummyFirst ? prev : { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
+      const base = computeTrickBase(prev);
       const next = { ...base, DECLARER: card };
+      if (followBySuit && typeof followBySuit === "object") {
+        followAutoSeatsOrder.forEach((seat) => {
+          if (next[seat]) return;
+          const seatMap = followBySuit?.[seat];
+          if (!seatMap || typeof seatMap !== "object") return;
+          const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
+          if (followCard?.rank && followCard?.suit) {
+            next[seat] = { rank: String(followCard.rank), suit: String(followCard.suit) };
+          }
+        });
+      }
       const after = activeCustomPrompt.playCardAutoPlayAfter;
       if (after?.seat && after?.card) {
         next[after.seat] = after.card;
       }
       return next;
     });
-    const firstLine = correct
-      ? (activeCustomPrompt.correctRevealText || "Well done!")
-      : (activeCustomPrompt.wrongRevealText || "Good try, that looks logical but it doesn't work.");
-    const text = activeCustomPrompt.revealText ? firstLine + "\n\n" + activeCustomPrompt.revealText : firstLine;
-    setPlayDecisionReveal({ text, correct, promptId, roundIdx: completedRoundIdx, fromPlayCard: true });
-    askedRef.current = {
-      ...(askedRef.current || {}),
-      customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
-    };
-    setAskedTick((t) => t + 1);
-    setPromptStep("PLAY_CARD_REVEAL");
+    finishPlayCardReveal();
   };
 
   const continueAfterPlayCardReveal = () => {
@@ -5635,6 +6000,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       clearTimeout(playCardDummyAfterTimeoutRef.current);
       playCardDummyAfterTimeoutRef.current = null;
     }
+    clearPlayCardFollowStaggerTimeouts();
     setPlayCardInteractiveStep(null);
     const cfg = puzzle.promptOptions?.customPrompts?.find((p) => p.id === promptId);
     if (cfg?.playCardEndHandAfterContinue) {
@@ -5643,8 +6009,27 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
       setPromptStep("DONE");
       return;
     }
-    applyStateThroughRound(0);
+    if (cfg?.playCardKeepStateOnContinue) {
+      setPromptStep(null);
+      setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+      continuedFromPlayCardRevealRef.current = true;
+      if (cfg?.playCardShowNextCustomPromptOnContinue) {
+        const throughRound = Number.isFinite(completedRoundIdxRef.current)
+          ? completedRoundIdxRef.current
+          : completedRoundIdx;
+        afterManualTrick(throughRound);
+      }
+      return;
+    }
+    const throughRound = Number.isFinite(cfg?.playCardContinueThroughRoundIdx)
+      ? Math.max(-1, Math.min(lastRoundIdx, Number(cfg.playCardContinueThroughRoundIdx)))
+      : 0;
+    setActiveCustomPrompt(null);
+    applyStateThroughRound(throughRound);
     continuedFromPlayCardRevealRef.current = true;
+    if (cfg?.playCardShowNextCustomPromptOnContinue) {
+      afterManualTrick(throughRound);
+    }
   };
 
   const continueAfterPlayDecision = () => {
@@ -5837,8 +6222,13 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
   const focusNextSeat = (seat) => focusNextSeatNoWrap(seat);
 
   const nextHand = () => {
-    const next = (puzzleIdxInDifficulty + 1) % Math.max(1, puzzlesForDifficultyAll.length);
+    const len = Math.max(1, puzzlesForDifficultyAll.length);
+    const next = (puzzleIdxInDifficulty + 1) % len;
     setPuzzleIdxInDifficulty(next);
+    // With only one problem in the rail, index stays 0 and puzzle.id never changes — force a full restart.
+    if (len === 1) {
+      resetForPuzzle();
+    }
   };
 
   // Autoplace cursor on LHO when distribution prompt opens.
@@ -6509,7 +6899,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
 
           {promptStep === "PLAY_CARD" && (
             <div className="ct-playDecisionBlock" role="region" aria-label="Play a card">
-              <div className="ct-questionText ct-playDecisionBlock-question">{activeCustomPrompt?.promptText || "Click a card in your hand to play it."}</div>
+              <div className="ct-questionText ct-playDecisionBlock-question ct-playDecisionBlock-question--formatted">
+                <FormattedRevealText
+                  text={activeCustomPrompt?.promptText || "Click a card in your hand to play it."}
+                />
+              </div>
             </div>
           )}
 
@@ -7161,7 +7555,7 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
               {/* Category tier: Declarer | Defence | Counting + Subscribe */}
               <div className="ct-categoryRow" aria-label="Trainer category">
                 <div className="ct-categoryTabs" role="tablist">
-                  {CATEGORY_CONFIG.map((c) => (
+                  {effectiveCategoryTabs.map((c) => (
                     <Link
                       key={c.key}
                       to={c.path}
@@ -7181,41 +7575,49 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                 )}
               </div>
 
-              {/* Difficulty tier */}
-              <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Difficulty tabs">
-                <span className="ct-topNavLabel">Difficulty</span>
-                <div className="ct-diffTabs" role="tablist" aria-label="Difficulty levels">
-                  {[1, 2, 3].map((d) => {
-                    const puzzlesInDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === d);
-                    const hasNewInDiff = puzzlesInDiff.some(isPuzzleNew);
-                    const allCompletedInDiff = puzzlesInDiff.length > 0 && puzzlesInDiff.every((p) => !!completedProblemIds[p.id]);
-                    return (
-                      <button
-                        key={d}
-                        className={`ct-diffTab ${d === selectedDifficulty ? "ct-diffTab--active" : ""} ${allCompletedInDiff ? "ct-diffTab--completed" : ""}`}
-                        onClick={() => {
-                          setSelectedDifficulty(d);
-                          setPuzzleIdxInDifficulty(0);
-                        }}
-                        type="button"
-                        role="tab"
-                        aria-selected={d === selectedDifficulty}
-                      >
-                        {allCompletedInDiff && <span className="ct-diffTabTick" aria-hidden="true">✓</span>}
-                        {d}
-                        {hasNewInDiff && <span className="ct-newBadge" aria-label="New">New</span>}
-                      </button>
-                    );
-                  })}
+              {!hideDifficultyTabs && (
+                <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Difficulty tabs">
+                  <span className="ct-topNavLabel">Difficulty</span>
+                  <div className="ct-diffTabs" role="tablist" aria-label="Difficulty levels">
+                    {[1, 2, 3].map((d) => {
+                      const puzzlesInDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === d);
+                      const hasNewInDiff = puzzlesInDiff.some(isPuzzleNew);
+                      const allCompletedInDiff = puzzlesInDiff.length > 0 && puzzlesInDiff.every((p) => !!completedProblemIds[p.id]);
+                      return (
+                        <button
+                          key={d}
+                          className={`ct-diffTab ${d === selectedDifficulty ? "ct-diffTab--active" : ""} ${allCompletedInDiff ? "ct-diffTab--completed" : ""}`}
+                          onClick={() => {
+                            setSelectedDifficulty(d);
+                            setPuzzleIdxInDifficulty(0);
+                          }}
+                          type="button"
+                          role="tab"
+                          aria-selected={d === selectedDifficulty}
+                        >
+                          {allCompletedInDiff && <span className="ct-diffTabTick" aria-hidden="true">✓</span>}
+                          {d}
+                          {hasNewInDiff && <span className="ct-newBadge" aria-label="New">New</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Problem tier */}
               <div className="ct-topNavSubRow" aria-label="Problem tabs">
                 <span className="ct-topNavLabel ct-topNavLabel--sub">
-                  Problems <span className="ct-topNavSubNote">in Difficulty {selectedDifficulty}</span>
+                  Problems
+                  {!hideDifficultyTabs && (
+                    <span className="ct-topNavSubNote"> in Difficulty {selectedDifficulty}</span>
+                  )}
                 </span>
-                <div className="ct-problemTabs ct-problemTabs--sub" role="tablist" aria-label="Problems in difficulty">
+                <div
+                  className="ct-problemTabs ct-problemTabs--sub"
+                  role="tablist"
+                  aria-label={hideDifficultyTabs ? "Problems" : "Problems in difficulty"}
+                >
                   {isBlankDifficulty ? (
                     <span className="ct-railMuted">—</span>
                   ) : (
@@ -7248,7 +7650,9 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
 
           {isBlankDifficulty ? (
             <div className="ct-sidePrompt" style={{ maxWidth: 520, margin: "24px auto" }}>
-              <div className="ct-questionText">No problems yet for Difficulty {selectedDifficulty}.</div>
+              <div className="ct-questionText">
+                {hideDifficultyTabs ? "No problems yet." : `No problems yet for Difficulty ${selectedDifficulty}.`}
+              </div>
             </div>
           ) : (
             <>
@@ -7342,6 +7746,11 @@ function CountingTrumpsTrainer({ uid, subscriptionActive, tier: propsTier, payme
                       </div>
                     ) : lastRoundIdx < 0 ? (
                       <div className="ct-startHint">Click Start to begin.</div>
+                    ) : null}
+                    {puzzle?.promptOptions?.startFooterText ? (
+                      <div className="ct-startFooter" aria-label="Series">
+                        {puzzle.promptOptions.startFooterText}
+                      </div>
                     ) : null}
                   </div>
                 </div>
