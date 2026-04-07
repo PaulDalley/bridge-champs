@@ -321,7 +321,7 @@ const BIDDING_PUZZLES = [
           expectedChoice: "other",
           noContinue: false,
           revealText:
-            "Something else. We need 3 cards to support partner. \"Always support partner WHEN you have support.\" As for 1NT — that should show a heart stopper.",
+            "Something else. We need 3 cards to support partner. \"Always support partner WHEN you have support.\" As for 1NT — that should show a spade stopper.",
           videoUrl: "",
         },
         {
