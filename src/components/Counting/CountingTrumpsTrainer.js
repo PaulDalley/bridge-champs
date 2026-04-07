@@ -7,6 +7,7 @@ import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY } from "../
 import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
 import { filterBeginnerTrainerPuzzles } from "../../data/beginnerModeConfig";
 import PracticeVideoBlock from "./PracticeVideoBlock";
+import { PLAY_ENGINE_COMPASS_CLOCKWISE, followSeatsClockwiseFromLeader } from "../../bridge/compassPlayOrder";
 import "./CountingTrumpsTrainer.css";
 
 // Seats arranged like a typical bridge diagram:
@@ -71,10 +72,19 @@ function suitColoredParts(text) {
   });
 }
 
-/** **bold**, ##gold## inside a single paragraph block; suit symbols colored */
+/** **bold**, ##gold##, [[RING]]…[[/RING]] (circled emphasis) inside a single paragraph block; suit symbols colored */
 function renderRevealInlineParts(block) {
-  const parts = block.trim().split(/(\*\*.+?\*\*|##.+?##)/g);
+  const parts = String(block).trim().split(/(\*\*.+?\*\*|##.+?##|\[\[RING\]\][\s\S]*?\[\[\/RING\]\])/g);
   return parts.map((seg, j) => {
+    if (!seg) return null;
+    const ringMatch = seg.match(/^\[\[RING\]\]([\s\S]*?)\[\[\/RING\]\]$/);
+    if (ringMatch) {
+      return (
+        <span key={j} className="ct-revealRing">
+          {renderRevealInlineParts(ringMatch[1])}
+        </span>
+      );
+    }
     const boldMatch = seg.match(/^\*\*(.+?)\*\*$/s);
     if (boldMatch) {
       return (
@@ -391,9 +401,16 @@ function buildSeatCompassMaps(declarerCompass) {
   const seatToCompass = {
     DECLARER: declarerCompass,
     DUMMY: partnerCompass(declarerCompass),
-    LHO: lhoCompass(declarerCompass),
-    RHO: rhoCompass(declarerCompass),
   };
+  // For North/South declarer, West is screen-left and East is screen-right. Legacy authoring uses
+  // bridge-standard names: LHO = West, RHO = East. (lhoCompass/rhoCompass swap W/E for South — wrong here.)
+  if (declarerCompass === "N" || declarerCompass === "S") {
+    seatToCompass.LHO = "W";
+    seatToCompass.RHO = "E";
+  } else {
+    seatToCompass.LHO = lhoCompass(declarerCompass);
+    seatToCompass.RHO = rhoCompass(declarerCompass);
+  }
   const compassToSeat = Object.entries(seatToCompass).reduce((acc, [seat, compass]) => {
     acc[compass] = seat;
     return acc;
@@ -535,9 +552,18 @@ function compassPuzzleToLegacy(puzzle) {
     if (typeof out.seat === "string") out.seat = remapPlaySeat(out.seat);
     if (out.fixed) out.fixed = remapTopLevelSeatKeys(out.fixed);
     if (out.expectedDistribution) out.expectedDistribution = remapTopLevelSeatKeys(out.expectedDistribution);
-    if (out.playCardAutoFollowBySuit) out.playCardAutoFollowBySuit = remapPlayCardAutoFollowBySuit(out.playCardAutoFollowBySuit);
+    if (out.playCardAutoFollowBySuit) {
+      if (puzzle.playEngine !== PLAY_ENGINE_COMPASS_CLOCKWISE) {
+        out.playCardAutoFollowBySuit = remapPlayCardAutoFollowBySuit(out.playCardAutoFollowBySuit);
+      }
+    }
     if (Array.isArray(out.playCardAutoPlaysBefore)) {
       out.playCardAutoPlaysBefore = out.playCardAutoPlaysBefore.map((x) =>
+        x && typeof x === "object" ? { ...x, seat: x.seat ? remapPlaySeat(x.seat) : x.seat } : x
+      );
+    }
+    if (Array.isArray(out.playCardAutoPlaysAfterDummy)) {
+      out.playCardAutoPlaysAfterDummy = out.playCardAutoPlaysAfterDummy.map((x) =>
         x && typeof x === "object" ? { ...x, seat: x.seat ? remapPlaySeat(x.seat) : x.seat } : x
       );
     }
@@ -3238,6 +3264,15 @@ function removeCardFromHand(handCards, cardToRemove) {
   return [...handCards.slice(0, idx), ...handCards.slice(idx + 1)];
 }
 
+/** `playedFromHand` keys are `${rank}${suit}` e.g. AS, TS — recover a card for hand updates. */
+function cardFromPlayedKey(key) {
+  if (!key || typeof key !== "string" || key.length < 2) return null;
+  const suit = key.slice(-1);
+  if (!["S", "H", "D", "C"].includes(suit)) return null;
+  const rank = key.slice(0, -1);
+  return makeCard(rank, suit);
+}
+
 function computeDefendersRemainingThroughEvent(
   { rounds, trumpSuit, expectedInitialLengths },
   showOutRoundIdx,
@@ -3510,6 +3545,8 @@ function CountingTrumpsTrainer({
   puzzleIdWhitelist = null,
   categoryLabelsOverride = null,
   categoryPathOverrides = null,
+  /** When set with beginner mode, only these category tabs are shown (e.g. Stage 1 only). */
+  beginnerVisibleCategoryKeys = null,
 }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
   const isAdmin = a === true;
@@ -3575,12 +3612,17 @@ function CountingTrumpsTrainer({
 
   const effectiveCategoryTabs = useMemo(() => {
     if (!beginnerModeOverride) return CATEGORY_CONFIG;
-    return CATEGORY_CONFIG.map((c) => ({
+    const mapped = CATEGORY_CONFIG.map((c) => ({
       ...c,
       label: categoryLabelsOverride?.[c.key] ?? c.label,
       path: categoryPathOverrides?.[c.key] ?? c.path,
     }));
-  }, [beginnerModeOverride, categoryLabelsOverride, categoryPathOverrides]);
+    if (Array.isArray(beginnerVisibleCategoryKeys) && beginnerVisibleCategoryKeys.length > 0) {
+      const allow = new Set(beginnerVisibleCategoryKeys);
+      return mapped.filter((c) => allow.has(c.key));
+    }
+    return mapped;
+  }, [beginnerModeOverride, categoryLabelsOverride, categoryPathOverrides, beginnerVisibleCategoryKeys]);
 
   const fallbackPuzzle = useMemo(() => {
     // Stable placeholder so hooks don't rely on Counting puzzles when this trainer has none yet.
@@ -3608,10 +3650,11 @@ function CountingTrumpsTrainer({
   }, [puzzlesAll, selectedDifficulty, hideDifficultyTabs]);
   const [puzzleIdxInDifficulty, setPuzzleIdxInDifficulty] = useState(0);
 
+  /** Phones only — iPads are wider; we support tablet layout (see hand CSS max-width 1024px). */
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(max-width: 768px)");
+    const mq = window.matchMedia("(max-width: 480px)");
     const update = () => setIsMobileViewport(mq.matches);
     update();
     mq.addEventListener("change", update);
@@ -3741,9 +3784,8 @@ function CountingTrumpsTrainer({
     return inferred || "S";
   }, [rawPuzzleResolved.id, rawPuzzleResolved.declarerCompass, auctionText, dealerCompass]);
 
-  // Major reliability fix:
-  // always normalize full-trick play order to clockwise from the trick leader.
-  // This removes recurring authoring mistakes around LHO/RHO ordering.
+  // Normalize full tricks to clockwise compass order from the leader (N→E→S→W). Requires
+  // buildSeatCompassMaps to map legacy LHO/RHO to geographic W/E for N/S declarer.
   const puzzle = useMemo(
     () => ({
       ...rawPuzzleResolved,
@@ -3765,11 +3807,16 @@ function CountingTrumpsTrainer({
   }, [contractText, declarerCompassName, puzzle?.promptOptions?.contractOnly, puzzle?.promptOptions?.contractLabel]);
 
   const seatAtCompass = useMemo(() => {
-    const out = { N: "DUMMY", E: "RHO", S: "DECLARER", W: "LHO" }; // default app convention
+    const out = { N: "DUMMY", E: "RHO", S: "DECLARER", W: "LHO" };
     out[declarerCompass] = "DECLARER";
     out[partnerCompass(declarerCompass)] = "DUMMY";
-    out[lhoCompass(declarerCompass)] = "LHO";
-    out[rhoCompass(declarerCompass)] = "RHO";
+    if (declarerCompass === "N" || declarerCompass === "S") {
+      out.W = "LHO";
+      out.E = "RHO";
+    } else {
+      out[lhoCompass(declarerCompass)] = "LHO";
+      out[rhoCompass(declarerCompass)] = "RHO";
+    }
     return out;
   }, [declarerCompass]);
 
@@ -3807,6 +3854,10 @@ function CountingTrumpsTrainer({
   }, [puzzle.shownHands]);
 
   const [playedFromHand, setPlayedFromHand] = useState({ LHO: {}, DUMMY: {}, RHO: {}, DECLARER: {} });
+  const playedFromHandRef = useRef(playedFromHand);
+  useEffect(() => {
+    playedFromHandRef.current = playedFromHand;
+  }, [playedFromHand]);
   /** When user is asked to "play a card" (PLAY_CARD prompt), the card they clicked; null otherwise. */
   const [userPlayedCard, setUserPlayedCard] = useState(null);
   /** When PLAY_CARD uses playCardAutoPlaysBefore, false until those cards are on the table (user cannot act yet). */
@@ -4442,6 +4493,16 @@ function CountingTrumpsTrainer({
           }
         }
       }
+      // Learner cards played via PLAY_CARD are often omitted from `rounds`; remove them from remaining hands.
+      const prevPf = playedFromHandRef.current || {};
+      for (const seat of ["DECLARER", "DUMMY", "LHO", "RHO"]) {
+        const extra = prevPf[seat] || {};
+        for (const k of Object.keys(extra)) {
+          const c = cardFromPlayedKey(k);
+          if (!c || !isTrump(c, puzzle.trumpSuit)) continue;
+          rem = { ...rem, [seat]: removeCardFromHand(rem[seat], c) };
+        }
+      }
       const lastPlays = puzzle.rounds?.[end]?.plays || [];
       lastTrick = { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
       for (const p of lastPlays) lastTrick[p.seat] = p.card;
@@ -4452,9 +4513,9 @@ function CountingTrumpsTrainer({
     setPlayedFromHand((prev) => {
       if (end < 0) return playedMap;
       return {
-        LHO: playedMap.LHO,
-        DUMMY: playedMap.DUMMY,
-        RHO: playedMap.RHO,
+        LHO: { ...(playedMap.LHO || {}), ...(prev?.LHO || {}) },
+        DUMMY: { ...(playedMap.DUMMY || {}), ...(prev?.DUMMY || {}) },
+        RHO: { ...(playedMap.RHO || {}), ...(prev?.RHO || {}) },
         DECLARER: { ...(playedMap.DECLARER || {}), ...(prev?.DECLARER || {}) },
       };
     });
@@ -4489,9 +4550,23 @@ function CountingTrumpsTrainer({
       return;
     }
     const before = activeCustomPrompt.playCardAutoPlaysBefore;
+    const keepExistingTrick = !!activeCustomPrompt.playCardKeepExistingTrickCards;
+    // Click dummy first (after a lead, or to start a fresh trick): W/DUMMY/E/… flow — see handleDummyPlayCard.
+    if (activeCustomPrompt.playCardNextClickFromDummy && !activeCustomPrompt.playCardUserPlaysDummyFirst) {
+      setPlayCardInteractiveStep("dummy_follow");
+      setPlayCardAutoPhaseDone(false);
+      if (!keepExistingTrick) {
+        setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+      }
+      return;
+    }
     if (!Array.isArray(before) || before.length === 0) {
       setPlayCardAutoPhaseDone(true);
       setPlayCardInteractiveStep(null);
+      // New trick: clear the table when there is no scripted preface (e.g. learner leads after winning).
+      if (!keepExistingTrick) {
+        setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+      }
       return;
     }
     // Scripted preface already on the table (e.g. user advanced with Next →); do not replay.
@@ -4544,6 +4619,8 @@ function CountingTrumpsTrainer({
     activeCustomPrompt?.id,
     activeCustomPrompt?.type,
     activeCustomPrompt?.playCardUserPlaysDummyFirst,
+    activeCustomPrompt?.playCardNextClickFromDummy,
+    activeCustomPrompt?.playCardKeepExistingTrickCards,
     puzzle.id,
     puzzle.trumpSuit,
     visibleFullHandSeats,
@@ -4996,7 +5073,7 @@ function CountingTrumpsTrainer({
         seat === "DUMMY" &&
         promptStep === "PLAY_CARD" &&
         activeCustomPrompt?.type === "PLAY_CARD" &&
-        playCardInteractiveStep === "dummy_lead";
+        (playCardInteractiveStep === "dummy_lead" || playCardInteractiveStep === "dummy_follow");
       const isPlayCardModeSide =
         seat === "DECLARER" &&
         promptStep === "PLAY_CARD" &&
@@ -5058,7 +5135,7 @@ function CountingTrumpsTrainer({
       seat === "DUMMY" &&
       promptStep === "PLAY_CARD" &&
       activeCustomPrompt?.type === "PLAY_CARD" &&
-      playCardInteractiveStep === "dummy_lead";
+      (playCardInteractiveStep === "dummy_lead" || playCardInteractiveStep === "dummy_follow");
     const isPlayCardMode =
       seat === "DECLARER" &&
       promptStep === "PLAY_CARD" &&
@@ -5799,26 +5876,120 @@ function CountingTrumpsTrainer({
 
   const handleDummyPlayCard = (card) => {
     if (userPlayedCard || !activeCustomPrompt || activeCustomPrompt.type !== "PLAY_CARD" || isPlaying) return;
-    if (!activeCustomPrompt.playCardUserPlaysDummyFirst || playCardInteractiveStep !== "dummy_lead") return;
+    const isDummyLead =
+      !!activeCustomPrompt.playCardUserPlaysDummyFirst && playCardInteractiveStep === "dummy_lead";
+    const isDummyFollow =
+      !!activeCustomPrompt.playCardNextClickFromDummy && playCardInteractiveStep === "dummy_follow";
+    if (!isDummyLead && !isDummyFollow) return;
+
+    if (isDummyFollow && activeCustomPrompt.playCardRequireCorrect) {
+      const expectedSuit = activeCustomPrompt.expectedSuit;
+      const expectedRank = activeCustomPrompt.expectedRank;
+      const suitOk = expectedSuit == null || expectedSuit === "" || card.suit === expectedSuit;
+      const rankOk = expectedRank == null || expectedRank === "" || String(card.rank) === String(expectedRank);
+      if (!suitOk || !rankOk) {
+        setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." });
+        return;
+      }
+    }
+
     if (playCardDummyAfterTimeoutRef.current) {
       clearTimeout(playCardDummyAfterTimeoutRef.current);
       playCardDummyAfterTimeoutRef.current = null;
     }
 
+    const applyDummyCardToState = () => {
+      setTrickCards((prev) => ({ ...prev, DUMMY: card }));
+      if (visibleFullHandSeats.includes("DUMMY")) {
+        setPlayedFromHand((prev) => ({
+          ...prev,
+          DUMMY: { ...(prev.DUMMY || {}), [`${card.rank}${card.suit}`]: true },
+        }));
+      }
+      if (isTrump(card, puzzle.trumpSuit)) {
+        setRemainingHands((prev) => ({
+          ...prev,
+          DUMMY: removeCardFromHand(prev.DUMMY, card),
+        }));
+      }
+    };
+
+    if (isDummyFollow) {
+      applyDummyCardToState();
+      const afterDummy = activeCustomPrompt.playCardAutoPlaysAfterDummy || [];
+      const staggerMs = 400;
+      const finishPartialReveal = () => {
+        const promptId = activeCustomPrompt.id;
+        const firstLine = activeCustomPrompt.correctRevealText || "Continue.";
+        const text = activeCustomPrompt.revealText ? firstLine + "\n\n" + activeCustomPrompt.revealText : firstLine;
+        setPlayDecisionReveal({
+          text,
+          correct: true,
+          promptId,
+          roundIdx: completedRoundIdx,
+          fromPlayCard: true,
+        });
+        askedRef.current = {
+          ...(askedRef.current || {}),
+          customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+        };
+        setAskedTick((t) => t + 1);
+        setPlayCardInteractiveStep(null);
+        setPromptStep("PLAY_CARD_REVEAL");
+      };
+
+      playCardDummyAfterTimeoutRef.current = setTimeout(() => {
+        playCardDummyAfterTimeoutRef.current = null;
+        afterDummy.forEach((play, i) => {
+          setTimeout(() => {
+            const seat = play?.seat;
+            const c = play?.card;
+            if (!seat || !c) return;
+            setTrickCards((prev) => ({ ...prev, [seat]: c }));
+            if (visibleFullHandSeats.includes(seat)) {
+              setPlayedFromHand((prev) => ({
+                ...prev,
+                [seat]: { ...(prev[seat] || {}), [`${c.rank}${c.suit}`]: true },
+              }));
+            }
+            if (isTrump(c, puzzle.trumpSuit)) {
+              setRemainingHands((prev) => ({
+                ...prev,
+                [seat]: removeCardFromHand(prev[seat], c),
+              }));
+            }
+          }, i * staggerMs);
+        });
+        const doneMs = Math.max(0, (afterDummy.length - 1) * staggerMs) + staggerMs + 80;
+        setTimeout(() => {
+          if (activeCustomPrompt.playCardAdvanceToNextCustomAfterDummyFollow) {
+            const promptId = activeCustomPrompt.id;
+            askedRef.current = {
+              ...(askedRef.current || {}),
+              customAsked: { ...((askedRef.current && askedRef.current.customAsked) || {}), [promptId]: true },
+            };
+            setAskedTick((t) => t + 1);
+            setPlayCardInteractiveStep(null);
+            setFeedback(null);
+            const throughRound = Number.isFinite(completedRoundIdxRef.current)
+              ? completedRoundIdxRef.current
+              : completedRoundIdx;
+            afterManualTrick(throughRound);
+            return;
+          }
+          if (activeCustomPrompt.playCardRevealAfterDummyFollowWithoutDeclarer) {
+            finishPartialReveal();
+          } else {
+            setPlayCardInteractiveStep("declarer");
+            setPlayCardAutoPhaseDone(true);
+          }
+        }, doneMs);
+      }, staggerMs);
+      return;
+    }
+
     setPlayCardInteractiveStep("wait_rho");
-    setTrickCards((prev) => ({ ...prev, DUMMY: card }));
-    if (visibleFullHandSeats.includes("DUMMY")) {
-      setPlayedFromHand((prev) => ({
-        ...prev,
-        DUMMY: { ...(prev.DUMMY || {}), [`${card.rank}${card.suit}`]: true },
-      }));
-    }
-    if (isTrump(card, puzzle.trumpSuit)) {
-      setRemainingHands((prev) => ({
-        ...prev,
-        DUMMY: removeCardFromHand(prev.DUMMY, card),
-      }));
-    }
+    applyDummyCardToState();
 
     const before = activeCustomPrompt.playCardAutoPlaysBefore || [];
     const staggerMs = 400;
@@ -5869,7 +6040,13 @@ function CountingTrumpsTrainer({
       activeCustomPrompt.playCardAutoPlaysBefore.length > 0;
     if (hasAutoPreface && !playCardAutoPhaseDone) return;
     if (userDummyFirst && playCardInteractiveStep !== "declarer") return;
+    if (!!activeCustomPrompt.playCardNextClickFromDummy && playCardInteractiveStep !== "declarer") return;
     const promptId = activeCustomPrompt.id;
+    const wrongRanks = activeCustomPrompt.playCardWrongRanks;
+    if (Array.isArray(wrongRanks) && wrongRanks.some((r) => String(r) === String(card.rank))) {
+      setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." });
+      return;
+    }
     const expectedSuit = activeCustomPrompt.expectedSuit;
     const expectedRank = activeCustomPrompt.expectedRank;
     const suitOk = expectedSuit == null || expectedSuit === "" || card.suit === expectedSuit;
@@ -5883,21 +6060,45 @@ function CountingTrumpsTrainer({
     clearPlayCardFollowStaggerTimeouts();
 
     const followBySuit = activeCustomPrompt?.playCardAutoFollowBySuit;
-    /** Clockwise from declarer: LHO → dummy → RHO (matches table order for auto-follow). */
+    /** Legacy: declarer-relative order. Not used when `playEngine === compassClockwise`. */
     const followAutoSeatsOrder = ["LHO", "DUMMY", "RHO"];
+    const compassLeaderForFollow =
+      puzzle?.playEngine === PLAY_ENGINE_COMPASS_CLOCKWISE
+        ? activeCustomPrompt?.playCardTrickLeaderCompass &&
+          ["N", "E", "S", "W"].includes(activeCustomPrompt.playCardTrickLeaderCompass)
+          ? activeCustomPrompt.playCardTrickLeaderCompass
+          : viewerCompass || declarerCompass
+        : null;
     const resolveFollows = () => {
       const follows = [];
-      if (followBySuit && typeof followBySuit === "object") {
-        for (const seat of followAutoSeatsOrder) {
-          const seatMap = followBySuit?.[seat];
+      if (!followBySuit || typeof followBySuit !== "object") return follows;
+
+      if (puzzle?.playEngine === PLAY_ENGINE_COMPASS_CLOCKWISE && compassLeaderForFollow) {
+        for (const comp of followSeatsClockwiseFromLeader(compassLeaderForFollow)) {
+          const legacySeat = seatAtCompass[comp];
+          if (!legacySeat) continue;
+          const seatMap = followBySuit[comp];
           if (!seatMap || typeof seatMap !== "object") continue;
           const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
           if (followCard?.rank && followCard?.suit) {
             follows.push({
-              seat,
+              seat: legacySeat,
               card: { rank: String(followCard.rank), suit: String(followCard.suit) },
             });
           }
+        }
+        return follows;
+      }
+
+      for (const seat of followAutoSeatsOrder) {
+        const seatMap = followBySuit?.[seat];
+        if (!seatMap || typeof seatMap !== "object") continue;
+        const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
+        if (followCard?.rank && followCard?.suit) {
+          follows.push({
+            seat,
+            card: { rank: String(followCard.rank), suit: String(followCard.suit) },
+          });
         }
       }
       return follows;
@@ -5908,7 +6109,10 @@ function CountingTrumpsTrainer({
 
     const keepExistingTrickCards = !!activeCustomPrompt?.playCardKeepExistingTrickCards;
     const computeTrickBase = (prev) =>
-      hasAutoPreface || userDummyFirst || keepExistingTrickCards
+      hasAutoPreface ||
+      userDummyFirst ||
+      keepExistingTrickCards ||
+      (!!activeCustomPrompt?.playCardNextClickFromDummy && playCardInteractiveStep === "declarer")
         ? prev
         : { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
 
@@ -5971,15 +6175,28 @@ function CountingTrumpsTrainer({
       const base = computeTrickBase(prev);
       const next = { ...base, DECLARER: card };
       if (followBySuit && typeof followBySuit === "object") {
-        followAutoSeatsOrder.forEach((seat) => {
-          if (next[seat]) return;
-          const seatMap = followBySuit?.[seat];
-          if (!seatMap || typeof seatMap !== "object") return;
-          const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
-          if (followCard?.rank && followCard?.suit) {
-            next[seat] = { rank: String(followCard.rank), suit: String(followCard.suit) };
+        if (puzzle?.playEngine === PLAY_ENGINE_COMPASS_CLOCKWISE && compassLeaderForFollow) {
+          for (const comp of followSeatsClockwiseFromLeader(compassLeaderForFollow)) {
+            const legacySeat = seatAtCompass[comp];
+            if (!legacySeat || next[legacySeat]) continue;
+            const seatMap = followBySuit[comp];
+            if (!seatMap || typeof seatMap !== "object") continue;
+            const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
+            if (followCard?.rank && followCard?.suit) {
+              next[legacySeat] = { rank: String(followCard.rank), suit: String(followCard.suit) };
+            }
           }
-        });
+        } else {
+          followAutoSeatsOrder.forEach((seat) => {
+            if (next[seat]) return;
+            const seatMap = followBySuit?.[seat];
+            if (!seatMap || typeof seatMap !== "object") return;
+            const followCard = seatMap?.[card.suit] || seatMap?.ANY || null;
+            if (followCard?.rank && followCard?.suit) {
+              next[seat] = { rank: String(followCard.rank), suit: String(followCard.suit) };
+            }
+          });
+        }
       }
       const after = activeCustomPrompt.playCardAutoPlayAfter;
       if (after?.seat && after?.card) {
@@ -6011,7 +6228,9 @@ function CountingTrumpsTrainer({
     }
     if (cfg?.playCardKeepStateOnContinue) {
       setPromptStep(null);
-      setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+      if (!cfg?.playCardKeepTrickOnContinue) {
+        setTrickCards({ LHO: null, DUMMY: null, RHO: null, DECLARER: null });
+      }
       continuedFromPlayCardRevealRef.current = true;
       if (cfg?.playCardShowNextCustomPromptOnContinue) {
         const throughRound = Number.isFinite(completedRoundIdxRef.current)
@@ -6601,7 +6820,14 @@ function CountingTrumpsTrainer({
                           role="cell"
                         >
                           {c ? (
-                            <span className={`ct-auctionCall ct-auctionCall--${c.kind}`}>
+                            <span
+                              className={`ct-auctionCall ct-auctionCall--${c.kind} ${
+                                puzzle?.promptOptions?.auctionHighlightCall?.row === idx &&
+                                puzzle?.promptOptions?.auctionHighlightCall?.seat === seat
+                                  ? "ct-auctionCall--ring"
+                                  : ""
+                              }`.trim()}
+                            >
                               <span className="ct-auctionCallText">{c.text}</span>
                               {c.suitSym ? (
                                 <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : "ct-auctionSuit--black"}`}>
@@ -6846,7 +7072,9 @@ function CountingTrumpsTrainer({
 
           {promptStep === "SINGLE_NUMBER" && !puzzle?.promptOptions?.promptsInOverlay && (
             <>
-              <div className="ct-questionText">{activeCustomPrompt?.promptText || "Enter the number."}</div>
+              <div className="ct-questionText ct-questionText--formatted">
+                <FormattedRevealText text={activeCustomPrompt?.promptText || "Enter the number."} />
+              </div>
               <div className="ct-railAnswer" style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <div
                   className="ct-numBox ct-numBox--single"
@@ -6901,9 +7129,19 @@ function CountingTrumpsTrainer({
             <div className="ct-playDecisionBlock" role="region" aria-label="Play a card">
               <div className="ct-questionText ct-playDecisionBlock-question ct-playDecisionBlock-question--formatted">
                 <FormattedRevealText
-                  text={activeCustomPrompt?.promptText || "Click a card in your hand to play it."}
+                  text={
+                    activeCustomPrompt?.playCardPromptTextDeclarerTurn &&
+                    playCardInteractiveStep === "declarer"
+                      ? activeCustomPrompt.playCardPromptTextDeclarerTurn
+                      : activeCustomPrompt?.promptText || "Click a card in your hand to play it."
+                  }
                 />
               </div>
+              {!!puzzle?.promptOptions?.persistentPlayCardHint && (
+                <p className="ct-playDecisionBlock-hint" style={{ marginTop: 10, opacity: 0.95 }}>
+                  {puzzle.promptOptions.persistentPlayCardHint}
+                </p>
+              )}
             </div>
           )}
 
@@ -6936,7 +7174,7 @@ function CountingTrumpsTrainer({
             <>
               {!!playDecisionReveal?.text && (
                 <div className="ct-playRevealWrap">
-                  {playDecisionReveal?.correct && (
+                  {playDecisionReveal?.correct && !activeCustomPrompt?.playCardRevealHideSuccessBanner && (
                     <strong className="ct-feedback ct-feedback--ok ct-revealSuccess">{getShortSuccess()}</strong>
                   )}
                   <FormattedRevealText text={playDecisionReveal.text} className="ct-playRevealText" />
@@ -7535,9 +7773,9 @@ function CountingTrumpsTrainer({
           <div className="ct-mobileMessage-icon" aria-hidden="true">
             <i className="material-icons">computer</i>
           </div>
-          <h2 className="ct-mobileMessage-title">Designed for computer</h2>
+          <h2 className="ct-mobileMessage-title">Designed for larger screens</h2>
           <p className="ct-mobileMessage-text">
-            This trainer works best on a desktop or tablet. Please use a computer for the full experience.
+            This trainer is not supported on small phones yet. Please use a computer or iPad for the full experience.
           </p>
           <p className="ct-mobileMessage-sub">You can still browse the rest of Bridge Champions on your phone.</p>
         </div>
@@ -7772,7 +8010,9 @@ function CountingTrumpsTrainer({
                     )}
                     {promptStep === "SINGLE_NUMBER" && (
                       <>
-                        <div className="ct-questionText ct-promptCard-text">{activeCustomPrompt?.promptText || "Enter the number."}</div>
+                        <div className="ct-questionText ct-promptCard-text ct-questionText--formatted">
+                          <FormattedRevealText text={activeCustomPrompt?.promptText || "Enter the number."} />
+                        </div>
                         <div className="ct-railAnswer" style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
                           <div
                             className="ct-numBox ct-numBox--single"

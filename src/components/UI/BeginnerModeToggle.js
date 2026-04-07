@@ -12,18 +12,14 @@ function BeginnerModeToggle({ visible, enabled, onToggle }) {
 
   return (
     <div className="BeginnerModeToggle-wrap">
-      <div className="BeginnerModeToggle-title">Show beginner content?</div>
-      <div className="BeginnerModeToggle-subtitle">
-        Switch between two separate content libraries:
-        beginner-focused lessons or standard Bridge Champions training.
-      </div>
-      <div className="BeginnerModeToggle-choice" role="group" aria-label="Show beginner content setting">
+      <div className="BeginnerModeToggle-title">New to bridge?</div>
+      <div className="BeginnerModeToggle-choice" role="group" aria-label="Beginner track or full library">
         <button
           type="button"
           className={`BeginnerModeToggle-option ${enabled ? "BeginnerModeToggle-option--active" : ""}`}
           onClick={selectYes}
           aria-pressed={enabled}
-          title="Use beginner-only content library"
+          title="Yes — beginner track"
         >
           <span className="BeginnerModeToggle-optionLabel">Yes</span>
           {enabled && <span className="BeginnerModeToggle-tick">✓</span>}
@@ -33,16 +29,17 @@ function BeginnerModeToggle({ visible, enabled, onToggle }) {
           className={`BeginnerModeToggle-option ${!enabled ? "BeginnerModeToggle-option--active" : ""}`}
           onClick={selectNo}
           aria-pressed={!enabled}
-          title="Use standard content library"
+          title="No — full library"
         >
           <span className="BeginnerModeToggle-optionLabel">No</span>
           {!enabled && <span className="BeginnerModeToggle-tick">✓</span>}
         </button>
       </div>
       <div className="BeginnerModeToggle-modeHint">
-        {enabled
-          ? "Current mode: Beginner set (rules, foundations, starter-level content)."
-          : "Current mode: Standard set (full Bridge Champions content)."}
+        {enabled ? "Mode: Beginner — starter lessons." : "Mode: Standard — full library."}
+      </div>
+      <div className="BeginnerModeToggle-subtitle BeginnerModeToggle-subtitle--footer">
+        Beginner lessons or the full library — switch anytime.
       </div>
     </div>
   );

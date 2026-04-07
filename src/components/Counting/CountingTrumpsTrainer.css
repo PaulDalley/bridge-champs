@@ -204,6 +204,27 @@
   font-weight: 700;
 }
 
+/* [[RING]]…[[/RING]] in FormattedRevealText — match circled bids in the auction panel */
+.ct-revealRing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12em 0.55em 0.14em;
+  border: 2px solid #0f4c3a;
+  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+.ct-auctionCall.ct-auctionCall--ring {
+  padding: 2px 9px 3px;
+  border: 2px solid #0f4c3a;
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
 /* Callout box: wrap content in [[ALERT]]...[[/ALERT]] in FormattedRevealText */
 .ct-promptAlert {
   margin: 10px 0 14px;
@@ -953,9 +974,19 @@
   gap: 0;
   width: 100%;
   max-width: 650px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   padding: 0;
   justify-content: start;
+}
+
+/* Desktop: keep grid + optional horizontal scroll if the window is very tight */
+@media (min-width: 1025px) {
+  .ct-handFan--full {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
 }
 
 .ct-suitHand {
@@ -1018,11 +1049,51 @@
   }
 }
 
-@media (max-width: 768px) {
-  /* On phones, wrapping is clearer than tiny 13-wide cards */
+/*
+ * iPad / tablet: keep all 13 cards on one row (no second row, no horizontal scroll).
+ * WebKit often drops the last track in a 13×1fr grid; flex + equal flex-basis avoids that.
+ * Slight zoom shrinks cards just enough when the table column is tight.
+ */
+@media (max-width: 1024px) and (min-width: 481px) {
   .ct-handFan--full {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
     overflow: visible;
+    max-width: 100%;
+    zoom: 0.94;
+  }
+
+  .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/*
+ * iPad / tablet portrait: the landscape flex+zoom rule above can shrink cards to unusable sizes
+ * (flex-basis 0 + min-width 0 + zoom) when the table column is narrow. Keep 13 cards on one row
+ * but enforce a minimum per card and allow horizontal scroll instead of microscopic tiles.
+ */
+@media (max-width: 1024px) and (min-width: 481px) and (orientation: portrait) {
+  .ct-handFan--full {
+    zoom: 1;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
+
+  .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
+    flex: 0 0 auto;
+    width: clamp(22px, 7.2vw, 40px);
+    min-width: 22px;
+    max-width: 44px;
   }
 }
 
@@ -1263,6 +1334,15 @@
   max-width: 1060px;
   justify-items: start;
   gap: 2px;
+}
+
+/* Portrait tablet: avoid a fixed 580px+ center min that exceeds viewport width (crushes hands to zero). */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight {
+    grid-template-columns: 0 minmax(240px, 1fr) minmax(100px, 140px);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 /* When prompt is on right: sidebar has its own space so table isn’t encroached; center column gets plenty of room for South */
@@ -2069,6 +2149,18 @@
   min-width: 520px;
 }
 
+@media (max-width: 1024px) {
+  .ct-bottomHandCol .ct-handFan--full {
+    min-width: min(100%, 520px);
+    max-width: 100%;
+  }
+  .ct-bottomHandCol .ct-handWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+}
+
 .ct-sidePrompt--belowTable {
   margin: 0;
   max-width: 100%;
@@ -2205,6 +2297,8 @@
 .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
   /* Avoid double-thick borders between adjacent cards */
   border-left: 0;
+  /* Safari / iPad: grid items need min-width 0 or the last column can collapse to 0 */
+  min-width: 0;
 }
 .ct-handFan--full .ct-miniCard.ct-miniCard--fan:first-child {
   border-left: 1px solid #111827;
@@ -2527,6 +2621,23 @@
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
   min-width: clamp(460px, 52vw, 640px);
+}
+
+@media (max-width: 1024px) {
+  /* Let the fan use the column width but never collapse to 0; scroll horizontally if needed */
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
+    min-width: min(100%, 520px);
+    max-width: 100%;
+  }
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
 }
 
 .ct-bottomPrompt {

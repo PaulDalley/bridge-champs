@@ -1833,7 +1833,7 @@ const CARDPLAY_PUZZLES_ALL = [
       ],
     },
     shownHands: {
-      DUMMY: { S: "AK94", H: "72", D: "KT64", C: "842" },
+      DUMMY: { S: "AK94", H: "72", D: "KT64", C: "832" },
       DECLARER: { S: "QT63", H: "AQJ85", D: "5", C: "KQ7" },
       LHO: { S: "J875", H: "43", D: "A983", C: "T64" },
       RHO: { S: "2", H: "KT96", D: "QJ72", C: "AJ95" },
@@ -1841,10 +1841,10 @@ const CARDPLAY_PUZZLES_ALL = [
     revealFullHandsAtEnd: ["LHO", "RHO"],
     rounds: [
       {
-        label: "Trick 1 (2♣ lead, East wins A♣)",
+        label: "Trick 1 (4♣ lead, East wins A♣)",
         plays: [
-          { seat: "LHO", card: { rank: "2", suit: "C" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "C" } },
+          { seat: "LHO", card: { rank: "4", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "2", suit: "C" } },
           { seat: "RHO", card: { rank: "A", suit: "C" } },
           { seat: "DECLARER", card: { rank: "7", suit: "C" } },
         ],
@@ -1854,8 +1854,8 @@ const CARDPLAY_PUZZLES_ALL = [
         plays: [
           { seat: "RHO", card: { rank: "J", suit: "C" } },
           { seat: "DECLARER", card: { rank: "K", suit: "C" } },
-          { seat: "LHO", card: { rank: "4", suit: "C" } },
-          { seat: "DUMMY", card: { rank: "2", suit: "C" } },
+          { seat: "LHO", card: { rank: "6", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "C" } },
         ],
       },
       {

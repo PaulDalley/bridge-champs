@@ -20,6 +20,12 @@
   max-width: 40rem;
 }
 
+.BeginnerModeToggle-subtitle--footer {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
 .BeginnerModeToggle-choice {
   display: inline-flex;
   align-items: center;

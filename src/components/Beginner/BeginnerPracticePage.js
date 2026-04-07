@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import {
   BEGINNER_BIDDING_PUZZLES,
   BEGINNER_COUNTING_PUZZLES,
@@ -6,6 +7,12 @@ import {
   BEGINNER_DEFENCE_PUZZLES,
 } from "../../data/beginner/beginnerPracticePuzzles";
 import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
+
+/**
+ * Which beginner “stage” tabs appear and which routes are allowed.
+ * Restore Stages 2–4 when ready: ["declarer", "defence", "counting", "bidding"]
+ */
+const BEGINNER_VISIBLE_CATEGORY_KEYS = ["declarer"];
 
 // Beginner practical category names can be edited here.
 const BEGINNER_CATEGORY_LABELS = {
@@ -47,6 +54,9 @@ const BEGINNER_HIDE_DIFFICULTY_TABS = new Set(["declarer", "defence", "counting"
 
 function BeginnerPracticePage({ match }) {
   const categoryKey = resolveBeginnerCategoryKey(match?.params?.categoryKey);
+  if (!BEGINNER_VISIBLE_CATEGORY_KEYS.includes(categoryKey)) {
+    return <Redirect to="/beginner/practice/declarer" />;
+  }
   const puzzlesOverride = BEGINNER_PUZZLES_BY_CATEGORY[categoryKey] || [];
 
   return (
@@ -58,6 +68,7 @@ function BeginnerPracticePage({ match }) {
       hideDifficultyTabs={BEGINNER_HIDE_DIFFICULTY_TABS.has(categoryKey)}
       categoryLabelsOverride={BEGINNER_CATEGORY_LABELS}
       categoryPathOverrides={BEGINNER_CATEGORY_PATHS}
+      beginnerVisibleCategoryKeys={BEGINNER_VISIBLE_CATEGORY_KEYS}
       puzzlesOverride={puzzlesOverride}
     />
   );
