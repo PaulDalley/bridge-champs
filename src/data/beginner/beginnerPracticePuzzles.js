@@ -89,7 +89,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
           type: "INFO",
           atRoundIdx: 0,
           promptText:
-            "West won that trick with the Queen. It's now West's turn to lead — click **Continue**, then use **Next →** when you're ready to see the next trick.",
+            "West won that trick with the Queen. It's now West's turn to lead — click ##Continue##, then use ##Next →## when you're ready to see the next trick.",
         },
         {
           id: "bdecl1-1-trick3-win-last",
@@ -400,19 +400,19 @@ export const BEGINNER_DECLARER_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "Before we play any cards, the table has a discussion about what the trump suit will be. This is called the **bidding**.",
+            "Before we play any cards, the table has a discussion about what the trump suit will be. This is called the ##bidding##.",
         },
         {
           id: "bdecl1-4-we-bid",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: 'We don\'t just talk, discuss, or argue — we **bid**!',
+          promptText: 'We don\'t just talk, discuss, or argue — we ##bid##!',
         },
         {
           id: "bdecl1-4-trump-think",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "Let's first ask: what do I **want** the trump suit to be? Have a think.",
+          promptText: "Let's first ask: what do I ##want## the trump suit to be? Have a think.",
         },
         {
           id: "bdecl1-4-trump-count",
@@ -438,8 +438,8 @@ export const BEGINNER_DECLARER_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "In bridge, the **dealer** has the right to bid first. You are dealer this hand.\n\n" +
-            "Look at the **Bidding** panel: there's a **?** in your (South) column — that marks your first call. Let's make your first bid!",
+            "In bridge, the ##dealer## has the right to bid first. You are dealer this hand.\n\n" +
+            "Look at the ##Bidding## panel: there's a ##?## in your (South) column — that marks your first call. Let's make your first bid!",
         },
         {
           id: "bdecl1-4-opening-bid",
@@ -454,23 +454,23 @@ export const BEGINNER_DECLARER_PUZZLES = [
           ],
           expectedChoice: "open_1s",
           revealText:
-            "**1♠** — with a long, strong spade suit, opening 1♠ is a natural way to start telling your story.",
+            "##1♠## — with a long, strong spade suit, opening 1♠ is a natural way to start telling your story.",
         },
         {
           id: "bdecl1-4-west-2h",
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "**West** (the player on your left) has bid [[RING]]**2♥**[[/RING]]! He wants hearts to be trumps.\n\n" +
-            "Your partner and the player on your right have **passed** — follow the full auction in the panel (same call circled in West’s column).",
+            "##West## (the player on your left) has bid [[RING]]##2♥##[[/RING]]! He wants hearts to be trumps.\n\n" +
+            "Your partner and the player on your right have ##passed## — follow the full auction in the panel (same call circled in West’s column).",
         },
         {
           id: "bdecl1-4-fight-or-pass",
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "**Should we bid again, or pass?**\n\n" +
-            "You'd like **spades** to be trumps — but are you going to keep fighting for the contract? " +
+            "##Should we bid again, or pass?##\n\n" +
+            "You'd like ##spades## to be trumps — but are you going to keep fighting for the contract? " +
             "And what happens when the bidding goes higher and higher? — to the two level, three level or further!\n\n" +
             "We'll keep exploring bidding in the next problems.",
         },
@@ -515,23 +515,23 @@ export const BEGINNER_DECLARER_PUZZLES = [
           atRoundIdx: -1,
           promptText:
             "If you don't like maths, don't worry: bridge doesn't have to feel very mathematical.\n\n" +
-            "You **do** need to be able to add up your points—but for most hands, that's as easy as counting to **10**.",
+            "You ##do## need to be able to add up your points—but for most hands, that's as easy as counting to ##10##.",
         },
         {
           id: "bdecl1-5-hcp-scale",
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "**Ace** — ##4## points\n\n" +
-            "**King** — ##3## points\n\n" +
-            "**Queen** — ##2## points\n\n" +
-            "**Jack** — ##1## point",
+            "##Ace## — ##4## points\n\n" +
+            "##King## — ##3## points\n\n" +
+            "##Queen## — ##2## points\n\n" +
+            "##Jack## — ##1## point",
         },
         {
           id: "bdecl1-5-count-points",
           type: "SINGLE_NUMBER",
           atRoundIdx: -1,
-          promptText: "**How many HCP is this hand?**",
+          promptText: "##How many HCP is this hand?##",
           expectedAnswer: 10,
           autoContinueOnCorrect: true,
           wrongTryText: "Not quite — try again.",
@@ -541,8 +541,139 @@ export const BEGINNER_DECLARER_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "**Nice work** — that's **10 HCP** in total. You're getting the hang of it, and you're **almost ready to bid**.\n\n" +
-            "Next, we'll look at **what we do** with that point count.",
+            "##Nice work## — that's ##10 HCP## in total. You're getting the hang of it, and you're ##almost ready to bid##.\n\n" +
+            "Next, we'll look at ##what we do## with that point count.",
+        },
+      ],
+    },
+  },
+  {
+    id: "bdecl1-6",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Stage 1 — What can I bid?",
+    trumpSuit: null,
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: null,
+    visibleFullHandSeats: ["south"],
+    preserveEndStateAtDone: true,
+    rounds: [],
+    shownHands: {
+      south: { S: "AK5", H: "QJ4", D: "T92", C: "8763" },
+    },
+    promptOptions: {
+      contractLabel: "What can I bid?",
+      contractLabelBeforeStartOnly: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      disableWarmupTrumpGuess: true,
+      hideAuction: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bdecl1-6-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "You probably already know most of the bidding rules from real life — we’ll connect them to the table step by step.\n\n" +
+            "Picture a house auction: bidding opens at $1 million and climbs to $7 million. (Must be a nice house!)\n\n" +
+            "[[ALERT]]\n" +
+            "In bridge: the auction starts at the one level (your lowest bids) and runs up to the seven level — that’s the top of the auction.\n" +
+            "[[/ALERT]]",
+        },
+        {
+          id: "bdecl1-6-up-pass",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "In a house auction, if someone bids $2 million, you can’t go backwards to $1 million — the price only goes up until everyone stops.\n\n" +
+            "[[ALERT]]\n" +
+            "In bridge you can pass at any time — even before you’ve bid once. Pass simply means you are not bidding on this round.\n" +
+            "[[/ALERT]]",
+        },
+        {
+          id: "bdecl1-6-one-level",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "Back to the house: the auction might start at $1 million, but the next bid doesn’t have to be $2 million — it might be $1.1 million.\n\n" +
+            "On the one level in bridge there are several different calls, not just one next step. They run from lowest ranking to highest — clubs first, then diamonds, hearts, spades, then no trumps:\n\n" +
+            "1♣ → 1♦ → 1♥ → 1♠ → 1NT\n\n" +
+            "[[ALERT]]\n" +
+            "Clubs rank lowest, then diamonds, hearts, spades — so 1♣ is the lowest one-level suit bid, and 1♠ is the highest suit bid on that level. 1NT ranks higher than all the suits.\n" +
+            "[[/ALERT]]",
+        },
+        {
+          id: "bdecl1-6-two-level",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "If someone bids 1NT, any competing bids need to move to the 2 level or higher — you can’t stay on the one level forever.\n\n" +
+            "[[ALERT]]\n" +
+            "House analogy: if the bidding is near $1.9 million, the next serious offer might need to cross $2 million to stay in the fight.\n" +
+            "[[/ALERT]]",
+        },
+        {
+          id: "bdecl1-6-q1-1d-after-1h",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "If someone bids 1♥, can you now bid 1♦?",
+          options: [
+            { id: "Yes", label: "Yes" },
+            { id: "No", label: "No" },
+          ],
+          expectedChoice: "No",
+          wrongTryText: "Not quite — try again.",
+          revealText:
+            "No — remember the order is ♣ → ♦ → ♥ → ♠.\n\n" +
+            "If you would like to bid diamonds, you can — but you will need to bid 2♦!",
+        },
+        {
+          id: "bdecl1-6-q2-nt-vs-suits",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Does 1NT rank higher or lower than 1♣, 1♦, 1♥ and 1♠?",
+          options: [
+            { id: "Higher", label: "Higher" },
+            { id: "Lower", label: "Lower" },
+          ],
+          expectedChoice: "Higher",
+          wrongTryText: "Not quite — try again.",
+          revealText:
+            "Higher. No-trump outranks all the suits, so the highest bid on the one level is 1NT.",
+        },
+        {
+          id: "bdecl1-6-q3-after-2nt",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the next highest bid after 2NT?",
+          options: [
+            { id: "2♠", label: "A. 2♠" },
+            { id: "3♣", label: "B. 3♣" },
+            { id: "1NT", label: "C. 1NT" },
+          ],
+          expectedChoice: "3♣",
+          wrongTryText: "Not quite — try again.",
+          revealText:
+            "3♣ is the next highest bid. On the three level, the order is 3♣, 3♦, 3♥, 3♠, then 3NT.",
+        },
+        {
+          id: "bdecl1-6-q4-win-auction",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "Is it always good to win the auction? (This hasn’t been covered yet — just take a guess.)",
+          options: [
+            { id: "Yes", label: "Yes" },
+            { id: "No", label: "No" },
+          ],
+          expectedChoice: "No",
+          wrongTryText: "Not quite — try again.",
+          revealText:
+            "No — just like in real life, you can bid too high. More on this to come, but remember: if you want to stop bidding, you can always pass.",
         },
       ],
     },

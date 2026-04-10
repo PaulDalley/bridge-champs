@@ -25,7 +25,6 @@ import FiltersCategoryArticles from "./FiltersCategoryArticles";
 import SkeletonLoader from "../components/UI/SkeletonLoader";
 import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
-import { filterBeginnerArticleItems } from "../data/beginnerModeConfig";
 
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
@@ -81,7 +80,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     (state) => state.categoryArticles?.[articleType]
   );
   const a = useSelector((state) => state.auth.a);
-  const beginnerMode = useSelector((state) => !!state.auth.beginnerMode);
   const subscriptionActive = useSelector((state) => state.auth.subscriptionActive);
   const uid = useSelector((state) => state.auth.uid);
   
@@ -311,19 +309,10 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   // Group articles, videos, and practice questions by level for banner display
   const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
-  const beginnerFilteredArticles = beginnerMode
-    ? filterBeginnerArticleItems(filteredArticles, articleType)
-    : filteredArticles;
-  const beginnerFilteredVideos = beginnerMode
-    ? filterBeginnerArticleItems(videos, articleType)
-    : videos;
-  const beginnerFilteredPracticeQuestions = beginnerMode
-    ? filterBeginnerArticleItems(practiceQuestions, articleType)
-    : practiceQuestions;
   const groupedContent = groupContentByLevel(
-    beginnerFilteredArticles || [],
-    beginnerFilteredVideos || [],
-    beginnerFilteredPracticeQuestions || []
+    filteredArticles || [],
+    videos || [],
+    practiceQuestions || []
   );
 
   // Get category info

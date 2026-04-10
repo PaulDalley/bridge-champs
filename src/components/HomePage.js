@@ -16,12 +16,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { firebase } from "../firebase/config";
 import { sendSubscriptionEvent } from "../utils/analytics";
-import { setBeginnerMode } from "../store/actions/authActions";
-import BeginnerModeToggle from "./UI/BeginnerModeToggle";
-import {
-  persistBeginnerMode,
-  isLocalhostBuild,
-} from "../utils/beginnerMode";
 
 const photo = require("../assets/images/logo-small-inv-t-greybg.png");
 const stripeVerifyCheckoutSessionUrl =
@@ -217,14 +211,61 @@ class HomePage extends Component {
     }
   };
 
-  setBeginnerModeChoice = (enableBeginner) => {
-    try {
-      persistBeginnerMode(enableBeginner);
-    } catch (error) {
-      // ignore
-    }
-    this.props.setBeginnerMode(enableBeginner);
-  };
+  renderCategorySection = () => (
+    <section className="HomePage-content">
+      <div className="container">
+        <CategorySelector />
+      </div>
+    </section>
+  );
+
+  renderHeroSection = (whenSubExpiresMinus2Days) => (
+    <section className="HomePage-hero">
+      <div className="HomePage-hero-overlay" />
+
+      <div className="HomePage-hero-content">
+        <div className="HomePage-hero-badge">
+          <span className="suit-symbol red-suit">♥</span>
+          <span className="suit-symbol black-suit">♠</span>
+          <span className="suit-symbol red-suit">♦</span>
+          <span className="suit-symbol black-suit">♣</span>
+        </div>
+
+        <h1 className="HomePage-hero-title">
+          Welcome to
+          <br />
+          <span className="HomePage-hero-title-accent">Bridge Champions</span>
+        </h1>
+
+        <p className="HomePage-hero-subtitle">
+          For the last 15 years, studying, practicing, and playing tournament bridge has been my life. I’m bringing what I’ve learned to my members—clear, practical lessons, no nonsense.
+        </p>
+
+        <div className="HomePage-hero-video">
+          <WelcomeVideo />
+        </div>
+
+        <div className="HomePage-hero-actions">
+          <button
+            className="btn btn-secondary btn-large"
+            onClick={this.scrollToMission}
+          >
+            Learn More
+          </button>
+
+          {(this.props.subscriptionExpires === undefined ||
+            !this.props.uid ||
+            (whenSubExpiresMinus2Days !== undefined &&
+              new Date() > whenSubExpiresMinus2Days)) &&
+            !this.state.successPage && (
+              <Link to="/membership" className="btn btn-outline btn-large">
+                Start 7-day free trial
+              </Link>
+            )}
+        </div>
+      </div>
+    </section>
+  );
 
   render() {
     let whenSubExpiresMinus2Days = undefined;
@@ -233,6 +274,13 @@ class HomePage extends Component {
         new Date(this.props.subscriptionExpires).getTime() -
         2 * 24 * 60 * 60 * 1000;
     }
+
+    // Guest layout = category cards before the green hero when there is no Firebase uid (or empty).
+    // Append ?guestHome=1 to the URL to force that layout while logged in (e.g. to compare layouts).
+    const guestHomePreview =
+      new URLSearchParams(this.props.location?.search || "").get("guestHome") === "1";
+    const hasAccount = !!(this.props.uid && String(this.props.uid).trim());
+    const isLoggedOut = guestHomePreview || !hasAccount;
 
     return (
       <div className="HomePage">
@@ -246,22 +294,27 @@ class HomePage extends Component {
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
-        <div className="HomePage-beginnerToggleRow">
-          <BeginnerModeToggle
-            visible={isLocalhostBuild()}
-            enabled={!!this.props.beginnerMode}
-            onToggle={() => this.setBeginnerModeChoice(!this.props.beginnerMode)}
-          />
-        </div>
-
-        {/* Theme + How to use + Just added: wider strip on desktop (800px) */}
-        <div className="HomePage-themeStrip">
-          <div className="HomePage-themeAndPlan">
-            <RecentlyAdded />
+        {/* Guests: welcome hero first (above theme strip). Members: theme strip then hero below. */}
+        {isLoggedOut ? (
+          <>
+            {this.renderHeroSection(whenSubExpiresMinus2Days)}
+            <div className="HomePage-themeStrip">
+              <div className="HomePage-themeAndPlan">
+                <RecentlyAdded />
+              </div>
+              <HowToUse />
+              <JustAdded />
+            </div>
+          </>
+        ) : (
+          <div className="HomePage-themeStrip">
+            <div className="HomePage-themeAndPlan">
+              <RecentlyAdded />
+            </div>
+            <HowToUse />
+            <JustAdded />
           </div>
-          <HowToUse />
-          <JustAdded />
-        </div>
+        )}
 
         {/* SUCCESS MODAL */}
         {this.props.success && (
@@ -422,60 +475,15 @@ class HomePage extends Component {
           </Modal>
         )}
 
-        {/* HERO BANNER */}
-        <section className="HomePage-hero">
-          <div className="HomePage-hero-overlay" />
-          
-          <div className="HomePage-hero-content">
-            <div className="HomePage-hero-badge">
-              <span className="suit-symbol red-suit">♥</span>
-              <span className="suit-symbol black-suit">♠</span>
-              <span className="suit-symbol red-suit">♦</span>
-              <span className="suit-symbol black-suit">♣</span>
-            </div>
-
-            <h1 className="HomePage-hero-title">
-              Welcome to
-              <br />
-              <span className="HomePage-hero-title-accent">Bridge Champions</span>
-            </h1>
-            
-            <p className="HomePage-hero-subtitle">
-              Over the last 15 years, I’ve spent a lot of time studying and practicing bridge. Now I’m bringing the core lessons to my members. I keep it simple and practical.
-            </p>
-
-            {/* Welcome Video */}
-            <div className="HomePage-hero-video">
-              <WelcomeVideo />
-            </div>
-
-            <div className="HomePage-hero-actions">
-              <button
-                className="btn btn-secondary btn-large"
-                onClick={this.scrollToMission}
-              >
-                Learn More
-              </button>
-
-              {(this.props.subscriptionExpires === undefined ||
-                !this.props.uid ||
-                (whenSubExpiresMinus2Days !== undefined &&
-                  new Date() > whenSubExpiresMinus2Days)) &&
-                !this.state.successPage && (
-                  <Link to="/membership" className="btn btn-outline btn-large">
-                    Start 7-day free trial
-                  </Link>
-                )}
-            </div>
-          </div>
-        </section>
-
-        {/* MAIN CONTENT */}
-        <section className="HomePage-content">
-          <div className="container">
-            <CategorySelector />
-          </div>
-        </section>
+        {/* Category cards: after hero + theme strip for everyone */}
+        {isLoggedOut ? (
+          this.renderCategorySection()
+        ) : (
+          <>
+            {this.renderHeroSection(whenSubExpiresMinus2Days)}
+            {this.renderCategorySection()}
+          </>
+        )}
 
         {/* MISSION SECTION */}
         <section id="mission-section" className="HomePage-mission">
@@ -541,14 +549,10 @@ class HomePage extends Component {
 }
 
 export default withRouter(
-  connect(
-    ({ auth }) => ({
-      subscriptionActive: auth.subscriptionActive,
-      subscriptionExpires: auth.subscriptionExpires,
-      a: auth.a,
-      uid: auth.uid,
-      beginnerMode: !!auth.beginnerMode,
-    }),
-    { setBeginnerMode }
-  )(HomePage)
+  connect(({ auth }) => ({
+    subscriptionActive: auth.subscriptionActive,
+    subscriptionExpires: auth.subscriptionExpires,
+    a: auth.a,
+    uid: auth.uid,
+  }))(HomePage)
 );

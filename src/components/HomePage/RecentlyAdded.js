@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./RecentlyAdded.css";
-import { THEME_PACKS, BEGINNER_THEME_PACKS } from "../../data/themePacks";
+import { THEME_PACKS } from "../../data/themePacks";
 
-function RecentlyAdded({ uid, subscriptionActive, a, completedPractice, beginnerMode }) {
+function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
   const showSubscribeCta = !subscriptionActive && a !== true;
   const completed = completedPractice || {};
-  const sourcePacks = beginnerMode ? BEGINNER_THEME_PACKS : THEME_PACKS;
+  const sourcePacks = THEME_PACKS;
   const packs = sourcePacks.map((pack) => {
     const done = uid ? pack.handIds.filter((id) => !!completed[id]).length : 0;
     const total = pack.handIds.length;
@@ -80,6 +80,5 @@ export default connect(({ auth, user }) => ({
   uid: auth?.uid,
   subscriptionActive: auth?.subscriptionActive,
   a: auth?.a,
-  beginnerMode: !!auth?.beginnerMode,
   completedPractice: user?.completedPractice,
 }))(RecentlyAdded);

@@ -665,6 +665,37 @@
   margin: 14px 0;
 }
 
+/* Theme: Doubles (bidding — takeout / judgment); slate–steel blue */
+.ct-problemTab--themeDoubles {
+  background: linear-gradient(180deg, #e8eef7 0%, #d0dce8 100%);
+  border-color: rgba(51, 65, 85, 0.35);
+}
+.ct-problemTab--themeDoubles:hover:not(:disabled) {
+  background: linear-gradient(180deg, #d0dce8 0%, #b8c9db 100%);
+}
+.ct-problemTab--themeDoubles.ct-problemTab--active {
+  border: 2px solid #334155;
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+  color: #0f172a;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(51, 65, 85, 0.45);
+}
+.ct-sidePrompt--themeDoubles {
+  background: linear-gradient(180deg, #f4f7fb 0%, #e8eef7 100%);
+  border-left: 3px solid rgba(71, 85, 105, 0.65);
+}
+.ct-sidePrompt--themeDoubles .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #1e293b;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeDoubles .ct-revealList {
+  background: rgba(51, 65, 85, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
 /* Theme: Knocking out the Ace (declarer difficulty 1, problems 3–6) */
 .ct-problemTab--themeKnockAce {
   background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%);
@@ -854,6 +885,10 @@
 .ct-themeLabel--themeHandEval {
   background: #fde68a;
   color: #78350f;
+}
+.ct-themeLabel--themeDoubles {
+  background: linear-gradient(180deg, #d8e2ec 0%, #c5d3e3 100%);
+  color: #0f172a;
 }
 .ct-themeLabel--themeKnockAce {
   background: #ffedd5;
@@ -1650,6 +1685,31 @@
   color: #111827;
 }
 
+/*
+ * FormattedRevealText in prompts: base weight must stay below <strong> or bold looks invisible
+ * (parent was 900 everywhere, so emphasis had nowhere to go).
+ */
+.ct-questionText--formatted .ct-revealContent {
+  font-weight: 500;
+  color: #334155;
+}
+.ct-questionText--formatted .ct-revealParagraph {
+  font-weight: 500;
+  color: #334155;
+}
+.ct-questionText--formatted .ct-revealParagraph strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+.ct-questionText--formatted .ct-revealGold {
+  font-weight: 800;
+}
+
+/* Callouts inside formatted questions: keep strong visible on tinted background */
+.ct-questionText--formatted .ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  font-weight: 900;
+}
+
 /* Prominent block when a play-decision question appears (scrolls into view). */
 .ct-playDecisionBlock {
   margin-top: 6px;
@@ -1673,16 +1733,28 @@
   color: #1f2937;
 }
 
-/* Split promptText on blank lines into real paragraphs (FormattedRevealText). */
+/* Split promptText on blank lines into real paragraphs (FormattedRevealText).
+ * Match .ct-questionText--formatted: body weight leaves room for <strong> / ##gold##. */
 .ct-playDecisionBlock-question--formatted .ct-revealContent {
   font-size: 18px;
-  font-weight: 900;
-  color: #1f2937;
-  line-height: 1.45;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.55;
 }
 .ct-playDecisionBlock-question--formatted .ct-revealParagraph {
-  font-weight: 900;
+  font-weight: 500;
+  color: #334155;
   margin: 0 0 14px;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealGold {
+  font-weight: 800;
+}
+.ct-playDecisionBlock-question--formatted .ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  font-weight: 900;
 }
 .ct-playDecisionBlock-question--formatted .ct-revealParagraph:last-child {
   margin-bottom: 0;

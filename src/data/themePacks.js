@@ -64,6 +64,7 @@ export const FREE_PROBLEM_IDS_BY_CATEGORY = {
   counting: ["p1-15"],
 };
 
+/** Problem rail “theme pack” intro video metadata. The trainer uses this only when a puzzle sets `promptOptions.useThemePackIntro: true` and a matching `promptOptions.promptThemeTint`. */
 export const THEME_INTRO_BY_TINT = (() => {
   const acc = {
     // Legacy: declarer d1 problems 7–9 still use promptThemeTint "drawTrumps" but are not a homepage pack.

@@ -264,12 +264,6 @@
   padding: 0 var(--space-lg);
 }
 
-.HomePage-beginnerToggleRow {
-  display: flex;
-  justify-content: center;
-  margin: 0 0 1.4rem;
-}
-
 .HomePage-daily {
   margin-bottom: var(--space-3xl);
 }

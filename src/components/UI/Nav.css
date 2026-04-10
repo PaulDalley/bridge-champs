@@ -722,6 +722,38 @@
   color: #083426;
 }
 
+/* Flat, static treatment — icon uses Material Icons (FA bundle in index.html is v5.0.8) */
+.Nav-tab-icon-beginner {
+  background: #0d9488;
+  color: #fff;
+}
+
+.Nav-tab-icon-beginner-glyph {
+  font-size: 2.25rem !important;
+  line-height: 1 !important;
+  font-weight: normal;
+  font-style: normal;
+  display: block;
+}
+
+.Nav-tab-card--beginner .Nav-tab-icon {
+  transition: none;
+}
+
+.Nav-tab-card--beginner.Nav-tab-active .Nav-tab-icon {
+  box-shadow: none;
+}
+
+.Nav-tab-label--beginner {
+  font-size: 1.28rem;
+  line-height: 1.2;
+  max-width: 12rem;
+}
+
+.Nav-tab-card--beginner {
+  min-width: 200px;
+}
+
 .Nav-tab-badge {
   position: absolute;
   top: 10px;
@@ -839,6 +871,15 @@
     font-size: 1.3rem;
   }
 
+  .Nav-tab-label--beginner {
+    font-size: 1.15rem;
+    max-width: 10rem;
+  }
+
+  .Nav-tab-icon-beginner-glyph {
+    font-size: 1.95rem !important;
+  }
+
 }
 
 @media (max-width: 480px) {
@@ -859,6 +900,15 @@
 
   .Nav-tab-label {
     font-size: 1.2rem;
+  }
+
+  .Nav-tab-label--beginner {
+    font-size: 1.05rem;
+    max-width: 9rem;
+  }
+
+  .Nav-tab-icon-beginner-glyph {
+    font-size: 1.7rem !important;
   }
 
 }

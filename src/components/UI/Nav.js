@@ -8,6 +8,7 @@ import { signOut } from "../../store/actions/authActions";
 import { withRouter } from "react-router-dom";
 // import { withRouter } from "../../hoc/withRouter";
 import "./Nav.css";
+import { isLocalhostBuild } from "../../utils/beginnerMode";
 import SideDrawer from "./SideDrawer";
 import { Dropdown, Button, Divider, Icon } from "react-materialize";
 
@@ -144,7 +145,6 @@ class Nav extends Component {
       "/defence",
       "/bidding",
       "/counting",
-      "/beginner/practice",
     ];
     const articlePaths = [
       "/learn",
@@ -157,10 +157,13 @@ class Nav extends Component {
       "/bidding/advanced",
       "/bidding/basics",
       "/counting/articles",
-      "/beginner/articles",
     ];
+    const beginnerScratchPaths = ["/beginner/practice"];
     const trainerActive = trainerPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
     const articlesActive = articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    const beginnerScratchActive = beginnerScratchPaths.some(
+      (p) => pathname === p || pathname.startsWith(`${p}/`)
+    );
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -295,6 +298,25 @@ class Nav extends Component {
                 </div>
                 <div className="Nav-tab-label">Articles</div>
               </div>
+
+              {isLocalhostBuild() && (
+                <div
+                  className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
+                  onClick={() => this.goTo("/beginner/practice")}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner/practice")}
+                  aria-label="Learn bridge from scratch — beginner lessons"
+                >
+                  <div className="Nav-tab-icon Nav-tab-icon-beginner">
+                    {/* FA 5.0.8 (index.html) is too old for many `fas fa-*` names — use Material Icons instead */}
+                    <i className="material-icons Nav-tab-icon-beginner-glyph" aria-hidden="true">
+                      menu_book
+                    </i>
+                  </div>
+                  <div className="Nav-tab-label Nav-tab-label--beginner">Learn bridge from scratch</div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -396,7 +418,6 @@ const mapStateToProps = (state) => ({
   subscriptionExpires: state.auth.subscriptionExpires,
   subscriptionActive: state.auth.subscriptionActive,
   totalQuizScore: state.auth.totalQuizScore,
-  beginnerMode: !!state.auth.beginnerMode,
 });
 
 // const mapStateToProps = ({ auth }, ownProps) => ({

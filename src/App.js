@@ -79,13 +79,11 @@ import {
   setUser,
   userLoggedInSubscriptionExpires,
   authReady,
-  setBeginnerMode,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
 import {
   getArticlesRootPath,
   getPracticeRootPath,
-  getStoredBeginnerMode,
   isLocalhostBuild,
 } from "./utils/beginnerMode";
 
@@ -93,10 +91,6 @@ import {
 import configureStore from "./store/configureStore";
 const store = configureStore();
 const beginnerLocalOnlyEnabled = isLocalhostBuild();
-
-if (typeof window !== "undefined") {
-  store.dispatch(setBeginnerMode(beginnerLocalOnlyEnabled ? getStoredBeginnerMode() : false));
-}
 
 const routes = (
   <Switch>
@@ -127,7 +121,11 @@ const routes = (
       path="/beginner/articles"
       exact
       render={() =>
-        beginnerLocalOnlyEnabled ? <Redirect to="/beginner/articles/bidding" /> : <Redirect to="/" />
+        beginnerLocalOnlyEnabled ? (
+          <Redirect to="/beginner/practice/declarer" />
+        ) : (
+          <Redirect to="/" />
+        )
       }
     />
     <Route
@@ -253,7 +251,7 @@ const routes = (
       render={(routeProps) => (
         <Redirect
           to={{
-            pathname: getPracticeRootPath(!!store.getState()?.auth?.beginnerMode),
+            pathname: getPracticeRootPath(false),
             search: routeProps.location.search,
           }}
         />
@@ -265,7 +263,7 @@ const routes = (
       render={(routeProps) => (
         <Redirect
           to={{
-            pathname: getArticlesRootPath(!!store.getState()?.auth?.beginnerMode),
+            pathname: getArticlesRootPath(false),
             search: routeProps.location.search,
           }}
         />

@@ -798,7 +798,7 @@ const CARDPLAY_PUZZLES_ALL = [
           type: "INFO",
           atRoundIdx: 0,
           promptText:
-            "I've been trying to train your instincts to appreciate that very often we want to ruff stuff in dummy before drawing trumps. However, even though that is my instinct, I always ask myself one question:\n\n**Can I just draw trumps?**",
+            "I've been trying to train your instincts to appreciate that very often we want to ruff stuff in dummy before drawing trumps. However, even though that is my instinct, I always ask myself one question:\n\n##Can I just draw trumps?##",
         },
         {
           id: "cp1-9-q1",
