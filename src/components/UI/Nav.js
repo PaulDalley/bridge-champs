@@ -8,7 +8,6 @@ import { signOut } from "../../store/actions/authActions";
 import { withRouter } from "react-router-dom";
 // import { withRouter } from "../../hoc/withRouter";
 import "./Nav.css";
-import { isLocalhostBuild } from "../../utils/beginnerMode";
 import SideDrawer from "./SideDrawer";
 import { Dropdown, Button, Divider, Icon } from "react-materialize";
 
@@ -158,12 +157,9 @@ class Nav extends Component {
       "/bidding/basics",
       "/counting/articles",
     ];
-    const beginnerScratchPaths = ["/beginner/practice"];
     const trainerActive = trainerPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
     const articlesActive = articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-    const beginnerScratchActive = beginnerScratchPaths.some(
-      (p) => pathname === p || pathname.startsWith(`${p}/`)
-    );
+    const beginnerScratchActive = pathname.startsWith("/beginner");
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -299,24 +295,25 @@ class Nav extends Component {
                 <div className="Nav-tab-label">Articles</div>
               </div>
 
-              {isLocalhostBuild() && (
-                <div
-                  className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
-                  onClick={() => this.goTo("/beginner/practice")}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner/practice")}
-                  aria-label="Learn bridge from scratch — beginner lessons"
-                >
-                  <div className="Nav-tab-icon Nav-tab-icon-beginner">
-                    {/* FA 5.0.8 (index.html) is too old for many `fas fa-*` names — use Material Icons instead */}
-                    <i className="material-icons Nav-tab-icon-beginner-glyph" aria-hidden="true">
-                      menu_book
-                    </i>
-                  </div>
-                  <div className="Nav-tab-label Nav-tab-label--beginner">Learn bridge from scratch</div>
+              <div
+                className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
+                onClick={() => this.goTo("/beginner/practice")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner/practice")}
+                aria-label="Learn bridge from scratch — beginner lessons (new)"
+              >
+                <span className="Nav-tab-badge" aria-hidden="true">
+                  NEW
+                </span>
+                <div className="Nav-tab-icon Nav-tab-icon-beginner">
+                  {/* FA 5.0.8 (index.html) is too old for many `fas fa-*` names — use Material Icons instead */}
+                  <i className="material-icons Nav-tab-icon-beginner-glyph" aria-hidden="true">
+                    menu_book
+                  </i>
                 </div>
-              )}
+                <div className="Nav-tab-label Nav-tab-label--beginner">Learn bridge from scratch</div>
+              </div>
             </div>
           </div>
         )}

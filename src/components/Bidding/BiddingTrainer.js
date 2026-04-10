@@ -1,5 +1,581 @@
 import React from "react";
-import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
+import CountingTrumpsTrainer, { TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
+
+function Bid209IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          The double is an excellent tool, but it is also something that can be misused quite badly. Let&apos;s talk
+          about some simple rules that will give you confidence in the bidding.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209Rule1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Rule #1</h4>
+        <p className="ct-revealRichBody">
+          <span className="ct-revealGold">&quot;Do not double with distributional hands&quot;</span>.
+        </p>
+        <p className="ct-revealRichBody">
+          This is my favourite rule, and I see people get it wrong so often, leading to poor results.
+        </p>
+        <p className="ct-revealRichBody">
+          Instead of doubling, it is almost always a good idea to simply bid your suits — your longest suit.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209ExampleRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Let&apos;s take a look at an example from recent play where an experienced player went wrong.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">A clear no</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          <span className="ct-revealGold">&quot;Do not double with distributional hands&quot;</span>
+          <span> — a hand with a six-card suit is almost never suitable for a takeout double; it&apos;s too distributional.</span>
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">What a takeout double looks like</h4>
+        <p className="ct-revealRichBody">
+          When you think of takeout doubles, think <strong>4441</strong>, <strong>4432</strong>, and sometimes appropriate{" "}
+          <strong>5431</strong> shapes (we will look at when it is right and wrong to double on those).
+        </p>
+        <p className="ct-revealRichFooter">
+          But overall, you should not be picturing hands with six-card suits — and nor will partner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          If we double, we lose the fact that we have six clubs, and we lose it forever.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Unsurprisingly, <TextWithColoredSuits text="3♣" /> was our best spot — but you can never get there if you begin
+          (and end) with a double.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="1♠" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Let&apos;s add to our double rules:</p>
+        <p className="ct-revealRichBody" style={{ marginTop: 8 }}>
+          <span className="ct-revealGold">&quot;Don&apos;t double with a good five-card major&quot;</span>
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Why doubling costs you</h4>
+        <p className="ct-revealRichBody">
+          The problem with doubling is that it no longer becomes possible to show your five-card major. Very often you
+          will belong in a 5–3 major fit — which you lose when you double.
+        </p>
+        <p className="ct-revealRichBody">
+          Put simply — you lose your most likely contract when you double instead of bidding your major.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210SummaryRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">So far</h4>
+        <p className="ct-revealRichBody">It&apos;s a good idea to bid our suits rather than double when:</p>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">We&apos;re distributional</span>
+            <span> — especially with a six-card suit.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">We have a good five-card major</span>
+            <span> — it usually deserves to be bid.</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid211RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <TextWithColoredSuits text="1♠ is the right call." />
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Don&apos;t double with a good five-card major</h4>
+        <p className="ct-revealRichBody">That rule still applies — and it&apos;s a reliable one.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Takeout doubles want balanced shape, not distribution</h4>
+        <p className="ct-revealRichBody">
+          Picture a typical takeout double: 4441, 4432, or sometimes 5431 (but not when you already hold a good
+          five-card major worth bidding). By contrast, something like 5521 is distributional — it wants suit bids, not a
+          double that promises balanced takeout.
+        </p>
+        <p className="ct-revealRichFooter">This hand doesn&apos;t fit that double picture.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid211ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Some people play conventions to show 5+ in both unbid suits; that can work okay here, but otherwise{" "}
+          <TextWithColoredSuits text="1♠" /> is fine.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid212RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge">Double</span>
+        <span> is the right call — three things point that way:</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Spades are shabby</span>
+            <span>
+              {" "}
+              — When your five-card suit has bad suit quality, a takeout double is often more plausible. Treat the suit
+              almost like a four-card holding you would not rush to bid on its own.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">The suit quality of the other suits is very good</span>
+            <span>, so double paints a more accurate picture in this context than </span>
+            <TextWithColoredSuits text="3♠" />
+            <span>.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">Level pushes you toward double</span>
+            <span>
+              {" "}
+              — At one level, bidding a five-card major is standard. By four or five, double is normal. Three sits in
+              between — and here, double is the winner (in light of both level and suit quality).
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid212ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Revising the guideline</h4>
+        <p className="ct-revealRichBody">
+          We have been stressing <em className="ct-revealRichKey">Bid a good five-card major</em> instead of doubling.
+          On this hand you do not have a <em className="ct-revealRichKey">good</em> five-card major — so{" "}
+          <em className="ct-revealRichKey">double</em> is the right fix.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid213RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge">Double</span>
+        <span> is the right call.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Minor vs major</h4>
+        <p className="ct-revealRichBody">
+          The style of many top pairs has been to double with this kind of shape when the quality five-card suit is a{" "}
+          <strong>minor</strong> — not a major. With a five-card <em className="ct-revealRichKey">major</em>, you would
+          usually bid it.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Why it matters</h4>
+        <p className="ct-revealRichBody">
+          Modern auctions lean hard toward finding major fits. If partner has five or even six spades, a takeout double
+          can be a huge winner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid213ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">5431 - times when it is correct to double with that shape</h4>
+        <ol className="ct-revealRichSteps">
+          <li>The five-card suit is a minor.</li>
+          <li>The five-card suit is a major, but the suit quality is very poor (so you are not really &quot;bidding a good five-card major&quot;).</li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid214RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♣" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          We need a stopper to bid notrump, so let&apos;s rule that out.
+        </p>
+        <p className="ct-revealRichBody">
+          The main point of this example: <em className="ct-revealRichKey">jumps after a double show strength</em>, but
+          they are <strong>not forcing</strong> — the more you jump, the more strength you show.
+        </p>
+        <p className="ct-revealRichFooter">
+          This is a very commonly misunderstood bidding concept.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid214Continue1Rich() {
+  return (
+    <p className="ct-revealRichBody">
+      People often get confused, thinking jumps are game force, or even preemptive, or something else.
+    </p>
+  );
+}
+
+function Bid214Continue2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          The idea is: partner&apos;s double has wide-ranging strength, starting from an opening hand. If we have
+          around 9–11 points, we need to let partner know we have something.
+        </p>
+        <p className="ct-revealRichBody">
+          Of course, simply bidding does not show anything by itself — partner&apos;s double forced us to bid
+          something, and we could have 0 points.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid214Continue3Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">In summary: responding to a double</h4>
+        <p className="ct-revealRichBody">A jump to the 3 level shows about 9-11 points.</p>
+        <p className="ct-revealRichBody">
+          <strong>Things to think about:</strong>
+        </p>
+        <ul className="ct-revealRichPoints">
+          <li>What do we do when we are game-forcing?</li>
+          <li>What does a double jump show?</li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid215RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="4♠" />
+        </span>
+        <span> is the right bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Keep it simple</h4>
+        <p className="ct-revealRichBody">
+          In bridge we should always strive to keep it simple — and bidding opposite a double is an excellent example of
+          that.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Why it works here</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Partner&apos;s double</span>
+            <span>
+              {" "}
+              — Shows at least three cards in each major, and often four.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">We have a fit</span>
+            <span> — and enough points for game.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">So</span>
+            <span>
+              {" "}
+              — A simple <TextWithColoredSuits text="4♠" /> is a perfect idea.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid215ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          I hope that is simple and logical so far — the next problem will build on it.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid216RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♠" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Invitational</h4>
+        <p className="ct-revealRichBody">
+          A jump just below game shows almost enough for game - <em className="ct-revealRichKey">invitational</em>.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Three things to notice</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Jumps show values</span>
+            <span>
+              {" "}
+              — We have seen a jump to game when we have enough for game, and a jump to just below game when we have
+              almost enough — very intuitive.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">No preemptive jumps</span>
+            <span> — Opposite a takeout double, jumps are not preemptive.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">A single jump is limited</span>
+            <span>
+              {" "}
+              — Not game forcing, or even forcing at all. That is a big thing to discuss with partner; misunderstandings
+              often crop up here.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid217RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="2♥" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What the jump shows</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="3♥" />
+            </span>
+            <span> — Almost enough for game (we have seen that already).</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="2♥" />
+            </span>
+            <span>
+              {" "}
+              — A five-card heart suit and <em className="ct-revealRichKey">competitive</em> values — about 6–9-ish.
+            </span>
+          </li>
+        </ul>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Context</h4>
+        <p className="ct-revealRichBody">
+          When you are responding to your partner&apos;s double, you could have <strong>0 points</strong>. When you
+          actually have a bit of stuff, it&apos;s worth showing partner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218RecapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Where we&apos;ve been</h4>
+        <p className="ct-revealRichBody">
+          In the previous problems we looked at bidding our suit, and jumping to the appropriate level to reflect our
+          strength.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Quick recap</h4>
+        <p className="ct-revealRichBody">
+          Jumps show varying strength levels — they are <strong>not</strong> preemptive or forcing.
+        </p>
+        <ol className="ct-revealRichSteps">
+          <li>
+            <strong>One jump</strong> — shows something.
+          </li>
+          <li>
+            <strong>Two jumps</strong> — show more.
+          </li>
+          <li>
+            <strong>Three jumps (to game)</strong> — show enough for game.
+          </li>
+        </ol>
+        <p className="ct-revealRichFooter">It&apos;s that simple.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218QuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">No guaranteed fit</h4>
+        <p className="ct-revealRichBody">
+          When we only have a 4-card major, we can&apos;t be sure we have a fit - partner can have 3.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">The question</h4>
+        <p className="ct-revealRichBody">
+          So what do we do with enough points for game, but no five-card suit? Should we just gamble and bid{" "}
+          <TextWithColoredSuits text="4♠" />?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="2♣" />
+        </span>
+        <span> — cue bidding their suit — is a very important bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">A simple agreement</h4>
+        <p className="ct-revealRichBody">
+          A simple and memorable way to play a{" "}
+          <strong className="ct-revealRichKey">cue bid of their suit</strong>
+          {": "}
+          <em className="ct-revealRichKey">game forcing</em>, but without a five-card major (or else I would have just bid
+          it at the appropriate level!).
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What happens next</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Four-card major</span>
+            <span> — Very often the cue-bidder has one and is hoping to find a fit.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="3NT" />
+            </span>
+            <span> — Often in the picture.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">After the cue</span>
+            <span>
+              {" "}
+              — We bid our hands naturally; after <TextWithColoredSuits text="2♣" />, we show four-card suits and find a
+              fit.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
 
 /**
  * Bidding practice: opening (1–5) and responding (6–10). Uses CountingTrumpsTrainer with question-only flow (no tricks).
@@ -1910,29 +2486,27 @@ const BIDDING_PUZZLES = [
       themeLabel: "Doubles",
       promptThemeTint: "doubles",
       auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/JXU77vavbYE",
       customPrompts: [
         {
           id: "bid2-9-intro",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "The double is an excellent tool, but it is also something that can be misused quite badly. Let's talk about some simple rules that will give you confidence in the bidding.",
+          promptText: <Bid209IntroRich />,
           videoUrl: "",
         },
         {
           id: "bid2-9-rule1",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "##Rule #1##\n\n\"Do not double with distributional hands\".\n\nThis is my favourite rule, and I see people get it wrong so often, leading to poor results.\n\nInstead of doubling, it is almost always a good idea to simply bid your suits — your longest suit.",
+          promptText: <Bid209Rule1Rich />,
           videoUrl: "",
         },
         {
           id: "bid2-9-example",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "Let's take a look at an example from recent play where an experienced player went wrong.",
+          promptText: <Bid209ExampleRich />,
           videoUrl: "",
         },
         {
@@ -1949,16 +2523,14 @@ const BIDDING_PUZZLES = [
           expectedChoice: "no",
           wrongTryText: "Not quite — try again.",
           noContinue: false,
-          revealText:
-            "A clear no. \"Do not double with distributional hands\" — a hand with a 6-card suit is almost never suitable for a takeout double; it's too distributional.\n\nWhen you think of takeout doubles, think 4441, 4432, and sometimes appropriate 5431's (we will look at when it is right and wrong to double on those).\n\nBut overall, you should not be picturing hands with 6-card suits, and nor will partner.",
+          revealText: <Bid209RevealRich />,
           videoUrl: "",
         },
         {
           id: "bid2-9-wrap",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "If we double, we lose the fact that we have 6 clubs, and we lose it forever.\n\nUnsurprisingly, 3♣ was our best spot, but you can never get there if you begin (and end) with a double.",
+          promptText: <Bid209WrapRich />,
           videoUrl: "",
         },
       ],
@@ -1991,43 +2563,507 @@ const BIDDING_PUZZLES = [
       themeLabel: "Doubles",
       promptThemeTint: "doubles",
       auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/Tcyrv4SkeAw",
       customPrompts: [
         {
           id: "bid2-10-q",
           type: "PLAY_DECISION",
           atRoundIdx: -1,
-          promptText: "Is this suitable for a double?",
+          promptText: "What would you bid here?",
           options: [
-            { id: "yes", label: "Yes" },
-            { id: "no", label: "No" },
+            { id: "double", label: "Double" },
+            { id: "1s", label: "1♠" },
           ],
-          expectedChoice: "no",
+          expectedChoice: "1s",
+          expectedChoiceDisplay: "1♠",
           wrongTryText: "Not quite — try again.",
           noContinue: false,
-          revealText:
-            "No — it is much better to bid 1♠ than to double.\n\nLet's add to our double rules:\n\n##\"Don't double with a good 5-card major\"##",
+          revealText: <Bid210RevealRich />,
           videoUrl: "",
         },
         {
           id: "bid2-10-continue",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "The problem with doubling is that it no longer becomes possible to show your 5-card major. Very often you will belong in a 5-3 major fit, which you lose when you double.\n\nPut simply — you lose your most likely contract when you double instead of bidding your major.",
+          promptText: <Bid210ContinueRich />,
           videoUrl: "",
         },
         {
           id: "bid2-10-summary",
           type: "INFO",
           atRoundIdx: -1,
-          promptText:
-            "So far we've seen it's a good idea to bid our suits rather than double when:\n\n1. We're distributional — especially with a six-card suit.\n\n2. We have a good five-card major — it usually deserves to be bid.",
+          promptText: <Bid210SummaryRich />,
           videoUrl: "",
         },
       ],
     },
     shownHands: {
       DECLARER: { S: "KQ1073", H: "AQ43", D: "5", C: "Q103" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-11",
+    difficulty: 2,
+    title: "Doubles judgment (11): Equal unbid suits — 1♠ vs X",
+    newUntil: "2026-07-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♥ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/iJmSSCVv5Mg",
+      customPrompts: [
+        {
+          id: "bid2-11-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "With equal length in both unbid suits, is double a suitable bid or is 1♠ better?",
+          options: [
+            { id: "1s", label: "1♠" },
+            { id: "x", label: "X" },
+          ],
+          expectedChoice: "1s",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid211RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-11-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid211ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "AJ982",
+        H: "98",
+        D: "T",
+        C: "KQ1042",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-12",
+    difficulty: 2,
+    title: "Doubles judgment (12): After 3♦ — when double beats 3♠",
+    newUntil: "2026-08-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "3♦ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/YUQ_kxV7bN8",
+      customPrompts: [
+        {
+          id: "bid2-12-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          options: [
+            { id: "3s", label: "3♠" },
+            { id: "x", label: "X" },
+            { id: "pass", label: "Pass" },
+          ],
+          expectedChoice: "x",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid212RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-12-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid212ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "J7432",
+        H: "AK109",
+        D: "2",
+        C: "KQ5",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-13",
+    difficulty: 2,
+    title: "Doubles judgment (13): After 1♥ — five-card minor, takeout double",
+    newUntil: "2026-09-15",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/GqnCtezS-Ps",
+      customPrompts: [
+        {
+          id: "bid2-13-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the appropriate bid here?",
+          options: [
+            { id: "x", label: "X" },
+            { id: "2c", label: "2♣" },
+          ],
+          expectedChoice: "x",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid213RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-13-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid213ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "1084",
+        H: "2",
+        D: "AJ103",
+        C: "AK1083",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-14",
+    difficulty: 2,
+    title: "Responding to a double (1): Jump shows strength — 3♣",
+    newUntil: "2026-10-15",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ggAHx_OM_G8",
+      customPrompts: [
+        {
+          id: "bid2-14-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid214RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c2",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue2Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c3",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue3Rich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "1084",
+        H: "52",
+        D: "K43",
+        C: "AQ1042",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-15",
+    difficulty: 2,
+    title: "Responding to a double (2): Fit and values — 4♠",
+    newUntil: "2026-11-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/tvd_RD4yfmU",
+      customPrompts: [
+        {
+          id: "bid2-15-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid215RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-15-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid215ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "AK1084",
+        H: "65",
+        D: "KQ9",
+        C: "1082",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-16",
+    difficulty: 2,
+    title: "Responding to a double (3): Almost game — 3♠",
+    newUntil: "2026-11-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/hyIsryDLqOU",
+      customPrompts: [
+        {
+          id: "bid2-16-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "This is a nice hand, perhaps not quite enough to bid game, but close. What is the appropriate bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3s",
+          expectedChoiceDisplay: "3♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid216RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "KQ1074",
+        H: "3",
+        D: "KJ3",
+        C: "10982",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-17",
+    difficulty: 2,
+    title: "Responding to a double (4): Constructive — 2♥",
+    newUntil: "2026-11-15",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/i9vncsP5hKY",
+      customPrompts: [
+        {
+          id: "bid2-17-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What will you bid this time?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid217RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "65",
+        H: "KQ1083",
+        D: "Q1043",
+        C: "32",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-18",
+    difficulty: 2,
+    title: "Responding to a double (5): No five-card major — 2♣ cue",
+    newUntil: "2026-11-20",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/FPYBCdQvsRo",
+      customPrompts: [
+        {
+          id: "bid2-18-recap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid218RecapRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-18-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid218QuestionRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2c",
+          expectedChoiceDisplay: "2♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid218RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "KQ104",
+        H: "K5",
+        D: "AJ108",
+        C: "542",
+      },
     },
     rounds: [],
   },

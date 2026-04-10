@@ -81,16 +81,13 @@ import {
   authReady,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
-import {
-  getArticlesRootPath,
-  getPracticeRootPath,
-  isLocalhostBuild,
-} from "./utils/beginnerMode";
+import { getArticlesRootPath, getPracticeRootPath } from "./utils/beginnerMode";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
 const store = configureStore();
-const beginnerLocalOnlyEnabled = isLocalhostBuild();
+/** "Learn bridge from scratch" — routes enabled on production (was localhost-only). */
+const beginnerRoutesEnabled = true;
 
 const routes = (
   <Switch>
@@ -98,7 +95,7 @@ const routes = (
       path="/beginner/practice"
       exact
       render={(routeProps) =>
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Redirect
             to={{
               pathname: "/beginner/practice/declarer",
@@ -114,14 +111,14 @@ const routes = (
       path="/beginner/practice/:categoryKey"
       exact
       render={(routeProps) =>
-        beginnerLocalOnlyEnabled ? <BeginnerPracticePage {...routeProps} /> : <Redirect to="/" />
+        beginnerRoutesEnabled ? <BeginnerPracticePage {...routeProps} /> : <Redirect to="/" />
       }
     />
     <Route
       path="/beginner/articles"
       exact
       render={() =>
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Redirect to="/beginner/practice/declarer" />
         ) : (
           <Redirect to="/" />
@@ -132,7 +129,7 @@ const routes = (
       path="/beginner/articles/declarer"
       exact
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <CategoryArticles
             {...routeProps}
             articleType="beginnerCardPlay"
@@ -146,7 +143,7 @@ const routes = (
     <Route
       path="/beginner/articles/declarer/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <DisplayCategoryArticle
             {...routeProps}
             articleType="beginnerCardPlay"
@@ -161,7 +158,7 @@ const routes = (
       path="/beginner/articles/defence"
       exact
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <CategoryArticles
             {...routeProps}
             articleType="beginnerDefence"
@@ -175,7 +172,7 @@ const routes = (
     <Route
       path="/beginner/articles/defence/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <DisplayCategoryArticle
             {...routeProps}
             articleType="beginnerDefence"
@@ -190,7 +187,7 @@ const routes = (
       path="/beginner/articles/bidding"
       exact
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <CategoryArticles
             {...routeProps}
             articleType="beginnerBidding"
@@ -204,7 +201,7 @@ const routes = (
     <Route
       path="/beginner/articles/bidding/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <DisplayCategoryArticle
             {...routeProps}
             articleType="beginnerBidding"
@@ -219,7 +216,7 @@ const routes = (
       path="/beginner/articles/counting"
       exact
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <CategoryArticles
             {...routeProps}
             articleType="beginnerCounting"
@@ -233,7 +230,7 @@ const routes = (
     <Route
       path="/beginner/articles/counting/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <DisplayCategoryArticle
             {...routeProps}
             articleType="beginnerCounting"
@@ -350,7 +347,7 @@ const routes = (
       path="/create/beginner/declarer"
       exact
       render={() => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               articleType="beginnerCardPlay"
@@ -368,7 +365,7 @@ const routes = (
       path="/create/beginner/defence"
       exact
       render={() => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               articleType="beginnerDefence"
@@ -386,7 +383,7 @@ const routes = (
       path="/create/beginner/bidding"
       exact
       render={() => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               articleType="beginnerBidding"
@@ -404,7 +401,7 @@ const routes = (
       path="/create/beginner/counting"
       exact
       render={() => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               articleType="beginnerCounting"
@@ -526,7 +523,7 @@ const routes = (
     <Route
       path="/edit/beginnerCardPlay/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               {...routeProps}
@@ -543,7 +540,7 @@ const routes = (
     <Route
       path="/edit/beginnerDefence/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               {...routeProps}
@@ -560,7 +557,7 @@ const routes = (
     <Route
       path="/edit/beginnerBidding/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               {...routeProps}
@@ -577,7 +574,7 @@ const routes = (
     <Route
       path="/edit/beginnerCounting/:id"
       render={(routeProps) => (
-        beginnerLocalOnlyEnabled ? (
+        beginnerRoutesEnabled ? (
           <Suspense fallback={<SkeletonLoader type="article" />}>
             <CreateCategoryArticle
               {...routeProps}

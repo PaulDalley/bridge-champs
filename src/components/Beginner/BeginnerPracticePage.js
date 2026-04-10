@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
+import BeginnerScratchBanner from "./BeginnerScratchBanner";
 import {
   BEGINNER_BIDDING_PUZZLES,
   BEGINNER_COUNTING_PUZZLES,
@@ -60,17 +61,20 @@ function BeginnerPracticePage({ match }) {
   const puzzlesOverride = BEGINNER_PUZZLES_BY_CATEGORY[categoryKey] || [];
 
   return (
-    <CountingTrumpsTrainer
-      trainerLabel={BEGINNER_TRAINER_LABELS[categoryKey]}
-      categoryKey={categoryKey}
-      beginnerModeOverride={true}
-      beginnerIsolatedPuzzleList={true}
-      hideDifficultyTabs={BEGINNER_HIDE_DIFFICULTY_TABS.has(categoryKey)}
-      categoryLabelsOverride={BEGINNER_CATEGORY_LABELS}
-      categoryPathOverrides={BEGINNER_CATEGORY_PATHS}
-      beginnerVisibleCategoryKeys={BEGINNER_VISIBLE_CATEGORY_KEYS}
-      puzzlesOverride={puzzlesOverride}
-    />
+    <Fragment>
+      <BeginnerScratchBanner />
+      <CountingTrumpsTrainer
+        trainerLabel={BEGINNER_TRAINER_LABELS[categoryKey]}
+        categoryKey={categoryKey}
+        beginnerModeOverride={true}
+        beginnerIsolatedPuzzleList={true}
+        hideDifficultyTabs={BEGINNER_HIDE_DIFFICULTY_TABS.has(categoryKey)}
+        categoryLabelsOverride={BEGINNER_CATEGORY_LABELS}
+        categoryPathOverrides={BEGINNER_CATEGORY_PATHS}
+        beginnerVisibleCategoryKeys={BEGINNER_VISIBLE_CATEGORY_KEYS}
+        puzzlesOverride={puzzlesOverride}
+      />
+    </Fragment>
   );
 }
 
