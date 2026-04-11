@@ -1,0 +1,392 @@
+.BeginnerLanding {
+  min-height: 60vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 40%);
+}
+
+.BeginnerLanding-hero {
+  position: relative;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 7vw, 5rem);
+  background: linear-gradient(135deg, #0f4c3a 0%, #083426 100%);
+  color: #fff;
+  overflow: hidden;
+}
+
+.BeginnerLanding-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 40%, rgba(212, 175, 55, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(196, 30, 58, 0.1) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.BeginnerLanding-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.BeginnerLanding-eyebrow {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.BeginnerLanding-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 750;
+  line-height: 1.12;
+  color: #fff;
+}
+
+.BeginnerLanding-title-accent {
+  background: linear-gradient(135deg, #d4af37 0%, #e8c767 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.BeginnerLanding-lead {
+  margin: 0 0 1.15rem;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.BeginnerLanding-trust {
+  margin: 0 0 0.65rem;
+  padding: 0.65rem 1rem;
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.BeginnerLanding-trustName {
+  font-weight: 700;
+  color: #e8c767;
+}
+
+.BeginnerLanding-aboutLinkWrap {
+  margin: 0 0 1.35rem;
+  text-align: center;
+}
+
+.BeginnerLanding-aboutLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+  text-decoration-color: rgba(232, 199, 103, 0.65);
+  text-underline-offset: 3px;
+}
+
+.BeginnerLanding-aboutLink:hover,
+.BeginnerLanding-aboutLink:focus {
+  color: #e8c767;
+  text-decoration-color: #e8c767;
+}
+
+.BeginnerLanding-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.BeginnerLanding-cta--primary {
+  color: #083426;
+  background: linear-gradient(135deg, #e8c767 0%, #d4af37 100%);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.BeginnerLanding-cta--primary:hover,
+.BeginnerLanding-cta--primary:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  color: #052a1f;
+}
+
+.BeginnerLanding-body {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: clamp(2.25rem, 5vw, 3.25rem) clamp(1.25rem, 4vw, 2rem) clamp(5.5rem, 11vw, 6.5rem);
+}
+
+.BeginnerLanding-section {
+  margin-bottom: clamp(2.75rem, 7vw, 4.25rem);
+}
+
+.BeginnerLanding-sectionTitle {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.BeginnerLanding-sectionIntro {
+  margin: 0 0 0.75rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: #64748b;
+}
+
+.BeginnerLanding-sectionIntro--oneLine {
+  margin-bottom: 1rem;
+}
+
+.BeginnerLanding-section--testimonials {
+  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.BeginnerLanding-testimonials {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .BeginnerLanding-testimonials {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.BeginnerLanding-testimonial {
+  margin: 0;
+}
+
+.BeginnerLanding-testimonial-quote {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(15, 23, 42, 0.04);
+}
+
+.BeginnerLanding-testimonial-quote p {
+  margin: 0 0 0.5rem;
+  font-size: 0.93rem;
+  line-height: 1.45;
+  font-style: italic;
+  color: #334155;
+}
+
+.BeginnerLanding-testimonial-by {
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.BeginnerLanding-section--personal {
+  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.BeginnerLanding-personalCard {
+  padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #0f4c3a;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.04);
+}
+
+.BeginnerLanding-personalCard p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.BeginnerLanding-inlineLink {
+  font-weight: 700;
+  color: #0f4c3a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.BeginnerLanding-inlineLink:hover,
+.BeginnerLanding-inlineLink:focus {
+  color: #083426;
+}
+
+.BeginnerLanding-video {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+  background: #0f172a;
+}
+
+.BeginnerLanding-video-frame {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.BeginnerLanding-video-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.BeginnerLanding-video-edit {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.BeginnerLanding-video-edit svg {
+  width: 20px;
+  height: 20px;
+  color: #334155;
+}
+
+.BeginnerLanding-video--editing {
+  background: #fff;
+  padding: 1rem;
+  border: 2px solid #cbd5e1;
+}
+
+.BeginnerLanding-video-admin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.BeginnerLanding-video-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.BeginnerLanding-video--empty {
+  padding: 2rem;
+  text-align: center;
+  background: #f1f5f9;
+  border: 2px dashed #94a3b8;
+  border-radius: 14px;
+  color: #334155;
+}
+
+.BeginnerLanding-videoSkeleton {
+  max-width: 40rem;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #e2e8f0;
+  aspect-ratio: 16 / 9;
+}
+
+.BeginnerLanding-videoSkeleton-inner {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  background: linear-gradient(90deg, #e2e8f0 0%, #f1f5f9 50%, #e2e8f0 100%);
+  background-size: 200% 100%;
+  animation: BeginnerLanding-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes BeginnerLanding-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.BeginnerLanding-sticky {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 0.55rem 1rem calc(0.55rem + env(safe-area-inset-bottom, 0));
+  background: linear-gradient(180deg, transparent 0%, rgba(248, 250, 252, 0.97) 35%, #f8fafc 100%);
+  box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.08);
+}
+
+.BeginnerLanding-sticky-inner {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.BeginnerLanding-cta--sticky {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .BeginnerLanding-sticky {
+    display: flex;
+    justify-content: center;
+  }
+
+  .BeginnerLanding-body {
+    padding-bottom: 5.5rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .BeginnerLanding-sticky {
+    display: none !important;
+  }
+}

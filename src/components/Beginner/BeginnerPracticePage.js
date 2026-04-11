@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import BeginnerScratchBanner from "./BeginnerScratchBanner";
+import BeginnerGuestSignupNudge from "./BeginnerGuestSignupNudge";
 import {
   BEGINNER_BIDDING_PUZZLES,
   BEGINNER_COUNTING_PUZZLES,
@@ -66,6 +67,7 @@ function BeginnerPracticePage({ match }) {
   return (
     <Fragment>
       <BeginnerScratchBanner />
+      <BeginnerGuestSignupNudge redirectPath={match.url} />
       <CountingTrumpsTrainer
         trainerLabel={BEGINNER_TRAINER_LABELS[categoryKey]}
         categoryKey={categoryKey}

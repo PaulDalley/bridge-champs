@@ -30,3 +30,36 @@ export function sendPracticeEvent(eventName, params = {}) {
   const gtag = getGtag();
   if (gtag) gtag("event", eventName, { ...params, send_to: GA4_MEASUREMENT_ID });
 }
+
+/**
+ * UTM / click IDs from the landing URL for attribution on CTA events (GA4).
+ * @param {string} search - location.search, e.g. "?utm_source=google&gclid=..."
+ */
+export function getMarketingParamsFromSearch(search) {
+  const params = new URLSearchParams(search || "");
+  const keys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "gclid",
+    "gbraid",
+    "wbraid",
+  ];
+  const out = {};
+  keys.forEach((k) => {
+    const v = params.get(k);
+    if (v) out[k] = v;
+  });
+  return out;
+}
+
+/**
+ * Primary CTA on /beginner landing (Google Ads funnel).
+ * @param {Object} params - e.g. { placement: 'hero'|'bottom'|'sticky', destination, ...utm_* , gclid }
+ */
+export function sendBeginnerLandingCtaClick(params = {}) {
+  const gtag = getGtag();
+  if (gtag) gtag("event", "beginner_landing_cta_click", { ...params, send_to: GA4_MEASUREMENT_ID });
+}

@@ -7926,7 +7926,8 @@ function CountingTrumpsTrainer({
     </>
   );
 
-  if (isMobileViewport) {
+  /** Phone gate: beginner /beginner/practice is allowed on small screens; other trainers stay message-only. */
+  if (isMobileViewport && !beginnerModeOverride) {
     return (
       <div className="ct-page ct-page--mobileMessage">
         <div className="ct-mobileMessage">
@@ -7944,7 +7945,9 @@ function CountingTrumpsTrainer({
   }
 
   return (
-    <div className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}>
+    <div
+      className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
+    >
 
       <div className={`ct-layout ${showFullHands ? "ct-layout--fullhands" : ""}`}>
         <div className="ct-stage">

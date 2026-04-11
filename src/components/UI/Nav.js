@@ -297,10 +297,10 @@ class Nav extends Component {
 
               <div
                 className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/beginner/practice")}
+                onClick={() => this.goTo("/beginner")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner/practice")}
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner")}
                 aria-label="Learn bridge from scratch — beginner lessons (new)"
               >
                 <span className="Nav-tab-badge" aria-hidden="true">

@@ -59,6 +59,7 @@ import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
 import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
+import BeginnerLandingPage from "./components/Beginner/BeginnerLandingPage";
 
 import { firebase } from "./firebase/config";
 
@@ -91,6 +92,11 @@ const beginnerRoutesEnabled = true;
 
 const routes = (
   <Switch>
+    <Route
+      path="/beginner"
+      exact
+      render={() => (beginnerRoutesEnabled ? <BeginnerLandingPage /> : <Redirect to="/" />)}
+    />
     <Route
       path="/beginner/practice"
       exact

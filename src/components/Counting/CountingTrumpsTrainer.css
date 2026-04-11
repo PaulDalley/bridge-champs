@@ -13,7 +13,7 @@
   padding-right: 16px;
 }
 
-/* Mobile: trainer is desktop-only; show message instead of broken layout */
+/* Mobile: non-beginner trainers show this on small phones (see JS gate). Beginner /beginner/practice uses ct-page--beginnerPractice instead. */
 .ct-page--mobileMessage {
   display: flex;
   align-items: center;
@@ -4059,5 +4059,103 @@
 .ct-practiceVideo--adminEmpty .ct-practiceVideo-sublabel {
   color: #9ca3af;
   font-size: 11px;
+}
+
+/* =============================================================================
+   Beginner practice only (/beginner/practice): allow phones — scoped mobile polish.
+   (Other trainers stay behind the <=480px gate in CountingTrumpsTrainer.js.)
+   ============================================================================= */
+@media (max-width: 480px) {
+  .ct-page.ct-page--beginnerPractice {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 20px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-topNavWrap {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 8px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-topNav {
+    padding: 8px 10px 6px;
+    border-radius: 10px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-categoryTab {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-problemTab {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-tableWithSidebar-inner {
+    gap: 12px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-tableWithSidebar .ct-table {
+    margin-right: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-explanationSidebar,
+  .ct-page.ct-page--beginnerPractice .ct-tableWithSidebar .ct-rail.ct-rail--inSidebar {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    position: relative;
+    top: auto;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-explanationSidebar .ct-contractLine {
+    font-size: 1.25rem;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-explanationSidebar .ct-roleLine {
+    font-size: 1.05rem;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-explanationSidebar .ct-revealContent {
+    font-size: 15px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-explanationSidebar .ct-auctionCell {
+    font-size: clamp(22px, 7vw, 34px);
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-beginnerLessonBanner {
+    padding: 10px 12px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-beginnerLessonBanner-title {
+    font-size: clamp(17px, 4.8vw, 22px);
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-subscribeBanner {
+    flex-wrap: wrap;
+    font-size: 13px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-subscribeBannerBtn {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-tableWithSidebar .ct-seat--right {
+    padding-right: 8px;
+  }
 }
 
