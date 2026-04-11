@@ -1,4 +1,6 @@
 import { BDECL1_7_CUSTOM_PROMPTS } from "./bdecl1-7Rich";
+import { BDECL1_8_CUSTOM_PROMPTS } from "./bdecl1-8Rich";
+import { BDECL1_9_CUSTOM_PROMPTS } from "./bdecl1-9Rich";
 
 /**
  * Beginner practical library — ONLY used by /beginner/practice/* routes.
@@ -706,6 +708,62 @@ export const BEGINNER_DECLARER_PUZZLES = [
       hideAuction: true,
       hidePlayDecisionHeading: true,
       customPrompts: BDECL1_7_CUSTOM_PROMPTS,
+    },
+  },
+  {
+    id: "bdecl1-8",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Stage 1 — Opening 1NT",
+    trumpSuit: null,
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: null,
+    visibleFullHandSeats: ["south"],
+    preserveEndStateAtDone: true,
+    rounds: [],
+    shownHands: {
+      south: { S: "AT3", H: "KQ4", D: "A52", C: "KT42" },
+    },
+    promptOptions: {
+      contractLabel: "Opening 1NT",
+      contractLabelBeforeStartOnly: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      disableWarmupTrumpGuess: true,
+      hideAuction: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: BDECL1_8_CUSTOM_PROMPTS,
+    },
+  },
+  {
+    id: "bdecl1-9",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Stage 1 — Opening majors or minors",
+    trumpSuit: null,
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: null,
+    visibleFullHandSeats: ["south"],
+    preserveEndStateAtDone: true,
+    rounds: [],
+    shownHands: {
+      south: { S: "AKT4", H: "KQ93", D: "J65", C: "83" },
+    },
+    promptOptions: {
+      contractLabel: "Opening 1♠ or 1♥",
+      contractLabelBeforeStartOnly: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      disableWarmupTrumpGuess: true,
+      hideAuction: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: BDECL1_9_CUSTOM_PROMPTS,
     },
   },
 ];

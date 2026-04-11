@@ -2818,6 +2818,64 @@
   color: #111827;
 }
 
+/* LBFS /beginner/practice — inviting lesson title (all Stage 1 problems use contractLabel) */
+.ct-beginnerLessonBanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px 16px;
+  border-radius: 18px;
+  background: linear-gradient(165deg, #ecfdf5 0%, #d1fae5 42%, #f0fdf4 100%);
+  border: 1px solid rgba(15, 76, 58, 0.2);
+  box-shadow:
+    0 12px 32px rgba(15, 76, 58, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.ct-beginnerLessonBanner-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0f4c3a;
+  opacity: 0.9;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.ct-beginnerLessonBanner-title {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 950;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: #064e3b;
+  text-align: center;
+}
+
+.ct-startTitle--beginnerBannerHost {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.ct-explanationSidebar .ct-beginnerLessonBanner {
+  align-items: flex-start;
+}
+
+.ct-explanationSidebar .ct-beginnerLessonBanner-eyebrow,
+.ct-explanationSidebar .ct-beginnerLessonBanner-title {
+  text-align: left;
+}
+
+.ct-explanationSidebar .ct-contractLine .ct-beginnerLessonBanner-title {
+  font-size: clamp(20px, 2.2vw, 26px);
+}
+
 .ct-startSub {
   margin-top: 10px;
   font-size: 24px;

@@ -411,6 +411,18 @@ export function TextWithColoredSuits({ text }) {
   return <>{nodes}</>;
 }
 
+/** Inviting lesson headline for Learn bridge from scratch (/beginner/practice). */
+function BeginnerLessonContractTitle({ text }) {
+  return (
+    <div className="ct-beginnerLessonBanner">
+      <div className="ct-beginnerLessonBanner-eyebrow">Learn bridge from scratch · Stage 1</div>
+      <div className="ct-beginnerLessonBanner-title">
+        <TextWithColoredSuits text={text} />
+      </div>
+    </div>
+  );
+}
+
 /** Renders contract text (e.g. "4♥") with hearts/diamonds in red */
 function ContractWithColoredSuit({ text }) {
   return <TextWithColoredSuits text={text} />;
@@ -4147,6 +4159,19 @@ function CountingTrumpsTrainer({
     if (puzzle?.promptOptions?.contractLabelBeforeStartOnly && hasStarted && puzzle?.promptOptions?.contractLabel) return "";
     return contractDisplayText;
   }, [contractDisplayText, hasStarted, puzzle?.promptOptions?.contractLabel, puzzle?.promptOptions?.contractLabelBeforeStartOnly]);
+  const showBeginnerLessonContractBanner = useMemo(
+    () =>
+      beginnerModeOverride &&
+      beginnerIsolatedPuzzleList &&
+      !!puzzle?.promptOptions?.contractLabel &&
+      !!String(effectiveContractDisplayText || "").trim(),
+    [
+      beginnerModeOverride,
+      beginnerIsolatedPuzzleList,
+      puzzle?.promptOptions?.contractLabel,
+      effectiveContractDisplayText,
+    ]
+  );
   // Theme label text is explicit-only (set `themeLabel` on the puzzle). Do not infer from `promptThemeTint`.
   const effectiveThemeLabel = useMemo(
     () => String(puzzle?.promptOptions?.themeLabel || "").trim(),
@@ -6902,7 +6927,11 @@ function CountingTrumpsTrainer({
           {effectiveContractDisplayText ? (
             <div className="ct-contractLine">
               {puzzle?.promptOptions?.contractLabel ? (
-                <TextWithColoredSuits text={effectiveContractDisplayText} />
+                showBeginnerLessonContractBanner ? (
+                  <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
+                ) : (
+                  <TextWithColoredSuits text={effectiveContractDisplayText} />
+                )
               ) : (
                 <>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></>
               )}
@@ -8048,7 +8077,11 @@ function CountingTrumpsTrainer({
             {!!effectiveContractDisplayText && !useBottomRowLayout && (
               <div className="ct-contractTop">
                 {puzzle?.promptOptions?.contractLabel ? (
-                  <TextWithColoredSuits text={effectiveContractDisplayText} />
+                  showBeginnerLessonContractBanner ? (
+                    <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
+                  ) : (
+                    <TextWithColoredSuits text={effectiveContractDisplayText} />
+                  )
                 ) : (
                   <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></React.Fragment>
                 )}
@@ -8091,9 +8124,17 @@ function CountingTrumpsTrainer({
                 <div className="ct-startOverlay" aria-label="Start exercise">
                   <div className="ct-startCard">
                     {!!effectiveContractDisplayText && (
-                      <div className="ct-startTitle">
+                      <div
+                        className={`ct-startTitle${
+                          showBeginnerLessonContractBanner ? " ct-startTitle--beginnerBannerHost" : ""
+                        }`}
+                      >
                         {puzzle?.promptOptions?.contractLabel ? (
-                          <TextWithColoredSuits text={effectiveContractDisplayText} />
+                          showBeginnerLessonContractBanner ? (
+                            <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
+                          ) : (
+                            <TextWithColoredSuits text={effectiveContractDisplayText} />
+                          )
                         ) : (
                           <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
                           {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>
