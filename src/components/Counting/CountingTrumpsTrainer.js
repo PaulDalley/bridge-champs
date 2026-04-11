@@ -3631,6 +3631,8 @@ function CountingTrumpsTrainer({
   categoryPathOverrides = null,
   /** When set with beginner mode, only these category tabs are shown (e.g. Stage 1 only). */
   beginnerVisibleCategoryKeys = null,
+  /** On /beginner/practice (declarer stage only): first N puzzles in that list are free for everyone. */
+  beginnerPublicPracticeCount = 0,
 }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
   const isAdmin = a === true;
@@ -3825,6 +3827,15 @@ function CountingTrumpsTrainer({
   const currentProblemId = puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id || null;
   const isFreeProblem = (problemId) => {
     if (!problemId) return false;
+    if (
+      beginnerModeOverride &&
+      beginnerIsolatedPuzzleList &&
+      beginnerPublicPracticeCount > 0 &&
+      categoryKey === "declarer"
+    ) {
+      const idx = puzzlesForDifficultyAll.findIndex((p) => p.id === problemId);
+      if (idx >= 0 && idx < beginnerPublicPracticeCount) return true;
+    }
     if (hasExplicitFreeListForCategory) {
       return Array.isArray(freeProblemIdsForCategory) && freeProblemIdsForCategory.includes(problemId);
     }

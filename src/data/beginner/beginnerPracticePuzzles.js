@@ -1,3 +1,5 @@
+import { BDECL1_7_CUSTOM_PROMPTS } from "./bdecl1-7Rich";
+
 /**
  * Beginner practical library — ONLY used by /beginner/practice/* routes.
  * Ids are beginner-only (bdecl…) so they never collide with main trainers.
@@ -676,6 +678,34 @@ export const BEGINNER_DECLARER_PUZZLES = [
             "No — just like in real life, you can bid too high. More on this to come, but remember: if you want to stop bidding, you can always pass.",
         },
       ],
+    },
+  },
+  {
+    id: "bdecl1-7",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Stage 1 — The opening bid",
+    trumpSuit: null,
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: null,
+    visibleFullHandSeats: ["south"],
+    preserveEndStateAtDone: true,
+    rounds: [],
+    shownHands: {
+      south: { S: "642", H: "85", D: "AK1083", C: "KQ4" },
+    },
+    promptOptions: {
+      contractLabel: "The opening bid",
+      contractLabelBeforeStartOnly: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      disableWarmupTrumpGuess: true,
+      hideAuction: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: BDECL1_7_CUSTOM_PROMPTS,
     },
   },
 ];
