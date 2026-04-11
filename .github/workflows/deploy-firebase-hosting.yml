@@ -1,7 +1,19 @@
 # Deploys the CRA production build to Firebase Hosting (live channel).
-# One-time setup: add repo secret FIREBASE_SERVICE_ACCOUNT with the JSON from
-# Firebase Console → Project settings → Service accounts → Generate new private key.
-# That service account needs permission to deploy Hosting (e.g. Firebase Hosting Admin).
+#
+# --- One-time setup (so git/GitHub deploys Firebase; no local `firebase login` needed for releases) ---
+# 1. Firebase Console → Project settings → Service accounts → Generate new private key (JSON).
+# 2. Google Cloud Console → IAM → ensure that service account has a role that can deploy Hosting
+#    (e.g. "Firebase Hosting Admin", or "Editor" on the project for a personal project).
+# 3. GitHub → this repo → Settings → Secrets and variables → Actions → New repository secret
+#      Name:  FIREBASE_SERVICE_ACCOUNT
+#      Value: paste the ENTIRE JSON file contents (one line is fine).
+# 4. Merge to `main` and push — this workflow only runs on `main` (see `on:` below).
+#    Or: Actions tab → "Deploy Firebase Hosting" → "Run workflow" (uses latest default branch code
+#    when run from the UI; clone is still the branch you select in the dropdown).
+#
+# If pushes to `main` never deploy: the secret is missing, mis-named, or the JSON account lacks IAM.
+# This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
+# with the service account JSON stored only as an encrypted secret.
 name: Deploy Firebase Hosting
 
 on:

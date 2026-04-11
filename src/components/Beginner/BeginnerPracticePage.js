@@ -37,6 +37,9 @@ const BEGINNER_TRAINER_LABELS = {
   bidding: "Beginner Bidding",
 };
 
+/** First N Stage‑1 (declarer) hands free on /beginner/practice; rest of that tab stays paywalled. */
+const BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS = 5;
+
 /** Only source for /beginner/practice — not CardPlay / Defence / Counting / Bidding trainers. */
 const BEGINNER_PUZZLES_BY_CATEGORY = {
   declarer: BEGINNER_DECLARER_PUZZLES,
@@ -73,6 +76,7 @@ function BeginnerPracticePage({ match }) {
         categoryPathOverrides={BEGINNER_CATEGORY_PATHS}
         beginnerVisibleCategoryKeys={BEGINNER_VISIBLE_CATEGORY_KEYS}
         puzzlesOverride={puzzlesOverride}
+        beginnerPublicPracticeCount={BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS}
       />
     </Fragment>
   );
