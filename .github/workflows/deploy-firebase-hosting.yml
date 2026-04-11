@@ -1,0 +1,34 @@
+# Deploys the CRA production build to Firebase Hosting (live channel).
+# One-time setup: add repo secret FIREBASE_SERVICE_ACCOUNT with the JSON from
+# Firebase Console → Project settings → Service accounts → Generate new private key.
+# That service account needs permission to deploy Hosting (e.g. Firebase Hosting Admin).
+name: Deploy Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install and build
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
