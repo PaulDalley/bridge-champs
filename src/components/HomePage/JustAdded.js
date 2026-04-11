@@ -13,19 +13,15 @@ function JustAdded() {
       </div>
       <div className="JustAdded-links">
         <Link to="/bidding/practice?difficulty=2&problem=bid2-1" className="JustAdded-link">
-          5 New Matchpoint bidding exercises with videos →
+          Matchpoint bidding — club duplicate decisions →
         </Link>
         <span className="JustAdded-sep" aria-hidden> · </span>
-        <Link to="/defence/practice?problem=df1-5" className="JustAdded-link">
-          4 new defence problems →
+        <Link to="/defence/practice?problem=df1-9" className="JustAdded-link">
+          The enemy's 5-card suit (defence theme) →
         </Link>
         <span className="JustAdded-sep" aria-hidden> · </span>
-        <Link to="/cardPlay/practice?difficulty=1&problem=cp1-5" className="JustAdded-link">
-          Videos added to declarer difficulty 1 problems 5–11 →
-        </Link>
-        <span className="JustAdded-sep" aria-hidden> · </span>
-        <Link to="/cardPlay/practice?difficulty=2&problem=cp2-1" className="JustAdded-link">
-          Videos added to declarer difficulty 2 problems 1–3 →
+        <Link to="/cardPlay/practice?difficulty=2&problem=cp2-6" className="JustAdded-link">
+          Using entries productively →
         </Link>
       </div>
     </section>

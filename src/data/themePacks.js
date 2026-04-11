@@ -26,19 +26,23 @@ export const THEME_PACKS = [
     introVideoVersion: 1,
   },
   {
-    id: "drawing-trumps",
-    title: "Theme: Drawing and not drawing trumps",
+    id: "using-entries",
+    title: "Theme: Using entries productively",
     description: "",
-    to: { pathname: "/cardPlay/practice", search: "?problem=cp1-7" },
+    to: { pathname: "/cardPlay/practice", search: "?difficulty=2&problem=cp2-6" },
     categoryKey: "declarer",
-    themeTint: "drawTrumps",
-    starterProblemId: "cp1-7",
-    handIds: ["cp1-7", "cp1-8", "cp1-9"],
-    icon: "insights",
+    themeTint: "entriesProductive",
+    starterProblemId: "cp2-6",
+    handIds: ["cp2-6", "cp2-7", "cp2-8", "cp2-9", "cp2-10"],
+    icon: "swap_horiz",
     introVideoUrl: "",
     introVideoVersion: 1,
   },
 ];
+
+// Keep this list separate so beginner mode can show its own homepage packs.
+// Intentionally empty for now until beginner packs are added.
+export const BEGINNER_THEME_PACKS = [];
 
 export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
   if (!pack.categoryKey || !pack.starterProblemId) return acc;
@@ -46,24 +50,37 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
   return acc;
 }, {});
 
-/** Problem IDs that are free for non-members in that category. When set, overrides single trial-starter logic. */
+/**
+ * Free problems for non-members by category.
+ * If a category key is present, ONLY listed IDs are free (empty array = none free in that category).
+ * If a category is omitted, legacy rules apply (trial starter + first problem per difficulty as preview).
+ */
 export const FREE_PROBLEM_IDS_BY_CATEGORY = {
-  bidding: [
-    "bid1-1", // Difficulty 1, problem 1 — opening theme intro video + hand
-    "bid2-1",
-    "bid2-2",
-    "bid2-3",
-    "bid2-4",
-    "bid2-5", // Matchpoint theme: first 5 free
-  ],
+  /** Bidding: d1 problems 1 & 6; d2 problems 1–5 (promotion — keep in sync with marketing). */
+  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5"],
+  /** Declarer: difficulty 2 problem 6 — first free hand in the “entries” series (videos unlocked for everyone on this id). */
+  declarer: ["cp2-6"],
+  defence: [],
+  counting: ["p1-15"],
 };
 
-export const THEME_INTRO_BY_TINT = THEME_PACKS.reduce((acc, pack) => {
-  if (!pack?.themeTint) return acc;
-  acc[pack.themeTint] = {
-    url: pack.introVideoUrl || "",
-    version: Number(pack.introVideoVersion || 1),
-    title: pack.title || "",
+/** Problem rail “theme pack” intro video metadata. The trainer uses this only when a puzzle sets `promptOptions.useThemePackIntro: true` and a matching `promptOptions.promptThemeTint`. */
+export const THEME_INTRO_BY_TINT = (() => {
+  const acc = {
+    // Legacy: declarer d1 problems 7–9 still use promptThemeTint "drawTrumps" but are not a homepage pack.
+    drawTrumps: {
+      url: "",
+      version: 1,
+      title: "Theme: Drawing and not drawing trumps",
+    },
   };
+  THEME_PACKS.forEach((pack) => {
+    if (!pack?.themeTint) return;
+    acc[pack.themeTint] = {
+      url: pack.introVideoUrl || "",
+      version: Number(pack.introVideoVersion || 1),
+      title: pack.title || "",
+    };
+  });
   return acc;
-}, {});
+})();

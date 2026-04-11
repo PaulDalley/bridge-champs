@@ -1,85 +1,82 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Icon } from "react-materialize";
 import { CARDPLAY_HAS_NEW } from "./CardPlayTrainer";
 import "./CardPlayHub.css";
 
 function CardPlayHub() {
-  const isAdmin = useSelector((state) => state.auth.a === true);
-
   return (
     <div className="ch-page" aria-label="Declarer play home">
       <div className="ch-hero">
         <div className="ch-heroTitle">Declarer Play</div>
-        <div className="ch-heroSub">
-          Choose <strong>Practice</strong> for interactive hands, <strong>Advanced ideas</strong> for lessons and examples, or <strong>Basics</strong> for foundations (coming soon).
-        </div>
+        <p className="ch-heroSub">
+          Interactive deals and explanatory articles — two paths below.
+        </p>
       </div>
 
-      <div className="ch-spotlight" role="presentation">
-        <Link to="/cardPlay/practice" className="ch-card ch-card--practiceTile ch-card--spotlight" role="listitem" aria-label="Practice declarer play">
-          <div className="ch-cardHeader">
-            <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
-              <Icon>fitness_center</Icon>
-            </div>
-            <div>
-              <div className="ch-cardTitle">
-                Practice
-                {CARDPLAY_HAS_NEW && <span className="ch-newBadge" aria-label="New content">New</span>}
+      <div className="ch-hubPaths">
+        <section className="ch-path ch-path--primary" aria-labelledby="hub-cardplay-hands-on">
+          <h2 className="ch-sectionLabel" id="hub-cardplay-hands-on">
+            Hands-on practice
+          </h2>
+          <div className="ch-spotlight">
+            <Link
+              to="/cardPlay/practice"
+              className="ch-card ch-card--practiceTile ch-card--spotlight"
+              aria-label="Learn by doing — interactive declarer play"
+            >
+              <div className="ch-cardHeader">
+                <div className="ch-cardIcon ch-cardIcon--practice" aria-hidden="true">
+                  <Icon>touch_app</Icon>
+                </div>
+                <div>
+                  <div className="ch-cardTitle">
+                    Learn by doing
+                    {CARDPLAY_HAS_NEW && <span className="ch-newBadge" aria-label="New content">New</span>}
+                  </div>
+                  <div className="ch-cardMicro">Interactive hands at the table</div>
+                </div>
               </div>
-              <div className="ch-cardMicro">Interactive hands</div>
-            </div>
+              <div className="ch-cardText">
+                Short, focused deals with teaching prompts — the main path to improve.
+              </div>
+              <div className="ch-cardCta" aria-hidden="true">
+                <span>Continue</span>
+                <Icon>arrow_forward</Icon>
+              </div>
+            </Link>
           </div>
-          <div className="ch-cardText">Short, focused problems with teaching prompts.</div>
-        </Link>
-      </div>
+        </section>
 
-      <div className="ch-cards ch-cards--secondary" role="list" aria-label="Declarer play options">
-        <Link to="/cardPlay/articles" className="ch-card" role="listitem" aria-label="Advanced ideas">
-          <div className="ch-cardHeader">
-            <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
-              <Icon>school</Icon>
-            </div>
-            <div>
-              <div className="ch-cardTitle">Advanced ideas</div>
-              <div className="ch-cardMicro">Short lessons + examples</div>
-            </div>
+        <section className="ch-path ch-path--secondary" aria-labelledby="hub-cardplay-articles">
+          <h2 className="ch-sectionLabel" id="hub-cardplay-articles">
+            Articles & explanations
+          </h2>
+          <div className="ch-cards ch-cards--stack" role="list">
+            <Link
+              to="/cardPlay/articles"
+              className="ch-card ch-card--article"
+              role="listitem"
+              aria-label="Articles and explanations — declarer play"
+            >
+              <div className="ch-cardHeader">
+                <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
+                  <Icon>article</Icon>
+                </div>
+                <div>
+                  <div className="ch-cardTitle">Read in depth</div>
+                  <div className="ch-cardMicro">Explanatory articles and video</div>
+                </div>
+              </div>
+              <div className="ch-cardText">
+                Written explanations, examples, and video for declarer play.
+              </div>
+            </Link>
           </div>
-          <div className="ch-cardText">Articles, videos and practice sets for declarer play.</div>
-        </Link>
-
-        {isAdmin ? (
-          <Link to="/cardPlay/basics" className="ch-card" role="listitem" aria-label="Improve your fundamentals">
-            <div className="ch-cardHeader">
-              <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
-                <Icon>menu_book</Icon>
-              </div>
-              <div>
-                <div className="ch-cardTitle">Improve your fundamentals</div>
-                <div className="ch-cardMicro">Coming soon</div>
-              </div>
-            </div>
-            <div className="ch-cardText">Foundational declarer play concepts. New content being added.</div>
-          </Link>
-        ) : (
-          <div className="ch-card ch-card--disabled" role="listitem" aria-label="Improve your fundamentals (coming soon)">
-            <div className="ch-cardHeader">
-              <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
-                <Icon>menu_book</Icon>
-              </div>
-              <div>
-                <div className="ch-cardTitle">Improve your fundamentals</div>
-                <div className="ch-cardMicro">Coming soon</div>
-              </div>
-            </div>
-            <div className="ch-cardText">Foundational declarer play concepts. New content being added.</div>
-          </div>
-        )}
+        </section>
       </div>
     </div>
   );
 }
 
 export default CardPlayHub;
-

@@ -1,5 +1,581 @@
 import React from "react";
-import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
+import CountingTrumpsTrainer, { TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
+
+function Bid209IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          The double is an excellent tool, but it is also something that can be misused quite badly. Let&apos;s talk
+          about some simple rules that will give you confidence in the bidding.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209Rule1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Rule #1</h4>
+        <p className="ct-revealRichBody">
+          <span className="ct-revealGold">&quot;Do not double with distributional hands&quot;</span>.
+        </p>
+        <p className="ct-revealRichBody">
+          This is my favourite rule, and I see people get it wrong so often, leading to poor results.
+        </p>
+        <p className="ct-revealRichBody">
+          Instead of doubling, it is almost always a good idea to simply bid your suits — your longest suit.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209ExampleRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Let&apos;s take a look at an example from recent play where an experienced player went wrong.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">A clear no</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          <span className="ct-revealGold">&quot;Do not double with distributional hands&quot;</span>
+          <span> — a hand with a six-card suit is almost never suitable for a takeout double; it&apos;s too distributional.</span>
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">What a takeout double looks like</h4>
+        <p className="ct-revealRichBody">
+          When you think of takeout doubles, think <strong>4441</strong>, <strong>4432</strong>, and sometimes appropriate{" "}
+          <strong>5431</strong> shapes (we will look at when it is right and wrong to double on those).
+        </p>
+        <p className="ct-revealRichFooter">
+          But overall, you should not be picturing hands with six-card suits — and nor will partner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid209WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          If we double, we lose the fact that we have six clubs, and we lose it forever.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Unsurprisingly, <TextWithColoredSuits text="3♣" /> was our best spot — but you can never get there if you begin
+          (and end) with a double.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="1♠" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Let&apos;s add to our double rules:</p>
+        <p className="ct-revealRichBody" style={{ marginTop: 8 }}>
+          <span className="ct-revealGold">&quot;Don&apos;t double with a good five-card major&quot;</span>
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Why doubling costs you</h4>
+        <p className="ct-revealRichBody">
+          The problem with doubling is that it no longer becomes possible to show your five-card major. Very often you
+          will belong in a 5–3 major fit — which you lose when you double.
+        </p>
+        <p className="ct-revealRichBody">
+          Put simply — you lose your most likely contract when you double instead of bidding your major.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid210SummaryRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">So far</h4>
+        <p className="ct-revealRichBody">It&apos;s a good idea to bid our suits rather than double when:</p>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">We&apos;re distributional</span>
+            <span> — especially with a six-card suit.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">We have a good five-card major</span>
+            <span> — it usually deserves to be bid.</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid211RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <TextWithColoredSuits text="1♠ is the right call." />
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Don&apos;t double with a good five-card major</h4>
+        <p className="ct-revealRichBody">That rule still applies — and it&apos;s a reliable one.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Takeout doubles want balanced shape, not distribution</h4>
+        <p className="ct-revealRichBody">
+          Picture a typical takeout double: 4441, 4432, or sometimes 5431 (but not when you already hold a good
+          five-card major worth bidding). By contrast, something like 5521 is distributional — it wants suit bids, not a
+          double that promises balanced takeout.
+        </p>
+        <p className="ct-revealRichFooter">This hand doesn&apos;t fit that double picture.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid211ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Some people play conventions to show 5+ in both unbid suits; that can work okay here, but otherwise{" "}
+          <TextWithColoredSuits text="1♠" /> is fine.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid212RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge">Double</span>
+        <span> is the right call — three things point that way:</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Spades are shabby</span>
+            <span>
+              {" "}
+              — When your five-card suit has bad suit quality, a takeout double is often more plausible. Treat the suit
+              almost like a four-card holding you would not rush to bid on its own.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">The suit quality of the other suits is very good</span>
+            <span>, so double paints a more accurate picture in this context than </span>
+            <TextWithColoredSuits text="3♠" />
+            <span>.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">Level pushes you toward double</span>
+            <span>
+              {" "}
+              — At one level, bidding a five-card major is standard. By four or five, double is normal. Three sits in
+              between — and here, double is the winner (in light of both level and suit quality).
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid212ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Revising the guideline</h4>
+        <p className="ct-revealRichBody">
+          We have been stressing <em className="ct-revealRichKey">Bid a good five-card major</em> instead of doubling.
+          On this hand you do not have a <em className="ct-revealRichKey">good</em> five-card major — so{" "}
+          <em className="ct-revealRichKey">double</em> is the right fix.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid213RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge">Double</span>
+        <span> is the right call.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Minor vs major</h4>
+        <p className="ct-revealRichBody">
+          The style of many top pairs has been to double with this kind of shape when the quality five-card suit is a{" "}
+          <strong>minor</strong> — not a major. With a five-card <em className="ct-revealRichKey">major</em>, you would
+          usually bid it.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Why it matters</h4>
+        <p className="ct-revealRichBody">
+          Modern auctions lean hard toward finding major fits. If partner has five or even six spades, a takeout double
+          can be a huge winner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid213ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">5431 - times when it is correct to double with that shape</h4>
+        <ol className="ct-revealRichSteps">
+          <li>The five-card suit is a minor.</li>
+          <li>The five-card suit is a major, but the suit quality is very poor (so you are not really &quot;bidding a good five-card major&quot;).</li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid214RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♣" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          We need a stopper to bid notrump, so let&apos;s rule that out.
+        </p>
+        <p className="ct-revealRichBody">
+          The main point of this example: <em className="ct-revealRichKey">jumps after a double show strength</em>, but
+          they are <strong>not forcing</strong> — the more you jump, the more strength you show.
+        </p>
+        <p className="ct-revealRichFooter">
+          This is a very commonly misunderstood bidding concept.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid214Continue1Rich() {
+  return (
+    <p className="ct-revealRichBody">
+      People often get confused, thinking jumps are game force, or even preemptive, or something else.
+    </p>
+  );
+}
+
+function Bid214Continue2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          The idea is: partner&apos;s double has wide-ranging strength, starting from an opening hand. If we have
+          around 9–11 points, we need to let partner know we have something.
+        </p>
+        <p className="ct-revealRichBody">
+          Of course, simply bidding does not show anything by itself — partner&apos;s double forced us to bid
+          something, and we could have 0 points.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid214Continue3Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">In summary: responding to a double</h4>
+        <p className="ct-revealRichBody">A jump to the 3 level shows about 9-11 points.</p>
+        <p className="ct-revealRichBody">
+          <strong>Things to think about:</strong>
+        </p>
+        <ul className="ct-revealRichPoints">
+          <li>What do we do when we are game-forcing?</li>
+          <li>What does a double jump show?</li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid215RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="4♠" />
+        </span>
+        <span> is the right bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Keep it simple</h4>
+        <p className="ct-revealRichBody">
+          In bridge we should always strive to keep it simple — and bidding opposite a double is an excellent example of
+          that.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Why it works here</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Partner&apos;s double</span>
+            <span>
+              {" "}
+              — Shows at least three cards in each major, and often four.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">We have a fit</span>
+            <span> — and enough points for game.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">So</span>
+            <span>
+              {" "}
+              — A simple <TextWithColoredSuits text="4♠" /> is a perfect idea.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid215ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          I hope that is simple and logical so far — the next problem will build on it.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid216RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♠" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Invitational</h4>
+        <p className="ct-revealRichBody">
+          A jump just below game shows almost enough for game - <em className="ct-revealRichKey">invitational</em>.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Three things to notice</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Jumps show values</span>
+            <span>
+              {" "}
+              — We have seen a jump to game when we have enough for game, and a jump to just below game when we have
+              almost enough — very intuitive.
+            </span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">No preemptive jumps</span>
+            <span> — Opposite a takeout double, jumps are not preemptive.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">A single jump is limited</span>
+            <span>
+              {" "}
+              — Not game forcing, or even forcing at all. That is a big thing to discuss with partner; misunderstandings
+              often crop up here.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid217RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="2♥" />
+        </span>
+        <span> is the correct bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What the jump shows</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="3♥" />
+            </span>
+            <span> — Almost enough for game (we have seen that already).</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="2♥" />
+            </span>
+            <span>
+              {" "}
+              — A five-card heart suit and <em className="ct-revealRichKey">competitive</em> values — about 6–9-ish.
+            </span>
+          </li>
+        </ul>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Context</h4>
+        <p className="ct-revealRichBody">
+          When you are responding to your partner&apos;s double, you could have <strong>0 points</strong>. When you
+          actually have a bit of stuff, it&apos;s worth showing partner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218RecapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Where we&apos;ve been</h4>
+        <p className="ct-revealRichBody">
+          In the previous problems we looked at bidding our suit, and jumping to the appropriate level to reflect our
+          strength.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Quick recap</h4>
+        <p className="ct-revealRichBody">
+          Jumps show varying strength levels — they are <strong>not</strong> preemptive or forcing.
+        </p>
+        <ol className="ct-revealRichSteps">
+          <li>
+            <strong>One jump</strong> — shows something.
+          </li>
+          <li>
+            <strong>Two jumps</strong> — show more.
+          </li>
+          <li>
+            <strong>Three jumps (to game)</strong> — show enough for game.
+          </li>
+        </ol>
+        <p className="ct-revealRichFooter">It&apos;s that simple.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218QuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">No guaranteed fit</h4>
+        <p className="ct-revealRichBody">
+          When we only have a 4-card major, we can&apos;t be sure we have a fit - partner can have 3.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">The question</h4>
+        <p className="ct-revealRichBody">
+          So what do we do with enough points for game, but no five-card suit? Should we just gamble and bid{" "}
+          <TextWithColoredSuits text="4♠" />?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid218RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="2♣" />
+        </span>
+        <span> — cue bidding their suit — is a very important bid.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">A simple agreement</h4>
+        <p className="ct-revealRichBody">
+          A simple and memorable way to play a{" "}
+          <strong className="ct-revealRichKey">cue bid of their suit</strong>
+          {": "}
+          <em className="ct-revealRichKey">game forcing</em>, but without a five-card major (or else I would have just bid
+          it at the appropriate level!).
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What happens next</h4>
+        <ul className="ct-revealRichPoints">
+          <li>
+            <span className="ct-revealRichPointTitle">Four-card major</span>
+            <span> — Very often the cue-bidder has one and is hoping to find a fit.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">
+              <TextWithColoredSuits text="3NT" />
+            </span>
+            <span> — Often in the picture.</span>
+          </li>
+          <li>
+            <span className="ct-revealRichPointTitle">After the cue</span>
+            <span>
+              {" "}
+              — We bid our hands naturally; after <TextWithColoredSuits text="2♣" />, we show four-card suits and find a
+              fit.
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
 
 /**
  * Bidding practice: opening (1–5) and responding (6–10). Uses CountingTrumpsTrainer with question-only flow (no tricks).
@@ -22,6 +598,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
+      themeLabel: "Theme: Opening hand evaluation",
       promptThemeTint: "points",
       videoUrlBeforeStart: "https://www.youtube.com/embed/0vLi6n5efks",
       customPrompts: [
@@ -71,6 +648,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
+      themeLabel: "Theme: Opening hand evaluation",
       promptThemeTint: "points",
       videoUrlBeforeStart: "https://www.youtube.com/embed/fYNlZS3KLa0",
       customPrompts: [
@@ -112,6 +690,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
+      themeLabel: "Theme: Opening hand evaluation",
       promptThemeTint: "points",
       videoUrlBeforeStart: "https://www.youtube.com/embed/8NFCsnOk_mc",
       customPrompts: [
@@ -153,6 +732,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
+      themeLabel: "Theme: Opening hand evaluation",
       promptThemeTint: "points",
       videoUrlBeforeStart: "https://www.youtube.com/embed/6wUceGvMFZA",
       customPrompts: [
@@ -194,6 +774,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
+      themeLabel: "Theme: Opening hand evaluation",
       promptThemeTint: "points",
       videoUrlBeforeStart: "https://www.youtube.com/embed/siYxTzj7eCo",
       customPrompts: [
@@ -237,6 +818,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
+      themeLabel: "Theme: Responding to partner",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/LrGvzkV9WMI",
@@ -275,20 +857,21 @@ const BIDDING_PUZZLES = [
   {
     id: "bid1-7",
     difficulty: 1,
-    title: "Responding (7): West 1♥, North 1♠, East passes, your bid",
+    title: "Responding (7): West 1♥, North 1♠ — your bid (East)",
     trumpSuit: "S",
     contract: "—",
     dealerCompass: "W",
-    declarerCompass: "S",
-    viewerCompass: "S",
+    declarerCompass: "E",
+    viewerCompass: "E",
     visibleFullHandSeats: ["DECLARER"],
-    auction: "1♥ 1♠ P ?",
+    auction: "1♥ 1♠ ?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
+      themeLabel: "Theme: Responding to partner",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/H4HYh8L9ZWg",
@@ -321,7 +904,7 @@ const BIDDING_PUZZLES = [
           expectedChoice: "other",
           noContinue: false,
           revealText:
-            "Something else. We need 3 cards to support partner. \"Always support partner WHEN you have support.\" As for 1NT — that should show a heart stopper.",
+            "Something else. We need 3 cards to support partner. \"Always support partner WHEN you have support.\" As for 1NT — that should show a spade stopper.",
           videoUrl: "",
         },
         {
@@ -342,7 +925,7 @@ const BIDDING_PUZZLES = [
       ],
     },
     shownHands: {
-      DECLARER: { S: "K8", H: "762", D: "KJT8", C: "QT92" },
+      DECLARER: { S: "762", H: "K8", D: "KJT8", C: "QT92" },
     },
     rounds: [],
   },
@@ -363,6 +946,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
+      themeLabel: "Theme: Responding to partner",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/APpEVzvkdkU",
@@ -436,6 +1020,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
+      themeLabel: "Theme: Responding to partner",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/DA7UluniZLo",
@@ -480,6 +1065,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
+      themeLabel: "Theme: Responding to partner",
       promptThemeTint: "respond",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/PukSNA8mqGo",
@@ -523,6 +1109,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/X1wCFm0sPx0",
@@ -589,6 +1176,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/8kDxMREow_A",
@@ -639,6 +1227,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/GedUP68ZQ8I",
@@ -681,6 +1270,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/OJd8b--QDBo",
@@ -730,6 +1320,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/VSm58Q0IU14",
@@ -772,6 +1363,7 @@ const BIDDING_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
+      themeLabel: "Theme: The modern 1NT opening",
       promptThemeTint: "1nt",
       newUntil: "2026-04-15",
       videoUrlBeforeStart: "https://youtube.com/shorts/Jrz2zRRlP5g",
@@ -798,6 +1390,666 @@ const BIDDING_PUZZLES = [
     },
     rounds: [],
   },
+  {
+    id: "bid1-17",
+    difficulty: 1,
+    title: "1-level overcalls (17): A good suit at the one level",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "AK1092", H: "3", D: "T987", C: "432" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "1-level overcalls",
+      promptThemeTint: "active",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/F4HW3pNwKoo",
+      customPrompts: [
+        {
+          id: "bid1-17-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##The old shorthand##\n\nOvercalls were often taught as 10+ points and a 5+ card suit. That still has its place — but exceptions are common.\n\n##What we'll do##\n\nBy example: a few ideas for 1-level overcalls.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-17-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you do with this hand?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "1s", label: "Overcall 1♠" },
+          ],
+          expectedChoice: "1s",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nBid 1♠ — a one-level overcall.\n[[/ALERT]]\n\nYou have only 7 HCP, but suit quality and shape carry the hand.\n\n##The useful rule##\n\n##At the 1 level, always consider overcalling a good suit.##\n\n• Outside singleton (♥3) → competing is more attractive.\n• Real spade suit (♠AK1092) → you want a voice in the auction.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-17-minimum",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Rough minimum##\n\n• A suit like ♠AQ1092 is a sensible floor for many pairs.\n• Below ~6 HCP can be pushing — agree with partner what you'll tolerate.\n\nExperts sometimes stretch lower; that's a topic for later.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-17-partnership",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Why this matters##\n\nImportant implications follow from light overcalls.\n\n[[ALERT]]\n##You need to have a discussion with your partner.##\n[[/ALERT]]\n\n##Partnership expectations##\n\nBridge runs on shared agreements. If partner knows you may hold only ~7 HCP on a bad day, they should be careful with thin 12–13 counts — often invite, don't blast.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-17-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Big picture##\n\nIt can sound risky — yet the best pairs find that the downsides of overcalling are usually smaller than the upsides. It tends to work.\n\n##At the table##\n\n• Listen to the whole auction: when opponents show a lot and you have values, remember partner might only have that light 7-point overcall.\n• Stay sensible — not every strong-looking spot is a slam try.\n\nGive it a try!",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-18",
+    difficulty: 1,
+    title: "1-level overcalls (18): Bad suit — pass the balanced misfit",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "Q2", H: "Q76", D: "J7532", C: "KQ3" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "1-level overcalls",
+      promptThemeTint: "active",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/OAX93O9g3qQ",
+      customPrompts: [
+        {
+          id: "bid1-18-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "How do you handle this hand?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "1d", label: "1♦" },
+          ],
+          expectedChoice: "pass",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nPass is correct.\n[[/ALERT]]\n\n##Two reasons##\n\n• Suit quality — think twice with bad suits. Diamonds is your worst suit!\n• Balanced is bad — any balanced hand without a singleton is not an exciting overcalling prospect.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-18-follow",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Points vs texture##\n\nThis hand has 10 HCP, but the values are poor — scattered, not concentrated in the long suit.\n\n• No Aces\n• No 10s or 9s (intermediates matter a lot)\n\nThat's a lot to digest — with repetition you'll build the skill of recognising bad hands vs good hands.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-19",
+    difficulty: 1,
+    title: "1-level overcalls (19): J10xxx — when the suit plays bigger",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "J10987", H: "A54", D: "K102", C: "32" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "1-level overcalls",
+      promptThemeTint: "active",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/eMqvRa3H8PQ",
+      customPrompts: [
+        {
+          id: "bid1-19-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Do we make a bid here? Is it similar to the previous hand?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "1s", label: "1♠" },
+          ],
+          expectedChoice: "1s",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nBid 1♠.\n[[/ALERT]]\n\nTo me 1♠ is an easy choice here, even though it is weaker in points than the previous hand, and even though it is balanced — which I have called bad (and I meant it!). So why does this one still qualify?\n\n##The short version##\n\nThe spade suit plays bigger than it looks, your values sit well, and one-level is cheap.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-19-why",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Why this one is different##\n\n• Rule: 10s and 9s carry a lot of weight in long suits. J10xxx is a lot better than Jxxxx — the suit is not as bad as it looks.\n\n• The outside cards are nice: Aces and Kings in the short suits.\n\n✓ No points in our short suits — this is a very big positive.\n\n• Balanced is bad, and I meant it — but it is not fatal. We do not want to talk ourselves out of bidding too often.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-20",
+    difficulty: 1,
+    title: "1-level overcalls (20): 7 points, all vul — still compete?",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ ?",
+    vulnerability: "All Vul",
+    shownHands: {
+      DECLARER: { S: "K10987", H: "2", D: "A10982", C: "32" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "1-level overcalls",
+      promptThemeTint: "active",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ayQv94xbDyY",
+      customPrompts: [
+        {
+          id: "bid1-20-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Only 7 points and you are vulnerable — would you bid here?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nYes — competing is still right.\n[[/ALERT]]\n\nDespite only 7 points and being vulnerable, the shape and suit quality make this hand worth a bid.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-20-why",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Reasons why##\n\n• I've tried to make those 10s and 9s stand out — they change everything. Seriously.\n\n• Your points are limited, but they are in Aces and Kings.\n\n• More important than how many points you have is where they sit: nicely placed in your long suits.\n\n• 5–5 shape is quite distributional — it is a long way from 5332.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-21",
+    difficulty: 1,
+    title: "1-level overcalls (21): Quick check — three questions",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      hideBiddingHand: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Quick check",
+      promptThemeTint: "active",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-21-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Quick summary##\n\nThis is a short wrap-up — we'll ask you three questions.\n\nTake your best guess, then read the notes — same style as the rest of this series.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the minimum high-card points you would aim for on a 1-level overcall?",
+          options: [
+            { id: "10plus", label: "10+" },
+            { id: "6plus", label: "6+" },
+            { id: "3plus", label: "3+" },
+          ],
+          expectedChoice: "6plus",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nAbout 6+ HCP is a sensible floor to aim for.\n[[/ALERT]]",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-bridge1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Point count##\n\nWhile some top pairs are increasingly ignoring point count, I would say it is a good idea to limit your minimum to about 6+.\n\n(In later series we will look at times when you throw all standards out the window and ignore point count.)",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is it better for us to have most of our points in the suit we overcall, or in the outside suits?",
+          options: [
+            { id: "scattered", label: "Better if points are scattered around" },
+            { id: "concentrated", label: "Better if points are concentrated in the long suit" },
+          ],
+          expectedChoice: "concentrated",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nConcentrated in the long suit.\n[[/ALERT]]\n\nYou want your honours working in your long suit.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-after2",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Suit quality##\n\nThe main takeaway from today should be — look at your suit quality, it matters.\n\nSo you want the points in your long suit.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Does it matter if my hand has a singleton or not?",
+          options: [
+            { id: "m1", label: "It doesn't matter much" },
+            { id: "m2", label: "It matters a little — singletons are okay" },
+            { id: "m3", label: "It matters a lot — singletons are excellent" },
+          ],
+          expectedChoice: "m3",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nIt matters a lot — singletons are excellent.\n[[/ALERT]]",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-21-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Shape##\n\nSingletons matter a lot.\n\n##Balanced is bad## — repeat that once or twice, every day! You can afford to do less with balanced hands.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-22",
+    difficulty: 1,
+    title: "2-level overcalls (22): 5332 at the two level",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ ?",
+    vulnerability: "All Vul",
+    shownHands: {
+      DECLARER: { S: "K102", H: "32", D: "AK1098", C: "Q76" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "2-level overcalls",
+      promptThemeTint: "twoLevel",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/zap0W7SAEBk",
+      customPrompts: [
+        {
+          id: "bid1-22-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "##Two-level overcalls##\n\nLet's look at a few examples — the rules build off the 1-level rules. If you understood those, a lot of these will make sense. However, there are some key differences.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-22-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "This hand definitely has some good features — a nice full diamond suit, several Aces and Kings — should we overcall or not?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "twoDiamonds", label: "2♦" },
+          ],
+          expectedChoice: "pass",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nPass!\n[[/ALERT]]\n\nAs a pretty good general rule — do not overcall 5332 shape on the 2 level!\n\nI think this often comes as a very big surprise to players.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-22-flavour",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "I hate to \"sit on my hands\" and not make a bid with 12+ points, but unfortunately this hand just does not fit the flavour of a two-level overcall.\n\nWe need a more shapely hand, and/or a six-card suit.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-24",
+    difficulty: 1,
+    title: "2-level overcalls (24): 10 points — enough for 2♦?",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ ?",
+    vulnerability: "All Vul",
+    shownHands: {
+      DECLARER: { S: "32", H: "97", D: "A10832", C: "AQ32" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "2-level overcalls",
+      promptThemeTint: "twoLevel",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ZbzfkJ8sR3k",
+      customPrompts: [
+        {
+          id: "bid1-24-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Does this hand qualify for a 2-level overcall?",
+          options: [
+            { id: "yes2d", label: "Yes — bid 2♦" },
+            { id: "pass", label: "No — Pass" },
+          ],
+          expectedChoice: "pass",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nNo.\n[[/ALERT]]\n\nDespite being unbalanced and having nice suits, this does not qualify.\n\nAs you can see, these standards might feel somewhat conservative. (Bridge at the highest level can look conservative in some situations and aggressive in others.)",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-24-guide",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "When we overcall a 5-card suit at the 2 level, we generally need:\n\n✓ Good opening hand or better\n\n✓ Distribution\n\nThis hand is only 2254 shape — doubletons in the majors — and it lacks values. Also the diamond suit is a bit bare.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-24-double",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "I like to apply this test after a 2-level overcall:\n\nIf I got penalty doubled on the 2 level, how would I feel? Personally I wouldn't feel too good with that diamond suit — I may only make 1 or 2 diamond tricks.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-25",
+    difficulty: 1,
+    title: "2-level overcalls (25): Six hearts — bid 2♥?",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "2", H: "AJ9742", D: "A103", C: "863" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "2-level overcalls",
+      promptThemeTint: "twoLevel",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/BXFYnIV2rKY",
+      customPrompts: [
+        {
+          id: "bid1-25-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is this enough to bid 2♥?",
+          options: [
+            { id: "bid2h", label: "I would bid 2♥" },
+            { id: "pass", label: "I would Pass." },
+          ],
+          expectedChoice: "bid2h",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nYes — bid 2♥.\n[[/ALERT]]\n\nWhen it comes to 6-card suits, things shift — a lot. The rules move, and everything we thought we knew can be challenged.\n\nRule: With a good 6-card suit, typically bid it!",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-25-suit",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "The suit is good: it has two honours, and it is reinforced with the 9 — that often makes all the difference.\n\nThe 6-card suit is the central factor. But still, in the context of 6-card suits we look at the same factors: good suits, well-placed cards, 10s and 9s, distribution, and so on.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-25-list",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "✓ It is distributional (it has a singleton).\n\n✓ It has Aces.\n\n✓ The side suit of ♦A103 is made better by the 10.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-26",
+    difficulty: 1,
+    title: "2-level overcalls (25): Bare clubs — still bid 2♣?",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "32", H: "K2", D: "AK32", C: "A9876" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "2-level overcalls",
+      promptThemeTint: "twoLevel",
+      contractLabel: "Modern Overcalls",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/eyx0Eztx6Wg",
+      customPrompts: [
+        {
+          id: "bid1-26-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "Would you bid 2♣ on this hand? The suit is very bare.",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nYes.\n[[/ALERT]]\n\nYes — you have to bid: you have too much \"stuff\" to pass.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-26-a",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "Despite a bad suit, and not much distribution (no singleton), you cannot talk yourself out of bidding when you have so many points.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-26-b",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "However, this hand is not completely balanced — it is 2245. With 5332 I would consider passing, but even then I would consider mustering up a bid with 14 — it is just too much to pass if there is a sensible alternative.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-27",
+    difficulty: 1,
+    title: "2-level overcalls (26): Weak hearts — double instead?",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "32", H: "J8532", D: "AKQ", C: "A32" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "2-level overcalls",
+      promptThemeTint: "twoLevel",
+      contractLabel: "East opens 1♠ — neither side vulnerable, you are South",
+      contractLabelBeforeStartOnly: true,
+      auctionAllWhite: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/moyEnVBNlEs",
+      customPrompts: [
+        {
+          id: "bid1-27-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is there a bid for this?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "twoHearts", label: "2♥" },
+            { id: "double", label: "Double" },
+          ],
+          expectedChoice: "double",
+          noContinue: false,
+          revealText:
+            "[[ALERT]]\nDouble.\n[[/ALERT]]\n\nFirstly, once again we have too much \"stuff\" to pass if we have a sensible alternative.\n\nIn general it is better to bid a 5-card major than to double, but when it is so badly lacking texture, we can \"pretend\" it is a 4-card suit and just double.",
+          videoUrl: "",
+        },
+        {
+          id: "bid1-27-b",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "This is consistent with the idea that typically we do not overcall a 5332 on the 2 level — though often that shape may be a double instead.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  // Parked (hidden for now): former bid1-17 & bid1-18, and bid1-23 — see src/data/biddingDifficulty1Parked.js
   // --- Difficulty 2: Matchpoints (Club Duplicates) ---
   {
     id: "bid2-1",
@@ -818,6 +2070,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Let's look at how to score better at matchpoint scoring (Club Duplicates).",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Duplicate bidding",
       promptThemeTint: "matchpoints",
       videoUrlBeforeStart: "https://www.youtube.com/embed/QiJjOLyc1Fc",
       customPrompts: [
@@ -862,6 +2115,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Let's look at how to score better at matchpoint scoring (Club Duplicates).",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Duplicate bidding",
       promptThemeTint: "matchpoints",
       videoUrlBeforeStart: "https://www.youtube.com/embed/PG8gsCnIpgw",
       customPrompts: [
@@ -907,6 +2161,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Let's look at how to score better at matchpoint scoring (Club Duplicates).",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Duplicate bidding",
       promptThemeTint: "matchpoints",
       auctionOpponentsRed: true,
       videoUrlBeforeStart: "https://www.youtube.com/embed/nAL-aloVfm0",
@@ -924,7 +2179,7 @@ const BIDDING_PUZZLES = [
           expectedChoice: "no",
           noContinue: false,
           revealText:
-            "We should be eager to bid, even expecting to go down in our contract. This feels like I am contradicting myself but I want to explain this simply.\n\nI mentioned before **when we have the majority of the points**, it is important that we do not squander that — we need to get a positive score.\n\nHOWEVER, things are very different when the points are divided evenly, or if the opponents have the slight majority. In that context, we want to compete for the part score, we are okay with going -1 or even -2 — that can be an excellent score if we aren't vulnerable.\n\nOne other main concept here — When the opponents have a fit, we want to fiercely compete for the part score. It is very wise to \"not let the opponents play on the two level with a fit\".",
+            "We should be eager to bid, even expecting to go down in our contract. This feels like I am contradicting myself but I want to explain this simply.\n\nI mentioned before ##when we have the majority of the points##, it is important that we do not squander that — we need to get a positive score.\n\nHOWEVER, things are very different when the points are divided evenly, or if the opponents have the slight majority. In that context, we want to compete for the part score, we are okay with going -1 or even -2 — that can be an excellent score if we aren't vulnerable.\n\nOne other main concept here — When the opponents have a fit, we want to fiercely compete for the part score. It is very wise to \"not let the opponents play on the two level with a fit\".",
           videoUrl: "",
         },
         {
@@ -969,6 +2224,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Let's look at how to score better at matchpoint scoring (Club Duplicates).",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Duplicate bidding",
       promptThemeTint: "matchpoints",
       auctionOpponentsRed: true,
       videoUrlBeforeStart: "https://www.youtube.com/embed/ebS-vAVOHjg",
@@ -1016,6 +2272,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Let's look at how to score better at matchpoint scoring (Club Duplicates).",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Duplicate bidding",
       promptThemeTint: "matchpoints",
       auctionOpponentsRed: true,
       auctionPartnersGreen: true,
@@ -1063,6 +2320,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Advanced hand evaluation",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Advanced hand evaluation",
       promptThemeTint: "handEval",
       auctionAllWhite: true,
       videoUrlBeforeStart: "https://www.youtube.com/embed/IhA64-MOjAk",
@@ -1132,6 +2390,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Advanced hand evaluation",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Advanced hand evaluation",
       promptThemeTint: "handEval",
       auctionAllWhite: true,
       videoUrlBeforeStart: "https://www.youtube.com/embed/VwKRIT9XML8",
@@ -1169,7 +2428,6 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
-    revealFullHandsAtEnd: ["DUMMY"],
     auction: "1♣ 1♠ P 2♠ 4♣ 4♠ ?",
     promptOptions: {
       promptPlacement: "right",
@@ -1178,6 +2436,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Advanced hand evaluation",
       contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Advanced hand evaluation",
       promptThemeTint: "handEval",
       auctionAllWhite: true,
       videoUrlBeforeStart: "https://www.youtube.com/embed/qw3n2tiYTq0",
@@ -1194,18 +2453,623 @@ const BIDDING_PUZZLES = [
           expectedChoice: "yes",
           noContinue: true,
           revealText:
-            "I would confidently bid 5♣. Why?\n\nFirstly I want to address the fact that I'm 4333, and I've been talking down these shapes. Everything is contextual in bridge. When partner is highly unbalanced, it becomes much less relevant whether you are balanced or not. In other words:\n\n**We want to slow down when both hands are balanced.**\n\nHowever\n\n**We don't want to be deterred by being balanced when partner is highly unbalanced.**\n\nLet's move on.\n\n##Our golden rule: always support partner!## We have probably a 10 or 11 card fit — let partner know, follow the golden rule.\n\nFinally, our points are excellent. The Queen in the trump suit is good, and an outside Ace is perfect. You have an excellent hand and should be confident to bid.",
+            "I would confidently bid 5♣. Why?\n\nFirstly I want to address the fact that I'm 4333, and I've been talking down these shapes. Everything is contextual in bridge. When partner is highly unbalanced, it becomes much less relevant whether you are balanced or not. In other words:\n\n##We want to slow down when both hands are balanced.##\n\nHowever\n\n##We don't want to be deterred by being balanced when partner is highly unbalanced.##\n\nLet's move on.\n\n##Our golden rule: always support partner!## We have probably a 10 or 11 card fit — let partner know, follow the golden rule.\n\nFinally, our points are excellent. The Queen in the trump suit is good, and an outside Ace is perfect. You have an excellent hand and should be confident to bid.",
           videoUrl: "",
         },
       ],
     },
     shownHands: {
       DECLARER: { S: "9732", H: "842", D: "A65", C: "Q94" },
-      DUMMY: { S: "", H: "73", D: "KQT4", C: "AJT9652" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-9",
+    difficulty: 2,
+    title: "Doubles judgment (9): Distributional — not takeout",
+    newUntil: "2026-05-15",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ P 1♠ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/JXU77vavbYE",
+      customPrompts: [
+        {
+          id: "bid2-9-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid209IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-9-rule1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid209Rule1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-9-example",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid209ExampleRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-9-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "Is it appropriate to make a takeout double here, showing the other two suits?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+            { id: "fifty", label: "50/50 — an okay option" },
+          ],
+          expectedChoice: "no",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid209RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-9-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid209WrapRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "3", H: "86", D: "AQT9", C: "AK9642" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-10",
+    difficulty: 2,
+    title: "Doubles judgment (10): Good 5-card major — bid, don't double",
+    newUntil: "2026-06-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/Tcyrv4SkeAw",
+      customPrompts: [
+        {
+          id: "bid2-10-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid here?",
+          options: [
+            { id: "double", label: "Double" },
+            { id: "1s", label: "1♠" },
+          ],
+          expectedChoice: "1s",
+          expectedChoiceDisplay: "1♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid210RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-10-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid210ContinueRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-10-summary",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid210SummaryRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "KQ1073", H: "AQ43", D: "5", C: "Q103" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-11",
+    difficulty: 2,
+    title: "Doubles judgment (11): Equal unbid suits — 1♠ vs X",
+    newUntil: "2026-07-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♥ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/iJmSSCVv5Mg",
+      customPrompts: [
+        {
+          id: "bid2-11-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "With equal length in both unbid suits, is double a suitable bid or is 1♠ better?",
+          options: [
+            { id: "1s", label: "1♠" },
+            { id: "x", label: "X" },
+          ],
+          expectedChoice: "1s",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid211RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-11-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid211ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "AJ982",
+        H: "98",
+        D: "T",
+        C: "KQ1042",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-12",
+    difficulty: 2,
+    title: "Doubles judgment (12): After 3♦ — when double beats 3♠",
+    newUntil: "2026-08-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "3♦ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/YUQ_kxV7bN8",
+      customPrompts: [
+        {
+          id: "bid2-12-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          options: [
+            { id: "3s", label: "3♠" },
+            { id: "x", label: "X" },
+            { id: "pass", label: "Pass" },
+          ],
+          expectedChoice: "x",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid212RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-12-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid212ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "J7432",
+        H: "AK109",
+        D: "2",
+        C: "KQ5",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-13",
+    difficulty: 2,
+    title: "Doubles judgment (13): After 1♥ — five-card minor, takeout double",
+    newUntil: "2026-09-15",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Judgment around doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Doubles",
+      promptThemeTint: "doubles",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/GqnCtezS-Ps",
+      customPrompts: [
+        {
+          id: "bid2-13-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the appropriate bid here?",
+          options: [
+            { id: "x", label: "X" },
+            { id: "2c", label: "2♣" },
+          ],
+          expectedChoice: "x",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid213RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-13-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid213ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "1084",
+        H: "2",
+        D: "AJ103",
+        C: "AK1083",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-14",
+    difficulty: 2,
+    title: "Responding to a double (1): Jump shows strength — 3♣",
+    newUntil: "2026-10-15",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ggAHx_OM_G8",
+      customPrompts: [
+        {
+          id: "bid2-14-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid214RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c2",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue2Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-14-c3",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid214Continue3Rich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "1084",
+        H: "52",
+        D: "K43",
+        C: "AQ1042",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-15",
+    difficulty: 2,
+    title: "Responding to a double (2): Fit and values — 4♠",
+    newUntil: "2026-11-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/tvd_RD4yfmU",
+      customPrompts: [
+        {
+          id: "bid2-15-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid215RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-15-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid215ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "AK1084",
+        H: "65",
+        D: "KQ9",
+        C: "1082",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-16",
+    difficulty: 2,
+    title: "Responding to a double (3): Almost game — 3♠",
+    newUntil: "2026-11-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/hyIsryDLqOU",
+      customPrompts: [
+        {
+          id: "bid2-16-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "This is a nice hand, perhaps not quite enough to bid game, but close. What is the appropriate bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3s",
+          expectedChoiceDisplay: "3♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid216RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "KQ1074",
+        H: "3",
+        D: "KJ3",
+        C: "10982",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-17",
+    difficulty: 2,
+    title: "Responding to a double (4): Constructive — 2♥",
+    newUntil: "2026-11-15",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/i9vncsP5hKY",
+      customPrompts: [
+        {
+          id: "bid2-17-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What will you bid this time?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid217RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "65",
+        H: "KQ1083",
+        D: "Q1043",
+        C: "32",
+      },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-18",
+    difficulty: 2,
+    title: "Responding to a double (5): No five-card major — 2♣ cue",
+    newUntil: "2026-11-20",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ X P ?",
+    vulnerability: "Nil Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Responding to a double",
+      promptThemeTint: "respondToDouble",
+      auctionAllWhite: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/FPYBCdQvsRo",
+      customPrompts: [
+        {
+          id: "bid2-18-recap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid218RecapRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-18-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid218QuestionRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2c",
+          expectedChoiceDisplay: "2♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid218RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: {
+        S: "KQ104",
+        H: "K5",
+        D: "AJ108",
+        C: "542",
+      },
     },
     rounds: [],
   },
 ];
+
+export { BIDDING_PUZZLES };
 
 function BiddingTrainer({ location }) {
   return (

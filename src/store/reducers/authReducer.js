@@ -103,6 +103,12 @@ export default (state = { authReady: false }, action) => {
       };
     }
 
+    case actions.USER_SET_BEGINNER_MODE:
+      return {
+        ...state,
+        beginnerMode: !!action.beginnerMode,
+      };
+
     default:
       return state;
   }

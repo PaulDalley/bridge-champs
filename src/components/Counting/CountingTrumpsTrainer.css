@@ -191,8 +191,8 @@
 
 .ct-revealContent {
   color: #374151;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 20px;
+  line-height: 1.58;
 }
 
 .ct-revealContent.ct-playRevealText {
@@ -202,6 +202,208 @@
 .ct-revealGold {
   color: #b45309;
   font-weight: 700;
+}
+
+/* Rich JSX reveals (e.g. bidding doubles) — no ##/** in copy */
+.ct-revealRichRoot {
+  margin-top: 4px;
+}
+
+.ct-revealRich {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ct-revealRichLead {
+  margin: 0;
+  font-size: 1.08em;
+  font-weight: 800;
+  color: #020617;
+  line-height: 1.45;
+}
+
+.ct-revealRichBadge {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 3px 12px 4px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.92em;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #0f766e, #0d9488);
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.35);
+  vertical-align: middle;
+}
+
+.ct-revealRichBadge--violet {
+  color: #fafafa;
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  border: 2px solid #2e1065;
+  box-shadow: 0 2px 8px rgba(46, 16, 101, 0.45);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.ct-revealRichBadge--violet .ct-suitSym--black {
+  color: #f1f5f9 !important;
+}
+
+.ct-revealRichBadge--violet .ct-suitSym--red {
+  color: #fecaca !important;
+}
+
+.ct-revealRichCard {
+  margin: 0;
+  padding: 14px 16px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+}
+
+.ct-revealRichCard--amber {
+  background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 55%, #fde68a 100%);
+  border-color: rgba(180, 83, 9, 0.55);
+}
+
+.ct-revealRichCard--slate {
+  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+  border-color: rgba(51, 65, 85, 0.38);
+}
+
+.ct-revealRichHeading {
+  margin: 0 0 8px;
+  font-size: 0.95em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7c2d12;
+}
+
+.ct-revealRichCard--slate .ct-revealRichHeading {
+  color: #0f172a;
+}
+
+.ct-revealRichBody {
+  margin: 0;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.55;
+}
+
+.ct-revealRichCard .ct-revealRichBody + .ct-revealRichBody {
+  margin-top: 1.5em;
+}
+
+.ct-revealRichFooter {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  color: #7c2d12;
+  background: rgba(254, 243, 199, 0.9);
+  border-left: 4px solid #ea580c;
+}
+
+.ct-revealRichPoints {
+  margin: 0;
+  padding-left: 1.25em;
+  list-style: disc;
+}
+
+.ct-revealRichPoints li {
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+.ct-revealRichPoints li:last-child {
+  margin-bottom: 0;
+}
+
+.ct-revealRichPointTitle {
+  font-weight: 800;
+  color: #0a5c52;
+}
+
+.ct-revealRichMono {
+  display: inline-block;
+  margin: 0 3px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  font-size: 0.95em;
+  color: #0f172a;
+  background: rgba(15, 118, 110, 0.12);
+  border: 1px solid rgba(15, 118, 110, 0.25);
+}
+
+.ct-revealRichKey {
+  font-weight: 800;
+  color: #0f5132;
+  font-style: normal;
+}
+
+.ct-revealRichSteps {
+  margin: 0;
+  padding-left: 1.35em;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.55;
+}
+
+.ct-revealRichSteps li {
+  margin-bottom: 12px;
+}
+
+.ct-revealRichSteps li:last-child {
+  margin-bottom: 0;
+}
+
+/* [[RING]]…[[/RING]] in FormattedRevealText — match circled bids in the auction panel */
+.ct-revealRing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12em 0.55em 0.14em;
+  border: 2px solid #0f4c3a;
+  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+.ct-auctionCall.ct-auctionCall--ring {
+  padding: 2px 9px 3px;
+  border: 2px solid #0f4c3a;
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+/* Callout box: wrap content in [[ALERT]]...[[/ALERT]] in FormattedRevealText */
+.ct-promptAlert {
+  margin: 10px 0 14px;
+  padding: 12px 14px 12px 16px;
+  border-radius: 10px;
+  border-left: 5px solid #ea580c;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(249, 115, 22, 0.12));
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.12);
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout {
+  margin: 0;
+  font-weight: 700;
+  color: #9a3412;
+  font-size: 1.05em;
+  line-height: 1.45;
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout + .ct-revealParagraph--alertCallout {
+  margin-top: 10px;
+}
+.ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  color: #7c2d12;
 }
 
 .ct-revealParagraph {
@@ -497,63 +699,63 @@
   border-left: 3px solid rgba(16, 185, 129, 0.4);
 }
 
-/* Theme: responding (bidding problems 6–10) */
+/* Theme: responding (bidding problems 6–10) — sky blue (distinct from 1NT rose) */
 .ct-problemTab--themeRespond {
-  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
-  border-color: rgba(79, 70, 229, 0.25);
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  border-color: rgba(2, 132, 199, 0.35);
 }
 .ct-problemTab--themeRespond:hover:not(:disabled) {
-  background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+  background: linear-gradient(180deg, #bae6fd 0%, #7dd3fc 100%);
 }
 .ct-problemTab--themeRespond.ct-problemTab--active {
-  border: 2px solid #4f46e5;
-  background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 100%);
-  color: #312e81;
+  border: 2px solid #0284c7;
+  background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%);
+  color: #0c4a6e;
   font-weight: 900;
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.55);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5);
 }
 .ct-sidePrompt--themeRespond {
-  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
-  border-left: 3px solid rgba(79, 70, 229, 0.4);
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 3px solid rgba(2, 132, 199, 0.55);
 }
 .ct-sidePrompt--themeRespond .ct-revealContent .ct-revealParagraph:first-child {
   font-size: 1.1em;
-  color: #3730a3;
+  color: #075985;
   font-weight: 700;
 }
 .ct-sidePrompt--themeRespond .ct-revealList {
-  background: rgba(79, 70, 229, 0.08);
+  background: rgba(14, 165, 233, 0.12);
   border-radius: 8px;
   padding: 12px 12px 12px 1.5em;
   margin: 14px 0;
 }
 
-/* Theme: 1NT opening (bidding problems 11–14) */
+/* Theme: 1NT opening (bidding problems 11–16) — rose / fuchsia (clearly not indigo/violet like old respond) */
 .ct-problemTab--theme1nt {
-  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
-  border-color: rgba(109, 40, 217, 0.25);
+  background: linear-gradient(180deg, #fce7f3 0%, #fbcfe8 100%);
+  border-color: rgba(192, 38, 211, 0.35);
 }
 .ct-problemTab--theme1nt:hover:not(:disabled) {
-  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  background: linear-gradient(180deg, #fbcfe8 0%, #f9a8d4 100%);
 }
 .ct-problemTab--theme1nt.ct-problemTab--active {
-  border: 2px solid #6d28d9;
-  background: linear-gradient(180deg, #c4b5fd 0%, #a78bfa 100%);
-  color: #4c1d95;
+  border: 2px solid #a21caf;
+  background: linear-gradient(180deg, #f0abfc 0%, #e879f9 100%);
+  color: #86198f;
   font-weight: 900;
-  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.55);
+  box-shadow: 0 0 0 2px rgba(192, 38, 211, 0.45);
 }
 .ct-sidePrompt--theme1nt {
-  background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
-  border-left: 3px solid rgba(109, 40, 217, 0.4);
+  background: linear-gradient(180deg, #fdf4ff 0%, #fae8ff 100%);
+  border-left: 3px solid rgba(162, 28, 175, 0.55);
 }
 .ct-sidePrompt--theme1nt .ct-revealContent .ct-revealParagraph:first-child {
   font-size: 1.1em;
-  color: #5b21b6;
+  color: #9d174d;
   font-weight: 700;
 }
 .ct-sidePrompt--theme1nt .ct-revealList {
-  background: rgba(109, 40, 217, 0.08);
+  background: rgba(192, 38, 211, 0.1);
   border-radius: 8px;
   padding: 12px 12px 12px 1.5em;
   margin: 14px 0;
@@ -616,6 +818,74 @@
 }
 .ct-sidePrompt--themeHandEval .ct-revealList {
   background: rgba(180, 83, 9, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
+/* Theme: Doubles (bidding — takeout / judgment); slate–steel blue */
+.ct-problemTab--themeDoubles {
+  background: linear-gradient(180deg, #e8eef7 0%, #d0dce8 100%);
+  border-color: rgba(51, 65, 85, 0.35);
+}
+.ct-problemTab--themeDoubles:hover:not(:disabled) {
+  background: linear-gradient(180deg, #d0dce8 0%, #b8c9db 100%);
+}
+.ct-problemTab--themeDoubles.ct-problemTab--active {
+  border: 2px solid #334155;
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+  color: #0f172a;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(51, 65, 85, 0.45);
+}
+.ct-sidePrompt--themeDoubles {
+  background: linear-gradient(180deg, #f4f7fb 0%, #e8eef7 100%);
+  border-left: 3px solid rgba(71, 85, 105, 0.65);
+}
+.ct-sidePrompt--themeDoubles .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #1e293b;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeDoubles .ct-revealList {
+  background: rgba(51, 65, 85, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
+/* Theme: Responding to a double (bidding d2) — violet / indigo, higher contrast */
+.ct-problemTab--themeRespondToDouble {
+  background: linear-gradient(180deg, #e9d5ff 0%, #d8b4fe 100%);
+  border: 2px solid rgba(91, 33, 182, 0.55);
+  color: #3b0764;
+}
+.ct-problemTab--themeRespondToDouble:hover:not(:disabled) {
+  background: linear-gradient(180deg, #d8b4fe 0%, #c084fc 100%);
+  border-color: rgba(76, 29, 149, 0.75);
+  color: #2e1065;
+}
+.ct-problemTab--themeRespondToDouble.ct-problemTab--active {
+  border: 2px solid #4c1d95;
+  background: linear-gradient(180deg, #7c3aed 0%, #6d28d9 100%);
+  color: #faf5ff;
+  font-weight: 900;
+  box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.55);
+}
+.ct-sidePrompt--themeRespondToDouble {
+  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  border: 1px solid rgba(76, 29, 149, 0.28);
+  border-left: 5px solid #6d28d9;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+.ct-sidePrompt--themeRespondToDouble .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #3b0764;
+  font-weight: 800;
+}
+.ct-sidePrompt--themeRespondToDouble .ct-revealList {
+  background: rgba(76, 29, 149, 0.12);
+  border: 1px solid rgba(76, 29, 149, 0.2);
   border-radius: 8px;
   padding: 12px 12px 12px 1.5em;
   margin: 14px 0;
@@ -739,16 +1009,50 @@
   color: #9f1239;
 }
 
+/* Theme: 2-level overcalls (bidding difficulty 1) */
+.ct-problemTab--themeTwoLevel {
+  background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+  border-color: rgba(67, 56, 202, 0.3);
+}
+.ct-problemTab--themeTwoLevel:hover:not(:disabled) {
+  background: linear-gradient(180deg, #c7d2fe 0%, #a5b4fc 100%);
+}
+.ct-problemTab--themeTwoLevel.ct-problemTab--active {
+  border: 2px solid #4338ca;
+  background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 100%);
+  color: #312e81;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(67, 56, 202, 0.45);
+}
+.ct-sidePrompt--themeTwoLevel {
+  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+  border-left: 3px solid rgba(67, 56, 202, 0.45);
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #3730a3;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealList {
+  background: rgba(67, 56, 202, 0.08);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeTwoLevel .ct-revealList .ct-revealListItem {
+  color: #3730a3;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
-  font-size: 1.08em;
+  font-size: 1.15rem;
   color: #111827;
   font-weight: 800;
   margin: 10px 0 0;
   display: inline-block;
   border-radius: 10px;
-  padding: 6px 10px;
-  line-height: 1.2;
+  padding: 8px 12px;
+  line-height: 1.25;
 }
 .ct-themeLabel--rail {
   margin: 8px 0 0;
@@ -762,12 +1066,12 @@
   color: #065f46;
 }
 .ct-themeLabel--themeRespond {
-  background: #e0e7ff;
-  color: #312e81;
+  background: #bae6fd;
+  color: #0c4a6e;
 }
 .ct-themeLabel--theme1nt {
-  background: #ede9fe;
-  color: #4c1d95;
+  background: #fbcfe8;
+  color: #86198f;
 }
 .ct-themeLabel--themeMatchpoints {
   background: #b2dfdb;
@@ -776,6 +1080,16 @@
 .ct-themeLabel--themeHandEval {
   background: #fde68a;
   color: #78350f;
+}
+.ct-themeLabel--themeDoubles {
+  background: linear-gradient(180deg, #d8e2ec 0%, #c5d3e3 100%);
+  color: #0f172a;
+}
+.ct-themeLabel--themeRespondToDouble {
+  background: linear-gradient(180deg, #ddd6fe 0%, #c4b5fd 100%);
+  color: #2e1065;
+  border: 2px solid #6d28d9;
+  box-shadow: 0 2px 6px rgba(76, 29, 149, 0.22);
 }
 .ct-themeLabel--themeKnockAce {
   background: #ffedd5;
@@ -792,6 +1106,10 @@
 .ct-themeLabel--themeEnemyFive {
   background: #ffe4e6;
   color: #9f1239;
+}
+.ct-themeLabel--themeTwoLevel {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
 .ct-newBadge {
@@ -854,11 +1172,13 @@
   color: #b91c1c;
 }
 
-/* Ensure hearts/diamonds stay red in contract and auction lines (override parent color) */
+/* Ensure hearts/diamonds stay red in contract, auction, prompts, and buttons (override parent color) */
 .ct-contractTop .ct-suitSym--red,
 .ct-contractLine .ct-suitSym--red,
 .ct-auctionTop .ct-suitSym--red,
-.ct-auctionInline .ct-suitSym--red {
+.ct-auctionInline .ct-suitSym--red,
+.ct-revealContent .ct-suitSym--red,
+.ct-playDecisionBlock .ct-btn .ct-suitSym--red {
   color: #b91c1c;
 }
 
@@ -890,9 +1210,19 @@
   gap: 0;
   width: 100%;
   max-width: 650px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   padding: 0;
   justify-content: start;
+}
+
+/* Desktop: keep grid + optional horizontal scroll if the window is very tight */
+@media (min-width: 1025px) {
+  .ct-handFan--full {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
 }
 
 .ct-suitHand {
@@ -955,11 +1285,51 @@
   }
 }
 
-@media (max-width: 768px) {
-  /* On phones, wrapping is clearer than tiny 13-wide cards */
+/*
+ * iPad / tablet: keep all 13 cards on one row (no second row, no horizontal scroll).
+ * WebKit often drops the last track in a 13×1fr grid; flex + equal flex-basis avoids that.
+ * Slight zoom shrinks cards just enough when the table column is tight.
+ */
+@media (max-width: 1024px) and (min-width: 481px) {
   .ct-handFan--full {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
     overflow: visible;
+    max-width: 100%;
+    zoom: 0.94;
+  }
+
+  .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/*
+ * iPad / tablet portrait: the landscape flex+zoom rule above can shrink cards to unusable sizes
+ * (flex-basis 0 + min-width 0 + zoom) when the table column is narrow. Keep 13 cards on one row
+ * but enforce a minimum per card and allow horizontal scroll instead of microscopic tiles.
+ */
+@media (max-width: 1024px) and (min-width: 481px) and (orientation: portrait) {
+  .ct-handFan--full {
+    zoom: 1;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
+
+  .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
+    flex: 0 0 auto;
+    width: clamp(22px, 7.2vw, 40px);
+    min-width: 22px;
+    max-width: 44px;
   }
 }
 
@@ -1202,6 +1572,15 @@
   gap: 2px;
 }
 
+/* Portrait tablet: avoid a fixed 580px+ center min that exceeds viewport width (crushes hands to zero). */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight {
+    grid-template-columns: 0 minmax(240px, 1fr) minmax(100px, 140px);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 /* When prompt is on right: sidebar has its own space so table isn’t encroached; center column gets plenty of room for South */
 /* No gap between table and East: center only as wide as content when possible */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight {
@@ -1227,6 +1606,27 @@
 .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight,
 .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight.ct-table--westVisible {
   width: auto;
+}
+
+/* Fullhands: on common laptop widths, stack sidebar below table to avoid reveal clipping/off-screen hands. */
+@media (max-width: 1400px) {
+  .ct-layout--fullhands .ct-tableWithSidebar-inner {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .ct-layout--fullhands .ct-tableWithSidebar .ct-table {
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .ct-layout--fullhands .ct-explanationSidebar {
+    position: static;
+    top: auto;
+    margin-left: 0;
+    flex: 1 1 520px;
+    width: min(520px, 100%);
+  }
 }
 
 /* When left column is 0 (West not visible), clip so nothing spills */
@@ -1458,12 +1858,9 @@
   color: #111827;
 }
 
-/* When success + Continue is showing, put it beside the question so it stays visible without scrolling */
+/* When success + Continue is showing, keep a stable stacked layout (avoid squeezing/distorting prompt text). */
 .ct-promptRail.ct-promptRail--withFeedback {
-  display: grid;
-  grid-template-columns: 1fr minmax(200px, 280px);
-  gap: 1rem;
-  align-items: start;
+  display: block;
 }
 
 .ct-promptRail--withFeedback .ct-promptRail-content {
@@ -1478,15 +1875,40 @@
 
 .ct-promptRail--withFeedback .ct-feedback {
   margin-top: 0;
-  position: sticky;
-  top: 0;
+  position: static;
+  margin-bottom: 8px;
 }
 
 .ct-questionText {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 900;
-  line-height: 1.35;
+  line-height: 1.38;
   color: #111827;
+}
+
+/*
+ * FormattedRevealText in prompts: base weight must stay below <strong> or bold looks invisible
+ * (parent was 900 everywhere, so emphasis had nowhere to go).
+ */
+.ct-questionText--formatted .ct-revealContent {
+  font-weight: 500;
+  color: #334155;
+}
+.ct-questionText--formatted .ct-revealParagraph {
+  font-weight: 500;
+  color: #334155;
+}
+.ct-questionText--formatted .ct-revealParagraph strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+.ct-questionText--formatted .ct-revealGold {
+  font-weight: 800;
+}
+
+/* Callouts inside formatted questions: keep strong visible on tinted background */
+.ct-questionText--formatted .ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  font-weight: 900;
 }
 
 /* Prominent block when a play-decision question appears (scrolls into view). */
@@ -1499,7 +1921,7 @@
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 .ct-playDecisionBlock-heading {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   color: #92400e;
   text-transform: uppercase;
@@ -1507,9 +1929,100 @@
   margin-bottom: 6px;
 }
 .ct-playDecisionBlock-question {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 900;
   color: #1f2937;
+}
+
+/* Split promptText on blank lines into real paragraphs (FormattedRevealText).
+ * Match .ct-questionText--formatted: body weight leaves room for <strong> / ##gold##. */
+.ct-playDecisionBlock-question--formatted .ct-revealContent {
+  font-size: 18px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.55;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph {
+  font-weight: 500;
+  color: #334155;
+  margin: 0 0 14px;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealGold {
+  font-weight: 800;
+}
+.ct-playDecisionBlock-question--formatted .ct-promptAlert .ct-revealParagraph--alertCallout strong {
+  font-weight: 900;
+}
+.ct-playDecisionBlock-question--formatted .ct-revealParagraph:last-child {
+  margin-bottom: 0;
+}
+
+/* PLAY_DECISION: full bidding-box (levels 1–7 × suits + NT; Pass / X / XX) */
+.ct-railActions--biddingBox {
+  max-width: 100%;
+}
+.ct-biddingDecisionBox {
+  margin-top: 2px;
+}
+.ct-biddingDecisionBox-grid {
+  display: grid;
+  grid-template-columns: 22px repeat(5, minmax(0, 1fr));
+  gap: 3px 4px;
+  align-items: stretch;
+  margin-bottom: 8px;
+}
+.ct-biddingDecisionBox-corner {
+  min-height: 20px;
+}
+.ct-biddingDecisionBox-colhead,
+.ct-biddingDecisionBox-rowhead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #78350f;
+  user-select: none;
+}
+.ct-biddingDecisionBox-rowhead {
+  padding-right: 2px;
+}
+.ct-biddingDecisionBox-call {
+  border: 1px solid #b45309;
+  border-radius: 6px;
+  background: #fffbeb;
+  padding: 5px 3px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.15;
+  cursor: pointer;
+  color: #1f2937;
+  min-height: 34px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.ct-biddingDecisionBox-call:hover:not(:disabled) {
+  background: #fff7ed;
+  border-color: #d97706;
+}
+.ct-biddingDecisionBox-call:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.ct-biddingDecisionBox-call:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.ct-biddingDecisionBox-actions {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 6px;
+}
+.ct-biddingDecisionBox-call--wide {
+  min-height: 38px;
+  font-size: 14px;
 }
 
 .ct-railAnswer {
@@ -1613,6 +2126,8 @@
   align-items: center;
   max-width: 280px;
   margin: 0 auto;
+  position: relative;
+  overflow: visible;
 }
 .ct-distRow--numBoxes .ct-distSeat[data-position="top"] {
   grid-column: 2;
@@ -1650,6 +2165,200 @@
   gap: 8px;
 }
 
+.ct-distSeat--pairA .ct-numBox--dist {
+  background: #fff7ed;
+  border-color: #fdba74;
+}
+
+.ct-distSeat--pairA .ct-distLabel {
+  color: #9a3412;
+}
+
+.ct-distSeat--pairB .ct-numBox--dist {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.ct-distSeat--pairB .ct-distLabel {
+  color: #1e3a8a;
+}
+
+.ct-distPairMarkers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ct-distPairConnector {
+  position: absolute;
+  height: 0;
+  border-top: 1.5px solid currentColor;
+  border-radius: 999px;
+  transform-origin: left center;
+  z-index: 2;
+  opacity: 0.92;
+}
+
+.ct-distPairConnector::before,
+.ct-distPairConnector::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+.ct-distPairConnector::before {
+  left: -5px;
+  border-right: 5px solid currentColor;
+}
+
+.ct-distPairConnector::after {
+  right: -5px;
+  border-left: 5px solid currentColor;
+}
+
+.ct-distPairConnector--a {
+  color: #9a3412;
+}
+
+.ct-distPairConnector--b {
+  color: #1e3a8a;
+}
+
+.ct-distPairMarker {
+  position: relative;
+  border-radius: 10px;
+  padding: 6px 8px 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: absolute;
+  z-index: 5;
+  min-width: 108px;
+  max-width: 132px;
+  transform: translate(-50%, -50%);
+}
+
+.ct-distPairMarker::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  bottom: 4px;
+  width: 7px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-radius: 5px 0 0 5px;
+}
+
+.ct-distPairMarker--a {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.ct-distPairMarker--b {
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.ct-distPairMarkerMembers {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.ct-distPairMarkerTarget {
+  font-size: 10px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 6px;
+}
+
+.ct-distPairConnector--topLeft {
+  left: 33%;
+  top: 41%;
+  width: 14%;
+  transform: rotate(-43deg);
+}
+
+.ct-distPairConnector--topRight {
+  left: 53%;
+  top: 41%;
+  width: 14%;
+  transform: rotate(43deg);
+}
+
+.ct-distPairConnector--bottomLeft {
+  left: 33%;
+  top: 68%;
+  width: 14%;
+  transform: rotate(43deg);
+}
+
+.ct-distPairConnector--bottomRight {
+  left: 53%;
+  top: 68%;
+  width: 14%;
+  transform: rotate(-43deg);
+}
+
+.ct-distPairConnector--centerHorizontal {
+  left: 30%;
+  top: 58%;
+  width: 40%;
+}
+
+.ct-distPairConnector--centerVertical {
+  left: 50%;
+  top: 35%;
+  width: 30%;
+  transform: rotate(90deg);
+}
+
+.ct-distPairMarker--topLeft {
+  left: -4%;
+  top: 18%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--topRight {
+  left: 104%;
+  top: 18%;
+  transform: translate(0, -50%);
+}
+
+.ct-distPairMarker--bottomLeft {
+  left: -4%;
+  top: 82%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--bottomRight {
+  left: 104%;
+  top: 82%;
+  transform: translate(0, -50%);
+}
+
+.ct-distPairMarker--centerHorizontal {
+  left: -4%;
+  top: 58%;
+  transform: translate(-100%, -50%);
+}
+
+.ct-distPairMarker--centerVertical {
+  left: 66%;
+  top: 82%;
+  transform: translate(0, -50%);
+}
+
 .ct-numBox--dist {
   width: 76px;
   height: 82px;
@@ -1678,7 +2387,7 @@
 }
 
 .ct-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #111827;
@@ -1687,11 +2396,11 @@
 .ct-subtitle {
   margin-top: 4px;
   color: #4b5563;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .ct-trump {
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 700;
 }
 
@@ -1775,6 +2484,18 @@
   max-width: 650px;
   width: 100%;
   min-width: 520px;
+}
+
+@media (max-width: 1024px) {
+  .ct-bottomHandCol .ct-handFan--full {
+    min-width: min(100%, 520px);
+    max-width: 100%;
+  }
+  .ct-bottomHandCol .ct-handWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
 }
 
 .ct-sidePrompt--belowTable {
@@ -1913,6 +2634,8 @@
 .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
   /* Avoid double-thick borders between adjacent cards */
   border-left: 0;
+  /* Safari / iPad: grid items need min-width 0 or the last column can collapse to 0 */
+  min-width: 0;
 }
 .ct-handFan--full .ct-miniCard.ct-miniCard--fan:first-child {
   border-left: 1px solid #111827;
@@ -2089,7 +2812,7 @@
 }
 
 .ct-startTitle {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 950;
   letter-spacing: -0.01em;
   color: #111827;
@@ -2097,14 +2820,14 @@
 
 .ct-startSub {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 24px;
   color: #374151;
   font-weight: 900;
 }
 
 .ct-startNote {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 17px;
   color: #6b7280;
   font-weight: 700;
   line-height: 1.35;
@@ -2112,12 +2835,15 @@
 
 .ct-startBtn {
   margin-top: 12px;
-  width: min(260px, 90%);
-  height: 48px;
+  width: min(280px, 90%);
+  min-height: 52px;
+  height: auto;
+  padding: 12px 18px;
   border-radius: 14px;
   border: 1px solid rgba(37, 99, 235, 0.28);
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
+  font-size: 18px;
   font-weight: 950;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -2138,9 +2864,22 @@
 .ct-startHint {
   margin-top: 10px;
   color: #4b5563;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 850;
   line-height: 1.4;
+}
+
+.ct-startCard .ct-themeLabel {
+  margin-bottom: 10px;
+}
+
+.ct-startFooter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(229, 231, 235, 0.95);
+  font-size: 16px;
+  font-weight: 800;
+  color: #4b5563;
 }
 
 .ct-trickWrap {
@@ -2214,11 +2953,28 @@
 /* Dummy and South: enforce readable size so cards never go microscopic (sidebar is separate on the right) */
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
-  min-width: 640px;
+  min-width: clamp(460px, 52vw, 640px);
 }
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
-  min-width: 640px;
+  min-width: clamp(460px, 52vw, 640px);
+}
+
+@media (max-width: 1024px) {
+  /* Let the fan use the column width but never collapse to 0; scroll horizontally if needed */
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
+    min-width: min(100%, 520px);
+    max-width: 100%;
+  }
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
+  .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
 }
 
 .ct-bottomPrompt {
@@ -2424,7 +3180,7 @@
 }
 
 .ct-auctionTitle {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   color: #111827;
   letter-spacing: 0.06em;
@@ -2433,7 +3189,7 @@
 }
 
 .ct-auctionVul {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #374151;
   margin-bottom: 6px;
@@ -2469,7 +3225,7 @@
   border-color: #111827;
   color: #ffffff;
   min-height: 26px;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.06em;
 }
 
@@ -2510,7 +3266,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .ct-auctionSuit--red {
@@ -2645,8 +3401,9 @@
   border: 1px solid #d1d5db;
   background: #2563eb;
   color: #ffffff;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 10px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -2826,7 +3583,7 @@
 /* Feedback + Continue on one row to avoid extending the screen */
 .ct-feedbackWithContinue {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   max-width: 100%;
@@ -2834,9 +3591,13 @@
 .ct-feedbackWithContinue-text {
   flex: 1 1 auto;
   min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+.ct-feedbackWithContinue-text--fading {
+  opacity: 0.25;
+  transition: opacity 0.16s ease;
 }
 .ct-feedbackWithContinue-btn {
   flex-shrink: 0;
@@ -3192,7 +3953,9 @@
 }
 .ct-sidePrompt--themePoints .ct-practiceVideoSlot:not(:empty),
 .ct-sidePrompt--themeActive .ct-practiceVideoSlot:not(:empty),
-.ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty) {
+.ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--theme1nt .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--themeDrawTrumps .ct-practiceVideoSlot:not(:empty) {
   background: inherit;
 }
 

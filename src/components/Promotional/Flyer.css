@@ -78,9 +78,9 @@
 }
 
 .Flyer-hero-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 5rem;
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.1;
   margin-bottom: 2rem;
   color: #FFFFFF;
@@ -170,7 +170,7 @@
 }
 
 .Flyer-section-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 3.2rem;
   font-weight: 700;
   color: #0F4C3A;
@@ -417,7 +417,7 @@
 }
 
 .Flyer-cta-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 3.2rem;
   font-weight: 700;
   color: #0F4C3A;

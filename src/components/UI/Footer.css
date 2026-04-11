@@ -17,6 +17,21 @@
     /*background-image: linear-gradient(to right, #F6FAFD, rgba(255, 255, 255, .50));*/
     /*border-radius: 80px;*/
 }
+
+.Footer-contactText {
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+}
+
+.Footer-emailLink {
+    color: #e8c767;
+    text-decoration: underline;
+}
+
+.Footer-emailLink:hover {
+    color: #f5d98f;
+}
 /*.Footer-container {*/
     /*font-side: 1.6rem;*/
 /*}*/

@@ -6,6 +6,7 @@ import {
   startFacebookLogin,
   startGoogleLogin,
   signupEmailAndPasswordLogin,
+  setProfileName,
 } from "../store/actions/authActions";
 
 import Login from "../components/Auth/Login";
@@ -17,14 +18,20 @@ const AuthComponent = ({
   startFacebookLogin,
   startEmailAndPasswordLogin,
   signupEmailAndPasswordLogin,
+  setProfileName,
   history,
   signup,
   login,
   paypalSubscribe,
   redirectPathAfterAuth,
+  switchToLogin,
+  switchToSignup,
 }) => {
   // console.log(history);
   let currentPath = location?.pathname;
+  const params = new URLSearchParams(location?.search || "");
+  const redirectFromQuery = params.get("redirectTo");
+  const effectiveRedirectPathAfterAuth = redirectPathAfterAuth || redirectFromQuery || undefined;
 
   return (
     <div>
@@ -37,6 +44,7 @@ const AuthComponent = ({
               googleLogin={startGoogleLogin}
               emailLogin={startEmailAndPasswordLogin}
               history={history}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
             />
           )}
           {currentPath === "/signup" && (
@@ -44,9 +52,10 @@ const AuthComponent = ({
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={signupEmailAndPasswordLogin}
+              setProfileName={setProfileName}
               history={history}
               notMember={true}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
             />
           )}
           {signup && (
@@ -54,11 +63,13 @@ const AuthComponent = ({
               facebookLogin={startFacebookLogin}
               googleLogin={startGoogleLogin}
               emailLogin={signupEmailAndPasswordLogin}
+              setProfileName={setProfileName}
               history={history}
               notMember={true}
               signup={true}
               paypalSubscribe={paypalSubscribe}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+              onSwitchToLogin={switchToLogin}
             />
           )}
           {login && (
@@ -70,7 +81,8 @@ const AuthComponent = ({
               notMember={true}
               login={true}
               paypalSubscribe={paypalSubscribe}
-              redirectPathAfterAuth={redirectPathAfterAuth}
+              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+              onSwitchToSignup={switchToSignup}
             />
           )}
         </Card>
@@ -85,6 +97,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(startEmailAndPasswordLogin(email, password)),
   signupEmailAndPasswordLogin: (email, password) =>
     dispatch(signupEmailAndPasswordLogin(email, password)),
+  setProfileName: (firstName, surname) => dispatch(setProfileName(firstName, surname)),
 });
 
 export default connect(undefined, mapDispatchToProps)(AuthComponent);

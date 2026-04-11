@@ -5,6 +5,7 @@ import "./ContactForm.css";
 import $ from "jquery";
 
 const url = "https://us-central1-bridgechampions.cloudfunctions.net/contactUs";
+const SUPPORT_EMAIL = "paul.dalley@hotmail.com";
 
 class ContactForm extends Component {
   state = {
@@ -14,6 +15,7 @@ class ContactForm extends Component {
     email: "",
     uid: "",
     err: "",
+    success: "",
   };
 
   componentDidMount() {
@@ -38,10 +40,11 @@ class ContactForm extends Component {
     if (email === "" || firstName === "" || lastName === "" || text === "") {
       this.setState({
         err: "Please fill out all form fields before submitting",
+        success: "",
       });
       return;
     } else {
-      this.setState({ err: "" });
+      this.setState({ err: "", success: "" });
     }
 
     const dataBody = {
@@ -55,9 +58,16 @@ class ContactForm extends Component {
     return $.post(url, dataBody, (data, status) => {
       console.log(data);
       console.log(status);
-      // this.props.history.push("/");
+      this.setState({
+        err: "",
+        success: `Thanks, your message was received. You can also email ${SUPPORT_EMAIL}.`,
+      });
     }).catch((err) => {
       console.log(err);
+      this.setState({
+        err: `There was a problem submitting the form. Please email ${SUPPORT_EMAIL}.`,
+        success: "",
+      });
     });
   };
 
@@ -72,6 +82,9 @@ class ContactForm extends Component {
             Your feedback and thoughts are very welcome. Let us know if you are
             having any issues or have any suggestions for how we can improve our
             site.
+            <br />
+            <br />
+            Prefer direct email? <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
             <br />
             <br />
             Our site uses the latest web technologies, if you are having any
@@ -123,6 +136,11 @@ class ContactForm extends Component {
           <div className="ContactForm-error_message red-suit">
             {this.state.err}
           </div>
+          {this.state.success && (
+            <div className="green-text text-darken-3 center-align" style={{ fontWeight: 600 }}>
+              {this.state.success}
+            </div>
+          )}
         </Row>
         <Row>
           <div className="ContactForm-submit_button center-align">

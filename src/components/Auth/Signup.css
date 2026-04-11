@@ -79,6 +79,11 @@
   flex-direction: column;
 }
 
+/* Hide Materialize (or similar) character counters on name/email; keep for password fields */
+.Signup-form .Signup-input-group:not(.Signup-input-group--password) .character-counter {
+  display: none !important;
+}
+
 .Signup-input-group label {
   display: block;
   font-size: 1.3rem;

@@ -27,7 +27,7 @@ class Settings extends Component {
     formSubmitted: false,
     // Admin tool: create account + grant access
     adminCreateEmail: "",
-    adminCreateTier: "premium",
+    adminCreateTier: "basic",
     adminCreateDays: 365,
     adminCreateLoading: false,
     adminCreateResult: null,
@@ -281,7 +281,7 @@ class Settings extends Component {
     }
   };
 
-  getEmailListSince2026 = async () => {
+  getEmailListSince2025 = async () => {
     this.setState({ emailListLoading: true, emailListResult: null });
     try {
       const user = firebase.auth().currentUser;
@@ -290,7 +290,7 @@ class Settings extends Component {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 60000);
       const res = await fetch(
-        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetUserEmailsSinceDate?since=2026-01-01",
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetUserEmailsSinceDate?since=2025-01-01",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -383,7 +383,7 @@ class Settings extends Component {
     }
   };
 
-  getNonSubscriberEmailsSince2026 = async () => {
+  getNonSubscriberEmailsSince2025 = async () => {
     this.setState({ nonSubscriberListLoading: true, nonSubscriberListResult: null });
     try {
       const user = firebase.auth().currentUser;
@@ -392,7 +392,7 @@ class Settings extends Component {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 90000);
       const res = await fetch(
-        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetNonSubscriberEmailsSinceDate?since=2026-01-01",
+        "https://us-central1-bridgechampions.cloudfunctions.net/adminGetNonSubscriberEmailsSinceDate?since=2025-01-01",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -1019,7 +1019,7 @@ class Settings extends Component {
 
                     <h3 className="Settings-admin-title" style={{ marginTop: "24px" }}>Export email list</h3>
                     <p className="Settings-admin-subtitle">
-                      Get subscriber emails, non-subscribers since 2026, or all users since 2026. Copies to clipboard.
+                      Get subscriber emails, non-subscribers since 2025, or all users since 2025. Copies to clipboard.
                     </p>
                     <div className="Settings-admin-actions" style={{ marginTop: "8px" }}>
                       <button
@@ -1034,19 +1034,19 @@ class Settings extends Component {
                         type="button"
                         className="Settings-admin-copy-btn"
                         disabled={this.state.nonSubscriberListLoading}
-                        onClick={this.getNonSubscriberEmailsSince2026}
+                        onClick={this.getNonSubscriberEmailsSince2025}
                         style={{ marginLeft: "8px" }}
                       >
-                        {this.state.nonSubscriberListLoading ? "Loading…" : "Since 2026 (non-subscribers)"}
+                        {this.state.nonSubscriberListLoading ? "Loading…" : "Since 2025 (non-subscribers)"}
                       </button>
                       <button
                         type="button"
                         className="Settings-admin-copy-btn"
                         disabled={this.state.emailListLoading}
-                        onClick={this.getEmailListSince2026}
+                        onClick={this.getEmailListSince2025}
                         style={{ marginLeft: "8px" }}
                       >
-                        Get emails since 2026 (all)
+                        Get emails since 2025 (all)
                       </button>
                     </div>
                     {this.state.subscriberListResult && !this.state.subscriberListResult.error && (
@@ -1061,7 +1061,7 @@ class Settings extends Component {
                     )}
                     {this.state.nonSubscriberListResult && !this.state.nonSubscriberListResult.error && (
                       <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
-                        {this.state.nonSubscriberListResult.count} non-subscriber(s) since 2026-01-01.
+                        {this.state.nonSubscriberListResult.count} non-subscriber(s) since 2025-01-01.
                       </p>
                     )}
                     {this.state.nonSubscriberListResult && this.state.nonSubscriberListResult.error && (
@@ -1071,7 +1071,7 @@ class Settings extends Component {
                     )}
                     {this.state.emailListResult && !this.state.emailListResult.error && (
                       <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
-                        {this.state.emailListResult.count} user(s) since 2026-01-01 (all).
+                        {this.state.emailListResult.count} user(s) since 2025-01-01 (all).
                       </p>
                     )}
                     {this.state.emailListResult && this.state.emailListResult.error && (

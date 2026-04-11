@@ -57,6 +57,8 @@ import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticl
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
+import SystemCardEditor from "./components/System/SystemCardEditor";
+import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
 
 import { firebase } from "./firebase/config";
 
@@ -79,15 +81,201 @@ import {
   authReady,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
+import { getArticlesRootPath, getPracticeRootPath } from "./utils/beginnerMode";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
 const store = configureStore();
+/** "Learn bridge from scratch" — routes enabled on production (was localhost-only). */
+const beginnerRoutesEnabled = true;
 
 const routes = (
   <Switch>
+    <Route
+      path="/beginner/practice"
+      exact
+      render={(routeProps) =>
+        beginnerRoutesEnabled ? (
+          <Redirect
+            to={{
+              pathname: "/beginner/practice/declarer",
+              search: routeProps.location.search,
+            }}
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      }
+    />
+    <Route
+      path="/beginner/practice/:categoryKey"
+      exact
+      render={(routeProps) =>
+        beginnerRoutesEnabled ? <BeginnerPracticePage {...routeProps} /> : <Redirect to="/" />
+      }
+    />
+    <Route
+      path="/beginner/articles"
+      exact
+      render={() =>
+        beginnerRoutesEnabled ? (
+          <Redirect to="/beginner/practice/declarer" />
+        ) : (
+          <Redirect to="/" />
+        )
+      }
+    />
+    <Route
+      path="/beginner/articles/declarer"
+      exact
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerCardPlay"
+            bodyRef="beginnerCardPlayBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/declarer/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerCardPlay"
+            bodyRef="beginnerCardPlayBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/defence"
+      exact
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerDefence"
+            bodyRef="beginnerDefenceBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/defence/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerDefence"
+            bodyRef="beginnerDefenceBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/bidding"
+      exact
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerBidding"
+            bodyRef="beginnerBiddingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/bidding/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerBidding"
+            bodyRef="beginnerBiddingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/counting"
+      exact
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <CategoryArticles
+            {...routeProps}
+            articleType="beginnerCounting"
+            bodyRef="beginnerCountingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/beginner/articles/counting/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <DisplayCategoryArticle
+            {...routeProps}
+            articleType="beginnerCounting"
+            bodyRef="beginnerCountingBody"
+          />
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+
+    <Route
+      path="/practice"
+      exact
+      render={(routeProps) => (
+        <Redirect
+          to={{
+            pathname: getPracticeRootPath(false),
+            search: routeProps.location.search,
+          }}
+        />
+      )}
+    />
+    <Route
+      path="/learn"
+      exact
+      render={(routeProps) => (
+        <Redirect
+          to={{
+            pathname: getArticlesRootPath(false),
+            search: routeProps.location.search,
+          }}
+        />
+      )}
+    />
     <Route path="/other" component={OtherHub} exact />
-    <Route path="/system" component={SystemPage} exact />
+    <Route path="/system" component={SystemCardEditor} exact />
+    <Route
+      path="/system/card"
+      exact
+      render={(routeProps) => (
+        <Redirect to={{ pathname: "/system", search: routeProps.location.search }} />
+      )}
+    />
+    <Route path="/system/recommendations" component={SystemPage} exact />
 
     <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
     <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
@@ -155,6 +343,78 @@ const routes = (
     />
 
     {/* CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE - more specific paths first so /create/defence/basics matches before /create/defence */}
+    <Route
+      path="/create/beginner/declarer"
+      exact
+      render={() => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerCardPlay"
+              bodyRef="beginnerCardPlayBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/defence"
+      exact
+      render={() => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerDefence"
+              bodyRef="beginnerDefenceBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/bidding"
+      exact
+      render={() => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerBidding"
+              bodyRef="beginnerBiddingBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/create/beginner/counting"
+      exact
+      render={() => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              articleType="beginnerCounting"
+              bodyRef="beginnerCountingBody"
+              create={true}
+              creating={true}
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
     <Route
       path="/create/defence/basics"
       create={true}
@@ -260,6 +520,74 @@ const routes = (
       )}
     />
 
+    <Route
+      path="/edit/beginnerCardPlay/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerCardPlay"
+              bodyRef="beginnerCardPlayBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerDefence/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerDefence"
+              bodyRef="beginnerDefenceBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerBidding/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerBidding"
+              bodyRef="beginnerBiddingBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
+    <Route
+      path="/edit/beginnerCounting/:id"
+      render={(routeProps) => (
+        beginnerRoutesEnabled ? (
+          <Suspense fallback={<SkeletonLoader type="article" />}>
+            <CreateCategoryArticle
+              {...routeProps}
+              edit={true}
+              articleType="beginnerCounting"
+              bodyRef="beginnerCountingBody"
+            />
+          </Suspense>
+        ) : (
+          <Redirect to="/" />
+        )
+      )}
+    />
     <Route
       path="/edit/defence/:id"
       render={(routeProps) => (

@@ -1180,6 +1180,8 @@ const DEFENCE_PUZZLES = [
   },
 ];
 
+export { DEFENCE_PUZZLES };
+
 function DefenceTrainer(routeProps) {
   return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
 }

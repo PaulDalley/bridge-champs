@@ -16,7 +16,23 @@ export const SYSTEM_GROUPS = [
 ];
 
 export const SYSTEM_TOPICS = [
-  /* Opening — 1 minor (consolidated) + 2-level */
+  /* Opening — general style, 1 minor, 2-level */
+  {
+    id: "open-general-style",
+    groupId: "opening",
+    title: "General style",
+    prescription: "",
+    prescriptionLines: [
+      { text: "2/1 — Game forcing — recommended" },
+      { text: "Five-card majors" },
+      { text: "Short club" },
+      { text: "Transfers over 1♣ — optional" },
+    ],
+    extraBullets: [],
+    videoUrl: "",
+    videoLabel: "Show video",
+    detailUrl: "",
+  },
   {
     id: "open-1minor",
     groupId: "opening",

@@ -45,6 +45,11 @@ service cloud.firestore {
         allow read, create, update: if request.auth.uid == userId;
     }
 
+    // User system card — each user can read/write their own
+    match /userSystemCards/{userId} {
+        allow read, create, update: if request.auth.uid == userId;
+    }
+
     match /users/{userId} {
         allow read;
     }

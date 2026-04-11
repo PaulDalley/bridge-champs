@@ -1,0 +1,33 @@
+/* Banner for “Learn bridge from scratch” (practice + beginner articles) */
+.beginner-scratch-banner {
+  max-width: 1280px;
+  margin: 0 auto 1rem;
+  padding: 1rem 1.35rem;
+  border-radius: 10px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%);
+  color: #134e4a;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  box-shadow: 0 2px 8px rgba(15, 76, 58, 0.08);
+}
+
+.beginner-scratch-banner-label {
+  color: #0f766e;
+  font-weight: 800;
+  font-size: 1.05em;
+  letter-spacing: 0.02em;
+}
+
+.beginner-scratch-banner-text {
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .beginner-scratch-banner {
+    font-size: 1.05rem;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+}

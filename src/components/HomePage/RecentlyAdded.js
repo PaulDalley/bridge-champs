@@ -7,7 +7,8 @@ import { THEME_PACKS } from "../../data/themePacks";
 function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
   const showSubscribeCta = !subscriptionActive && a !== true;
   const completed = completedPractice || {};
-  const packs = THEME_PACKS.map((pack) => {
+  const sourcePacks = THEME_PACKS;
+  const packs = sourcePacks.map((pack) => {
     const done = uid ? pack.handIds.filter((id) => !!completed[id]).length : 0;
     const total = pack.handIds.length;
     const pct = total ? Math.round((done / total) * 100) : 0;
@@ -42,6 +43,12 @@ function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
         </Link>
       )}
       <h2 className="RecentlyAdded-theme">Choose a topic</h2>
+
+      {packsToShow.length === 0 && (
+        <div className="RecentlyAdded-emptyState">
+          Beginner topic packs will appear here as you add them.
+        </div>
+      )}
 
       <div className="RecentlyAdded-packGrid">
         {packsToShow.map((pack) => (

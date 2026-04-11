@@ -1,0 +1,97 @@
+.tsh-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10rem 1.5rem 3rem;
+}
+
+.tsh-hero {
+  margin-bottom: 1.25rem;
+}
+
+.tsh-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.tsh-subtitle {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.tsh-pillRow {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0 2rem;
+}
+
+.tsh-pill {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+  border-radius: 999px;
+  padding: 0.65rem 1.1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tsh-pill:hover {
+  border-color: #0f4c3a;
+  color: #0f4c3a;
+}
+
+.tsh-pill--active {
+  border-color: #0f4c3a;
+  background: #0f4c3a;
+  color: #fff;
+}
+
+.tsh-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.tsh-card {
+  display: block;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tsh-card:hover {
+  border-color: #0f4c3a;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.tsh-card--primary {
+  border-color: #0f4c3a;
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.06), rgba(15, 76, 58, 0.01));
+}
+
+.tsh-card--muted {
+  opacity: 0.8;
+}
+
+.tsh-cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.45rem;
+}
+
+.tsh-cardText {
+  font-size: 1.25rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+

@@ -138,7 +138,28 @@ class Nav extends Component {
     // Keep the modern navigation cards visible on /counting too (consistent with other tabs).
     const hideModernTabs = false;
     const pathname = this.props.location?.pathname || "";
-
+    const trainerPaths = [
+      "/practice",
+      "/cardPlay",
+      "/defence",
+      "/bidding",
+      "/counting",
+    ];
+    const articlePaths = [
+      "/learn",
+      "/articles",
+      "/article/",
+      "/cardPlay/articles",
+      "/cardPlay/basics",
+      "/defence/articles",
+      "/defence/basics",
+      "/bidding/advanced",
+      "/bidding/basics",
+      "/counting/articles",
+    ];
+    const trainerActive = trainerPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    const articlesActive = articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    const beginnerScratchActive = pathname.startsWith("/beginner");
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -246,89 +267,52 @@ class Nav extends Component {
         {!hideModernTabs && (
           <div className="Nav-tabs-modern">
             <div className="Nav-tabs-container">
-              <div 
-                className={`Nav-tab-card ${pathname.startsWith('/cardPlay') ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/cardPlay")}
+              <div
+                className={`Nav-tab-card ${trainerActive ? "Nav-tab-active" : ""}`}
+                onClick={() => this.goTo("/practice")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/cardPlay")}
-                aria-label="Declarer Play section"
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/practice")}
+                aria-label="Practical learning section"
               >
-                <div className="Nav-tab-icon Nav-tab-icon-cardplay">
-                  <i className="fas fa-flag" aria-hidden="true" />
+                <div className="Nav-tab-icon Nav-tab-icon-trainer">
+                  <i className="fas fa-graduation-cap" aria-hidden="true" />
                 </div>
-                <div className="Nav-tab-label">Declarer Play</div>
-              </div>
-
-              <div 
-                className={`Nav-tab-card ${pathname.startsWith('/defence') ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/defence")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/defence")}
-                aria-label="Defence section"
-              >
-                <div className="Nav-tab-icon Nav-tab-icon-defence">
-                  <i className="fas fa-shield-alt" aria-hidden="true" />
-                </div>
-                <div className="Nav-tab-label">Defence</div>
+                <div className="Nav-tab-label">Practical Learning</div>
               </div>
 
               <div
-                className={`Nav-tab-card ${pathname.startsWith("/bidding") ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/bidding")}
+                className={`Nav-tab-card ${articlesActive ? "Nav-tab-active" : ""}`}
+                onClick={() => this.goTo("/learn")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/bidding")}
-                aria-label="Bidding section"
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/learn")}
+                aria-label="Articles section"
               >
-                <div className="Nav-tab-icon Nav-tab-icon-bidding">
-                  <i className="fas fa-gavel" aria-hidden="true" />
+                <div className="Nav-tab-icon Nav-tab-icon-articles">
+                  <i className="fas fa-newspaper" aria-hidden="true" />
                 </div>
-                <div className="Nav-tab-label">Bidding</div>
+                <div className="Nav-tab-label">Articles</div>
               </div>
 
               <div
-                className={`Nav-tab-card ${pathname.startsWith("/system") ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/system")}
+                className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
+                onClick={() => this.goTo("/beginner/practice")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/system")}
-                aria-label="System reference"
+                onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner/practice")}
+                aria-label="Learn bridge from scratch — beginner lessons (new)"
               >
-                <div className="Nav-tab-icon Nav-tab-icon-system">
-                  <span className="Nav-tab-badge" aria-hidden="true">New</span>
-                  <i className="fas fa-clipboard-list" aria-hidden="true" />
+                <span className="Nav-tab-badge" aria-hidden="true">
+                  NEW
+                </span>
+                <div className="Nav-tab-icon Nav-tab-icon-beginner">
+                  {/* FA 5.0.8 (index.html) is too old for many `fas fa-*` names — use Material Icons instead */}
+                  <i className="material-icons Nav-tab-icon-beginner-glyph" aria-hidden="true">
+                    menu_book
+                  </i>
                 </div>
-                <div className="Nav-tab-label">System</div>
-              </div>
-
-              <div
-                className={`Nav-tab-card ${pathname.startsWith('/counting') ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/counting")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/counting")}
-                aria-label="Counting trainer"
-              >
-                <div className="Nav-tab-icon Nav-tab-icon-counting">
-                  <i className="fas fa-calculator" aria-hidden="true" />
-                </div>
-                <div className="Nav-tab-label">Counting</div>
-              </div>
-
-              <div 
-                className={`Nav-tab-card ${pathname.startsWith('/other') ? 'Nav-tab-active' : ''}`}
-                onClick={() => this.goTo("/other")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && this.goTo("/other")}
-                aria-label="Other section"
-              >
-                <div className="Nav-tab-icon Nav-tab-icon-extra">
-                  <i className="fas fa-ellipsis-h" aria-hidden="true" />
-                </div>
-                <div className="Nav-tab-label">Other</div>
+                <div className="Nav-tab-label Nav-tab-label--beginner">Learn bridge from scratch</div>
               </div>
             </div>
           </div>
