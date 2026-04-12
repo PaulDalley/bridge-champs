@@ -4352,6 +4352,21 @@ function CountingTrumpsTrainer({
     return visibleFullHandSeats.every((seat) => isFullHandShape(puzzle.shownHands?.[seat]));
   }, [puzzle.shownHands, visibleFullHandSeats]);
 
+  /**
+   * Which compass seats show full pip hands on the bottom-row bridge grid (N=8, E=4, S=2, W=1).
+   * Drives `.ct-table--handsMask{n}` for phone/tablet layout — independent of `ct-table--westVisible`
+   * (westVisible is true whenever the left seat has a hand, including dummy-on-west).
+   */
+  const fullHandsCornerMask = useMemo(() => {
+    if (!showFullHands) return 0;
+    let m = 0;
+    if (visibleFullHandSeats.includes(seatTop)) m |= 8;
+    if (visibleFullHandSeats.includes(seatRight)) m |= 4;
+    if (visibleFullHandSeats.includes(seatBottom)) m |= 2;
+    if (visibleFullHandSeats.includes(seatLeft)) m |= 1;
+    return m;
+  }, [showFullHands, visibleFullHandSeats, seatTop, seatRight, seatBottom, seatLeft]);
+
   const inference = useMemo(() => {
     if (progressRoundIdx < 0) return { solutionsCount: 0, uniqueSeat: {}, uniqueSuit: {} };
     return inferUniqueSuitLengths({
@@ -5013,12 +5028,10 @@ function CountingTrumpsTrainer({
     });
   };
 
-  // Reset when the puzzle changes; Learn bridge from scratch skips the Start overlay and begins immediately.
+  // Reset when the puzzle changes; always begin immediately (no Start overlay) for all trainers/categories.
   useLayoutEffect(() => {
     resetForPuzzle();
-    if (beginnerModeOverride) {
-      startPuzzle();
-    }
+    startPuzzle();
   }, [puzzle.id, beginnerModeOverride]);
 
   const currentPlay = useMemo(() => {
@@ -6629,7 +6642,7 @@ function CountingTrumpsTrainer({
     // With only one problem in the rail, index stays 0 and puzzle.id never changes — force a full restart.
     if (len === 1) {
       resetForPuzzle();
-      if (beginnerModeOverride) startPuzzle();
+      startPuzzle();
     }
   };
 
@@ -7069,8 +7082,6 @@ function CountingTrumpsTrainer({
           </div>
         </div>
       )}
-
-      {/* Start button is shown as a large overlay on the table (clearer than a small corner button). */}
 
       {hasStarted && !promptStep && lastRoundIdx >= 0 && (
         <>
@@ -7964,27 +7975,9 @@ function CountingTrumpsTrainer({
     </>
   );
 
-  /** Phone gate: beginner /beginner/practice is allowed on small screens; other trainers stay message-only. */
-  if (isMobileViewport && !beginnerModeOverride) {
-    return (
-      <div className="ct-page ct-page--mobileMessage">
-        <div className="ct-mobileMessage">
-          <div className="ct-mobileMessage-icon" aria-hidden="true">
-            <i className="material-icons">computer</i>
-          </div>
-          <h2 className="ct-mobileMessage-title">Designed for larger screens</h2>
-          <p className="ct-mobileMessage-text">
-            This trainer is not supported on small phones yet. Please use a computer or iPad for the full experience.
-          </p>
-          <p className="ct-mobileMessage-sub">You can still browse the rest of Bridge Champions on your phone.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
-      className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
+      className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""} ${isMobileViewport && !beginnerModeOverride ? "ct-page--phoneHandPips" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
     >
       {showBeginnerLessonContractBanner && (
         <div className="ct-beginnerPageIntro" aria-label="Lesson introduction">
@@ -8124,7 +8117,7 @@ function CountingTrumpsTrainer({
             )}
             <div className="ct-tableWithSidebar-inner">
             <div
-              className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""}`}
+              className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
@@ -8170,43 +8163,6 @@ function CountingTrumpsTrainer({
             aria-label="Trick area and controls"
           >
             <div className="ct-trickBoard" aria-label="Card table">
-              {!hasStarted && !beginnerModeOverride && (
-                <div className="ct-startOverlay" aria-label="Start exercise">
-                  <div className="ct-startCard">
-                    {!!effectiveContractDisplayText && !showBeginnerLessonContractBanner && (
-                      <div className="ct-startTitle">
-                        {puzzle?.promptOptions?.contractLabel ? (
-                          <TextWithColoredSuits text={effectiveContractDisplayText} />
-                        ) : (
-                          <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
-                          {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>
-                        )}
-                      </div>
-                    )}
-                    {!!effectiveThemeLabel && (
-                      <div className={`ct-themeLabel ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""}`}>{effectiveThemeLabel}</div>
-                    )}
-                    {!!puzzle.promptOptions?.focusNote && (
-                      <div className="ct-startNote">{puzzle.promptOptions.focusNote}</div>
-                    )}
-                    <button className="ct-startBtn" onClick={startPuzzle} disabled={isPlaying}>
-                      Start
-                    </button>
-                    {lastRoundIdx >= 0 && !puzzle?.promptOptions?.contractLabel ? (
-                      <div className="ct-startHint">
-                        After each trick, click <strong>Next →</strong>
-                      </div>
-                    ) : lastRoundIdx < 0 ? (
-                      <div className="ct-startHint">Click Start to begin.</div>
-                    ) : null}
-                    {puzzle?.promptOptions?.startFooterText ? (
-                      <div className="ct-startFooter" aria-label="Series">
-                        {puzzle.promptOptions.startFooterText}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              )}
               {hasStarted && puzzle?.promptOptions?.promptsInOverlay && activeCustomPrompt && (promptStep === "INFO" || promptStep === "SINGLE_NUMBER" || promptStep === "DISTRIBUTION_GUESS") && (
                 <div className="ct-promptOverlay" aria-label="Question">
                   <div className="ct-promptCard">
