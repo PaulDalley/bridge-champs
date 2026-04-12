@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 /**
  * Inline practice video: embed when user can watch, locked "Upgrade to watch" otherwise.
  * Uses YouTube IFrame API to reset to start when video ends, avoiding end-screen ads/suggestions.
- * Props: videoUrl, isPremium, label, className, isAdmin
+ * Props: videoUrl, isPremium, label, className, isAdmin, softMembershipCta
  */
 function getYouTubeVideoId(url) {
   if (!url || typeof url !== "string") return null;
@@ -43,7 +43,7 @@ function loadYouTubeAPI() {
   });
 }
 
-function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmin }) {
+function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmin, softMembershipCta = false }) {
   const canWatch = isPremium || isAdmin;
   const videoId = getYouTubeVideoId(videoUrl);
   const embedRef = useRef(null);
@@ -98,10 +98,42 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
   }
 
   const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
+  if (softMembershipCta) {
+    return (
+      <div className={`ct-practiceVideo ct-practiceVideo--locked ct-practiceVideo--lockedSoft ${className}`.trim()}>
+        {label && <div className="ct-practiceVideo-label">{label}</div>}
+        <div
+          className={`ct-practiceVideo-locked ${thumbnailUrl ? "ct-practiceVideo-locked--withThumb" : ""}`}
+          style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
+        >
+          <div className="ct-practiceVideo-lockedOverlay ct-practiceVideo-lockedOverlay--soft">
+            <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">
+              🔒
+            </span>
+            <p className="ct-practiceVideo-lockedText">Members-only video</p>
+            <p className="ct-practiceVideo-lockedSublabel">Skip for now and keep practicing—the table is what matters.</p>
+            <Link
+              to="/membership"
+              className="ct-practiceVideo-upgradeLink"
+              onClick={() => {
+                if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
+              }}
+            >
+              View membership
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`ct-practiceVideo ct-practiceVideo--locked ${className}`.trim()}>
       {label && <div className="ct-practiceVideo-label">{label}</div>}
-      <div className={`ct-practiceVideo-locked ${thumbnailUrl ? "ct-practiceVideo-locked--withThumb" : ""}`} style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}>
+      <div
+        className={`ct-practiceVideo-locked ${thumbnailUrl ? "ct-practiceVideo-locked--withThumb" : ""}`}
+        style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
+      >
         <div className="ct-practiceVideo-lockedOverlay">
           <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">🔒</span>
           <p className="ct-practiceVideo-lockedText">Premium video</p>

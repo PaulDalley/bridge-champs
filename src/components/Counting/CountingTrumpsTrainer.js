@@ -4088,6 +4088,23 @@ function CountingTrumpsTrainer({
     }
   }, [promptStep]);
 
+  /** Latest handler for optional PLAY_CARD reveal auto-continue (see `playCardAutoContinueRevealMs` on custom prompts). */
+  const continueAfterPlayCardRevealFnRef = useRef(() => {});
+
+  useEffect(() => {
+    if (promptStep !== "PLAY_CARD_REVEAL" || !playDecisionReveal?.fromPlayCard) return undefined;
+    const promptId = playDecisionReveal.promptId;
+    const list = puzzle?.promptOptions?.customPrompts;
+    const cfg = Array.isArray(list) ? list.find((p) => p.id === promptId) : null;
+    if (!cfg || cfg.playCardAutoContinueRevealMs == null) return undefined;
+    const ms = Number(cfg.playCardAutoContinueRevealMs);
+    if (!Number.isFinite(ms) || ms < 0) return undefined;
+    const timer = window.setTimeout(() => {
+      continueAfterPlayCardRevealFnRef.current();
+    }, ms);
+    return () => window.clearTimeout(timer);
+  }, [promptStep, playDecisionReveal?.fromPlayCard, playDecisionReveal?.promptId, puzzle?.promptOptions?.customPrompts]);
+
   useEffect(() => {
     if (!puzzle?.id) return;
     const done = promptStep === "DONE";
@@ -4572,10 +4589,6 @@ function CountingTrumpsTrainer({
     setAskedTick((t) => t + 1);
   };
 
-  useEffect(() => {
-    resetForPuzzle();
-  }, [puzzle.id]);
-
   const stopPlayback = () => {
     clearAll();
     setIsPlaying(false);
@@ -4999,6 +5012,14 @@ function CountingTrumpsTrainer({
       afterManualTrick(startEnd);
     });
   };
+
+  // Reset when the puzzle changes; Learn bridge from scratch skips the Start overlay and begins immediately.
+  useLayoutEffect(() => {
+    resetForPuzzle();
+    if (beginnerModeOverride) {
+      startPuzzle();
+    }
+  }, [puzzle.id, beginnerModeOverride]);
 
   const currentPlay = useMemo(() => {
     const plays = puzzle.rounds?.[roundIdx]?.plays || [];
@@ -6354,6 +6375,7 @@ function CountingTrumpsTrainer({
 
   const continueAfterPlayCardReveal = () => {
     const promptId = playDecisionReveal?.promptId;
+    const revealCorrect = !!playDecisionReveal?.correct;
     if (!promptId) return;
     setFeedback(null);
     setPlayDecisionReveal(null);
@@ -6381,7 +6403,11 @@ function CountingTrumpsTrainer({
         const throughRound = Number.isFinite(completedRoundIdxRef.current)
           ? completedRoundIdxRef.current
           : completedRoundIdx;
-        afterManualTrick(throughRound);
+        if (cfg?.playCardAutoAdvanceOneManualTrick && manualTrickMode && throughRound < lastRoundIdx) {
+          playOneTrick(throughRound + 1, { ignorePromptLock: true });
+        } else {
+          afterManualTrick(throughRound);
+        }
       }
       return;
     }
@@ -6393,8 +6419,19 @@ function CountingTrumpsTrainer({
     continuedFromPlayCardRevealRef.current = true;
     if (cfg?.playCardShowNextCustomPromptOnContinue) {
       afterManualTrick(throughRound);
+    } else if (
+      beginnerModeOverride &&
+      manualTrickMode &&
+      revealCorrect &&
+      throughRound >= 0 &&
+      throughRound < lastRoundIdx
+    ) {
+      // Learn bridge from scratch: one Continue after a success reveal should start the next trick
+      // (same as "Next trick →") so learners are not asked to Continue and then click Next trick.
+      playOneTrick(throughRound + 1, { ignorePromptLock: true });
     }
   };
+  continueAfterPlayCardRevealFnRef.current = continueAfterPlayCardReveal;
 
   const continueAfterPlayDecision = () => {
     if (playDecisionReveal?.fromPlayCard) {
@@ -6592,6 +6629,7 @@ function CountingTrumpsTrainer({
     // With only one problem in the rail, index stays 0 and puzzle.id never changes — force a full restart.
     if (len === 1) {
       resetForPuzzle();
+      if (beginnerModeOverride) startPuzzle();
     }
   };
 
@@ -6913,7 +6951,7 @@ function CountingTrumpsTrainer({
     <>
       {showHeaderRail && (
         <div className="ct-railMuted">
-          {showSubscribeBanner && (
+          {showSubscribeBanner && !beginnerModeOverride && (
             <Link to="/membership" className="ct-subscribeBanner" aria-label="Start 7-day free trial">
               <span className="ct-subscribeBannerIcon">
                 <i className="material-icons" aria-hidden>star</i>
@@ -6924,14 +6962,10 @@ function CountingTrumpsTrainer({
               <span className="ct-subscribeBannerBtn">Start free trial</span>
             </Link>
           )}
-          {effectiveContractDisplayText ? (
+          {effectiveContractDisplayText && !showBeginnerLessonContractBanner ? (
             <div className="ct-contractLine">
               {puzzle?.promptOptions?.contractLabel ? (
-                showBeginnerLessonContractBanner ? (
-                  <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
-                ) : (
-                  <TextWithColoredSuits text={effectiveContractDisplayText} />
-                )
+                <TextWithColoredSuits text={effectiveContractDisplayText} />
               ) : (
                 <>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></>
               )}
@@ -7006,6 +7040,7 @@ function CountingTrumpsTrainer({
                 label="Theme intro"
                 className="ct-practiceVideo--beforeStart"
                 isAdmin={isAdmin}
+                softMembershipCta={beginnerModeOverride}
               />
             )}
             {usingThemeIntro && (
@@ -7028,6 +7063,7 @@ function CountingTrumpsTrainer({
                 label="30s problem intro"
                 className="ct-practiceVideo--beforeStart"
                 isAdmin={isAdmin}
+                softMembershipCta={beginnerModeOverride}
               />
             )}
           </div>
@@ -7302,6 +7338,7 @@ function CountingTrumpsTrainer({
                 label="30s intro"
                 className="ct-practiceVideo--start"
                 isAdmin={isAdmin}
+                softMembershipCta={beginnerModeOverride}
               />
               {!puzzle?.promptOptions?.hidePlayDecisionHeading && (
                 <div className="ct-playDecisionBlock-heading">Your turn — answer below</div>
@@ -7349,6 +7386,7 @@ function CountingTrumpsTrainer({
                 label="30s explanation"
                 className="ct-practiceVideo--reveal"
                 isAdmin={isAdmin}
+                softMembershipCta={beginnerModeOverride}
               />
               {!activeCustomPrompt?.noContinue && (
                 <div className="ct-railActions" style={{ marginTop: 12 }}>
@@ -7948,12 +7986,17 @@ function CountingTrumpsTrainer({
     <div
       className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
     >
+      {showBeginnerLessonContractBanner && (
+        <div className="ct-beginnerPageIntro" aria-label="Lesson introduction">
+          <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
+        </div>
+      )}
 
       <div className={`ct-layout ${showFullHands ? "ct-layout--fullhands" : ""}`}>
         <div className="ct-stage">
           <div className="ct-topNavWrap">
             <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
-              {/* Category tier: Declarer | Defence | Counting + Subscribe */}
+              {/* Category tier: Declarer | Defence | Counting */}
               <div className="ct-categoryRow" aria-label="Trainer category">
                 <div className="ct-categoryTabs" role="tablist">
                   {effectiveCategoryTabs.map((c) => (
@@ -7969,11 +8012,6 @@ function CountingTrumpsTrainer({
                     </Link>
                   ))}
                 </div>
-                {!subscriptionActive && a !== true && (
-                  <Link to="/membership" className="ct-topNavSubscribe" title="Start your 7-day free trial for full access">
-                    Start 7-day free trial
-                  </Link>
-                )}
               </div>
 
               {!hideDifficultyTabs && (
@@ -8061,14 +8099,27 @@ function CountingTrumpsTrainer({
             <div className="ct-tableWithSidebar ct-tableWithSidebar--hasOverlay" style={{ position: "relative" }}>
             {showPaywallOverlay && (
               <div className="ct-paywallOverlay">
-                <Link to="/membership" className="ct-paywallFullCta">
-                  <span className="ct-paywallFullIcon">
-                    <i className="material-icons" aria-hidden>lock</i>
-                  </span>
-                  <strong>Start 7-day free trial</strong>
-                  <span className="ct-paywallFullDesc">Get full access to all {trainerLabel} exercises</span>
-                  <span className="ct-paywallFullBtn">Start free trial</span>
-                </Link>
+                {beginnerModeOverride ? (
+                  <div className="ct-paywallBeginnerCard">
+                    <p className="ct-paywallBeginnerTitle">This hand is for members</p>
+                    <p className="ct-paywallBeginnerSub">
+                      The first five hands are free—choose tabs 1–5 above. Or{" "}
+                      <Link to="/membership" className="ct-paywallBeginnerLink">
+                        view membership
+                      </Link>
+                      .
+                    </p>
+                  </div>
+                ) : (
+                  <Link to="/membership" className="ct-paywallFullCta">
+                    <span className="ct-paywallFullIcon">
+                      <i className="material-icons" aria-hidden>lock</i>
+                    </span>
+                    <strong>Start 7-day free trial</strong>
+                    <span className="ct-paywallFullDesc">Get full access to all {trainerLabel} exercises</span>
+                    <span className="ct-paywallFullBtn">Start free trial</span>
+                  </Link>
+                )}
               </div>
             )}
             <div className="ct-tableWithSidebar-inner">
@@ -8077,14 +8128,10 @@ function CountingTrumpsTrainer({
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
-            {!!effectiveContractDisplayText && !useBottomRowLayout && (
+            {!!effectiveContractDisplayText && !useBottomRowLayout && !showBeginnerLessonContractBanner && (
               <div className="ct-contractTop">
                 {puzzle?.promptOptions?.contractLabel ? (
-                  showBeginnerLessonContractBanner ? (
-                    <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
-                  ) : (
-                    <TextWithColoredSuits text={effectiveContractDisplayText} />
-                  )
+                  <TextWithColoredSuits text={effectiveContractDisplayText} />
                 ) : (
                   <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong> by <strong>{declarerCompassName}</strong></React.Fragment>
                 )}
@@ -8123,21 +8170,13 @@ function CountingTrumpsTrainer({
             aria-label="Trick area and controls"
           >
             <div className="ct-trickBoard" aria-label="Card table">
-              {!hasStarted && (
+              {!hasStarted && !beginnerModeOverride && (
                 <div className="ct-startOverlay" aria-label="Start exercise">
                   <div className="ct-startCard">
-                    {!!effectiveContractDisplayText && (
-                      <div
-                        className={`ct-startTitle${
-                          showBeginnerLessonContractBanner ? " ct-startTitle--beginnerBannerHost" : ""
-                        }`}
-                      >
+                    {!!effectiveContractDisplayText && !showBeginnerLessonContractBanner && (
+                      <div className="ct-startTitle">
                         {puzzle?.promptOptions?.contractLabel ? (
-                          showBeginnerLessonContractBanner ? (
-                            <BeginnerLessonContractTitle text={effectiveContractDisplayText} />
-                          ) : (
-                            <TextWithColoredSuits text={effectiveContractDisplayText} />
-                          )
+                          <TextWithColoredSuits text={effectiveContractDisplayText} />
                         ) : (
                           <React.Fragment>Contract is <strong><ContractWithColoredSuit text={contractText} /></strong>
                           {!puzzle?.promptOptions?.contractOnly && <React.Fragment> by <strong>{declarerCompassName}</strong></React.Fragment>}</React.Fragment>

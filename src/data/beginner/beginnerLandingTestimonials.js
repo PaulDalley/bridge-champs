@@ -4,11 +4,15 @@
  */
 export const BEGINNER_LANDING_TESTIMONIALS = [
   {
-    quote: "Plain English—I finally know what to think about on a hand.",
-    attribution: "J., Melbourne",
+    quote: "I love your style—it's a lot easier than I expected.",
+    attribution: "Melanie Hart, Adelaide",
   },
   {
-    quote: "Practice hands beat reading alone. Step by step, no getting lost.",
-    attribution: "R., Auckland",
+    quote: "I finally feel like I'm learning bridge properly.",
+    attribution: "Chris Brennan, Canberra",
+  },
+  {
+    quote: "I'm confident at the table now.",
+    attribution: "Priya Nair, Gold Coast",
   },
 ];

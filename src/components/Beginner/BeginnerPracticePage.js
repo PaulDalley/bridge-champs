@@ -66,8 +66,6 @@ function BeginnerPracticePage({ match }) {
 
   return (
     <Fragment>
-      <BeginnerScratchBanner />
-      <BeginnerGuestSignupNudge redirectPath={match.url} />
       <CountingTrumpsTrainer
         trainerLabel={BEGINNER_TRAINER_LABELS[categoryKey]}
         categoryKey={categoryKey}
@@ -80,6 +78,8 @@ function BeginnerPracticePage({ match }) {
         puzzlesOverride={puzzlesOverride}
         beginnerPublicPracticeCount={BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS}
       />
+      <BeginnerScratchBanner />
+      <BeginnerGuestSignupNudge redirectPath={match.url} />
     </Fragment>
   );
 }

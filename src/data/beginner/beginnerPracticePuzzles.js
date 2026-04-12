@@ -51,22 +51,18 @@ export const BEGINNER_DECLARER_PUZZLES = [
           expectedRank: "A",
           playCardContinueThroughRoundIdx: 0,
           playCardShowNextCustomPromptOnContinue: true,
+          /** After the brief “Nice — …” reveal, advance to the next prompt without an extra Continue click. */
+          playCardAutoContinueRevealMs: 550,
           correctRevealText: "Nice — the Ace wins the trick.",
           wrongTryText: "Try again — you need a card higher than the King.",
           wrongRevealText: "The Ace is the only card here that beats the King.",
         },
         {
-          id: "bdecl1-1-after-win-lead-info",
-          type: "INFO",
-          atRoundIdx: 0,
-          promptText:
-            'Great — now that you have won that trick, it\'s time for you to lead a card to the next trick. You can play either of your remaining cards.',
-        },
-        {
           id: "bdecl1-1-trick2-you-lead",
           type: "PLAY_CARD",
           atRoundIdx: 0,
-          promptText: "Your lead — click a card to start the trick.",
+          promptText:
+            "Great — you won that trick. It's your lead now: click either of your two remaining cards to start the next trick.",
           // Clear trick 1 from the table; learner starts a fresh trick (handled in PLAY_CARD effect when `before` is empty).
           playCardKeepExistingTrickCards: false,
           playCardRequireCorrect: false,
@@ -87,20 +83,14 @@ export const BEGINNER_DECLARER_PUZZLES = [
           },
           correctRevealText: "West takes the trick with the Queen.",
           wrongRevealText: "",
-        },
-        {
-          id: "bdecl1-1-west-won-info",
-          type: "INFO",
-          atRoundIdx: 0,
-          promptText:
-            "West won that trick with the Queen. It's now West's turn to lead — click ##Continue##, then use ##Next →## when you're ready to see the next trick.",
+          /** One Continue on the reveal, then straight into trick 3 (no separate INFO or “Next trick →”). */
+          playCardAutoAdvanceOneManualTrick: true,
         },
         {
           id: "bdecl1-1-trick3-win-last",
           type: "PLAY_CARD",
           atRoundIdx: 1,
-          promptText:
-            "Your last card is about to win this trick — it's higher than the other cards on the table. Go ahead and play it!",
+          promptText: "West leads. When you're ready, play your last card — it wins this trick.",
           playCardKeepExistingTrickCards: true,
           playCardRequireCorrect: true,
           expectedSuit: "S",
@@ -404,19 +394,9 @@ export const BEGINNER_DECLARER_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "Before we play any cards, the table has a discussion about what the trump suit will be. This is called the ##bidding##.",
-        },
-        {
-          id: "bdecl1-4-we-bid",
-          type: "INFO",
-          atRoundIdx: -1,
-          promptText: 'We don\'t just talk, discuss, or argue — we ##bid##!',
-        },
-        {
-          id: "bdecl1-4-trump-think",
-          type: "INFO",
-          atRoundIdx: -1,
-          promptText: "Let's first ask: what do I ##want## the trump suit to be? Have a think.",
+            "Before we play any cards, the table has a discussion about what the trump suit will be. This is called the bidding.\n\n" +
+            "We don't just talk, discuss, or argue — we bid!\n\n" +
+            "Let's first ask: what do I want the trump suit to be? Have a think.",
         },
         {
           id: "bdecl1-4-trump-count",
@@ -432,18 +412,12 @@ export const BEGINNER_DECLARER_PUZZLES = [
             "The more trumps we have, along with our partner, the better. Trumps are great!",
         },
         {
-          id: "bdecl1-4-choose-suit",
-          type: "INFO",
-          atRoundIdx: -1,
-          promptText: "So — what would you like the trump suit to be?",
-        },
-        {
           id: "bdecl1-4-dealer",
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "In bridge, the ##dealer## has the right to bid first. You are dealer this hand.\n\n" +
-            "Look at the ##Bidding## panel: there's a ##?## in your (South) column — that marks your first call. Let's make your first bid!",
+            "In bridge, the dealer bids first. You are dealer this hand.\n\n" +
+            "Look at the Bidding panel: there's a ? in your (South) column — that marks your first call. Let's make your first bid!",
         },
         {
           id: "bdecl1-4-opening-bid",
@@ -655,9 +629,9 @@ export const BEGINNER_DECLARER_PUZZLES = [
           atRoundIdx: -1,
           promptText: "What is the next highest bid after 2NT?",
           options: [
-            { id: "2♠", label: "A. 2♠" },
-            { id: "3♣", label: "B. 3♣" },
-            { id: "1NT", label: "C. 1NT" },
+            { id: "2♠", label: "2♠" },
+            { id: "3♣", label: "3♣" },
+            { id: "1NT", label: "1NT" },
           ],
           expectedChoice: "3♣",
           wrongTryText: "Not quite — try again.",

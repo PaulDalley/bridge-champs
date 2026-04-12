@@ -101,29 +101,6 @@
   margin-bottom: 4px;
 }
 
-.ct-topNavSubscribe {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 8px 18px;
-  background: linear-gradient(135deg, #D4AF37 0%, #E8C767 100%);
-  color: #1b4332;
-  font-size: 15px;
-  font-weight: 800;
-  text-decoration: none;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.ct-topNavSubscribe:hover {
-  transform: translateY(-50%) translateY(-1px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.45);
-  color: #1b4332;
-}
-
 .ct-categoryTabs {
   display: flex;
   gap: 6px;
@@ -1770,6 +1747,43 @@
   background: #0F4C3A;
 }
 
+/* Beginner /beginner/practice: compact paywall when a locked hand is selected (no big trial CTA) */
+.ct-paywallBeginnerCard {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.ct-paywallBeginnerTitle {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.ct-paywallBeginnerSub {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.ct-paywallBeginnerLink {
+  font-weight: 800;
+  color: #0f4c3a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ct-paywallBeginnerLink:hover,
+.ct-paywallBeginnerLink:focus {
+  color: #083426;
+}
+
 /* Prominent subscribe banner for non-members (and mockPaywall=1 on localhost) */
 .ct-subscribeBanner {
   display: flex;
@@ -1824,6 +1838,13 @@
 .ct-subscribeBanner:hover .ct-subscribeBannerBtn {
   background: #0F4C3A;
   color: #fff !important;
+}
+
+/* Phones: banner competes with tabs and the table; locked content still routes to /membership */
+@media (max-width: 720px) {
+  .ct-subscribeBanner {
+    display: none !important;
+  }
 }
 
 .ct-paywallNote {
@@ -2855,12 +2876,129 @@
   text-align: center;
 }
 
-.ct-startTitle--beginnerBannerHost {
-  font-size: inherit;
-  font-weight: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-  line-height: inherit;
+/* Beginner practice: lesson headline above category tabs + table */
+.ct-beginnerPageIntro {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto 16px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.ct-beginnerPageIntro .ct-beginnerLessonBanner {
+  width: 100%;
+}
+
+/*
+ * Beginner /beginner/practice only: hand cards hug rank + suit (no tall white tiles).
+ * Scoped to .ct-page--beginnerPractice so main trainers are unchanged.
+ */
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+  aspect-ratio: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 6px 7px;
+  border-radius: 6px;
+  border: 1px solid #111827;
+  background: #fff;
+  box-shadow: none;
+  container-type: normal;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) .ct-fanFace {
+  position: static;
+  display: grid;
+  gap: 0;
+  justify-items: center;
+  line-height: 1;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan .ct-fanRank {
+  font-size: clamp(18px, 4vw, 30px);
+  letter-spacing: -0.05em;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan .ct-fanSuit {
+  font-size: clamp(19px, 4.2vw, 32px);
+  margin-top: 0;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan.ct-miniCard--ghost {
+  flex: 0 0 0.65rem;
+  width: 0.65rem;
+  min-width: 0.65rem;
+  max-width: 1rem;
+  aspect-ratio: unset;
+  height: auto;
+  min-height: 2.4rem;
+  align-self: center;
+  padding: 0;
+}
+
+/* Full row: equal-width pip tiles across the whole hand width (still compact, not tall tiles). */
+.ct-page.ct-page--beginnerPractice .ct-handFan--full {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  gap: 2px;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+  border-left: 1px solid #111827;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-handFan--full .ct-miniCard.ct-miniCard--fan:first-child {
+  border-left: 1px solid #111827;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-miniCard.ct-miniCard--fan.ct-miniCard--playable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.ct-page.ct-page--beginnerPractice .ct-suitHand .ct-suitLine {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  gap: 2px;
+}
+
+.ct-page.ct-page--beginnerPractice .ct-suitHand .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Don’t force dummy/South rows to desktop-wide min width on beginner path */
+.ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
+.ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
+.ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout.ct-table--westVisible .ct-seat--left .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+  min-width: 0;
+  max-width: none;
+  min-height: 0;
+  max-height: none;
 }
 
 .ct-explanationSidebar .ct-beginnerLessonBanner {
@@ -3996,6 +4134,26 @@
   color: #fff;
 }
 
+.ct-practiceVideo-lockedOverlay--soft {
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.ct-practiceVideo-upgradeLink {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ecfdf5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ct-practiceVideo-upgradeLink:hover,
+.ct-practiceVideo-upgradeLink:focus {
+  color: #fff;
+}
+
 /* Persistent video slot: stays visible for the full problem so user can play and continue without it disappearing */
 .ct-practiceVideoSlot:not(:empty) {
   position: sticky;
@@ -4156,6 +4314,115 @@
 
   .ct-page.ct-page--beginnerPractice .ct-tableWithSidebar .ct-seat--right {
     padding-right: 8px;
+  }
+}
+
+/*
+ * Beginner path + tablet/phone: fullhands layout uses aggressive minmax grids that lose to narrow columns.
+ * Force readable card widths + horizontal scroll (dummy/declarer row + E/W suit lines + trick grid).
+ */
+@media (max-width: 1024px) {
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full,
+  .ct-page.ct-page--beginnerPractice .ct-handFan--full {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
+    min-width: 0 !important;
+    gap: 2px;
+    grid-template-columns: unset !important;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page.ct-page--beginnerPractice .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    aspect-ratio: unset;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-handFan--full .ct-miniCard.ct-miniCard--fan.ct-miniCard--ghost {
+    flex: 0 0 0.65rem;
+    width: 0.65rem;
+    min-width: 0.65rem;
+    max-width: 1rem;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--left .ct-suitLine,
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--right .ct-suitLine,
+  .ct-page.ct-page--beginnerPractice .ct-suitLine {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: visible;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    gap: 2px;
+    grid-template-columns: unset !important;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-suitLine .ct-miniCard.ct-miniCard--fan.ct-miniCard--ghost {
+    flex: 0 0 0.65rem;
+    width: 0.65rem;
+    min-width: 0.65rem;
+    max-width: 1rem;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
+  .ct-page.ct-page--beginnerPractice.ct-page--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-trickBoard {
+    width: min(100%, 400px);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-trickGrid {
+    height: auto;
+    min-height: 210px;
+    max-width: 100%;
+    box-sizing: border-box;
+    grid-template-columns: minmax(56px, 24%) 1fr minmax(56px, 24%);
+    grid-template-rows: minmax(64px, 22%) 1fr minmax(80px, 28%);
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-trickPos {
+    width: min(74px, 21vw);
+    height: min(100px, 29vw);
+  }
+
+  .ct-page.ct-page--beginnerPractice .ct-card {
+    width: min(70px, 19.5vw);
+    height: min(96px, 27.5vw);
+    font-size: clamp(15px, 4.5vw, 26px);
   }
 }
 
