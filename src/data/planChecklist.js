@@ -12,8 +12,8 @@
 export const PLAN_CHECKLIST_ITEMS = [
   // Counting Level 1 (10 problems) – path includes ?problem=id so the trainer opens that problem
   { type: "practice", id: "p1", categoryKey: "counting", title: "Two rounds of trumps, LHO shows out on round 2", path: "/counting/practice?problem=p1" },
-  { type: "practice", id: "p1-2", categoryKey: "counting", title: "Defending 4♠: count declarer's trumps after partner shows out", path: "/counting/practice?problem=p1-2" },
   { type: "practice", id: "p1-3", categoryKey: "counting", title: "Defending: two rounds of hearts reveal 5-4-2-2", path: "/counting/practice?problem=p1-3" },
+  { type: "practice", id: "p1-2", categoryKey: "counting", title: "Defending 4♠: count declarer's trumps after partner shows out", path: "/counting/practice?problem=p1-2" },
   { type: "practice", id: "p1-4", categoryKey: "counting", title: "Defending: three rounds of hearts, partner shows out on round 3", path: "/counting/practice?problem=p1-4" },
   { type: "practice", id: "p1-5", categoryKey: "counting", title: "Declaring: set up dummy's long suit (4-3 break)", path: "/counting/practice?problem=p1-5" },
   { type: "practice", id: "p1-6", categoryKey: "counting", title: "Declaring: drawing trumps — common splits (5332 / 5341)", path: "/counting/practice?problem=p1-6" },

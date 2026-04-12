@@ -278,7 +278,6 @@ function BeginnerLandingPage({ location, isAdmin }) {
               <li key={index} className="BeginnerLanding-testimonial">
                 <blockquote className="BeginnerLanding-testimonial-quote">
                   <p>&ldquo;{item.quote}&rdquo;</p>
-                  <footer className="BeginnerLanding-testimonial-by">— {item.attribution}</footer>
                 </blockquote>
               </li>
             ))}

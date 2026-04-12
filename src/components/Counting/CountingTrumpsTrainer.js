@@ -1032,6 +1032,75 @@ const PUZZLES = [
     ],
   },
   {
+    id: "p1-3",
+    difficulty: 1,
+    title: "Defending: two rounds of hearts reveal 5-4-2-2",
+    trumpSuit: "H",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "E", // you are East, defending (RHO)
+    promptOptions: {
+      // Ask the distribution once it becomes knowable.
+      questionNumbers: [QUESTION.ORIGINAL_SUIT_DISTRIBUTION_AT_EVENT],
+      // Replace the trump-guess warm-up with a distribution guess warm-up for this puzzle.
+      disableWarmupTrumpGuess: true,
+      distributionPromptAsSuit: true,
+      customPrompts: [
+        {
+          id: "p1-3-guess1",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 0,
+          fixed: { RHO: 5, DUMMY: 4 },
+          promptText: "What do you think the original hearts distribution is?",
+        },
+      ],
+      distributionPrefill: {
+        suit: "H",
+        fixed: { RHO: 5, DUMMY: 4 },
+        lock: true,
+      },
+    },
+    shownHands: {
+      // Only show hearts (legacy one-suit mode). Dummy is North, you are East.
+      DUMMY: { suit: "H", cards: ["J", "9", "7", "6"] }, // J9xx
+      RHO: { suit: "H", cards: ["A", "K", "Q", "8", "5"] }, // 5 hearts (AKxxx)
+    },
+    expectedInitialLengths: {
+      LHO: 2,
+      DUMMY: 4,
+      RHO: 5,
+      DECLARER: 2,
+    },
+    // Reveal the full hearts suit for closure.
+    endRevealTrumpHands: {
+      LHO: ["T", "3"],
+      DUMMY: ["J", "9", "7", "6"],
+      RHO: ["A", "K", "Q", "8", "5"],
+      DECLARER: ["4", "2"],
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "LHO", card: { rank: "T", suit: "H" } }, // partner leads ♥10
+          { seat: "DUMMY", card: { rank: "J", suit: "H" } }, // dummy plays J
+          { seat: "RHO", card: { rank: "A", suit: "H" } }, // you win A
+          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "RHO", card: { rank: "K", suit: "H" } }, // cash K
+          { seat: "DECLARER", card: { rank: "4", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
+          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "p1-2",
     difficulty: 1,
     title: "Defending 4♠: count declarer’s trumps after partner shows out",
@@ -1137,75 +1206,6 @@ const PUZZLES = [
           { seat: "LHO", card: { rank: "2", suit: "H" }, showOut: true },
           { seat: "DUMMY", card: { rank: "3", suit: "D" } },
           { seat: "RHO", card: { rank: "J", suit: "S" } },
-        ],
-      },
-    ],
-  },
-  {
-    id: "p1-3",
-    difficulty: 1,
-    title: "Defending: two rounds of hearts reveal 5-4-2-2",
-    trumpSuit: "H",
-    dealerCompass: "S",
-    declarerCompass: "S",
-    viewerCompass: "E", // you are East, defending (RHO)
-    promptOptions: {
-      // Ask the distribution once it becomes knowable.
-      questionNumbers: [QUESTION.ORIGINAL_SUIT_DISTRIBUTION_AT_EVENT],
-      // Replace the trump-guess warm-up with a distribution guess warm-up for this puzzle.
-      disableWarmupTrumpGuess: true,
-      distributionPromptAsSuit: true,
-      customPrompts: [
-        {
-          id: "p1-3-guess1",
-          type: "DISTRIBUTION_GUESS",
-          suit: "H",
-          atRoundIdx: 0,
-          fixed: { RHO: 5, DUMMY: 4 },
-          promptText: "What do you think the original hearts distribution is?",
-        },
-      ],
-      distributionPrefill: {
-        suit: "H",
-        fixed: { RHO: 5, DUMMY: 4 },
-        lock: true,
-      },
-    },
-    shownHands: {
-      // Only show hearts (legacy one-suit mode). Dummy is North, you are East.
-      DUMMY: { suit: "H", cards: ["J", "9", "7", "6"] }, // J9xx
-      RHO: { suit: "H", cards: ["A", "K", "Q", "8", "5"] }, // 5 hearts (AKxxx)
-    },
-    expectedInitialLengths: {
-      LHO: 2,
-      DUMMY: 4,
-      RHO: 5,
-      DECLARER: 2,
-    },
-    // Reveal the full hearts suit for closure.
-    endRevealTrumpHands: {
-      LHO: ["T", "3"],
-      DUMMY: ["J", "9", "7", "6"],
-      RHO: ["A", "K", "Q", "8", "5"],
-      DECLARER: ["4", "2"],
-    },
-    rounds: [
-      {
-        label: "Trick 1",
-        plays: [
-          { seat: "LHO", card: { rank: "T", suit: "H" } }, // partner leads ♥10
-          { seat: "DUMMY", card: { rank: "J", suit: "H" } }, // dummy plays J
-          { seat: "RHO", card: { rank: "A", suit: "H" } }, // you win A
-          { seat: "DECLARER", card: { rank: "2", suit: "H" } },
-        ],
-      },
-      {
-        label: "Trick 2",
-        plays: [
-          { seat: "RHO", card: { rank: "K", suit: "H" } }, // cash K
-          { seat: "DECLARER", card: { rank: "4", suit: "H" } },
-          { seat: "LHO", card: { rank: "3", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
         ],
       },
     ],
