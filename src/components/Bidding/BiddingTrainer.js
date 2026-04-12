@@ -2338,7 +2338,7 @@ const BIDDING_PUZZLES = [
           expectedChoice: "pretty",
           noContinue: false,
           revealText:
-            "I like this hand for a few reasons.\n\n1. In diamonds the honours and intermediates are clustered, and the suit has length (4+ cards). That could easily become 3 or 4 tricks. I see a lot of potential in those diamonds!\n\n2. Outside of diamonds we have Aces which are excellent cards. More specifically, if you have a bare suit with just an Ace, it is perfectly fine as that Ace will certainly come in useful. Bare suits such as Qxxx can frequently be completely useless.\n\n3. In the trump suit we have a Jack with useful spot cards (the 9 and 5 help). A bare Jack in a side suit can be weak, but in partner's major trumps it is a real asset.",
+            "I like this hand for a few reasons.\n\n1. In diamonds the honours and intermediates are clustered, and the suit has length (4+ cards). That could easily become 3 or 4 tricks. I see a lot of potential in those diamonds!\n\n2. Outside of diamonds we have Aces which are excellent cards. More specifically, if you have a bare suit with just an Ace, it is perfectly fine as that Ace will certainly come in useful. Bare suits such as Qxxx can frequently be completely useless.\n\n3. In the trump suit we have Quacks — Queens and Jacks. Quacks are considered bad things typically, but in the trump suit they are typically excellent.",
           videoUrl: "",
         },
         {
@@ -2346,7 +2346,7 @@ const BIDDING_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           promptText:
-            "In summary\n\n✓ \"Clustered\" honours are good things, like the diamond suit.\n✓ Queens and jacks in the trump suit are often much stronger than the same cards in a side suit.\n✓ Aces are good everywhere. But unlike other cards, they work fine on their own — for example Axx is an asset whereas Qxx in a side suit can be worth very little.",
+            "In summary\n\n✓ \"Clustered\" honours are good things, like the diamond suit.\n✓ Queens and Jacks are excellent in the trump suit, not as good outside.\n✓ Aces are good everywhere. But unlike other cards, they work fine on their own — for example Axx is an asset whereas Qxx in a side suit can be worth very little.",
           videoUrl: "",
         },
         {
@@ -2367,7 +2367,7 @@ const BIDDING_PUZZLES = [
       ],
     },
     shownHands: {
-      DECLARER: { S: "KJ953", H: "A84", D: "KQT6", C: "932" },
+      DECLARER: { S: "QJ5", H: "A84", D: "KQT6", C: "932" },
     },
     rounds: [],
   },
@@ -2952,7 +2952,7 @@ const BIDDING_PUZZLES = [
     },
     shownHands: {
       DECLARER: {
-        S: "KQ1074",
+        S: "KJ953",
         H: "3",
         D: "KJ3",
         C: "10982",
