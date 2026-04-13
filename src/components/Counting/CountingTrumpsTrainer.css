@@ -3461,11 +3461,18 @@
 }
 
 @media (max-width: 1024px) {
-  /* Let the fan use the column width but never collapse to 0; scroll horizontally if needed */
+  /*
+   * Let the fan use the column width. Visible overflow on the fan + scroll on the wrap is for
+   * non–pip layouts where tiles keep a fixed min width. Beginner / phoneHandPips N/S rows flex
+   * thirteen tiles across the column instead (see .ct-page--beginnerPractice rules); there the wrap
+   * is overflow:hidden so the row never shows a horizontal scrollbar.
+   */
   .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
   .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full {
     min-width: min(100%, 520px);
     max-width: 100%;
+    overflow-x: visible;
+    overflow-y: visible;
   }
   .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
   .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
@@ -3474,6 +3481,20 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
+  }
+
+  /* N/S hands flex to column width in pip/beginner mode — no horizontal scroll on the wrap. */
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table--bottomRowLayout
+    .ct-seat--top
+    .ct-handWrap,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table--bottomRowLayout
+    .ct-seat--bottom
+    .ct-handWrap {
+    overflow-x: hidden;
   }
 
   /* E/W: earlier rules use overflow:visible so wide columns don’t clip on desktop; on narrow viewports scroll instead */
@@ -4470,12 +4491,69 @@
     min-width: 0;
   }
 
-  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top .ct-handWrap,
-  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom .ct-handWrap,
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top .ct-handFan--full,
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom .ct-handFan--full {
     min-width: 0;
     max-width: 100%;
+    overflow-x: visible;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top .ct-handWrap,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom .ct-handWrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Single bottom hand (bidding bid1-1): fan must not clip so .ct-handWrap can scroll the row. */
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask2 .ct-seat--bottom .ct-handFan--full {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: visible;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask2 .ct-seat--bottom .ct-handWrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10
+    .ct-seat--top
+    .ct-handFan--full,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10
+    .ct-seat--bottom
+    .ct-handFan--full,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask2
+    .ct-seat--bottom
+    .ct-handFan--full {
+    overflow-x: hidden;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10
+    .ct-seat--top
+    .ct-handWrap,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10
+    .ct-seat--bottom
+    .ct-handWrap,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips).ct-page--fullhands
+    .ct-layout--fullhands
+    .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask2
+    .ct-seat--bottom
+    .ct-handWrap {
+    overflow-x: hidden;
   }
 
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask12 {
@@ -5138,11 +5216,11 @@
   }
 
   /*
-   * Fixed pip footprint everywhere on phone (wide + suit rows + trick).
-   * Wide-seat .ct-handFan--full with fewer than 13 visible cards must NOT flex-grow (p1-15 North vs East).
-   * Full 13-card rows scroll horizontally when 13 * tileW > column (same tile width as everywhere else).
+   * Fixed pip footprint on phone for E/W suit rows + trick (same nominal tile width).
+   * Full-hand N/S rows (.ct-handFan--full) intentionally stay on the page-wide flex rule (flex: 1 1 0)
+   * so all 13 tiles share the live column width — do not pin them to --ct-phonePipW (100vw-based),
+   * which is wider than the table column and forces horizontal scroll / a clipped 13th card.
    */
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitHand .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
     flex: 0 0 var(--ct-phonePipEffective);
@@ -5170,7 +5248,20 @@
     font-size: var(--ct-phonePipSuitFs);
   }
 
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    min-width: 0 !important;
+    gap: 2px;
+    grid-template-columns: unset !important;
+  }
+
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine {
     display: flex !important;
     flex-direction: row;
@@ -5259,8 +5350,7 @@
     flex-wrap: nowrap;
     align-items: stretch;
     justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
     max-width: 100%;
     width: 100%;
     min-width: 0 !important;
@@ -5310,8 +5400,7 @@
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--bottom .ct-handWrap {
     min-width: 0;
     max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
   }
 
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--left .ct-handWrap,
@@ -5345,10 +5434,7 @@
     max-height: none;
   }
 
-  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
-    .ct-table--bottomRowLayout
-    .ct-handFan--full
-    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  /* E/W suit rows: fixed tile band. N/S .ct-handFan--full stays flex-equal from the rule above — do not clamp it or the 13th card scrolls off on narrow tablets. */
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
     .ct-table--bottomRowLayout
     .ct-suitLine
