@@ -550,6 +550,8 @@ function normalizeRoundsClockwise(rounds, declarerCompass) {
 /** Compass seats in puzzle data (plays, distribution keys). Hands use {@link COMPASS_HAND_KEYS} to avoid clashing with suit key "S". */
 const COMPASS_LETTERS = new Set(["N", "E", "S", "W"]);
 const COMPASS_HAND_KEYS = { north: "N", east: "E", south: "S", west: "W" };
+const COMPASS_HAND_KEY_SET = new Set(Object.keys(COMPASS_HAND_KEYS));
+const LOCKED_COUNTING_COMPASS_IDS = new Set(["p1-15", "p1-16", "p1-17", "p1-18", "p1-19"]);
 
 /**
  * Reorder trick plays in true compass order (N→E→S→W) starting from the leader (plays[0]).
@@ -583,6 +585,74 @@ function normalizeTrickPlaysCompassOrder(plays) {
   }
   if (ordered.length !== plays.length) return plays;
   return ordered;
+}
+
+function deepFreeze(obj) {
+  if (!obj || typeof obj !== "object" || Object.isFrozen(obj)) return obj;
+  Object.getOwnPropertyNames(obj).forEach((key) => {
+    deepFreeze(obj[key]);
+  });
+  return Object.freeze(obj);
+}
+
+function assertCompassSeatToken(token, { puzzleId, path }) {
+  if (typeof token !== "string" || !token) return;
+  if (SEATS.includes(token)) {
+    throw new Error(`Puzzle ${puzzleId} uses legacy seat "${token}" at ${path}.`);
+  }
+  if (!COMPASS_LETTERS.has(token) && !COMPASS_HAND_KEY_SET.has(token)) {
+    throw new Error(`Puzzle ${puzzleId} has invalid compass seat "${token}" at ${path}.`);
+  }
+}
+
+function assertCompassSeatKeyMap(obj, { puzzleId, path }) {
+  if (!obj || typeof obj !== "object") return;
+  Object.keys(obj).forEach((key) => assertCompassSeatToken(key, { puzzleId, path: `${path}.${key}` }));
+}
+
+function validateLockedCountingCompassPuzzle(puzzle) {
+  if (!puzzle) return;
+  const puzzleId = puzzle.id || "(unknown)";
+  if (!LOCKED_COUNTING_COMPASS_IDS.has(puzzleId)) return;
+
+  if (puzzle.seatMode !== "compass") {
+    throw new Error(`Puzzle ${puzzleId} must declare seatMode: "compass".`);
+  }
+
+  assertCompassSeatToken(puzzle.viewerCompass, { puzzleId, path: "viewerCompass" });
+  assertCompassSeatToken(puzzle.declarerCompass, { puzzleId, path: "declarerCompass" });
+
+  (puzzle.visibleFullHandSeats || []).forEach((seat, idx) =>
+    assertCompassSeatToken(seat, { puzzleId, path: `visibleFullHandSeats[${idx}]` })
+  );
+
+  assertCompassSeatKeyMap(puzzle.shownHands, { puzzleId, path: "shownHands" });
+  assertCompassSeatKeyMap(puzzle.expectedInitialLengths, { puzzleId, path: "expectedInitialLengths" });
+  assertCompassSeatKeyMap(puzzle.endRevealTrumpHands, { puzzleId, path: "endRevealTrumpHands" });
+
+  (puzzle.rounds || []).forEach((round, roundIdx) => {
+    (round?.plays || []).forEach((play, playIdx) => {
+      assertCompassSeatToken(play?.seat, { puzzleId, path: `rounds[${roundIdx}].plays[${playIdx}].seat` });
+    });
+  });
+
+  const prompts = puzzle.promptOptions?.customPrompts || [];
+  prompts.forEach((prompt, promptIdx) => {
+    assertCompassSeatToken(prompt?.seat, { puzzleId, path: `promptOptions.customPrompts[${promptIdx}].seat` });
+    assertCompassSeatKeyMap(prompt?.fixed, { puzzleId, path: `promptOptions.customPrompts[${promptIdx}].fixed` });
+    assertCompassSeatKeyMap(prompt?.expectedDistribution, {
+      puzzleId,
+      path: `promptOptions.customPrompts[${promptIdx}].expectedDistribution`,
+    });
+    (prompt?.distributionPairGuides?.groups || []).forEach((group, groupIdx) => {
+      (group?.seats || []).forEach((seat, seatIdx) =>
+        assertCompassSeatToken(seat, {
+          puzzleId,
+          path: `promptOptions.customPrompts[${promptIdx}].distributionPairGuides.groups[${groupIdx}].seats[${seatIdx}]`,
+        })
+      );
+    });
+  });
 }
 
 /**
@@ -2085,6 +2155,7 @@ const PUZZLES = [
   {
     id: "p1-15",
     difficulty: 1,
+    seatMode: "compass",
     title: "2♠: two-suit counting (8 goes with 5, 9 goes with 4)",
     trumpSuit: "S",
     contract: "2♠",
@@ -2092,7 +2163,7 @@ const PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
+    visibleFullHandSeats: ["east", "north"],
     promptOptions: {
       prePromptsBeforePlay: false,
       questionNumbers: [],
@@ -2124,15 +2195,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "H",
           atRoundIdx: 1,
-          fixed: { DUMMY: 4, LHO: 5 },
-          expectedDistribution: { LHO: 5, DUMMY: 4, RHO: 3, DECLARER: 1 },
+          fixed: { N: 4, E: 5 },
+          expectedDistribution: { E: 5, N: 4, W: 3, S: 1 },
           promptText: "What was the original heart distribution?",
           successText: "Correct — great counting. Keep building this habit.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 9" },
-              { seats: ["DECLARER", "RHO"], label: "Adds to 4" },
+              { seats: ["E", "N"], label: "Adds to 9" },
+              { seats: ["S", "W"], label: "Adds to 4" },
             ],
           },
         },
@@ -2147,7 +2218,7 @@ const PUZZLES = [
         {
           id: "p1-15-partner-trumps",
           type: "SEAT_SUIT_COUNT",
-          seat: "RHO",
+          seat: "W",
           suit: "S",
           atRoundIdx: 3,
           promptText: "How many trumps did partner have?",
@@ -2158,63 +2229,63 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "S",
           atRoundIdx: 3,
-          fixed: { LHO: 3, RHO: 1, DUMMY: 3 },
-          expectedDistribution: { LHO: 3, DUMMY: 3, RHO: 1, DECLARER: 6 },
+          fixed: { E: 3, W: 1, N: 3 },
+          expectedDistribution: { E: 3, N: 3, W: 1, S: 6 },
           promptText: "What was the original trump distribution?",
           successText: "Well done — excellent trump counting.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["RHO", "LHO"], label: "Adds to 4" },
-              { seats: ["DECLARER", "DUMMY"], label: "Adds to 9" },
+              { seats: ["W", "E"], label: "Adds to 4" },
+              { seats: ["S", "N"], label: "Adds to 9" },
             ],
           },
         },
       ],
     },
     shownHands: {
-      LHO: { S: "987", H: "AKT95", D: "AQ8", C: "K7" }, // East (you)
-      DUMMY: { S: "432", H: "J876", D: "K74", C: "AJ6" }, // North (dummy)
-      RHO: { S: "5", H: "642", D: "JT9653", C: "T98" }, // West (partner)
-      DECLARER: { S: "AKQJT6", H: "3", D: "2", C: "Q5432" }, // South
+      east: { S: "987", H: "AKT95", D: "AQ8", C: "K7" }, // East (you)
+      north: { S: "432", H: "J876", D: "K74", C: "AJ6" }, // North (dummy)
+      west: { S: "5", H: "642", D: "JT9653", C: "T98" }, // West (partner)
+      south: { S: "AKQJT6", H: "3", D: "2", C: "Q5432" }, // South
     },
-    expectedInitialLengths: { LHO: 3, DUMMY: 3, RHO: 1, DECLARER: 6 },
+    expectedInitialLengths: { E: 3, N: 3, W: 1, S: 6 },
     preserveEndStateAtDone: true,
     rounds: [
       {
         label: "Trick 1 (West leads ♥2)",
         plays: [
-          { seat: "RHO", card: { rank: "2", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "7", suit: "H" } },
-          { seat: "LHO", card: { rank: "K", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "3", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "K", suit: "H" } },
+          { seat: "S", card: { rank: "3", suit: "H" } },
         ],
       },
       {
         label: "Trick 2 (East leads ♥A; declarer ruffs)",
         plays: [
-          { seat: "LHO", card: { rank: "A", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "6", suit: "S" }, showOut: true },
-          { seat: "RHO", card: { rank: "4", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
+          { seat: "E", card: { rank: "A", suit: "H" } },
+          { seat: "S", card: { rank: "6", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "4", suit: "H" } },
+          { seat: "N", card: { rank: "8", suit: "H" } },
         ],
       },
       {
         label: "Trick 3 (declarer cashes ♠A)",
         plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
-          { seat: "RHO", card: { rank: "5", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
-          { seat: "LHO", card: { rank: "7", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "7", suit: "S" } },
         ],
       },
       {
         label: "Trick 4 (declarer cashes ♠K; West discards a diamond)",
         plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
-          { seat: "RHO", card: { rank: "6", suit: "D" }, showOut: true },
-          { seat: "DUMMY", card: { rank: "3", suit: "S" } },
-          { seat: "LHO", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "D" }, showOut: true },
+          { seat: "N", card: { rank: "3", suit: "S" } },
+          { seat: "E", card: { rank: "8", suit: "S" } },
         ],
       },
     ],
@@ -2222,6 +2293,7 @@ const PUZZLES = [
   {
     id: "p1-16",
     difficulty: 1,
+    seatMode: "compass",
     title: "2♠: two-suit counting follow-up (8+5 and 5+8)",
     trumpSuit: "S",
     contract: "2♠",
@@ -2229,7 +2301,7 @@ const PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
+    visibleFullHandSeats: ["east", "north"],
     promptOptions: {
       prePromptsBeforePlay: false,
       questionNumbers: [],
@@ -2246,15 +2318,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "H",
           atRoundIdx: 2,
-          fixed: { LHO: 5, DUMMY: 3 },
-          expectedDistribution: { LHO: 5, DUMMY: 3, RHO: 3, DECLARER: 2 },
+          fixed: { E: 5, N: 3 },
+          expectedDistribution: { E: 5, N: 3, W: 3, S: 2 },
           promptText: "What was the original heart distribution?",
           successText: "Correct — strong work. You are developing real counting instincts.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 8" },
-              { seats: ["DECLARER", "RHO"], label: "Adds to 5" },
+              { seats: ["E", "N"], label: "Adds to 8" },
+              { seats: ["S", "W"], label: "Adds to 5" },
             ],
           },
         },
@@ -2268,7 +2340,7 @@ const PUZZLES = [
         {
           id: "p1-16-partner-trumps",
           type: "SEAT_SUIT_COUNT",
-          seat: "RHO",
+          seat: "W",
           suit: "S",
           atRoundIdx: 5,
           promptText: "So how many trumps did partner have?",
@@ -2279,15 +2351,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "S",
           atRoundIdx: 5,
-          fixed: { RHO: 2, LHO: 3, DUMMY: 3 },
-          expectedDistribution: { LHO: 3, DUMMY: 3, RHO: 2, DECLARER: 5 },
+          fixed: { W: 2, E: 3, N: 3 },
+          expectedDistribution: { E: 3, N: 3, W: 2, S: 5 },
           promptText: "So what was the original spade distribution?",
           successText: "Well done — your suit counting is getting sharper.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["RHO", "LHO"], label: "Adds to 5" },
-              { seats: ["DUMMY", "DECLARER"], label: "Adds to 8" },
+              { seats: ["W", "E"], label: "Adds to 5" },
+              { seats: ["N", "S"], label: "Adds to 8" },
             ],
           },
         },
@@ -2295,67 +2367,67 @@ const PUZZLES = [
     },
     shownHands: {
       // East (you)
-      LHO: { S: "973", H: "AJT42", D: "KJ4", C: "T9" },
+      east: { S: "973", H: "AJT42", D: "KJ4", C: "T9" },
       // North (dummy)
-      DUMMY: { S: "Q84", H: "Q96", D: "AQ743", C: "85" },
+      north: { S: "Q84", H: "Q96", D: "AQ743", C: "85" },
       // West (partner)
-      RHO: { S: "J6", H: "K43", D: "982", C: "KQJ72" },
+      west: { S: "J6", H: "K43", D: "982", C: "KQJ72" },
       // South (declarer)
-      DECLARER: { S: "AKT52", H: "75", D: "T65", C: "A643" },
+      south: { S: "AKT52", H: "75", D: "T65", C: "A643" },
     },
     rounds: [
       {
         label: "Trick 1 (West leads a small heart)",
         plays: [
-          { seat: "RHO", card: { rank: "3", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "6", suit: "H" } },
-          { seat: "LHO", card: { rank: "T", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "5", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "6", suit: "H" } },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+          { seat: "S", card: { rank: "5", suit: "H" } },
         ],
       },
       {
         label: "Trick 2 (you continue hearts)",
         plays: [
-          { seat: "LHO", card: { rank: "2", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "7", suit: "H" } },
-          { seat: "RHO", card: { rank: "K", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "7", suit: "H" } },
+          { seat: "W", card: { rank: "K", suit: "H" } },
+          { seat: "N", card: { rank: "9", suit: "H" } },
         ],
       },
       {
         label: "Trick 3 (West leads low heart; declarer pitches a spade)",
         plays: [
-          { seat: "RHO", card: { rank: "4", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "Q", suit: "H" } },
-          { seat: "LHO", card: { rank: "A", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "2", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "4", suit: "H" } },
+          { seat: "N", card: { rank: "Q", suit: "H" } },
+          { seat: "E", card: { rank: "A", suit: "H" } },
+          { seat: "S", card: { rank: "2", suit: "S" }, showOut: true },
         ],
       },
       {
         label: "Trick 4 (declarer plays ♠A)",
         plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
-          { seat: "RHO", card: { rank: "6", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "S" } },
-          { seat: "LHO", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
         ],
       },
       {
         label: "Trick 5 (declarer plays ♠K)",
         plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
-          { seat: "RHO", card: { rank: "J", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "8", suit: "S" } },
-          { seat: "LHO", card: { rank: "7", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "J", suit: "S" } },
+          { seat: "N", card: { rank: "8", suit: "S" } },
+          { seat: "E", card: { rank: "7", suit: "S" } },
         ],
       },
       {
         label: "Trick 6 (low spade to dummy’s queen; partner discards a diamond)",
         plays: [
-          { seat: "DECLARER", card: { rank: "5", suit: "S" } },
-          { seat: "RHO", card: { rank: "2", suit: "D" }, showOut: true },
-          { seat: "DUMMY", card: { rank: "Q", suit: "S" } },
-          { seat: "LHO", card: { rank: "9", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "D" }, showOut: true },
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "9", suit: "S" } },
         ],
       },
     ],
@@ -2363,6 +2435,7 @@ const PUZZLES = [
   {
     id: "p1-17",
     difficulty: 1,
+    seatMode: "compass",
     title: "4♠: watch partner’s trumps while counting two suits",
     trumpSuit: "S",
     contract: "4♠",
@@ -2370,7 +2443,7 @@ const PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
+    visibleFullHandSeats: ["east", "north"],
     promptOptions: {
       prePromptsBeforePlay: false,
       questionNumbers: [],
@@ -2387,16 +2460,16 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "H",
           atRoundIdx: 1,
-          fixed: { DUMMY: 4, LHO: 4 },
-          expectedDistribution: { LHO: 4, DUMMY: 4, RHO: 4, DECLARER: 1 },
+          fixed: { N: 4, E: 4 },
+          expectedDistribution: { E: 4, N: 4, W: 4, S: 1 },
           promptText: "What was the original heart distribution?",
           successText:
             "Correct — great work. This is exactly the skill we want to build: combining known cards quickly and confidently.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 8" },
-              { seats: ["DECLARER", "RHO"], label: "Adds to 5" },
+              { seats: ["E", "N"], label: "Adds to 8" },
+              { seats: ["S", "W"], label: "Adds to 5" },
             ],
           },
         },
@@ -2412,15 +2485,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "S",
           atRoundIdx: 3,
-          fixed: { LHO: 3, DUMMY: 2 },
-          expectedDistribution: { LHO: 3, DUMMY: 2, RHO: 1, DECLARER: 7 },
+          fixed: { E: 3, N: 2 },
+          expectedDistribution: { E: 3, N: 2, W: 1, S: 7 },
           promptText: "What was the original spade distribution?",
           successText: "Correct — excellent. Keep trusting your count.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 5" },
-              { seats: ["DECLARER", "RHO"], label: "Adds to 8" },
+              { seats: ["E", "N"], label: "Adds to 5" },
+              { seats: ["S", "W"], label: "Adds to 8" },
             ],
           },
         },
@@ -2428,49 +2501,49 @@ const PUZZLES = [
     },
     shownHands: {
       // East (you)
-      LHO: { S: "864", H: "AQ92", D: "J75", C: "T94" },
+      east: { S: "864", H: "AQ92", D: "J75", C: "T94" },
       // North (dummy)
-      DUMMY: { S: "72", H: "K843", D: "A86", C: "Q875" },
+      north: { S: "72", H: "K843", D: "A86", C: "Q875" },
       // West (partner)
-      RHO: { S: "J", H: "JT65", D: "KQ32", C: "A632" },
+      west: { S: "J", H: "JT65", D: "KQ32", C: "A632" },
       // South (declarer)
-      DECLARER: { S: "AKQT953", H: "7", D: "T94", C: "KJ" },
+      south: { S: "AKQT953", H: "7", D: "T94", C: "KJ" },
     },
     rounds: [
       {
         label: "Trick 1 (West leads ♥J; all follow low)",
         plays: [
-          { seat: "RHO", card: { rank: "J", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "3", suit: "H" } },
-          { seat: "LHO", card: { rank: "2", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "7", suit: "H" } },
+          { seat: "W", card: { rank: "J", suit: "H" } },
+          { seat: "N", card: { rank: "3", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "7", suit: "H" } },
         ],
       },
       {
         label: "Trick 2 (West leads ♥10; declarer ruffs)",
         plays: [
-          { seat: "RHO", card: { rank: "T", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
-          { seat: "LHO", card: { rank: "9", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "3", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "T", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "9", suit: "H" } },
+          { seat: "S", card: { rank: "3", suit: "S" }, showOut: true },
         ],
       },
       {
         label: "Trick 3 (declarer plays ♠A; all follow)",
         plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
-          { seat: "RHO", card: { rank: "J", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
-          { seat: "LHO", card: { rank: "4", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "J", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
         ],
       },
       {
         label: "Trick 4 (declarer plays ♠K; partner discards a diamond)",
         plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
-          { seat: "RHO", card: { rank: "2", suit: "D" }, showOut: true },
-          { seat: "DUMMY", card: { rank: "7", suit: "S" } },
-          { seat: "LHO", card: { rank: "6", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "D" }, showOut: true },
+          { seat: "N", card: { rank: "7", suit: "S" } },
+          { seat: "E", card: { rank: "6", suit: "S" } },
         ],
       },
     ],
@@ -2478,6 +2551,7 @@ const PUZZLES = [
   {
     id: "p1-18",
     difficulty: 1,
+    seatMode: "compass",
     title: "4♠: diamonds first, then trumps",
     trumpSuit: "S",
     contract: "4♠",
@@ -2485,7 +2559,7 @@ const PUZZLES = [
     dealerCompass: "W",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
+    visibleFullHandSeats: ["east", "north"],
     promptOptions: {
       prePromptsBeforePlay: false,
       questionNumbers: [],
@@ -2502,15 +2576,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "D",
           atRoundIdx: 1,
-          fixed: { LHO: 2, DUMMY: 3 },
-          expectedDistribution: { LHO: 2, DUMMY: 3, RHO: 7, DECLARER: 1 },
+          fixed: { E: 2, N: 3 },
+          expectedDistribution: { E: 2, N: 3, W: 7, S: 1 },
           promptText: "What was the original diamond distribution?",
           successText: "Correct — good discipline counting the side suit first.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 5" },
-              { seats: ["RHO", "DECLARER"], label: "Adds to 8" },
+              { seats: ["E", "N"], label: "Adds to 5" },
+              { seats: ["W", "S"], label: "Adds to 8" },
             ],
           },
         },
@@ -2526,15 +2600,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "S",
           atRoundIdx: 3,
-          fixed: { LHO: 3, DUMMY: 2 },
-          expectedDistribution: { LHO: 3, DUMMY: 2, RHO: 1, DECLARER: 7 },
+          fixed: { E: 3, N: 2 },
+          expectedDistribution: { E: 3, N: 2, W: 1, S: 7 },
           promptText: "Lets now work out the spade distribution",
           successText: "Well done — that is solid trump counting.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 5" },
-              { seats: ["RHO", "DECLARER"], label: "Adds to 8" },
+              { seats: ["E", "N"], label: "Adds to 5" },
+              { seats: ["W", "S"], label: "Adds to 8" },
             ],
           },
         },
@@ -2542,49 +2616,49 @@ const PUZZLES = [
     },
     shownHands: {
       // East (you)
-      LHO: { S: "J84", H: "AQ92", D: "52", C: "T73" },
+      east: { S: "J84", H: "AQ92", D: "52", C: "T73" },
       // North (dummy)
-      DUMMY: { S: "62", H: "K843", D: "T84", C: "QJ9" },
+      north: { S: "62", H: "K843", D: "T84", C: "QJ9" },
       // West (partner)
-      RHO: { S: "5", H: "JT75", D: "AKQJ973", C: "2" },
+      west: { S: "5", H: "JT75", D: "AKQJ973", C: "2" },
       // South (declarer)
-      DECLARER: { S: "AKQT973", H: "6", D: "6", C: "AK8654" },
+      south: { S: "AKQT973", H: "6", D: "6", C: "AK8654" },
     },
     rounds: [
       {
         label: "Trick 1 (West leads ♦A; all follow low)",
         plays: [
-          { seat: "RHO", card: { rank: "A", suit: "D" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "D" } },
-          { seat: "LHO", card: { rank: "2", suit: "D" } },
-          { seat: "DECLARER", card: { rank: "6", suit: "D" } },
+          { seat: "W", card: { rank: "A", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "6", suit: "D" } },
         ],
       },
       {
         label: "Trick 2 (West leads ♦K; declarer ruffs)",
         plays: [
-          { seat: "RHO", card: { rank: "K", suit: "D" } },
-          { seat: "DUMMY", card: { rank: "8", suit: "D" } },
-          { seat: "LHO", card: { rank: "5", suit: "D" } },
-          { seat: "DECLARER", card: { rank: "3", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "K", suit: "D" } },
+          { seat: "N", card: { rank: "8", suit: "D" } },
+          { seat: "E", card: { rank: "5", suit: "D" } },
+          { seat: "S", card: { rank: "3", suit: "S" }, showOut: true },
         ],
       },
       {
         label: "Trick 3 (declarer plays ♠A; all follow)",
         plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
-          { seat: "RHO", card: { rank: "5", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "2", suit: "S" } },
-          { seat: "LHO", card: { rank: "4", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
         ],
       },
       {
         label: "Trick 4 (declarer plays ♠K; partner discards a diamond)",
         plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
-          { seat: "RHO", card: { rank: "3", suit: "D" }, showOut: true },
-          { seat: "DUMMY", card: { rank: "6", suit: "S" } },
-          { seat: "LHO", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "3", suit: "D" }, showOut: true },
+          { seat: "N", card: { rank: "6", suit: "S" } },
+          { seat: "E", card: { rank: "8", suit: "S" } },
         ],
       },
     ],
@@ -2592,6 +2666,7 @@ const PUZZLES = [
   {
     id: "p1-19",
     difficulty: 1,
+    seatMode: "compass",
     title: "2♠: count hearts first, then partner’s trumps",
     trumpSuit: "S",
     contract: "2♠",
@@ -2599,7 +2674,7 @@ const PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
+    visibleFullHandSeats: ["east", "north"],
     promptOptions: {
       prePromptsBeforePlay: false,
       questionNumbers: [],
@@ -2616,15 +2691,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "H",
           atRoundIdx: 1,
-          fixed: { LHO: 5, DUMMY: 3 },
-          expectedDistribution: { LHO: 5, DUMMY: 3, RHO: 4, DECLARER: 1 },
+          fixed: { E: 5, N: 3 },
+          expectedDistribution: { E: 5, N: 3, W: 4, S: 1 },
           promptText: "What was the original heart distribution?",
           successText: "Correct — great job converting clues into exact numbers.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "DUMMY"], label: "Adds to 8" },
-              { seats: ["RHO", "DECLARER"], label: "Adds to 5" },
+              { seats: ["E", "N"], label: "Adds to 8" },
+              { seats: ["W", "S"], label: "Adds to 5" },
             ],
           },
         },
@@ -2637,7 +2712,7 @@ const PUZZLES = [
         {
           id: "p1-19-partner-trumps",
           type: "SEAT_SUIT_COUNT",
-          seat: "RHO",
+          seat: "W",
           suit: "S",
           atRoundIdx: 3,
           promptText: "How many trumps did partner have?",
@@ -2648,15 +2723,15 @@ const PUZZLES = [
           type: "DISTRIBUTION_GUESS",
           suit: "S",
           atRoundIdx: 3,
-          fixed: { RHO: 1, DUMMY: 3, LHO: 3 },
-          expectedDistribution: { LHO: 3, DUMMY: 3, RHO: 1, DECLARER: 6 },
+          fixed: { W: 1, N: 3, E: 3 },
+          expectedDistribution: { E: 3, N: 3, W: 1, S: 6 },
           promptText: "So what was the original distribution of the trump suit?",
           successText: "Well done — your trump distribution counting is spot on.",
           distributionPairGuides: {
             variant: "all_three",
             groups: [
-              { seats: ["LHO", "RHO"], label: "Adds to 4" },
-              { seats: ["DUMMY", "DECLARER"], label: "Adds to 9" },
+              { seats: ["E", "W"], label: "Adds to 4" },
+              { seats: ["N", "S"], label: "Adds to 9" },
             ],
           },
         },
@@ -2664,49 +2739,49 @@ const PUZZLES = [
     },
     shownHands: {
       // East (you)
-      LHO: { S: "753", H: "AQ932", D: "62", C: "T8" },
+      east: { S: "753", H: "AQ932", D: "62", C: "T8" },
       // North (dummy)
-      DUMMY: { S: "T84", H: "K84", D: "A95", C: "QJ72" },
+      north: { S: "T84", H: "K84", D: "A95", C: "QJ72" },
       // West (partner)
-      RHO: { S: "J", H: "JT76", D: "KQ84", C: "A953" },
+      west: { S: "J", H: "JT76", D: "KQ84", C: "A953" },
       // South (declarer)
-      DECLARER: { S: "AKQ962", H: "5", D: "JT73", C: "K64" },
+      south: { S: "AKQ962", H: "5", D: "JT73", C: "K64" },
     },
     rounds: [
       {
         label: "Trick 1 (West leads ♥J; low, low, low)",
         plays: [
-          { seat: "RHO", card: { rank: "J", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "H" } },
-          { seat: "LHO", card: { rank: "2", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "5", suit: "H" } },
+          { seat: "W", card: { rank: "J", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "5", suit: "H" } },
         ],
       },
       {
         label: "Trick 2 (West leads ♥10; declarer ruffs)",
         plays: [
-          { seat: "RHO", card: { rank: "T", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "8", suit: "H" } },
-          { seat: "LHO", card: { rank: "3", suit: "H" } },
-          { seat: "DECLARER", card: { rank: "2", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "T", suit: "H" } },
+          { seat: "N", card: { rank: "8", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+          { seat: "S", card: { rank: "2", suit: "S" }, showOut: true },
         ],
       },
       {
         label: "Trick 3 (declarer plays ♠A; all follow)",
         plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "S" } },
-          { seat: "RHO", card: { rank: "J", suit: "S" } },
-          { seat: "DUMMY", card: { rank: "4", suit: "S" } },
-          { seat: "LHO", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "J", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
         ],
       },
       {
         label: "Trick 4 (declarer plays ♠K; partner discards a diamond)",
         plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "S" } },
-          { seat: "RHO", card: { rank: "4", suit: "D" }, showOut: true },
-          { seat: "DUMMY", card: { rank: "8", suit: "S" } },
-          { seat: "LHO", card: { rank: "5", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "4", suit: "D" }, showOut: true },
+          { seat: "N", card: { rank: "8", suit: "S" } },
+          { seat: "E", card: { rank: "5", suit: "S" } },
         ],
       },
     ],
@@ -3327,6 +3402,13 @@ const PUZZLES = [
   },
 ];
 
+for (const p of PUZZLES) {
+  validateLockedCountingCompassPuzzle(p);
+  if (LOCKED_COUNTING_COMPASS_IDS.has(p?.id)) {
+    deepFreeze(p);
+  }
+}
+
 /** Same list the counting route uses (excludes moved puzzle d2-2). Exported for beginner practice isolation. */
 export const DEFAULT_COUNTING_PUZZLES_FOR_TRAINER = PUZZLES.filter((p) => p.id !== "d2-2");
 
@@ -3621,8 +3703,37 @@ function isPuzzleNew(puzzle) {
 
 const isLocalhost = typeof window !== "undefined" && (window.location?.hostname === "localhost" || window.location?.hostname === "127.0.0.1");
 
-/** Withheld from main-site counting practice until content is fixed; `?problem=` deep links to these ids won't resolve. */
-const MAIN_SITE_HIDDEN_COUNTING_IDS = new Set(["p1-15", "p1-16", "p1-17", "p1-18", "p1-19"]);
+/**
+ * Legacy seat-model allowlist for counting (`LHO`/`RHO`/`DUMMY`/`DECLARER`).
+ * Anything not listed here must be authored with compass seats + `seatMode: "compass"`.
+ */
+const COUNTING_LEGACY_SEAT_MODEL_IDS = new Set([
+  "p1",
+  "p1-2",
+  "p1-3",
+  "p1-4",
+  "p1-5",
+  "p1-6",
+  "p1-7",
+  "p1-8",
+  "p1-9",
+  "p1-10",
+  "p1-11",
+  "p1-12",
+  "p1-13",
+  "p1-14",
+  "d2-2",
+  "p2-2",
+  "p2-3",
+  "d5-2",
+  "cp3-2",
+]);
+
+function mustUseCompassSeatModel({ categoryKey, puzzleId }) {
+  if (categoryKey !== "counting") return false;
+  if (!puzzleId) return false;
+  return !COUNTING_LEGACY_SEAT_MODEL_IDS.has(puzzleId);
+}
 
 function CountingTrumpsTrainer({
   uid,
@@ -3677,10 +3788,6 @@ function CountingTrumpsTrainer({
       list = raw.filter((p) => p.id !== "d2-2");
     }
     if (!beginnerModeOverride) {
-      // Keep these hidden in production/main app, but visible on localhost for authoring/debug.
-      if (categoryKey === "counting" && !isLocalhost) {
-        list = list.filter((p) => !MAIN_SITE_HIDDEN_COUNTING_IDS.has(p.id));
-      }
       return list;
     }
 
@@ -3884,9 +3991,12 @@ function CountingTrumpsTrainer({
 
   /** New-format puzzles only (`seatMode: "compass"`); legacy puzzles pass through unchanged. */
   const rawPuzzleResolved = useMemo(() => {
+    if (mustUseCompassSeatModel({ categoryKey, puzzleId: rawPuzzle?.id }) && rawPuzzle?.seatMode !== "compass") {
+      throw new Error(`Counting problem "${rawPuzzle?.id}" must use seatMode: "compass" (no LHO/RHO authoring).`);
+    }
     if (rawPuzzle?.seatMode === "compass") return compassPuzzleToLegacy(rawPuzzle);
     return rawPuzzle;
-  }, [rawPuzzle]);
+  }, [rawPuzzle, categoryKey]);
 
   const contractText = contractToText(rawPuzzleResolved);
   const auctionText = auctionToText(rawPuzzleResolved);
