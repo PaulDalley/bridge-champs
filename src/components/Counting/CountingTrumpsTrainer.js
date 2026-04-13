@@ -5110,14 +5110,27 @@ function CountingTrumpsTrainer({
     if (categoryKey === "bidding" && puzzle?.promptOptions?.hideBiddingHand) {
       return null;
     }
+    const miniTrumpPresentation = puzzle?.promptOptions?.miniTrumpHandPresentation;
+    const handCardsAsCardsClassName = [
+      "ct-handCardsAsCards",
+      miniTrumpPresentation === "compactOneRow" && "ct-handCardsAsCards--miniTrumpCompactRow",
+      miniTrumpPresentation === "twoRows7_6" && "ct-handCardsAsCards--miniTrumpTwoRows76",
+    ]
+      .filter(Boolean)
+      .join(" ");
+    /** Ace-left (high to low): `rankSortValue` is lower for stronger ranks — sort ascending on it. */
+    const orderMiniTrumpStripCards = (cardObjs) => {
+      if (!miniTrumpPresentation || !Array.isArray(cardObjs) || cardObjs.length === 0) return cardObjs;
+      return [...cardObjs].sort((a, b) => rankSortValue(a.rank) - rankSortValue(b.rank));
+    };
     if (!showFullHands) {
       // Old mode: show only trump suit as mini-cards.
       if (promptStep === "DONE" && puzzle.endRevealTrumpHands && Array.isArray(puzzle.endRevealTrumpHands[seat])) {
         const ranks = puzzle.endRevealTrumpHands[seat];
+        const revealCards = orderMiniTrumpStripCards(ranks.map((r) => makeCard(r, puzzle.trumpSuit)));
         return (
-          <div className="ct-handCardsAsCards" aria-label={`${seat} trump suit revealed`}>
-            {ranks.map((r, idx) => {
-              const c = makeCard(r, puzzle.trumpSuit);
+          <div className={handCardsAsCardsClassName} aria-label={`${seat} trump suit revealed`}>
+            {revealCards.map((c, idx) => {
               return (
                 <div key={`${seat}-reveal-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ${cardColorClass(c)}`}>
                   <div className="ct-miniCardCorner">{formatCard(c)}</div>
@@ -5137,15 +5150,16 @@ function CountingTrumpsTrainer({
           </div>
         );
       }
+      const stripCards = orderMiniTrumpStripCards(remainingHands[seat] || []);
       return (
-        <div className="ct-handCardsAsCards" aria-label={`${seat} trump cards remaining`}>
-          {(remainingHands[seat] || []).map((c, idx) => (
+        <div className={handCardsAsCardsClassName} aria-label={`${seat} trump cards remaining`}>
+          {stripCards.map((c, idx) => (
             <div key={`${seat}-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ${cardColorClass(c)}`}>
               <div className="ct-miniCardCorner">{formatCard(c)}</div>
               <div className="ct-miniCardCenter">{formatCard(c)}</div>
             </div>
           ))}
-          {(remainingHands[seat] || []).length === 0 && <div className="ct-emptyHand">No trumps left</div>}
+          {stripCards.length === 0 && <div className="ct-emptyHand">No trumps left</div>}
         </div>
       );
     }
@@ -7977,7 +7991,7 @@ function CountingTrumpsTrainer({
 
   return (
     <div
-      className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""} ${isMobileViewport && !beginnerModeOverride ? "ct-page--phoneHandPips" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
+      className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""}${beginnerModeOverride && categoryKey === "declarer" ? " ct-beginnerDeclarerStage" : ""} ${isMobileViewport && !beginnerModeOverride ? "ct-page--phoneHandPips" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
     >
       {showBeginnerLessonContractBanner && (
         <div className="ct-beginnerPageIntro" aria-label="Lesson introduction">

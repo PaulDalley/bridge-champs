@@ -39,7 +39,7 @@ const BEGINNER_TRAINER_LABELS = {
 };
 
 /** First N Stage‑1 (declarer) hands free on /beginner/practice; rest of that tab stays paywalled. */
-const BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS = 5;
+const BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS = 6;
 
 /** Only source for /beginner/practice — not CardPlay / Defence / Counting / Bidding trainers. */
 const BEGINNER_PUZZLES_BY_CATEGORY = {

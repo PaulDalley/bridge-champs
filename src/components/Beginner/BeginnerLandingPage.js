@@ -9,6 +9,8 @@ import "./BeginnerLandingPage.css";
 
 const PRACTICE_PATH = "/beginner/practice/declarer";
 const VIDEO_DOC = "beginnerLandingVideo";
+/** Shown when Firestore `beginnerLandingVideo` has no URL (admins can override in site settings). */
+const DEFAULT_BEGINNER_LANDING_INTRO_VIDEO = "https://www.youtube.com/shorts/_2fhCCQ-iR4";
 
 const SITE_ORIGIN = "https://bridgechampions.com";
 const LANDING_CANONICAL = `${SITE_ORIGIN}/beginner`;
@@ -25,6 +27,9 @@ function getYouTubeEmbedUrl(url) {
     videoId = url.split("youtu.be/")[1].split("?")[0];
   } else if (url.includes("youtube.com/embed/")) {
     return url;
+  } else if (url.includes("youtube.com/shorts/")) {
+    const after = url.split("youtube.com/shorts/")[1] || "";
+    videoId = after.split("?")[0].split("/")[0];
   }
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1` : "";
 }
@@ -40,13 +45,18 @@ function BeginnerLandingVideo({ isAdmin }) {
     const fetchUrl = async () => {
       try {
         const doc = await firebase.firestore().collection("siteSettings").doc(VIDEO_DOC).get();
-        if (!cancelled && doc.exists) {
-          const u = doc.data()?.url || "";
+        if (!cancelled) {
+          const fromDb = doc.exists ? String(doc.data()?.url || "").trim() : "";
+          const u = fromDb || DEFAULT_BEGINNER_LANDING_INTRO_VIDEO;
           setVideoUrl(u);
           setEditUrl(u);
         }
       } catch (e) {
         console.error("BeginnerLandingVideo fetch error:", e);
+        if (!cancelled) {
+          setVideoUrl(DEFAULT_BEGINNER_LANDING_INTRO_VIDEO);
+          setEditUrl(DEFAULT_BEGINNER_LANDING_INTRO_VIDEO);
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }

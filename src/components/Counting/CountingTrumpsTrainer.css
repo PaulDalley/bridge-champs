@@ -339,6 +339,125 @@
   margin-bottom: 0;
 }
 
+/* =============================================================================
+   Learn bridge from scratch — Stage 1 (beginner declarer): rail copy styled like
+   bidding difficulty 2 “doubles” rich cards — slate panels for narrative, amber
+   for your-turn questions, soft panels for reveals and hints.
+   ============================================================================= */
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 14px 16px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(51, 65, 85, 0.38);
+  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+  max-width: 100%;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted .ct-revealContent,
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted .ct-revealParagraph {
+  /* Explicit px so text stays readable regardless of root `rem` / browser text size */
+  font-size: 21px;
+  line-height: 1.48;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted .ct-promptAlert {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock {
+  margin-top: 4px;
+  padding: 14px 16px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(180, 83, 9, 0.55);
+  background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 55%, #fde68a 100%);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock-heading {
+  color: #7c2d12;
+  letter-spacing: 0.05em;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock-question--formatted .ct-revealContent {
+  font-size: 20px;
+  line-height: 1.52;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock-hint {
+  margin-top: 12px !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(180, 83, 9, 0.38) !important;
+  color: #57534e !important;
+  font-size: 17px !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playRevealWrap {
+  margin-top: 10px;
+  padding: 14px 16px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(51, 65, 85, 0.28);
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playRevealWrap .ct-revealContent.ct-playRevealText {
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-revealMotivation {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #334155;
+  background: rgba(254, 243, 199, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-explanationSidebar .ct-watchNote {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+  border: 1px solid rgba(100, 116, 139, 0.35);
+  font-size: 19px;
+  font-weight: 700;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-feedback--ok {
+  background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: 0 1px 6px rgba(5, 150, 105, 0.12);
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-feedback--error {
+  background: linear-gradient(145deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: rgba(248, 113, 113, 0.55);
+  box-shadow: 0 1px 6px rgba(220, 38, 38, 0.1);
+}
+
+.ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-handCardsAsCards--miniTrumpCompactRow {
+  padding: 10px 8px 12px;
+  margin-top: 6px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, #f8fafc 100%);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
 /* [[RING]]…[[/RING]] in FormattedRevealText — match circled bids in the auction panel */
 .ct-revealRing {
   display: inline-flex;
@@ -2606,6 +2725,68 @@
   min-height: 86px;
 }
 
+/* Optional: 13-card trump strip — smaller tiles, one row (e.g. Stage 1 rank lesson). */
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpCompactRow {
+  flex-direction: row;
+  direction: ltr;
+  flex-wrap: nowrap;
+  gap: 3px;
+  min-height: 58px;
+  padding: 0 2px 4px;
+  justify-content: center;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpCompactRow .ct-miniCard {
+  width: 34px;
+  height: 48px;
+  flex: 0 0 auto;
+  border-radius: 6px;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpCompactRow .ct-miniCardCorner {
+  top: 3px;
+  left: 4px;
+  font-size: 8px;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpCompactRow .ct-miniCardCenter {
+  font-size: 12px;
+}
+
+/* Optional: 7 cards, then 6 — two-row grid for the same strip. */
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpTwoRows76 {
+  display: grid;
+  direction: ltr;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px 4px;
+  max-width: min(100%, 420px);
+  margin-left: auto;
+  margin-right: auto;
+  min-height: auto;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpTwoRows76 .ct-miniCard {
+  width: 100%;
+  max-width: 48px;
+  height: 66px;
+  margin: 0 auto;
+  justify-self: center;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpTwoRows76 .ct-miniCardCorner {
+  font-size: 10px;
+  top: 4px;
+  left: 5px;
+}
+
+.ct-handCardsAsCards.ct-handCardsAsCards--miniTrumpTwoRows76 .ct-miniCardCenter {
+  font-size: 15px;
+}
+
 .ct-miniCard {
   width: 56px;
   height: 78px;
@@ -4501,6 +4682,31 @@
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-playDecisionBlock {
     padding: 6px 8px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted {
+    padding: 12px 12px 14px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock {
+    padding: 10px 12px 12px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playRevealWrap {
+    padding: 12px 12px 14px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted .ct-revealContent,
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-promptRail-content .ct-questionText.ct-questionText--formatted .ct-revealParagraph {
+    font-size: 19px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playDecisionBlock-question--formatted .ct-revealContent {
+    font-size: 19px;
+  }
+
+  .ct-page.ct-page--beginnerPractice.ct-beginnerDeclarerStage .ct-playRevealWrap .ct-revealContent.ct-playRevealText {
+    font-size: 19px;
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-playDecisionBlock-question,

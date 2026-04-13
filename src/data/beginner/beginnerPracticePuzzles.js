@@ -12,6 +12,54 @@ import { BDECL1_9_CUSTOM_PROMPTS } from "./bdecl1-9Rich";
 
 export const BEGINNER_DECLARER_PUZZLES = [
   {
+    id: "bdecl1-0",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Stage 1 — Card ranks: Ace high down to the 2 (your spades)",
+    trumpSuit: "S",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    promptOptions: {
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Before we play",
+      contractLabelBeforeStartOnly: true,
+      manualTrickAdvance: true,
+      /** Smaller minis, single row (scroll on very narrow viewports). Use `twoRows7_6` for a 7+6 grid instead. */
+      miniTrumpHandPresentation: "compactOneRow",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/DR2qajAibO4",
+      customPrompts: [
+        {
+          id: "bdecl1-0-ranks",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "Let's look at a simple idea, which many people will already know, before we dive into playing.\n\nThe cards go from the 2, which is the lowest card, all the way to the Ace, which is the highest. Below, your spades are shown from high to low — Ace on the left, then King, Queen, and so on, down to the 2 on the right.\n\nThis is the same as a lot of other card games, like poker.",
+        },
+      ],
+    },
+    shownHands: {
+      south: {
+        suit: "S",
+        cards: ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"],
+      },
+    },
+    expectedInitialLengths: {
+      south: 13,
+      north: 0,
+      east: 0,
+      west: 0,
+    },
+    endRevealTrumpHands: {
+      south: ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"],
+    },
+    rounds: [],
+  },
+  {
     id: "bdecl1-1",
     difficulty: 1,
     playEngine: "compassClockwise",
@@ -31,6 +79,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       manualTrickAdvance: true,
       disableWarmupTrumpGuess: true,
       hideAuction: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/cRlgwxO7jEc",
       customPrompts: [
         {
           id: "bdecl1-1-intro",
@@ -146,6 +195,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       manualTrickAdvance: true,
       disableWarmupTrumpGuess: true,
       hideAuction: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/FF1atweZ-v4",
       customPrompts: [
         {
           id: "bdecl1-2-contract-intro",
@@ -268,6 +318,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       manualTrickAdvance: true,
       disableWarmupTrumpGuess: true,
       hideAuction: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/BfgyHJ8NtM0",
       customPrompts: [
         {
           id: "bdecl1-3-dummy-intro",
@@ -385,6 +436,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       manualTrickAdvance: true,
       disableWarmupTrumpGuess: true,
       hideAuction: false,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/BmpZGId44Kw",
       auctionResolvedText: "1S 2H P P P",
       auctionShowResolvedDuringInfoPromptId: "bdecl1-4-west-2h",
       auctionHighlightCall: { row: 1, seat: "W" },
@@ -486,6 +538,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       manualTrickAdvance: true,
       disableWarmupTrumpGuess: true,
       hideAuction: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/gGoroqZsaDg",
       customPrompts: [
         {
           id: "bdecl1-5-maths",
@@ -550,6 +603,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       disableWarmupTrumpGuess: true,
       hideAuction: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/kiVHOCTpM74",
       customPrompts: [
         {
           id: "bdecl1-6-intro",
@@ -681,6 +735,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       disableWarmupTrumpGuess: true,
       hideAuction: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/h8zd9JOtO_s",
       customPrompts: BDECL1_7_CUSTOM_PROMPTS,
     },
   },
@@ -709,6 +764,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       disableWarmupTrumpGuess: true,
       hideAuction: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/2zpR2poVrUk",
       customPrompts: BDECL1_8_CUSTOM_PROMPTS,
     },
   },
@@ -737,6 +793,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
       disableWarmupTrumpGuess: true,
       hideAuction: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/8FRwlaju_P4",
       customPrompts: BDECL1_9_CUSTOM_PROMPTS,
     },
   },
