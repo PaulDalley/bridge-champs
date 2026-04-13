@@ -1492,25 +1492,6 @@
   width: auto;
 }
 
-/* Counting p1-15..p1-19: force sidebar below table so prompts/video never cut off visible hands. */
-.ct-tableWithSidebar--forceWrap .ct-tableWithSidebar-inner {
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.ct-tableWithSidebar--forceWrap .ct-table {
-  margin-right: 0;
-  max-width: 100%;
-}
-
-.ct-tableWithSidebar--forceWrap .ct-explanationSidebar {
-  position: static;
-  top: auto;
-  margin-left: 0;
-  flex: 1 1 520px;
-  width: min(520px, 100%);
-}
-
 /* Right sidebar: must not overlap East hand — margin keeps panel clear of cards. */
 .ct-explanationSidebar {
   flex: 0 0 380px;
@@ -1521,70 +1502,6 @@
   padding: 4px 0 0;
   box-sizing: border-box;
   margin-left: 32px;
-}
-
-/* Counting p1-15..p1-19: keep right sidebar, but make it compact so hands keep room. */
-.ct-tableWithSidebar--compactSidebar .ct-explanationSidebar {
-  flex: 0 0 300px;
-  width: 300px;
-  margin-left: 18px;
-}
-
-.ct-explanationSidebar--compact .ct-sidePrompt {
-  padding: 8px 10px;
-}
-
-.ct-explanationSidebar--compact .ct-contractLine {
-  font-size: 20px;
-}
-
-.ct-explanationSidebar--compact .ct-roleLine {
-  font-size: 18px;
-}
-
-.ct-explanationSidebar--compact .ct-auctionTitle {
-  font-size: 16px;
-}
-
-.ct-explanationSidebar--compact .ct-auctionHead,
-.ct-explanationSidebar--compact .ct-auctionRow {
-  grid-template-columns: repeat(4, minmax(44px, 52px));
-}
-
-.ct-explanationSidebar--compact .ct-auctionCell {
-  font-size: 32px;
-  padding: 2px 3px;
-}
-
-.ct-explanationSidebar--compact .ct-auctionCall {
-  font-size: 32px;
-}
-
-.ct-explanationSidebar--compact .ct-auctionCell--head {
-  font-size: 13px;
-}
-
-/* For p1-15..p1-19 in tighter/portrait layouts, avoid any chance of hand clipping. */
-@media (max-width: 1280px), (orientation: portrait) {
-  .ct-tableWithSidebar--compactSidebar .ct-tableWithSidebar-inner {
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-
-  .ct-tableWithSidebar--compactSidebar .ct-table {
-    margin-right: 0;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .ct-tableWithSidebar--compactSidebar .ct-explanationSidebar {
-    position: static;
-    top: auto;
-    margin-left: 0;
-    flex: 1 1 360px;
-    width: min(420px, 100%);
-  }
 }
 
 .ct-explanationSidebar .ct-sidePrompt {
@@ -1771,11 +1688,6 @@
   row-gap: 0;
 }
 
-/* Locked counting set (p1-15..p1-19): give East column more room so 5-card suit rows never clip. */
-.ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--lockedCounting {
-  grid-template-columns: 0 clamp(280px, 34vw, 420px) minmax(180px, 230px);
-}
-
 /* When West visible (reveal): wider left column so West’s long suits (e.g. 6 spades) fit without squashing */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
   grid-template-columns: 260px clamp(300px, 34vw, 420px) minmax(110px, 150px);
@@ -1784,10 +1696,6 @@
   justify-items: start;
   column-gap: 10px;
   row-gap: 0;
-}
-
-.ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--lockedCounting.ct-table--westVisible {
-  grid-template-columns: 220px clamp(280px, 32vw, 400px) minmax(180px, 230px);
 }
 
 /* Override: when table is in sidebar layout, do NOT stretch to 100% — keep questions next to table */
@@ -3400,15 +3308,6 @@
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--right .ct-suitLine {
   width: max-content;
 }
-
-/* Locked counting set: slightly smaller side-hand cards so long suit rows fit reliably. */
-.ct-layout--fullhands .ct-table--bottomRowLayout.ct-table--lockedCounting .ct-seat--right .ct-suitLine .ct-miniCard.ct-miniCard--fan,
-.ct-layout--fullhands .ct-table--bottomRowLayout.ct-table--lockedCounting .ct-seat--left .ct-suitLine .ct-miniCard.ct-miniCard--fan {
-  max-width: 36px;
-  min-width: 22px;
-  min-height: 32px;
-  max-height: 50px;
-}
 /* West hand: same compact packing */
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--left .ct-suitHand {
   width: max-content;
@@ -4256,8 +4155,7 @@
   }
 
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask12 .ct-seat--right {
-  /* Keep East hand inside viewport on compact layouts (problems like p1-15 with top+right visible). */
-  justify-self: start;
+    justify-self: end;
     align-self: start;
   }
 

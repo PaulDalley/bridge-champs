@@ -5068,14 +5068,8 @@ function CountingTrumpsTrainer({
     playFromRoundToPause(0, 0);
   };
 
-  const startPuzzle = ({ force = false } = {}) => {
-    const currentlyPlaying = isPlayingRef.current || isPlaying;
-    if (currentlyPlaying && !force) return;
-    if (currentlyPlaying && force) {
-      clearAll();
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-    }
+  const startPuzzle = () => {
+    if (isPlaying) return;
     setHasStarted(true);
     setFeedback(null);
     setPostPromptIdx(0);
@@ -5156,7 +5150,7 @@ function CountingTrumpsTrainer({
   // Reset when the puzzle changes; always begin immediately (no Start overlay) for all trainers/categories.
   useLayoutEffect(() => {
     resetForPuzzle();
-    startPuzzle({ force: true });
+    startPuzzle();
   }, [puzzle.id, beginnerModeOverride]);
 
   const currentPlay = useMemo(() => {
@@ -6801,7 +6795,7 @@ function CountingTrumpsTrainer({
     // With only one problem in the rail, index stays 0 and puzzle.id never changes — force a full restart.
     if (len === 1) {
       resetForPuzzle();
-      startPuzzle({ force: true });
+      startPuzzle();
     }
   };
 
@@ -7112,8 +7106,6 @@ function CountingTrumpsTrainer({
 
   // When full hands, put prompt in left column so South stays visible (no prompt below table pushing it off).
   const useBottomRowLayout = !!showFullHands;
-  const compactSidebarForLockedCounting =
-    useBottomRowLayout && categoryKey === "counting" && LOCKED_COUNTING_COMPASS_IDS.has(puzzle?.id);
 
   const showHeaderRail = promptStep !== "DONE";
   const hideAuctionNow =
@@ -8250,10 +8242,7 @@ function CountingTrumpsTrainer({
           ) : (
             <>
             {/* Layout: table + questions side-by-side. Do not change structure without user request. See LAYOUT-CONTRACT.md and CountingTrumpsTrainer.css */}
-            <div
-              className={`ct-tableWithSidebar ct-tableWithSidebar--hasOverlay ${compactSidebarForLockedCounting ? "ct-tableWithSidebar--compactSidebar" : ""}`}
-              style={{ position: "relative" }}
-            >
+            <div className="ct-tableWithSidebar ct-tableWithSidebar--hasOverlay" style={{ position: "relative" }}>
             {showPaywallOverlay && (
               <div className="ct-paywallOverlay">
                 {beginnerModeOverride ? (
@@ -8281,7 +8270,7 @@ function CountingTrumpsTrainer({
             )}
             <div className="ct-tableWithSidebar-inner">
             <div
-              className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${compactSidebarForLockedCounting ? "ct-table--lockedCounting" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
+              className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
             >
           {/* Top */}
           <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}>
@@ -8587,10 +8576,7 @@ function CountingTrumpsTrainer({
           </div>
           </div>
           {useBottomRowLayout && (
-            <aside
-              className={`ct-explanationSidebar ${compactSidebarForLockedCounting ? "ct-explanationSidebar--compact" : ""}`}
-              aria-label="Bidding and explanation"
-            >
+            <aside className="ct-explanationSidebar" aria-label="Bidding and explanation">
               <div className="ct-sidePrompt">{promptNode}</div>
             </aside>
           )}
