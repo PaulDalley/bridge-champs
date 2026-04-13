@@ -3621,6 +3621,9 @@ function isPuzzleNew(puzzle) {
 
 const isLocalhost = typeof window !== "undefined" && (window.location?.hostname === "localhost" || window.location?.hostname === "127.0.0.1");
 
+/** Withheld from main-site counting practice until content is fixed; `?problem=` deep links to these ids won't resolve. */
+const MAIN_SITE_HIDDEN_COUNTING_IDS = new Set(["p1-15", "p1-16", "p1-17", "p1-18", "p1-19"]);
+
 function CountingTrumpsTrainer({
   uid,
   subscriptionActive,
@@ -3673,7 +3676,13 @@ function CountingTrumpsTrainer({
       const raw = PUZZLES;
       list = raw.filter((p) => p.id !== "d2-2");
     }
-    if (!beginnerModeOverride) return list;
+    if (!beginnerModeOverride) {
+      // Keep these hidden in production/main app, but visible on localhost for authoring/debug.
+      if (categoryKey === "counting" && !isLocalhost) {
+        list = list.filter((p) => !MAIN_SITE_HIDDEN_COUNTING_IDS.has(p.id));
+      }
+      return list;
+    }
 
     // Isolated beginner files: list is already curated — never intersect with main-site featuredProblemIds.
     if (beginnerIsolatedPuzzleList) {
@@ -6042,6 +6051,26 @@ function CountingTrumpsTrainer({
     };
     setAskedTick((t) => t + 1);
     setPromptStep(null);
+    // Question-only hands with no tricks: optional skip the DONE / "Next hand · Replay" panel and go straight on.
+    if (
+      puzzle?.promptOptions?.infoContinueSkipsDoneScreen &&
+      lastRoundIdx < 0 &&
+      !getNextCustomPrompt(-1)
+    ) {
+      setCompletedProblemIds((prev) => {
+        if (!puzzle?.id || prev[puzzle.id]) return prev;
+        sendPracticeEvent("practice_problem_complete", {
+          trainer: trainerLabel,
+          category_key: categoryKey,
+          puzzle_id: puzzle.id,
+          difficulty: puzzle.difficulty ?? 1,
+        });
+        if (uid && categoryKey && puzzle?.id) dispatch(savePracticeCompletion(uid, categoryKey, puzzle.id));
+        return { ...prev, [puzzle.id]: true };
+      });
+      nextHand();
+      return;
+    }
     continueFromRound(completedRoundIdx);
   };
 

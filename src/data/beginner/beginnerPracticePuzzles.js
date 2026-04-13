@@ -29,6 +29,8 @@ export const BEGINNER_DECLARER_PUZZLES = [
       contractLabel: "Before we play",
       contractLabelBeforeStartOnly: true,
       manualTrickAdvance: true,
+      /** After the only INFO step, advance to the next problem without the DONE / Replay screen. */
+      infoContinueSkipsDoneScreen: true,
       /** Smaller minis, single row (scroll on very narrow viewports). Use `twoRows7_6` for a 7+6 grid instead. */
       miniTrumpHandPresentation: "compactOneRow",
       videoUrlBeforeStart: "https://www.youtube.com/shorts/DR2qajAibO4",
@@ -37,6 +39,7 @@ export const BEGINNER_DECLARER_PUZZLES = [
           id: "bdecl1-0-ranks",
           type: "INFO",
           atRoundIdx: -1,
+          continueButtonLabel: "Done, next hand",
           promptText:
             "Let's look at a simple idea, which many people will already know, before we dive into playing.\n\nThe cards go from the 2, which is the lowest card, all the way to the Ace, which is the highest. Below, your spades are shown from high to low — Ace on the left, then King, Queen, and so on, down to the 2 on the right.\n\nThis is the same as a lot of other card games, like poker.",
         },
