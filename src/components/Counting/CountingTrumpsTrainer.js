@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { savePracticeCompletion } from "../../store/actions/usersActions";
@@ -13,6 +13,10 @@ import "./CountingTrumpsTrainer.css";
 // Seats arranged like a typical bridge diagram:
 // - Dummy at top, Declarer at bottom, LHO left, RHO right.
 const SEATS = ["LHO", "DUMMY", "RHO", "DECLARER"];
+
+/** Narrow rail: theme + auction collapse to a peek row (contract line always visible). */
+const RAIL_CONTEXT_COLLAPSE_MEDIA = "(max-width: 860px)";
+const RAIL_CONTEXT_AUTO_COLLAPSE_MS = 2800;
 
 /** Cyan rail/tab styling shared by d1 "drawing trumps" and d2 "using entries productively" problems */
 function isCyanDeclarerThemeTint(tint) {
@@ -279,6 +283,21 @@ function isTrump(card, trumpSuit) {
 function cardColorClass(card) {
   if (!card) return "";
   return card.suit === "H" || card.suit === "D" ? "ct-card--red" : "ct-card--black";
+}
+
+/** Trick table: same pip markup as hands (unified sizing on phone via CSS). */
+function TrickPipCard({ card, entered }) {
+  if (!card) return null;
+  return (
+    <div
+      className={`ct-miniCard ct-miniCard--fan ct-miniCard--trick ${entered ? "ct-card--entered" : ""} ${cardColorClass(card)}`.trim()}
+    >
+      <div className="ct-fanFace" aria-hidden="true">
+        <div className="ct-fanRank">{displayRank(card.rank)}</div>
+        <div className="ct-fanSuit">{suitSymbol(card.suit)}</div>
+      </div>
+    </div>
+  );
 }
 
 function parseHandSuitString(s) {
@@ -4046,10 +4065,20 @@ function CountingTrumpsTrainer({
     return out;
   }, [declarerCompass]);
 
-  const seatTop = seatAtCompass.N;
-  const seatRight = seatAtCompass.E;
-  const seatBottom = seatAtCompass.S;
-  const seatLeft = seatAtCompass.W;
+  /*
+   * Screen layout is viewer-centric: "You" always sit at the bottom (South of the diagram).
+   * Top = partner (compass opposite). Left/right = the two lateral seats: rho(viewer) on left,
+   * lho(viewer) on right — matches a clockwise compass read (N→E→S→W) with you at bottom.
+   */
+  const { seatTop, seatRight, seatBottom, seatLeft } = useMemo(() => {
+    const v = viewerCompass;
+    return {
+      seatBottom: seatAtCompass[v],
+      seatTop: seatAtCompass[partnerCompass(v)],
+      seatLeft: seatAtCompass[rhoCompass(v)],
+      seatRight: seatAtCompass[lhoCompass(v)],
+    };
+  }, [seatAtCompass, viewerCompass]);
 
   const viewerSeat = seatAtCompass[viewerCompass] || "DECLARER"; // internal seat key: LHO/DUMMY/RHO/DECLARER
   // Clockwise typing order (left -> top -> right -> bottom) from the viewer’s perspective.
@@ -4096,6 +4125,9 @@ function CountingTrumpsTrainer({
 
   const dummyHandFanRef = useRef(null);
   const declarerHandFanRef = useRef(null);
+  /** Trump-only strips (`!showFullHands`): measure + match pip tiles when no full fan ref. */
+  const declarerTrumpStripRef = useRef(null);
+  const dummyTrumpStripRef = useRef(null);
   const lhoHandFanRef = useRef(null);
   const rhoHandFanRef = useRef(null);
   const prevHandRectsRef = useRef({ LHO: {}, DUMMY: {}, RHO: {}, DECLARER: {} });
@@ -4485,6 +4517,87 @@ function CountingTrumpsTrainer({
     if (visibleFullHandSeats.includes(seatLeft)) m |= 1;
     return m;
   }, [showFullHands, visibleFullHandSeats, seatTop, seatRight, seatBottom, seatLeft]);
+
+  /**
+   * Phones: measure a live wide-seat fan tile (prefer declarer / “You”) and expose as --ct-trainerPipPx
+   * so suit rows + trick use the same pixel width as that row (not a separate clamp).
+   */
+  const [trainerPipTilePx, setTrainerPipTilePx] = useState(null);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined" || !isMobileViewport) {
+      setTrainerPipTilePx(null);
+      return;
+    }
+
+    const pickFanEl = () => {
+      for (const ref of [declarerHandFanRef, dummyHandFanRef, lhoHandFanRef, rhoHandFanRef]) {
+        const el = ref.current;
+        if (!el?.isConnected) continue;
+        const tiles = el.querySelectorAll(".ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost)");
+        if (tiles.length < 10) continue;
+        return el;
+      }
+      return null;
+    };
+
+    let ro;
+    let raf = 0;
+    const measure = () => {
+      const fan = pickFanEl();
+      if (!fan) {
+        setTrainerPipTilePx(null);
+        return;
+      }
+      const first = fan.querySelector(".ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost)");
+      if (!first) {
+        setTrainerPipTilePx(null);
+        return;
+      }
+      const w = first.getBoundingClientRect().width;
+      if (w < 8 || w > 120) {
+        setTrainerPipTilePx(null);
+        return;
+      }
+      const rounded = Math.round(w * 100) / 100;
+      setTrainerPipTilePx((prev) => (prev === rounded ? prev : rounded));
+    };
+
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+
+    schedule();
+    const fanForRo = pickFanEl();
+    if (fanForRo) {
+      ro = new ResizeObserver(schedule);
+      ro.observe(fanForRo);
+    }
+    window.addEventListener("resize", schedule);
+    window.addEventListener("orientationchange", schedule);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro?.disconnect();
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("orientationchange", schedule);
+    };
+  }, [
+    isMobileViewport,
+    puzzle?.id,
+    showFullHands,
+    hasStarted,
+    progressRoundIdx,
+    promptStep,
+    playedFromHand,
+    visibleFullHandSeats,
+    beginnerModeOverride,
+  ]);
+
+  const trainerPipPageStyle = useMemo(() => {
+    if (!isMobileViewport || trainerPipTilePx == null) return undefined;
+    return { "--ct-trainerPipPx": `${trainerPipTilePx}px` };
+  }, [isMobileViewport, trainerPipTilePx]);
 
   const inference = useMemo(() => {
     if (progressRoundIdx < 0) return { solutionsCount: 0, uniqueSeat: {}, uniqueSuit: {} };
@@ -5147,10 +5260,9 @@ function CountingTrumpsTrainer({
     });
   };
 
-  // Reset when the puzzle changes; always begin immediately (no Start overlay) for all trainers/categories.
+  // Reset when the puzzle changes; learner taps Start to begin (all categories + beginner).
   useLayoutEffect(() => {
     resetForPuzzle();
-    startPuzzle();
   }, [puzzle.id, beginnerModeOverride]);
 
   const currentPlay = useMemo(() => {
@@ -5230,6 +5342,8 @@ function CountingTrumpsTrainer({
       return null;
     }
     const miniTrumpPresentation = puzzle?.promptOptions?.miniTrumpHandPresentation;
+    const trumpStripRef =
+      seat === "DECLARER" ? declarerTrumpStripRef : seat === "DUMMY" ? dummyTrumpStripRef : null;
     const handCardsAsCardsClassName = [
       "ct-handCardsAsCards",
       miniTrumpPresentation === "compactOneRow" && "ct-handCardsAsCards--miniTrumpCompactRow",
@@ -5248,12 +5362,14 @@ function CountingTrumpsTrainer({
         const ranks = puzzle.endRevealTrumpHands[seat];
         const revealCards = orderMiniTrumpStripCards(ranks.map((r) => makeCard(r, puzzle.trumpSuit)));
         return (
-          <div className={handCardsAsCardsClassName} aria-label={`${seat} trump suit revealed`}>
+          <div ref={trumpStripRef} className={handCardsAsCardsClassName} aria-label={`${seat} trump suit revealed`}>
             {revealCards.map((c, idx) => {
               return (
-                <div key={`${seat}-reveal-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ${cardColorClass(c)}`}>
-                  <div className="ct-miniCardCorner">{formatCard(c)}</div>
-                  <div className="ct-miniCardCenter">{formatCard(c)}</div>
+                <div key={`${seat}-reveal-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)}`}>
+                  <div className="ct-fanFace" aria-hidden="true">
+                    <div className="ct-fanRank">{displayRank(c.rank)}</div>
+                    <div className="ct-fanSuit">{suitSymbol(c.suit)}</div>
+                  </div>
                 </div>
               );
             })}
@@ -5271,11 +5387,13 @@ function CountingTrumpsTrainer({
       }
       const stripCards = orderMiniTrumpStripCards(remainingHands[seat] || []);
       return (
-        <div className={handCardsAsCardsClassName} aria-label={`${seat} trump cards remaining`}>
+        <div ref={trumpStripRef} className={handCardsAsCardsClassName} aria-label={`${seat} trump cards remaining`}>
           {stripCards.map((c, idx) => (
-            <div key={`${seat}-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ${cardColorClass(c)}`}>
-              <div className="ct-miniCardCorner">{formatCard(c)}</div>
-              <div className="ct-miniCardCenter">{formatCard(c)}</div>
+            <div key={`${seat}-${c.rank}${c.suit}-${idx}`} className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)}`}>
+              <div className="ct-fanFace" aria-hidden="true">
+                <div className="ct-fanRank">{displayRank(c.rank)}</div>
+                <div className="ct-fanSuit">{suitSymbol(c.suit)}</div>
+              </div>
             </div>
           ))}
           {stripCards.length === 0 && <div className="ct-emptyHand">No trumps left</div>}
@@ -6795,7 +6913,6 @@ function CountingTrumpsTrainer({
     // With only one problem in the rail, index stays 0 and puzzle.id never changes — force a full restart.
     if (len === 1) {
       resetForPuzzle();
-      startPuzzle();
     }
   };
 
@@ -7113,6 +7230,182 @@ function CountingTrumpsTrainer({
     (promptStep === "DONE" && !!puzzle?.promptOptions?.hideAuctionOnDone) ||
     promptStep === "PLAY_DECISION_REVEAL";
 
+  const [isNarrowRailContext, setIsNarrowRailContext] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(RAIL_CONTEXT_COLLAPSE_MEDIA).matches : false
+  );
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mq = window.matchMedia(RAIL_CONTEXT_COLLAPSE_MEDIA);
+    const fn = () => setIsNarrowRailContext(mq.matches);
+    fn();
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
+  }, []);
+
+  const hasVideoOrIntroInRailSlot =
+    !!showThemeIntroInRail || !!usingThemeIntro || !!showPerProblemIntroInRail;
+
+  const hasCollapsibleRailContext =
+    isNarrowRailContext &&
+    (!!effectiveThemeLabel || (!!auctionGrid && !hideAuctionNow) || hasVideoOrIntroInRailSlot);
+
+  const railContextAutoCollapseTimerRef = useRef(null);
+  const [railContextExpanded, setRailContextExpanded] = useState(true);
+  useEffect(() => {
+    if (!hasCollapsibleRailContext) {
+      if (railContextAutoCollapseTimerRef.current != null) {
+        window.clearTimeout(railContextAutoCollapseTimerRef.current);
+        railContextAutoCollapseTimerRef.current = null;
+      }
+      setRailContextExpanded(true);
+      return undefined;
+    }
+    setRailContextExpanded(true);
+    if (railContextAutoCollapseTimerRef.current != null) {
+      window.clearTimeout(railContextAutoCollapseTimerRef.current);
+    }
+    railContextAutoCollapseTimerRef.current = window.setTimeout(() => {
+      railContextAutoCollapseTimerRef.current = null;
+      setRailContextExpanded(false);
+    }, RAIL_CONTEXT_AUTO_COLLAPSE_MS);
+    return () => {
+      if (railContextAutoCollapseTimerRef.current != null) {
+        window.clearTimeout(railContextAutoCollapseTimerRef.current);
+        railContextAutoCollapseTimerRef.current = null;
+      }
+    };
+  }, [puzzle?.id, hasCollapsibleRailContext]);
+
+  const expandRailThemeAndAuction = () => {
+    if (railContextAutoCollapseTimerRef.current != null) {
+      window.clearTimeout(railContextAutoCollapseTimerRef.current);
+      railContextAutoCollapseTimerRef.current = null;
+    }
+    setRailContextExpanded(true);
+  };
+
+  const renderRailThemeAuctionAndVideos = useCallback(
+    () => (
+      <>
+        {!!effectiveThemeLabel && (
+          <div
+            className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""}`}
+          >
+            {effectiveThemeLabel}
+          </div>
+        )}
+        {auctionGrid && !hideAuctionNow && (
+          <div className="ct-auctionCard" aria-label="Bidding">
+            {(puzzle?.vulnerability || puzzle?.promptOptions?.vulnerability) ? (
+              <div className="ct-auctionVul" aria-label="Vulnerability">{puzzle.vulnerability || puzzle.promptOptions.vulnerability}</div>
+            ) : null}
+            <div className="ct-auctionGrid" role="table" aria-label="Auction grid">
+              <div className="ct-auctionHead" role="row">
+                {auctionGrid.order.map((seat) => (
+                  <div
+                    key={`h-${seat}`}
+                    className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                    role="columnheader"
+                  >
+                    {seatCompassLabel(seat)}
+                  </div>
+                ))}
+              </div>
+              {auctionGrid.rows.map((row, idx) => (
+                <div key={`r-${idx}`} className="ct-auctionRow" role="row">
+                  {auctionGrid.order.map((seat) => {
+                    const c = row[seat];
+                    return (
+                      <div
+                        key={`c-${idx}-${seat}`}
+                        className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                        role="cell"
+                      >
+                        {c ? (
+                          <span
+                            className={`ct-auctionCall ct-auctionCall--${c.kind} ${
+                              puzzle?.promptOptions?.auctionHighlightCall?.row === idx &&
+                              puzzle?.promptOptions?.auctionHighlightCall?.seat === seat
+                                ? "ct-auctionCall--ring"
+                                : ""
+                            }`.trim()}
+                          >
+                            <span className="ct-auctionCallText">{c.text}</span>
+                            {c.suitSym ? (
+                              <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : "ct-auctionSuit--black"}`}>
+                                {c.suitSym}
+                              </span>
+                            ) : null}
+                          </span>
+                        ) : (
+                          <span className="ct-auctionEmpty" aria-hidden="true">
+                            &nbsp;
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
+          {showThemeIntroInRail && (
+            <PracticeVideoBlock
+              videoUrl={effectiveThemeIntroUrl}
+              isPremium={currentPuzzleVideoUnlocked}
+              label="Theme intro"
+              className="ct-practiceVideo--beforeStart"
+              isAdmin={isAdmin}
+              softMembershipCta={beginnerModeOverride}
+            />
+          )}
+          {usingThemeIntro && (
+            <div className="ct-themeIntroControls">
+              {themeIntroExpanded ? (
+                <button type="button" className="ct-themeIntroBtn" onClick={markThemeIntroSeen}>
+                  Dismiss intro
+                </button>
+              ) : (
+                <button type="button" className="ct-themeIntroBtn ct-themeIntroBtn--secondary" onClick={showThemeIntroAgain}>
+                  Watch theme intro again
+                </button>
+              )}
+            </div>
+          )}
+          {showPerProblemIntroInRail && (
+            <PracticeVideoBlock
+              videoUrl={perProblemIntroVideoUrl}
+              isPremium={currentPuzzleVideoUnlocked}
+              label="30s problem intro"
+              className="ct-practiceVideo--beforeStart"
+              isAdmin={isAdmin}
+              softMembershipCta={beginnerModeOverride}
+            />
+          )}
+        </div>
+      </>
+    ),
+    [
+      effectiveThemeLabel,
+      auctionGrid,
+      hideAuctionNow,
+      puzzle,
+      showThemeIntroInRail,
+      effectiveThemeIntroUrl,
+      currentPuzzleVideoUnlocked,
+      beginnerModeOverride,
+      isAdmin,
+      usingThemeIntro,
+      themeIntroExpanded,
+      markThemeIntroSeen,
+      showThemeIntroAgain,
+      showPerProblemIntroInRail,
+      perProblemIntroVideoUrl,
+    ]
+  );
+
   const promptNode = (
     <>
       {showHeaderRail && (
@@ -7137,102 +7430,22 @@ function CountingTrumpsTrainer({
               )}
             </div>
           ) : null}
-          {!!effectiveThemeLabel && (
-            <div className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""}`}>{effectiveThemeLabel}</div>
+          {hasCollapsibleRailContext ? (
+            railContextExpanded ? (
+              <div className="ct-railContextWrap">{renderRailThemeAuctionAndVideos()}</div>
+            ) : (
+              <button
+                type="button"
+                className="ct-railContextPeekBtn"
+                onClick={expandRailThemeAndAuction}
+                aria-expanded="false"
+              >
+                Show theme, bidding & videos
+              </button>
+            )
+          ) : (
+            renderRailThemeAuctionAndVideos()
           )}
-          {auctionGrid && !hideAuctionNow && (
-            <div className="ct-auctionCard" aria-label="Bidding">
-              <div className="ct-auctionTitle">Bidding</div>
-              {(puzzle?.vulnerability || puzzle?.promptOptions?.vulnerability) ? (
-                <div className="ct-auctionVul" aria-label="Vulnerability">{puzzle.vulnerability || puzzle.promptOptions.vulnerability}</div>
-              ) : null}
-              <div className="ct-auctionGrid" role="table" aria-label="Auction grid">
-                <div className="ct-auctionHead" role="row">
-                  {auctionGrid.order.map((seat) => (
-                    <div
-                      key={`h-${seat}`}
-                      className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
-                      role="columnheader"
-                    >
-                      {seatCompassLabel(seat)}
-                    </div>
-                  ))}
-                </div>
-                {auctionGrid.rows.map((row, idx) => (
-                  <div key={`r-${idx}`} className="ct-auctionRow" role="row">
-                    {auctionGrid.order.map((seat) => {
-                      const c = row[seat];
-                      return (
-                        <div
-                          key={`c-${idx}-${seat}`}
-                          className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
-                          role="cell"
-                        >
-                          {c ? (
-                            <span
-                              className={`ct-auctionCall ct-auctionCall--${c.kind} ${
-                                puzzle?.promptOptions?.auctionHighlightCall?.row === idx &&
-                                puzzle?.promptOptions?.auctionHighlightCall?.seat === seat
-                                  ? "ct-auctionCall--ring"
-                                  : ""
-                              }`.trim()}
-                            >
-                              <span className="ct-auctionCallText">{c.text}</span>
-                              {c.suitSym ? (
-                                <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : "ct-auctionSuit--black"}`}>
-                                  {c.suitSym}
-                                </span>
-                              ) : null}
-                            </span>
-                          ) : (
-                            <span className="ct-auctionEmpty" aria-hidden="true">
-                              &nbsp;
-                            </span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          {/* Persistent video slot: stable key so video isn’t remounted when prompt step changes; stays for full problem */}
-          <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
-            {showThemeIntroInRail && (
-              <PracticeVideoBlock
-                videoUrl={effectiveThemeIntroUrl}
-                isPremium={currentPuzzleVideoUnlocked}
-                label="Theme intro"
-                className="ct-practiceVideo--beforeStart"
-                isAdmin={isAdmin}
-                softMembershipCta={beginnerModeOverride}
-              />
-            )}
-            {usingThemeIntro && (
-              <div className="ct-themeIntroControls">
-                {themeIntroExpanded ? (
-                  <button type="button" className="ct-themeIntroBtn" onClick={markThemeIntroSeen}>
-                    Dismiss intro
-                  </button>
-                ) : (
-                  <button type="button" className="ct-themeIntroBtn ct-themeIntroBtn--secondary" onClick={showThemeIntroAgain}>
-                    Watch theme intro again
-                  </button>
-                )}
-              </div>
-            )}
-            {showPerProblemIntroInRail && (
-              <PracticeVideoBlock
-                videoUrl={perProblemIntroVideoUrl}
-                isPremium={currentPuzzleVideoUnlocked}
-                label="30s problem intro"
-                className="ct-practiceVideo--beforeStart"
-                isAdmin={isAdmin}
-                softMembershipCta={beginnerModeOverride}
-              />
-            )}
-          </div>
         </div>
       )}
 
@@ -8131,6 +8344,7 @@ function CountingTrumpsTrainer({
   return (
     <div
       className={`ct-page ${showFullHands ? "ct-page--fullhands" : ""} ${beginnerModeOverride ? "ct-page--beginnerPractice" : ""}${beginnerModeOverride && categoryKey === "declarer" ? " ct-beginnerDeclarerStage" : ""} ${isMobileViewport && !beginnerModeOverride ? "ct-page--phoneHandPips" : ""} ${typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "") ? "ct-page--localhost" : ""}`}
+      style={trainerPipPageStyle}
     >
       {showBeginnerLessonContractBanner && (
         <div className="ct-beginnerPageIntro" aria-label="Lesson introduction">
@@ -8269,6 +8483,14 @@ function CountingTrumpsTrainer({
               </div>
             )}
             <div className="ct-tableWithSidebar-inner">
+            <div className="ct-tableWithSidebar-main">
+            {!hasStarted && !isBlankDifficulty && !showPaywallOverlay && (
+              <div className="ct-practiceStartBar">
+                <button type="button" className="ct-btn ct-btn--practiceStart" onClick={startPuzzle}>
+                  Start
+                </button>
+              </div>
+            )}
             <div
               className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
             >
@@ -8303,7 +8525,10 @@ function CountingTrumpsTrainer({
             {!showFullHands &&
               (((remainingHands[seatLeft] || []).length > 0) ||
                 (promptStep === "DONE" && puzzle.endRevealTrumpHands && Array.isArray(puzzle.endRevealTrumpHands[seatLeft]))) && (
-                <div className="ct-handWrap">{renderSeatHand(seatLeft)}</div>
+                <>
+                  <div className="ct-seatLabel">{roleLabelForSeat(seatLeft)}</div>
+                  <div className="ct-handWrap">{renderSeatHand(seatLeft)}</div>
+                </>
               )}
           </div>
 
@@ -8315,7 +8540,7 @@ function CountingTrumpsTrainer({
             } ${showFullHands && promptPlacement === "left" && !useBottomRowLayout ? "ct-trickWrap--sidePanelLeft" : ""}`}
             aria-label="Trick area and controls"
           >
-            <div className="ct-trickBoard" aria-label="Card table">
+            <div className="ct-trickBoard" aria-label="Play area">
               {hasStarted && puzzle?.promptOptions?.promptsInOverlay && activeCustomPrompt && (promptStep === "INFO" || promptStep === "SINGLE_NUMBER" || promptStep === "DISTRIBUTION_GUESS") && (
                 <div className="ct-promptOverlay" aria-label="Question">
                   <div className="ct-promptCard">
@@ -8470,32 +8695,16 @@ function CountingTrumpsTrainer({
               )}
               <div className="ct-trickGrid" role="region" aria-label="Trick area">
                 <div className="ct-trickPos ct-trickPos--top">
-                  {trickCards[seatTop] && (
-                    <div className={`ct-card ${animSeat === seatTop ? "ct-card--entered" : ""} ${cardColorClass(trickCards[seatTop])}`}>
-                      {formatCard(trickCards[seatTop])}
-                    </div>
-                  )}
+                  <TrickPipCard card={trickCards[seatTop]} entered={animSeat === seatTop} />
                 </div>
                 <div className="ct-trickPos ct-trickPos--left">
-                  {trickCards[seatLeft] && (
-                    <div className={`ct-card ${animSeat === seatLeft ? "ct-card--entered" : ""} ${cardColorClass(trickCards[seatLeft])}`}>
-                      {formatCard(trickCards[seatLeft])}
-                    </div>
-                  )}
+                  <TrickPipCard card={trickCards[seatLeft]} entered={animSeat === seatLeft} />
                 </div>
                 <div className="ct-trickPos ct-trickPos--right">
-                  {trickCards[seatRight] && (
-                    <div className={`ct-card ${animSeat === seatRight ? "ct-card--entered" : ""} ${cardColorClass(trickCards[seatRight])}`}>
-                      {formatCard(trickCards[seatRight])}
-                    </div>
-                  )}
+                  <TrickPipCard card={trickCards[seatRight]} entered={animSeat === seatRight} />
                 </div>
                 <div className="ct-trickPos ct-trickPos--bottom">
-                  {trickCards[seatBottom] && (
-                    <div className={`ct-card ${animSeat === seatBottom ? "ct-card--entered" : ""} ${cardColorClass(trickCards[seatBottom])}`}>
-                      {formatCard(trickCards[seatBottom])}
-                    </div>
-                  )}
+                  <TrickPipCard card={trickCards[seatBottom]} entered={animSeat === seatBottom} />
                 </div>
               </div>
             </div>
@@ -8563,7 +8772,10 @@ function CountingTrumpsTrainer({
             {!showFullHands &&
               (((remainingHands[seatRight] || []).length > 0) ||
                 (promptStep === "DONE" && puzzle.endRevealTrumpHands && Array.isArray(puzzle.endRevealTrumpHands[seatRight]))) && (
-                <div className="ct-handWrap">{renderSeatHand(seatRight)}</div>
+                <>
+                  <div className="ct-seatLabel">{roleLabelForSeat(seatRight)}</div>
+                  <div className="ct-handWrap">{renderSeatHand(seatRight)}</div>
+                </>
               )}
           </div>
 
@@ -8575,6 +8787,7 @@ function CountingTrumpsTrainer({
             )}
           </div>
           </div>
+            </div>
           {useBottomRowLayout && (
             <aside className="ct-explanationSidebar" aria-label="Bidding and explanation">
               <div className="ct-sidePrompt">{promptNode}</div>

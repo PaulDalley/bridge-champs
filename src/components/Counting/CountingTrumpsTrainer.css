@@ -1463,6 +1463,89 @@
   min-width: 0;
 }
 
+/* Table + optional pre-table controls (e.g. Start); keeps sidebar as sibling for row layout. */
+.ct-tableWithSidebar-main {
+  flex: 0 0 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Shrink-wrap to the bridge grid so center 1fr columns + width:100% trick board cannot balloon to viewport width. */
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  /* Unified “felt”: entire play stage (Start + compass + trick/nav). Cards stay white via .ct-miniCard. */
+  background:
+    radial-gradient(circle at 28% 10%, rgba(255, 255, 255, 0.09), transparent 52%),
+    radial-gradient(circle at 82% 92%, rgba(0, 0, 0, 0.2), transparent 58%),
+    linear-gradient(155deg, #0f5a45 0%, #083426 52%, #052920 100%);
+  border-radius: 16px;
+  padding: 12px 14px 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+
+.ct-tableWithSidebar-main .ct-seatLabel {
+  color: rgba(236, 253, 245, 0.96);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.ct-tableWithSidebar-main .ct-contractTop,
+.ct-tableWithSidebar-main .ct-auctionTop {
+  color: rgba(248, 250, 252, 0.98);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.ct-tableWithSidebar-main .ct-auctionInline {
+  color: rgba(248, 250, 252, 0.98);
+}
+
+.ct-tableWithSidebar .ct-tableWithSidebar-main {
+  margin-right: 32px;
+}
+
+.ct-tableWithSidebar .ct-tableWithSidebar-main > .ct-table {
+  margin-right: 0;
+}
+
+.ct-practiceStartBar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.ct-btn--practiceStart {
+  padding: 11px 32px;
+  min-width: 9.5rem;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+}
+
+@media (max-width: 480px) {
+  .ct-practiceStartBar {
+    margin-bottom: 8px;
+  }
+
+  .ct-btn--practiceStart {
+    padding: 8px 22px;
+    min-width: 7.5rem;
+    font-size: 14px;
+    line-height: 1.3;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+  }
+
+  .ct-tableWithSidebar-main {
+    padding: 10px 8px 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  }
+}
+
 /* Table grows to use space so South/center column isn’t squeezed; sidebar stays fixed on the right */
 /* Table only as wide as cards; margin-right = space before questions panel. */
 .ct-tableWithSidebar .ct-table {
@@ -1551,6 +1634,41 @@
   top: calc(5rem + 6px);
   box-sizing: border-box;
   margin-left: 32px;
+}
+
+/* Theme + auction collapsible on narrow viewports (contract line stays visible). */
+.ct-railContextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.ct-railContextPeekBtn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: min(176px, 100%);
+  min-height: 44px;
+  padding: 8px 10px;
+  margin: 4px 0 0;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 700;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ct-railContextPeekBtn:hover,
+.ct-railContextPeekBtn:focus-visible {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  outline: none;
 }
 
 /* Contract + bidding in sidebar: large, clear text for projection/teaching */
@@ -1714,6 +1832,10 @@
   .ct-layout--fullhands .ct-tableWithSidebar .ct-table {
     margin-right: 0;
     max-width: 100%;
+  }
+
+  .ct-layout--fullhands .ct-tableWithSidebar .ct-tableWithSidebar-main {
+    margin-right: 0;
   }
 
   .ct-layout--fullhands .ct-explanationSidebar {
@@ -2812,6 +2934,18 @@
   will-change: transform;
 }
 
+/*
+ * Trump-only strips (counting etc.): cards live in .ct-handCardsAsCards flex, not the 13-col grid.
+ * width:100% here means “full flex line” → one giant card per row. Compact / two-row variants set their own sizes.
+ */
+.ct-handCardsAsCards:not(.ct-handCardsAsCards--miniTrumpCompactRow):not(.ct-handCardsAsCards--miniTrumpTwoRows76)
+  > .ct-miniCard.ct-miniCard--fan {
+  width: clamp(40px, 4.5vw, 52px);
+  flex: 0 0 auto;
+  min-width: 36px;
+  max-width: 52px;
+}
+
 .ct-miniCard--played {
   /* Keep slot spacing, but hide played card */
   visibility: hidden;
@@ -2910,34 +3044,23 @@
   background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
 }
 
+/* Trick plays on the parent felt (.ct-tableWithSidebar-main); keep footprint capped — width:100% here stretches with grid 1fr and blows up card layout on desktop. */
 .ct-trickBoard {
   width: clamp(300px, 34vw, 420px);
   max-width: 100%;
   flex: 0 0 auto;
-
   position: relative;
   z-index: 0;
-  border-radius: 14px;
-  padding: 6px;
+  border-radius: 0;
+  padding: 0;
   color: #ecfeff;
-  border: 8px solid transparent;
-  background:
-    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.10), transparent 55%),
-    radial-gradient(circle at 72% 82%, rgba(0, 0, 0, 0.28), transparent 60%),
-    linear-gradient(135deg, #0f5a45 0%, #083426 100%) padding-box,
-    linear-gradient(135deg, #6b4a32 0%, #3b2417 100%) border-box;
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.17);
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .ct-trickBoard::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
-  pointer-events: none;
-  z-index: 1;
+  content: none;
 }
 
 .ct-startOverlay {
@@ -3275,7 +3398,7 @@
   gap: 4px;
 }
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-trickBoard {
-  margin: 6px 0 0 0;
+  margin: 0;
 }
 
 /* East/RHO column: don’t clip the hand; column is 220–260px so per-suit rows fit */
@@ -3678,6 +3801,159 @@
   opacity: 0.2;
 }
 
+/*
+ * Mobile / narrow: very tight cells (minimal padding / line-height); ~13px calls.
+ * Subgrid + narrow max width so equal columns stay aligned but “P” cells aren’t swimming in space.
+ */
+@media (max-width: 860px) {
+  .ct-explanationSidebar .ct-auctionCard,
+  .ct-rail .ct-auctionCard,
+  .ct-sidePrompt .ct-auctionCard {
+    width: min(158px, 100%);
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .ct-explanationSidebar .ct-auctionCard {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    padding: 1px 2px;
+  }
+
+  .ct-rail .ct-auctionCard {
+    margin-top: 2px;
+    margin-bottom: 3px;
+  }
+
+  .ct-sidePrompt .ct-auctionCard {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    padding: 1px 2px;
+  }
+
+  .ct-explanationSidebar .ct-auctionTitle,
+  .ct-rail .ct-auctionTitle,
+  .ct-sidePrompt .ct-auctionTitle {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+    opacity: 0.82;
+  }
+
+  .ct-explanationSidebar .ct-auctionVul {
+    font-size: 8px;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+
+  .ct-explanationSidebar .ct-auctionGrid,
+  .ct-rail .ct-auctionGrid,
+  .ct-sidePrompt .ct-auctionGrid {
+    gap: 0;
+    width: 100%;
+  }
+
+  @supports (grid-template-columns: subgrid) {
+    .ct-explanationSidebar .ct-auctionGrid,
+    .ct-rail .ct-auctionGrid,
+    .ct-sidePrompt .ct-auctionGrid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(1.2rem, 1fr));
+    }
+
+    .ct-explanationSidebar .ct-auctionHead,
+    .ct-explanationSidebar .ct-auctionRow,
+    .ct-rail .ct-auctionHead,
+    .ct-rail .ct-auctionRow,
+    .ct-sidePrompt .ct-auctionHead,
+    .ct-sidePrompt .ct-auctionRow {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+      gap: 0;
+    }
+  }
+
+  @supports not (grid-template-columns: subgrid) {
+    .ct-explanationSidebar .ct-auctionHead,
+    .ct-explanationSidebar .ct-auctionRow,
+    .ct-rail .ct-auctionHead,
+    .ct-rail .ct-auctionRow,
+    .ct-sidePrompt .ct-auctionHead,
+    .ct-sidePrompt .ct-auctionRow {
+      display: grid;
+      gap: 0;
+      width: 100%;
+      grid-template-columns: repeat(4, minmax(1.2rem, 1fr));
+    }
+  }
+
+  .ct-explanationSidebar .ct-auctionCell,
+  .ct-rail .ct-auctionCell,
+  .ct-sidePrompt .ct-auctionCell {
+    min-height: 0;
+    min-block-size: 0;
+    padding: 0 1px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 2px;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .ct-explanationSidebar .ct-auctionCell--head,
+  .ct-rail .ct-auctionCell--head,
+  .ct-sidePrompt .ct-auctionCell--head {
+    padding: 0 1px;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    min-height: 0;
+  }
+
+  .ct-explanationSidebar .ct-auctionCall,
+  .ct-rail .ct-auctionCall,
+  .ct-sidePrompt .ct-auctionCall,
+  .ct-sidePrompt--belowTable .ct-auctionCall {
+    font-size: 13px;
+    font-weight: 800;
+    gap: 0;
+    line-height: 1;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ct-explanationSidebar .ct-auctionCard .ct-auctionEmpty,
+  .ct-rail .ct-auctionCard .ct-auctionEmpty,
+  .ct-sidePrompt .ct-auctionCard .ct-auctionEmpty {
+    line-height: 1;
+  }
+
+  .ct-sidePrompt--belowTable .ct-auctionCard {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    padding: 1px 2px;
+  }
+
+  .ct-sidePrompt--belowTable .ct-auctionCell {
+    min-height: 0;
+    padding: 0 1px;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .ct-sidePrompt--belowTable .ct-auctionCell--head {
+    padding: 0 1px;
+    font-size: 7px;
+    line-height: 1;
+  }
+}
+
 .ct-replayBtn {
   white-space: nowrap;
   padding: 10px 14px;
@@ -3692,14 +3968,16 @@
 
 .ct-trickGrid {
   margin-top: 0px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 12px;
-  height: 260px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  height: auto;
+  min-height: 120px;
+  max-height: 200px;
   width: 100%;
   display: grid;
-  grid-template-columns: 92px 1fr 92px;
-  grid-template-rows: 92px 1fr 92px;
+  grid-template-columns: minmax(40px, 18%) 1fr minmax(40px, 18%);
+  grid-template-rows: minmax(40px, auto) 1fr minmax(48px, auto);
   align-items: center;
   justify-items: center;
   position: relative;
@@ -3708,8 +3986,10 @@
 }
 
 .ct-trickPos {
-  width: 78px;
-  height: 106px;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3730,7 +4010,7 @@
 .ct-trickPos--bottom {
   grid-column: 2;
   grid-row: 3;
-  transform: translateY(-12px);
+  transform: translateY(-4px);
 }
 
 .ct-card {
@@ -3778,9 +4058,38 @@
   }
 }
 
-.ct-card--entered {
+.ct-card--entered,
+.ct-miniCard.ct-card--entered {
   animation: ctEnter 160ms ease-out;
   animation-fill-mode: both;
+}
+
+/*
+ * Trick plays: same tile geometry + chrome as hand fans (.ct-miniCard--fan), not the legacy 72×100 card.
+ * Beginner / phoneHandPips use pip tiles (padding + static fanFace) from page-level rules; constrain width below.
+ */
+.ct-page:not(.ct-page--beginnerPractice):not(.ct-page--phoneHandPips) .ct-trickPos .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick {
+  flex: 0 0 auto;
+  width: clamp(32px, 4.6vw, 50px);
+  min-width: 32px;
+  max-width: 50px;
+  height: auto;
+  aspect-ratio: 0.78;
+  box-sizing: border-box;
+  display: block;
+  border-radius: 0;
+  border: 1px solid #111827;
+  box-shadow: none;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickPos .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick {
+  flex: 0 0 clamp(32px, 4.2vw, 50px);
+  width: clamp(32px, 4.2vw, 50px);
+  min-width: 30px;
+  max-width: 50px;
+  box-sizing: border-box;
 }
 
 .ct-controls {
@@ -4060,6 +4369,10 @@
     gap: 16px;
   }
 
+  .ct-tableWithSidebar .ct-tableWithSidebar-main {
+    width: 100%;
+  }
+
   .ct-rail {
     position: static;
     top: auto;
@@ -4142,6 +4455,27 @@
    */
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 {
     grid-template-columns: 0 minmax(0, 1fr) 0;
+  }
+
+  /*
+   * handsMask10 = only top + bottom seats (e.g. Declarer Play cp1-1: dummy + you). Without spanning,
+   * those cells sit in the centre column but wide fans still carry desktop min-width — wider than the phone.
+   * Match handsMask2 / handsMask8: span full grid width and allow the fan to shrink to the viewport.
+   */
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top .ct-handWrap,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom .ct-handWrap,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--top .ct-handFan--full,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask10 .ct-seat--bottom .ct-handFan--full {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask12 {
@@ -4333,6 +4667,72 @@
 .ct-practiceVideo {
   margin-top: 12px;
 }
+
+/* Narrow viewport: collapsed row until user taps (PracticeVideoBlock.js) */
+.ct-practiceVideo-narrowPeekBtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  min-height: 52px;
+  padding: 8px 12px;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ct-practiceVideo-narrowPeekBtn:hover,
+.ct-practiceVideo-narrowPeekBtn:focus-visible {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  outline: none;
+}
+
+.ct-practiceVideo-narrowPeekBtn--locked {
+  border-color: #e5e7eb;
+  background: #f9fafb;
+}
+
+.ct-practiceVideo-narrowPeekThumb {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-color: #111;
+}
+
+.ct-practiceVideo-narrowPeekText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ct-practiceVideo-narrowPeekTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ct-practiceVideo-narrowPeekSub {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
 .ct-practiceVideo-label {
   font-size: 14px;
   font-weight: 700;
@@ -4579,6 +4979,14 @@
    ============================================================================= */
 @media (max-width: 480px) {
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) {
+    /*
+     * Canonical “13 tiles across the phone” width (bidding South), not per-row card count.
+     * Do not derive from short trump strips — that oversizes. JS --ct-trainerPipPx overrides when a real 13-card fan exists.
+     */
+    --ct-phonePipW: min(40px, max(21px, calc((100vw - 36px) / 13)));
+    --ct-phonePipEffective: var(--ct-trainerPipPx, var(--ct-phonePipW));
+    --ct-phonePipRankFs: clamp(11px, calc(var(--ct-phonePipEffective) * 0.62), 18px);
+    --ct-phonePipSuitFs: clamp(12px, calc(var(--ct-phonePipEffective) * 0.68), 19px);
     padding-left: 8px;
     padding-right: 8px;
     padding-bottom: 20px;
@@ -4615,6 +5023,15 @@
     width: 100%;
   }
 
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-tableWithSidebar .ct-tableWithSidebar-main {
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 8px 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  }
+
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-explanationSidebar,
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-tableWithSidebar .ct-rail.ct-rail--inSidebar {
     flex: 1 1 auto;
@@ -4635,10 +5052,6 @@
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-explanationSidebar .ct-revealContent {
     font-size: 15px;
-  }
-
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-explanationSidebar .ct-auctionCell {
-    font-size: clamp(22px, 7vw, 34px);
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-beginnerLessonBanner {
@@ -4664,6 +5077,15 @@
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-btn {
     font-size: 14px;
     padding: 8px 12px;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-btn.ct-btn--practiceStart {
+    padding: 8px 22px;
+    min-width: 7.5rem;
+    font-size: 14px;
+    line-height: 1.3;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-tableWithSidebar .ct-seat--right {
@@ -4714,10 +5136,119 @@
     font-size: clamp(15px, 4.2vw, 17px);
     line-height: 1.45;
   }
+
+  /*
+   * Fixed pip footprint everywhere on phone (wide + suit rows + trick).
+   * Wide-seat .ct-handFan--full with fewer than 13 visible cards must NOT flex-grow (p1-15 North vs East).
+   * Full 13-card rows scroll horizontally when 13 * tileW > column (same tile width as everywhere else).
+   */
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitHand .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 0 0 var(--ct-phonePipEffective);
+    width: var(--ct-phonePipEffective);
+    min-width: 0;
+    max-width: none;
+  }
+
+  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
+    .ct-table--bottomRowLayout.ct-table--westVisible
+    .ct-seat--left
+    .ct-suitLine
+    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 0 0 var(--ct-phonePipEffective);
+    width: var(--ct-phonePipEffective);
+    min-width: 0;
+    max-width: none;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-miniCard.ct-miniCard--fan .ct-fanRank {
+    font-size: var(--ct-phonePipRankFs);
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-miniCard.ct-miniCard--fan .ct-fanSuit {
+    font-size: var(--ct-phonePipSuitFs);
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
+    min-width: 0 !important;
+    gap: 2px;
+    grid-template-columns: unset !important;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickBoard {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickGrid {
+    height: auto;
+    min-height: 120px;
+    max-width: 100%;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 22%) 1fr minmax(0, 22%);
+    grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickPos {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickPos .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick,
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick {
+    flex: 0 0 var(--ct-phonePipEffective);
+    width: var(--ct-phonePipEffective);
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    box-shadow: none;
+    border-radius: 6px;
+    border: 1px solid #111827;
+    padding: 5px 6px 7px;
+  }
+
+  /* Trump-only hands (e.g. counting p1): same pip row + tile width as full-hand / trick */
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handCardsAsCards {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
+    .ct-handCardsAsCards
+    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 0 0 var(--ct-phonePipEffective);
+    width: var(--ct-phonePipEffective);
+    min-width: 0;
+    max-width: none;
+  }
 }
 
 /*
- * Beginner + phoneHandPips (≤1024px): fullhands grids need flex hands + slightly smaller trick area.
+ * Beginner + phoneHandPips (≤1024px): flex row + scroll for hands/suits (per-card sizing: phones ≤480 vs tablets 481–1024).
  */
 @media (max-width: 1024px) {
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full,
@@ -4735,17 +5266,6 @@
     min-width: 0 !important;
     gap: 2px;
     grid-template-columns: unset !important;
-  }
-
-  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
-  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
-    flex: 1 1 0;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    height: auto;
-    aspect-ratio: unset;
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full .ct-miniCard.ct-miniCard--fan.ct-miniCard--ghost {
@@ -4773,15 +5293,6 @@
     grid-template-columns: unset !important;
   }
 
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
-    flex: 1 1 0;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    min-height: 0;
-    max-height: none;
-  }
-
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine .ct-miniCard.ct-miniCard--fan.ct-miniCard--ghost {
     flex: 0 0 0.65rem;
     width: 0.65rem;
@@ -4789,24 +5300,10 @@
     max-width: 1rem;
   }
 
-  /* Full-hands bridge table: stable pip size; flex-start so overflow scroll reaches the first/last card */
+  /* Full-hands bridge table: flex-start so overflow scroll reaches the first/last card */
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-handFan--full,
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-suitLine {
     justify-content: flex-start;
-  }
-
-  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
-    .ct-table--bottomRowLayout
-    .ct-handFan--full
-    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
-  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
-    .ct-table--bottomRowLayout
-    .ct-suitLine
-    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
-    flex: 0 0 auto;
-    width: clamp(28px, 7.5vw, 38px);
-    min-width: 26px;
-    max-width: 40px;
   }
 
   .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--top .ct-handWrap,
@@ -4825,31 +5322,75 @@
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
   }
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--top .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-table--bottomRowLayout .ct-seat--bottom .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-handFan--full .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    aspect-ratio: unset;
+  }
+
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-suitLine .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
+    .ct-table--bottomRowLayout
+    .ct-handFan--full
+    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost),
+  .ct-page.ct-page--fullhands:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips)
+    .ct-table--bottomRowLayout
+    .ct-suitLine
+    .ct-miniCard.ct-miniCard--fan:not(.ct-miniCard--ghost) {
+    flex: 0 0 auto;
+    width: clamp(28px, 7.5vw, 38px);
+    min-width: 26px;
+    max-width: 40px;
+  }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickBoard {
-    width: min(100%, 400px);
+    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickGrid {
     height: auto;
-    min-height: 210px;
+    min-height: 120px;
+    max-height: 180px;
     max-width: 100%;
     box-sizing: border-box;
-    grid-template-columns: minmax(56px, 24%) 1fr minmax(56px, 24%);
-    grid-template-rows: minmax(64px, 22%) 1fr minmax(80px, 28%);
+    grid-template-columns: minmax(36px, 18%) 1fr minmax(36px, 18%);
+    grid-template-rows: minmax(36px, auto) 1fr minmax(44px, auto);
   }
 
   .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickPos {
-    width: min(74px, 21vw);
-    height: min(100px, 29vw);
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
   }
 
-  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-card {
-    width: min(70px, 19.5vw);
-    height: min(96px, 27.5vw);
-    font-size: clamp(15px, 4.5vw, 26px);
+  /* Same per-tile width as full-hand row in this breakpoint (see .ct-handFan--full .ct-miniCard above). */
+  .ct-page:is(.ct-page--beginnerPractice, .ct-page--phoneHandPips) .ct-trickPos .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick {
+    flex: 0 0 auto;
+    width: clamp(28px, 7.5vw, 38px);
+    min-width: 26px;
+    max-width: 40px;
+    height: auto;
+    min-height: 0;
+    box-shadow: none;
   }
 }
 

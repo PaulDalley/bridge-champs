@@ -1,9 +1,21 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+const NARROW_VIDEO_MEDIA = "(max-width: 860px)";
+
+function getInitialNarrowViewport() {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.matchMedia(NARROW_VIDEO_MEDIA).matches;
+  } catch (_) {
+    return false;
+  }
+}
 
 /**
  * Inline practice video: embed when user can watch, locked "Upgrade to watch" otherwise.
  * Uses YouTube IFrame API to reset to start when video ends, avoiding end-screen ads/suggestions.
+ * On narrow viewports the block starts collapsed; user taps to expand (defers iframe load until then).
  * Props: videoUrl, isPremium, label, className, isAdmin, softMembershipCta
  */
 function getYouTubeVideoId(url) {
@@ -48,6 +60,23 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
   const videoId = getYouTubeVideoId(videoUrl);
   const embedRef = useRef(null);
   const playerRef = useRef(null);
+  const [isNarrowViewport, setIsNarrowViewport] = useState(getInitialNarrowViewport);
+  const [narrowExpanded, setNarrowExpanded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mq = window.matchMedia(NARROW_VIDEO_MEDIA);
+    const onChange = () => setIsNarrowViewport(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    setNarrowExpanded(false);
+  }, [videoUrl]);
+
+  const useNarrowPeek = isNarrowViewport && !narrowExpanded;
 
   useEffect(() => {
     if (!canWatch || !videoId || !embedRef.current) return;
@@ -73,7 +102,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
       if (playerRef.current && playerRef.current.destroy) playerRef.current.destroy();
       playerRef.current = null;
     };
-  }, [canWatch, videoId]);
+  }, [canWatch, videoId, useNarrowPeek]);
 
   if (!videoUrl) {
     if (isAdmin) {
@@ -84,6 +113,30 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
       );
     }
     return null;
+  }
+
+  const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
+
+  if (useNarrowPeek && canWatch && videoId) {
+    return (
+      <div className={`ct-practiceVideo ct-practiceVideo--narrowPeek ${className}`.trim()}>
+        {label && <div className="ct-practiceVideo-label">{label}</div>}
+        <button
+          type="button"
+          className="ct-practiceVideo-narrowPeekBtn"
+          onClick={() => setNarrowExpanded(true)}
+          aria-expanded="false"
+        >
+          {thumbnailUrl ? (
+            <span className="ct-practiceVideo-narrowPeekThumb" style={{ backgroundImage: `url(${thumbnailUrl})` }} aria-hidden />
+          ) : null}
+          <span className="ct-practiceVideo-narrowPeekText">
+            <span className="ct-practiceVideo-narrowPeekTitle">Show video</span>
+            <span className="ct-practiceVideo-narrowPeekSub">Tap to load the player</span>
+          </span>
+        </button>
+      </div>
+    );
   }
 
   if (canWatch && videoId) {
@@ -97,7 +150,28 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
     );
   }
 
-  const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
+  if (useNarrowPeek && softMembershipCta) {
+    return (
+      <div className={`ct-practiceVideo ct-practiceVideo--locked ct-practiceVideo--lockedSoft ct-practiceVideo--narrowPeek ${className}`.trim()}>
+        {label && <div className="ct-practiceVideo-label">{label}</div>}
+        <button
+          type="button"
+          className="ct-practiceVideo-narrowPeekBtn ct-practiceVideo-narrowPeekBtn--locked"
+          onClick={() => setNarrowExpanded(true)}
+          aria-expanded="false"
+        >
+          {thumbnailUrl ? (
+            <span className="ct-practiceVideo-narrowPeekThumb" style={{ backgroundImage: `url(${thumbnailUrl})` }} aria-hidden />
+          ) : null}
+          <span className="ct-practiceVideo-narrowPeekText">
+            <span className="ct-practiceVideo-narrowPeekTitle">Members-only video</span>
+            <span className="ct-practiceVideo-narrowPeekSub">Tap for details</span>
+          </span>
+        </button>
+      </div>
+    );
+  }
+
   if (softMembershipCta) {
     return (
       <div className={`ct-practiceVideo ct-practiceVideo--locked ct-practiceVideo--lockedSoft ${className}`.trim()}>
@@ -123,6 +197,28 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
             </Link>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (useNarrowPeek) {
+    return (
+      <div className={`ct-practiceVideo ct-practiceVideo--locked ct-practiceVideo--narrowPeek ${className}`.trim()}>
+        {label && <div className="ct-practiceVideo-label">{label}</div>}
+        <button
+          type="button"
+          className="ct-practiceVideo-narrowPeekBtn ct-practiceVideo-narrowPeekBtn--locked"
+          onClick={() => setNarrowExpanded(true)}
+          aria-expanded="false"
+        >
+          {thumbnailUrl ? (
+            <span className="ct-practiceVideo-narrowPeekThumb" style={{ backgroundImage: `url(${thumbnailUrl})` }} aria-hidden />
+          ) : null}
+          <span className="ct-practiceVideo-narrowPeekText">
+            <span className="ct-practiceVideo-narrowPeekTitle">Premium video</span>
+            <span className="ct-practiceVideo-narrowPeekSub">Tap for upgrade options</span>
+          </span>
+        </button>
       </div>
     );
   }
