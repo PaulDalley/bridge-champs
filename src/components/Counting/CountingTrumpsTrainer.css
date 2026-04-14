@@ -272,6 +272,75 @@
   margin-top: 1.5em;
 }
 
+.ct-revealRichBody--muted {
+  font-size: 0.95em;
+  color: #475569;
+  font-weight: 600;
+}
+
+.ct-revealRichListAlpha {
+  margin: 12px 0 0;
+  padding-left: 1.5em;
+  list-style-type: lower-alpha;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.55;
+}
+
+.ct-revealRichListAlpha li {
+  margin-bottom: 12px;
+  padding-left: 0.35em;
+}
+
+.ct-revealRichListAlpha li:last-child {
+  margin-bottom: 0;
+}
+
+.ct-revealRichBody--tightAfterHeading {
+  margin-top: 6px;
+}
+
+/* Three short takeaways as tiles (readable at a glance; stacks on narrow viewports). */
+.ct-revealRichTriple {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 520px) {
+  .ct-revealRichTriple {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ct-revealRichTriple li {
+  margin: 0;
+  padding: 12px 10px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.98em;
+  line-height: 1.35;
+  text-align: center;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.ct-revealRichTripleNote {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.45;
+  background: rgba(254, 243, 199, 0.55);
+  border: 1px solid rgba(180, 83, 9, 0.28);
+}
+
 .ct-revealRichFooter {
   margin: 12px 0 0;
   padding: 10px 12px;
@@ -1139,6 +1208,37 @@
   color: #3730a3;
 }
 
+/* Theme: Splinters (bidding difficulty 3, problems 1–5) — warm orange */
+.ct-problemTab--themeSplinters {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: rgba(234, 88, 12, 0.35);
+}
+.ct-problemTab--themeSplinters:hover:not(:disabled) {
+  background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%);
+}
+.ct-problemTab--themeSplinters.ct-problemTab--active {
+  border: 2px solid #ea580c;
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+  color: #431407;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.45);
+}
+.ct-sidePrompt--themeSplinters {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-left: 3px solid rgba(234, 88, 12, 0.55);
+}
+.ct-sidePrompt--themeSplinters .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #9a3412;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeSplinters .ct-revealList {
+  background: rgba(234, 88, 12, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
   font-size: 1.15rem;
@@ -1206,6 +1306,10 @@
 .ct-themeLabel--themeTwoLevel {
   background: #e0e7ff;
   color: #3730a3;
+}
+.ct-themeLabel--themeSplinters {
+  background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%);
+  color: #7c2d12;
 }
 
 .ct-newBadge {
@@ -1795,10 +1899,10 @@
   }
 }
 
-/* When prompt is on right: sidebar has its own space so table isn’t encroached; center column gets plenty of room for South */
-/* No gap between table and East: center only as wide as content when possible */
+/* When prompt is on right: sidebar has its own space so table isn’t encroached; center fits trick + N/S hands. */
+/* Was clamp(..., 420px) max — too narrow on desktop (tiny 13-card rows). Wider cap + vw so cards stay readable. */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight {
-  grid-template-columns: 0 clamp(300px, 34vw, 420px) minmax(110px, 150px);
+  grid-template-columns: 0 clamp(360px, 54vw, 620px) minmax(110px, 150px);
   width: 100%;
   max-width: none;
   justify-items: start;
@@ -1808,7 +1912,7 @@
 
 /* When West visible (reveal): wider left column so West’s long suits (e.g. 6 spades) fit without squashing */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
-  grid-template-columns: 260px clamp(300px, 34vw, 420px) minmax(110px, 150px);
+  grid-template-columns: 260px clamp(340px, 48vw, 560px) minmax(110px, 150px);
   width: 100%;
   max-width: none;
   justify-items: start;
@@ -2223,68 +2327,191 @@
   margin-bottom: 0;
 }
 
-/* PLAY_DECISION: full bidding-box (levels 1–7 × suits + NT; Pass / X / XX) */
+/* PLAY_DECISION: bidding box — compact columns, suit-tinted strips (Bid-Pal style), Pass/X/XX colours */
 .ct-railActions--biddingBox {
   max-width: 100%;
 }
 .ct-biddingDecisionBox {
-  margin-top: 2px;
+  margin-top: 4px;
 }
 .ct-biddingDecisionBox-grid {
   display: grid;
-  grid-template-columns: 22px repeat(5, minmax(0, 1fr));
+  grid-template-columns: 20px repeat(5, minmax(0, 1fr));
   gap: 3px 4px;
-  align-items: stretch;
   margin-bottom: 8px;
 }
+.ct-biddingDecisionBox-gutter {
+  display: grid;
+  /* auto rows only — no 1fr, so level rows stay content-tight (no tall empty bands) */
+  grid-template-rows: auto repeat(7, auto);
+  gap: 1px;
+  min-width: 0;
+}
 .ct-biddingDecisionBox-corner {
-  min-height: 20px;
+  min-height: 16px;
+}
+.ct-biddingDecisionBox-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding: 2px 2px 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f8fafc;
+}
+/* Suit strips: strong colour cues so ♣ vs ♠ never read the same (physical boxes use green for clubs). */
+.ct-biddingDecisionBox-column--c {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: #34d399;
+}
+.ct-biddingDecisionBox-column--d {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: #fb923c;
+}
+.ct-biddingDecisionBox-column--h {
+  background: linear-gradient(180deg, #fef2f2 0%, #fecaca 55%, #fee2e2 100%);
+  border-color: #f87171;
+}
+.ct-biddingDecisionBox-column--s {
+  background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-color: #64748b;
+}
+.ct-biddingDecisionBox-column--nt {
+  background: linear-gradient(180deg, #f4f4f5 0%, #e4e4e7 100%);
+  border-color: #a1a1aa;
 }
 .ct-biddingDecisionBox-colhead,
 .ct-biddingDecisionBox-rowhead {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 800;
-  color: #78350f;
+  font-size: 12px;
+  font-weight: 900;
+  color: #020617;
   user-select: none;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ct-biddingDecisionBox-colhead {
+  min-height: 0;
+  padding: 2px 0 3px;
+  font-size: 14px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 .ct-biddingDecisionBox-rowhead {
-  padding-right: 2px;
+  padding-right: 0;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 800;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+/* In clubs column, render black suit spans as green so ♣ pops vs ♠ in the spade column */
+.ct-biddingDecisionBox-column--c .ct-suitSym--black {
+  color: #047857 !important;
+}
+.ct-biddingDecisionBox-column--s .ct-suitSym--black {
+  color: #0f172a !important;
 }
 .ct-biddingDecisionBox-call {
-  border: 1px solid #b45309;
-  border-radius: 6px;
-  background: #fffbeb;
-  padding: 5px 3px;
-  font-size: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.22);
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 0 1px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  /* Dominant glyph size — most of the cell is the bid, not padding */
+  font-size: clamp(15px, 3.6vmin, 18px);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  color: #1f2937;
-  min-height: 34px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  color: #020617;
+  min-height: max(22px, 1.35em);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+.ct-biddingDecisionBox-callLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1em;
+}
+/* Suit pips: max weight so ranks + symbols read at a glance */
+.ct-biddingDecisionBox-call .ct-suitSym--red,
+.ct-biddingDecisionBox-call .ct-suitSym--black {
+  font-weight: 900;
 }
 .ct-biddingDecisionBox-call:hover:not(:disabled) {
-  background: #fff7ed;
-  border-color: #d97706;
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+  color: #020617;
 }
 .ct-biddingDecisionBox-call:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 .ct-biddingDecisionBox-call:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 .ct-biddingDecisionBox-actions {
   display: grid;
-  grid-template-columns: 1.35fr 1fr 1fr;
-  gap: 6px;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 5px;
 }
 .ct-biddingDecisionBox-call--wide {
-  min-height: 38px;
-  font-size: 14px;
+  min-height: 30px;
+  font-size: clamp(14px, 3.2vmin, 16px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  padding: 3px 4px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ct-biddingDecisionBox-call--pass {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  border: 1px solid #15803d;
+  color: #ffffff;
+}
+.ct-biddingDecisionBox-call--pass:hover:not(:disabled) {
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
+  border-color: #166534;
+  box-shadow: 0 1px 3px rgba(22, 163, 74, 0.35);
+}
+.ct-biddingDecisionBox-call--double {
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+  border: 1px solid #b91c1c;
+  color: #ffffff;
+}
+.ct-biddingDecisionBox-call--double:hover:not(:disabled) {
+  background: linear-gradient(180deg, #f87171 0%, #ef4444 100%);
+  border-color: #991b1b;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.35);
+}
+.ct-biddingDecisionBox-call--redouble {
+  background: linear-gradient(180deg, #64748b 0%, #475569 100%);
+  border: 1px solid #334155;
+  color: #ffffff;
+}
+.ct-biddingDecisionBox-call--redouble:hover:not(:disabled) {
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+  border-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(71, 85, 105, 0.35);
 }
 
 .ct-railAnswer {
@@ -3460,6 +3687,41 @@
   min-width: clamp(460px, 52vw, 640px);
 }
 
+/*
+ * Desktop + prompt on right: the center column is wider than the old 420px cap (see .ct-table--promptOnRight)
+ * but still finite — N/S hands must not use the old 460px+ min-width or they spill past the felt.
+ * Fit the fan to the column (13 equal grid tracks), hide horizontal scroll, and stretch the seat.
+ */
+@media (min-width: 1025px) {
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--top,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--bottom {
+    justify-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--top .ct-handWrap,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--bottom .ct-handWrap,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--top .ct-handFan--full,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--bottom .ct-handFan--full {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--top .ct-handFan--full,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--bottom .ct-handFan--full {
+    display: grid;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: auto;
+  }
+}
+
 @media (max-width: 1024px) {
   /*
    * Let the fan use the column width. Visible overflow on the fan + scroll on the wrap is for
@@ -3707,6 +3969,11 @@
 .ct-auctionInline {
   font-weight: 800;
   color: #111827;
+}
+
+.ct-revealRichAuction {
+  margin: 4px 0 10px;
+  max-width: min(100%, 340px);
 }
 
 .ct-auctionCard {
@@ -5003,7 +5270,8 @@
 .ct-sidePrompt--themeActive .ct-practiceVideoSlot:not(:empty),
 .ct-sidePrompt--themeRespond .ct-practiceVideoSlot:not(:empty),
 .ct-sidePrompt--theme1nt .ct-practiceVideoSlot:not(:empty),
-.ct-sidePrompt--themeDrawTrumps .ct-practiceVideoSlot:not(:empty) {
+.ct-sidePrompt--themeDrawTrumps .ct-practiceVideoSlot:not(:empty),
+.ct-sidePrompt--themeSplinters .ct-practiceVideoSlot:not(:empty) {
   background: inherit;
 }
 

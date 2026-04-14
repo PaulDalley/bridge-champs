@@ -46,7 +46,7 @@ function CountingHub({ subscriptionActive }) {
               </div>
               {!isMember && (
                 <div className="ch-cardNote">
-                  Members get full access. Non-members can try 1 practice hand per difficulty.
+                  Members get full access. Non-members can try 1 practice hand per stage.
                 </div>
               )}
               <div className="ch-cardCta" aria-hidden="true">

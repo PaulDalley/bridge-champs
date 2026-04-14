@@ -54,7 +54,7 @@ const resolveBeginnerCategoryKey = (categoryFromRoute) => {
   return Object.prototype.hasOwnProperty.call(BEGINNER_CATEGORY_PATHS, key) ? key : "declarer";
 };
 
-/** Stages 1–3: no difficulty tiers; Stage 4 keeps them for parity with main bidding trainer. */
+/** Stages 1–3: hide the stage 1/2/3 tabs; Stage 4 keeps them for parity with the main bidding trainer. */
 const BEGINNER_HIDE_DIFFICULTY_TABS = new Set(["declarer", "defence", "counting"]);
 
 function BeginnerPracticePage({ match }) {

@@ -1,5 +1,5 @@
 import React from "react";
-import CountingTrumpsTrainer, { TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
+import CountingTrumpsTrainer, { PracticeAuctionMiniTable, TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
 
 function Bid209IntroRich() {
   return (
@@ -572,6 +572,285 @@ function Bid218RevealRich() {
             </span>
           </li>
         </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid31SplintersIntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Its great to understand splinters, how to use them and how to respond to them.
+        </p>
+        <p className="ct-revealRichBody">
+          Its even better to understand why, as that will impact every area of bidding judgment. We&apos;ll get you
+          there over the next few problems.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid31SplintersLessonRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What a splinter is</h4>
+        <p className="ct-revealRichBody">
+          Let&apos;s start of with what a splinter is — after partner opens <TextWithColoredSuits text="1♠" /> or{" "}
+          <TextWithColoredSuits text="1♥" />, it is a jump to the 4 level in a different suit.
+        </p>
+        <p className="ct-revealRichBody">
+          So lets keep it simple and discuss which hands qualify as splinters and which don&apos;t.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Requirements</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--muted">short and simple version.</p>
+        <p className="ct-revealRichBody">
+          <span className="ct-revealGold">It shows a singleton, and 4 trumps, 3 sharp cards!</span>
+        </p>
+        <p className="ct-revealRichBody">To be more exact, or scientific, if you are so inclined.</p>
+        <ol className="ct-revealRichListAlpha">
+          <li>
+            Generally less than 12 points, however must be good cards! approximately 3 sharp cards. By sharp I mean,
+            Aces and Kings.
+          </li>
+          <li>a singleton or void in the suit you are splintering.</li>
+          <li>4 card trump fit, never splinter with 3.</li>
+          <li>generally no 5 card side suit. (unless its very poor).</li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid31RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Explanation</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          <TextWithColoredSuits text="4♣" /> is an excellent bid, its a jump to the 4 level after partner has opened{" "}
+          <TextWithColoredSuits text="1♠" />.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">What it shows</h4>
+        <ul className="ct-revealRichTriple" aria-label="What this bid shows">
+          <li>Short clubs</li>
+          <li>4 trumps</li>
+          <li>3 sharp cards!</li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid32PrincipleInfoRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Lets start off with an important principle.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid32HandGottenQuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        Opposite partner&apos;s splinter, has your hand gotten..?
+      </p>
+    </div>
+  );
+}
+
+function Bid32RevealAfterBetterRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Better</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Explanation</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          The hand has gotten a lot better, slam makes comfortably with the combined 22 points. Let&apos;s look at why.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Evaluation Principle</h4>
+        <p className="ct-revealRichBody">
+          Two hands combine well when we have no points opposite a shortage. The less we have opposite shortage the
+          better.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid33RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">No</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Explanation</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          No this is not suitable for a splinter - has too many Queens and Jacks, it needs at least 2-3 sharp cards,
+          A&apos;s and Kings.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Discipline</h4>
+        <p className="ct-revealRichBody">
+          The splinter bid is a very specific bid that requires discipline, don&apos;t overuse it for the sake of it.
+          Partner needs to be able to visualise a narrowly defined hand. Often this allows partnerships to bid low
+          point count slams, knowing that partner will have just the right cards.
+        </p>
+        <p className="ct-revealRichBody">
+          If you relax your standards, the whole thing loses its meaning, and the partnership will be guessing.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid34IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Let&apos;s check some common auctions.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid34Q1AuctionRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♠ P 4♥" dealerCompass="S" auctionAllWhite />
+      <p className="ct-revealRichBody" style={{ marginTop: 12 }}>
+        Is <TextWithColoredSuits text="4♥" /> a splinter or a natural bid?
+      </p>
+    </div>
+  );
+}
+
+function Bid34Reveal1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Depends</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Explanation</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          I&apos;ve put this in here because it is a point of controversy and something that should be discussed with
+          your regular partner.
+        </p>
+        <p className="ct-revealRichBody">
+          My recommendation is to play it as a splinter, but whatever you play it as, that is not so important - its
+          more important to know what it means.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid34CompetitionThinkRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♠ 2♣ 4♥" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--slate" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          Think about this auction for a moment — with the <TextWithColoredSuits text="2♣" /> overcall, what does{" "}
+          <TextWithColoredSuits text="4♥" /> mean to you? When you are ready, continue and we will talk through a
+          practical guideline.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid34CompetitionGuidanceRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">No single &quot;correct&quot; answer</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          There is no one answer everyone plays the same way — that is why it is worth chatting with your regular
+          partner. Here is what I recommend, and how I like to think about it.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">In competition</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          A great rule that most top partnerships follow - &quot;In competition all bids are natural&quot;.
+        </p>
+        <p className="ct-revealRichBody">
+          If you apply that rule, <TextWithColoredSuits text="4♥" /> is natural.
+        </p>
+        <p className="ct-revealRichBody">One great thing about the rule, it removes all ambiguity.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid35QuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        Imagine you know your partner&apos;s exact shape. You have agreed spades, how do you feel about your hand?
+      </p>
+      <p className="ct-revealRichBody ct-revealRichBody--muted">
+        (Your partner&apos;s shape is as shown, 3 spades, 5 hearts, 1 diamond, 4 clubs)
+      </p>
+    </div>
+  );
+}
+
+function Bid35Reveal1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Bad</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Explanation</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+          Bridge is a simple game - you have 8 of your points opposite partner&apos;s shortage - that is bad.
+        </p>
+        <p className="ct-revealRichBody">
+          The less points you have opposite your partner&apos;s shortage, the better.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid35ContinueInfoRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Continue</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid35BeyondSplintersRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Understanding that points opposite a shortage is bad, will give you benefits that extend well beyond splinter
+          auctions.
+        </p>
       </section>
     </div>
   );
@@ -3064,6 +3343,290 @@ const BIDDING_PUZZLES = [
         D: "AJ108",
         C: "542",
       },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-1",
+    difficulty: 3,
+    title: "Splinters (1): Jump after 1♠",
+    newUntil: "2026-06-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Understanding splinters",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Splinters",
+      promptThemeTint: "splinters",
+      customPrompts: [
+        {
+          id: "bid3-1-info-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid31SplintersIntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-1-info-lesson",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid31SplintersLessonRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-1-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid on this hand?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4c",
+          expectedChoiceDisplay: "4♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid31RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K1098", H: "A984", D: "A432", C: "2" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-2",
+    difficulty: 3,
+    title: "Splinters (2): After partner's splinter",
+    newUntil: "2026-08-01",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P 4♦ P ?",
+    revealFullHandsAtEnd: ["DUMMY"],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Opposite a splinter",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Splinters",
+      promptThemeTint: "splinters",
+      customPrompts: [
+        {
+          id: "bid3-2-info",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid32PrincipleInfoRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-2-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid32HandGottenQuestionRich />,
+          options: [
+            { id: "better", label: "Better" },
+            { id: "worse", label: "Worse" },
+            { id: "same", label: "Not much change" },
+          ],
+          expectedChoice: "better",
+          expectedChoiceDisplay: "Better",
+          wrongTryText: "Not quite — try again.",
+          noContinue: true,
+          revealFullHandSeats: ["DUMMY"],
+          revealText: <Bid32RevealAfterBetterRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AJ10987", H: "K5", D: "9876", C: "A" },
+      DUMMY: { S: "K643", H: "A98", D: "2", C: "K7543" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-3",
+    difficulty: 3,
+    title: "Splinters (3): Is this a splinter?",
+    newUntil: "2026-09-01",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Splinter discipline",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Splinters",
+      promptThemeTint: "splinters",
+      customPrompts: [
+        {
+          id: "bid3-3-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is this hand suitable for a splinter?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          expectedChoiceDisplay: "No",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid33RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "QJ109", H: "AJ109", D: "QJ109", C: "2" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-4",
+    difficulty: 3,
+    title: "Splinters (4): Same auction?",
+    newUntil: "2026-09-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P 4♥",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Common auctions",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Splinters",
+      promptThemeTint: "splinters",
+      customPrompts: [
+        {
+          id: "bid3-4-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid34IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-4-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid34Q1AuctionRich />,
+          options: [
+            { id: "splinter", label: "Splinter" },
+            { id: "natural", label: "Natural" },
+            { id: "depends", label: "Depends" },
+          ],
+          expectedChoice: "depends",
+          expectedChoiceDisplay: "Depends",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid34Reveal1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-4-think-competition",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid34CompetitionThinkRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-4-competition-guidance",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid34CompetitionGuidanceRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AK1092", H: "Q2", D: "K10987", C: "3" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-5",
+    difficulty: 3,
+    title: "Splinters (5): Points opposite shortage",
+    newUntil: "2026-10-01",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER", "DUMMY"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Shape and wastage",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Splinters",
+      promptThemeTint: "splinters",
+      customPrompts: [
+        {
+          id: "bid3-5-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid35QuestionRich />,
+          options: [
+            { id: "good", label: "Good" },
+            { id: "bad", label: "Bad" },
+          ],
+          expectedChoice: "bad",
+          expectedChoiceDisplay: "Bad",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid35Reveal1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-5-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid35ContinueInfoRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-5-beyond",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid35BeyondSplintersRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AK1098", H: "98", D: "AKJ9", C: "32" },
+      DUMMY: { S: "???", H: "?????", D: "?", C: "????" },
     },
     rounds: [],
   },

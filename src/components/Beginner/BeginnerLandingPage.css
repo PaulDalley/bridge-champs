@@ -31,7 +31,7 @@
   display: inline-block;
   margin: 0 0 1rem;
   padding: 0.35rem 0.9rem;
-  font-size: 0.85rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -44,7 +44,7 @@
 .BeginnerLanding-title {
   margin: 0 0 1rem;
   font-family: var(--font-display, Georgia, serif);
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
   font-weight: 750;
   line-height: 1.12;
   color: #fff;
@@ -59,7 +59,7 @@
 
 .BeginnerLanding-lead {
   margin: 0 0 1.15rem;
-  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-size: clamp(var(--text-base), 2.2vw, var(--text-lg));
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
@@ -71,7 +71,7 @@
   max-width: 34rem;
   margin-left: auto;
   margin-right: auto;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.88);
   background: rgba(255, 255, 255, 0.08);
@@ -90,7 +90,7 @@
 }
 
 .BeginnerLanding-aboutLink {
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.92);
   text-decoration: underline;
@@ -109,7 +109,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.95rem 1.75rem;
-  font-size: 1.05rem;
+  font-size: var(--text-sm);
   font-weight: 700;
   text-decoration: none;
   border-radius: 12px;
@@ -141,14 +141,14 @@
 
 .BeginnerLanding-sectionTitle {
   margin: 0 0 0.65rem;
-  font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+  font-size: clamp(var(--text-xl), 2.6vw, var(--text-2xl));
   font-weight: 700;
   color: #0f172a;
 }
 
 .BeginnerLanding-sectionIntro {
   margin: 0 0 0.75rem;
-  font-size: 0.98rem;
+  font-size: var(--text-sm);
   line-height: 1.45;
   color: #64748b;
 }
@@ -192,7 +192,7 @@
 
 .BeginnerLanding-testimonial-quote p {
   margin: 0;
-  font-size: 0.93rem;
+  font-size: var(--text-sm);
   line-height: 1.45;
   font-style: italic;
   color: #334155;
@@ -203,18 +203,17 @@
 }
 
 .BeginnerLanding-personalCard {
-  padding: 1rem 1.15rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 0.9rem 1rem;
+  background: #fff;
   border: 1px solid #e2e8f0;
-  border-left: 4px solid #0f4c3a;
   border-radius: 10px;
-  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 6px rgba(15, 23, 42, 0.04);
 }
 
 .BeginnerLanding-personalCard p {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.5;
+  font-size: var(--text-sm);
+  line-height: 1.45;
   color: #334155;
 }
 

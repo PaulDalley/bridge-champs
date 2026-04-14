@@ -1948,7 +1948,7 @@ const CARDPLAY_PUZZLES_ALL = [
           type: "INFO",
           atRoundIdx: 0,
           promptText:
-            "If you have worked through declarer difficulty 1 (problems 3–6), you have already seen this idea.\n\nA suit like hearts is a strong candidate: you \"knock out the Ace\" and turn the suit into winners for our side.",
+            "If you have worked through declarer stage 1 (problems 3–6), you have already seen this idea.\n\nA suit like hearts is a strong candidate: you \"knock out the Ace\" and turn the suit into winners for our side.",
         },
         {
           id: "cp2-8-combine-entries",

@@ -296,14 +296,14 @@ function BeginnerLandingPage({ location, isAdmin }) {
 
         <section
           className="BeginnerLanding-section BeginnerLanding-section--personal"
-          aria-labelledby="BeginnerLanding-personal-heading"
+          aria-labelledby="BeginnerLanding-contact-heading"
         >
-          <h2 id="BeginnerLanding-personal-heading" className="BeginnerLanding-sectionTitle">
-            From me
+          <h2 id="BeginnerLanding-contact-heading" className="BeginnerLanding-sectionTitle">
+            Get in touch
           </h2>
           <div className="BeginnerLanding-personalCard">
             <p>
-              I run this—when members write in, they hear from me, not a bot.{" "}
+              You&apos;ll get a quick answer from Paul.{" "}
               <Link to={{ pathname: "/contact", search }} className="BeginnerLanding-inlineLink">
                 Contact
               </Link>

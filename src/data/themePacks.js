@@ -56,8 +56,8 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
  * If a category is omitted, legacy rules apply (trial starter + first problem per difficulty as preview).
  */
 export const FREE_PROBLEM_IDS_BY_CATEGORY = {
-  /** Bidding: d1 problems 1 & 6; d2 problems 1–5 (promotion — keep in sync with marketing). */
-  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5"],
+  /** Bidding: d1 problems 1 & 6; d2 problems 1–5; d3 splinters 1–5 (keep in sync with marketing). */
+  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5", "bid3-1", "bid3-2", "bid3-3", "bid3-4", "bid3-5"],
   /** Declarer: difficulty 2 problem 6 — first free hand in the “entries” series (videos unlocked for everyone on this id). */
   declarer: ["cp2-6"],
   defence: [],
