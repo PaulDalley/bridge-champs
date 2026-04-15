@@ -29,12 +29,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # GitHub is moving built-in actions off Node 20; this opts their JS runtime to Node 24 (see changelog).
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
 
       - name: Install and build
@@ -53,6 +56,11 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
+          set -euo pipefail
+          if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
+            echo "::error::FIREBASE_SERVICE_ACCOUNT secret is empty or missing. Add it under Repo Settings → Secrets and variables → Actions."
+            exit 1
+          fi
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
           npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
