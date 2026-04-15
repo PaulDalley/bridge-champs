@@ -56,6 +56,7 @@ import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticle";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage";
+import PracticalJustPlayPage from "./components/Trainers/PracticalJustPlayPage";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
@@ -262,6 +263,11 @@ const routes = (
       )}
     />
     <Route
+      path="/just-play/practice"
+      exact
+      render={() => <PracticalJustPlayPage />}
+    />
+    <Route
       path="/learn"
       exact
       render={(routeProps) => (
@@ -273,7 +279,7 @@ const routes = (
         />
       )}
     />
-    <Route path="/just-play" exact render={() => <Redirect to="/beginner/practice/just-play" />} />
+    <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
     <Route path="/other" component={OtherHub} exact />
     <Route path="/system" component={SystemCardEditor} exact />
     <Route

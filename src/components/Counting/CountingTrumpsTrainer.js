@@ -4035,8 +4035,8 @@ function CountingTrumpsTrainer({
     puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
   const isTrialStarterProblem = (problemId) => !!problemId && !!trialStarterProblemId && problemId === trialStarterProblemId;
   const currentPuzzleIsFree = !isMember && isFreeProblem(currentProblemId);
-  /** Unlock practice videos for Premium, or for any user on a free-listed problem (incl. Basic subs on free hands). */
-  const currentPuzzleVideoUnlocked = effectiveTier === "premium" || isFreeProblem(currentProblemId);
+  /** Practice videos are premium-only. */
+  const currentPuzzleVideoUnlocked = effectiveTier === "premium";
   const showPaywallOverlay = !isMember && !currentPuzzleIsFree && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;

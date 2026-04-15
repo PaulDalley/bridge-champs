@@ -7,6 +7,6 @@ export const TRAINER_CATEGORY_TABS = [
   { key: "defence", label: "Defence", path: "/defence/practice" },
   { key: "counting", label: "Counting", path: "/counting/practice" },
   { key: "bidding", label: "Bidding", path: "/bidding/practice" },
-  { key: "justPlay", label: "Just play", path: "/beginner/practice/just-play", new: true },
+  { key: "justPlay", label: "Just play", path: "/just-play/practice", new: true },
   { key: "treadmill", label: "Treadmill", path: "/treadmill/practice", new: true },
 ];

@@ -46,6 +46,14 @@
   flex: 1 1 12rem;
 }
 
+.tm-handShape-preTimerHint {
+  margin: -0.45rem 0 0.9rem;
+  font-size: var(--text-sm);
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(71, 85, 105, 0.78);
+}
+
 .tm-handShape-streakHud {
   flex: 0 0 auto;
   display: inline-flex;

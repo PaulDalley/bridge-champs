@@ -144,6 +144,7 @@ class Nav extends Component {
       "/defence",
       "/bidding",
       "/counting",
+      "/just-play",
       "/treadmill",
     ];
     const articlePaths = [

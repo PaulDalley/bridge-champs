@@ -566,7 +566,7 @@ function BeginnerJustPlayHands({ trainer }) {
           </div>
           <p className="bjp-contractDetail">
             Every deal is played in notrump: follow suit to win tricks; there is no trump suit. South is declarer;
-            West is on lead for the first trick.
+            West is on lead for the first trick. Core guideline: second hand low, third hand high.
           </p>
         </div>
       </div>

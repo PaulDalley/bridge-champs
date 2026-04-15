@@ -358,6 +358,9 @@ export default function HandShapeMissingClubTrainer({
           </div>
         ) : null}
       </div>
+      {!showStreakHud ? (
+        <p className="tm-handShape-preTimerHint">Don&apos;t use addition, just pattern recognition.</p>
+      ) : null}
 
       <div
         className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
