@@ -9,6 +9,8 @@ import {
 
 const CORRECT_PAUSE_MS = 780;
 const TRY_AGAIN_HINT_MS = 1700;
+/** Wider than this: input lives in the vacant suit box (desktop). Narrower: sticky strip below row (phone). */
+const NARROW_ENTRY_LAYOUT_PX = 480;
 
 const SUIT_KEYS = ["S", "H", "D", "C"];
 
@@ -83,6 +85,20 @@ export default function HandShapeMissingClubTrainer({
   const [aliasDraft, setAliasDraft] = useState("");
   const [streakSaveError, setStreakSaveError] = useState("");
   const [savingStreak, setSavingStreak] = useState(false);
+  const [useNarrowEntryLayout, setUseNarrowEntryLayout] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia(`(max-width: ${NARROW_ENTRY_LAYOUT_PX}px)`).matches
+      : false
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mq = window.matchMedia(`(max-width: ${NARROW_ENTRY_LAYOUT_PX}px)`);
+    const update = () => setUseNarrowEntryLayout(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const unsub = subscribeGlobalTreadmillLeaderboard((rows, err) => {
@@ -181,7 +197,7 @@ export default function HandShapeMissingClubTrainer({
       });
     }, 0);
     return () => window.clearTimeout(t);
-  }, [shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord]);
+  }, [shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord, useNarrowEntryLayout]);
 
   useEffect(() => {
     if (!pendingStreakRecord) return undefined;
@@ -299,6 +315,27 @@ export default function HandShapeMissingClubTrainer({
   const hiddenAriaSuit = SUIT_META[hiddenSuit]?.ariaSuit || "suit";
   const inputLocked = showSuccessTick || !!pendingStreakRecord;
 
+  const hiddenLenInputProps = {
+    ref: hiddenInputRef,
+    type: "text",
+    inputMode: "numeric",
+    enterKeyHint: "done",
+    pattern: "[0-9]*",
+    maxLength: hiddenMaxLen,
+    autoComplete: "off",
+    autoCorrect: "off",
+    autoCapitalize: "off",
+    spellCheck: false,
+    "aria-label": `Enter ${hiddenAriaSuit} length`,
+    value: hiddenInput,
+    onChange: (e) => handleHiddenChange(e.target.value),
+    onFocus: (e) => {
+      if (!showSuccessTick && !pendingStreakRecord) e.target.select();
+    },
+    readOnly: showSuccessTick,
+    disabled: !!pendingStreakRecord,
+  };
+
   return (
     <div className="tm-handShape" aria-live="polite">
       <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
@@ -321,60 +358,57 @@ export default function HandShapeMissingClubTrainer({
                 </span>
               </div>
               <div
-                className={`ct-numBox ct-numBox--dist ${row.locked ? "ct-numBox--locked" : "tm-numBox--vacantDisplay"} ${
-                  showSuccessTick && !row.locked ? "tm-numBox--successPulse" : ""
-                }`}
-                onPointerDown={(e) => {
-                  if (row.locked || inputLocked) return;
-                  const el = hiddenInputRef.current;
-                  if (!el) return;
-                  el.focus({ preventScroll: true });
-                  if (e.pointerType === "mouse") {
-                    el.select();
-                  }
-                }}
+                className={`ct-numBox ct-numBox--dist ${row.locked ? "ct-numBox--locked" : ""} ${
+                  useNarrowEntryLayout && !row.locked ? "tm-numBox--vacantDisplay" : ""
+                } ${showSuccessTick && !row.locked ? "tm-numBox--successPulse" : ""}`}
+                {...(useNarrowEntryLayout && !row.locked
+                  ? {
+                      onPointerDown: (e) => {
+                        if (inputLocked) return;
+                        const el = hiddenInputRef.current;
+                        if (!el) return;
+                        el.focus({ preventScroll: true });
+                        if (e.pointerType === "mouse") {
+                          el.select();
+                        }
+                      },
+                    }
+                  : !row.locked
+                    ? {
+                        onMouseDown: (e) => {
+                          e.preventDefault();
+                          if (inputLocked) return;
+                          hiddenInputRef.current?.focus?.({ preventScroll: true });
+                          hiddenInputRef.current?.select?.();
+                        },
+                      }
+                    : {})}
               >
                 <div className="ct-numBoxValue ct-numBoxValue--dist" aria-hidden="true">
                   {row.displayValue}
                 </div>
+                {!row.locked && !useNarrowEntryLayout ? (
+                  <input {...hiddenLenInputProps} className="ct-numBoxInput ct-numBoxInput--hidden" />
+                ) : null}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="tm-entryStrip">
-          <div className="tm-entryStrip-phoneCopy">
-            <label className="tm-entryStrip-label" htmlFor="tm-missing-len-input">
-              Missing length
-            </label>
-            <p className="tm-entryStrip-hint">
-              Use this field every turn so your number pad does not keep closing. You can still tap the empty suit to
-              focus here.
-            </p>
+        {useNarrowEntryLayout ? (
+          <div className="tm-entryStrip">
+            <div className="tm-entryStrip-phoneCopy">
+              <label className="tm-entryStrip-label" htmlFor="tm-missing-len-input">
+                Missing length
+              </label>
+              <p className="tm-entryStrip-hint">
+                Use this field every turn so your number pad does not keep closing. You can still tap the empty suit to
+                focus here.
+              </p>
+            </div>
+            <input {...hiddenLenInputProps} id="tm-missing-len-input" className="tm-entryStrip-input" />
           </div>
-          <input
-            id="tm-missing-len-input"
-            ref={hiddenInputRef}
-            className="tm-entryStrip-input"
-            type="text"
-            inputMode="numeric"
-            enterKeyHint="done"
-            pattern="[0-9]*"
-            maxLength={hiddenMaxLen}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            aria-label={`Enter ${hiddenAriaSuit} length`}
-            value={hiddenInput}
-            onChange={(e) => handleHiddenChange(e.target.value)}
-            onFocus={(e) => {
-              if (!showSuccessTick && !pendingStreakRecord) e.target.select();
-            }}
-            readOnly={showSuccessTick}
-            disabled={!!pendingStreakRecord}
-          />
-        </div>
+        ) : null}
       </div>
 
       <div className="tm-handShape-feedbackSlot" aria-live="assertive">

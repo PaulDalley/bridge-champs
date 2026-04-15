@@ -15,10 +15,9 @@
 # This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
 # with the service account JSON stored only as an encrypted secret.
 #
-# After Hosting, we also publish Firestore security rules (same FIREBASE_SERVICE_ACCOUNT secret).
-# If the whole run shows a red X: open that run → click the failed step → read the log (often
-# "permission denied" = the service account needs a role that can deploy Firestore rules, e.g.
-# Editor on the Google Cloud project, or Firebase Rules Admin).
+# After Hosting, we publish Firestore rules using the same secret. Credentials are written with
+# Python (handles multiline JSON safely). If this step fails with permission denied, add a role
+# on Google Cloud for that service account (e.g. Editor, or Firebase Rules Admin).
 name: Deploy Firebase Hosting
 
 on:
@@ -50,11 +49,10 @@ jobs:
           projectId: bridgechampions
           channelId: live
 
-      # Use official GCP auth so firebase-tools picks up credentials reliably (avoids JSON write edge cases).
-      - name: Authenticate for Firestore rules deploy
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
       - name: Deploy Firestore security rules
-        run: npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
