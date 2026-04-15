@@ -4,36 +4,50 @@ const COLLECTION = "treadmillStreakScores";
 
 /** @typedef {{ alias: string; timeMs: number; uid: string }} GlobalTreadmillLbEntry */
 
+/** User-visible message for failed leaderboard subscription. */
+export function getLeaderboardSubscribeErrorMessage(err) {
+  if (!err) {
+    return "Could not load the leaderboard. Check your connection and try refreshing the page.";
+  }
+  const code = err.code || "";
+  if (code === "permission-denied") {
+    return "The leaderboard could not load because access was denied. The site needs the latest security rules published to Firebase, then try refreshing.";
+  }
+  if (code === "failed-precondition") {
+    return "The leaderboard could not load. Try refreshing the page.";
+  }
+  return "Could not load the leaderboard. Check your connection and try refreshing the page.";
+}
+
 /**
  * Live top 5 fastest times (one best per signed-in player). Unsubscribe returned on unmount.
+ * Listens to the whole collection and sorts client-side so we do not require a composite index
+ * for orderBy + limit (which often fails until an index is created in the console).
  * @param {(rows: GlobalTreadmillLbEntry[], err: Error | null) => void} onNext
  * @returns {() => void}
  */
 export function subscribeGlobalTreadmillLeaderboard(onNext) {
   const db = firebase.firestore();
-  return db
-    .collection(COLLECTION)
-    .orderBy("timeMs", "asc")
-    .limit(5)
-    .onSnapshot(
-      (snap) => {
-        const rows = [];
-        snap.forEach((doc) => {
-          const d = doc.data();
-          const timeMs = Number(d.timeMs);
-          if (!Number.isFinite(timeMs)) return;
-          rows.push({
-            uid: doc.id,
-            alias: String(d.alias ?? "Player").trim() || "Player",
-            timeMs,
-          });
+  return db.collection(COLLECTION).onSnapshot(
+    (snap) => {
+      const rows = [];
+      snap.forEach((doc) => {
+        const d = doc.data();
+        const timeMs = Number(d.timeMs);
+        if (!Number.isFinite(timeMs)) return;
+        rows.push({
+          uid: doc.id,
+          alias: String(d.alias ?? "Player").trim() || "Player",
+          timeMs,
         });
-        onNext(rows, null);
-      },
-      (err) => {
-        onNext([], err);
-      }
-    );
+      });
+      rows.sort((a, b) => a.timeMs - b.timeMs);
+      onNext(rows.slice(0, 5), null);
+    },
+    (err) => {
+      onNext([], err);
+    }
+  );
 }
 
 /**

@@ -14,6 +14,10 @@
 # If pushes to `main` never deploy: the secret is missing, mis-named, or the JSON account lacks IAM.
 # This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
 # with the service account JSON stored only as an encrypted secret.
+#
+# Firestore rules (e.g. public treadmill leaderboard reads) are deployed in a separate step below.
+# The service account needs permission to update rules (e.g. "Firebase Rules Admin", "Editor", or
+# "Firebase Admin" on the Google Cloud project) in addition to Hosting deploy.
 name: Deploy Firebase Hosting
 
 on:
@@ -44,3 +48,11 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: bridgechampions
           channelId: live
+
+      - name: Deploy Firestore security rules
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          node -e "require('fs').writeFileSync('serviceAccount.json', process.env.FIREBASE_SERVICE_ACCOUNT)"
+          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive

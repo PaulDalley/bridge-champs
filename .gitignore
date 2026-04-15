@@ -21,6 +21,7 @@ serviceAccountKey.json
 
 # Firebase service account (never commit)
 serviceAccountKey.json
+serviceAccount.json
 
 # Exported user lists (private)
 user-emails-comma.txt

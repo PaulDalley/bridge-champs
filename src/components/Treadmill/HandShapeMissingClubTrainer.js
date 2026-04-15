@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { TREADMILL_HAND_SHAPES } from "../../data/treadmill/handShapes";
 import { formatTreadmillTimeShort } from "../../utils/treadmillLeaderboard";
 import {
+  getLeaderboardSubscribeErrorMessage,
   subscribeGlobalTreadmillLeaderboard,
   submitTreadmillPersonalBest,
 } from "../../utils/treadmillLeaderboardFirestore";
@@ -67,7 +68,6 @@ export default function HandShapeMissingClubTrainer({
   const streakStartMsRef = useRef(null);
 
   const [round, setRound] = useState(() => pickRandomRound(shapes.length));
-  const [roundNonce, setRoundNonce] = useState(0);
 
   const { shapeIdx, hiddenSuit, columnOrder } = round;
   const shape = shapes[shapeIdx];
@@ -78,6 +78,7 @@ export default function HandShapeMissingClubTrainer({
 
   const [leaderboard, setLeaderboard] = useState([]);
   const [leaderboardStatus, setLeaderboardStatus] = useState("loading");
+  const [leaderboardErrorMessage, setLeaderboardErrorMessage] = useState("");
   const [pendingStreakRecord, setPendingStreakRecord] = useState(null);
   const [aliasDraft, setAliasDraft] = useState("");
   const [streakSaveError, setStreakSaveError] = useState("");
@@ -88,8 +89,10 @@ export default function HandShapeMissingClubTrainer({
       if (err) {
         setLeaderboard([]);
         setLeaderboardStatus("error");
+        setLeaderboardErrorMessage(getLeaderboardSubscribeErrorMessage(err));
         return;
       }
+      setLeaderboardErrorMessage("");
       setLeaderboard(rows);
       setLeaderboardStatus("ready");
     });
@@ -118,7 +121,6 @@ export default function HandShapeMissingClubTrainer({
     setShowTryAgain(false);
     setHiddenInput("");
     setRound(() => pickRandomRound(shapes.length));
-    setRoundNonce((n) => n + 1);
   }, [clearTimers, shapes.length]);
 
   const resetStreak = useCallback(() => {
@@ -170,9 +172,16 @@ export default function HandShapeMissingClubTrainer({
       const t = window.setTimeout(() => aliasInputRef.current?.focus?.({ preventScroll: true }), 60);
       return () => window.clearTimeout(t);
     }
-    const t = window.setTimeout(() => hiddenInputRef.current?.focus?.({ preventScroll: true }), 0);
+    const t = window.setTimeout(() => {
+      const el = hiddenInputRef.current;
+      if (!el) return;
+      el.focus({ preventScroll: true });
+      requestAnimationFrame(() => {
+        el.focus({ preventScroll: true });
+      });
+    }, 0);
     return () => window.clearTimeout(t);
-  }, [shapeIdx, hiddenSuit, columnOrder.join(""), roundNonce, pendingStreakRecord]);
+  }, [shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord]);
 
   useEffect(() => {
     if (!pendingStreakRecord) return undefined;
@@ -294,59 +303,78 @@ export default function HandShapeMissingClubTrainer({
     <div className="tm-handShape" aria-live="polite">
       <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
 
-      <div
-        className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
-        role="group"
-        aria-label="Hand shape lengths by suit"
-        key={roundNonce}
-      >
-        {rows.map((row) => (
-          <div
-            key={row.suitKey}
-            className="ct-distSeat tm-distSeat"
-            {...(row.locked ? { "aria-label": `${row.ariaSuit} length ${row.displayValue}` } : {})}
-          >
-            <div className="ct-distLabel tm-suitDistLabel" aria-hidden="true">
-              <span className={`ct-suitSym tm-suitGlyph ${row.isRed ? "ct-suitSym--red" : "ct-suitSym--black"}`}>
-                {row.glyph}
-              </span>
-            </div>
+      <div className="tm-playSurface">
+        <div
+          className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
+          role="group"
+          aria-label="Hand shape lengths by suit"
+        >
+          {rows.map((row) => (
             <div
-              className={`ct-numBox ct-numBox--dist ${row.locked ? "ct-numBox--locked" : ""} ${
-                showSuccessTick && !row.locked ? "tm-numBox--successPulse" : ""
-              }`}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                if (row.locked || inputLocked) return;
-                hiddenInputRef.current?.focus?.({ preventScroll: true });
-                hiddenInputRef.current?.select?.();
-              }}
+              key={row.suitKey}
+              className="ct-distSeat tm-distSeat"
+              {...(row.locked ? { "aria-label": `${row.ariaSuit} length ${row.displayValue}` } : {})}
             >
-              <div className="ct-numBoxValue ct-numBoxValue--dist" aria-hidden="true">
-                {row.displayValue}
+              <div className="ct-distLabel tm-suitDistLabel" aria-hidden="true">
+                <span className={`ct-suitSym tm-suitGlyph ${row.isRed ? "ct-suitSym--red" : "ct-suitSym--black"}`}>
+                  {row.glyph}
+                </span>
               </div>
-              {!row.locked && (
-                <input
-                  ref={hiddenInputRef}
-                  className="ct-numBoxInput ct-numBoxInput--hidden"
-                  type="text"
-                  inputMode="numeric"
-                  enterKeyHint="done"
-                  pattern="[0-9]*"
-                  maxLength={hiddenMaxLen}
-                  autoComplete="off"
-                  aria-label={`Enter ${hiddenAriaSuit} length`}
-                  value={hiddenInput}
-                  onChange={(e) => handleHiddenChange(e.target.value)}
-                  onFocus={(e) => {
-                    if (!inputLocked) e.target.select();
-                  }}
-                  disabled={inputLocked}
-                />
-              )}
+              <div
+                className={`ct-numBox ct-numBox--dist ${row.locked ? "ct-numBox--locked" : "tm-numBox--vacantDisplay"} ${
+                  showSuccessTick && !row.locked ? "tm-numBox--successPulse" : ""
+                }`}
+                onPointerDown={(e) => {
+                  if (row.locked || inputLocked) return;
+                  const el = hiddenInputRef.current;
+                  if (!el) return;
+                  el.focus({ preventScroll: true });
+                  if (e.pointerType === "mouse") {
+                    el.select();
+                  }
+                }}
+              >
+                <div className="ct-numBoxValue ct-numBoxValue--dist" aria-hidden="true">
+                  {row.displayValue}
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
+
+        <div className="tm-entryStrip">
+          <div className="tm-entryStrip-head">
+            <label className="tm-entryStrip-label" htmlFor="tm-missing-len-input">
+              Missing length
+            </label>
+            <p className="tm-entryStrip-hint">
+              Use this field every turn so your number pad does not keep closing. You can still tap the empty suit to
+              focus here.
+            </p>
           </div>
-        ))}
+          <input
+            id="tm-missing-len-input"
+            ref={hiddenInputRef}
+            className="tm-entryStrip-input"
+            type="text"
+            inputMode="numeric"
+            enterKeyHint="done"
+            pattern="[0-9]*"
+            maxLength={hiddenMaxLen}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            aria-label={`Enter ${hiddenAriaSuit} length`}
+            value={hiddenInput}
+            onChange={(e) => handleHiddenChange(e.target.value)}
+            onFocus={(e) => {
+              if (!showSuccessTick && !pendingStreakRecord) e.target.select();
+            }}
+            readOnly={showSuccessTick}
+            disabled={!!pendingStreakRecord}
+          />
+        </div>
       </div>
 
       <div className="tm-handShape-feedbackSlot" aria-live="assertive">
@@ -402,7 +430,8 @@ export default function HandShapeMissingClubTrainer({
               ) : leaderboardStatus === "error" ? (
                 <tr>
                   <td colSpan={3} className="tm-lbTd tm-lbTd--empty">
-                    Could not load the leaderboard. Check your connection and try refreshing the page.
+                    {leaderboardErrorMessage ||
+                      "Could not load the leaderboard. Check your connection and try refreshing the page."}
                   </td>
                 </tr>
               ) : leaderboard.length === 0 ? (
