@@ -12,7 +12,7 @@ function PracticalJustPlayPage() {
   const [justPlayTrainer, setJustPlayTrainer] = useState("declare");
 
   return (
-    <div className="ct-page ct-page--fullhands">
+    <div className="ct-page ct-page--fullhands ct-page--beginnerPractice">
       <div className="ct-layout ct-layout--fullhands">
         <div className="ct-stage">
           <div className="ct-topNavWrap">
