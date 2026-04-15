@@ -343,7 +343,7 @@ export default function HandShapeMissingClubTrainer({
         </div>
 
         <div className="tm-entryStrip">
-          <div className="tm-entryStrip-head">
+          <div className="tm-entryStrip-phoneCopy">
             <label className="tm-entryStrip-label" htmlFor="tm-missing-len-input">
               Missing length
             </label>

@@ -15,9 +15,10 @@
 # This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
 # with the service account JSON stored only as an encrypted secret.
 #
-# Firestore rules (e.g. public treadmill leaderboard reads) are deployed in a separate step below.
-# The service account needs permission to update rules (e.g. "Firebase Rules Admin", "Editor", or
-# "Firebase Admin" on the Google Cloud project) in addition to Hosting deploy.
+# After Hosting, we also publish Firestore security rules (same FIREBASE_SERVICE_ACCOUNT secret).
+# If the whole run shows a red X: open that run → click the failed step → read the log (often
+# "permission denied" = the service account needs a role that can deploy Firestore rules, e.g.
+# Editor on the Google Cloud project, or Firebase Rules Admin).
 name: Deploy Firebase Hosting
 
 on:
@@ -49,10 +50,11 @@ jobs:
           projectId: bridgechampions
           channelId: live
 
+      # Use official GCP auth so firebase-tools picks up credentials reliably (avoids JSON write edge cases).
+      - name: Authenticate for Firestore rules deploy
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
       - name: Deploy Firestore security rules
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          node -e "require('fs').writeFileSync('serviceAccount.json', process.env.FIREBASE_SERVICE_ACCOUNT)"
-          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
+        run: npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive

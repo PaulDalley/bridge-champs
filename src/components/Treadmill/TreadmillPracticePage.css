@@ -31,10 +31,17 @@
   gap: 0.45rem;
 }
 
-.tm-entryStrip-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+/* Label + hint only on phone; desktop keeps the input only (aria-label on input) */
+.tm-entryStrip-phoneCopy {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .tm-entryStrip-phoneCopy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 }
 
 .tm-entryStrip-label {
