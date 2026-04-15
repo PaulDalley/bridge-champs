@@ -1,5 +1,8 @@
 const STORAGE_KEY = "bridgechamps_treadmill_streak_top5_v1";
 
+/** How many fastest times we show and keep in localStorage (does not delete Firestore documents). */
+export const TREADMILL_LEADERBOARD_DISPLAY_LIMIT = 10;
+
 /** @typedef {{ alias: string; timeMs: number; at: string }} TreadmillLbEntry */
 
 export function normalizeTreadmillAlias(raw) {
@@ -41,7 +44,7 @@ function persistTreadmillLeaderboard(entries) {
 }
 
 /**
- * One entry per normalized alias (keeps best time only). Top 5 fastest.
+ * One entry per normalized alias (keeps best time only). Keeps the fastest N locally.
  * @param {TreadmillLbEntry[]} current
  * @param {string} alias
  * @param {number} timeMs
@@ -66,7 +69,7 @@ export function upsertTreadmillLeaderboard(current, alias, timeMs) {
       ? { alias: trimmed.slice(0, 40), timeMs, at: new Date().toISOString() }
       : map.get(key);
   map.set(key, mergedBest);
-  const sorted = [...map.values()].sort((a, b) => a.timeMs - b.timeMs).slice(0, 5);
+  const sorted = [...map.values()].sort((a, b) => a.timeMs - b.timeMs).slice(0, TREADMILL_LEADERBOARD_DISPLAY_LIMIT);
   persistTreadmillLeaderboard(sorted);
   return sorted;
 }

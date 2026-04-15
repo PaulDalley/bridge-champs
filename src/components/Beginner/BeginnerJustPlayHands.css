@@ -6,6 +6,86 @@
   box-sizing: border-box;
 }
 
+.bjp-introBanner {
+  margin: 0 auto 16px;
+  max-width: 720px;
+  padding: 16px 18px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.55) 100%);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+  box-sizing: border-box;
+}
+
+.bjp-introBanner-heading {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.bjp-introBanner-text {
+  margin: 0 0 14px;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: #334155;
+  font-weight: 600;
+}
+
+.bjp-contractBar {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.bjp-contractBar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 8px;
+}
+
+.bjp-contractLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.bjp-contractValue {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.bjp-contractDetail {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #475569;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .bjp-introBanner {
+    padding: 14px 14px 16px;
+  }
+
+  .bjp-introBanner-heading {
+    font-size: 1.15rem;
+  }
+
+  .bjp-contractValue {
+    font-size: 1.1rem;
+  }
+}
+
 .bjp-root {
   width: 100%;
   box-sizing: border-box;
@@ -43,6 +123,7 @@
   grid-template-columns: 88px minmax(0, 1fr) 88px;
 }
 
+/* Declare: narrow side columns for opponent backs only */
 .bjp-felt .ct-trickBoard {
   width: 100%;
   max-width: 400px;
@@ -54,6 +135,111 @@
 .bjp-felt .ct-trickGrid {
   min-height: 148px;
   max-height: 220px;
+  /* Let W/E trick cells use the full height of the middle row so side cards sit vertically centred */
+  align-items: stretch;
+  grid-template-rows: minmax(32px, auto) minmax(72px, 1fr) minmax(32px, auto);
+}
+
+.bjp-felt .ct-trickPos--top,
+.bjp-felt .ct-trickPos--bottom {
+  align-self: center;
+}
+
+.bjp-felt .ct-trickPos--left,
+.bjp-felt .ct-trickPos--right {
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* Beginner practice page loads CountingTrumpsTrainer.css after this file — restate so W/E trick slots win. */
+.ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickGrid {
+  align-items: stretch !important;
+  grid-template-rows: minmax(32px, auto) minmax(72px, 1fr) minmax(32px, auto) !important;
+}
+
+.ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickPos--top,
+.ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickPos--bottom {
+  align-self: center;
+}
+
+.ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickPos--left,
+.ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickPos--right {
+  align-self: stretch !important;
+  min-height: 0;
+}
+
+/*
+ * Defend: match /defence/practice spacing — wide West column, centre trick + N/S, East tight to table.
+ * (Without this, .bjp-table’s 88px sides crush West’s 13-card row.)
+ */
+.bjp-felt.bjp-felt--defend {
+  max-width: min(100%, 900px);
+}
+
+.bjp-felt.bjp-felt--defend .bjp-table.bjp-table--defend {
+  grid-template-columns: minmax(220px, 260px) minmax(260px, 1fr) minmax(104px, 132px);
+  column-gap: 10px;
+  row-gap: 6px;
+  justify-items: start;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+}
+
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--top,
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--bottom {
+  justify-self: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--top .ct-handWrap,
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--bottom .ct-handWrap,
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--top .ct-handFan--full,
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--bottom .ct-handFan--full {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* West: hug the trick column (same idea as East hugging toward table on defence practice) */
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--left {
+  justify-self: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--left .ct-handWrap {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* East opponent column: sit tight to trick area */
+.bjp-felt.bjp-felt--defend .bjp-table--defend .ct-seat--right {
+  justify-self: start;
+  padding-left: 2px;
+}
+
+.bjp-felt.bjp-felt--defend .ct-trickWrap {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.bjp-felt.bjp-felt--defend .ct-trickBoard {
+  max-width: min(420px, 100%);
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.bjp-felt.bjp-felt--defend .ct-trickGrid {
+  min-height: 152px;
 }
 
 .bjp-felt .ct-seat--left:has(.bjp-handWrap--opponent),
@@ -66,7 +252,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 132px;
+  min-height: 72px;
 }
 
 .bjp-handWrap--opponent {
@@ -74,16 +260,27 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 108px;
-  padding: 4px 0;
+  min-height: 56px;
+  padding: 6px 0;
   box-sizing: border-box;
+}
+
+/* West/East: no visible chrome; keep out of layout flow height */
+.bjp-handWrap--opponentBare {
+  display: block;
+  min-height: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  pointer-events: none;
 }
 
 .bjp-opponentZone {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .bjp-opponentZoneEmpty {
@@ -93,65 +290,20 @@
   line-height: 1;
 }
 
-.bjp-cardBackStack {
-  position: relative;
-  width: 72px;
-  height: 50px;
-}
-
-.bjp-cardBack {
-  position: absolute;
-  left: 50%;
-  top: 4px;
-  width: 30px;
-  height: 42px;
-  margin-left: -15px;
-  border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.5);
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.2) 0%, transparent 42%),
-    repeating-linear-gradient(
-      45deg,
-      #1a365d,
-      #1a365d 3px,
-      #153e75 3px,
-      #153e75 6px
-    );
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
-.bjp-cardBackStack .bjp-cardBack:nth-child(1) {
-  transform: translate(-18px, 6px) rotate(-16deg);
-  z-index: 1;
-}
-
-.bjp-cardBackStack .bjp-cardBack:nth-child(2) {
-  transform: translate(-6px, 2px) rotate(-6deg);
-  z-index: 2;
-}
-
-.bjp-cardBackStack .bjp-cardBack:nth-child(3) {
-  transform: translate(6px, 2px) rotate(6deg);
-  z-index: 3;
-}
-
-.bjp-cardBackStack .bjp-cardBack:nth-child(4) {
-  transform: translate(18px, 6px) rotate(16deg);
-  z-index: 4;
-}
-
 .bjp-opponentSeatName {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(236, 253, 245, 0.88);
+  color: rgba(236, 253, 245, 0.92);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-  max-width: 86px;
+  max-width: 120px;
   text-align: center;
   line-height: 1.2;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(236, 253, 245, 0.22);
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .bjp-root--clickContinue {
@@ -168,4 +320,179 @@
   display: flex;
   justify-content: center;
   margin-top: 16px;
+}
+
+/*
+ * Phone / narrow tablet: declare uses a 2-column row for W | E so opponents read left/right.
+ * Defend keeps a single column so West’s suit rows stay full width.
+ */
+@media (max-width: 860px) {
+  /* Declare: N → trick → West | East → S */
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto auto !important;
+    row-gap: 8px;
+    /* W / E read as left–right but sit nearer the trick band, not the screen rails */
+    column-gap: clamp(14px, 5vw, 32px);
+    padding-inline: clamp(10px, 3.5vw, 22px);
+    justify-items: stretch;
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table .ct-seat--top {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table .ct-trickWrap {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    width: 100%;
+    max-width: 100%;
+    justify-self: center;
+    box-sizing: border-box;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table .ct-seat--left {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    width: 100%;
+    max-width: min(200px, 46vw);
+    min-width: 0 !important;
+    justify-self: end;
+    align-self: start;
+    padding-right: clamp(4px, 1.5vw, 10px) !important;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table .ct-seat--right {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    width: 100%;
+    max-width: min(200px, 46vw);
+    min-width: 0 !important;
+    justify-self: start;
+    align-self: start;
+    padding-left: clamp(4px, 1.5vw, 10px) !important;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .bjp-table .ct-seat--bottom {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Defend: stacked — West needs full width for suit rows */
+  .bjp-felt.bjp-felt--defend .bjp-table {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto auto auto !important;
+    row-gap: 8px;
+    column-gap: 0 !important;
+    justify-items: stretch;
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .bjp-felt.bjp-felt--defend .bjp-table .ct-seat--top {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .bjp-felt.bjp-felt--defend .bjp-table .ct-trickWrap {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100%;
+    max-width: 100%;
+    justify-items: center !important;
+    justify-self: center;
+    box-sizing: border-box;
+  }
+
+  .bjp-felt.bjp-felt--defend .bjp-table .ct-seat--left {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0 !important;
+    justify-self: center;
+    padding-right: 0 !important;
+  }
+
+  .bjp-felt.bjp-felt--defend .bjp-table .ct-seat--right {
+    grid-column: 1 !important;
+    grid-row: 4 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0 !important;
+    justify-self: center;
+    padding-left: 0 !important;
+  }
+
+  .bjp-felt.bjp-felt--defend .bjp-table .ct-seat--bottom {
+    grid-column: 1;
+    grid-row: 5;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .bjp-felt {
+    /* Trick tiles only (hands still use --ct-phonePipEffective from CountingTrumpsTrainer.css). */
+    --bjp-trickPip: clamp(42px, 12vw, 58px);
+  }
+
+  .bjp-felt .ct-trickBoard {
+    width: 100% !important;
+    max-width: min(420px, 96vw) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+
+  .bjp-felt .ct-trickGrid {
+    min-height: 140px;
+    max-height: 240px;
+  }
+
+  .ct-page.ct-page--beginnerPractice .bjp-felt .ct-trickPos .ct-miniCard.ct-miniCard--fan.ct-miniCard--trick {
+    flex: 0 0 var(--bjp-trickPip) !important;
+    width: var(--bjp-trickPip) !important;
+    min-height: calc(var(--bjp-trickPip) * 1.28);
+    padding: 6px 7px 8px;
+    border-radius: 7px;
+  }
+
+  .bjp-felt.bjp-felt--defend .ct-trickBoard {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: min(420px, 96vw) !important;
+  }
+
+  .bjp-handWrap--opponent {
+    min-height: 52px;
+  }
+
+  .bjp-introBanner {
+    margin-bottom: 12px;
+    padding: 12px 12px 14px;
+  }
+
+  .bjp-felt .ct-seat--bottom:has(.bjp-handWrap--opponent) {
+    min-height: 64px;
+  }
+
+  .bjp-felt:not(.bjp-felt--defend) .ct-seat--left:has(.bjp-handWrap--opponent),
+  .bjp-felt:not(.bjp-felt--defend) .ct-seat--right:has(.bjp-handWrap--opponent) {
+    align-items: center;
+  }
 }

@@ -441,7 +441,7 @@ export function TextWithColoredSuits({ text }) {
 function BeginnerLessonContractTitle({ text }) {
   return (
     <div className="ct-beginnerLessonBanner">
-      <div className="ct-beginnerLessonBanner-eyebrow">Learn bridge from scratch · Stage 1</div>
+      <div className="ct-beginnerLessonBanner-eyebrow">Learn bridge from scratch</div>
       <div className="ct-beginnerLessonBanner-title">
         <TextWithColoredSuits text={text} />
       </div>
@@ -8427,7 +8427,7 @@ function CountingTrumpsTrainer({
         <div className="ct-stage">
           <div className="ct-topNavWrap">
             <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
-              {/* Category tier: Declarer | Defence | Counting | Bidding | Treadmill */}
+              {/* Category tier: Declarer | Defence | Counting | Bidding | Just play | Treadmill */}
               <div className="ct-categoryRow" aria-label="Trainer category">
                 <div className="ct-categoryTabs" role="tablist">
                   {effectiveCategoryTabs.map((c) => (

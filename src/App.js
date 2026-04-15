@@ -273,6 +273,7 @@ const routes = (
         />
       )}
     />
+    <Route path="/just-play" exact render={() => <Redirect to="/beginner/practice/just-play" />} />
     <Route path="/other" component={OtherHub} exact />
     <Route path="/system" component={SystemCardEditor} exact />
     <Route

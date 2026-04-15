@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import BeginnerScratchBanner from "./BeginnerScratchBanner";
 import BeginnerGuestSignupNudge from "./BeginnerGuestSignupNudge";
 import {
   BEGINNER_BIDDING_PUZZLES,
@@ -12,13 +11,13 @@ import BeginnerJustPlayHands from "./BeginnerJustPlayHands";
 import "../Counting/CountingTrumpsTrainer.css";
 
 /**
- * Which beginner “stage” tabs appear and which routes are allowed.
- * Restore Stages 2 and 4 when ready: append "defence", "bidding" in stage order.
+ * Top tabs on /beginner/practice. Keys match URL slugs and puzzle bundles (`declarer` = declarer play lessons).
+ * User-facing first tab is “Step 1”; `/cardPlay/practice` “Declarer Play” is a separate product area.
  */
 const BEGINNER_VISIBLE_CATEGORY_KEYS = ["declarer", "justPlay"];
 
 const BEGINNER_CATEGORY_LABELS = {
-  declarer: "Declarer",
+  declarer: "Step 1",
   defence: "Defence",
   justPlay: "Just play",
   bidding: "Bidding",
@@ -37,7 +36,7 @@ const BEGINNER_TRAINER_LABELS = {
   bidding: "Beginner Bidding",
 };
 
-/** First N Stage‑1 (declarer) hands free on /beginner/practice; rest of that tab stays paywalled. */
+/** First N Step 1 (declarer-key) hands free on /beginner/practice; rest of that tab stays paywalled. */
 const BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS = 6;
 
 const BEGINNER_PUZZLES_BY_CATEGORY = {
@@ -53,7 +52,7 @@ const resolveBeginnerCategoryKey = (categoryFromRoute) => {
   return "declarer";
 };
 
-/** Stages 1–3 style tabs: hide inner difficulty row; Stage 4 keeps it for bidding parity. */
+/** Step 1 / just play style tabs: hide inner difficulty row; bidding tab would keep it when enabled. */
 const BEGINNER_HIDE_DIFFICULTY_TABS = new Set(["declarer", "defence", "justPlay"]);
 
 function buildBeginnerCategoryTabs() {
@@ -143,7 +142,6 @@ function BeginnerPracticePage({ match }) {
             </div>
           </div>
         </div>
-        <BeginnerScratchBanner />
         <BeginnerGuestSignupNudge redirectPath={match.url} />
       </Fragment>
     );
@@ -163,7 +161,6 @@ function BeginnerPracticePage({ match }) {
         puzzlesOverride={puzzlesOverride}
         beginnerPublicPracticeCount={BEGINNER_FREE_PUBLIC_PRACTICE_SLOTS}
       />
-      <BeginnerScratchBanner />
       <BeginnerGuestSignupNudge redirectPath={match.url} />
     </Fragment>
   );

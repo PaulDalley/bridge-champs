@@ -23,7 +23,6 @@ import { firebase } from "../firebase/config";
 import "./CategoryArticles.css";
 import FiltersCategoryArticles from "./FiltersCategoryArticles";
 import SkeletonLoader from "../components/UI/SkeletonLoader";
-import BeginnerScratchBanner from "../components/Beginner/BeginnerScratchBanner";
 import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
 
@@ -583,12 +582,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           </p>
         </div>
       </div>
-
-      {isBeginnerArticleType && (
-        <div className="container" style={{ marginBottom: "1rem" }}>
-          <BeginnerScratchBanner />
-        </div>
-      )}
 
       <div className="CategoryArticles-topicNavWrap">
         <div className="container">

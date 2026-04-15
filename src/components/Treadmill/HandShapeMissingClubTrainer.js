@@ -3,6 +3,7 @@ import { TREADMILL_HAND_SHAPES } from "../../data/treadmill/handShapes";
 import {
   formatTreadmillTimeShort,
   loadTreadmillLeaderboard,
+  TREADMILL_LEADERBOARD_DISPLAY_LIMIT,
   upsertTreadmillLeaderboard,
 } from "../../utils/treadmillLeaderboard";
 import { subscribeGlobalTreadmillLeaderboard, submitTreadmillPersonalBest } from "../../utils/treadmillLeaderboardFirestore";
@@ -66,6 +67,11 @@ export default function HandShapeMissingClubTrainer({
   const tryAgainTimerRef = useRef(null);
   const streakRef = useRef(0);
   const streakStartMsRef = useRef(null);
+
+  /** Mirrors streakRef so the live timer can re-render. */
+  const [streakCount, setStreakCount] = useState(0);
+  /** Bumped on an interval while a streak is active; drives elapsed-time display. */
+  const [streakTimerTick, setStreakTimerTick] = useState(0);
 
   const [round, setRound] = useState(() => pickRandomRound(shapes.length));
 
@@ -132,6 +138,7 @@ export default function HandShapeMissingClubTrainer({
   const resetStreak = useCallback(() => {
     streakRef.current = 0;
     streakStartMsRef.current = null;
+    setStreakCount(0);
   }, []);
 
   const finishStreakModalAndAdvance = useCallback(() => {
@@ -200,6 +207,14 @@ export default function HandShapeMissingClubTrainer({
   }, [shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord]);
 
   useEffect(() => {
+    if (streakCount === 0 || pendingStreakRecord) return undefined;
+    const id = window.setInterval(() => {
+      setStreakTimerTick((n) => n + 1);
+    }, 100);
+    return () => window.clearInterval(id);
+  }, [streakCount, pendingStreakRecord]);
+
+  useEffect(() => {
     if (!pendingStreakRecord) return undefined;
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -237,6 +252,7 @@ export default function HandShapeMissingClubTrainer({
 
         streakRef.current += 1;
         const nextStreak = streakRef.current;
+        setStreakCount(nextStreak);
         if (nextStreak === 1) {
           streakStartMsRef.current = Date.now();
         }
@@ -290,6 +306,14 @@ export default function HandShapeMissingClubTrainer({
     ]
   );
 
+  const streakElapsedMs = useMemo(() => {
+    if (streakCount === 0 || pendingStreakRecord || streakStartMsRef.current == null) return null;
+    void streakTimerTick;
+    return Date.now() - streakStartMsRef.current;
+  }, [streakCount, pendingStreakRecord, streakTimerTick]);
+
+  const showStreakHud = streakCount > 0 && !pendingStreakRecord;
+
   if (!shape) {
     return (
       <div className="ct-questionText" style={{ fontSize: "var(--text-base)" }}>
@@ -317,7 +341,23 @@ export default function HandShapeMissingClubTrainer({
 
   return (
     <div className="tm-handShape" aria-live="polite">
-      <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
+      <div className="tm-handShape-introRow">
+        <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
+        {showStreakHud ? (
+          <div
+            className="tm-handShape-streakHud"
+            role="timer"
+            aria-label={`Current streak ${streakCount} of 10, elapsed ${formatTreadmillTimeShort(
+              streakElapsedMs ?? 0
+            )}`}
+          >
+            <span className="tm-handShape-streakHud-count">{streakCount}/10</span>
+            <span className="tm-handShape-streakHud-time" aria-hidden="true">
+              {formatTreadmillTimeShort(streakElapsedMs ?? 0)}
+            </span>
+          </div>
+        ) : null}
+      </div>
 
       <div
         className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
@@ -411,10 +451,10 @@ export default function HandShapeMissingClubTrainer({
           </h2>
           <p className="tm-lbBoard-tagline">
             {leaderboardUsesLocalFallback
-              ? "Showing this device only (cloud list unavailable). Top 5 · 10 in a row · one best time per name here."
+              ? `Showing this device only (cloud list unavailable). Top ${TREADMILL_LEADERBOARD_DISPLAY_LIMIT} · 10 in a row · one best time per name here.`
               : canRecordLeaderboard
-                ? "Global top 5 · 10 correct in a row · one best time per signed-in player"
-                : "Sign in to record a time. Global top 5 · 10 correct in a row · one best time per player"}
+                ? `Global top ${TREADMILL_LEADERBOARD_DISPLAY_LIMIT} · 10 correct in a row · one best time per signed-in player`
+                : `Sign in to record a time. Global top ${TREADMILL_LEADERBOARD_DISPLAY_LIMIT} · 10 correct in a row · one best time per player`}
           </p>
         </div>
         <div className="tm-lbTableWrap">
@@ -526,8 +566,7 @@ export default function HandShapeMissingClubTrainer({
               </button>
             </div>
             <p className="tm-lbHint">
-              Press Escape to skip. Only your fastest run is stored on your account. If it beats your previous best, you
-              may appear in the global top 5 above.
+              {`Press Escape to skip. Only your fastest run is stored on your account. If it beats your previous best, you may appear in the global top ${TREADMILL_LEADERBOARD_DISPLAY_LIMIT} above.`}
             </p>
           </div>
         </div>

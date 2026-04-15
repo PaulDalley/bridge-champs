@@ -382,26 +382,22 @@ function JustPlayTable({ variant }) {
     trickCardBySeat[p.seat] = p.card;
   }
 
-  /** Opponent seats: stacked card backs on the felt (full-hands CSS hides generic `.ct-hiddenCard`). */
+  /** Opponent seats: no on-felt labels for West/East; South (defend) keeps a small seat marker. */
   const renderOpponentSeat = (compass) => {
     const n = state.hands[compass].length;
+    const label = `${SEAT_NAME[compass]}, ${n} cards face down`;
+    if (compass === "W" || compass === "E") {
+      return <div className="ct-handWrap bjp-handWrap--opponent bjp-handWrap--opponentBare" aria-label={label} />;
+    }
     return (
-      <div className="ct-handWrap bjp-handWrap--opponent" aria-label={`${SEAT_NAME[compass]}, ${n} cards face down`}>
+      <div className="ct-handWrap bjp-handWrap--opponent" aria-label={label}>
         <div className="bjp-opponentZone">
-          {n > 0 ? (
-            <div className="bjp-cardBackStack" aria-hidden>
-              {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="bjp-cardBack" />
-              ))}
-            </div>
-          ) : (
+          <div className="bjp-opponentSeatName">{SEAT_NAME[compass]}</div>
+          {n === 0 && (
             <div className="bjp-opponentZoneEmpty" aria-hidden>
               —
             </div>
           )}
-          <div className="bjp-opponentSeatName" aria-hidden>
-            {SEAT_NAME[compass]}
-          </div>
         </div>
       </div>
     );
@@ -439,6 +435,48 @@ function JustPlayTable({ variant }) {
     );
   };
 
+  /** West in defend: same suit-row layout as main Defence / Counting side seats (no 13-wide strip in a narrow column). */
+  const renderWestSuitHand = (ariaLabel) => {
+    const seat = "W";
+    const hand = state.hands[seat];
+    const sorted = sortCardsSuitRank(hand);
+    const isHuman = humanSeats.has(seat);
+    const legal = state.phase === "play" && toPlay === seat ? legalPlays(hand, ledSuit) : [];
+    return (
+      <div className="ct-handWrap" aria-label={ariaLabel}>
+        <div className="ct-suitHand">
+          {SUIT_ORDER.map((suit) => {
+            const suitCards = sorted.filter((c) => c.suit === suit);
+            if (!suitCards.length) return null;
+            return (
+              <div
+                key={`${seat}-suit-${suit}`}
+                className="ct-suitLine"
+                style={{ gridTemplateColumns: `repeat(${suitCards.length}, minmax(34px, 50px))` }}
+              >
+                {suitCards.map((c) => {
+                  const can =
+                    state.phase === "play" &&
+                    isHuman &&
+                    toPlay === seat &&
+                    legal.some((x) => x.suit === c.suit && x.rank === c.rank);
+                  return (
+                    <FanMiniTile
+                      key={`${seat}-${c.suit}${c.rank}`}
+                      card={c}
+                      playable={can}
+                      onActivate={(card) => playHumanCard(seat, card)}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   const northSlot =
     variant === "declare"
       ? renderVisibleFan("N", "Dummy, North — your cards to play for dummy")
@@ -446,24 +484,31 @@ function JustPlayTable({ variant }) {
 
   const southSlot = variant === "declare" ? renderVisibleFan("S", "Your hand, South, declarer") : renderOpponentSeat("S");
 
-  const westSlot = variant === "declare" ? renderOpponentSeat("W") : renderVisibleFan("W", "Your hand, West, defender");
+  const westSlot =
+    variant === "declare" ? renderOpponentSeat("W") : renderWestSuitHand("Your hand, West, defender");
+
+  /** Match /defence/practice full-hands grid: wide West column + centre trick + East (cf. ct-table--westVisible). */
+  const defendLayout =
+    variant === "defend"
+      ? "ct-table--bottomRowLayout ct-table--promptOnRight ct-table--westVisible bjp-table--defend"
+      : "bjp-table--declare";
 
   return (
     <div
-      className={`bjp-root${trickAwait ? " bjp-root--clickContinue" : ""}`}
+      className={`bjp-root${variant === "defend" ? " bjp-root--defend" : ""}${trickAwait ? " bjp-root--clickContinue" : ""}`}
       onClick={trickAwait ? () => acknowledgeTrick() : undefined}
       onKeyDown={rootKeyHandler}
       role={trickAwait ? "button" : undefined}
       tabIndex={trickAwait ? 0 : undefined}
       aria-label={trickAckLabel}
     >
-      <div className="bjp-felt">
-        <div className="ct-table bjp-table">
+      <div className={`bjp-felt${variant === "defend" ? " bjp-felt--defend" : ""}`}>
+        <div className={`ct-table bjp-table ${defendLayout}`}>
           <div className="ct-seat ct-seat--top">{northSlot}</div>
 
           <div className="ct-seat ct-seat--left">{westSlot}</div>
 
-          <div className="ct-trickWrap bjp-trickWrap">
+          <div className={`ct-trickWrap bjp-trickWrap${variant === "defend" ? " ct-trickWrap--bottomRowLayout" : ""}`}>
             <div className="ct-trickBoard" aria-label="Play area">
               <div className="ct-trickGrid" role="region" aria-label="Trick area">
                 <div className="ct-trickPos ct-trickPos--top">
@@ -509,6 +554,22 @@ function JustPlayTable({ variant }) {
 function BeginnerJustPlayHands({ trainer }) {
   return (
     <div className="bjp-shell">
+      <div className="bjp-introBanner" role="status">
+        <h2 className="bjp-introBanner-heading">Just play — new and under development</h2>
+        <p className="bjp-introBanner-text">
+          This table is an early preview. More modes, contracts, and coaching will arrive as we build it out.
+        </p>
+        <div className="bjp-contractBar" aria-label="Contract for this table">
+          <div className="bjp-contractBar-row">
+            <span className="bjp-contractLabel">Contract</span>
+            <span className="bjp-contractValue">1 NT (no trumps)</span>
+          </div>
+          <p className="bjp-contractDetail">
+            Every deal is played in notrump: follow suit to win tricks; there is no trump suit. South is declarer;
+            West is on lead for the first trick.
+          </p>
+        </div>
+      </div>
       <JustPlayTable key={trainer} variant={trainer} />
     </div>
   );

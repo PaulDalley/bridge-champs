@@ -1,4 +1,5 @@
 import { firebase } from "../firebase/config";
+import { TREADMILL_LEADERBOARD_DISPLAY_LIMIT } from "./treadmillLeaderboard";
 
 const COLLECTION = "treadmillStreakScores";
 
@@ -20,7 +21,7 @@ export function getLeaderboardSubscribeErrorMessage(err) {
 }
 
 /**
- * Live top 5 fastest times (one best per signed-in player). Unsubscribe returned on unmount.
+ * Live fastest times (one best per signed-in player), capped for display. Unsubscribe returned on unmount.
  * Listens to the whole collection and sorts client-side so we do not require a composite index
  * for orderBy + limit (which often fails until an index is created in the console).
  * @param {(rows: GlobalTreadmillLbEntry[], err: Error | null) => void} onNext
@@ -42,7 +43,7 @@ export function subscribeGlobalTreadmillLeaderboard(onNext) {
         });
       });
       rows.sort((a, b) => a.timeMs - b.timeMs);
-      onNext(rows.slice(0, 5), null);
+      onNext(rows.slice(0, TREADMILL_LEADERBOARD_DISPLAY_LIMIT), null);
     },
     (err) => {
       onNext([], err);
