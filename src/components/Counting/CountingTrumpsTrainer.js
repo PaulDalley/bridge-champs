@@ -3,15 +3,18 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { savePracticeCompletion } from "../../store/actions/usersActions";
 import { sendPracticeEvent } from "../../utils/analytics";
+import { TRAINER_CATEGORY_TABS } from "../Trainers/trainerCategoryTabs";
 import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY } from "../../data/themePacks";
 import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
 import { filterBeginnerTrainerPuzzles } from "../../data/beginnerModeConfig";
 import PracticeVideoBlock from "./PracticeVideoBlock";
+import { CLOCKWISE, partnerCompass, lhoCompass, rhoCompass, buildSeatCompassMaps } from "../../bridge/seatCompassMaps";
 import { PLAY_ENGINE_COMPASS_CLOCKWISE, followSeatsClockwiseFromLeader } from "../../bridge/compassPlayOrder";
+import { isCompassTrainerEngine, puzzleHasPlayInHand, compassTrainerSeatLabel } from "../../bridge/trainerCompassEngine";
 import "./CountingTrumpsTrainer.css";
 
-// Seats arranged like a typical bridge diagram:
-// - Dummy at top, Declarer at bottom, LHO left, RHO right.
+// Runner storage seat ids (historical JSON + state shape). Layout is viewer-centric on screen;
+// use trainerEngine: "compass" for N/E/S/W labels in the UI.
 const SEATS = ["LHO", "DUMMY", "RHO", "DECLARER"];
 
 /** Narrow rail: theme + auction collapse to a peek row (contract line always visible). */
@@ -497,45 +500,7 @@ function parseAuctionCall(token) {
   return { text: raw, kind: "other" };
 }
 
-// Auction table display order: align with on-screen compass positions (top/right/bottom/left).
-const COMPASS_ORDER = ["N", "E", "S", "W"];
-const CLOCKWISE = ["N", "E", "S", "W"]; // bidding/play rotation
 const AUCTION_DISPLAY_ORDER = ["W", "N", "E", "S"]; // common auction grid order (BBO-like)
-function partnerCompass(seat) {
-  const i = CLOCKWISE.indexOf(seat);
-  return i === -1 ? "S" : CLOCKWISE[(i + 2) % 4];
-}
-function lhoCompass(seat) {
-  const i = CLOCKWISE.indexOf(seat);
-  // LHO is counter-clockwise from the given seat.
-  return i === -1 ? "W" : CLOCKWISE[(i + 3) % 4];
-}
-function rhoCompass(seat) {
-  const i = CLOCKWISE.indexOf(seat);
-  // RHO is clockwise from the given seat.
-  return i === -1 ? "E" : CLOCKWISE[(i + 1) % 4];
-}
-
-function buildSeatCompassMaps(declarerCompass) {
-  const seatToCompass = {
-    DECLARER: declarerCompass,
-    DUMMY: partnerCompass(declarerCompass),
-  };
-  // For North/South declarer, West is screen-left and East is screen-right. Legacy authoring uses
-  // bridge-standard names: LHO = West, RHO = East. (lhoCompass/rhoCompass swap W/E for South — wrong here.)
-  if (declarerCompass === "N" || declarerCompass === "S") {
-    seatToCompass.LHO = "W";
-    seatToCompass.RHO = "E";
-  } else {
-    seatToCompass.LHO = lhoCompass(declarerCompass);
-    seatToCompass.RHO = rhoCompass(declarerCompass);
-  }
-  const compassToSeat = Object.entries(seatToCompass).reduce((acc, [seat, compass]) => {
-    acc[compass] = seat;
-    return acc;
-  }, {});
-  return { seatToCompass, compassToSeat };
-}
 
 function normalizeTrickPlaysClockwise(plays, declarerCompass) {
   if (!Array.isArray(plays) || plays.length !== 4) return plays;
@@ -680,7 +645,7 @@ function validateLockedCountingCompassPuzzle(puzzle) {
 
 /**
  * New puzzles only: `seatMode: "compass"` with plays/seat keys N/E/S/W and optional hand keys north/east/south/west.
- * Converted once to legacy LHO/DUMMY/RHO/DECLARER so existing trainer logic is unchanged. Legacy puzzles omit seatMode.
+ * Converted once to runner storage seat ids so the existing play runner is unchanged. Legacy puzzles omit seatMode.
  */
 function compassPuzzleToLegacy(puzzle) {
   if (!puzzle || puzzle.seatMode !== "compass") return puzzle;
@@ -3724,13 +3689,6 @@ function inferUniqueSuitLengths({ puzzle, throughRoundIdx, fixedFromHandsSeats =
   return { solutionsCount: solutions.length, uniqueSeat, uniqueSuit };
 }
 
-const CATEGORY_CONFIG = [
-  { key: "declarer", label: "Declarer", path: "/cardPlay/practice" },
-  { key: "defence", label: "Defence", path: "/defence/practice" },
-  { key: "counting", label: "Counting", path: "/counting/practice" },
-  { key: "bidding", label: "Bidding", path: "/bidding/practice", new: true },
-];
-
 /** Short positive messages for correct-answer feedback (keeps layout compact). */
 const SHORT_SUCCESS = ["Great!", "Well done!", "Correct!", "Nice one!", "Spot on!", "Good!"];
 function getShortSuccess() {
@@ -3842,6 +3800,8 @@ function CountingTrumpsTrainer({
   categoryPathOverrides = null,
   /** When set with beginner mode, only these category tabs are shown (e.g. Stage 1 only). */
   beginnerVisibleCategoryKeys = null,
+  /** When set with beginner mode, replaces the built-in category tab row (keys, labels, paths). */
+  beginnerCategoryTabsOverride = null,
   /** On /beginner/practice (declarer stage only): first N puzzles in that list are free for everyone. */
   beginnerPublicPracticeCount = 0,
 }) {
@@ -3864,6 +3824,8 @@ function CountingTrumpsTrainer({
   }, [location?.search]);
   const effectiveTier = mockTier || propsTier;
   const showSubscribeBanner = !isMember || (isLocalhost && mockPaywall);
+  /** Beginner declarer/defence style: one flat row of hands (no “Problems” label, no Stage 1/2/3 strip). */
+  const beginnerFlatHandNav = beginnerModeOverride && hideDifficultyTabs;
   const puzzlesAll = useMemo(() => {
     let list;
     if (Array.isArray(puzzlesOverride)) {
@@ -3910,8 +3872,11 @@ function CountingTrumpsTrainer({
   }, [puzzlesOverride, beginnerModeOverride, beginnerIsolatedPuzzleList, categoryKey, puzzleIdWhitelist]);
 
   const effectiveCategoryTabs = useMemo(() => {
-    if (!beginnerModeOverride) return CATEGORY_CONFIG;
-    const mapped = CATEGORY_CONFIG.map((c) => ({
+    if (!beginnerModeOverride) return TRAINER_CATEGORY_TABS;
+    if (Array.isArray(beginnerCategoryTabsOverride) && beginnerCategoryTabsOverride.length > 0) {
+      return beginnerCategoryTabsOverride;
+    }
+    const mapped = TRAINER_CATEGORY_TABS.map((c) => ({
       ...c,
       label: categoryLabelsOverride?.[c.key] ?? c.label,
       path: categoryPathOverrides?.[c.key] ?? c.path,
@@ -3921,7 +3886,13 @@ function CountingTrumpsTrainer({
       return mapped.filter((c) => allow.has(c.key));
     }
     return mapped;
-  }, [beginnerModeOverride, categoryLabelsOverride, categoryPathOverrides, beginnerVisibleCategoryKeys]);
+  }, [
+    beginnerModeOverride,
+    beginnerCategoryTabsOverride,
+    categoryLabelsOverride,
+    categoryPathOverrides,
+    beginnerVisibleCategoryKeys,
+  ]);
 
   const fallbackPuzzle = useMemo(() => {
     // Stable placeholder so hooks don't rely on Counting puzzles when this trainer has none yet.
@@ -4077,7 +4048,7 @@ function CountingTrumpsTrainer({
   /** New-format puzzles only (`seatMode: "compass"`); legacy puzzles pass through unchanged. */
   const rawPuzzleResolved = useMemo(() => {
     if (mustUseCompassSeatModel({ categoryKey, puzzleId: rawPuzzle?.id }) && rawPuzzle?.seatMode !== "compass") {
-      throw new Error(`Counting problem "${rawPuzzle?.id}" must use seatMode: "compass" (no LHO/RHO authoring).`);
+      throw new Error(`Counting problem "${rawPuzzle?.id}" must use seatMode: "compass" (compass-only authoring).`);
     }
     if (rawPuzzle?.seatMode === "compass") return compassPuzzleToLegacy(rawPuzzle);
     return rawPuzzle;
@@ -4095,8 +4066,8 @@ function CountingTrumpsTrainer({
     return inferred || "S";
   }, [rawPuzzleResolved.id, rawPuzzleResolved.declarerCompass, auctionText, dealerCompass]);
 
-  // Normalize full tricks to clockwise compass order from the leader (N→E→S→W). Requires
-  // buildSeatCompassMaps to map legacy LHO/RHO to geographic W/E for N/S declarer.
+  // Normalize full tricks to clockwise compass order from the leader (N→E→S→W).
+  // Uses seatCompassMaps (compassTable / buildSeatCompassMaps) for declarer-relative geometry.
   const puzzle = useMemo(
     () => ({
       ...rawPuzzleResolved,
@@ -4543,8 +4514,18 @@ function CountingTrumpsTrainer({
     const hasDummy = isFullHandShape(puzzle?.shownHands?.DUMMY);
     const out = [youSeat];
     if (hasDummy) out.push("DUMMY");
-    return [...new Set(out)];
-  }, [viewerSeat, puzzle?.shownHands, puzzle?.visibleFullHandSeats, categoryKey]);
+    const merged = [...new Set(out)];
+    if (
+      isCompassTrainerEngine(puzzle) &&
+      puzzleHasPlayInHand(puzzle) &&
+      puzzle?.shownHands &&
+      Object.prototype.hasOwnProperty.call(puzzle.shownHands, "DUMMY")
+    ) {
+      if (!merged.includes("DUMMY")) merged.push("DUMMY");
+      if (!merged.includes(youSeat)) merged.push(youSeat);
+    }
+    return merged;
+  }, [viewerSeat, puzzle?.shownHands, puzzle?.visibleFullHandSeats, puzzle?.rounds, puzzle?.trainerEngine, categoryKey]);
 
   const visibleFullHandSeats = useMemo(() => {
     // At the end: if puzzle has revealFullHandsAtEnd, add those seats to the base list; otherwise reveal all.
@@ -7170,6 +7151,9 @@ function CountingTrumpsTrainer({
   const isPrePlayInManual = manualTrickMode && completedRoundIdx < 0;
 
   const roleLabelForSeat = (seat) => {
+    if (isCompassTrainerEngine(puzzle)) {
+      return compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass });
+    }
     // Required label sets:
     // - Viewer is declarer: You, LHO, RHO, Dummy
     // - Viewer is defender: You, Partner, Declarer, Dummy
@@ -7862,7 +7846,7 @@ function CountingTrumpsTrainer({
               {activeCustomPrompt?.noContinue && puzzlesForDifficultyAll.length > 0 && (
                 <div className="ct-railActions" style={{ marginTop: 12 }}>
                   <button className="ct-btn" onClick={nextHand} disabled={isPlaying}>
-                    Next problem
+                    {beginnerFlatHandNav ? "Next hand" : "Next problem"}
                   </button>
                 </div>
               )}
@@ -8443,7 +8427,7 @@ function CountingTrumpsTrainer({
         <div className="ct-stage">
           <div className="ct-topNavWrap">
             <div className="ct-topNav" aria-label={`${trainerLabel} navigation`}>
-              {/* Category tier: Declarer | Defence | Counting */}
+              {/* Category tier: Declarer | Defence | Counting | Bidding | Treadmill */}
               <div className="ct-categoryRow" aria-label="Trainer category">
                 <div className="ct-categoryTabs" role="tablist">
                   {effectiveCategoryTabs.map((c) => (
@@ -8491,18 +8475,26 @@ function CountingTrumpsTrainer({
                 </div>
               )}
 
-              {/* Problem tier */}
-              <div className="ct-topNavSubRow" aria-label="Problem tabs">
-                <span className="ct-topNavLabel ct-topNavLabel--sub">
-                  Problems
-                  {!hideDifficultyTabs && (
-                    <span className="ct-topNavSubNote"> in Stage {selectedDifficulty}</span>
-                  )}
-                </span>
+              {/* Hand / problem picker tier */}
+              <div className="ct-topNavSubRow" aria-label={beginnerFlatHandNav ? "Hands" : "Problem tabs"}>
+                {!beginnerFlatHandNav && (
+                  <span className="ct-topNavLabel ct-topNavLabel--sub">
+                    Problems
+                    {!hideDifficultyTabs && (
+                      <span className="ct-topNavSubNote"> in Stage {selectedDifficulty}</span>
+                    )}
+                  </span>
+                )}
                 <div
                   className="ct-problemTabs ct-problemTabs--sub"
                   role="tablist"
-                  aria-label={hideDifficultyTabs ? "Problems" : "Problems in stage"}
+                  aria-label={
+                    beginnerFlatHandNav
+                      ? "Hands in order"
+                      : hideDifficultyTabs
+                        ? "Problems"
+                        : "Problems in stage"
+                  }
                 >
                   {isBlankDifficulty ? (
                     <span className="ct-railMuted">—</span>
@@ -8537,7 +8529,11 @@ function CountingTrumpsTrainer({
           {isBlankDifficulty ? (
             <div className="ct-sidePrompt" style={{ maxWidth: 520, margin: "24px auto" }}>
               <div className="ct-questionText">
-                {hideDifficultyTabs ? "No problems yet." : `No problems yet for Stage ${selectedDifficulty}.`}
+                {beginnerFlatHandNav
+                  ? "No hands yet."
+                  : hideDifficultyTabs
+                    ? "No problems yet."
+                    : `No problems yet for Stage ${selectedDifficulty}.`}
               </div>
             </div>
           ) : (
@@ -8550,7 +8546,7 @@ function CountingTrumpsTrainer({
                   <div className="ct-paywallBeginnerCard">
                     <p className="ct-paywallBeginnerTitle">This hand is for members</p>
                     <p className="ct-paywallBeginnerSub">
-                      The first five hands are free—choose tabs 1–5 above. Or{" "}
+                      The first five hands are free—choose 1–5 above. Or{" "}
                       <Link to="/membership" className="ct-paywallBeginnerLink">
                         view membership
                       </Link>

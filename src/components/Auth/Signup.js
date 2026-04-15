@@ -93,16 +93,22 @@ class Signup extends Component {
   };
 
   render() {
+    const { embedded, embeddedTitle, embeddedSubtitle } = this.props;
     const loginLink = this.props.redirectPathAfterAuth
       ? `/login?redirectTo=${encodeURIComponent(this.props.redirectPathAfterAuth)}`
       : "/login";
 
+    const title = embedded ? embeddedTitle || "Create username to play" : "Create Account";
+    const subtitle = embedded
+      ? embeddedSubtitle || "Same details as our site sign up. You can keep practising below."
+      : "Sign up to start your bridge journey";
+
     return (
-      <div className="Signup-container">
+      <div className={embedded ? "Signup-container Signup-container--embedded" : "Signup-container"}>
         <div className="Signup-card">
           <div className="Signup-header">
-            <h1 className="Signup-title">Create Account</h1>
-            <p className="Signup-subtitle">Sign up to start your bridge journey</p>
+            <h1 className="Signup-title">{title}</h1>
+            <p className="Signup-subtitle">{subtitle}</p>
           </div>
 
           {this.state.err && <div className="Signup-error">{this.state.err}</div>}

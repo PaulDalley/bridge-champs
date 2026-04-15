@@ -40,6 +40,7 @@ export const getRouteAfterToggle = (pathname = "", beginnerModeEnabled) => {
     pathname.startsWith("/defence") ||
     pathname.startsWith("/bidding") ||
     pathname.startsWith("/counting") ||
+    pathname.startsWith("/treadmill") ||
     pathname.startsWith("/learn") ||
     pathname.startsWith("/articles") ||
     pathname.startsWith("/article") ||

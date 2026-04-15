@@ -1,11 +1,18 @@
 /**
  * Compass-clockwise play order for the `playEngine: "compassClockwise"` path.
- * Ring matches CountingTrumpsTrainer CLOCKWISE / table convention: N → E → S → W → N.
+ *
+ * Ring matches {@link CLOCKWISE} in `seatCompassMaps.js`: **N → E → S → W → N**.
+ * Each trick is led by one compass seat; the next three plays follow **clockwise** from that
+ * leader (e.g. East leads → East, South, West, North). The leader of the next trick is whoever
+ * won the previous trick — puzzle authoring expresses that by making the winner `plays[0]` on
+ * the following trick.
  */
+
+import { CLOCKWISE } from "./seatCompassMaps";
 
 export const PLAY_ENGINE_COMPASS_CLOCKWISE = "compassClockwise";
 
-export const COMPASS_CLOCKWISE_RING = ["N", "E", "S", "W"];
+export const COMPASS_CLOCKWISE_RING = CLOCKWISE;
 
 export function nextClockwise(compass) {
   const i = COMPASS_CLOCKWISE_RING.indexOf(compass);

@@ -168,3 +168,54 @@
     font-size: 2.4rem;
   }
 }
+
+/* Embedded on a practice page (e.g. Treadmill) — not full-viewport marketing layout */
+.Signup-container--embedded {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.Signup-container--embedded::before {
+  display: none;
+}
+
+.Signup-container--embedded .Signup-card {
+  max-width: 100%;
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+}
+
+.Signup-container--embedded .Signup-header {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.Signup-container--embedded .Signup-title {
+  font-size: var(--text-2xl);
+  text-align: left;
+}
+
+.Signup-container--embedded .Signup-subtitle {
+  font-size: var(--text-sm);
+  text-align: left;
+  line-height: 1.45;
+}
+
+.Signup-container--embedded .Signup-form {
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .Signup-container--embedded .Signup-card {
+    padding: 1.1rem 1rem;
+  }
+
+  .Signup-container--embedded .Signup-title {
+    font-size: var(--text-xl);
+  }
+}

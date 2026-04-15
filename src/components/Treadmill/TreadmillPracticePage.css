@@ -1,0 +1,422 @@
+.tm-main {
+  max-width: 42rem;
+  margin: 1.5rem auto 2rem;
+  padding: 0 1rem 2rem;
+  font-size: var(--text-base);
+}
+
+.tm-signupPanel {
+  margin-top: 1.75rem;
+}
+
+.tm-handShape {
+  font-size: var(--text-base);
+  display: flow-root;
+}
+
+.tm-handShape-intro {
+  font-size: var(--text-base);
+  margin-bottom: 1rem;
+}
+
+/* Locked height + absolutely centred content so tick glow / scale never changes document flow */
+.tm-handShape-feedbackSlot {
+  position: relative;
+  margin-top: 1rem;
+  height: clamp(7.25rem, 26vw, 9.5rem);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.tm-handShape-feedbackInner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.tm-successTick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 1rem 0.5rem;
+  border-radius: var(--radius-xl);
+  background: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(74, 222, 128, 0.45) 0%, rgba(22, 163, 74, 0.12) 45%, transparent 72%);
+  box-shadow:
+    0 0 24px rgba(74, 222, 128, 0.55),
+    0 0 48px rgba(34, 197, 94, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  animation:
+    tm-tickPopArcade 0.55s cubic-bezier(0.22, 1.45, 0.36, 1),
+    tm-arcadeHalo 0.85s ease-in-out 0.42s infinite alternate;
+}
+
+.tm-successTickMark {
+  font-size: clamp(var(--text-5xl), 22vw, 6.75rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #f0fff4;
+  text-shadow:
+    0 0 8px #fff,
+    0 0 16px #bbf7d0,
+    0 0 28px #4ade80,
+    0 0 52px #22c55e,
+    0 0 80px rgba(34, 197, 94, 0.95),
+    0 4px 0 #14532d,
+    0 6px 14px rgba(20, 83, 45, 0.55);
+  filter: drop-shadow(0 0 18px rgba(163, 230, 53, 0.65));
+  animation: tm-arcadeTickShine 0.7s ease-in-out 0.15s infinite alternate;
+}
+
+.tm-tryAgainHint {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: #991b1b;
+  animation: tm-tryAgainNudge 0.32s ease-out;
+}
+
+.tm-numBox--successPulse {
+  box-shadow:
+    0 0 0 3px rgba(250, 250, 250, 0.95),
+    0 0 0 6px rgba(74, 222, 128, 0.95),
+    0 0 22px rgba(52, 211, 153, 0.9),
+    0 0 44px rgba(34, 197, 94, 0.55);
+  transition: box-shadow 0.15s ease;
+}
+
+@keyframes tm-tickPopArcade {
+  0% {
+    transform: scale(0.35) rotate(-8deg);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(1.18) rotate(4deg);
+    opacity: 1;
+  }
+  78% {
+    transform: scale(0.96) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes tm-arcadeHalo {
+  0% {
+    box-shadow:
+      0 0 20px rgba(74, 222, 128, 0.5),
+      0 0 40px rgba(34, 197, 94, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    filter: brightness(1);
+  }
+  100% {
+    box-shadow:
+      0 0 32px rgba(163, 230, 53, 0.75),
+      0 0 56px rgba(74, 222, 128, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes tm-arcadeTickShine {
+  0% {
+    filter: drop-shadow(0 0 14px rgba(163, 230, 53, 0.5)) brightness(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 28px rgba(190, 242, 100, 0.95)) brightness(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-successTick,
+  .tm-successTickMark {
+    animation: none !important;
+  }
+
+  .tm-successTick {
+    filter: none;
+    box-shadow: 0 0 16px rgba(74, 222, 128, 0.4);
+  }
+}
+
+@keyframes tm-tryAgainNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/* Suit symbols above each length — large enough to read at a glance, still fits four across */
+.tm-suitDistLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  margin: 0 0 2px;
+  padding: 2px 0;
+}
+
+.tm-suitGlyph {
+  font-size: clamp(var(--text-xl), 5vw, var(--text-3xl));
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+}
+
+.tm-shapeRow {
+  gap: max(8px, 1.5vw);
+}
+
+@media (max-width: 400px) {
+  .tm-suitGlyph {
+    font-size: clamp(var(--text-lg), 9vw, var(--text-2xl));
+  }
+}
+
+/* Phone-sized viewport: same breakpoint as tm-page--narrow / matchMedia (480px) */
+@media (max-width: 480px) {
+  .tm-main {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .tm-handShape .ct-numBox.ct-numBox--dist {
+    min-height: 2.75rem;
+    touch-action: manipulation;
+  }
+}
+
+.tm-viewportHint {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 9998;
+  max-width: min(calc(100vw - 24px), 18rem);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 0.4rem 0.55rem;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e2e8f0;
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+  line-height: 1.35;
+}
+
+span.tm-toolTab {
+  cursor: default;
+}
+
+.tm-handShape--blocked {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.tm-lbBoard {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tm-lbBoard-header {
+  margin-bottom: 0.85rem;
+}
+
+.tm-lbBoard-title {
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  margin: 0 0 0.25rem;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.tm-lbBoard-tagline {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  margin: 0;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.tm-lbTableWrap {
+  border-radius: var(--radius-lg);
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.tm-lbTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.tm-lbTh {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+  background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.tm-lbTh--rank {
+  width: 2.75rem;
+  text-align: center;
+}
+
+.tm-lbTh--time {
+  width: 5.5rem;
+  text-align: right;
+}
+
+.tm-lbTable tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.tm-lbTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tm-lbTable tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.tm-lbTable tbody tr.tm-lbTr--place1 {
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.18) 0%, rgba(255, 251, 235, 0.5) 100%);
+}
+
+.tm-lbTable tbody tr.tm-lbTr--place2 {
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.22) 0%, rgba(248, 250, 252, 0.6) 100%);
+}
+
+.tm-lbTable tbody tr.tm-lbTr--place3 {
+  background: linear-gradient(90deg, rgba(251, 146, 60, 0.14) 0%, rgba(255, 247, 237, 0.45) 100%);
+}
+
+.tm-lbTd {
+  padding: 0.7rem 0.85rem;
+  vertical-align: middle;
+  color: #1e293b;
+}
+
+.tm-lbTd--rank {
+  width: 2.75rem;
+  text-align: center;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: #64748b;
+}
+
+.tm-lbTd--name {
+  font-weight: 800;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-lbTd--time {
+  text-align: right;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: #047857;
+  white-space: nowrap;
+}
+
+.tm-lbTd--empty {
+  text-align: center;
+  padding: 1.35rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.tm-lbOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.tm-lbCard {
+  width: 100%;
+  max-width: 22rem;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--shadow-xl);
+  padding: 1.25rem 1.35rem;
+}
+
+.tm-lbTitle {
+  font-size: var(--text-xl);
+  font-weight: 900;
+  margin: 0 0 0.5rem;
+  color: #111827;
+}
+
+.tm-lbTimeLine {
+  font-size: var(--text-base);
+  margin: 0 0 1rem;
+  color: #374151;
+}
+
+.tm-lbLabel {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: #374151;
+}
+
+.tm-lbInput {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: var(--text-base);
+  padding: 0.55rem 0.65rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.tm-lbActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.tm-lbHint {
+  font-size: var(--text-xs);
+  margin: 0;
+  color: #6b7280;
+}
+

@@ -768,9 +768,9 @@ function Bid34CompetitionThinkRich() {
       <PracticeAuctionMiniTable auctionText="1♠ 2♣ 4♥" dealerCompass="S" auctionAllWhite />
       <section className="ct-revealRichCard ct-revealRichCard--slate" style={{ marginTop: 12 }}>
         <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
-          Think about this auction for a moment — with the <TextWithColoredSuits text="2♣" /> overcall, what does{" "}
-          <TextWithColoredSuits text="4♥" /> mean to you? When you are ready, continue and we will talk through a
-          practical guideline.
+          What about this auction, where now there is interference. With the <TextWithColoredSuits text="2♣" />{" "}
+          overcall, what does <TextWithColoredSuits text="4♥" /> mean to you? When you are ready, continue and we will
+          talk through a practical guideline.
         </p>
       </section>
     </div>

@@ -55,6 +55,7 @@ import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticle";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
+import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
@@ -308,6 +309,7 @@ const routes = (
     />
     <Route path="/counting/practice" render={(routeProps) => <CountingTrumpsTrainer {...routeProps} trainerLabel="Counting" categoryKey="counting" />} exact />
     <Route path="/counting" component={CountingHub} exact />
+    <Route path="/treadmill/practice" component={TreadmillPracticePage} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
     <Route
