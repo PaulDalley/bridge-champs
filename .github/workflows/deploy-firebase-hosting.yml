@@ -63,4 +63,5 @@ jobs:
           fi
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          python3 -c "import json; print('Firestore rules deploy using:', json.load(open('serviceAccount.json'))['client_email'])"
           npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
