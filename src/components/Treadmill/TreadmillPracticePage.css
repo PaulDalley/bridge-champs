@@ -14,78 +14,21 @@
   display: flow-root;
 }
 
-/* One persistent input below the row so mobile keyboards are not torn down each new shape */
-.tm-playSurface {
-  display: flow-root;
+/* Vacant suit: full-cell tap target; numeric font size avoids iOS input zoom */
+.tm-handShape .tm-handShapeDigitInput.ct-numBoxInput--hidden {
+  font-size: max(16px, var(--text-xl)) !important;
+  font-weight: 800 !important;
+  color: transparent !important;
+  opacity: 1 !important;
+  touch-action: manipulation !important;
 }
 
-.tm-playSurface:focus-within .tm-numBox--vacantDisplay:not(.ct-numBox--locked) {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+.tm-handShape .tm-handShapeDigitInput.ct-numBoxInput--hidden:not(:focus) {
+  caret-color: transparent !important;
 }
 
-.tm-entryStrip {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-/* Label + hint only on phone; desktop keeps the input only (aria-label on input) */
-.tm-entryStrip-phoneCopy {
-  display: none;
-}
-
-@media (max-width: 480px) {
-  .tm-entryStrip-phoneCopy {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-}
-
-.tm-entryStrip-label {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: #374151;
-}
-
-.tm-entryStrip-hint {
-  font-size: var(--text-xs);
-  margin: 0;
-  color: #6b7280;
-  line-height: 1.35;
-}
-
-.tm-entryStrip-input {
-  width: 100%;
-  box-sizing: border-box;
-  font-size: var(--text-xl);
-  font-weight: 800;
-  text-align: center;
-  min-height: 3.25rem;
-  padding: 0.45rem 0.65rem;
-  border-radius: var(--radius-lg);
-  border: 2px solid #cbd5e1;
-  touch-action: manipulation;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.tm-entryStrip-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
-}
-
-.tm-entryStrip-input:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.tm-entryStrip-input:read-only {
-  opacity: 0.85;
-  cursor: default;
+.tm-handShape .tm-handShapeDigitInput.ct-numBoxInput--hidden:focus {
+  caret-color: #2563eb !important;
 }
 
 .tm-handShape-intro {
