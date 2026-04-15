@@ -407,6 +407,12 @@ span.tm-toolTab {
   margin-bottom: 1rem;
 }
 
+.tm-lbError {
+  font-size: var(--text-sm);
+  color: #b91c1c;
+  margin: -0.35rem 0 0.75rem;
+}
+
 .tm-lbActions {
   display: flex;
   flex-wrap: wrap;

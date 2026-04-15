@@ -95,6 +95,7 @@ function TreadmillPracticePage({
 
           <div className="tm-main">
             <HandShapeMissingClubTrainer
+              uid={uid || ""}
               canRecordLeaderboard={authReady && !!uid}
               belowLeaderboardSlot={
                 showGuestSignup ? (

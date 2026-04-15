@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TREADMILL_HAND_SHAPES } from "../../data/treadmill/handShapes";
+import { formatTreadmillTimeShort } from "../../utils/treadmillLeaderboard";
 import {
-  formatTreadmillTimeShort,
-  loadTreadmillLeaderboard,
-  upsertTreadmillLeaderboard,
-} from "../../utils/treadmillLeaderboard";
+  subscribeGlobalTreadmillLeaderboard,
+  submitTreadmillPersonalBest,
+} from "../../utils/treadmillLeaderboardFirestore";
 
 const CORRECT_PAUSE_MS = 780;
 const TRY_AGAIN_HINT_MS = 1700;
@@ -53,7 +53,11 @@ function countForSuit(shape, suitKey) {
   return shape[k];
 }
 
-export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canRecordLeaderboard = false }) {
+export default function HandShapeMissingClubTrainer({
+  belowLeaderboardSlot,
+  canRecordLeaderboard = false,
+  uid = "",
+}) {
   const shapes = useMemo(() => TREADMILL_HAND_SHAPES.map(parseShape).filter(Boolean), []);
   const hiddenInputRef = useRef(null);
   const aliasInputRef = useRef(null);
@@ -72,9 +76,27 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
   const [showSuccessTick, setShowSuccessTick] = useState(false);
   const [showTryAgain, setShowTryAgain] = useState(false);
 
-  const [leaderboard, setLeaderboard] = useState(() => loadTreadmillLeaderboard());
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [leaderboardStatus, setLeaderboardStatus] = useState("loading");
   const [pendingStreakRecord, setPendingStreakRecord] = useState(null);
   const [aliasDraft, setAliasDraft] = useState("");
+  const [streakSaveError, setStreakSaveError] = useState("");
+  const [savingStreak, setSavingStreak] = useState(false);
+
+  useEffect(() => {
+    const unsub = subscribeGlobalTreadmillLeaderboard((rows, err) => {
+      if (err) {
+        setLeaderboard([]);
+        setLeaderboardStatus("error");
+        return;
+      }
+      setLeaderboard(rows);
+      setLeaderboardStatus("ready");
+    });
+    return () => {
+      if (typeof unsub === "function") unsub();
+    };
+  }, []);
 
   const expectedHidden = shape ? countForSuit(shape, hiddenSuit) : 0;
   const hiddenMaxLen = expectedHidden > 9 ? 2 : 1;
@@ -117,15 +139,31 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
       finishStreakModalAndAdvance();
       return;
     }
-    if (canRecordLeaderboard) {
-      setLeaderboard((prev) => upsertTreadmillLeaderboard(prev, name, pendingStreakRecord.timeMs));
+    if (!canRecordLeaderboard || !uid) {
+      finishStreakModalAndAdvance();
+      return;
     }
-    finishStreakModalAndAdvance();
-  }, [aliasDraft, canRecordLeaderboard, finishStreakModalAndAdvance, pendingStreakRecord]);
+    setSavingStreak(true);
+    setStreakSaveError("");
+    submitTreadmillPersonalBest(uid, name, pendingStreakRecord.timeMs)
+      .then(() => {
+        finishStreakModalAndAdvance();
+      })
+      .catch((err) => {
+        setStreakSaveError(err.message || "Could not save to the leaderboard.");
+      })
+      .finally(() => {
+        setSavingStreak(false);
+      });
+  }, [aliasDraft, canRecordLeaderboard, finishStreakModalAndAdvance, pendingStreakRecord, uid]);
 
   useEffect(() => {
     return () => clearTimers();
   }, [clearTimers]);
+
+  useEffect(() => {
+    if (pendingStreakRecord) setStreakSaveError("");
+  }, [pendingStreakRecord]);
 
   useEffect(() => {
     if (pendingStreakRecord) {
@@ -335,8 +373,8 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
           </h2>
           <p className="tm-lbBoard-tagline">
             {canRecordLeaderboard
-              ? "10 correct in a row · fastest 5 · one best time per name · this device only"
-              : "Sign in to record a time. 10 correct in a row · fastest 5 · one best time per name · this device only"}
+              ? "Global top 5 · 10 correct in a row · one best time per signed-in player"
+              : "Sign in to record a time. Global top 5 · 10 correct in a row · one best time per player"}
           </p>
         </div>
         <div className="tm-lbTableWrap">
@@ -355,7 +393,19 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
               </tr>
             </thead>
             <tbody>
-              {leaderboard.length === 0 ? (
+              {leaderboardStatus === "loading" ? (
+                <tr>
+                  <td colSpan={3} className="tm-lbTd tm-lbTd--empty">
+                    Loading leaderboard…
+                  </td>
+                </tr>
+              ) : leaderboardStatus === "error" ? (
+                <tr>
+                  <td colSpan={3} className="tm-lbTd tm-lbTd--empty">
+                    Could not load the leaderboard. Check your connection and try refreshing the page.
+                  </td>
+                </tr>
+              ) : leaderboard.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="tm-lbTd tm-lbTd--empty">
                     {canRecordLeaderboard
@@ -365,7 +415,10 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
                 </tr>
               ) : (
                 leaderboard.map((e, i) => (
-                  <tr key={`lb-row-${i}`} className={i < 3 ? `tm-lbTr--place${i + 1}` : undefined}>
+                  <tr
+                    key={e.uid || `lb-row-${i}`}
+                    className={i < 3 ? `tm-lbTr--place${i + 1}` : undefined}
+                  >
                     <td className="tm-lbTd tm-lbTd--rank">{i + 1}</td>
                     <td className="tm-lbTd tm-lbTd--name">{e.alias}</td>
                     <td className="tm-lbTd tm-lbTd--time">{formatTreadmillTimeShort(e.timeMs)}</td>
@@ -389,7 +442,7 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
               Time: <strong>{formatTreadmillTimeShort(pendingStreakRecord.timeMs)}</strong>
             </p>
             <label className="tm-lbLabel" htmlFor="tm-lb-alias">
-              Name or alias (optional for leaderboard)
+              Name or alias (shown on the global leaderboard)
             </label>
             <input
               id="tm-lb-alias"
@@ -407,15 +460,33 @@ export default function HandShapeMissingClubTrainer({ belowLeaderboardSlot, canR
                 }
               }}
             />
+            {streakSaveError ? (
+              <div className="tm-lbError" role="alert">
+                {streakSaveError}
+              </div>
+            ) : null}
             <div className="tm-lbActions">
-              <button type="button" className="ct-btn" onClick={saveAliasAndFinish}>
-                Save to board
+              <button
+                type="button"
+                className="ct-btn"
+                onClick={saveAliasAndFinish}
+                disabled={savingStreak}
+              >
+                {savingStreak ? "Saving…" : "Save to board"}
               </button>
-              <button type="button" className="ct-btn ct-btn--secondary" onClick={finishStreakModalAndAdvance}>
+              <button
+                type="button"
+                className="ct-btn ct-btn--secondary"
+                onClick={finishStreakModalAndAdvance}
+                disabled={savingStreak}
+              >
                 Skip
               </button>
             </div>
-            <p className="tm-lbHint">Press Escape to skip. Same name only keeps your fastest run in the top 5.</p>
+            <p className="tm-lbHint">
+              Press Escape to skip. Only your fastest run is stored on your account. If it beats your previous best, you
+              may appear in the global top 5 above.
+            </p>
           </div>
         </div>
       )}
