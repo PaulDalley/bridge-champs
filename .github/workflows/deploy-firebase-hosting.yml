@@ -15,9 +15,8 @@
 # This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
 # with the service account JSON stored only as an encrypted secret.
 #
-# After Hosting, we publish Firestore rules using the same secret. Credentials are written with
-# Python (handles multiline JSON safely). If this step fails with permission denied, add a role
-# on Google Cloud for that service account (e.g. Editor, or Firebase Rules Admin).
+# After Hosting, we *try* to publish Firestore rules (same secret). This step never fails the job:
+# if the service account lacks IAM, Hosting still shipped and the app falls back to device storage.
 name: Deploy Firebase Hosting
 
 on:
@@ -52,16 +51,23 @@ jobs:
           projectId: bridgechampions
           channelId: live
 
-      - name: Deploy Firestore security rules
+      - name: Deploy Firestore security rules (best effort)
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           set -euo pipefail
           if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
-            echo "::error::FIREBASE_SERVICE_ACCOUNT secret is empty or missing. Add it under Repo Settings → Secrets and variables → Actions."
-            exit 1
+            echo "::warning::FIREBASE_SERVICE_ACCOUNT is empty; skipping Firestore rules deploy."
+            exit 0
           fi
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
           python3 -c "import json; print('Firestore rules deploy using:', json.load(open('serviceAccount.json'))['client_email'])"
+          set +e
           npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
+          rules_exit=$?
+          set -e
+          if [ "$rules_exit" -ne 0 ]; then
+            echo "::warning::Firestore rules were not updated (exit ${rules_exit}). Hosting already deployed. Grant this service account a role that can update Firestore rules (e.g. Editor on project bridgechampions) to enable the global leaderboard."
+          fi
+          exit 0

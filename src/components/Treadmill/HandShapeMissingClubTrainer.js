@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TREADMILL_HAND_SHAPES } from "../../data/treadmill/handShapes";
-import { formatTreadmillTimeShort } from "../../utils/treadmillLeaderboard";
 import {
-  getLeaderboardSubscribeErrorMessage,
-  subscribeGlobalTreadmillLeaderboard,
-  submitTreadmillPersonalBest,
-} from "../../utils/treadmillLeaderboardFirestore";
+  formatTreadmillTimeShort,
+  loadTreadmillLeaderboard,
+  upsertTreadmillLeaderboard,
+} from "../../utils/treadmillLeaderboard";
+import { subscribeGlobalTreadmillLeaderboard, submitTreadmillPersonalBest } from "../../utils/treadmillLeaderboardFirestore";
 
 const CORRECT_PAUSE_MS = 780;
 const TRY_AGAIN_HINT_MS = 1700;
@@ -80,7 +80,8 @@ export default function HandShapeMissingClubTrainer({
 
   const [leaderboard, setLeaderboard] = useState([]);
   const [leaderboardStatus, setLeaderboardStatus] = useState("loading");
-  const [leaderboardErrorMessage, setLeaderboardErrorMessage] = useState("");
+  /** True when Firestore listener failed; we show scores from localStorage instead. */
+  const [leaderboardUsesLocalFallback, setLeaderboardUsesLocalFallback] = useState(false);
   const [pendingStreakRecord, setPendingStreakRecord] = useState(null);
   const [aliasDraft, setAliasDraft] = useState("");
   const [streakSaveError, setStreakSaveError] = useState("");
@@ -103,12 +104,17 @@ export default function HandShapeMissingClubTrainer({
   useEffect(() => {
     const unsub = subscribeGlobalTreadmillLeaderboard((rows, err) => {
       if (err) {
-        setLeaderboard([]);
-        setLeaderboardStatus("error");
-        setLeaderboardErrorMessage(getLeaderboardSubscribeErrorMessage(err));
+        const localRows = loadTreadmillLeaderboard().map((e) => ({
+          uid: "",
+          alias: e.alias,
+          timeMs: e.timeMs,
+        }));
+        setLeaderboard(localRows);
+        setLeaderboardStatus("ready");
+        setLeaderboardUsesLocalFallback(true);
         return;
       }
-      setLeaderboardErrorMessage("");
+      setLeaderboardUsesLocalFallback(false);
       setLeaderboard(rows);
       setLeaderboardStatus("ready");
     });
@@ -165,10 +171,20 @@ export default function HandShapeMissingClubTrainer({
     setStreakSaveError("");
     submitTreadmillPersonalBest(uid, name, pendingStreakRecord.timeMs)
       .then(() => {
+        upsertTreadmillLeaderboard(loadTreadmillLeaderboard(), name, pendingStreakRecord.timeMs);
         finishStreakModalAndAdvance();
       })
-      .catch((err) => {
-        setStreakSaveError(err.message || "Could not save to the leaderboard.");
+      .catch(() => {
+        upsertTreadmillLeaderboard(loadTreadmillLeaderboard(), name, pendingStreakRecord.timeMs);
+        setLeaderboard(
+          loadTreadmillLeaderboard().map((e) => ({
+            uid: "",
+            alias: e.alias,
+            timeMs: e.timeMs,
+          }))
+        );
+        setLeaderboardUsesLocalFallback(true);
+        finishStreakModalAndAdvance();
       })
       .finally(() => {
         setSavingStreak(false);
@@ -434,9 +450,11 @@ export default function HandShapeMissingClubTrainer({
             Leaderboard
           </h2>
           <p className="tm-lbBoard-tagline">
-            {canRecordLeaderboard
-              ? "Global top 5 · 10 correct in a row · one best time per signed-in player"
-              : "Sign in to record a time. Global top 5 · 10 correct in a row · one best time per player"}
+            {leaderboardUsesLocalFallback
+              ? "Showing this device only (cloud list unavailable). Top 5 · 10 in a row · one best time per name here."
+              : canRecordLeaderboard
+                ? "Global top 5 · 10 correct in a row · one best time per signed-in player"
+                : "Sign in to record a time. Global top 5 · 10 correct in a row · one best time per player"}
           </p>
         </div>
         <div className="tm-lbTableWrap">
@@ -461,11 +479,10 @@ export default function HandShapeMissingClubTrainer({
                     Loading leaderboard…
                   </td>
                 </tr>
-              ) : leaderboardStatus === "error" ? (
+              ) : leaderboard.length === 0 && leaderboardUsesLocalFallback ? (
                 <tr>
                   <td colSpan={3} className="tm-lbTd tm-lbTd--empty">
-                    {leaderboardErrorMessage ||
-                      "Could not load the leaderboard. Check your connection and try refreshing the page."}
+                    No scores saved on this device yet. Hit 10 correct in a row to post a time.
                   </td>
                 </tr>
               ) : leaderboard.length === 0 ? (
@@ -479,7 +496,7 @@ export default function HandShapeMissingClubTrainer({
               ) : (
                 leaderboard.map((e, i) => (
                   <tr
-                    key={e.uid || `lb-row-${i}`}
+                    key={e.uid ? `cloud-${e.uid}` : `local-${i}-${e.alias}`}
                     className={i < 3 ? `tm-lbTr--place${i + 1}` : undefined}
                   >
                     <td className="tm-lbTd tm-lbTd--rank">{i + 1}</td>
@@ -505,7 +522,9 @@ export default function HandShapeMissingClubTrainer({
               Time: <strong>{formatTreadmillTimeShort(pendingStreakRecord.timeMs)}</strong>
             </p>
             <label className="tm-lbLabel" htmlFor="tm-lb-alias">
-              Name or alias (shown on the global leaderboard)
+              {leaderboardUsesLocalFallback
+                ? "Name or alias (saved on this device)"
+                : "Name or alias (shown on the global leaderboard)"}
             </label>
             <input
               id="tm-lb-alias"
