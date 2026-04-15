@@ -285,12 +285,37 @@ class HomePage extends Component {
     return (
       <div className="HomePage">
         <Helmet>
-          <title>Bridge Champions - Winning Bridge Insights from World Class Experts</title>
-          <meta name="description" content="Learn Bridge or improve your mastery with daily access into the minds, insights and recent play of some of the most knowledgeable Bridge Champions and expert players around. Knowledge and quizzes that will improve your play." />
+          <title>Bridge Champions — Bridge lessons and practice for every level</title>
+          <meta
+            name="description"
+            content="Clear lessons, hands-on practice, and quizzes for beginners and experienced players—whether you're learning the basics or sharpening play at the table."
+          />
           <link rel="canonical" href="https://bridgechampions.com/" />
+          <meta property="og:type" content="website" />
           <meta property="og:url" content="https://bridgechampions.com/" />
-          <meta property="og:title" content="Bridge Champions - Winning Bridge Insights from World Class Experts" />
-          <meta property="og:description" content="Learn Bridge from world class experts and champions. Improve your game with daily insights and quizzes." />
+          <meta property="og:title" content="Bridge Champions — Bridge lessons and practice for every level" />
+          <meta
+            property="og:description"
+            content="Clear lessons, hands-on practice, and quizzes for beginners and experienced players—whether you're learning the basics or sharpening play at the table."
+          />
+          <meta
+            property="og:image"
+            content="https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95"
+          />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:site_name" content="Bridge Champions" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:url" content="https://bridgechampions.com/" />
+          <meta name="twitter:title" content="Bridge Champions — Bridge lessons and practice for every level" />
+          <meta
+            name="twitter:description"
+            content="Lessons and practice for new and advanced players—learn the basics or sharpen your game."
+          />
+          <meta
+            name="twitter:image"
+            content="https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95"
+          />
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
