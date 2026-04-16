@@ -636,7 +636,7 @@ const DEFENCE_PUZZLES = [
           type: "INFO",
           atRoundIdx: 0,
           promptText:
-            "So diamonds are out. That leaves hearts as the real switch.\n\nWorth agreeing with partner: discouraging clubs here often means \"don't tap dummy's diamonds — I'd rather hearts.\"",
+            "So diamonds are out. That leaves hearts as the real switch.\n\nWorth agreeing with partner: discouraging clubs here often means \"I'm keen for you to play the only other sensible switch - hearts\"",
         },
         {
           id: "df1-9-partnership-2",
