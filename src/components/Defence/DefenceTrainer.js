@@ -659,7 +659,7 @@ const DEFENCE_PUZZLES = [
           expectedChoice: "heart",
           noContinue: true,
           revealText:
-            "Heart. Partner steered you away from diamonds — trust it.\n\n(Australian Teams Trial 2026; a strong player missed this.)",
+            "Heart. Partner steered you away from clubs — trust it.\n\n(Australian Teams Trial 2026; a strong player missed this.)",
           videoUrl: "",
         },
       ],
