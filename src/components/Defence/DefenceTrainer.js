@@ -665,22 +665,22 @@ const DEFENCE_PUZZLES = [
       ],
     },
     shownHands: {
-      // South (you): 964 / J32 / 743 / AK43
-      LHO: { S: "964", H: "J32", D: "743", C: "AK43" },
+      // North (partner): KJ / KQ98 / KJ85 / 975
+      LHO: { S: "KJ", H: "KQ98", D: "KJ85", C: "975" },
       // West (dummy): 732 / A64 / AQT62 / 86
       DUMMY: { S: "732", H: "A64", D: "AQT62", C: "86" },
       // East (declarer): AQT85 / T75 / 9 / QJT2
       DECLARER: { S: "AQT85", H: "T75", D: "9", C: "QJT2" },
-      // North (partner): KJ / KQ98 / KJ85 / 975
-      RHO: { S: "KJ", H: "KQ98", D: "KJ85", C: "975" },
+      // South (you): 964 / J32 / 743 / AK43
+      RHO: { S: "964", H: "J32", D: "743", C: "AK43" },
     },
     rounds: [
       {
         label: "Trick 1 (A♣ lead, all follow)",
         plays: [
-          { seat: "LHO", card: { rank: "A", suit: "C" } },
+          { seat: "RHO", card: { rank: "A", suit: "C" } },
           { seat: "DUMMY", card: { rank: "6", suit: "C" } },
-          { seat: "RHO", card: { rank: "9", suit: "C" } },
+          { seat: "LHO", card: { rank: "9", suit: "C" } },
           { seat: "DECLARER", card: { rank: "2", suit: "C" } },
         ],
       },
@@ -695,8 +695,8 @@ const DEFENCE_PUZZLES = [
     dealerCompass: "W",
     declarerCompass: "N",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
-    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    visibleFullHandSeats: ["RHO", "DUMMY"],
+    revealFullHandsAtEnd: ["LHO", "DECLARER"],
     auction: "P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
@@ -726,19 +726,20 @@ const DEFENCE_PUZZLES = [
       ],
     },
     shownHands: {
-      // You are East = LHO when declarer is North.
-      LHO: { S: "64", H: "AK753", D: "KT2", C: "JT4" },
+      // Partner is West = LHO when declarer is North.
+      LHO: { S: "85", H: "QJT96", D: "AJ96", C: "532" },
       DECLARER: { S: "AKJ1097", H: "82", D: "543", C: "K" },
       DUMMY: { S: "Q32", H: "4", D: "Q87", C: "AQ9876" },
-      RHO: { S: "85", H: "QJT96", D: "AJ96", C: "532" },
+      // You are East = RHO when declarer is North.
+      RHO: { S: "64", H: "AK753", D: "KT2", C: "JT4" },
     },
     rounds: [
       {
         label: "Trick 1 (A♥ lead, all follow)",
         plays: [
-          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "A", suit: "H" } },
           { seat: "DUMMY", card: { rank: "4", suit: "H" } },
-          { seat: "RHO", card: { rank: "6", suit: "H" } },
+          { seat: "LHO", card: { rank: "6", suit: "H" } },
           { seat: "DECLARER", card: { rank: "2", suit: "H" } },
         ],
       },
@@ -753,8 +754,8 @@ const DEFENCE_PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "E",
-    visibleFullHandSeats: ["LHO", "DUMMY"],
-    revealFullHandsAtEnd: ["RHO", "DECLARER"],
+    visibleFullHandSeats: ["RHO", "DUMMY"],
+    revealFullHandsAtEnd: ["LHO", "DECLARER"],
     auction: "4D P 5D P P P",
     promptOptions: {
       promptPlacement: "left",
@@ -912,12 +913,12 @@ const DEFENCE_PUZZLES = [
       ],
     },
     shownHands: {
-      // South (you)
-      LHO: { S: "A", H: "AK84", D: "7642", C: "9875" },
+      // North (partner)
+      LHO: { S: "6542", H: "T932", D: "9", C: "QT63" },
       // West (dummy)
       DUMMY: { S: "QJ3", H: "65", D: "AKJT83", C: "42" },
-      // North (partner)
-      RHO: { S: "6542", H: "T932", D: "9", C: "QT63" },
+      // South (you)
+      RHO: { S: "A", H: "AK84", D: "7642", C: "9875" },
       // East (declarer) - 16 HCP, 5 spades, 2 diamonds
       DECLARER: { S: "KT987", H: "QJ7", D: "Q5", C: "AKJ" },
     },
@@ -925,18 +926,18 @@ const DEFENCE_PUZZLES = [
       {
         label: "Trick 1 (A♥ lead, all follow)",
         plays: [
-          { seat: "LHO", card: { rank: "A", suit: "H" } },
+          { seat: "RHO", card: { rank: "A", suit: "H" } },
           { seat: "DUMMY", card: { rank: "5", suit: "H" } },
-          { seat: "RHO", card: { rank: "2", suit: "H" } },
+          { seat: "LHO", card: { rank: "2", suit: "H" } },
           { seat: "DECLARER", card: { rank: "7", suit: "H" } },
         ],
       },
       {
         label: "Trick 2 (K♥ cash, all follow)",
         plays: [
-          { seat: "LHO", card: { rank: "K", suit: "H" } },
+          { seat: "RHO", card: { rank: "K", suit: "H" } },
           { seat: "DUMMY", card: { rank: "6", suit: "H" } },
-          { seat: "RHO", card: { rank: "3", suit: "H" } },
+          { seat: "LHO", card: { rank: "3", suit: "H" } },
           { seat: "DECLARER", card: { rank: "J", suit: "H" } },
         ],
       },

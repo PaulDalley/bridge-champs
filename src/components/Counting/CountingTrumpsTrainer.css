@@ -386,6 +386,81 @@ button.ct-categoryTab {
   color: #0a5c52;
 }
 
+/* Readable stacked “factor” panels (e.g. bid3-6 Lebensohl). */
+.ct-revealRichBody--belowHeadingTight {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.ct-revealRichFactorsList {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ct-revealRichFactorsList > li {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+}
+
+.ct-revealRichFactorsList-title {
+  display: block;
+  margin: 0 0 8px;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+}
+
+.ct-revealRichFactorsList-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.55;
+}
+
+.ct-revealRichFactorsSummary {
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #422006;
+  line-height: 1.55;
+  background: rgba(255, 251, 235, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+}
+
+.ct-revealRichBody--belowMiniTable {
+  margin-top: 1rem;
+}
+
+.ct-revealRichLebensohlSteps {
+  margin: 12px 0 0;
+  padding-left: 1.35em;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.ct-revealRichLebensohlSteps > li {
+  margin-bottom: 14px;
+  padding-left: 0.2em;
+}
+
+.ct-revealRichLebensohlSteps > li:last-child {
+  margin-bottom: 0;
+}
+
 .ct-revealRichMono {
   display: inline-block;
   margin: 0 3px;

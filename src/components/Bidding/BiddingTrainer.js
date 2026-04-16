@@ -856,6 +856,463 @@ function Bid35BeyondSplintersRich() {
   );
 }
 
+/** West 1♥ — North 1NT — East 2♥ — South to bid (no filler passes). */
+const BID36_OPENING_AUCTION = "1♥ 1NT 2♥ ?";
+const BID36_FULL_AUCTION = "1♥ 1NT 2♥ 2NT P 3♣ P 3♦ P P P";
+/** South (bid3-6): concrete low cards 2–9; T = 10 in the long diamond suit per app hand notation. */
+const BID36_SOUTH_SHOWN_HANDS = { S: "943", H: "98", D: "KJT6542", C: "7" };
+const BID37_OPENING_AUCTION = "2♥ X P ?";
+const BID38_RECAP1_AUCTION = "P 1NT 2♠ ?";
+const BID38_RECAP2_AUCTION = "2♥ X P ?";
+const BID38_AUCTION_MEANING = "2♥ X ?";
+const BID39_OPENING_AUCTION = "1♠ 1NT 2♠ ?";
+const BID310_OPENING_AUCTION = "1NT 2♠ ?";
+const BID310_FOLLOW_AUCTION = "1NT 2♥ ?";
+
+function Bid36IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Topic: Lebensohl</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody ct-revealRichBody--muted">
+          Let&apos;s look at Lebensohl, very popular at the top level of bridge, for good reason! And it&apos;s super easy
+          to learn and play.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid36LebensohlAndPartscoreRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Lebensohl</h4>
+        <p className="ct-revealRichBody">
+          Partscore battles are actually considered to be the most important part of bridge bidding.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid36CompeteFactorsRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Competing for the partscore</h4>
+        <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">Let&apos;s look at the main factors for competing:</p>
+        <ul className="ct-revealRichFactorsList" aria-label="Main factors for competing">
+          <li>
+            <span className="ct-revealRichFactorsList-title">They have a fit</span>
+            <p className="ct-revealRichFactorsList-body">
+              Letting the opponents play in a fit on the two level is typically a bad idea — around 90% of the time it is
+              a bad idea.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">Shape</span>
+            <p className="ct-revealRichFactorsList-body">
+              The more unbalanced we are, the more attractive it is to compete.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">Suit quality</span>
+            <p className="ct-revealRichFactorsList-body">
+              Good suit quality (for our long suits) makes competing more attractive.
+            </p>
+          </li>
+        </ul>
+        <div className="ct-revealRichFactorsSummary" role="note">
+          <span className="ct-revealGold">In summary:</span> Don&apos;t let the opponents play in a fit on the two level,
+          especially when we are unbalanced with a good suit.
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Bid36TwoNTRelayRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">How to use Lebensohl</h4>
+        <ol className="ct-revealRichLebensohlSteps">
+          <li>
+            Partner opens or overcalls <TextWithColoredSuits text="1NT" />
+          </li>
+          <li>They bid on the 2 level</li>
+          <li>
+            You bid <span className="ct-revealGold">2NT</span>, saying &quot;I have a suit I want to bid, just to
+            compete&quot;
+          </li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid36QuestionLeadRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        What would you bid here? Use the bidding box (Pass, 2NT, 3<span className="ct-suitSym ct-suitSym--red">♦</span>,
+        etc.).
+      </p>
+    </div>
+  );
+}
+
+function Bid36RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">2NT</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          We are not strong enough to bid 3<span className="ct-suitSym ct-suitSym--red">♦</span> and force partner to continue
+          bidding, but we cannot afford to pass. 2NT is the perfect bid, letting partner know we have a suit we want to
+          compete in.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid36AuctionFollowRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Continue the auction</h4>
+        <PracticeAuctionMiniTable auctionText={BID36_FULL_AUCTION} dealerCompass="W" />
+        <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
+          One more critical detail: partner should always bid 3<span className="ct-suitSym">♣</span> after Lebensohl, giving
+          you the full room of the three level to bid your suit, or to pass 3<span className="ct-suitSym">♣</span> if clubs
+          is your suit.
+        </p>
+        <p className="ct-revealRichBody">
+          As shown, this auction can work out well for your side: you are declaring <TextWithColoredSuits text="3♦" /> with a
+          good suit, rather than letting the opponents play in <TextWithColoredSuits text="2♥" />.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid37MessageToUserRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Partner has made a takeout double. Does the simple <TextWithColoredSuits text="3♣" /> seem like a sensible bid?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid37Continue1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Think of it from Partner&apos;s point of view, you could have 0 points, partner has forced you to bid!
+        </p>
+        <p className="ct-revealRichBody">
+          Let&apos;s say partner has a nice 16 or so points, and you bid <TextWithColoredSuits text="3♣" />. How does
+          partner know whether you have 0 points or whether you have this quite respectable hand?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid37Continue2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          This is the second scenario where we use Lebensohl. This time, <TextWithColoredSuits text="2NT" /> says &quot;I
+          have a terrible hand&quot;.
+        </p>
+        <p className="ct-revealRichBody">
+          Hint: in both cases, <TextWithColoredSuits text="2NT" /> shows the weakest hand. Think of{" "}
+          <TextWithColoredSuits text="2NT" /> as a STOP sign.
+        </p>
+        <p className="ct-revealRichBody">
+          Whereas, on decent hands like this, you can bid the direct <TextWithColoredSuits text="3♣" /> and convey that
+          you have a decent hand.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid37RecapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Lets recap the features</h4>
+        <ol className="ct-revealRichLebensohlSteps">
+          <li>The opponents open a weak 2.</li>
+          <li>Partner makes a takeout double.</li>
+          <li>
+            Bidding <TextWithColoredSuits text="2NT" /> says - I have a terrible hand (0-7 points), otherwise you show
+            &quot;something&quot; about 8-11.
+          </li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid37GameForceRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">What about if you have enough points for game?</h4>
+        <p className="ct-revealRichBody">
+          Simply just bid game, or if you don&apos;t have a clear bid, cue bid the opponent&apos;s suit.
+        </p>
+        <p className="ct-revealRichBody">
+          So what do you bid here?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid37QuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">Use the bidding box.</p>
+    </div>
+  );
+}
+
+function Bid37RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">3♣</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          <TextWithColoredSuits text="3♣" /> conveys that you have a decent hand, partner can keep the bidding moving if
+          they have extras, or simply pass if they have a basic takeout double.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38RecapQuestion1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Lets do a quick recap</h4>
+        <p className="ct-revealRichBody">Take a look at the example auction.</p>
+        <PracticeAuctionMiniTable auctionText={BID38_RECAP1_AUCTION} dealerCompass="W" />
+        <p className="ct-revealRichBody">In such a situation, our <TextWithColoredSuits text="2NT" /> shows?</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38RecapReveal1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">A weak hand</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Correct. We use <TextWithColoredSuits text="2NT" /> when we are not interested in game, but just want to
+          compete.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38RecapQuestion2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          The shown auction is a typical example of the second situation that we play lebensohl.
+        </p>
+        <PracticeAuctionMiniTable auctionText={BID38_RECAP2_AUCTION} dealerCompass="W" />
+        <p className="ct-revealRichBody">In this context <TextWithColoredSuits text="2NT" /> shows:</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38RecapReveal2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">A bad hand</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          It&apos;s fairly easy to remember, <TextWithColoredSuits text="2NT" /> always shows the bad hand. Partner
+          usually takes it very easy after they see <TextWithColoredSuits text="2NT" /> - it&apos;s like a stop sign{" "}
+          <span aria-label="stop sign">🛑</span>.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38AuctionMeaningRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Intermediate, 8-11, not forcing</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          This is the context where partner can tell us they have some points, in case we have extra. It&apos;s natural,
+          and not forcing, but shows about 8-11 points.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid38Question3Rich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <PracticeAuctionMiniTable auctionText={BID38_AUCTION_MEANING} dealerCompass="W" />
+      </section>
+      <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
+        What is <TextWithColoredSuits text="3♦" /> here?
+      </p>
+    </div>
+  );
+}
+
+function Bid39QuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        What do you bid here? (A bit of a trick question!)
+      </p>
+      <p className="ct-revealRichBody">Use the bidding box.</p>
+    </div>
+  );
+}
+
+function Bid39RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">X</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          The simple takeout double is great here. Just because we have Lebensohl available does not mean we want to
+          over-use it.
+        </p>
+        <ol className="ct-revealRichLebensohlSteps">
+          <li>We don&apos;t let them play on the two level in a fit.</li>
+          <li>
+            Remember partner has 15-18, our side has our fair share of points, we are strong enough to compete for the
+            partscore.
+          </li>
+          <li>
+            The takeout double is a great tool when we have this type of shape (5431, 4441, 4432).
+          </li>
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+function Bid310Question1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">What do you bid here?</p>
+    </div>
+  );
+}
+
+function Bid310Reveal1Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">Pass is a great bid here.</p>
+        <p className="ct-revealRichBody">
+          On the one hand we are fiercely determined to compete when we can. Tools like Lebensohl and the takeout double
+          are great for that.
+        </p>
+        <p className="ct-revealRichBody">
+          However, when we have 3+ cards in the opponent&apos;s suit, it typically indicates a time to pass. Why?
+        </p>
+        <p className="ct-revealRichBody">
+          Perhaps partner with shortage can make a takeout double if it seems appropriate. Or, alternatively, partner has
+          length in spades, in which case - it seems like a great idea to defend, they do not have a fit.
+        </p>
+        <p className="ct-revealRichBody">
+          &quot;We are fiercely determined to compete, except when they are in a bad contract!&quot;
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid310ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Lets just get grounded and make sure we haven&apos;t lost track of how simple bridge is, what do you bid here?
+        </p>
+        <PracticeAuctionMiniTable auctionText={BID310_FOLLOW_AUCTION} dealerCompass="N" />
+        <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
+          South hand for this follow-up: <TextWithColoredSuits text="♠AJ984 ♥102 ♦876 ♣1074" />.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid310Question2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">Use the bidding box.</p>
+    </div>
+  );
+}
+
+function Bid310Reveal2Rich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">2♠</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          A simple bid on the two level is natural and not forcing in this situation - we don&apos;t need anything fancy
+          here, just bid your suit.
+        </p>
+        <p className="ct-revealRichBody">
+          Why isn&apos;t it forcing? Because, it&apos;s so important for us to be able to compete for the part score.
+        </p>
+      </section>
+    </div>
+  );
+}
+
 /**
  * Bidding practice: opening (1–5) and responding (6–10). Uses CountingTrumpsTrainer with question-only flow (no tricks).
  */
@@ -3627,6 +4084,340 @@ const BIDDING_PUZZLES = [
     shownHands: {
       DECLARER: { S: "AK1098", H: "98", D: "AKJ9", C: "32" },
       DUMMY: { S: "???", H: "?????", D: "?", C: "????" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-6",
+    difficulty: 3,
+    title: "Lebensohl (1): After 1NT and a two-level raise",
+    newUntil: "2026-12-01",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: BID36_OPENING_AUCTION,
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Competing after interference",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Lebensohl",
+      promptThemeTint: "1nt",
+      customPrompts: [
+        {
+          id: "bid3-6-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid36IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-6-partscore",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid36LebensohlAndPartscoreRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-6-factors",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid36CompeteFactorsRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-6-tool",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid36TwoNTRelayRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-6-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid36QuestionLeadRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid36RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-6-auction-follow",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid36AuctionFollowRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { ...BID36_SOUTH_SHOWN_HANDS },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-7",
+    difficulty: 3,
+    title: "Lebensohl (2): After weak two and takeout double",
+    newUntil: "2026-12-01",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: BID37_OPENING_AUCTION,
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Lebensohl after a takeout double",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Lebensohl",
+      promptThemeTint: "1nt",
+      customPrompts: [
+        {
+          id: "bid3-7-msg",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid37MessageToUserRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-7-cont-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid37Continue1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-7-cont-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid37Continue2Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-7-recap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid37RecapRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-7-game",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid37GameForceRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-7-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid37QuestionRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid37RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "T8", H: "QJ9", D: "T76", C: "AQT84" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-8",
+    difficulty: 3,
+    title: "Lebensohl (3): Quick recap and intermediate direct bids",
+    newUntil: "2026-12-01",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "Recap",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Lebensohl recap",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Lebensohl",
+      promptThemeTint: "1nt",
+      customPrompts: [
+        {
+          id: "bid3-8-recap-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid38RecapQuestion1Rich />,
+          options: [
+            { id: "good", label: "A good hand" },
+            { id: "weak", label: "A weak hand" },
+          ],
+          expectedChoice: "weak",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid38RecapReveal1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-8-recap-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid38RecapQuestion2Rich />,
+          options: [
+            { id: "badAgain", label: "A bad hand again" },
+            { id: "decent", label: "A decent hand" },
+            { id: "natural", label: "Is natural" },
+          ],
+          expectedChoice: "badAgain",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid38RecapReveal2Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-8-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid38Question3Rich />,
+          options: [
+            { id: "gameForce", label: "Game forcing" },
+            { id: "intermediate", label: "Intermediate, 8-11, not forcing" },
+            { id: "weakCompete", label: "Weak, just competing" },
+          ],
+          expectedChoice: "intermediate",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid38AuctionMeaningRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "T8", H: "QJ9", D: "T76", C: "AQT84" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-9",
+    difficulty: 3,
+    title: "Lebensohl (4): Keep doubles in your toolkit",
+    newUntil: "2026-12-01",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: BID39_OPENING_AUCTION,
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Lebensohl and direct doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Lebensohl",
+      promptThemeTint: "1nt",
+      customPrompts: [
+        {
+          id: "bid3-9-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid39QuestionRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "double",
+          expectedChoiceDisplay: "X",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid39RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "2", H: "QJ94", D: "J6432", C: "1083" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-10",
+    difficulty: 3,
+    title: "Lebensohl (5): Compete hard, but pass in the right spots",
+    newUntil: "2026-12-01",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: BID310_OPENING_AUCTION,
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Lebensohl judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Lebensohl",
+      promptThemeTint: "1nt",
+      customPrompts: [
+        {
+          id: "bid3-10-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid310Question1Rich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid310Reveal1Rich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-10-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid310ContinueRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid3-10-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: <Bid310Question2Rich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2s",
+          expectedChoiceDisplay: "2♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid310Reveal2Rich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K109", H: "QJ84", D: "102", C: "8762" },
     },
     rounds: [],
   },
