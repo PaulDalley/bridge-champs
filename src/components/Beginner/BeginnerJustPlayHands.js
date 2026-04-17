@@ -978,8 +978,8 @@ function BeginnerJustPlayHands({ trainer }) {
       <div className="bjp-introBanner" role="status">
         <h2 className="bjp-introBanner-heading">Just play — new and under development</h2>
         <p className="bjp-introBanner-text">
-          This table now rotates through notrump and suit contracts, including trump-play decisions. Next step is a
-          full interactive bidding phase; this build includes an auction preview before play starts.
+          This mode is still experimental and does not work perfectly yet. You may see incorrect bids or cardplay
+          choices, so treat it as a preview while we continue improving the engine.
         </p>
       </div>
       <JustPlayTable key={trainer} variant={trainer} />
