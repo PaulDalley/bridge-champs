@@ -3814,6 +3814,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Splinters",
       promptThemeTint: "splinters",
+      videoUrlBeforeStart: "https://youtube.com/shorts/SaAaHddiMa0?si=J9C4o8ubhW4CiDNT",
       customPrompts: [
         {
           id: "bid3-1-info-intro",
@@ -3871,6 +3872,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Splinters",
       promptThemeTint: "splinters",
+      videoUrlBeforeStart: "https://youtube.com/shorts/ECn6a4jNB_o?si=6dl2xVJp8fndJ4kR",
       customPrompts: [
         {
           id: "bid3-2-info",
@@ -3926,6 +3928,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Splinters",
       promptThemeTint: "splinters",
+      videoUrlBeforeStart: "https://youtube.com/shorts/8xF8nvk_Ny0?si=aQ3uSKtR0inF0NdX",
       customPrompts: [
         {
           id: "bid3-3-q",
@@ -3971,6 +3974,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Splinters",
       promptThemeTint: "splinters",
+      videoUrlBeforeStart: "https://youtube.com/shorts/W4u9PsZkt3o?si=xO68iZKFMkgrfzjN",
       customPrompts: [
         {
           id: "bid3-4-intro",
@@ -4038,6 +4042,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Splinters",
       promptThemeTint: "splinters",
+      videoUrlBeforeStart: "https://youtube.com/shorts/G0P5V4r0Abs?si=MQUAyitd5AzxTMqZ",
       customPrompts: [
         {
           id: "bid3-5-q",
@@ -4091,6 +4096,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Lebensohl",
       promptThemeTint: "1nt",
+      videoUrlBeforeStart: "https://youtube.com/shorts/V1nXOrfBWHQ?si=4ylR9pYE6iMeU9H5",
       customPrompts: [
         {
           id: "bid3-6-intro",
@@ -4168,6 +4174,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Lebensohl",
       promptThemeTint: "1nt",
+      videoUrlBeforeStart: "https://youtube.com/shorts/G1XObM6bg1I?si=pYDwZ4Da0OEtVtX1",
       customPrompts: [
         {
           id: "bid3-7-msg",
@@ -4321,6 +4328,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Lebensohl",
       promptThemeTint: "1nt",
+      videoUrlBeforeStart: "https://youtube.com/shorts/_tgmhmbG1wQ?si=FBnhrFpGODIbSA86",
       customPrompts: [
         {
           id: "bid3-9-q",
@@ -4363,6 +4371,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Lebensohl",
       promptThemeTint: "1nt",
+      videoUrlBeforeStart: "https://youtube.com/shorts/Nj2quWMKYWQ?si=UBaAxb-7UOZaSti0",
       customPrompts: [
         {
           id: "bid3-10-q1",
