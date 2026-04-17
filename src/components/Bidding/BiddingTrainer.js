@@ -610,7 +610,7 @@ function Bid31SplintersLessonRich() {
         <h4 className="ct-revealRichHeading">Requirements</h4>
         <p className="ct-revealRichBody ct-revealRichBody--muted">short and simple version.</p>
         <p className="ct-revealRichBody">
-          <span className="ct-revealGold">It shows a singleton, and 4 trumps, 3 sharp cards!</span>
+          <span className="ct-revealGold">It shows a singleton, and 4 trumps, 2-3 sharp cards!</span>
         </p>
         <p className="ct-revealRichBody">To be more exact, or scientific, if you are so inclined.</p>
         <ol className="ct-revealRichListAlpha">
@@ -642,7 +642,7 @@ function Bid31RevealRich() {
         <ul className="ct-revealRichTriple" aria-label="What this bid shows">
           <li>Short clubs</li>
           <li>4 trumps</li>
-          <li>3 sharp cards!</li>
+          <li>2-3 sharp cards!</li>
         </ul>
       </section>
     </div>
@@ -828,16 +828,6 @@ function Bid35Reveal1Rich() {
         <p className="ct-revealRichBody">
           The less points you have opposite your partner&apos;s shortage, the better.
         </p>
-      </section>
-    </div>
-  );
-}
-
-function Bid35ContinueInfoRich() {
-  return (
-    <div className="ct-revealRich">
-      <section className="ct-revealRichCard ct-revealRichCard--slate">
-        <p className="ct-revealRichBody">Continue</p>
       </section>
     </div>
   );
@@ -3855,7 +3845,7 @@ const BIDDING_PUZZLES = [
       ],
     },
     shownHands: {
-      DECLARER: { S: "K1098", H: "A984", D: "A432", C: "2" },
+      DECLARER: { S: "Q1084", H: "A984", D: "A432", C: "2" },
     },
     rounds: [],
   },
@@ -4063,13 +4053,6 @@ const BIDDING_PUZZLES = [
           wrongTryText: "Not quite — try again.",
           noContinue: false,
           revealText: <Bid35Reveal1Rich />,
-          videoUrl: "",
-        },
-        {
-          id: "bid3-5-continue",
-          type: "INFO",
-          atRoundIdx: -1,
-          promptText: <Bid35ContinueInfoRich />,
           videoUrl: "",
         },
         {
