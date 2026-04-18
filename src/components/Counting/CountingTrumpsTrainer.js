@@ -7339,11 +7339,26 @@ function CountingTrumpsTrainer({
   const [railContextExpanded, setRailContextExpanded] = useState(true);
   useEffect(() => {
     const pid = puzzle?.id;
-    const isNewPuzzle = pid !== railCollapseLastPuzzleIdRef.current;
-    if (isNewPuzzle) {
+    const isStablePid = typeof pid === "string" && pid.length > 0;
+    // Only treat as a new hand when both ids are real strings. If `puzzle?.id` flickers
+    // undefined→"foo" on re-render, `undefined !== "foo"` must NOT reset suppression or the
+    // collapse timer re-arms immediately after the user taps "Show theme…".
+    let transitionedToNewStablePuzzle = false;
+    if (isStablePid && railCollapseLastPuzzleIdRef.current !== pid) {
+      const prev = railCollapseLastPuzzleIdRef.current;
       railCollapseLastPuzzleIdRef.current = pid;
-      setRailAutoCollapseSuppressed(false);
+      transitionedToNewStablePuzzle = typeof prev === "string" && prev.length > 0;
+      if (transitionedToNewStablePuzzle) {
+        setRailAutoCollapseSuppressed(false);
+      }
     }
+
+    // Touch-first devices: timer + layout churn caused the rail to snap shut right after expand.
+    // Rely on the peek control for collapse instead of a delayed auto-hide.
+    const skipAutoCollapseTimer =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(pointer: coarse)").matches;
 
     if (!hasCollapsibleRailContext) {
       if (railContextAutoCollapseTimerRef.current != null) {
@@ -7355,9 +7370,8 @@ function CountingTrumpsTrainer({
     }
     setRailContextExpanded(true);
 
-    // New puzzle: always allow initial auto-collapse even if `railAutoCollapseSuppressed` was still true from a stale render.
-    const treatCollapseSuppressed = railAutoCollapseSuppressed && !isNewPuzzle;
-    if (treatCollapseSuppressed) {
+    const treatCollapseSuppressed = railAutoCollapseSuppressed && !transitionedToNewStablePuzzle;
+    if (treatCollapseSuppressed || skipAutoCollapseTimer) {
       if (railContextAutoCollapseTimerRef.current != null) {
         window.clearTimeout(railContextAutoCollapseTimerRef.current);
         railContextAutoCollapseTimerRef.current = null;
