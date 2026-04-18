@@ -7333,15 +7333,16 @@ function CountingTrumpsTrainer({
     (!!effectiveThemeLabel || (!!auctionGrid && !hideAuctionNow) || hasVideoOrIntroInRailSlot);
 
   const railContextAutoCollapseTimerRef = useRef(null);
-  /** After user opens theme/auction/videos, do not re-arm auto-collapse when layout or mq churn re-runs the effect. */
-  const railContextManuallyOpenedRef = useRef(false);
   const railCollapseLastPuzzleIdRef = useRef(undefined);
+  /** State (not ref): effect must see this so matchMedia / layout churn cannot re-arm collapse before React re-renders. */
+  const [railAutoCollapseSuppressed, setRailAutoCollapseSuppressed] = useState(false);
   const [railContextExpanded, setRailContextExpanded] = useState(true);
   useEffect(() => {
     const pid = puzzle?.id;
-    if (pid !== railCollapseLastPuzzleIdRef.current) {
+    const isNewPuzzle = pid !== railCollapseLastPuzzleIdRef.current;
+    if (isNewPuzzle) {
       railCollapseLastPuzzleIdRef.current = pid;
-      railContextManuallyOpenedRef.current = false;
+      setRailAutoCollapseSuppressed(false);
     }
 
     if (!hasCollapsibleRailContext) {
@@ -7354,7 +7355,9 @@ function CountingTrumpsTrainer({
     }
     setRailContextExpanded(true);
 
-    if (railContextManuallyOpenedRef.current) {
+    // New puzzle: always allow initial auto-collapse even if `railAutoCollapseSuppressed` was still true from a stale render.
+    const treatCollapseSuppressed = railAutoCollapseSuppressed && !isNewPuzzle;
+    if (treatCollapseSuppressed) {
       if (railContextAutoCollapseTimerRef.current != null) {
         window.clearTimeout(railContextAutoCollapseTimerRef.current);
         railContextAutoCollapseTimerRef.current = null;
@@ -7380,14 +7383,14 @@ function CountingTrumpsTrainer({
         railContextAutoCollapseTimerRef.current = null;
       }
     };
-  }, [puzzle?.id, hasCollapsibleRailContext]);
+  }, [puzzle?.id, hasCollapsibleRailContext, railAutoCollapseSuppressed]);
 
   const expandRailThemeAndAuction = () => {
-    railContextManuallyOpenedRef.current = true;
     if (railContextAutoCollapseTimerRef.current != null) {
       window.clearTimeout(railContextAutoCollapseTimerRef.current);
       railContextAutoCollapseTimerRef.current = null;
     }
+    setRailAutoCollapseSuppressed(true);
     setRailContextExpanded(true);
   };
 
@@ -7516,14 +7519,51 @@ function CountingTrumpsTrainer({
     ]
   );
 
-  const renderRailThemeAuctionAndVideos = useCallback(
-    () => (
-      <>
-        {renderRailThemeAndAuction()}
-        {renderRailPracticeVideos()}
-      </>
-    ),
-    [renderRailThemeAndAuction, renderRailPracticeVideos]
+  const showRailWatchPlayNote = hasStarted && !promptStep && lastRoundIdx >= 0;
+  const showNarrowIntroVideoDock =
+    showHeaderRail &&
+    isNarrowRailContext &&
+    hasVideoOrIntroInRailSlot &&
+    (!hasCollapsibleRailContext || railContextExpanded);
+  /** Wide layouts stack theme + videos in one rail; after Start, watch copy goes between them. */
+  const showWatchInsideWideRail = showRailWatchPlayNote && showHeaderRail && !isNarrowRailContext;
+  /** Narrow + intro dock: after Start, watch copy sits above the docked videos. */
+  const showWatchBeforeNarrowVideoDock = showRailWatchPlayNote && showNarrowIntroVideoDock;
+  const showWatchAfterRailFallback =
+    showRailWatchPlayNote && !showWatchBeforeNarrowVideoDock && !showWatchInsideWideRail;
+
+  const renderRailWatchPlayNote = () => (
+    <>
+      <div className="ct-watchNote">
+        {completedRoundIdx >= lastRoundIdx
+          ? "Hand complete."
+          : (() => {
+              const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound;
+              const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal;
+              const showNote =
+                (onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) &&
+                (onlyAfterRound == null || completedRoundIdx >= onlyAfterRound);
+              const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : "";
+              const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "";
+              return noteText ? noteText + suffix : (suffix ? suffix.trim() : "");
+            })()}
+      </div>
+      {manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx && (
+        <div className="ct-railActions" style={{ marginTop: 8 }}>
+          <button
+            className="ct-btn"
+            onClick={() => {
+              const next = completedRoundIdx + 1;
+              if (next > lastRoundIdx) return;
+              playOneTrick(next);
+            }}
+            disabled={!hasStarted || isPlaying}
+          >
+            Next trick →
+          </button>
+        </div>
+      )}
+    </>
   );
 
   const promptNode = (
@@ -7553,7 +7593,15 @@ function CountingTrumpsTrainer({
           {hasCollapsibleRailContext ? (
             railContextExpanded ? (
               <div className="ct-railContextWrap">
-                {isNarrowRailContext ? renderRailThemeAndAuction() : renderRailThemeAuctionAndVideos()}
+                {isNarrowRailContext ? (
+                  renderRailThemeAndAuction()
+                ) : (
+                  <>
+                    {renderRailThemeAndAuction()}
+                    {showWatchInsideWideRail ? renderRailWatchPlayNote() : null}
+                    {renderRailPracticeVideos()}
+                  </>
+                )}
               </div>
             ) : (
               <button
@@ -7568,12 +7616,18 @@ function CountingTrumpsTrainer({
           ) : isNarrowRailContext ? (
             renderRailThemeAndAuction()
           ) : (
-            renderRailThemeAuctionAndVideos()
+            <>
+              {renderRailThemeAndAuction()}
+              {showWatchInsideWideRail ? renderRailWatchPlayNote() : null}
+              {renderRailPracticeVideos()}
+            </>
           )}
         </div>
       )}
 
-      {showHeaderRail && isNarrowRailContext && (!hasCollapsibleRailContext || railContextExpanded) && (
+      {showWatchBeforeNarrowVideoDock ? renderRailWatchPlayNote() : null}
+
+      {showNarrowIntroVideoDock && (
         <div className="ct-railMuted ct-railMuted--introVideosDock">
           {hasCollapsibleRailContext ? (
             <div className="ct-railContextWrap ct-railContextWrap--videoDock">{renderRailPracticeVideos()}</div>
@@ -7583,39 +7637,7 @@ function CountingTrumpsTrainer({
         </div>
       )}
 
-      {hasStarted && !promptStep && lastRoundIdx >= 0 && (
-        <>
-          <div className="ct-watchNote">
-            {completedRoundIdx >= lastRoundIdx
-              ? "Hand complete."
-              : (() => {
-                  const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound;
-                  const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal;
-                  const showNote =
-                    (onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) &&
-                    (onlyAfterRound == null || completedRoundIdx >= onlyAfterRound);
-                  const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : "";
-                  const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : "";
-                  return noteText ? noteText + suffix : (suffix ? suffix.trim() : "");
-                })()}
-          </div>
-          {manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx && (
-            <div className="ct-railActions" style={{ marginTop: 8 }}>
-              <button
-                className="ct-btn"
-                onClick={() => {
-                  const next = completedRoundIdx + 1;
-                  if (next > lastRoundIdx) return;
-                  playOneTrick(next);
-                }}
-                disabled={!hasStarted || isPlaying}
-              >
-                Next trick →
-              </button>
-            </div>
-          )}
-        </>
-      )}
+      {showWatchAfterRailFallback ? renderRailWatchPlayNote() : null}
 
       {promptStep && promptStep !== "DONE" && (
         <div className={`ct-promptRail ${
