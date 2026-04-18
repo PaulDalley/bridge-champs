@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { firebase } from "../../firebase/config";
 import { setProfileName } from "../../store/actions/authActions";
+import {
+  BRIDGE_JOURNEY_IMPROVING,
+  BRIDGE_JOURNEY_NEW,
+  isValidBridgeJourney,
+} from "../../constants/bridgeJourney";
+import { bridgeJourneyFirestoreFields } from "../../utils/membersBridgeJourneyFirestore";
 import "./CompleteProfile.css";
 
 class CompleteProfile extends Component {
   state = {
     firstName: (this.props.firstName || "").trim(),
     surname: (this.props.surname || "").trim(),
+    bridgeJourney: "",
     err: "",
     saving: false,
   };
@@ -22,6 +29,20 @@ class CompleteProfile extends Component {
     if (uid && hasName) {
       history.replace("/");
     }
+    if (uid) {
+      firebase
+        .firestore()
+        .collection("membersData")
+        .doc(uid)
+        .get()
+        .then((snap) => {
+          const j = snap.data()?.bridgeJourney;
+          if (isValidBridgeJourney(j)) {
+            this.setState({ bridgeJourney: j });
+          }
+        })
+        .catch(() => {});
+    }
   }
 
   onSubmit = (e) => {
@@ -31,6 +52,10 @@ class CompleteProfile extends Component {
     const surnameTrim = (surname || "").trim();
     if (!firstNameTrim || !surnameTrim) {
       this.setState({ err: "Please enter both first name and surname." });
+      return;
+    }
+    if (!isValidBridgeJourney(this.state.bridgeJourney)) {
+      this.setState({ err: "Please tap Yes or No for New to bridge." });
       return;
     }
     const uid = this.props.uid;
@@ -44,7 +69,14 @@ class CompleteProfile extends Component {
       .firestore()
       .collection("membersData")
       .doc(uid)
-      .set({ firstName: firstNameTrim, surname: surnameTrim }, { merge: true })
+      .set(
+        {
+          firstName: firstNameTrim,
+          surname: surnameTrim,
+          ...bridgeJourneyFirestoreFields(this.state.bridgeJourney),
+        },
+        { merge: true }
+      )
       .then(() => {
         const displayName = [firstNameTrim, surnameTrim].join(" ").trim();
         if (displayName && user && user.updateProfile) {
@@ -62,7 +94,7 @@ class CompleteProfile extends Component {
   };
 
   render() {
-    const { firstName, surname, err, saving } = this.state;
+    const { firstName, surname, bridgeJourney, err, saving } = this.state;
 
     return (
       <div className="CompleteProfile-container">
@@ -109,6 +141,45 @@ class CompleteProfile extends Component {
                 />
               </div>
             </div>
+
+            <div
+              className="CompleteProfile-bridgeChoice"
+              role="group"
+              aria-labelledby="complete-bridge-question"
+            >
+              <p id="complete-bridge-question" className="CompleteProfile-bridgeChoice-question">
+                New to bridge?
+              </p>
+              <div className="CompleteProfile-bridgeChoice-buttons">
+                <button
+                  type="button"
+                  className={
+                    "CompleteProfile-bridgeChoice-btn" +
+                    (bridgeJourney === BRIDGE_JOURNEY_NEW ? " CompleteProfile-bridgeChoice-btn--selected" : "")
+                  }
+                  onClick={() => this.setState({ bridgeJourney: BRIDGE_JOURNEY_NEW, err: "" })}
+                  aria-pressed={bridgeJourney === BRIDGE_JOURNEY_NEW}
+                  disabled={saving}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className={
+                    "CompleteProfile-bridgeChoice-btn" +
+                    (bridgeJourney === BRIDGE_JOURNEY_IMPROVING
+                      ? " CompleteProfile-bridgeChoice-btn--selected"
+                      : "")
+                  }
+                  onClick={() => this.setState({ bridgeJourney: BRIDGE_JOURNEY_IMPROVING, err: "" })}
+                  aria-pressed={bridgeJourney === BRIDGE_JOURNEY_IMPROVING}
+                  disabled={saving}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+
             <button type="submit" className="CompleteProfile-submit-button" disabled={saving}>
               {saving ? "Saving…" : "Continue"}
             </button>

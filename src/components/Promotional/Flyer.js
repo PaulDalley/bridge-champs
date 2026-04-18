@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Flyer.css';
+import {
+  MEMBERSHIP_USD_PER_AUD_GUIDE,
+  membershipUsdApproxWhole,
+} from '../../utils/membershipBillingDisplay';
 
 const Flyer = () => {
   return (
@@ -93,7 +97,7 @@ const Flyer = () => {
             <div className="Flyer-pricing-cards">
               <div className="Flyer-pricing-card">
                 <h3 className="Flyer-pricing-name">Basic Membership</h3>
-                <div className="Flyer-pricing-price">$25<span>/month</span></div>
+                <div className="Flyer-pricing-price">A$25<span>/month</span></div>
                 <ul className="Flyer-pricing-benefits">
                   <li>All articles on Declarer Play, Defence, and Bidding</li>
                   <li>Interactive quizzes and practice hands</li>
@@ -104,7 +108,7 @@ const Flyer = () => {
               <div className="Flyer-pricing-card Flyer-pricing-card-featured">
                 <div className="Flyer-pricing-badge">MOST POPULAR</div>
                 <h3 className="Flyer-pricing-name">Premium</h3>
-                <div className="Flyer-pricing-price">$50<span>/month</span></div>
+                <div className="Flyer-pricing-price">A$50<span>/month</span></div>
                 <ul className="Flyer-pricing-benefits">
                   <li><strong>Everything in Basic, plus:</strong></li>
                   <li>Exclusive instructional videos</li>
@@ -113,6 +117,12 @@ const Flyer = () => {
                 </ul>
               </div>
             </div>
+            <p className="Flyer-pricing-currencyNote">
+              Amounts are in Australian dollars (AUD). Rough US equivalents (~
+              {MEMBERSHIP_USD_PER_AUD_GUIDE} USD per AUD, rates vary): about US$
+              {membershipUsdApproxWhole(25)}/month (Basic) and US${membershipUsdApproxWhole(50)}/month
+              (Premium).
+            </p>
           </section>
 
           <section className="Flyer-section Flyer-promo">

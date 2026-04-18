@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../../firebase/config";
+import {
+  BRIDGE_JOURNEY_IMPROVING,
+  BRIDGE_JOURNEY_NEW,
+  isValidBridgeJourney,
+} from "../../constants/bridgeJourney";
+import { bridgeJourneyFirestoreFields } from "../../utils/membersBridgeJourneyFirestore";
 import "./Signup.css";
 
 class Signup extends Component {
@@ -10,16 +16,21 @@ class Signup extends Component {
     email: "",
     password: "",
     passwordConfirm: "",
+    bridgeJourney: "",
     err: "",
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { email, password, passwordConfirm, firstName, lastName } = this.state;
+    const { email, password, passwordConfirm, firstName, lastName, bridgeJourney } = this.state;
     const firstNameTrim = (firstName || "").trim();
     const lastNameTrim = (lastName || "").trim();
     if (!firstNameTrim || !lastNameTrim) {
       this.setState({ err: "Please enter your first and last name." });
+      return;
+    }
+    if (!isValidBridgeJourney(bridgeJourney)) {
+      this.setState({ err: "Please tap Yes or No for New to bridge." });
       return;
     }
     if (password !== passwordConfirm) {
@@ -36,7 +47,14 @@ class Signup extends Component {
           .firestore()
           .collection("membersData")
           .doc(uid)
-          .set({ firstName: firstNameTrim, surname: lastNameTrim }, { merge: true })
+          .set(
+            {
+              firstName: firstNameTrim,
+              surname: lastNameTrim,
+              ...bridgeJourneyFirestoreFields(bridgeJourney),
+            },
+            { merge: true }
+          )
           .then(() => {
             const displayName = `${firstNameTrim} ${lastNameTrim}`.trim();
             if (user && user.updateProfile && displayName) {
@@ -66,27 +84,46 @@ class Signup extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  writeBridgeJourneyForUid = (uid) => {
+    const patch = bridgeJourneyFirestoreFields(this.state.bridgeJourney);
+    return firebase.firestore().collection("membersData").doc(uid).set(patch, { merge: true });
+  };
+
   facebookLogin = () => {
+    if (!isValidBridgeJourney(this.state.bridgeJourney)) {
+      this.setState({ err: "Please tap Yes or No for New to bridge." });
+      return;
+    }
+    this.setState({ err: "" });
     this.props
       .facebookLogin()
-      .then((res) => {
-        if (this.props.signup) {
-          this.props.paypalSubscribe(res.user.uid);
-        } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
-      })
+      .then((res) =>
+        this.writeBridgeJourneyForUid(res.user.uid).then(() => {
+          if (this.props.signup) {
+            this.props.paypalSubscribe(res.user.uid);
+          } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
+        })
+      )
       .catch((err) => {
         this.setState({ err: err.message });
       });
   };
 
   googleLogin = () => {
+    if (!isValidBridgeJourney(this.state.bridgeJourney)) {
+      this.setState({ err: "Please tap Yes or No for New to bridge." });
+      return;
+    }
+    this.setState({ err: "" });
     this.props
       .googleLogin()
-      .then((res) => {
-        if (this.props.signup) {
-          this.props.paypalSubscribe(res.user.uid);
-        } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
-      })
+      .then((res) =>
+        this.writeBridgeJourneyForUid(res.user.uid).then(() => {
+          if (this.props.signup) {
+            this.props.paypalSubscribe(res.user.uid);
+          } else this.props.history.push(this.props.redirectPathAfterAuth || "/membership");
+        })
+      )
       .catch((err) => {
         this.setState({ err: err.message });
       });
@@ -142,6 +179,42 @@ class Signup extends Component {
                   required
                   placeholder="Last name"
                 />
+              </div>
+            </div>
+
+            <div
+              className="Signup-bridgeChoice"
+              role="group"
+              aria-labelledby="signup-bridge-question"
+            >
+              <p id="signup-bridge-question" className="Signup-bridgeChoice-question">
+                New to bridge?
+              </p>
+              <div className="Signup-bridgeChoice-buttons">
+                <button
+                  type="button"
+                  className={
+                    "Signup-bridgeChoice-btn" +
+                    (this.state.bridgeJourney === BRIDGE_JOURNEY_NEW ? " Signup-bridgeChoice-btn--selected" : "")
+                  }
+                  onClick={() => this.setState({ bridgeJourney: BRIDGE_JOURNEY_NEW, err: "" })}
+                  aria-pressed={this.state.bridgeJourney === BRIDGE_JOURNEY_NEW}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className={
+                    "Signup-bridgeChoice-btn" +
+                    (this.state.bridgeJourney === BRIDGE_JOURNEY_IMPROVING
+                      ? " Signup-bridgeChoice-btn--selected"
+                      : "")
+                  }
+                  onClick={() => this.setState({ bridgeJourney: BRIDGE_JOURNEY_IMPROVING, err: "" })}
+                  aria-pressed={this.state.bridgeJourney === BRIDGE_JOURNEY_IMPROVING}
+                >
+                  No
+                </button>
               </div>
             </div>
 

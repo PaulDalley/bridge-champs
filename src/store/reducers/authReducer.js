@@ -37,6 +37,7 @@ export default (state = { authReady: false }, action) => {
           displayName,
           firstName: action.user.firstName,
           surname: action.user.surname,
+          bridgeJourney: action.user.bridgeJourney || "",
           photoURL: action.user.photoURL,
           quizScores: action.user.quizScores || {},
           totalQuizScore: quizScore,
@@ -51,6 +52,7 @@ export default (state = { authReady: false }, action) => {
           displayName,
           firstName: action.user.firstName,
           surname: action.user.surname,
+          bridgeJourney: action.user.bridgeJourney || state.bridgeJourney || "",
           quizScores: action.user.quizScores || {},
           totalQuizScore: quizScore,
           stripeCustomerId: action.user.stripeCustomerId || undefined,
@@ -81,6 +83,7 @@ export default (state = { authReady: false }, action) => {
         displayName: "",
         firstName: "",
         surname: "",
+        bridgeJourney: "",
         photoURL: "",
         subscriptionActive: false,
         subscriptionExpires: undefined,
@@ -100,6 +103,7 @@ export default (state = { authReady: false }, action) => {
         firstName: action.firstName,
         surname: action.surname,
         displayName: displayName || state.displayName,
+        bridgeJourney: state.bridgeJourney || "",
       };
     }
 

@@ -11,6 +11,7 @@ import toastr from "toastr";
 import $ from "jquery";
 import { firebase } from "../../firebase/config";
 import { sendSubscriptionEvent } from "../../utils/analytics";
+import { membershipUsdApproxWhole } from "../../utils/membershipBillingDisplay";
 import "./Settings.css";
 
 class Settings extends Component {
@@ -539,9 +540,14 @@ class Settings extends Component {
                             cursor: this.state.upgradeLoading ? "wait" : "pointer",
                           }}
                         >
-                          {this.state.upgradeLoading ? "Processing…" : "Upgrade to Premium ($50/mo)"}
+                          {this.state.upgradeLoading
+                            ? "Processing…"
+                            : `Upgrade to Premium (A$50/mo, ~US$${membershipUsdApproxWhole(50)}/mo)`}
                         </button>
-                        <p className="Settings-upgrade-note" style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "#666" }}>
+                        <p
+                          className="Settings-upgrade-note"
+                          style={{ marginTop: "0.5rem", fontSize: "var(--text-sm)", color: "#666" }}
+                        >
                           Get access to exclusive videos and more.
                         </p>
                       </div>

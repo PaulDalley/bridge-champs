@@ -316,6 +316,17 @@
   color: #64748B;
 }
 
+.Flyer-pricing-currencyNote {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: #444;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+
 .Flyer-pricing-benefits {
   list-style: none;
   padding: 0;

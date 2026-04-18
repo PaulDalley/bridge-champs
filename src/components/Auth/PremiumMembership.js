@@ -16,9 +16,10 @@ import { changeSubscriptionActiveStatus } from "../../store/actions/authActions"
 import { firebase } from "../../firebase/config";
 import StripeCheckout from "../UI/StripeCheckout";
 import { sendSubscriptionEvent } from "../../utils/analytics";
+import { membershipUsdApproxWhole } from "../../utils/membershipBillingDisplay";
 
 
-// Pricing tiers
+// Pricing tiers (amounts are AUD charged in Stripe)
 const PRICING_TIERS = {
   basic: {
     price: "25",
@@ -54,7 +55,7 @@ class PremiumMembership extends Component {
     promoError: "",
     promoSuccess: "",
     stripeProcessing: false,
-    effectiveStripePriceId: null, // Override from promo (e.g. ausyouth = $20/mo)
+    effectiveStripePriceId: null, // Override from promo (e.g. ausyouth = A$20/mo)
     effectiveMonthlyPrice: null,
     promoDaysFree: 0, // From last successful validation (for copy: free days vs price promo)
   };
@@ -195,7 +196,9 @@ class PremiumMembership extends Component {
           const tierName = tier === "premium" ? "Premium" : "Basic";
           let detail = "";
           if (monthlyPrice != null) {
-            detail = ` — billed at $${monthlyPrice}/month after your ${DEFAULT_TRIAL_DAYS}-day free trial`;
+            const usdH = membershipUsdApproxWhole(monthlyPrice);
+            const usdPart = usdH != null ? `, about US$${usdH}/month at typical FX` : "";
+            detail = ` — billed at A$${monthlyPrice}/month after your ${DEFAULT_TRIAL_DAYS}-day free trial${usdPart} (your bank sets the rate)`;
           } else if (days > 0) {
             detail = ` (${days} free day${days !== 1 ? "s" : ""} before billing)`;
           }
@@ -213,7 +216,9 @@ class PremiumMembership extends Component {
           } else if (days > 0) {
             msg = `✓ Code valid! ${days} free day${days !== 1 ? "s" : ""} before billing.${nextStep}`;
           } else if (monthlyPrice != null) {
-            msg = `✓ Code valid! Your Premium rate will be $${monthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial.${nextStep}`;
+            const usdH = membershipUsdApproxWhole(monthlyPrice);
+            const usdPart = usdH != null ? ` (about US$${usdH}/month at typical FX; your bank sets the rate)` : "";
+            msg = `✓ Code valid! Your Premium rate will be A$${monthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial${usdPart}.${nextStep}`;
           } else {
             msg = `✓ Code valid!${nextStep}`;
           }
@@ -358,6 +363,15 @@ class PremiumMembership extends Component {
 
     const showTierSelection = uid && selectedTier && !authComplete;
     const showBothTiers = !authReady || (!uid && !showLogin) || (uid && !selectedTier && !authComplete);
+
+    const paymentAudForFx =
+      showTierSelection && selectedTier
+        ? selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
+          ? this.state.effectiveMonthlyPrice
+          : PRICING_TIERS[selectedTier].price
+        : null;
+    const paymentUsdForFx =
+      paymentAudForFx != null ? membershipUsdApproxWhole(paymentAudForFx) : null;
 
     const subscribePath = this.props.location.pathname || "/subscribe";
     return (
@@ -506,7 +520,7 @@ class PremiumMembership extends Component {
               {this.state.promoSuccess && (
                 <div className="PremiumMembership-promoNextStep">
                   {this.state.effectiveMonthlyPrice != null
-                    ? `Next step: choose Premium below, then complete checkout — your rate will be $${this.state.effectiveMonthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial.`
+                    ? `Next step: choose Premium below, then complete checkout — your rate will be A$${this.state.effectiveMonthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial (about US$${membershipUsdApproxWhole(this.state.effectiveMonthlyPrice)}/month at typical FX; your bank sets the rate).`
                     : this.state.promoDaysFree > 0
                       ? "Next step: choose a plan below, then complete checkout — your code adds the free time shown above before regular billing."
                       : "Next step: choose a plan below, then complete checkout — your code will be applied at checkout."}
@@ -524,10 +538,13 @@ class PremiumMembership extends Component {
               <Card className="PremiumMembership-pricing-card">
                 <h4 className="PremiumMembership-tier-name">Basic Membership</h4>
                 <div className="PremiumMembership-price">
-                  ${PRICING_TIERS.basic.price}
+                  A${PRICING_TIERS.basic.price}
                   <span className="PremiumMembership-price-period">/month</span>
                 </div>
-                
+                <div className="PremiumMembership-priceFx">
+                  ≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month
+                </div>
+
                 <div className="PremiumMembership-tier-benefits">
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
@@ -563,16 +580,25 @@ class PremiumMembership extends Component {
                           fontSize: "0.85em",
                         }}
                       >
-                        ${PRICING_TIERS.premium.price}
+                        A${PRICING_TIERS.premium.price}
                       </span>
-                      ${this.state.effectiveMonthlyPrice}
+                      A${this.state.effectiveMonthlyPrice}
                     </>
                   ) : (
-                    <>${PRICING_TIERS.premium.price}</>
+                    <>A${PRICING_TIERS.premium.price}</>
                   )}
                   <span className="PremiumMembership-price-period">/month</span>
                 </div>
-                
+                <div className="PremiumMembership-priceFx">
+                  ≈ US$
+                  {membershipUsdApproxWhole(
+                    this.state.effectiveMonthlyPrice != null
+                      ? this.state.effectiveMonthlyPrice
+                      : PRICING_TIERS.premium.price
+                  )}
+                  /month
+                </div>
+
                 <div className="PremiumMembership-tier-benefits">
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
@@ -611,11 +637,17 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-payment-header">
                   <h4>{PRICING_TIERS[selectedTier].name}</h4>
                   <div className="PremiumMembership-payment-price">
-                    $
+                    A$
                     {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
                       ? this.state.effectiveMonthlyPrice
                       : PRICING_TIERS[selectedTier].price}{" "}
                     <span>per month after {DEFAULT_TRIAL_DAYS} days free</span>
+                    {paymentUsdForFx != null ? (
+                      <span className="PremiumMembership-payment-priceFx">
+                        {" "}
+                        (about US${paymentUsdForFx}/month at typical FX; your bank sets the rate)
+                      </span>
+                    ) : null}
                   </div>
                 </div>
                 
@@ -629,17 +661,29 @@ class PremiumMembership extends Component {
                 </div>
 
                 {this.state.promoCode && this.state.promoSuccess && (
-                  <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem" }}>
+                  <div
+                    style={{
+                      marginBottom: "1rem",
+                      padding: "0.75rem 1rem",
+                      background: "#e8f5e9",
+                      borderRadius: "6px",
+                      fontSize: "var(--text-sm)",
+                    }}
+                  >
                     <strong>Promo applied:</strong>{" "}
                     {this.state.effectiveMonthlyPrice != null && selectedTier !== "premium" ? (
                       <>
-                        {this.state.promoCode.toUpperCase()} is for <strong>Premium</strong> at ${this.state.effectiveMonthlyPrice}
-                        /month after your free trial — tap <strong>← Change Tier</strong> and choose Premium to use it.
+                        {this.state.promoCode.toUpperCase()} is for <strong>Premium</strong> at A$
+                        {this.state.effectiveMonthlyPrice}/month after your free trial (about US$
+                        {membershipUsdApproxWhole(this.state.effectiveMonthlyPrice)} at typical FX) — tap{" "}
+                        <strong>← Change Tier</strong> and choose Premium to use it.
                       </>
                     ) : selectedTier === "premium" && this.state.effectiveMonthlyPrice != null ? (
                       <>
-                        {this.state.promoCode.toUpperCase()} — you&apos;ll be charged ${this.state.effectiveMonthlyPrice}
-                        /month after your {DEFAULT_TRIAL_DAYS}-day free trial (not the standard ${PRICING_TIERS.premium.price}/month).
+                        {this.state.promoCode.toUpperCase()} — you&apos;ll be charged A$
+                        {this.state.effectiveMonthlyPrice}/month after your {DEFAULT_TRIAL_DAYS}-day free trial (not the
+                        standard A${PRICING_TIERS.premium.price}/month; about US$
+                        {membershipUsdApproxWhole(this.state.effectiveMonthlyPrice)} at typical FX).
                       </>
                     ) : this.state.promoDaysFree > 0 ? (
                       <>
@@ -649,8 +693,9 @@ class PremiumMembership extends Component {
                     ) : this.isExtendedTrialStandardPricePromo(this.state.promoCode) ? (
                       <>
                         {this.state.promoCode.toUpperCase()} — extends your free period before paid billing starts.
-                        Your ongoing rate stays the normal price for this tier (${PRICING_TIERS[selectedTier].price}/month); this
-                        code does not lower the monthly amount.
+                        Your ongoing rate stays the normal price for this tier (A${PRICING_TIERS[selectedTier].price}/month,
+                        about US${membershipUsdApproxWhole(PRICING_TIERS[selectedTier].price)} at typical FX); this code does
+                        not lower the monthly amount.
                       </>
                     ) : (
                       <>{this.state.promoCode.toUpperCase()} will be applied when you complete checkout.</>
@@ -658,7 +703,15 @@ class PremiumMembership extends Component {
                   </div>
                 )}
                 {!this.state.promoCode && (
-                  <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", background: "#e8f5e9", borderRadius: "6px", fontSize: "0.95rem" }}>
+                  <div
+                    style={{
+                      marginBottom: "1rem",
+                      padding: "0.75rem 1rem",
+                      background: "#e8f5e9",
+                      borderRadius: "6px",
+                      fontSize: "var(--text-sm)",
+                    }}
+                  >
                     <strong>Free trial included:</strong> Your first {DEFAULT_TRIAL_DAYS} days are free.
                   </div>
                 )}
@@ -675,11 +728,15 @@ class PremiumMembership extends Component {
                         <span>Official Stripe Checkout</span>
                       </div>
                       <p className="PremiumMembership-trialLead">
-                        <strong>{DEFAULT_TRIAL_DAYS} days free today</strong>, then $
+                        <strong>{DEFAULT_TRIAL_DAYS} days free today</strong>, then A$
                         {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
                           ? this.state.effectiveMonthlyPrice
                           : PRICING_TIERS[selectedTier].price}
-                        /month unless canceled.
+                        /month unless canceled
+                        {paymentUsdForFx != null
+                          ? ` (about US$${paymentUsdForFx}/month at typical FX; your bank sets the rate)`
+                          : ""}
+                        .
                       </p>
                       <p className="PremiumMembership-trialSub">
                         Secure card payment powered by Stripe.
