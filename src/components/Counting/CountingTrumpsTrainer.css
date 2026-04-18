@@ -1836,6 +1836,17 @@ button.ct-categoryTab {
   margin-top: 2px;
 }
 
+/* Narrow rail: intro videos dock below question copy (theme + auction stay above). */
+.ct-railMuted--introVideosDock {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.38);
+}
+
+.ct-railContextWrap--videoDock {
+  margin-top: 0;
+}
+
 .ct-railContextPeekBtn {
   display: flex;
   align-items: center;
@@ -1854,6 +1865,7 @@ button.ct-categoryTab {
   font-size: 13px;
   font-weight: 700;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .ct-railContextPeekBtn:hover,

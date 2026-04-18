@@ -4035,8 +4035,9 @@ function CountingTrumpsTrainer({
     puzzlesForDifficultyAll[puzzleIdxInDifficulty]?.id === previewPuzzleIdForSelectedDifficulty;
   const isTrialStarterProblem = (problemId) => !!problemId && !!trialStarterProblemId && problemId === trialStarterProblemId;
   const currentPuzzleIsFree = !isMember && isFreeProblem(currentProblemId);
-  /** Practice videos are premium-only. */
-  const currentPuzzleVideoUnlocked = effectiveTier === "premium";
+  /** Theme / per-problem intro videos: premium, admin, or any puzzle the table treats as free (e.g. first N beginner hands). */
+  const currentPuzzleVideoUnlocked =
+    effectiveTier === "premium" || isAdmin || isFreeProblem(currentProblemId);
   const showPaywallOverlay = !isMember && !currentPuzzleIsFree && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
@@ -7307,10 +7308,21 @@ function CountingTrumpsTrainer({
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const mq = window.matchMedia(RAIL_CONTEXT_COLLAPSE_MEDIA);
-    const fn = () => setIsNarrowRailContext(mq.matches);
-    fn();
-    mq.addEventListener("change", fn);
-    return () => mq.removeEventListener("change", fn);
+    let debounceT = null;
+    const applyMatches = () => setIsNarrowRailContext(mq.matches);
+    applyMatches();
+    const onMqChange = () => {
+      if (debounceT != null) window.clearTimeout(debounceT);
+      debounceT = window.setTimeout(() => {
+        debounceT = null;
+        setIsNarrowRailContext(mq.matches);
+      }, 100);
+    };
+    mq.addEventListener("change", onMqChange);
+    return () => {
+      mq.removeEventListener("change", onMqChange);
+      if (debounceT != null) window.clearTimeout(debounceT);
+    };
   }, []);
 
   const hasVideoOrIntroInRailSlot =
@@ -7321,8 +7333,17 @@ function CountingTrumpsTrainer({
     (!!effectiveThemeLabel || (!!auctionGrid && !hideAuctionNow) || hasVideoOrIntroInRailSlot);
 
   const railContextAutoCollapseTimerRef = useRef(null);
+  /** After user opens theme/auction/videos, do not re-arm auto-collapse when layout or mq churn re-runs the effect. */
+  const railContextManuallyOpenedRef = useRef(false);
+  const railCollapseLastPuzzleIdRef = useRef(undefined);
   const [railContextExpanded, setRailContextExpanded] = useState(true);
   useEffect(() => {
+    const pid = puzzle?.id;
+    if (pid !== railCollapseLastPuzzleIdRef.current) {
+      railCollapseLastPuzzleIdRef.current = pid;
+      railContextManuallyOpenedRef.current = false;
+    }
+
     if (!hasCollapsibleRailContext) {
       if (railContextAutoCollapseTimerRef.current != null) {
         window.clearTimeout(railContextAutoCollapseTimerRef.current);
@@ -7332,6 +7353,20 @@ function CountingTrumpsTrainer({
       return undefined;
     }
     setRailContextExpanded(true);
+
+    if (railContextManuallyOpenedRef.current) {
+      if (railContextAutoCollapseTimerRef.current != null) {
+        window.clearTimeout(railContextAutoCollapseTimerRef.current);
+        railContextAutoCollapseTimerRef.current = null;
+      }
+      return () => {
+        if (railContextAutoCollapseTimerRef.current != null) {
+          window.clearTimeout(railContextAutoCollapseTimerRef.current);
+          railContextAutoCollapseTimerRef.current = null;
+        }
+      };
+    }
+
     if (railContextAutoCollapseTimerRef.current != null) {
       window.clearTimeout(railContextAutoCollapseTimerRef.current);
     }
@@ -7348,6 +7383,7 @@ function CountingTrumpsTrainer({
   }, [puzzle?.id, hasCollapsibleRailContext]);
 
   const expandRailThemeAndAuction = () => {
+    railContextManuallyOpenedRef.current = true;
     if (railContextAutoCollapseTimerRef.current != null) {
       window.clearTimeout(railContextAutoCollapseTimerRef.current);
       railContextAutoCollapseTimerRef.current = null;
@@ -7355,7 +7391,7 @@ function CountingTrumpsTrainer({
     setRailContextExpanded(true);
   };
 
-  const renderRailThemeAuctionAndVideos = useCallback(
+  const renderRailThemeAndAuction = useCallback(
     () => (
       <>
         {!!effectiveThemeLabel && (
@@ -7421,48 +7457,51 @@ function CountingTrumpsTrainer({
             </div>
           </div>
         )}
-        <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
-          {showThemeIntroInRail && (
-            <PracticeVideoBlock
-              videoUrl={effectiveThemeIntroUrl}
-              isPremium={currentPuzzleVideoUnlocked}
-              label="Theme intro"
-              className="ct-practiceVideo--beforeStart"
-              isAdmin={isAdmin}
-              softMembershipCta={beginnerModeOverride}
-            />
-          )}
-          {usingThemeIntro && (
-            <div className="ct-themeIntroControls">
-              {themeIntroExpanded ? (
-                <button type="button" className="ct-themeIntroBtn" onClick={markThemeIntroSeen}>
-                  Dismiss intro
-                </button>
-              ) : (
-                <button type="button" className="ct-themeIntroBtn ct-themeIntroBtn--secondary" onClick={showThemeIntroAgain}>
-                  Watch theme intro again
-                </button>
-              )}
-            </div>
-          )}
-          {showPerProblemIntroInRail && (
-            <PracticeVideoBlock
-              videoUrl={perProblemIntroVideoUrl}
-              isPremium={currentPuzzleVideoUnlocked}
-              label="30s problem intro"
-              className="ct-practiceVideo--beforeStart"
-              isAdmin={isAdmin}
-              softMembershipCta={beginnerModeOverride}
-            />
-          )}
-        </div>
       </>
     ),
+    [effectiveThemeLabel, auctionGrid, hideAuctionNow, puzzle]
+  );
+
+  const renderRailPracticeVideos = useCallback(
+    () => (
+      <div className="ct-practiceVideoSlot" key={puzzle?.id ? `video-intro-${puzzle.id}` : "video-intro"}>
+        {showThemeIntroInRail && (
+          <PracticeVideoBlock
+            videoUrl={effectiveThemeIntroUrl}
+            isPremium={currentPuzzleVideoUnlocked}
+            label="Theme intro"
+            className="ct-practiceVideo--beforeStart"
+            isAdmin={isAdmin}
+            softMembershipCta={beginnerModeOverride}
+          />
+        )}
+        {usingThemeIntro && (
+          <div className="ct-themeIntroControls">
+            {themeIntroExpanded ? (
+              <button type="button" className="ct-themeIntroBtn" onClick={markThemeIntroSeen}>
+                Dismiss intro
+              </button>
+            ) : (
+              <button type="button" className="ct-themeIntroBtn ct-themeIntroBtn--secondary" onClick={showThemeIntroAgain}>
+                Watch theme intro again
+              </button>
+            )}
+          </div>
+        )}
+        {showPerProblemIntroInRail && (
+          <PracticeVideoBlock
+            videoUrl={perProblemIntroVideoUrl}
+            isPremium={currentPuzzleVideoUnlocked}
+            label="30s problem intro"
+            className="ct-practiceVideo--beforeStart"
+            isAdmin={isAdmin}
+            softMembershipCta={beginnerModeOverride}
+          />
+        )}
+      </div>
+    ),
     [
-      effectiveThemeLabel,
-      auctionGrid,
-      hideAuctionNow,
-      puzzle,
+      puzzle?.id,
       showThemeIntroInRail,
       effectiveThemeIntroUrl,
       currentPuzzleVideoUnlocked,
@@ -7475,6 +7514,16 @@ function CountingTrumpsTrainer({
       showPerProblemIntroInRail,
       perProblemIntroVideoUrl,
     ]
+  );
+
+  const renderRailThemeAuctionAndVideos = useCallback(
+    () => (
+      <>
+        {renderRailThemeAndAuction()}
+        {renderRailPracticeVideos()}
+      </>
+    ),
+    [renderRailThemeAndAuction, renderRailPracticeVideos]
   );
 
   const promptNode = (
@@ -7503,7 +7552,9 @@ function CountingTrumpsTrainer({
           ) : null}
           {hasCollapsibleRailContext ? (
             railContextExpanded ? (
-              <div className="ct-railContextWrap">{renderRailThemeAuctionAndVideos()}</div>
+              <div className="ct-railContextWrap">
+                {isNarrowRailContext ? renderRailThemeAndAuction() : renderRailThemeAuctionAndVideos()}
+              </div>
             ) : (
               <button
                 type="button"
@@ -7514,8 +7565,20 @@ function CountingTrumpsTrainer({
                 Show theme, bidding & videos
               </button>
             )
+          ) : isNarrowRailContext ? (
+            renderRailThemeAndAuction()
           ) : (
             renderRailThemeAuctionAndVideos()
+          )}
+        </div>
+      )}
+
+      {showHeaderRail && isNarrowRailContext && (!hasCollapsibleRailContext || railContextExpanded) && (
+        <div className="ct-railMuted ct-railMuted--introVideosDock">
+          {hasCollapsibleRailContext ? (
+            <div className="ct-railContextWrap ct-railContextWrap--videoDock">{renderRailPracticeVideos()}</div>
+          ) : (
+            renderRailPracticeVideos()
           )}
         </div>
       )}
@@ -8546,7 +8609,7 @@ function CountingTrumpsTrainer({
                   <div className="ct-paywallBeginnerCard">
                     <p className="ct-paywallBeginnerTitle">This hand is for members</p>
                     <p className="ct-paywallBeginnerSub">
-                      The first five hands are free—choose 1–5 above. Or{" "}
+                      The first six hands are free—choose 1–6 above. Or{" "}
                       <Link to="/membership" className="ct-paywallBeginnerLink">
                         view membership
                       </Link>
