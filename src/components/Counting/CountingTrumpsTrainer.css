@@ -1691,6 +1691,35 @@ button.ct-categoryTab {
   color: rgba(248, 250, 252, 0.98);
 }
 
+/* Under the compass / trick grid: watch note then intro videos (full-hands after Start). */
+.ct-tableWithSidebar-underPlay {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 0 0;
+  flex-shrink: 0;
+}
+
+.ct-tableWithSidebar-underPlay .ct-watchNote {
+  color: rgba(248, 250, 252, 0.96);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.45;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  margin: 0 0 8px;
+}
+
+/* Intro videos render after prompt copy so INFO text (e.g. bidding intro) stays above the player. */
+.ct-railMuted--practiceVideosAfterPrompts {
+  margin-top: 12px;
+}
+
+.ct-railMuted--practiceVideosAfterPrompts .ct-practiceVideoSlot:not(:empty) {
+  position: static;
+  top: auto;
+  z-index: auto;
+}
+
 .ct-tableWithSidebar .ct-tableWithSidebar-main {
   margin-right: 32px;
 }

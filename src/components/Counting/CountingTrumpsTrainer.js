@@ -7546,6 +7546,9 @@ function CountingTrumpsTrainer({
   const showWatchAfterRailFallback =
     showRailWatchPlayNote && !showWatchBeforeNarrowVideoDock && !showWatchInsideWideRail;
 
+  /** Full-hands / bottom-row: after Start, stack watch copy then intro videos under the felt (not in sidebar). */
+  const movePlayGuidanceUnderTable = useBottomRowLayout && hasStarted;
+
   const renderRailWatchPlayNote = () => (
     <>
       <div className="ct-watchNote">
@@ -7613,7 +7616,6 @@ function CountingTrumpsTrainer({
                   <>
                     {renderRailThemeAndAuction()}
                     {showWatchInsideWideRail ? renderRailWatchPlayNote() : null}
-                    {renderRailPracticeVideos()}
                   </>
                 )}
               </div>
@@ -7629,29 +7631,20 @@ function CountingTrumpsTrainer({
             )
           ) : isNarrowRailContext ? (
             renderRailThemeAndAuction()
+          ) : movePlayGuidanceUnderTable ? (
+            renderRailThemeAndAuction()
           ) : (
             <>
               {renderRailThemeAndAuction()}
               {showWatchInsideWideRail ? renderRailWatchPlayNote() : null}
-              {renderRailPracticeVideos()}
             </>
           )}
         </div>
       )}
 
-      {showWatchBeforeNarrowVideoDock ? renderRailWatchPlayNote() : null}
+      {!movePlayGuidanceUnderTable && showWatchBeforeNarrowVideoDock ? renderRailWatchPlayNote() : null}
 
-      {showNarrowIntroVideoDock && (
-        <div className="ct-railMuted ct-railMuted--introVideosDock">
-          {hasCollapsibleRailContext ? (
-            <div className="ct-railContextWrap ct-railContextWrap--videoDock">{renderRailPracticeVideos()}</div>
-          ) : (
-            renderRailPracticeVideos()
-          )}
-        </div>
-      )}
-
-      {showWatchAfterRailFallback ? renderRailWatchPlayNote() : null}
+      {!movePlayGuidanceUnderTable && showWatchAfterRailFallback ? renderRailWatchPlayNote() : null}
 
       {promptStep && promptStep !== "DONE" && (
         <div className={`ct-promptRail ${
@@ -8479,6 +8472,16 @@ function CountingTrumpsTrainer({
         </div>
       )}
 
+      {showHeaderRail && hasVideoOrIntroInRailSlot && (
+        <div className="ct-railMuted ct-railMuted--introVideosDock ct-railMuted--practiceVideosAfterPrompts">
+          {hasCollapsibleRailContext ? (
+            <div className="ct-railContextWrap ct-railContextWrap--videoDock">{renderRailPracticeVideos()}</div>
+          ) : (
+            renderRailPracticeVideos()
+          )}
+        </div>
+      )}
+
       {promptStep === "DONE" && (
         <div className="ct-promptDone" ref={promptDoneRef}>
           <div className="ct-promptTitle">
@@ -8969,6 +8972,11 @@ function CountingTrumpsTrainer({
             )}
           </div>
           </div>
+          {movePlayGuidanceUnderTable && (
+            <div className="ct-tableWithSidebar-underPlay" aria-label="Play instructions">
+              {showRailWatchPlayNote ? renderRailWatchPlayNote() : null}
+            </div>
+          )}
             </div>
           {useBottomRowLayout && (
             <aside className="ct-explanationSidebar" aria-label="Bidding and explanation">
