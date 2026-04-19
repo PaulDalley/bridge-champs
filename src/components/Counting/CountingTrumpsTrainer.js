@@ -7528,12 +7528,18 @@ function CountingTrumpsTrainer({
             // Homepage pack already lists this tint for this category (e.g. Defence + enemyFive).
             continue;
           }
-          const dedupeKey = `tint::${catKey}::${tint}`;
+          // Same `promptThemeTint` can mean different authored themes (e.g. bidding `1nt` for Lebensohl vs other 1NT topics).
+          const labelKey = themeLabel.trim();
+          const dedupeKey = `tint::${catKey}::${tint}::${labelKey}`;
           if (seenTintInCategory.has(dedupeKey)) continue;
           seenTintInCategory.add(dedupeKey);
           const labelBase =
-            themeLabel || THEME_INTRO_BY_TINT[tint]?.title || `Theme (${tint})`;
-          pushJump(`here:${catKey}:${tint}`, labelBase, `opt::${dedupeKey}`);
+            labelKey || THEME_INTRO_BY_TINT[tint]?.title || `Theme (${tint})`;
+          const valuePath =
+            labelKey.length > 0
+              ? `here:${catKey}:${tint}:${encodeURIComponent(labelKey)}`
+              : `here:${catKey}:${tint}`;
+          pushJump(valuePath, labelBase, `opt::${dedupeKey}`);
         } else if (themeLabel) {
           const dedupeKey = `lbl::${catKey}::${themeLabel}`;
           if (seenLabelInCategory.has(dedupeKey)) continue;
