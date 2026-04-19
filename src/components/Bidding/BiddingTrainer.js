@@ -1181,7 +1181,7 @@ function Bid38Question3Rich() {
         <PracticeAuctionMiniTable auctionText={BID38_RECAP2_AUCTION} dealerCompass="W" />
       </section>
       <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
-        What is <TextWithColoredSuits text="3♦" /> here?
+        What would a bid of <TextWithColoredSuits text="3♣" /> mean here?
       </p>
     </div>
   );
