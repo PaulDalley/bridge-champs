@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { savePracticeCompletion } from "../../store/actions/usersActions";
 import { sendPracticeEvent } from "../../utils/analytics";
 import { TRAINER_CATEGORY_TABS } from "../Trainers/trainerCategoryTabs";
-import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY } from "../../data/themePacks";
+import { TRIAL_STARTER_IDS_BY_CATEGORY, FREE_PROBLEM_IDS_BY_CATEGORY, THEME_PACKS } from "../../data/themePacks";
 import { THEME_INTRO_BY_TINT } from "../../data/themePacks";
 import { filterBeginnerTrainerPuzzles } from "../../data/beginnerModeConfig";
 import PracticeVideoBlock from "./PracticeVideoBlock";
@@ -3196,161 +3196,6 @@ const PUZZLES = [
     ],
   },
   {
-    id: "d5-2",
-    difficulty: 3,
-    title: "BBO board 21 (5♥) — defender shows out on 2nd round of trumps",
-    trumpSuit: "H",
-    contract: "5♥",
-    auction: "P P 1♥ 3♠ 4♥ P 4NT P 5♣ P 5♦ P 5♥ P P P",
-    dealerCompass: "N",
-    viewerCompass: "E", // user is East, defending
-    visibleFullHandSeats: ["RHO", "DUMMY"], // defender sees own hand + dummy
-    promptOptions: {
-      // Include trick-count prompt (defenders count declarer's tricks by suit) after the 3rd club trick.
-      questionNumbers: [1, 2, 3, 5, 4],
-      seatShapeTarget: "DECLARER",
-      manualTrickAdvance: true,
-      trickCountAtRoundIdx: 9, // after Trick 10 (0-based index)
-      trickCountExpected: { S: 2, H: 5, D: 0, C: 3 }, // 10 total (as intended for this training moment)
-    },
-    // Source: https://www.bridgebase.com/tools/vugraph_linfetch.php?id=85072 (board c21)
-    shownHands: {
-      LHO: {
-        S: "AJT943",
-        H: "7",
-        D: "Q2",
-        C: "7543",
-      },
-      DUMMY: {
-        S: "KQ76",
-        H: "9852",
-        D: "54",
-        C: "AJ8",
-      },
-      RHO: {
-        S: "52",
-        H: "JT3",
-        D: "A9873",
-        C: "962",
-      },
-      DECLARER: {
-        S: "8",
-        H: "AKQ64",
-        D: "KJT6",
-        C: "KQT",
-      },
-    },
-    expectedInitialLengths: {
-      // Hearts distribution at trick 4 show-out moment
-      LHO: 1, // West: ♥7
-      DUMMY: 4,
-      RHO: 3, // East: ♥J103
-      DECLARER: 5,
-    },
-    rounds: [
-      {
-        label: "Trick 1",
-        plays: [
-          { seat: "LHO", card: { rank: "A", suit: "S" } }, // W: AS
-          { seat: "DUMMY", card: { rank: "6", suit: "S" } }, // N: 6S
-          { seat: "RHO", card: { rank: "2", suit: "S" } }, // E: 2S
-          { seat: "DECLARER", card: { rank: "8", suit: "S" } }, // S: 8S
-        ],
-      },
-      {
-        label: "Trick 2",
-        plays: [
-          { seat: "LHO", card: { rank: "J", suit: "S" } }, // W: JS
-          { seat: "DUMMY", card: { rank: "Q", suit: "S" } }, // N: QS
-          { seat: "RHO", card: { rank: "5", suit: "S" } }, // E: 5S
-          { seat: "DECLARER", card: { rank: "6", suit: "D" }, showOut: true }, // S: 6D (show-out of spades)
-        ],
-      },
-      {
-        label: "Trick 3",
-        plays: [
-          { seat: "DUMMY", card: { rank: "2", suit: "H" } }, // N: 2H
-          { seat: "RHO", card: { rank: "T", suit: "H" } }, // E: 10H
-          { seat: "DECLARER", card: { rank: "Q", suit: "H" } }, // S: QH
-          { seat: "LHO", card: { rank: "7", suit: "H" } }, // W: 7H
-        ],
-      },
-      {
-        label: "Trick 4 (show-out)",
-        plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "H" } }, // S: KH
-          // Show-out moment: West cannot follow trumps (hearts).
-          { seat: "LHO", card: { rank: "3", suit: "S" }, showOut: true }, // W: 3S
-          { seat: "DUMMY", card: { rank: "5", suit: "H" } }, // N: 5H
-          { seat: "RHO", card: { rank: "3", suit: "H" } }, // E: 3H
-        ],
-      },
-      {
-        label: "Trick 5",
-        plays: [
-          { seat: "DECLARER", card: { rank: "A", suit: "H" } }, // S: AH
-          { seat: "LHO", card: { rank: "4", suit: "S" } }, // W: 4S
-          { seat: "DUMMY", card: { rank: "8", suit: "H" } }, // N: 8H
-          { seat: "RHO", card: { rank: "J", suit: "H" } }, // E: JH
-        ],
-      },
-      {
-        label: "Trick 6",
-        plays: [
-          { seat: "DECLARER", card: { rank: "4", suit: "H" } }, // S: 4H
-          { seat: "LHO", card: { rank: "4", suit: "C" } }, // W: 4C
-          { seat: "DUMMY", card: { rank: "9", suit: "H" } }, // N: 9H
-          { seat: "RHO", card: { rank: "8", suit: "D" } }, // E: 8D
-        ],
-      },
-      {
-        label: "Trick 7",
-        plays: [
-          { seat: "DUMMY", card: { rank: "K", suit: "S" } }, // N: KS
-          { seat: "RHO", card: { rank: "3", suit: "D" } }, // E: 3D
-          { seat: "DECLARER", card: { rank: "T", suit: "D" } }, // S: 10D
-          { seat: "LHO", card: { rank: "9", suit: "S" } }, // W: 9S
-        ],
-      },
-      {
-        label: "Trick 8",
-        plays: [
-          { seat: "DUMMY", card: { rank: "8", suit: "C" } }, // N: 8C
-          { seat: "RHO", card: { rank: "2", suit: "C" } }, // E: 2C
-          { seat: "DECLARER", card: { rank: "Q", suit: "C" } }, // S: QC
-          { seat: "LHO", card: { rank: "3", suit: "C" } }, // W: 3C
-        ],
-      },
-      {
-        label: "Trick 9",
-        plays: [
-          { seat: "DECLARER", card: { rank: "K", suit: "C" } }, // S: KC
-          { seat: "LHO", card: { rank: "5", suit: "C" } }, // W: 5C
-          { seat: "DUMMY", card: { rank: "J", suit: "C" } }, // N: JC
-          { seat: "RHO", card: { rank: "6", suit: "C" } }, // E: 6C
-        ],
-      },
-      {
-        label: "Trick 10",
-        plays: [
-          { seat: "DECLARER", card: { rank: "T", suit: "C" } }, // S: 10C
-          { seat: "LHO", card: { rank: "7", suit: "C" } }, // W: 7C
-          { seat: "DUMMY", card: { rank: "A", suit: "C" } }, // N: AC
-          { seat: "RHO", card: { rank: "9", suit: "C" } }, // E: 9C
-        ],
-      },
-      {
-        label: "Trick 11",
-        plays: [
-          { seat: "DUMMY", card: { rank: "4", suit: "D" } }, // N: 4D
-          { seat: "RHO", card: { rank: "7", suit: "D" } }, // E: 7D
-          { seat: "DECLARER", card: { rank: "J", suit: "D" } }, // S: JD
-          { seat: "LHO", card: { rank: "Q", suit: "D" } }, // W: QD
-        ],
-      },
-    ],
-  },
-  {
     id: "cp3-2",
     difficulty: 3,
     title: "Win the spade Ace? (4♥) — Aus NOT final set 4, board 25",
@@ -3463,6 +3308,41 @@ for (const p of PUZZLES) {
 export const DEFAULT_COUNTING_PUZZLES_FOR_TRAINER = PUZZLES.filter((p) => p.id !== "d2-2");
 
 export const COUNTING_HAS_NEW = PUZZLES.some(isPuzzleNew);
+
+/** Top practice categories used for the cross-trainer “Theme” jump combobox. */
+const THEME_JUMP_CATEGORY_KEYS = ["declarer", "defence", "counting", "bidding"];
+
+function themeJumpTabPath(categoryKey) {
+  const row = TRAINER_CATEGORY_TABS.find((c) => c.key === categoryKey);
+  return row?.path || "/cardPlay/practice";
+}
+
+function themeJumpTabLabel(categoryKey) {
+  const row = TRAINER_CATEGORY_TABS.find((c) => c.key === categoryKey);
+  return row?.label || categoryKey;
+}
+
+/**
+ * Puzzles for every main trainer tab, loaded lazily so CardPlay/Defence/Bidding modules
+ * (which import this file) can finish initializing before we read their exports.
+ */
+function loadTrainerPuzzlesByCategoryForThemeJump() {
+  const counting = PUZZLES.filter((p) => p.id !== "d2-2");
+  let declarer = [];
+  let defence = [];
+  let bidding = [];
+  try {
+    // eslint-disable-next-line global-require
+    declarer = require("../CardPlay/CardPlayTrainer").CARDPLAY_PUZZLES || [];
+    // eslint-disable-next-line global-require
+    defence = require("../Defence/DefenceTrainer").DEFENCE_PUZZLES || [];
+    // eslint-disable-next-line global-require
+    bidding = require("../Bidding/BiddingTrainer").BIDDING_PUZZLES || [];
+  } catch (e) {
+    // Rare circular/timing edge during first bundle evaluation; options fill on next run.
+  }
+  return { counting, declarer, defence, bidding };
+}
 
 function buildInitialRemainingHands(puzzle) {
   const trumpSuit = puzzle.trumpSuit;
@@ -3768,7 +3648,6 @@ const COUNTING_LEGACY_SEAT_MODEL_IDS = new Set([
   "d2-2",
   "p2-2",
   "p2-3",
-  "d5-2",
   "cp3-2",
 ]);
 
@@ -3788,6 +3667,7 @@ function CountingTrumpsTrainer({
   trainerLabel = "Counting",
   categoryKey = "counting",
   location,
+  history,
   completedPractice,
   dispatch,
   beginnerModeOverride = false,
@@ -3806,6 +3686,7 @@ function CountingTrumpsTrainer({
   beginnerPublicPracticeCount = 0,
 }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(1);
+  const [themeJumpSelection, setThemeJumpSelection] = useState("");
   const isAdmin = a === true;
   const mockUnsub = useMemo(() => {
     if (!location?.search) return false;
@@ -7583,6 +7464,108 @@ function CountingTrumpsTrainer({
     </>
   );
 
+  const themeJumpOptions = useMemo(() => {
+    if (beginnerModeOverride || !history?.push) return [];
+    const opts = [];
+    const seen = new Set();
+    /** `categoryKey::themeTint` — skip a per-puzzle tint row only when a homepage pack already covers that tint in that category. */
+    const packedTintByCategory = new Set();
+    const categoryOrder = (k) => {
+      const i = THEME_JUMP_CATEGORY_KEYS.indexOf(k);
+      return i === -1 ? 99 : i;
+    };
+
+    for (const pack of THEME_PACKS) {
+      if (!pack?.id || !pack?.to) continue;
+      const value = `pack:${pack.id}`;
+      if (seen.has(value)) continue;
+      seen.add(value);
+      const packCat = String(pack.categoryKey || "").trim();
+      const packTab = packCat ? themeJumpTabLabel(packCat) : "";
+      const packTitle = String(pack.title || pack.id).trim();
+      opts.push({
+        value,
+        label: packTab ? `${packTab}: ${packTitle}` : packTitle,
+        categoryKey: packCat,
+        apply: () => history.push(pack.to),
+      });
+      if (pack.categoryKey && pack.themeTint) {
+        packedTintByCategory.add(`${pack.categoryKey}::${pack.themeTint}`);
+      }
+    }
+
+    const puzzlesByCategory = loadTrainerPuzzlesByCategoryForThemeJump();
+    const seenTintInCategory = new Set();
+    const seenLabelInCategory = new Set();
+
+    for (const catKey of THEME_JUMP_CATEGORY_KEYS) {
+      const list = puzzlesByCategory[catKey];
+      if (!Array.isArray(list)) continue;
+      const path = themeJumpTabPath(catKey);
+      const tab = themeJumpTabLabel(catKey);
+      for (const p of list) {
+        const po = p?.promptOptions;
+        const themeLabel = String(po?.themeLabel || "").trim();
+        const tint = po?.promptThemeTint;
+        const d = Number(p.difficulty || 1);
+        const pushJump = (value, labelText, dedupeKey) => {
+          if (seen.has(dedupeKey)) return;
+          seen.add(dedupeKey);
+          opts.push({
+            value,
+            label: `${tab}: ${labelText}`,
+            categoryKey: catKey,
+            apply: () =>
+              history.push({
+                pathname: path,
+                search: `?difficulty=${encodeURIComponent(String(d))}&problem=${encodeURIComponent(p.id)}`,
+              }),
+          });
+        };
+
+        if (tint) {
+          if (packedTintByCategory.has(`${catKey}::${tint}`)) {
+            // Homepage pack already lists this tint for this category (e.g. Defence + enemyFive).
+            continue;
+          }
+          const dedupeKey = `tint::${catKey}::${tint}`;
+          if (seenTintInCategory.has(dedupeKey)) continue;
+          seenTintInCategory.add(dedupeKey);
+          const labelBase =
+            themeLabel || THEME_INTRO_BY_TINT[tint]?.title || `Theme (${tint})`;
+          pushJump(`here:${catKey}:${tint}`, labelBase, `opt::${dedupeKey}`);
+        } else if (themeLabel) {
+          const dedupeKey = `lbl::${catKey}::${themeLabel}`;
+          if (seenLabelInCategory.has(dedupeKey)) continue;
+          seenLabelInCategory.add(dedupeKey);
+          pushJump(`here:${catKey}:label:${encodeURIComponent(themeLabel)}`, themeLabel, `opt::${dedupeKey}`);
+        }
+      }
+    }
+
+    const stripCategoryPrefixForSort = (label, tabLabel) => {
+      const s = String(label || "").trim();
+      const prefix = `${tabLabel}: `;
+      if (tabLabel && s.toLowerCase().startsWith(prefix.toLowerCase())) {
+        return s.slice(prefix.length).trim();
+      }
+      return s;
+    };
+    opts.sort((a, b) => {
+      const ca = categoryOrder(a.categoryKey);
+      const cb = categoryOrder(b.categoryKey);
+      if (ca !== cb) return ca - cb;
+      const ta = themeJumpTabLabel(a.categoryKey);
+      const tb = themeJumpTabLabel(b.categoryKey);
+      const sa = stripCategoryPrefixForSort(a.label, ta);
+      const sb = stripCategoryPrefixForSort(b.label, tb);
+      const cmp = sa.localeCompare(sb, undefined, { sensitivity: "base" });
+      if (cmp !== 0) return cmp;
+      return (a.label || "").localeCompare(b.label || "", undefined, { sensitivity: "base" });
+    });
+    return opts;
+  }, [beginnerModeOverride, history]);
+
   const promptNode = (
     <>
       {showHeaderRail && (
@@ -8546,6 +8529,41 @@ function CountingTrumpsTrainer({
                   ))}
                 </div>
               </div>
+
+              {!beginnerModeOverride && history?.push && (
+                <div className="ct-themeSearchRow" aria-label="Jump to a theme">
+                  <span className="ct-themeSearchLabel" id={`ct-themeSearchLabel-${categoryKey}`}>
+                    Theme
+                  </span>
+                  <select
+                    id={`ct-themeSearchSelect-${categoryKey}`}
+                    className="ct-themeSearchSelect browser-default"
+                    aria-labelledby={`ct-themeSearchLabel-${categoryKey}`}
+                    value={themeJumpSelection}
+                    onChange={(e) => setThemeJumpSelection(e.target.value)}
+                  >
+                    <option value="">Choose a theme…</option>
+                    {themeJumpOptions.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="ct-btn ct-themeSearchOk"
+                    disabled={!themeJumpSelection}
+                    onClick={() => {
+                      const opt = themeJumpOptions.find((o) => o.value === themeJumpSelection);
+                      if (!opt?.apply) return;
+                      opt.apply();
+                      setThemeJumpSelection("");
+                    }}
+                  >
+                    OK
+                  </button>
+                </div>
+              )}
 
               {!hideDifficultyTabs && (
                 <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Stage tabs">

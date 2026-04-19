@@ -101,6 +101,53 @@
   margin-bottom: 4px;
 }
 
+.ct-themeSearchRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+  margin: 2px auto 6px;
+  padding: 8px 4px 10px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-sizing: border-box;
+}
+
+.ct-themeSearchLabel {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: #475569;
+  flex: 0 0 auto;
+}
+
+/* Materialize sets `select { display: none }` unless `.browser-default` — keep block regardless of load order. */
+.ct-themeSearchSelect.browser-default,
+.ct-themeSearchSelect {
+  display: block;
+  /* Keep a visible width in nested flex layouts (some browsers collapse flex:1 to 0 here). */
+  flex: 1 1 14rem;
+  width: 100%;
+  min-width: 12rem;
+  max-width: 28rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #0f172a;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  box-sizing: border-box;
+  appearance: auto;
+}
+
+.ct-themeSearchOk {
+  flex: 0 0 auto;
+  font-size: var(--text-sm);
+  padding: 8px 18px;
+}
+
 .ct-categoryRow--justPlaySub {
   margin-top: 2px;
   padding-top: 8px;

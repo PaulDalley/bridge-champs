@@ -854,7 +854,6 @@ const BID36_SOUTH_SHOWN_HANDS = { S: "943", H: "98", D: "KJT6542", C: "7" };
 const BID37_OPENING_AUCTION = "2♥ X P ?";
 const BID38_RECAP1_AUCTION = "P 1NT 2♠ ?";
 const BID38_RECAP2_AUCTION = "2♥ X P ?";
-const BID38_AUCTION_MEANING = "2♥ X ?";
 const BID39_OPENING_AUCTION = "1♠ 1NT 2♠ ?";
 const BID310_OPENING_AUCTION = "1NT 2♠ ?";
 const BID310_FOLLOW_AUCTION = "1NT 2♥ ?";
@@ -1179,7 +1178,7 @@ function Bid38Question3Rich() {
   return (
     <div className="ct-revealRich">
       <section className="ct-revealRichCard ct-revealRichCard--slate">
-        <PracticeAuctionMiniTable auctionText={BID38_AUCTION_MEANING} dealerCompass="W" />
+        <PracticeAuctionMiniTable auctionText={BID38_RECAP2_AUCTION} dealerCompass="W" />
       </section>
       <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
         What is <TextWithColoredSuits text="3♦" /> here?
@@ -4417,13 +4416,13 @@ const BIDDING_PUZZLES = [
 
 export { BIDDING_PUZZLES };
 
-function BiddingTrainer({ location }) {
+function BiddingTrainer(routeProps) {
   return (
     <CountingTrumpsTrainer
+      {...routeProps}
       puzzlesOverride={BIDDING_PUZZLES}
       trainerLabel="Bidding"
       categoryKey="bidding"
-      location={location}
     />
   );
 }

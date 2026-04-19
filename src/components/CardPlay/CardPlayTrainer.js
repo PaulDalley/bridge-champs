@@ -672,10 +672,10 @@ const CARDPLAY_PUZZLES_ALL = [
       ],
     },
     shownHands: {
-      LHO: { S: "854", H: "A862", D: "864", C: "JT9" },
-      DUMMY: { S: "82", H: "43", D: "A32", C: "J98765" },
-      RHO: { S: "63", H: "9875", D: "9752", C: "876" },
-      DECLARER: { S: "AKQJT9", H: "KQJ", D: "K32", C: "A" },
+      LHO: { S: "754", H: "AT62", D: "864", C: "JT9" },
+      DUMMY: { S: "82", H: "43", D: "AT3", C: "85432" },
+      RHO: { S: "63", H: "9875", D: "Q975", C: "KQ76" },
+      DECLARER: { S: "AKQJT9", H: "KQJ", D: "KJ2", C: "A" },
     },
     visibleFullHandSeats: ["DUMMY", "DECLARER"],
     revealFullHandsAtEnd: ["LHO", "RHO"],
@@ -722,7 +722,7 @@ const CARDPLAY_PUZZLES_ALL = [
         plays: [
           { seat: "DECLARER", card: { rank: "J", suit: "H" } },
           { seat: "LHO", card: { rank: "2", suit: "H" } },
-          { seat: "DUMMY", card: { rank: "2", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "3", suit: "D" } },
           { seat: "RHO", card: { rank: "8", suit: "H" } },
         ],
       },
@@ -736,9 +736,9 @@ const CARDPLAY_PUZZLES_ALL = [
         ],
       },
       {
-        label: "Trick 7 (Dummy leads 3♦, declarer wins K♦)",
+        label: "Trick 7 (Dummy leads 10♦, declarer wins K♦)",
         plays: [
-          { seat: "DUMMY", card: { rank: "3", suit: "D" } },
+          { seat: "DUMMY", card: { rank: "T", suit: "D" } },
           { seat: "RHO", card: { rank: "7", suit: "D" } },
           { seat: "DECLARER", card: { rank: "K", suit: "D" } },
           { seat: "LHO", card: { rank: "6", suit: "D" } },
@@ -747,7 +747,7 @@ const CARDPLAY_PUZZLES_ALL = [
       {
         label: "Trick 8 (Diamond ruffed with 8♠ in dummy)",
         plays: [
-          { seat: "DECLARER", card: { rank: "3", suit: "D" } },
+          { seat: "DECLARER", card: { rank: "J", suit: "D" } },
           { seat: "LHO", card: { rank: "8", suit: "D" } },
           { seat: "DUMMY", card: { rank: "8", suit: "S" } },
           { seat: "RHO", card: { rank: "9", suit: "D" } },
@@ -756,7 +756,7 @@ const CARDPLAY_PUZZLES_ALL = [
       {
         label: "Trick 9 (Club from dummy, spade from hand)",
         plays: [
-          { seat: "DUMMY", card: { rank: "6", suit: "C" } },
+          { seat: "DUMMY", card: { rank: "8", suit: "C" } },
           { seat: "RHO", card: { rank: "7", suit: "C" } },
           { seat: "DECLARER", card: { rank: "9", suit: "S" } },
           { seat: "LHO", card: { rank: "T", suit: "C" } },
