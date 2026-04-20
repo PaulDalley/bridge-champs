@@ -552,11 +552,20 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-tier-benefits">
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to all articles on Declarer Play, Defence, and Bidding</span>
+                    <span>Access to all Practical Learning problems</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                  <span>Interactive quizzes and practice hands</span></div>
+                    <span>Access to all articles</span>
+                  </div>
+                  <div className="PremiumMembership-benefit">
+                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                    <span>Access to "The Treadmill"</span>
+                  </div>
+                  <div className="PremiumMembership-benefit">
+                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                    <span>Access to "Just Play"</span>
+                  </div>
                 </div>
 
                 <button
@@ -571,7 +580,7 @@ class PremiumMembership extends Component {
             {/* PREMIUM TIER */}
             <Col s={12} m={6}>
               <Card className="PremiumMembership-pricing-card PremiumMembership-pricing-card-featured">
-                <div className="PremiumMembership-popular-badge">MOST POPULAR</div>
+                <div className="PremiumMembership-popular-badge">RECOMMENDED BY PAUL</div>
                 <h4 className="PremiumMembership-tier-name">Premium</h4>
                 <div className="PremiumMembership-price">
                   {this.state.effectiveMonthlyPrice != null ? (
@@ -610,15 +619,15 @@ class PremiumMembership extends Component {
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to exclusive instructional videos</span>
+                    <span>Videos to accompany all training problems</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Submit bridge questions to Paul</span>
+                    <span>Videos to accompany several articles, with more coming</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Receive video or email responses from expert players</span>
+                    <span>Priority response from Paul if you'd like to ask any bridge-related questions</span>
                   </div>
                 </div>
 
