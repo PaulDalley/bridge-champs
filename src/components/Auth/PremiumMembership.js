@@ -114,6 +114,7 @@ class PremiumMembership extends Component {
   };
 
   normalizePromoCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
+  isKlingerPromo = (code) => this.normalizePromoCode(code) === "klinger";
 
   resolvePromoCodeAlias = (code) => {
     const normalized = this.normalizePromoCode(code);
@@ -127,16 +128,21 @@ class PremiumMembership extends Component {
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "klinger";
+    return normalized === "blue";
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "klinger" || normalized === "goldy";
+    return normalized === "blue" || normalized === "goldy";
   };
 
   getAppliedPromoToken = () => {
+    const normalized = this.normalizePromoCode(this.state.promoCode);
+    // KLINGER is Premium-only. Never send it through Basic checkout.
+    if (this.isKlingerPromo(normalized) && this.state.selectedTier !== "premium") {
+      return null;
+    }
     const enteredCode = this.resolvePromoCodeAlias(this.state.promoCode);
     return enteredCode || DEFAULT_TRIAL_TOKEN;
   };
@@ -190,7 +196,7 @@ class PremiumMembership extends Component {
       .then((raw) => {
         const data = this.parseValidateTokenPayload(raw);
         const days = data.daysFree;
-        const tier = data.tier;
+        const tier = this.isKlingerPromo(code) ? "premium" : data.tier;
 
         const nextStep = " Choose a subscription below and complete checkout to apply it.";
         const monthlyPrice = data.monthlyPrice;
@@ -377,6 +383,33 @@ class PremiumMembership extends Component {
     const paymentUsdForFx =
       paymentAudForFx != null ? membershipUsdApproxWhole(paymentAudForFx) : null;
 
+    const normalizedPromoCode = this.normalizePromoCode(this.state.promoCode);
+    const isBluePromoActive =
+      normalizedPromoCode === "blue" &&
+      this.state.promoSuccess &&
+      this.state.promoDaysFree > 0;
+    const isKlingerPromoActive =
+      normalizedPromoCode === "klinger" &&
+      this.state.promoSuccess &&
+      this.state.promoDaysFree > 0;
+    const isFreeFirstMonthOnBasicCard = isBluePromoActive;
+    const isFreeFirstMonthOnPremiumCard = isBluePromoActive || isKlingerPromoActive;
+    const selectedTierBasePrice =
+      selectedTier && PRICING_TIERS[selectedTier]
+        ? PRICING_TIERS[selectedTier].price
+        : null;
+    const isKlingerAppliedOnPremium =
+      normalizedPromoCode === "klinger" &&
+      selectedTier === "premium" &&
+      this.state.promoSuccess &&
+      this.state.promoDaysFree > 0;
+    const isBlueAppliedOnSelectedTier =
+      normalizedPromoCode === "blue" &&
+      this.state.promoSuccess &&
+      this.state.promoDaysFree > 0 &&
+      !!selectedTier;
+    const isFreeFirstMonthAppliedOnSelectedTier =
+      isBlueAppliedOnSelectedTier || isKlingerAppliedOnPremium;
     const subscribePath = this.props.location.pathname || "/subscribe";
     return (
       <div className="PremiumMembership-container">
@@ -542,11 +575,33 @@ class PremiumMembership extends Component {
               <Card className="PremiumMembership-pricing-card">
                 <h4 className="PremiumMembership-tier-name">Basic Membership</h4>
                 <div className="PremiumMembership-price">
-                  A${PRICING_TIERS.basic.price}
-                  <span className="PremiumMembership-price-period">/month</span>
+                  {isFreeFirstMonthOnBasicCard ? (
+                    <>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          opacity: 0.55,
+                          marginRight: "0.35em",
+                          fontSize: "0.85em",
+                        }}
+                      >
+                        A${PRICING_TIERS.basic.price}
+                      </span>
+                      FREE
+                    </>
+                  ) : (
+                    <>A${PRICING_TIERS.basic.price}</>
+                  )}
+                  <span className="PremiumMembership-price-period">
+                    {isFreeFirstMonthOnBasicCard ? " first month" : "/month"}
+                  </span>
                 </div>
                 <div className="PremiumMembership-priceFx">
-                  ≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month
+                  {isFreeFirstMonthOnBasicCard ? (
+                    <>Then ≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
+                  ) : (
+                    <>≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
+                  )}
                 </div>
 
                 <div className="PremiumMembership-tier-benefits">
@@ -583,7 +638,21 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-popular-badge">RECOMMENDED BY PAUL</div>
                 <h4 className="PremiumMembership-tier-name">Premium</h4>
                 <div className="PremiumMembership-price">
-                  {this.state.effectiveMonthlyPrice != null ? (
+                  {isFreeFirstMonthOnPremiumCard ? (
+                    <>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          opacity: 0.55,
+                          marginRight: "0.35em",
+                          fontSize: "0.85em",
+                        }}
+                      >
+                        A${PRICING_TIERS.premium.price}
+                      </span>
+                      FREE
+                    </>
+                  ) : this.state.effectiveMonthlyPrice != null ? (
                     <>
                       <span
                         style={{
@@ -600,16 +669,24 @@ class PremiumMembership extends Component {
                   ) : (
                     <>A${PRICING_TIERS.premium.price}</>
                   )}
-                  <span className="PremiumMembership-price-period">/month</span>
+                  <span className="PremiumMembership-price-period">
+                    {isKlingerPromoActive ? " first month" : "/month"}
+                  </span>
                 </div>
                 <div className="PremiumMembership-priceFx">
-                  ≈ US$
-                  {membershipUsdApproxWhole(
-                    this.state.effectiveMonthlyPrice != null
-                      ? this.state.effectiveMonthlyPrice
-                      : PRICING_TIERS.premium.price
+                  {isFreeFirstMonthOnPremiumCard ? (
+                    <>Then ≈ US${membershipUsdApproxWhole(PRICING_TIERS.premium.price)}/month</>
+                  ) : (
+                    <>
+                      ≈ US$
+                      {membershipUsdApproxWhole(
+                        this.state.effectiveMonthlyPrice != null
+                          ? this.state.effectiveMonthlyPrice
+                          : PRICING_TIERS.premium.price
+                      )}
+                      /month
+                    </>
                   )}
-                  /month
                 </div>
 
                 <div className="PremiumMembership-tier-benefits">
@@ -650,17 +727,29 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-payment-header">
                   <h4>{PRICING_TIERS[selectedTier].name}</h4>
                   <div className="PremiumMembership-payment-price">
-                    A$
-                    {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
-                      ? this.state.effectiveMonthlyPrice
-                      : PRICING_TIERS[selectedTier].price}{" "}
-                    <span>per month after {DEFAULT_TRIAL_DAYS} days free</span>
-                    {paymentUsdForFx != null ? (
-                      <span className="PremiumMembership-payment-priceFx">
-                        {" "}
-                        (about US${paymentUsdForFx}/month at typical FX; your bank sets the rate)
-                      </span>
-                    ) : null}
+                    {isFreeFirstMonthAppliedOnSelectedTier ? (
+                      <>
+                        <span style={{ textDecoration: "line-through", opacity: 0.65, marginRight: "0.35em" }}>
+                          A${selectedTierBasePrice}
+                        </span>
+                        <span>Free for the first month</span>
+                        <span className="PremiumMembership-payment-priceFx"> Then A${selectedTierBasePrice}/month.</span>
+                      </>
+                    ) : (
+                      <>
+                        A$
+                        {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
+                          ? this.state.effectiveMonthlyPrice
+                          : PRICING_TIERS[selectedTier].price}{" "}
+                        <span>per month after {DEFAULT_TRIAL_DAYS} days free</span>
+                        {paymentUsdForFx != null ? (
+                          <span className="PremiumMembership-payment-priceFx">
+                            {" "}
+                            (about US${paymentUsdForFx}/month at typical FX; your bank sets the rate)
+                          </span>
+                        ) : null}
+                      </>
+                    )}
                   </div>
                 </div>
                 
@@ -683,8 +772,18 @@ class PremiumMembership extends Component {
                       fontSize: "var(--text-sm)",
                     }}
                   >
-                    <strong>Promo applied:</strong>{" "}
-                    {this.state.effectiveMonthlyPrice != null && selectedTier !== "premium" ? (
+                    <strong>Promo:</strong>{" "}
+                    {this.isKlingerPromo(this.state.promoCode) && selectedTier !== "premium" ? (
+                      <>
+                        {this.state.promoCode.toUpperCase()} is for <strong>Premium</strong> only. Tap{" "}
+                        <strong>← Change Tier</strong> and choose Premium to use it.
+                      </>
+                    ) : isFreeFirstMonthAppliedOnSelectedTier ? (
+                      <>
+                        {this.state.promoCode.toUpperCase()} applied. Your first 30 days are free, then A$
+                        {selectedTierBasePrice}/month unless canceled.
+                      </>
+                    ) : this.state.effectiveMonthlyPrice != null && selectedTier !== "premium" ? (
                       <>
                         {this.state.promoCode.toUpperCase()} is for <strong>Premium</strong> at A$
                         {this.state.effectiveMonthlyPrice}/month after your free trial (about US$
@@ -741,15 +840,24 @@ class PremiumMembership extends Component {
                         <span>Official Stripe Checkout</span>
                       </div>
                       <p className="PremiumMembership-trialLead">
-                        <strong>{DEFAULT_TRIAL_DAYS} days free today</strong>, then A$
-                        {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
-                          ? this.state.effectiveMonthlyPrice
-                          : PRICING_TIERS[selectedTier].price}
-                        /month unless canceled
-                        {paymentUsdForFx != null
-                          ? ` (about US$${paymentUsdForFx}/month at typical FX; your bank sets the rate)`
-                          : ""}
-                        .
+                        {isFreeFirstMonthAppliedOnSelectedTier ? (
+                          <>
+                            <strong>{this.state.promoCode.toUpperCase()} applied:</strong> first 30 days free, then A$
+                            {selectedTierBasePrice}/month unless canceled.
+                          </>
+                        ) : (
+                          <>
+                            <strong>{DEFAULT_TRIAL_DAYS} days free today</strong>, then A$
+                            {selectedTier === "premium" && this.state.effectiveMonthlyPrice != null
+                              ? this.state.effectiveMonthlyPrice
+                              : PRICING_TIERS[selectedTier].price}
+                            /month unless canceled
+                            {paymentUsdForFx != null
+                              ? ` (about US$${paymentUsdForFx}/month at typical FX; your bank sets the rate)`
+                              : ""}
+                            .
+                          </>
+                        )}
                       </p>
                       <p className="PremiumMembership-trialSub">
                         Secure card payment powered by Stripe.

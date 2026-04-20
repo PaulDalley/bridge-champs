@@ -9,7 +9,7 @@ const footer = (props) => {
     // console.log("IN FOOTER WITH UID", props.uid);
     return (
             <Footer
-                    copyrights="&copy; 2018 All rights reserved"
+                    copyrights="&copy; 2018-2026 All rights reserved"
                     className="Footer"
                     moreLinks={
                         <a className="grey-text text-lighten-4 right" href="#!"></a>
