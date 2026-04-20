@@ -13,9 +13,11 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
-    /** Send token as entered; backend accepts "blue" and maps to Firestore. "harbourview" is disabled. */
+    /** Keep legacy aliases working with current backend token docs. */
     tokenForApi = (token) => {
-        return String(token || "").trim();
+        const normalized = String(token || "").trim().toLowerCase();
+        if (normalized === "klinger") return "blue";
+        return normalized;
     };
 
     validateUserToken = () => {
