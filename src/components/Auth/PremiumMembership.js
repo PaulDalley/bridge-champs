@@ -117,21 +117,20 @@ class PremiumMembership extends Component {
 
   resolvePromoCodeAlias = (code) => {
     const normalized = this.normalizePromoCode(code);
-    // Keep legacy/public aliases working even if Firestore stores a different token doc id.
-    if (normalized === "klinger") return "blue";
-    // "blue" is the active public code; "harbourview" is no longer accepted.
+    // Firestore document ids are normalized lowercase promo codes.
+    // "harbourview" is no longer accepted.
     return normalized;
   };
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "klinger";
+    return normalized === "blue";
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "klinger" || normalized === "goldy";
+    return normalized === "blue" || normalized === "goldy";
   };
 
   getAppliedPromoToken = () => {

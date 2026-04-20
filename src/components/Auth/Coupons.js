@@ -13,11 +13,9 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
-    /** Keep legacy aliases working with current backend token docs. */
+    /** Tokens are sent normalized (trimmed/lowercase) to match Firestore doc ids. */
     tokenForApi = (token) => {
-        const normalized = String(token || "").trim().toLowerCase();
-        if (normalized === "klinger") return "blue";
-        return normalized;
+        return String(token || "").trim().toLowerCase();
     };
 
     validateUserToken = () => {
