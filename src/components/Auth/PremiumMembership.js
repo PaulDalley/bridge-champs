@@ -117,6 +117,9 @@ class PremiumMembership extends Component {
 
   resolvePromoCodeAlias = (code) => {
     const normalized = this.normalizePromoCode(code);
+    // Keep KLINGER working immediately by mapping to the active BLUE token.
+    // Once userTokens/klinger exists in Firestore, remove this alias.
+    if (normalized === "klinger") return "blue";
     // Firestore document ids are normalized lowercase promo codes.
     // "harbourview" is no longer accepted.
     return normalized;
@@ -124,13 +127,13 @@ class PremiumMembership extends Component {
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue";
+    return normalized === "blue" || normalized === "klinger";
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "goldy";
+    return normalized === "blue" || normalized === "klinger" || normalized === "goldy";
   };
 
   getAppliedPromoToken = () => {

@@ -13,9 +13,11 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
-    /** Tokens are sent normalized (trimmed/lowercase) to match Firestore doc ids. */
+    /** Keep KLINGER usable by routing it to the active BLUE token. */
     tokenForApi = (token) => {
-        return String(token || "").trim().toLowerCase();
+        const normalized = String(token || "").trim().toLowerCase();
+        if (normalized === "klinger") return "blue";
+        return normalized;
     };
 
     validateUserToken = () => {
