@@ -1,5 +1,44 @@
 # Promo Code Setup Guide
 
+## KLINGER (Ron Klinger mailing list — Premium, 30 days free)
+
+Create a document in Firestore so readers can enter **`KLINGER`** (any casing; the app stores the lookup as lowercase).
+
+### `userTokens` document
+
+**Document ID:** `klinger` (lowercase — required)
+
+**Fields:**
+
+- `daysFree` (number): `30` — one calendar month free trial before the first Premium charge (via Stripe trial on checkout).
+- `tier` (string): `premium` — code only applies when the member chooses **Premium** (Basic checkout will not match this token).
+- `reusable` (boolean): `true` — **recommended** for a public list code so the document is not removed after a single use. Omit or set `false` if you want one-time use only (see your Cloud Function behaviour).
+- `testMode` (boolean): optional; use while testing with Stripe test cards.
+
+### Example
+
+```
+Collection: userTokens
+Document ID: klinger
+
+Fields:
+- daysFree: 30
+- tier: "premium"
+- reusable: true
+```
+
+Marketing flyer: `public/email-templates/ron-klinger-reader-flyer.html`.
+
+### One-command setup (optional)
+
+If you have `serviceAccountKey.json` in the project root:
+
+```bash
+node scripts/ensure-klinger-token.js
+```
+
+---
+
 ## HARBOURVIEW Promo Code Configuration
 
 For the HARBOURVIEW promo code to work correctly (giving 1 month free, no immediate charge), the token document in Firestore must have:

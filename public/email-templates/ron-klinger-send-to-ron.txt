@@ -1,0 +1,65 @@
+================================================================================
+FOR PAUL — send this whole note (or the parts you like) to Ron
+================================================================================
+
+WHY NOT “JUST FORWARD” A FANCY HTML EMAIL?
+------------------------------------------
+Forwarding usually wrecks layout: nested quote blocks, stripped <style> tags,
+fonts that never load, images blocked, and different colours in Outlook vs
+Gmail vs Apple Mail. Ron’s list may also be plain-text or a simple mailer.
+
+RECOMMENDED WORKFLOW FOR RON
+----------------------------
+1) Ron writes a normal message to his list (a few honest lines in his voice).
+
+2) He attaches a PDF of the flyer (best), OR embeds a single PNG screenshot
+   of the flyer (also fine). Both survive forwarding and look consistent.
+
+3) He keeps the live link in plain text as well:
+   https://www.bridgechampions.com/
+
+HOW RON CAN MAKE THE PDF
+------------------------
+You will send him the file:
+  public/email-templates/ron-klinger-reader-flyer.html
+
+Ron opens it in Chrome/Edge → Ctrl+P → Print → Save as PDF.
+(Or you create the PDF yourself and send Ron only the PDF + the short intro.)
+
+BEFORE ANYONE MAILS IT
+----------------------
+Promo code for readers: KLINGER (Premium only — 30 days free at checkout).
+You must create the Firestore token document once — see PROMO_CODE_SETUP.md
+section “KLINGER”. After that, regenerate the PDF from the HTML if you change copy.
+
+OPTIONAL: after you deploy, the same file can live at:
+  https://www.bridgechampions.com/email-templates/ron-klinger-reader-flyer.html
+Useful if Ron prefers “open in browser” — still attach PDF for reliability.
+
+================================================================================
+SUGGESTED INTRO (RON — paste above the flyer attachment)
+================================================================================
+
+Hi,
+
+A friend and teammate of mine, Paul Dalley, asked me to let you know about his
+online bridge school, Bridge Champions (www.bridgechampions.com). I have not
+worked through every lesson on the site myself, but I know Paul’s commitment
+to the game and I am happy to pass this on if you like learning online between
+club sessions.
+
+Attached is a short flyer with a reader code for his mailing list.
+
+Cheers,
+Ron
+
+================================================================================
+EVEN SHORTER INTRO (if Ron prefers minimal)
+================================================================================
+
+Hi — quick note: my friend and teammate Paul Dalley runs Bridge Champions
+(www.bridgechampions.com), an online membership site for bridge lessons and
+practice. Flyer attached with a reader code if you would like to try it.
+
+Cheers,
+Ron
