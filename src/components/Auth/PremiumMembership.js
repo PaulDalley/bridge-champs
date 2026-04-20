@@ -564,7 +564,7 @@ class PremiumMembership extends Component {
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to "Just Play"</span>
+                    <span>Access to "Just Play" (in development)</span>
                   </div>
                 </div>
 
