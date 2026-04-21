@@ -114,13 +114,16 @@ class PremiumMembership extends Component {
   };
 
   normalizePromoCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
-  isKlingerPromo = (code) => this.normalizePromoCode(code) === "klinger";
+  isPremiumOnlyFreeMonthPromo = (code) => {
+    const normalized = this.normalizePromoCode(code);
+    return normalized === "klinger" || normalized === "easts";
+  };
 
   resolvePromoCodeAlias = (code) => {
     const normalized = this.normalizePromoCode(code);
-    // Keep KLINGER working immediately by mapping to the active BLUE token.
-    // Once userTokens/klinger exists in Firestore, remove this alias.
-    if (normalized === "klinger") return "blue";
+    // Keep KLINGER/EASTS working immediately by mapping to the active BLUE token.
+    // Once userTokens/klinger and userTokens/easts exist in Firestore, remove this alias.
+    if (this.isPremiumOnlyFreeMonthPromo(normalized)) return "blue";
     // Firestore document ids are normalized lowercase promo codes.
     // "harbourview" is no longer accepted.
     return normalized;
@@ -139,8 +142,8 @@ class PremiumMembership extends Component {
 
   getAppliedPromoToken = () => {
     const normalized = this.normalizePromoCode(this.state.promoCode);
-    // KLINGER is Premium-only. Never send it through Basic checkout.
-    if (this.isKlingerPromo(normalized) && this.state.selectedTier !== "premium") {
+    // KLINGER/EASTS are Premium-only. Never send these through Basic checkout.
+    if (this.isPremiumOnlyFreeMonthPromo(normalized) && this.state.selectedTier !== "premium") {
       return null;
     }
     const enteredCode = this.resolvePromoCodeAlias(this.state.promoCode);
@@ -196,7 +199,7 @@ class PremiumMembership extends Component {
       .then((raw) => {
         const data = this.parseValidateTokenPayload(raw);
         const days = data.daysFree;
-        const tier = this.isKlingerPromo(code) ? "premium" : data.tier;
+        const tier = this.isPremiumOnlyFreeMonthPromo(code) ? "premium" : data.tier;
 
         const nextStep = " Choose a subscription below and complete checkout to apply it.";
         const monthlyPrice = data.monthlyPrice;
@@ -388,18 +391,18 @@ class PremiumMembership extends Component {
       normalizedPromoCode === "blue" &&
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
-    const isKlingerPromoActive =
-      normalizedPromoCode === "klinger" &&
+    const isPremiumOnlyPromoActive =
+      this.isPremiumOnlyFreeMonthPromo(normalizedPromoCode) &&
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
     const isFreeFirstMonthOnBasicCard = isBluePromoActive;
-    const isFreeFirstMonthOnPremiumCard = isBluePromoActive || isKlingerPromoActive;
+    const isFreeFirstMonthOnPremiumCard = isBluePromoActive || isPremiumOnlyPromoActive;
     const selectedTierBasePrice =
       selectedTier && PRICING_TIERS[selectedTier]
         ? PRICING_TIERS[selectedTier].price
         : null;
-    const isKlingerAppliedOnPremium =
-      normalizedPromoCode === "klinger" &&
+    const isPremiumOnlyPromoAppliedOnPremium =
+      this.isPremiumOnlyFreeMonthPromo(normalizedPromoCode) &&
       selectedTier === "premium" &&
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
@@ -409,7 +412,7 @@ class PremiumMembership extends Component {
       this.state.promoDaysFree > 0 &&
       !!selectedTier;
     const isFreeFirstMonthAppliedOnSelectedTier =
-      isBlueAppliedOnSelectedTier || isKlingerAppliedOnPremium;
+      isBlueAppliedOnSelectedTier || isPremiumOnlyPromoAppliedOnPremium;
     const subscribePath = this.props.location.pathname || "/subscribe";
     return (
       <div className="PremiumMembership-container">
@@ -670,7 +673,7 @@ class PremiumMembership extends Component {
                     <>A${PRICING_TIERS.premium.price}</>
                   )}
                   <span className="PremiumMembership-price-period">
-                    {isKlingerPromoActive ? " first month" : "/month"}
+                    {isFreeFirstMonthOnPremiumCard ? " first month" : "/month"}
                   </span>
                 </div>
                 <div className="PremiumMembership-priceFx">
@@ -773,7 +776,7 @@ class PremiumMembership extends Component {
                     }}
                   >
                     <strong>Promo:</strong>{" "}
-                    {this.isKlingerPromo(this.state.promoCode) && selectedTier !== "premium" ? (
+                    {this.isPremiumOnlyFreeMonthPromo(this.state.promoCode) && selectedTier !== "premium" ? (
                       <>
                         {this.state.promoCode.toUpperCase()} is for <strong>Premium</strong> only. Tap{" "}
                         <strong>← Change Tier</strong> and choose Premium to use it.

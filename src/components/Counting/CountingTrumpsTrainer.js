@@ -7178,6 +7178,11 @@ function CountingTrumpsTrainer({
   const useBottomRowLayout = !!showFullHands;
 
   const showHeaderRail = promptStep !== "DONE";
+  const hideTableCardsForEndReveal =
+    promptStep === "DONE" &&
+    showFullHands &&
+    Array.isArray(puzzle?.revealFullHandsAtEnd) &&
+    puzzle.revealFullHandsAtEnd.length > 0;
   const hideAuctionNow =
     !!puzzle?.promptOptions?.hideAuction ||
     (promptStep === "DONE" && !!puzzle?.promptOptions?.hideAuctionOnDone) ||
@@ -7353,6 +7358,9 @@ function CountingTrumpsTrainer({
                 </div>
               ))}
             </div>
+            {!!puzzle?.promptOptions?.auctionHighlightNote && (
+              <div className="ct-auctionHighlightNote">{puzzle.promptOptions.auctionHighlightNote}</div>
+            )}
           </div>
         )}
       </>
@@ -8904,16 +8912,28 @@ function CountingTrumpsTrainer({
               )}
               <div className="ct-trickGrid" role="region" aria-label="Trick area">
                 <div className="ct-trickPos ct-trickPos--top">
-                  <TrickPipCard card={trickCards[seatTop]} entered={animSeat === seatTop} />
+                  <TrickPipCard
+                    card={hideTableCardsForEndReveal ? null : trickCards[seatTop]}
+                    entered={!hideTableCardsForEndReveal && animSeat === seatTop}
+                  />
                 </div>
                 <div className="ct-trickPos ct-trickPos--left">
-                  <TrickPipCard card={trickCards[seatLeft]} entered={animSeat === seatLeft} />
+                  <TrickPipCard
+                    card={hideTableCardsForEndReveal ? null : trickCards[seatLeft]}
+                    entered={!hideTableCardsForEndReveal && animSeat === seatLeft}
+                  />
                 </div>
                 <div className="ct-trickPos ct-trickPos--right">
-                  <TrickPipCard card={trickCards[seatRight]} entered={animSeat === seatRight} />
+                  <TrickPipCard
+                    card={hideTableCardsForEndReveal ? null : trickCards[seatRight]}
+                    entered={!hideTableCardsForEndReveal && animSeat === seatRight}
+                  />
                 </div>
                 <div className="ct-trickPos ct-trickPos--bottom">
-                  <TrickPipCard card={trickCards[seatBottom]} entered={animSeat === seatBottom} />
+                  <TrickPipCard
+                    card={hideTableCardsForEndReveal ? null : trickCards[seatBottom]}
+                    entered={!hideTableCardsForEndReveal && animSeat === seatBottom}
+                  />
                 </div>
               </div>
             </div>

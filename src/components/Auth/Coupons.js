@@ -13,10 +13,10 @@ class Coupons extends Component {
         tokenValid: false,
     }
 
-    /** Keep KLINGER usable by routing it to the active BLUE token. */
+    /** Keep KLINGER/EASTS usable by routing to the active BLUE token. */
     tokenForApi = (token) => {
         const normalized = String(token || "").trim().toLowerCase();
-        if (normalized === "klinger") return "blue";
+        if (normalized === "klinger" || normalized === "easts") return "blue";
         return normalized;
     };
 

@@ -944,6 +944,164 @@ const DEFENCE_PUZZLES = [
     ],
   },
   {
+    id: "df1-13",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: force declarer to ruff until trumps run out",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♠ 2♥ 3♥ P 3♠ P 4♠ P P P",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south", "west"],
+    revealFullHandsAtEnd: ["north", "east"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Forcing declarer",
+      auctionHighlightCall: { row: 0, seat: "W" },
+      auctionHighlightNote: "3♥ was an 11+ point spade raise.",
+      customPrompts: [
+        {
+          id: "df1-13-track-trumps",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Let's keep track of trumps.\n\nA fair assumption is that East started with 5 spades.\nAfter ruffing this trick, East now has 4 left.\n\nThat is still one more spade than you.",
+        },
+        {
+          id: "df1-13-how-many-trumps-now",
+          type: "SEAT_SUIT_COUNT",
+          seat: "E",
+          suit: "S",
+          atRoundIdx: 2,
+          expected: 3,
+          promptText: "How many trumps does East have now?",
+          revealText: "East has 3 trumps left, still one more than you.",
+        },
+        {
+          id: "df1-13-plan",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "What is your plan? Play a:",
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "heart",
+          revealText:
+            "Keep going with hearts.\n\nVisualise what happens: one more heart, one more ruff, and suddenly trumps are equal length.",
+          videoUrl: "",
+        },
+        {
+          id: "df1-13-equal-length",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "Continue",
+          promptText: "Now trumps are equal length: 2 each.",
+        },
+        {
+          id: "df1-13-no-good-moves",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "Continue",
+          promptText:
+            "There are no good moves now.\n\nIf East draws the last trump and then plays clubs, you win and cash hearts.\nBest chance is to try clubs now and hope to survive one down.\n\nLet's watch it.",
+        },
+        {
+          id: "df1-13-wrap",
+          type: "INFO",
+          atRoundIdx: 6,
+          promptText:
+            "Key point:\n- We forced repeated ruffs.\n- Trumps became equal.\n- Then East ran out first.\n\nThat final spade is now our 4th trick.\n\nThis is a very common defensive pattern: force ruffs, and the hand often falls apart.",
+        },
+      ],
+    },
+    shownHands: {
+      // North (partner)
+      north: { S: "96", H: "J4", D: "86532", C: "9874" },
+      // West (dummy)
+      west: { S: "742", H: "8753", D: "AQ", C: "KQJT" },
+      // South (you)
+      south: { S: "A83", H: "AKT962", D: "74", C: "A2" },
+      // East (declarer)
+      east: { S: "KQJT5", H: "Q", D: "KJT9", C: "653" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (A♥ lead)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "Q", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (K♥; declarer ruffs)",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+          { seat: "N", card: { rank: "J", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "S" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 3 (K♠ from declarer)",
+        plays: [
+          { seat: "E", card: { rank: "K", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (10♥; declarer ruffs)",
+        plays: [
+          { seat: "S", card: { rank: "T", suit: "H" } },
+          { seat: "W", card: { rank: "8", suit: "H" } },
+          { seat: "N", card: { rank: "8", suit: "D" }, showOut: true },
+          { seat: "E", card: { rank: "J", suit: "S" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 5 (Q♠ from declarer)",
+        plays: [
+          { seat: "E", card: { rank: "Q", suit: "S" } },
+          { seat: "S", card: { rank: "3", suit: "S" } },
+          { seat: "W", card: { rank: "4", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (declarer plays a club; you win)",
+        plays: [
+          { seat: "E", card: { rank: "6", suit: "C" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "T", suit: "C" } },
+          { seat: "N", card: { rank: "4", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (heart again; declarer ruffs)",
+        plays: [
+          { seat: "S", card: { rank: "9", suit: "H" } },
+          { seat: "W", card: { rank: "5", suit: "H" } },
+          { seat: "N", card: { rank: "6", suit: "D" }, showOut: true },
+          { seat: "E", card: { rank: "T", suit: "S" }, showOut: true },
+        ],
+      },
+    ],
+  },
+  {
     id: "df2-1",
     difficulty: 2,
     title: "Defending 3♥: count declarer's shape (and duck the spade)",
