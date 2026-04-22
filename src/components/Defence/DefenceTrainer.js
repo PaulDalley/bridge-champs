@@ -1102,6 +1102,231 @@ const DEFENCE_PUZZLES = [
     ],
   },
   {
+    id: "df1-14",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: duck two, win the Ace on the third — force declarer to ruff",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♣ P 1♠ P 2♠ P 4♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south", "west"],
+    revealFullHandsAtEnd: ["north", "east"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      playThroughRoundAfterPreInclusive: 0,
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Forcing declarer and counting trumps",
+      auctionHighlightCall: { row: 1, seat: "W" },
+      auctionHighlightNote: "2♠ showed 4 spades.",
+      customPrompts: [
+        {
+          id: "df1-14-groundwork",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--sky">
+              <p className="ct-df14-noteTitle">Ok so the lead has gone well!</p>
+              <p className="ct-df14-noteBody">
+                But let's zoom out for a second and think about the trump suit.
+              </p>
+              <p className="ct-df14-noteBody">
+                If we do the ground work now, we can more easily piece together the hand later.
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-14-dist-4441",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          expectedDistribution: { north: 1, west: 4, south: 4, east: 4 },
+          fixed: { west: 4, south: 4, east: 4 },
+          promptText: "If declarer has 4 trumps, how many does partner have?",
+          successText: "Right.",
+        },
+        {
+          id: "df1-14-dist-4450",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          expectedDistribution: { north: 0, west: 4, south: 4, east: 5 },
+          fixed: { west: 4, south: 4, east: 5 },
+          promptText: "there is another possibility, lets say declarer has 5 trumps",
+          successText: "Right.",
+        },
+        {
+          id: "df1-14-dist-recall",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 3,
+          expectedDistribution: { north: 1, west: 4, south: 4, east: 4 },
+          fixed: { south: 4, west: 4, north: 1 },
+          promptText: "How many spades did declarer start with?",
+          successText: "Right.",
+        },
+        {
+          id: "df1-14-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 3,
+          expectedAnswer: 2,
+          promptText: "How many trumps does declarer have left?",
+          successText: "Two left, remember declarer ruffed a heart.",
+        },
+        {
+          id: "df1-14-duck-spade",
+          type: "PLAY_DECISION",
+          atRoundIdx: 4,
+          promptText: "Win this trick, or duck?",
+          options: [
+            { id: "win", label: "Win it" },
+            { id: "duck", label: "Duck it" },
+          ],
+          expectedChoice: "duck",
+          wrongTryText: "Duck here — keep the Ace for the next round.",
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteBody">
+                Its very typical to duck twice with Axxx trumps, and win the Ace on the 3rd round. This regularly
+                happens also with Kxxx when the Ace is gone.
+              </p>
+              <div className="ct-df14-chipRow" aria-label="Pattern examples">
+                <span className="ct-df14-cardChip">Axxx</span>
+                <span className="ct-df14-cardChip">Kxxx</span>
+                <span className="ct-df14-cardChip ct-df14-cardChip--highlight">Win on round 3</span>
+              </div>
+              <p className="ct-df14-noteBody">
+                It is a piece of pattern recognition that builds over time "duck twice with Axxx" It's almost always
+                a good idea.
+              </p>
+            </div>
+          ),
+          playDecisionApplyCardOnChoice: {
+            win: { seat: "S", card: { rank: "A", suit: "S" } },
+            duck: { seat: "S", card: { rank: "7", suit: "S" } },
+          },
+        },
+        {
+          id: "df1-14-after-duck-note",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--mint">
+              <p className="ct-df14-noteBody">
+                Declarer is down to 1 trump, and has no good moves. If she doesn't draw trumps you will score your low
+                trump as a ruff, lets see what happens if she does try draw your trumps.
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-14-after-ace-note",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--rose">
+              <p className="ct-df14-noteBody">
+                We now hit the enemy with a the final and deadly heart, forcing a second ruff.
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-14-final-trump-note",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "Reveal full hand",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--victory">
+              <p className="ct-df14-noteTitle">We have the only remaining trump, and it will be our 4th trick!</p>
+              <p className="ct-df14-noteBody">We have so far won two heart tricks and the Ace of trumps.</p>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "2", H: "AJ54", D: "T642", C: "T982" },
+      east: { S: "J943", H: "98", D: "QJ5", C: "AKQJ" },
+      west: { S: "KQT5", H: "Q73", D: "AK3", C: "764" },
+      south: { S: "A876", H: "KT62", D: "987", C: "53" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (2♥ lead; partner wins)",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "J", suit: "H" } },
+          { seat: "E", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (partner leads a heart; you win the King)",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "9", suit: "H" } },
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (partner’s Ace; declarer ruffs)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "H" } },
+          { seat: "W", card: { rank: "Q", suit: "H" } },
+          { seat: "N", card: { rank: "A", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (spade toward dummy)",
+        plays: [
+          { seat: "E", card: { rank: "9", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+          { seat: "W", card: { rank: "K", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (Jack of spades; you duck — play 3♠ in the prompt)",
+        plays: [
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "D" }, showOut: true },
+          { seat: "E", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Ace of spades)",
+        plays: [
+          { seat: "E", card: { rank: "4", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "T", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (heart lead; dummy pitches a spade)",
+        plays: [
+          { seat: "S", card: { rank: "T", suit: "H" } },
+          { seat: "W", card: { rank: "Q", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+          { seat: "E", card: { rank: "J", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "df2-1",
     difficulty: 2,
     title: "Defending 3♥: count declarer's shape (and duck the spade)",

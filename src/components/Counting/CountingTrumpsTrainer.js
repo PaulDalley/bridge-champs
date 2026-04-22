@@ -727,6 +727,20 @@ function compassPuzzleToLegacy(puzzle) {
         seat: out.playCardAutoPlayAfter.seat ? remapPlaySeat(out.playCardAutoPlayAfter.seat) : out.playCardAutoPlayAfter.seat,
       };
     }
+    if (typeof out.playCardResponderSeat === "string" && out.playCardResponderSeat) {
+      out.playCardResponderSeat = remapPlaySeat(out.playCardResponderSeat);
+    }
+    if (out.playDecisionApplyCardOnChoice && typeof out.playDecisionApplyCardOnChoice === "object") {
+      const mapped = {};
+      Object.entries(out.playDecisionApplyCardOnChoice).forEach(([choice, play]) => {
+        if (!play || typeof play !== "object") return;
+        mapped[choice] = {
+          ...play,
+          seat: play.seat ? remapPlaySeat(play.seat) : play.seat,
+        };
+      });
+      out.playDecisionApplyCardOnChoice = mapped;
+    }
     return out;
   };
 
@@ -4135,6 +4149,19 @@ function CountingTrumpsTrainer({
   const [seatSuitCountKey, setSeatSuitCountKey] = useState(null);
   const [singleNumberInput, setSingleNumberInput] = useState("");
   const [activeCustomPrompt, setActiveCustomPrompt] = useState(null);
+  /** PLAY_CARD: seat whose hand is clickable (defaults to declarer for legacy beginner puzzles). */
+  const playCardResponderLegacySeat = useMemo(() => {
+    const raw = activeCustomPrompt?.playCardResponderSeat;
+    if (
+      promptStep === "PLAY_CARD" &&
+      activeCustomPrompt?.type === "PLAY_CARD" &&
+      typeof raw === "string" &&
+      SEATS.includes(raw)
+    ) {
+      return raw;
+    }
+    return "DECLARER";
+  }, [promptStep, activeCustomPrompt?.type, activeCustomPrompt?.playCardResponderSeat]);
   const [playDecisionReveal, setPlayDecisionReveal] = useState(null); // { text, promptId, roundIdx }
   const [doneExtraText, setDoneExtraText] = useState(null);
   const askedRef = useRef({
@@ -4838,11 +4865,18 @@ function CountingTrumpsTrainer({
       };
     });
     setRemainingHands(rem);
-    // Rounds data may omit the declarer's card when the learner plays it via PLAY_CARD; keep it on the table.
+    // Rounds may omit the learner's card (PLAY_CARD). For partial tricks, merge any missing seat from prev.
     setTrickCards((prev) => {
       if (end < 0) return { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
+      const lastPlays = puzzle.rounds?.[end]?.plays || [];
       const merged = { ...lastTrick };
-      if (!merged.DECLARER && prev?.DECLARER) merged.DECLARER = prev.DECLARER;
+      if (lastPlays.length < 4 && prev) {
+        for (const s of SEATS) {
+          if (!merged[s] && prev[s]) merged[s] = prev[s];
+        }
+      } else if (!merged.DECLARER && prev?.DECLARER) {
+        merged.DECLARER = prev.DECLARER;
+      }
       return merged;
     });
     setRoundIdx(Math.max(0, end));
@@ -5418,7 +5452,7 @@ function CountingTrumpsTrainer({
         activeCustomPrompt?.type === "PLAY_CARD" &&
         (playCardInteractiveStep === "dummy_lead" || playCardInteractiveStep === "dummy_follow");
       const isPlayCardModeSide =
-        seat === "DECLARER" &&
+        seat === playCardResponderLegacySeat &&
         promptStep === "PLAY_CARD" &&
         activeCustomPrompt?.type === "PLAY_CARD" &&
         playCardAutoPhaseDone;
@@ -5480,7 +5514,7 @@ function CountingTrumpsTrainer({
       activeCustomPrompt?.type === "PLAY_CARD" &&
       (playCardInteractiveStep === "dummy_lead" || playCardInteractiveStep === "dummy_follow");
     const isPlayCardMode =
-      seat === "DECLARER" &&
+      seat === playCardResponderLegacySeat &&
       promptStep === "PLAY_CARD" &&
       activeCustomPrompt?.type === "PLAY_CARD" &&
       playCardAutoPhaseDone;
@@ -5987,6 +6021,9 @@ function CountingTrumpsTrainer({
     const expected = activeCustomPrompt?.expectedAnswer;
     const autoContinueOnCorrect = !!activeCustomPrompt?.autoContinueOnCorrect;
     const val = Number(singleNumberInput);
+    const successTextRaw = activeCustomPrompt?.successText;
+    const successText =
+      typeof successTextRaw === "string" && successTextRaw.trim() ? successTextRaw : getShortSuccess();
     if (!promptId || typeof expected !== "number") return;
     if (Number.isFinite(val) && val === expected) {
       if (autoContinueOnCorrect) {
@@ -6001,7 +6038,7 @@ function CountingTrumpsTrainer({
         afterManualTrick(completedRoundIdx);
         return;
       }
-      setFeedback({ type: "ok", text: getShortSuccess() });
+      setFeedback({ type: "ok", text: successText });
       pendingAdvanceRef.current = () => {
         setSingleNumberInput("");
         askedRef.current = {
@@ -6091,6 +6128,36 @@ function CountingTrumpsTrainer({
 
     // Ungraded, or choice was correct.
     // Teaching reveal is shown in the PLAY_DECISION_REVEAL panel; show congratulations when correct.
+    const applyChoiceMap = activeCustomPrompt?.playDecisionApplyCardOnChoice;
+    const scriptedPlay =
+      applyChoiceMap && typeof applyChoiceMap === "object"
+        ? applyChoiceMap[String(choiceId)] || applyChoiceMap.ANY || null
+        : null;
+    if (scriptedPlay?.seat && scriptedPlay?.card) {
+      const seat = scriptedPlay.seat;
+      const card = {
+        rank: String(scriptedPlay.card.rank),
+        suit: String(scriptedPlay.card.suit),
+      };
+      if (SEATS.includes(seat) && card.rank && card.suit) {
+        setTrickCards((prev) => ({
+          ...(prev || { LHO: null, DUMMY: null, RHO: null, DECLARER: null }),
+          [seat]: card,
+        }));
+        if (visibleFullHandSeats.includes(seat)) {
+          setPlayedFromHand((prev) => ({
+            ...prev,
+            [seat]: { ...(prev?.[seat] || {}), [`${card.rank}${card.suit}`]: true },
+          }));
+        }
+        if (isTrump(card, puzzle.trumpSuit)) {
+          setRemainingHands((prev) => ({
+            ...prev,
+            [seat]: removeCardFromHand(prev?.[seat], card),
+          }));
+        }
+      }
+    }
     setFeedback(null);
     askedRef.current = {
       ...(askedRef.current || {}),
@@ -6422,6 +6489,9 @@ function CountingTrumpsTrainer({
 
   const handleDeclarerPlayCard = (card) => {
     if (userPlayedCard || !activeCustomPrompt || activeCustomPrompt.type !== "PLAY_CARD" || isPlaying) return;
+    const responderSeat = SEATS.includes(activeCustomPrompt?.playCardResponderSeat)
+      ? activeCustomPrompt.playCardResponderSeat
+      : "DECLARER";
     const userDummyFirst = !!activeCustomPrompt.playCardUserPlaysDummyFirst;
     const hasAutoPreface =
       !userDummyFirst &&
@@ -6504,6 +6574,7 @@ function CountingTrumpsTrainer({
       (!!activeCustomPrompt?.playCardNextClickFromDummy && playCardInteractiveStep === "declarer")
         ? prev
         : { LHO: null, DUMMY: null, RHO: null, DECLARER: null };
+    const placeLearnerCard = (base, c) => ({ ...base, [responderSeat]: c });
 
     const firstLine = correct
       ? (activeCustomPrompt.correctRevealText || "Well done!")
@@ -6534,14 +6605,14 @@ function CountingTrumpsTrainer({
     setUserPlayedCard(card);
     setPlayedFromHand((prev) => ({
       ...prev,
-      DECLARER: { ...(prev.DECLARER || {}), [`${card.rank}${card.suit}`]: true },
+      [responderSeat]: { ...(prev[responderSeat] || {}), [`${card.rank}${card.suit}`]: true },
     }));
 
     if (useStagger) {
       const afterPlay = activeCustomPrompt.playCardAutoPlayAfter;
       setTrickCards((prev) => {
         const base = computeTrickBase(prev);
-        const startTrick = { ...base, DECLARER: card };
+        const startTrick = placeLearnerCard(base, card);
         queueMicrotask(() => {
           let acc = { ...startTrick };
           follows.forEach((item, i) => {
@@ -6573,7 +6644,7 @@ function CountingTrumpsTrainer({
 
     setTrickCards((prev) => {
       const base = computeTrickBase(prev);
-      const next = { ...base, DECLARER: card };
+      const next = placeLearnerCard(base, card);
       if (followBySuit && typeof followBySuit === "object") {
         if (puzzle?.playEngine === PLAY_ENGINE_COMPASS_CLOCKWISE && compassLeaderForFollow) {
           for (const comp of followSeatsClockwiseFromLeader(compassLeaderForFollow)) {
@@ -6652,7 +6723,16 @@ function CountingTrumpsTrainer({
     applyStateThroughRound(throughRound);
     continuedFromPlayCardRevealRef.current = true;
     if (cfg?.playCardShowNextCustomPromptOnContinue) {
-      afterManualTrick(throughRound);
+      const computed = afterManualTrick(throughRound);
+      if (
+        cfg?.playCardAutoAdvanceOneManualTrick &&
+        manualTrickMode &&
+        throughRound < lastRoundIdx &&
+        !computed?.customPrompt &&
+        !(computed?.prompts && computed.prompts[0])
+      ) {
+        playOneTrick(throughRound + 1, { ignorePromptLock: true });
+      }
     } else if (
       beginnerModeOverride &&
       manualTrickMode &&
@@ -8451,7 +8531,7 @@ function CountingTrumpsTrainer({
           {feedback && (feedback.type === "ok" && waitingForContinue ? (
             <div className={`ct-feedback ct-feedback--ok ct-feedbackWithContinue`}>
               <button className="ct-btn ct-feedbackWithContinue-btn" onClick={runSuccessPrimaryCta} disabled={isPlaying}>
-                {canAdvanceToNextTrickFromSuccess() ? "Next trick!" : "Continue"}
+                Continue
               </button>
               <span className={`ct-feedbackWithContinue-text ${successFeedbackFading ? "ct-feedbackWithContinue-text--fading" : ""}`}>
                 <strong>{feedback.text}</strong>

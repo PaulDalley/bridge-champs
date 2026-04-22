@@ -338,6 +338,89 @@ button.ct-categoryTab {
   font-weight: 600;
 }
 
+/* Defence df1-14: brighter teaching callouts + mini "card" pattern chips. */
+.ct-df14-note {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.1);
+}
+
+.ct-df14-note--sky {
+  background: linear-gradient(155deg, #eff6ff 0%, #dbeafe 52%, #bfdbfe 100%);
+  border-color: rgba(37, 99, 235, 0.42);
+}
+
+.ct-df14-note--gold {
+  background: linear-gradient(155deg, #fff7ed 0%, #ffedd5 55%, #fed7aa 100%);
+  border-color: rgba(194, 65, 12, 0.42);
+}
+
+.ct-df14-note--mint {
+  background: linear-gradient(155deg, #ecfeff 0%, #cffafe 52%, #a5f3fc 100%);
+  border-color: rgba(8, 145, 178, 0.42);
+}
+
+.ct-df14-note--rose {
+  background: linear-gradient(155deg, #fff1f2 0%, #ffe4e6 52%, #fecdd3 100%);
+  border-color: rgba(225, 29, 72, 0.38);
+}
+
+.ct-df14-note--victory {
+  background: linear-gradient(155deg, #ecfdf5 0%, #d1fae5 55%, #a7f3d0 100%);
+  border-color: rgba(5, 150, 105, 0.42);
+}
+
+.ct-df14-noteTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.ct-df14-noteBody {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ct-df14-noteBody + .ct-df14-noteBody {
+  margin-top: 10px;
+}
+
+.ct-df14-chipRow {
+  margin: 12px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ct-df14-cardChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.24);
+  background: linear-gradient(170deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+}
+
+.ct-df14-cardChip--highlight {
+  background: linear-gradient(170deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #065f46;
+}
+
 .ct-revealRichListAlpha {
   margin: 12px 0 0;
   padding-left: 1.5em;
