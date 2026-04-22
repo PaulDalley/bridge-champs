@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import { nextClockwise } from "../../bridge/compassPlayOrder";
 import { compassCW } from "../../bridge/seatCompassMaps";
 import "./BeginnerJustPlayHands.css";
@@ -9,7 +9,6 @@ const COMPASSES = ["N", "E", "S", "W"];
 const TRICK_RANK_ORDER = "23456789TJQKA";
 
 const SUIT_SYMBOL = { S: "♠", H: "♥", D: "♦", C: "♣" };
-const CONTRACT_STRAINS = ["NT", "S", "H", "D", "C"];
 const CONTRACT_STRAIN_LABEL = { NT: "NT", S: "♠", H: "♥", D: "♦", C: "♣" };
 const CONTRACT_STRAIN_NAME = {
   NT: "notrump",
@@ -18,7 +17,6 @@ const CONTRACT_STRAIN_NAME = {
   D: "diamonds",
   C: "clubs",
 };
-const BID_STRAIN_ORDER = ["C", "D", "H", "S", "NT"];
 
 const SEAT_NAME = { N: "North", E: "East", S: "South", W: "West" };
 
@@ -95,27 +93,14 @@ function rankValueTrick(rank) {
   return TRICK_RANK_ORDER.indexOf(rank);
 }
 
-function randomLevel(rng) {
-  const roll = rng();
-  if (roll < 0.2) return 1;
-  if (roll < 0.45) return 2;
-  if (roll < 0.72) return 3;
-  if (roll < 0.9) return 4;
-  if (roll < 0.97) return 5;
-  return 6;
-}
-
-function createRandomContract(rng, declarerCompass = "S") {
-  const level = randomLevel(rng);
-  const strain = CONTRACT_STRAINS[Math.floor(rng() * CONTRACT_STRAINS.length)];
-  return {
-    level,
-    strain,
-    declarerCompass,
-    openingLeader: compassCW(declarerCompass),
-    targetTricks: level + 6,
-  };
-}
+/** Just Play uses a fixed 1NT contract; South is declarer (West on lead). */
+const FIXED_CONTRACT_1NT = {
+  level: 1,
+  strain: "NT",
+  declarerCompass: "S",
+  openingLeader: compassCW("S"),
+  targetTricks: 7,
+};
 
 function contractLabel(contract) {
   if (!contract) return "";
@@ -131,166 +116,62 @@ function isTrumpContract(contract) {
   return !!contract && contract.strain !== "NT";
 }
 
-function partnershipOfSeat(seat) {
-  return seat === "N" || seat === "S" ? "NS" : "EW";
-}
-
-function callLabel(call) {
-  if (!call) return "";
-  if (call.type === "pass") return "Pass";
-  return `${call.level}${call.strain === "NT" ? "NT" : suitSymbol(call.strain)}`;
-}
-
-function bidRank(call) {
-  if (!call || call.type !== "bid") return -1;
-  const strainIdx = BID_STRAIN_ORDER.indexOf(call.strain);
-  if (strainIdx < 0) return -1;
-  return (Number(call.level) - 1) * 5 + strainIdx;
-}
-
-function lastBidCall(auctionCalls) {
-  for (let i = auctionCalls.length - 1; i >= 0; i--) {
-    if (auctionCalls[i]?.call?.type === "bid") return auctionCalls[i].call;
-  }
-  return null;
-}
-
-function isAuctionComplete(auctionCalls) {
-  if (!Array.isArray(auctionCalls) || auctionCalls.length < 4) return false;
-  const hasBid = auctionCalls.some((e) => e?.call?.type === "bid");
-  if (!hasBid) return false;
-  const lastThree = auctionCalls.slice(-3);
-  return lastThree.every((e) => e?.call?.type === "pass");
-}
-
-function isLegalCall(auctionCalls, call) {
-  if (!call) return false;
-  if (call.type === "pass") return true;
-  if (call.type !== "bid") return false;
-  const prev = lastBidCall(auctionCalls);
-  return !prev || bidRank(call) > bidRank(prev);
-}
-
-function validateAuction(auctionCalls) {
-  const seen = [];
-  for (const entry of auctionCalls) {
-    if (!entry || !entry.call || !isLegalCall(seen, entry.call)) return false;
-    seen.push(entry);
-  }
-  return isAuctionComplete(auctionCalls);
-}
-
-function legalBidCalls(auctionCalls) {
-  const prev = lastBidCall(auctionCalls);
-  const minRank = prev ? bidRank(prev) + 1 : 0;
-  const out = [];
-  for (let level = 1; level <= 7; level++) {
-    for (const strain of BID_STRAIN_ORDER) {
-      const call = { type: "bid", level, strain };
-      if (bidRank(call) >= minRank) out.push(call);
-    }
-  }
-  return out;
-}
-
-function currentAuctionSeat(auctionCalls, dealerCompass) {
-  let seat = dealerCompass;
-  for (let i = 0; i < (auctionCalls || []).length; i++) {
-    seat = nextClockwise(seat);
-  }
-  return seat;
-}
-
-function resolveContractFromAuction(auctionCalls, fallbackContract) {
-  const lastBidEntry = [...auctionCalls].reverse().find((e) => e?.call?.type === "bid");
-  if (!lastBidEntry) return fallbackContract;
-  const { level, strain } = lastBidEntry.call;
-  const side = partnershipOfSeat(lastBidEntry.seat);
-  const declarerEntry = auctionCalls.find(
-    (e) =>
-      e?.call?.type === "bid" &&
-      e.call.strain === strain &&
-      partnershipOfSeat(e.seat) === side
-  );
-  const declarerCompass = declarerEntry ? declarerEntry.seat : lastBidEntry.seat;
-  return {
-    level,
-    strain,
-    declarerCompass,
-    openingLeader: compassCW(declarerCompass),
-    targetTricks: Number(level) + 6,
-  };
-}
-
-function chooseBotAuctionCall({ auctionCalls, seat, targetContract, hand = [] }) {
-  const pass = { type: "pass" };
-  const legalBids = legalBidCalls(auctionCalls);
-  if (!legalBids.length) return pass;
-
-  const suitLengths = { S: 0, H: 0, D: 0, C: 0 };
+function handHighCardPoints(cards) {
   let hcp = 0;
-  for (const c of hand) {
-    suitLengths[c.suit] = (suitLengths[c.suit] || 0) + 1;
+  for (const c of cards) {
     if (c.rank === "A") hcp += 4;
     else if (c.rank === "K") hcp += 3;
     else if (c.rank === "Q") hcp += 2;
     else if (c.rank === "J") hcp += 1;
   }
+  return hcp;
+}
 
-  const longestSuits = Object.entries(suitLengths)
-    .sort((a, b) => {
-      if (b[1] !== a[1]) return b[1] - a[1];
-      const majorBias = { S: 2, H: 1, D: 0, C: -1 };
-      return (majorBias[b[0]] || 0) - (majorBias[a[0]] || 0);
-    })
-    .map(([s]) => s);
-  const preferredSuit = longestSuits[0] || "C";
-  const isBalanced = Math.max(...Object.values(suitLengths)) <= 5 && Math.min(...Object.values(suitLengths)) >= 2;
-  const hasAnyBid = auctionCalls.some((e) => e?.call?.type === "bid");
-  const side = partnershipOfSeat(seat);
-  const partnerBids = auctionCalls.filter(
-    (e) => e?.call?.type === "bid" && partnershipOfSeat(e.seat) === side
-  );
-  const partnerLastBid = partnerBids.length ? partnerBids[partnerBids.length - 1].call : null;
-  const opponentsBid = auctionCalls.some(
-    (e) => e?.call?.type === "bid" && partnershipOfSeat(e.seat) !== side
-  );
+/** At least two cards in every suit (no singletons or voids). */
+function handHasNoSingletonNorVoid(hand) {
+  const counts = { S: 0, H: 0, D: 0, C: 0 };
+  for (const c of hand) counts[c.suit] += 1;
+  return Object.values(counts).every((n) => n >= 2);
+}
 
-  // Opening style: 1NT with balanced 15-17, otherwise 1 of longest suit with opening values.
-  if (!hasAnyBid && hcp >= 12) {
-    const oneNt = { type: "bid", level: 1, strain: "NT" };
-    if (isBalanced && hcp >= 15 && hcp <= 17 && isLegalCall(auctionCalls, oneNt)) return oneNt;
-    const oneSuit = { type: "bid", level: 1, strain: preferredSuit };
-    if (isLegalCall(auctionCalls, oneSuit)) return oneSuit;
-  }
-
-  // Simple response logic: raise partner with support and values.
-  if (partnerLastBid && partnerLastBid.strain !== "NT") {
-    const supportLen = suitLengths[partnerLastBid.strain] || 0;
-    if (supportLen >= 3 && hcp >= 6) {
-      const raise = { type: "bid", level: Number(partnerLastBid.level) + 1, strain: partnerLastBid.strain };
-      if (isLegalCall(auctionCalls, raise)) return raise;
+/**
+ * Random deal with North+South = 22 HCP and every hand balanced (min two per suit).
+ * Retries with derived seeds until constraints are met (typically a few dozen tries).
+ */
+function dealFourHandsBalancedNs22(seed) {
+  const base = seed >>> 0;
+  for (let attempt = 0; attempt < 12000; attempt += 1) {
+    const rng = mulberry32((base + attempt) >>> 0);
+    const shuffled = shuffleDeck(buildDeck(), rng);
+    const hands = { N: [], E: [], S: [], W: [] };
+    for (let i = 0; i < 52; i++) {
+      hands[COMPASSES[i % 4]].push(shuffled[i]);
     }
+    const nsHcp = handHighCardPoints(hands.N) + handHighCardPoints(hands.S);
+    if (nsHcp !== 22) continue;
+    if (
+      !handHasNoSingletonNorVoid(hands.N) ||
+      !handHasNoSingletonNorVoid(hands.S) ||
+      !handHasNoSingletonNorVoid(hands.E) ||
+      !handHasNoSingletonNorVoid(hands.W)
+    ) {
+      continue;
+    }
+    for (const c of COMPASSES) {
+      hands[c] = sortCardsSuitRank(hands[c]);
+    }
+    return hands;
   }
-
-  // Competitive overcall / takeout style approximation with decent values and length.
-  if (opponentsBid && hcp >= 11) {
-    const overcall = legalBids.find((b) => b.level <= 2 && (suitLengths[b.strain] || 0) >= 5);
-    if (overcall) return overcall;
+  const rng = mulberry32(base);
+  const shuffled = shuffleDeck(buildDeck(), rng);
+  const hands = { N: [], E: [], S: [], W: [] };
+  for (let i = 0; i < 52; i++) {
+    hands[COMPASSES[i % 4]].push(shuffled[i]);
   }
-
-  // Keep training target reachable when sensible.
-  if (targetContract && seat === targetContract.declarerCompass && hcp >= 10) {
-    const targetBid = { type: "bid", level: targetContract.level, strain: targetContract.strain };
-    if (isLegalCall(auctionCalls, targetBid)) return targetBid;
+  for (const c of COMPASSES) {
+    hands[c] = sortCardsSuitRank(hands[c]);
   }
-
-  // Fallback: conservative cheapest legal bid with values, otherwise pass.
-  if (hcp >= 10) {
-    const cheapest = legalBids[0];
-    if (cheapest) return cheapest;
-  }
-  return pass;
+  return hands;
 }
 
 function displayRank(rank) {
@@ -469,28 +350,15 @@ function currentSeatToPlay(state) {
 }
 
 function dealState(seed) {
-  const rng = mulberry32(seed >>> 0);
-  const shuffled = shuffleDeck(buildDeck(), rng);
-  const hands = { N: [], E: [], S: [], W: [] };
-  for (let i = 0; i < 52; i++) {
-    hands[COMPASSES[i % 4]].push(shuffled[i]);
-  }
-  for (const c of COMPASSES) {
-    hands[c] = sortCardsSuitRank(hands[c]);
-  }
-  const targetContract = createRandomContract(rng, "S");
-  const dealerCompass = "W";
+  const hands = dealFourHandsBalancedNs22(seed);
   return {
-    phase: "auction",
+    phase: "play",
     seed,
     hands,
-    dealerCompass,
-    auction: [],
     trickPlays: [],
-    trickLeader: targetContract.openingLeader,
-    declarerCompass: targetContract.declarerCompass,
-    contract: targetContract,
-    targetContract,
+    trickLeader: FIXED_CONTRACT_1NT.openingLeader,
+    declarerCompass: FIXED_CONTRACT_1NT.declarerCompass,
+    contract: FIXED_CONTRACT_1NT,
     nsTricksWon: 0,
     ewTricksWon: 0,
     pendingTrickWinner: undefined,
@@ -500,29 +368,6 @@ function dealState(seed) {
 function gameReducer(state, action) {
   if (action.type === "NEW_DEAL") {
     return dealState(action.seed);
-  }
-  if (action.type === "AUCTION_CALL") {
-    if (state.phase !== "auction") return state;
-    const { seat, call } = action;
-    const expectedSeat = currentAuctionSeat(state.auction, state.dealerCompass);
-    if (seat !== expectedSeat) return state;
-    if (!isLegalCall(state.auction, call)) return state;
-    const nextAuction = [...state.auction, { seat, call }];
-    if (!isAuctionComplete(nextAuction)) {
-      return { ...state, auction: nextAuction };
-    }
-    if (!validateAuction(nextAuction)) {
-      return { ...state, auction: nextAuction };
-    }
-    const finalContract = resolveContractFromAuction(nextAuction, state.contract);
-    return {
-      ...state,
-      auction: nextAuction,
-      contract: finalContract,
-      trickLeader: finalContract.openingLeader,
-      declarerCompass: finalContract.declarerCompass,
-      phase: "play",
-    };
   }
   if (action.type === "ACK_TRICK") {
     if (state.phase !== "trickAwaitAck") return state;
@@ -622,21 +467,14 @@ function TrickMiniTile({ card }) {
 
 function JustPlayTable({ variant, onDealMetaChange }) {
   const { humanSeats, yourPartnership } = getVariantConfig(variant);
-  const auctionHumanSeats = variant === "defend" ? new Set(["W"]) : new Set(["S"]);
 
   const [state, dispatch] = useReducer(gameReducer, null, () => dealState(Date.now() >>> 0));
-  const [selectedBidCode, setSelectedBidCode] = useState("");
 
   const onNewDeal = useCallback(() => {
     dispatch({ type: "NEW_DEAL", seed: Date.now() >>> 0 });
   }, []);
   const toPlay = currentSeatToPlay(state);
   const ledSuit = getLedSuit(state.trickPlays);
-  const auctionSeat = state.phase === "auction" ? currentAuctionSeat(state.auction, state.dealerCompass) : null;
-  const legalCalls = state.phase === "auction" ? legalBidCalls(state.auction) : [];
-  const selectedBidCall = legalCalls.find(
-    (c) => `${c.level}${c.strain}` === selectedBidCode
-  );
 
   useEffect(() => {
     if (typeof onDealMetaChange !== "function") return;
@@ -662,35 +500,6 @@ function JustPlayTable({ variant, onDealMetaChange }) {
     return () => window.clearTimeout(t);
   }, [state, variant]);
 
-  useEffect(() => {
-    if (state.phase !== "auction") return undefined;
-    if (!auctionSeat) return undefined;
-    if (auctionHumanSeats.has(auctionSeat)) return undefined;
-    const chosenCall = chooseBotAuctionCall({
-      auctionCalls: state.auction,
-      seat: auctionSeat,
-      targetContract: state.targetContract,
-      hand: state.hands[auctionSeat] || [],
-    });
-    const t = window.setTimeout(() => {
-      dispatch({ type: "AUCTION_CALL", seat: auctionSeat, call: chosenCall });
-    }, BOT_CARD_DELAY_MS * 0.8);
-    return () => window.clearTimeout(t);
-  }, [state.phase, state.auction, state.targetContract, auctionSeat, auctionHumanSeats]);
-
-  useEffect(() => {
-    if (state.phase !== "auction") return;
-    if (!auctionSeat || !auctionHumanSeats.has(auctionSeat)) return;
-    const targetCode = `${state.targetContract.level}${state.targetContract.strain}`;
-    if (legalCalls.some((c) => `${c.level}${c.strain}` === targetCode)) {
-      setSelectedBidCode(targetCode);
-      return;
-    }
-    if (!selectedBidCode && legalCalls[0]) {
-      setSelectedBidCode(`${legalCalls[0].level}${legalCalls[0].strain}`);
-    }
-  }, [state.phase, auctionSeat, auctionHumanSeats, legalCalls, selectedBidCode, state.targetContract]);
-
   const playHumanCard = useCallback((seat, card) => {
     dispatch({ type: "PLAY_CARD", seat, suit: card.suit, rank: card.rank });
   }, []);
@@ -698,17 +507,8 @@ function JustPlayTable({ variant, onDealMetaChange }) {
   const acknowledgeTrick = useCallback(() => {
     dispatch({ type: "ACK_TRICK" });
   }, []);
-  const callPass = useCallback(() => {
-    if (state.phase !== "auction" || !auctionSeat) return;
-    dispatch({ type: "AUCTION_CALL", seat: auctionSeat, call: { type: "pass" } });
-  }, [state.phase, auctionSeat]);
-  const callBid = useCallback(() => {
-    if (state.phase !== "auction" || !auctionSeat || !selectedBidCall) return;
-    dispatch({ type: "AUCTION_CALL", seat: auctionSeat, call: selectedBidCall });
-  }, [state.phase, auctionSeat, selectedBidCall]);
 
   const trickAwait = state.phase === "trickAwaitAck" && !!state.pendingTrickWinner;
-  const auctionAwait = state.phase === "auction";
 
   const rootKeyHandler = useCallback(
     (e) => {
@@ -859,61 +659,6 @@ function JustPlayTable({ variant, onDealMetaChange }) {
           NS tricks: {state.nsTricksWon} · EW tricks: {state.ewTricksWon}
         </p>
       </div>
-      {auctionAwait && (
-        <div className="bjp-auctionPanel" aria-label="Auction">
-          <div className="bjp-auctionHeading">Auction</div>
-          <p className="bjp-auctionSub">
-            Turn: {SEAT_NAME[auctionSeat]}. Target training contract: {contractLabel(state.targetContract)}.
-          </p>
-          <div className="bjp-auctionRow">
-            {(state.auction || []).map((entry, idx) => (
-              <span className="bjp-auctionCall" key={`auction-${idx}`}>
-                {entry.seat}: {callLabel(entry.call)}
-              </span>
-            ))}
-          </div>
-          {auctionSeat && auctionHumanSeats.has(auctionSeat) && (
-            <div className="bjp-auctionActions">
-              <button
-                type="button"
-                className="ct-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  callPass();
-                }}
-              >
-                Pass
-              </button>
-              <select
-                className="bjp-bidSelect"
-                value={selectedBidCode}
-                onChange={(e) => setSelectedBidCode(e.target.value)}
-                aria-label="Choose a bid"
-              >
-                {legalCalls.map((call) => {
-                  const code = `${call.level}${call.strain}`;
-                  return (
-                    <option key={code} value={code}>
-                      {callLabel(call)}
-                    </option>
-                  );
-                })}
-              </select>
-              <button
-                type="button"
-                className="ct-btn"
-                disabled={!selectedBidCall}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  callBid();
-                }}
-              >
-                Bid
-              </button>
-            </div>
-          )}
-        </div>
-      )}
       <div
         className={`bjp-root${variant === "defend" ? " bjp-root--defend" : ""}${trickAwait ? " bjp-root--clickContinue" : ""}`}
         onClick={trickAwait ? () => acknowledgeTrick() : undefined}
@@ -978,8 +723,9 @@ function BeginnerJustPlayHands({ trainer }) {
       <div className="bjp-introBanner" role="status">
         <h2 className="bjp-introBanner-heading">Just play — new and under development</h2>
         <p className="bjp-introBanner-text">
-          This mode is still experimental and does not work perfectly yet. You may see incorrect bids or cardplay
-          choices, so treat it as a preview while we continue improving the engine.
+          This mode is still experimental and does not work perfectly yet. You may see imperfect cardplay choices, so
+          treat it as a preview while we continue improving the engine. Each deal is 1NT by South with balanced
+          layouts and 22 high-card points for North–South together.
         </p>
       </div>
       <JustPlayTable key={trainer} variant={trainer} />
