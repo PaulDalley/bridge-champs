@@ -124,6 +124,8 @@ class PremiumMembership extends Component {
     // Keep KLINGER/EASTS working immediately by mapping to the active BLUE token.
     // Once userTokens/klinger and userTokens/easts exist in Firestore, remove this alias.
     if (this.isPremiumOnlyFreeMonthPromo(normalized)) return "blue";
+    // PETE26 should behave exactly like BLUE.
+    if (normalized === "pete26") return "blue";
     // Firestore document ids are normalized lowercase promo codes.
     // "harbourview" is no longer accepted.
     return normalized;
@@ -131,13 +133,13 @@ class PremiumMembership extends Component {
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue";
+    return normalized === "blue" || normalized === "pete26";
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "goldy";
+    return normalized === "blue" || normalized === "pete26" || normalized === "goldy";
   };
 
   getAppliedPromoToken = () => {
@@ -388,7 +390,7 @@ class PremiumMembership extends Component {
 
     const normalizedPromoCode = this.normalizePromoCode(this.state.promoCode);
     const isBluePromoActive =
-      normalizedPromoCode === "blue" &&
+      this.isOneMonthFreeAnyTierCode(normalizedPromoCode) &&
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
     const isPremiumOnlyPromoActive =
@@ -407,7 +409,7 @@ class PremiumMembership extends Component {
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
     const isBlueAppliedOnSelectedTier =
-      normalizedPromoCode === "blue" &&
+      this.isOneMonthFreeAnyTierCode(normalizedPromoCode) &&
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0 &&
       !!selectedTier;

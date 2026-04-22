@@ -1327,6 +1327,301 @@ const DEFENCE_PUZZLES = [
     ],
   },
   {
+    id: "df1-15",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠ by West: forcing declarer",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♠ P 2♠ P 3♦ P 4♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south", "east"],
+    revealFullHandsAtEnd: ["north", "west"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Forcing declarer and counting trumps",
+      customPrompts: [
+        {
+          id: "df1-15-force-idea",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "Is this a hand where declarer can realistically be forced to ruff, and eventually the defence has more trumps?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteTitle">Yes</p>
+              <p className="ct-df14-noteBody">
+                Very possible. When we have 3-4 trumps, forcing declarer to ruff is often a strong plan.
+              </p>
+              <p className="ct-df14-noteBody">
+                Earlier, when we had 4 trumps, partner had 1. Here we have 1 trump, so there is definitely a realistic
+                chance partner has 4.
+              </p>
+              <div className="ct-df14-chipRow" aria-label="Partnership trump assets">
+                <span className="ct-df14-cardChip">3-4 trumps</span>
+                <span className="ct-df14-cardChip">force ruffs</span>
+                <span className="ct-df14-cardChip ct-df14-cardChip--highlight">partnership assets</span>
+              </div>
+              <p className="ct-df14-noteBody">
+                If we can force lots of ruffs, good things can happen with 4 trumps (often 3 as well).
+              </p>
+              <p className="ct-df14-noteBody">
+                Be aware of partnership assets, not just your own hand.
+              </p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-15-return-trick2",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What should we return at trick 2 if our goal is to force declarer to ruff?",
+          options: [
+            { id: "trump", label: "Trump" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "diamond",
+          noContinue: true,
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--victory">
+              <p className="ct-df14-noteTitle">Diamond</p>
+              <p className="ct-df14-noteBody">
+                A diamond is a great return. Cashing the Queen of diamonds and playing another diamond forces declarer
+                to ruff (or lose 4 tricks).
+              </p>
+              <p className="ct-df14-noteBody">
+                Declarer will be forced to ruff again soon. When North wins the King of spades, North plays the fatal
+                4th diamond for a second ruff, leaving declarer with fewer trumps than North.
+              </p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      west: { S: "AQJ75", H: "AKQJ9", D: "98", C: "9" },
+      east: { S: "T36", H: "T87", D: "J657", C: "AKQ" },
+      south: { S: "2", H: "65", D: "AQ4", C: "T875643" },
+      north: { S: "K984", H: "432", D: "KT32", C: "J2" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (2♦ lead; low from dummy, A♦ from South, low from West)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "5", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "8", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-16",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠ by West: setup hand (build)",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♠ P 2♠ P 3♦ P 4♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south", "east"],
+    revealFullHandsAtEnd: ["north", "west"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Forcing declarer and counting trumps",
+      auctionHighlightCall: { row: 1, seat: "W" },
+      auctionHighlightNote: "3♦ showed 5 card diamond suit and slam try",
+      customPrompts: [
+        {
+          id: "df1-16-hand-sense",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--sky">
+              <p className="ct-df14-noteTitle">There are some interesting facts here.</p>
+              <p className="ct-df14-noteBody">Take a moment to get a feel for the hand, then continue.</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-16-diamond-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "D",
+          atRoundIdx: 1,
+          expectedDistribution: { west: 5, south: 4, east: 3, north: 1 },
+          fixed: { west: 5, south: 4, east: 3 },
+          promptText: "Firstly, what is the diamond distribution? (Declarer has shown 5 diamonds in the auction.)",
+          successText: "We can see partner has a singleton diamond!",
+        },
+        {
+          id: "df1-16-trump-sense-intro",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--mint">
+              <p className="ct-df14-noteTitle">Pattern recognition check</p>
+              <p className="ct-df14-noteBody">
+                We have a singleton trump. That should trigger a strong possibility in the trump distribution.
+              </p>
+              <p className="ct-df14-noteBody">What possible layout should we be thinking about?</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-16-trump-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 1,
+          expectedDistribution: { west: 5, east: 3, south: 1, north: 4 },
+          fixed: { west: 5, east: 3, south: 1 },
+          promptText: "A possible trump distribution is",
+          successText:
+            "Partner may have 4 trumps here. This could be a situation where we attack declarer's control of the whole hand.",
+        },
+        {
+          id: "df1-16-what-now",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "So what should we do?",
+          options: [
+            { id: "ruff", label: "Give partner a ruff for now" },
+            { id: "trump", label: "Play a trump" },
+            { id: "heart", label: "Play a heart" },
+            { id: "club", label: "Play a club" },
+          ],
+          expectedChoice: "heart",
+          continueButtonLabel: "Lets turn over the cards and watch what happens",
+          revealFullHandSeats: ["north", "west"],
+          revealFullHandSeatsOnContinue: true,
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteTitle">Nice one!</p>
+              <p className="ct-df14-noteBody">
+                A ruff is a short sighted goal. The bigger prize is to challenge declarer's control of the hand by
+                forcing declarer to ruff.
+              </p>
+              <p className="ct-df14-noteBody">Watch what happens.</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-16-after-ruff-note",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--rose">
+              <p className="ct-df14-noteTitle">Why this position is critical</p>
+              <p className="ct-df14-noteBody">
+                If declarer draws trumps now, partner (North) keeps one extra trump, can ruff a diamond, and then cash
+                a heart winner.
+              </p>
+              <p className="ct-df14-noteBody">If declarer keeps playing diamonds, the result is the same.</p>
+              <p className="ct-df14-noteBody">
+                Declarer's trumps have dipped below the defenders' trumps, and the hand starts to collapse.
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-16-summary",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "Show me the starting layout",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--victory">
+              <p className="ct-df14-noteTitle">Summary</p>
+              <p className="ct-df14-noteBody">Forcing declarer is a powerful strategy.</p>
+              <p className="ct-df14-noteBody">
+                It means making declarer ruff so the defence ends up with longer trump length than declarer.
+              </p>
+              <p className="ct-df14-noteBody">That can destroy declarer's control and break the hand.</p>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      west: { S: "AKQ95", H: "A", D: "J9834", C: "K2" },
+      east: { S: "T63", H: "9852", D: "QT7", C: "A64" },
+      south: { S: "2", H: "QT63", D: "AK65", C: "J975" },
+      north: { S: "J874", H: "KJ74", D: "2", C: "QT83" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (4♥ lead; 2♥, Q♥, A♥)",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "Q", suit: "H" } },
+          { seat: "W", card: { rank: "A", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (3♦ lead; 2♦, Q♦, K♦)",
+        plays: [
+          { seat: "W", card: { rank: "3", suit: "D" } },
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "Q", suit: "D" } },
+          { seat: "S", card: { rank: "K", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 3 (heart by South; low trump by West; heart by North; heart by East)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "H" } },
+          { seat: "W", card: { rank: "5", suit: "S" }, showOut: true },
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (diamond by West; club discard by North; 10♦ by East; A♦ by South)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "D" } },
+          { seat: "N", card: { rank: "3", suit: "C" }, showOut: true },
+          { seat: "E", card: { rank: "T", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (heart by South; low trump by West; heart by North; heart by East)",
+        plays: [
+          { seat: "S", card: { rank: "T", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "S" }, showOut: true },
+          { seat: "N", card: { rank: "J", suit: "H" } },
+          { seat: "E", card: { rank: "8", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "df2-1",
     difficulty: 2,
     title: "Defending 3♥: count declarer's shape (and duck the spade)",

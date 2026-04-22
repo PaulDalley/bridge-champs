@@ -704,6 +704,9 @@ function compassPuzzleToLegacy(puzzle) {
     if (!p || typeof p !== "object") return p;
     const out = { ...p };
     if (typeof out.seat === "string") out.seat = remapPlaySeat(out.seat);
+    if (Array.isArray(out.revealFullHandSeats)) {
+      out.revealFullHandSeats = out.revealFullHandSeats.map((s) => (typeof s === "string" ? remapPlaySeat(s) : s));
+    }
     if (out.fixed) out.fixed = remapTopLevelSeatKeys(out.fixed);
     if (out.expectedDistribution) out.expectedDistribution = remapTopLevelSeatKeys(out.expectedDistribution);
     if (out.playCardAutoFollowBySuit) {
@@ -4070,6 +4073,7 @@ function CountingTrumpsTrainer({
   const [postPromptIdx, setPostPromptIdx] = useState(0);
   const [currentPostPrompts, setCurrentPostPrompts] = useState([]);
   const [feedback, setFeedback] = useState(null); // { type: "ok"|"error", text }
+  const [stickyRevealFullHandSeats, setStickyRevealFullHandSeats] = useState([]);
   const [waitingForContinue, setWaitingForContinue] = useState(false);
   const pendingAdvanceRef = useRef(null);
   const promptDoneRef = useRef(null);
@@ -4109,6 +4113,10 @@ function CountingTrumpsTrainer({
     hasStarted &&
     completedRoundIdx < lastRoundIdx &&
     !hasFollowUpPromptQueued();
+  useEffect(() => {
+    setStickyRevealFullHandSeats([]);
+  }, [puzzle?.id]);
+
   const runSuccessPrimaryCta = () => {
     const fn = pendingAdvanceRef.current;
     pendingAdvanceRef.current = null;
@@ -4411,13 +4419,14 @@ function CountingTrumpsTrainer({
 
   const visibleFullHandSeatsBase = useMemo(() => {
     // "You" is defined per-problem by `viewerCompass`, mapped to an internal seat key (`viewerSeat`).
-    // Bidding mode is strict: only show the viewer's hand unless a puzzle explicitly reveals more.
+    // If a puzzle explicitly sets visible seats, honour it across trainers (useful for build/test setups).
     const youSeat = viewerSeat;
+    const vf = puzzle?.visibleFullHandSeats;
+    if (Array.isArray(vf) && vf.length > 0) {
+      return [...new Set(vf)];
+    }
+    // Bidding mode is strict: only show the viewer's hand unless a puzzle explicitly reveals more.
     if (categoryKey === "bidding") {
-      const vf = puzzle?.visibleFullHandSeats;
-      if (Array.isArray(vf) && vf.length > 0) {
-        return [...new Set(vf)];
-      }
       return [youSeat];
     }
     const hasDummy = isFullHandShape(puzzle?.shownHands?.DUMMY);
@@ -4437,22 +4446,23 @@ function CountingTrumpsTrainer({
   }, [viewerSeat, puzzle?.shownHands, puzzle?.visibleFullHandSeats, puzzle?.rounds, puzzle?.trainerEngine, categoryKey]);
 
   const visibleFullHandSeats = useMemo(() => {
+    const baseWithSticky = [...new Set([...(visibleFullHandSeatsBase || []), ...(stickyRevealFullHandSeats || [])])];
     // At the end: if puzzle has revealFullHandsAtEnd, add those seats to the base list; otherwise reveal all.
     if (promptStep === "DONE") {
       const toReveal = puzzle.revealFullHandsAtEnd;
       if (Array.isArray(toReveal) && toReveal.length > 0) {
-        const combined = [...new Set([...(visibleFullHandSeatsBase || []), ...toReveal])];
+        const combined = [...new Set([...baseWithSticky, ...toReveal])];
         return combined;
       }
       // Bidding is strict unless explicitly configured per puzzle.
-      if (categoryKey === "bidding") return visibleFullHandSeatsBase;
+      if (categoryKey === "bidding") return baseWithSticky;
       return SEATS;
     }
     // Optional: reveal extra full hands during a PLAY_DECISION reveal (e.g. show dummy after “Continue”).
     if (promptStep === "PLAY_DECISION_REVEAL") {
       const extraReveal = activeCustomPrompt?.revealFullHandSeats;
-      if (Array.isArray(extraReveal) && extraReveal.length > 0) {
-        return [...new Set([...(visibleFullHandSeatsBase || []), ...extraReveal])];
+      if (Array.isArray(extraReveal) && extraReveal.length > 0 && !activeCustomPrompt?.revealFullHandSeatsOnContinue) {
+        return [...new Set([...baseWithSticky, ...extraReveal])];
       }
     }
     // When showing a noContinue reveal, treat as end of hand and show full hand if puzzle has all four in shownHands.
@@ -4462,15 +4472,17 @@ function CountingTrumpsTrainer({
       activeCustomPrompt?.noContinue
     ) {
       if (SEATS.every((s) => isFullHandShape(puzzle.shownHands?.[s]))) return SEATS;
-      return visibleFullHandSeatsBase;
+      return baseWithSticky;
     }
     if (promptStep === "PLAY_DECISION_REVEAL" && activeCustomPrompt?.noContinue && SEATS.every((s) => isFullHandShape(puzzle.shownHands?.[s]))) return SEATS;
-    return visibleFullHandSeatsBase;
+    return baseWithSticky;
   }, [
     promptStep,
     visibleFullHandSeatsBase,
+    stickyRevealFullHandSeats,
     activeCustomPrompt?.noContinue,
     activeCustomPrompt?.revealFullHandSeats,
+    activeCustomPrompt?.revealFullHandSeatsOnContinue,
     puzzle.shownHands,
     puzzle.revealFullHandsAtEnd,
     categoryKey,
@@ -4830,9 +4842,7 @@ function CountingTrumpsTrainer({
         const plays = puzzle.rounds?.[r]?.plays || [];
         for (const p of plays) {
           const key = `${p.card.rank}${p.card.suit}`;
-          if (visibleFullHandSeats.includes(p.seat)) {
-            playedMap[p.seat] = { ...(playedMap[p.seat] || {}), [key]: true };
-          }
+          playedMap[p.seat] = { ...(playedMap[p.seat] || {}), [key]: true };
           if (isTrump(p.card, puzzle.trumpSuit)) {
             rem = { ...rem, [p.seat]: removeCardFromHand(rem[p.seat], p.card) };
           }
@@ -4942,12 +4952,10 @@ function CountingTrumpsTrainer({
         if (!seat || !card) return;
         trick = { ...trick, [seat]: card };
         setTrickCards({ ...trick });
-        if (visibleFullHandSeats.includes(seat)) {
-          setPlayedFromHand((prev) => ({
-            ...prev,
-            [seat]: { ...(prev[seat] || {}), [`${card.rank}${card.suit}`]: true },
-          }));
-        }
+        setPlayedFromHand((prev) => ({
+          ...prev,
+          [seat]: { ...(prev[seat] || {}), [`${card.rank}${card.suit}`]: true },
+        }));
         if (isTrump(card, puzzle.trumpSuit)) {
           setRemainingHands((prev) => ({
             ...prev,
@@ -5004,12 +5012,10 @@ function CountingTrumpsTrainer({
           setRoundIdx(r);
           setPlayIdx(i);
           setTrickCards((prev) => ({ ...prev, [p.seat]: p.card }));
-          if (visibleFullHandSeats.includes(p.seat)) {
-            setPlayedFromHand((prev) => ({
-              ...prev,
-              [p.seat]: { ...(prev[p.seat] || {}), [`${p.card.rank}${p.card.suit}`]: true },
-            }));
-          }
+          setPlayedFromHand((prev) => ({
+            ...prev,
+            [p.seat]: { ...(prev[p.seat] || {}), [`${p.card.rank}${p.card.suit}`]: true },
+          }));
           if (isTrump(p.card, puzzle.trumpSuit)) {
             setRemainingHands((prev) => ({
               ...prev,
@@ -6144,12 +6150,10 @@ function CountingTrumpsTrainer({
           ...(prev || { LHO: null, DUMMY: null, RHO: null, DECLARER: null }),
           [seat]: card,
         }));
-        if (visibleFullHandSeats.includes(seat)) {
-          setPlayedFromHand((prev) => ({
-            ...prev,
-            [seat]: { ...(prev?.[seat] || {}), [`${card.rank}${card.suit}`]: true },
-          }));
-        }
+        setPlayedFromHand((prev) => ({
+          ...prev,
+          [seat]: { ...(prev?.[seat] || {}), [`${card.rank}${card.suit}`]: true },
+        }));
         if (isTrump(card, puzzle.trumpSuit)) {
           setRemainingHands((prev) => ({
             ...prev,
@@ -6402,12 +6406,10 @@ function CountingTrumpsTrainer({
             const c = play?.card;
             if (!seat || !c) return;
             setTrickCards((prev) => ({ ...prev, [seat]: c }));
-            if (visibleFullHandSeats.includes(seat)) {
-              setPlayedFromHand((prev) => ({
-                ...prev,
-                [seat]: { ...(prev[seat] || {}), [`${c.rank}${c.suit}`]: true },
-              }));
-            }
+            setPlayedFromHand((prev) => ({
+              ...prev,
+              [seat]: { ...(prev[seat] || {}), [`${c.rank}${c.suit}`]: true },
+            }));
             if (isTrump(c, puzzle.trumpSuit)) {
               setRemainingHands((prev) => ({
                 ...prev,
@@ -6460,12 +6462,10 @@ function CountingTrumpsTrainer({
           if (!seat || !c) return;
           trick = { ...trick, [seat]: c };
           setTrickCards({ ...trick });
-          if (visibleFullHandSeats.includes(seat)) {
-            setPlayedFromHand((prev) => ({
-              ...prev,
-              [seat]: { ...(prev[seat] || {}), [`${c.rank}${c.suit}`]: true },
-            }));
-          }
+          setPlayedFromHand((prev) => ({
+            ...prev,
+            [seat]: { ...(prev[seat] || {}), [`${c.rank}${c.suit}`]: true },
+          }));
           if (isTrump(c, puzzle.trumpSuit)) {
             setRemainingHands((prev) => ({
               ...prev,
@@ -6755,6 +6755,10 @@ function CountingTrumpsTrainer({
     const promptId = playDecisionReveal?.promptId;
     const roundIdxToContinue = Number.isFinite(playDecisionReveal?.roundIdx) ? playDecisionReveal.roundIdx : completedRoundIdx;
     if (!promptId) return;
+    const cfg = puzzle.promptOptions?.customPrompts?.find((p) => p.id === promptId);
+    if (cfg?.revealFullHandSeatsOnContinue && Array.isArray(cfg?.revealFullHandSeats) && cfg.revealFullHandSeats.length > 0) {
+      setStickyRevealFullHandSeats((prev) => [...new Set([...(prev || []), ...cfg.revealFullHandSeats])]);
+    }
     setFeedback(null);
     setPlayDecisionReveal(null);
     askedRef.current = {
@@ -8279,9 +8283,6 @@ function CountingTrumpsTrainer({
                 )}
               </div>
 
-              <div className="ct-microHelp">
-                Your guess must add to <strong>13</strong>.
-              </div>
             </>
           )}
 
