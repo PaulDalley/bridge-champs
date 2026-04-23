@@ -43,6 +43,8 @@ class Settings extends Component {
     // Email list export
     emailListLoading: false,
     emailListResult: null,
+    emailList2018To2024Loading: false,
+    emailList2018To2024Result: null,
     subscriberListLoading: false,
     subscriberListResult: null,
     nonSubscriberListLoading: false,
@@ -330,6 +332,105 @@ class Settings extends Component {
       toastr.error(displayError);
     } finally {
       this.setState({ emailListLoading: false });
+    }
+  };
+
+  getEmailList2018To2024 = async () => {
+    this.setState({
+      emailList2018To2024Loading: true,
+      emailList2018To2024Result: null,
+    });
+    try {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not logged in");
+      const token = await user.getIdToken();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
+
+      const [from2018Res, from2025Res] = await Promise.all([
+        fetch(
+          "https://us-central1-bridgechampions.cloudfunctions.net/adminGetUserEmailsSinceDate?since=2018-01-01",
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+            signal: controller.signal,
+          }
+        ),
+        fetch(
+          "https://us-central1-bridgechampions.cloudfunctions.net/adminGetUserEmailsSinceDate?since=2025-01-01",
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+            signal: controller.signal,
+          }
+        ),
+      ]);
+      clearTimeout(timeoutId);
+
+      const parseResponseJson = async (res) => {
+        const raw = await res.text();
+        try {
+          return raw ? JSON.parse(raw) : {};
+        } catch (_) {
+          return {};
+        }
+      };
+
+      const from2018Data = await parseResponseJson(from2018Res);
+      const from2025Data = await parseResponseJson(from2025Res);
+
+      if (!from2018Res.ok) {
+        throw new Error(
+          (from2018Data && from2018Data.error) ||
+            from2018Res.statusText ||
+            `HTTP ${from2018Res.status}`
+        );
+      }
+      if (!from2025Res.ok) {
+        throw new Error(
+          (from2025Data && from2025Data.error) ||
+            from2025Res.statusText ||
+            `HTTP ${from2025Res.status}`
+        );
+      }
+
+      const from2025Set = new Set(
+        (from2025Data.emails || []).map((email) =>
+          String(email || "").trim().toLowerCase()
+        )
+      );
+      const emails2018To2024 = Array.from(
+        new Set(
+          (from2018Data.emails || []).filter((email) => {
+            const normalized = String(email || "").trim().toLowerCase();
+            return normalized && !from2025Set.has(normalized);
+          })
+        )
+      );
+
+      const result = { count: emails2018To2024.length, emails: emails2018To2024 };
+      this.setState({ emailList2018To2024Result: result });
+      const emailStr = emails2018To2024.join("\n");
+      if (navigator.clipboard && emailStr) {
+        await navigator.clipboard.writeText(emailStr);
+        toastr.success(`${result.count} email(s) from 2018-2024 copied to clipboard`);
+      } else {
+        toastr.success(`${result.count} email(s) from 2018-2024 fetched`);
+      }
+    } catch (err) {
+      const message = err.message || String(err);
+      const isAbort = err.name === "AbortError";
+      const isNetworkError = message === "Failed to fetch" || err.name === "TypeError";
+      let displayError = message;
+      if (isAbort) {
+        displayError = "Request timed out. The function may be cold-starting — try again.";
+      } else if (isNetworkError) {
+        displayError = "Network error — try again.";
+      }
+      this.setState({ emailList2018To2024Result: { error: displayError } });
+      toastr.error(displayError);
+    } finally {
+      this.setState({ emailList2018To2024Loading: false });
     }
   };
 
@@ -1025,7 +1126,7 @@ class Settings extends Component {
 
                     <h3 className="Settings-admin-title" style={{ marginTop: "24px" }}>Export email list</h3>
                     <p className="Settings-admin-subtitle">
-                      Get subscriber emails, non-subscribers since 2025, or all users since 2025. Copies to clipboard.
+                      Get subscriber emails, non-subscribers since 2025, all users since 2025, or all users from 2018-2024. Copies to clipboard.
                     </p>
                     <div className="Settings-admin-actions" style={{ marginTop: "8px" }}>
                       <button
@@ -1053,6 +1154,15 @@ class Settings extends Component {
                         style={{ marginLeft: "8px" }}
                       >
                         Get emails since 2025 (all)
+                      </button>
+                      <button
+                        type="button"
+                        className="Settings-admin-copy-btn"
+                        disabled={this.state.emailList2018To2024Loading}
+                        onClick={this.getEmailList2018To2024}
+                        style={{ marginLeft: "8px" }}
+                      >
+                        {this.state.emailList2018To2024Loading ? "Loading…" : "Get emails 2018-2024 (all)"}
                       </button>
                     </div>
                     {this.state.subscriberListResult && !this.state.subscriberListResult.error && (
@@ -1083,6 +1193,16 @@ class Settings extends Component {
                     {this.state.emailListResult && this.state.emailListResult.error && (
                       <p className="Settings-admin-error" style={{ marginTop: "8px" }}>
                         {this.state.emailListResult.error}
+                      </p>
+                    )}
+                    {this.state.emailList2018To2024Result && !this.state.emailList2018To2024Result.error && (
+                      <p className="Settings-admin-result" style={{ marginTop: "8px" }}>
+                        {this.state.emailList2018To2024Result.count} user(s) from 2018-01-01 to 2024-12-31 (all).
+                      </p>
+                    )}
+                    {this.state.emailList2018To2024Result && this.state.emailList2018To2024Result.error && (
+                      <p className="Settings-admin-error" style={{ marginTop: "8px" }}>
+                        {this.state.emailList2018To2024Result.error}
                       </p>
                     )}
                   </div>

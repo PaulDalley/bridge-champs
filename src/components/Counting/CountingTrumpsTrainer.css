@@ -4814,6 +4814,36 @@ button.ct-categoryTab {
   letter-spacing: 0.05em;
 }
 
+.ct-shapeRow--trickCount {
+  gap: 12px;
+}
+
+.ct-shapeRow--trickCount .ct-numBox--dist {
+  min-height: 72px;
+}
+
+.ct-shapeRow--trickCount .ct-numBoxValue--dist {
+  font-size: var(--text-4xl);
+}
+
+.ct-distLabel--trickCountSuit {
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.ct-distLabel--trickCountSuitS,
+.ct-distLabel--trickCountSuitC {
+  color: #111827;
+}
+
+.ct-distLabel--trickCountSuitH,
+.ct-distLabel--trickCountSuitD {
+  color: #b91c1c;
+}
+
 .ct-input--dist {
   width: 100%;
   margin-top: 8px;

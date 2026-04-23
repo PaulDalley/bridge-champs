@@ -4151,6 +4151,7 @@ function CountingTrumpsTrainer({
   const [seatShapeSeatKey, setSeatShapeSeatKey] = useState(null);
   const [shapeSeat, setShapeSeat] = useState(null); // which seat we are currently asking to enter shape for
   const [trickCountInput, setTrickCountInput] = useState({ S: "", H: "", D: "", C: "" });
+  const [trickCountPrefillKey, setTrickCountPrefillKey] = useState(null);
   const [shapeIntroSeatKey, setShapeIntroSeatKey] = useState(null);
   const [declarerTrumpGuessInput, setDeclarerTrumpGuessInput] = useState("");
   const [seatSuitCountInput, setSeatSuitCountInput] = useState("");
@@ -4680,9 +4681,11 @@ function CountingTrumpsTrainer({
     const all = Array.isArray(puzzle.promptOptions?.customPrompts) ? puzzle.promptOptions.customPrompts : [];
     if (!all.length) return null;
     const askedCustom = askedRef.current?.customAsked || {};
+    const trickCountAlreadyAsked = !!askedRef.current?.trickCountAsked;
     const eligible = all.filter((p) => {
       const at = Number(p?.atRoundIdx);
       const atOk = Number.isFinite(at) ? throughRoundIdx >= at : false;
+      if (p?.type === "TRICK_COUNT" && trickCountAlreadyAsked) return false;
       return atOk && p?.id && !askedCustom[p.id];
     });
     return eligible[0] || null;
@@ -4791,6 +4794,7 @@ function CountingTrumpsTrainer({
     setSeatShapeSeatKey(null);
     setShapeIntroSeatKey(null);
     setTrickCountInput({ S: "", H: "", D: "", C: "" });
+    setTrickCountPrefillKey(null);
     setDeclarerTrumpGuessInput("");
     setSeatSuitCountInput("");
     setSingleNumberInput("");
@@ -5912,8 +5916,11 @@ function CountingTrumpsTrainer({
 
   const submitTrickCount = () => {
     const through = manualTrickMode ? completedRoundIdx : activePauseRoundIdx;
+    const customTrickCountPromptId = activeCustomPrompt?.type === "TRICK_COUNT" ? activeCustomPrompt?.id : null;
     const expected =
-      puzzle.promptOptions?.trickCountExpected || computeTrickCountExpectedThroughRound(puzzle, Math.max(0, through));
+      (customTrickCountPromptId ? activeCustomPrompt?.trickCountExpected : null) ||
+      puzzle.promptOptions?.trickCountExpected ||
+      computeTrickCountExpectedThroughRound(puzzle, Math.max(0, through));
     const parsed = {
       S: Number(trickCountInput.S),
       H: Number(trickCountInput.H),
@@ -5936,8 +5943,41 @@ function CountingTrumpsTrainer({
         text: `Correct — ${isDeclarerSide ? "your side" : "declarer"} has ${total} sure tricks.`,
       });
       pendingAdvanceRef.current = () => {
-        askedRef.current = { ...(askedRef.current || {}), trickCountAsked: true };
+        askedRef.current = {
+          ...(askedRef.current || {}),
+          trickCountAsked: true,
+          customAsked: customTrickCountPromptId
+            ? { ...((askedRef.current && askedRef.current.customAsked) || {}), [customTrickCountPromptId]: true }
+            : ((askedRef.current && askedRef.current.customAsked) || {}),
+        };
         setAskedTick((t) => t + 1);
+        if (manualTrickMode) {
+          if (customTrickCountPromptId) {
+            const throughRound = Math.max(
+              Number.isFinite(completedRoundIdxRef.current) ? completedRoundIdxRef.current : -1,
+              Number.isFinite(completedRoundIdx) ? completedRoundIdx : -1,
+              Number.isFinite(roundIdx) ? roundIdx : -1
+            );
+            const next = throughRound + 1;
+            setActiveCustomPrompt(null);
+            setCurrentPostPrompts([]);
+            setPostPromptIdx(0);
+            setPromptStep(null);
+            if (next <= lastRoundIdx) playOneTrick(next, { ignorePromptLock: true });
+            else setPromptStep("DONE");
+            return;
+          }
+          const throughRound = Math.max(
+            Number.isFinite(completedRoundIdxRef.current) ? completedRoundIdxRef.current : -1,
+            Number.isFinite(completedRoundIdx) ? completedRoundIdx : -1
+          );
+          const computed = afterManualTrick(throughRound);
+          if (computed.prompts[0]) return;
+          const next = throughRound + 1;
+          if (next <= lastRoundIdx) playOneTrick(next, { ignorePromptLock: true });
+          else setPromptStep("DONE");
+          return;
+        }
         advancePostPrompt();
       };
       setWaitingForContinue(true);
@@ -5947,8 +5987,41 @@ function CountingTrumpsTrainer({
         const ansTotal = (expected.S || 0) + (expected.H || 0) + (expected.D || 0) + (expected.C || 0);
         setFeedback({ type: "ok", text: `${REVEAL_GOOD_TRY}The correct answer is ${expected.S}${expected.H}${expected.D}${expected.C} (total ${ansTotal}).` });
         pendingAdvanceRef.current = () => {
-          askedRef.current = { ...(askedRef.current || {}), trickCountAsked: true };
+          askedRef.current = {
+            ...(askedRef.current || {}),
+            trickCountAsked: true,
+            customAsked: customTrickCountPromptId
+              ? { ...((askedRef.current && askedRef.current.customAsked) || {}), [customTrickCountPromptId]: true }
+              : ((askedRef.current && askedRef.current.customAsked) || {}),
+          };
           setAskedTick((t) => t + 1);
+          if (manualTrickMode) {
+            if (customTrickCountPromptId) {
+              const throughRound = Math.max(
+                Number.isFinite(completedRoundIdxRef.current) ? completedRoundIdxRef.current : -1,
+                Number.isFinite(completedRoundIdx) ? completedRoundIdx : -1,
+                Number.isFinite(roundIdx) ? roundIdx : -1
+              );
+              const next = throughRound + 1;
+              setActiveCustomPrompt(null);
+              setCurrentPostPrompts([]);
+              setPostPromptIdx(0);
+              setPromptStep(null);
+              if (next <= lastRoundIdx) playOneTrick(next, { ignorePromptLock: true });
+              else setPromptStep("DONE");
+              return;
+            }
+            const throughRound = Math.max(
+              Number.isFinite(completedRoundIdxRef.current) ? completedRoundIdxRef.current : -1,
+              Number.isFinite(completedRoundIdx) ? completedRoundIdx : -1
+            );
+            const computed = afterManualTrick(throughRound);
+            if (computed.prompts[0]) return;
+            const next = throughRound + 1;
+            if (next <= lastRoundIdx) playOneTrick(next, { ignorePromptLock: true });
+            else setPromptStep("DONE");
+            return;
+          }
           advancePostPrompt();
         };
         setWaitingForContinue(true);
@@ -7087,6 +7160,30 @@ function CountingTrumpsTrainer({
       return () => clearTimeout(t);
     }
   }, [promptStep, seatSuitCountKey, activeCustomPrompt]);
+
+  useEffect(() => {
+    if (promptStep === "TRICK_COUNT") {
+      const t = setTimeout(() => {
+        const isCustomTrickCount = activeCustomPrompt?.type === "TRICK_COUNT" && !!activeCustomPrompt?.id;
+        const key = isCustomTrickCount ? `customTrickCount:${activeCustomPrompt.id}` : `baseTrickCount:${puzzle.id}`;
+        if (trickCountPrefillKey !== key) {
+          const prefill = (isCustomTrickCount ? activeCustomPrompt?.trickCountPrefill : null) || puzzle?.promptOptions?.trickCountPrefill || {};
+          setTrickCountInput({
+            S: prefill?.S !== undefined ? String(prefill.S) : "",
+            H: prefill?.H !== undefined ? String(prefill.H) : "",
+            D: prefill?.D !== undefined ? String(prefill.D) : "",
+            C: prefill?.C !== undefined ? String(prefill.C) : "",
+          });
+          setTrickCountPrefillKey(key);
+          setFeedback(null);
+        }
+        const firstEditable = ["S", "H", "D", "C"].find((s) => String(trickCountInput[s] ?? "").trim() === "") || "S";
+        seatShapeRefs[firstEditable]?.current?.focus?.();
+        seatShapeRefs[firstEditable]?.current?.select?.();
+      }, 50);
+      return () => clearTimeout(t);
+    }
+  }, [promptStep, activeCustomPrompt, puzzle?.id, puzzle?.promptOptions?.trickCountPrefill, trickCountPrefillKey, trickCountInput, seatShapeRefs]);
 
   useEffect(() => {
     if (promptStep === "SINGLE_NUMBER") {
@@ -8450,13 +8547,13 @@ function CountingTrumpsTrainer({
           {promptStep === "TRICK_COUNT" && (
             <>
               <div className="ct-questionText">
-                How many <strong>sure tricks</strong> does <strong>{isDeclarerSide ? "your side" : "declarer"}</strong> have? (by suit)
+                Let's simply count the tricks we can see in front of us, in each suit.
               </div>
 
-              <div className="ct-shapeRow" role="group" aria-label="Trick count inputs">
+              <div className="ct-shapeRow ct-shapeRow--trickCount" role="group" aria-label="Trick count inputs">
                 {["S", "H", "D", "C"].map((suit) => (
                   <div key={`tc-${suit}`} className="ct-distSeat">
-                    <div className="ct-distLabel">{suitSymbol(suit)}</div>
+                    <div className={`ct-distLabel ct-distLabel--trickCountSuit ct-distLabel--trickCountSuit${suit}`}>{suitSymbol(suit)}</div>
                     <div
                       className="ct-numBox ct-numBox--dist"
                       onMouseDown={(e) => {

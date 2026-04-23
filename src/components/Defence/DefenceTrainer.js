@@ -963,7 +963,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
-      themeLabel: "Forcing declarer",
+      themeLabel: "Theme: Forcing declarer",
       auctionHighlightCall: { row: 0, seat: "W" },
       auctionHighlightNote: "3♥ was an 11+ point spade raise.",
       customPrompts: [
@@ -1122,7 +1122,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       playThroughRoundAfterPreInclusive: 0,
       promptThemeTint: "drawTrumps",
-      themeLabel: "Theme: Forcing declarer and counting trumps",
+      themeLabel: "Theme: Forcing declarer",
       auctionHighlightCall: { row: 1, seat: "W" },
       auctionHighlightNote: "2♠ showed 4 spades.",
       customPrompts: [
@@ -1346,7 +1346,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
-      themeLabel: "Theme: Forcing declarer and counting trumps",
+      themeLabel: "Theme: Forcing declarer",
       customPrompts: [
         {
           id: "df1-15-force-idea",
@@ -1452,7 +1452,7 @@ const DEFENCE_PUZZLES = [
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
-      themeLabel: "Theme: Forcing declarer and counting trumps",
+      themeLabel: "Theme: Forcing declarer",
       auctionHighlightCall: { row: 1, seat: "W" },
       auctionHighlightNote: "3♦ showed 5 card diamond suit and slam try",
       customPrompts: [
@@ -1620,6 +1620,180 @@ const DEFENCE_PUZZLES = [
         ],
       },
     ],
+  },
+  {
+    id: "df1-17",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Summary: forcing declarer",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "drawTrumps",
+      themeLabel: "Theme: Forcing declarer",
+      customPrompts: [
+        {
+          id: "df1-17-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--sky">
+              <p className="ct-df14-noteTitle">Let's summarise this section.</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-17-ruffs-always",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is it a good idea to give partner ruffs whenever you can?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteTitle">No</p>
+              <p className="ct-df14-noteBody">
+                Not always. Ruffs are often excellent and can beat contracts, so always look for ruffs you can take or
+                give.
+              </p>
+              <ul className="ct-revealRichPoints">
+                <li>In this theme, the key weapon is forcing declarer to ruff.</li>
+                <li>On many hands, that is the only realistic route to beat the contract.</li>
+                <li>Here, giving partner a ruff can be bad: it can "inflict a ruff on partner."</li>
+              </ul>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-17-four-or-one",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--mint">
+              <p className="ct-df14-noteTitle">Trump-length alert</p>
+              <ul className="ct-revealRichPoints">
+                <li>With 4 trumps, we can often challenge declarer's control.</li>
+                <li>If you have 1 trump, partner may have 4 - be alert for that too.</li>
+              </ul>
+            </div>
+          ),
+        },
+        {
+          id: "df1-17-three-trumps",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is it possible to challenge declarer's control when you only have 3 trumps?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--rose">
+              <p className="ct-df14-noteTitle">Yes</p>
+              <p className="ct-df14-noteBody">Yes, definitely still can, as problem 13 illustrates.</p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-17-axxx-kxxx",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the most common strategy with Axxx and frequently Kxxx in trumps?",
+          options: [
+            { id: "duck0", label: "Duck 0 rounds" },
+            { id: "duck1", label: "Duck 1 round" },
+            { id: "duck2", label: "Duck 2 rounds" },
+            { id: "duck3", label: "Duck 3 rounds" },
+          ],
+          expectedChoice: "duck2",
+          revealText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteTitle">Duck 2 rounds</p>
+              <ul className="ct-revealRichPoints">
+                <li>Very common with Axxx (and often Kxxx): duck twice, then win.</li>
+                <li>If we win too early, declarer often still has enough combined trumps to cope with forcing play.</li>
+              </ul>
+              <p className="ct-df14-noteBody">Revisit problem 14: winning the second trump lets declarer cope comfortably.</p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-17-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--victory">
+              <p className="ct-df14-noteBody">
+                Understanding this declarer-vs-defenders trump struggle will deepen your bridge quickly. Even strong
+                players often miss this dynamic.
+              </p>
+              <p className="ct-df14-noteTitle">Key features</p>
+              <ul className="ct-revealRichPoints">
+                <li>Declarer typically has an 8-card trump fit with dummy.</li>
+                <li>Even more so when the defence has 4 trumps (a 4-1 trump split).</li>
+                <li>
+                  Declarer has side-suit winners you can ruff if declarer does not draw trumps. In other words, your
+                  trumps are dangerous to declarer if not drawn.
+                </li>
+              </ul>
+              <p className="ct-df14-noteBody">
+                Next topic: when giving declarer ruffs actually helps declarer. Contrasting the two cases makes table
+                decisions much clearer.
+              </p>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {},
+    rounds: [],
+  },
+  {
+    id: "df1-18",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "Setup: counting declarer's winners and losers",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "P P 1♦ P 1♠ P 6♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "east", "south", "west"],
+    revealFullHandsAtEnd: ["north", "east", "south", "west"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "ruffingLot",
+      themeLabel: "Theme: counting declarer's winners and losers",
+    },
+    shownHands: {
+      east: { S: "KA74", H: "8", D: "AKQJT", C: "A94" },
+      west: { S: "QTJ3", H: "KJ5", D: "83", C: "8632" },
+      south: { S: "62", H: "A973", D: "752", C: "QJ75" },
+      north: { S: "895", H: "TQ642", D: "964", C: "KT" },
+    },
+    rounds: [],
   },
   {
     id: "df2-1",
@@ -1862,7 +2036,11 @@ const DEFENCE_PUZZLES = [
 export { DEFENCE_PUZZLES };
 
 function DefenceTrainer(routeProps) {
-  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    /localhost|127\.0\.0\.1|\[::1\]/.test(window.location?.hostname || "");
+  const puzzlesForEnv = isLocalhost ? DEFENCE_PUZZLES : DEFENCE_PUZZLES.filter((p) => p.id !== "df1-18");
+  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={puzzlesForEnv} trainerLabel="Defence" categoryKey="defence" />;
 }
 
 export default DefenceTrainer;
