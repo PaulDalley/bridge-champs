@@ -1766,36 +1766,6 @@ const DEFENCE_PUZZLES = [
     rounds: [],
   },
   {
-    id: "df1-18",
-    difficulty: 1,
-    playEngine: "compassClockwise",
-    seatMode: "compass",
-    title: "Setup: counting declarer's winners and losers",
-    trumpSuit: "S",
-    contract: "4♠",
-    auction: "P P 1♦ P 1♠ P 6♠ P P P",
-    dealerCompass: "W",
-    declarerCompass: "W",
-    viewerCompass: "S",
-    visibleFullHandSeats: ["north", "east", "south", "west"],
-    revealFullHandsAtEnd: ["north", "east", "south", "west"],
-    promptOptions: {
-      promptPlacement: "left",
-      hideAuction: false,
-      disableWarmupTrumpGuess: true,
-      questionNumbers: [],
-      promptThemeTint: "ruffingLot",
-      themeLabel: "Theme: counting declarer's winners and losers",
-    },
-    shownHands: {
-      east: { S: "KA74", H: "8", D: "AKQJT", C: "A94" },
-      west: { S: "QTJ3", H: "KJ5", D: "83", C: "8632" },
-      south: { S: "62", H: "A973", D: "752", C: "QJ75" },
-      north: { S: "895", H: "TQ642", D: "964", C: "KT" },
-    },
-    rounds: [],
-  },
-  {
     id: "df2-1",
     difficulty: 2,
     title: "Defending 3♥: count declarer's shape (and duck the spade)",
@@ -2036,11 +2006,7 @@ const DEFENCE_PUZZLES = [
 export { DEFENCE_PUZZLES };
 
 function DefenceTrainer(routeProps) {
-  const isLocalhost =
-    typeof window !== "undefined" &&
-    /localhost|127\.0\.0\.1|\[::1\]/.test(window.location?.hostname || "");
-  const puzzlesForEnv = isLocalhost ? DEFENCE_PUZZLES : DEFENCE_PUZZLES.filter((p) => p.id !== "df1-18");
-  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={puzzlesForEnv} trainerLabel="Defence" categoryKey="defence" />;
+  return <CountingTrumpsTrainer {...routeProps} puzzlesOverride={DEFENCE_PUZZLES} trainerLabel="Defence" categoryKey="defence" />;
 }
 
 export default DefenceTrainer;

@@ -1,46 +1,50 @@
 This week on Bridge Champions
 BridgeChampions.com
 
-Splinters & Lebensohl
+Forcing Declarer & Have I Shown My Hand?
 
-Splinters are a bidding tool worth getting right. It's also important to evaluate your hand opposite partner's shortage. This skill carries into many other auctions.
+Forcing declarer is one of the most valuable defence skills you can learn. It teaches what trumps are really for in a suit contract: control and communication, not just extra tricks.
 
-Bridge is won and lost in the partscores. Lebensohl is a useful tool for competing effectively. We're also looking at when we should and shouldn't compete, and what other bidding options we have.
+On the bidding side this week, we are working on Have I shown my hand? This is where many players get stuck: not knowing whether partner's bid is forcing, or passing unexpectedly when they should continue describing their hand.
 
 ---
-Bidding Stage 3 — Problem 2
+Bidding Stage 2 — Problem 20
+Theme: Have I shown my hand?
 
-Auction: 1S — Pass — 4D — Pass — ?
+Auction:
+| S  | W    | N  | E  | S |
+| 1D | Pass | 1S | 2H | ? |
 
 You (South)
-S  A K 10 9 8 7
-H  K 5
-D  9 8 7 6
-C  A
+S  7 5
+H  A Q 10
+D  A Q 9 4 3
+C  J 8 2
 
-Given this bidding, how are you feeling about your hand?
+What should South bid now?
+This is a very instructive spot. We expect 90%+ of players to get this one wrong the first time through.
 
 ---
-Also on the site
+Help me shape the weekly topics
 
-The new Treadmill is under Practical Learning from the front page. A few minutes most days helps counting; there is a leaderboard for timed scores — see if you can make a dent.
+I want to cater these weekly sessions to what members genuinely want and need at the table. If something is troubling you, please tell me. No question is too basic, and you will never sound silly by asking.
 
-In the same area: "Just play". It is in development and has a few issues right now, but should be working in the coming days.
+Topics I'm considering next:
+1) Is this bid forcing?
+2) Counting winners as declarer
+3) Counting winners as a defender
+4) Please send any questions or topics you want more help with.
 
 ---
 Links
 
-Splinters (bidding, difficulty 3, problem 1):
-https://bridgechampions.com/bidding/practice?difficulty=3&problem=bid3-1
+Forcing declarer (defence, difficulty 1, problem 13):
+https://bridgechampions.web.app/defence/practice?difficulty=1&problem=df1-13
 
-Lebensohl (bidding, difficulty 3, first Lebensohl problem):
-https://bridgechampions.com/bidding/practice?difficulty=3&problem=bid3-6
+Have I shown my hand? (bidding, difficulty 2, problem 19):
+https://bridgechampions.com/bidding/practice?difficulty=2&problem=bid2-19
 
-Treadmill:
-https://bridgechampions.com/treadmill/practice
-
-Just play:
-https://bridgechampions.com/beginner/practice/just-play
+You can also use the quick link on the front page of the website for this week's material.
 
 Practical Learning hub:
 https://bridgechampions.com/practice
@@ -49,7 +53,7 @@ https://bridgechampions.com/practice
 Paul
 Website: BridgeChampions.com
 
-I would love to hear from you — let me know what is and is not working for you at the table.
+I would love to hear from you. Please let me know what is and is not working for you at the table, and what you want covered next.
 paul.dalley@hotmail.com
 
-To unsubscribe please reply "unsub".
+To unsubscribe from this newsletter please reply "unsub".

@@ -709,6 +709,7 @@ function compassPuzzleToLegacy(puzzle) {
     }
     if (out.fixed) out.fixed = remapTopLevelSeatKeys(out.fixed);
     if (out.expectedDistribution) out.expectedDistribution = remapTopLevelSeatKeys(out.expectedDistribution);
+    if (out.shownHandsOverride) out.shownHandsOverride = remapTopLevelSeatKeys(out.shownHandsOverride);
     if (out.playCardAutoFollowBySuit) {
       if (puzzle.playEngine !== PLAY_ENGINE_COMPASS_CLOCKWISE) {
         out.playCardAutoFollowBySuit = remapPlayCardAutoFollowBySuit(out.playCardAutoFollowBySuit);
@@ -5317,7 +5318,7 @@ function CountingTrumpsTrainer({
   }, [showFullHands, playedFromHand, puzzle.id, visibleFullHandSeats]);
 
   const getStaticSeatSuitCards = (seat, suit) => {
-    const hand = puzzle.shownHands?.[seat];
+    const hand = activeCustomPrompt?.shownHandsOverride?.[seat] || puzzle.shownHands?.[seat];
     if (!hand) return [];
     if (hand.suit && hand.cards && suit === hand.suit) return hand.cards.map((r) => makeCard(r, suit));
     if (!isFullHandShape(hand)) return [];
@@ -5332,7 +5333,7 @@ function CountingTrumpsTrainer({
 
   const renderSeatHand = (seat) => {
     // Text-only bidding drills: no hand diagram (no placeholder 13-card strip).
-    if (categoryKey === "bidding" && puzzle?.promptOptions?.hideBiddingHand) {
+    if (categoryKey === "bidding" && (puzzle?.promptOptions?.hideBiddingHand || activeCustomPrompt?.hideBiddingHand)) {
       return null;
     }
     const miniTrumpPresentation = puzzle?.promptOptions?.miniTrumpHandPresentation;
@@ -5406,7 +5407,9 @@ function CountingTrumpsTrainer({
       );
     }
 
-    const full = initialFullHands[seat] || [];
+    const full = activeCustomPrompt?.shownHandsOverride?.[seat]
+      ? buildFullHandCards(activeCustomPrompt.shownHandsOverride[seat])
+      : initialFullHands[seat] || [];
     const noContinueRevealAllHands =
       promptStep === "PLAY_DECISION_REVEAL" && activeCustomPrompt?.noContinue && visibleFullHandSeats.length === 4;
     const revealOriginalOnDone = promptStep === "DONE" && !!puzzle?.promptOptions?.revealOriginalOnDone;
@@ -7366,6 +7369,7 @@ function CountingTrumpsTrainer({
     puzzle.revealFullHandsAtEnd.length > 0;
   const hideAuctionNow =
     !!puzzle?.promptOptions?.hideAuction ||
+    !!activeCustomPrompt?.hideAuction ||
     (promptStep === "DONE" && !!puzzle?.promptOptions?.hideAuctionOnDone) ||
     promptStep === "PLAY_DECISION_REVEAL";
 
@@ -7480,7 +7484,7 @@ function CountingTrumpsTrainer({
       <>
         {!!effectiveThemeLabel && (
           <div
-            className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""}`}
+            className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""}`}
           >
             {effectiveThemeLabel}
           </div>
@@ -7495,7 +7499,7 @@ function CountingTrumpsTrainer({
                 {auctionGrid.order.map((seat) => (
                   <div
                     key={`h-${seat}`}
-                    className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                    className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`}
                     role="columnheader"
                   >
                     {seatCompassLabel(seat)}
@@ -7509,7 +7513,7 @@ function CountingTrumpsTrainer({
                     return (
                       <div
                         key={`c-${idx}-${seat}`}
-                        className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""}`}
+                        className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`}
                         role="cell"
                       >
                         {c ? (
@@ -7519,6 +7523,8 @@ function CountingTrumpsTrainer({
                               puzzle?.promptOptions?.auctionHighlightCall?.seat === seat
                                 ? "ct-auctionCall--ring"
                                 : ""
+                            } ${
+                              puzzle?.promptOptions?.auctionHighlightTint === "alert" ? "ct-auctionCall--ringAlert" : ""
                             }`.trim()}
                           >
                             <span className="ct-auctionCallText">{c.text}</span>
@@ -7540,7 +7546,13 @@ function CountingTrumpsTrainer({
               ))}
             </div>
             {!!puzzle?.promptOptions?.auctionHighlightNote && (
-              <div className="ct-auctionHighlightNote">{puzzle.promptOptions.auctionHighlightNote}</div>
+              <div
+                className={`ct-auctionHighlightNote ${
+                  puzzle?.promptOptions?.auctionHighlightTint === "alert" ? "ct-auctionHighlightNote--alert" : ""
+                }`.trim()}
+              >
+                {puzzle.promptOptions.auctionHighlightNote}
+              </div>
             )}
           </div>
         )}
@@ -8818,7 +8830,7 @@ function CountingTrumpsTrainer({
                       return (
                         <button
                           key={p.id}
-                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""}`}
+                          className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""}`}
                           onClick={() => setPuzzleIdxInDifficulty(idx)}
                           type="button"
                           role="tab"
@@ -8912,7 +8924,7 @@ function CountingTrumpsTrainer({
               !useBottomRowLayout &&
               (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) &&
               (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && (
-                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""}`} aria-label="Bidding and prompts">
+                <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""}`} aria-label="Bidding and prompts">
                   {promptNode}
                 </div>
               )}
@@ -9120,7 +9132,7 @@ function CountingTrumpsTrainer({
               {showFullHands &&
                 !useBottomRowLayout &&
                 (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && (
-                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""}`} aria-label="Counting prompt">
+                <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""}`} aria-label="Counting prompt">
                   {promptNode}
                 </div>
               )}

@@ -9,8 +9,8 @@ const CARDPLAY_PUZZLES_ALL = [
     trumpSuit: "S",
     contract: "4♠",
     dealerCompass: "E",
-    declarerCompass: "E",
-    viewerCompass: "E", // you are East, declaring
+    declarerCompass: "S",
+    viewerCompass: "S", // you are South, declaring
     // (auction hidden for this puzzle)
     auction: "1D P 1S P 1N P 2D P 2S P 4S P P P",
     promptOptions: {

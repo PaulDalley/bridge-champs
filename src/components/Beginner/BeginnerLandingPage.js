@@ -248,7 +248,7 @@ function BeginnerLandingPage({ location, isAdmin }) {
           <p className="BeginnerLanding-trust">
             Taught by{" "}
             <span className="BeginnerLanding-trustName">Paul Dalley</span>—national champion in Australia and New
-            Zealand, and Australian team representative. Clear steps, no filler.
+            Zealand, and Australian team representative. Clear steps, no nonsense.
           </p>
           <p className="BeginnerLanding-aboutLinkWrap">
             <Link className="BeginnerLanding-aboutLink" to={{ pathname: "/about", search }}>

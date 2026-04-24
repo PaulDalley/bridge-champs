@@ -577,6 +577,328 @@ function Bid218RevealRich() {
   );
 }
 
+function Bid219PrincipleRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          An important principle - if partner knows the approximate nature of your hand, then you should pass. The
+          exception of course is if partner has made a forcing bid, then you cannot pass.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219ApproximateNatureRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Lets look at what &quot;approximate nature&quot; means with the most frequently occuring example.
+        </p>
+      </section>
+      <PracticeAuctionMiniTable auctionText="1♣ 2♥ P P ?" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--amber" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichBody">
+          <TextWithColoredSuits text="1♣" /> - I&apos;m 11-14 balanced. Partner can assume a lot of the time I&apos;m
+          11-14 with some sort of balanced hand, say 2 or 3+ clubs, depending on your system.
+        </p>
+        <p className="ct-revealRichBody">
+          I&apos;ve already shown that, so unless prompted to bid again, I have said everything I have to say.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219PassRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Pass. Partner can expect 11-14, thats what you&apos;ve got, approximately balanced.
+        </p>
+        <p className="ct-revealRichBody">
+          There are some exceptions which I will cover in future weeks on competing - when you are short in the
+          opponent&apos;s suit (1-2 cards in their suit).
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219SecondHandRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♣ 2♥ P P ?" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--amber" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichBody">Look at your newly dealt hand, what would you bid in the same auction?</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219SecondHandRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♣" />
+        </span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          It&apos;s reasonable to balance here with <TextWithColoredSuits text="3♣" />. You have something more to show
+          - you aren&apos;t balanced, and you have a respectable 7-card suit that partner has no idea about.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Have I shown my hand?</h4>
+        <p className="ct-revealRichBody">
+          Pass is the correct bid. You opened <TextWithColoredSuits text="1♦" />, so partner expects about 11-14 points
+          and 4-5 diamonds. Bidding again here would be &quot;bidding your hand twice&quot; which means to make a second
+          bid, even though your first bid fully captured your hand.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          A common question is &quot;Shouldn&apos;t I show my stopper?&quot; Not yet. You are allowed to pass with a
+          stopper.
+        </p>
+        <p className="ct-revealRichBody">
+          If partner wants to push on and ask for a stopper, you can show it then.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid219ContinuationRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♦ P 1♠ 2♥ P P X P 2NT" dealerCompass="S" />
+      <section className="ct-revealRichCard ct-revealRichCard--slate" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichBody">
+          So you now have a chance to show your stopper by bidding 2NT.
+        </p>
+        <p className="ct-revealRichBody">
+          Partner can now expect 11-14 points, 4-5 diamonds, and a heart stopper, which is exactly what you have.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid220RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Pass is correct. You&apos;ve shown 15-18 by overcalling <TextWithColoredSuits text="1NT" />. You still have
+          that same hand. There is nothing special or unusual about your hand that warrants another bid.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Pass is also a bid that respects the partnership - it defers to partner.
+        </p>
+        <p className="ct-revealRichBody">
+          It&apos;s like saying, &quot;I&apos;ve just got some ordinary 1NT bid, as you know, do you want to do
+          anything further or is that it?&quot;
+        </p>
+        <p className="ct-revealRichBody">
+          Partner is in an excellent position to decide if anything further needs to be done, your hand has already
+          been shown.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid220Revisit2NTRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♦ P 1♠ 2♥ 2NT" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--slate" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichBody">
+          So let&apos;s say we had this auction, on a different day. We bid <TextWithColoredSuits text="2NT" /> instead
+          of passed, what would it show?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid220Revisit2NTRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">18-19 balanced</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          18-19 balanced. As mentioned with 11-14 we pass, that is already what partner is expecting from us, we have
+          no business bidding more unless forced.
+        </p>
+        <p className="ct-revealRichBody">
+          With 15-17 we open <TextWithColoredSuits text="1NT" />. That is why this auction shows 18-19 balanced.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid221IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          This is a bid that I think 90% or more of people get wrong. Hopefully by the end of this problem it will make
+          sense.
+        </p>
+        <p className="ct-revealRichBody">Now with that introduction - what do you bid?</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid221RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="2♠" />
+        </span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">The correct answer is 2♠, lets look at why.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Firstly, we have already &quot;bid our hand&quot;. Partner is expecting 11-14 points, with at least 4
+          diamonds. We just have a basic, standard version of that, something partner would more or less expect,
+          nothing special. So, are we allowed to pass?
+        </p>
+        <p className="ct-revealRichBody">
+          We cannot pass, because partner&apos;s bid is forcing, if they had bid on our right, and partner was
+          guaranteed to get another bid, we could gladly pass, which would convey the message that &quot;we have bid
+          our hand already&quot;.
+        </p>
+        <p className="ct-revealRichBody">
+          Passing here is a problem because it may end the auction, and while it may convey the message &quot;I have
+          bid my hand already&quot;, it&apos;s unreasonable to end the auction if partner&apos;s bid is forcing and
+          unlimited in strength.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid221ContinueOneRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♦ 1♠ 2♥ P 2♠" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          So what do we do when we are forced to bid but have nothing to say? The expert treatment - which most people
+          get wrong but is very easy to learn - is to cue bid the opponent&apos;s suit to mean &quot;I have nothing
+          interesting about my hand to show you&quot;.
+        </p>
+        <p className="ct-revealRichBody">
+          If for example you had 6 diamonds, you could rebid diamonds. If you had a distributional hand with diamonds
+          and clubs, say 5-5 shape, you could bid <TextWithColoredSuits text="3♣" />.
+        </p>
+        <p className="ct-revealRichBody">
+          You would be delighted to show your hand if you could, but with a balanced 4432 hand, any bid showing extra
+          distribution would be misleading.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid221ContinueTwoRich() {
+  return (
+    <div className="ct-revealRich">
+      <PracticeAuctionMiniTable auctionText="1♦ 1♠ 2♥ P 2♠" dealerCompass="S" auctionAllWhite />
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          In summary - when you are forced to bid, but have nothing to say, bidding the opponents suit just says
+          &quot;I have nothing to say but you&apos;ve forced me to keep the bidding alive&quot;.
+        </p>
+        <p className="ct-revealRichBody">
+          It&apos;s one of the few situations where cue bidding the opponent&apos;s suit shows nothing.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid222IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">For this pair, 2D was game forcing. Showing at least opening strength.</p>
+      </section>
+    </div>
+  );
+}
+
+function Bid222RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">X</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">The correct bid is to double.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          However, in light of the previous few examples, I would argue that you have already shown your hand with a{" "}
+          <TextWithColoredSuits text="1♠" /> opening, and according to the principles just discussed, if we&apos;ve
+          shown our hand it&apos;s a good idea to pass if we can. However, this situation is different - why?
+        </p>
+        <p className="ct-revealRichBody">
+          The opponents have made a preemptive bid, so it&apos;s up to us to decide if we should bid on or double
+          them. Double by us in this situation conveys &quot;I do not have a hand suitable for bidding on&quot;,
+          whereas pass says &quot;I am not keen to double them, I would rather bid on&quot;.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid222ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Your hand is balanced, and has values in the opponent&apos;s suit. You should be delighted to defend on this
+          hand, and would be quite nervous if partner decided to keep bidding, as your hand is not suitable.
+        </p>
+      </section>
+    </div>
+  );
+}
+
 function Bid31SplintersIntroRich() {
   return (
     <div className="ct-revealRich">
@@ -3789,6 +4111,316 @@ const BIDDING_PUZZLES = [
         D: "AJ108",
         C: "542",
       },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-19",
+    difficulty: 2,
+    title: "Have I shown my hand? (1)",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ 2♥ P P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Approximate nature of your hand",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Have I shown my hand?",
+      promptThemeTint: "showHand",
+      auctionAllWhite: true,
+      customPrompts: [
+        {
+          id: "bid2-19-principle",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid219PrincipleRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-19-approx",
+          type: "INFO",
+          atRoundIdx: -1,
+          hideAuction: true,
+          promptText: <Bid219ApproximateNatureRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-19-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What should South bid now?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid219PassRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-19-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hideAuction: true,
+          shownHandsOverride: {
+            DECLARER: { S: "KQ8", H: "AT", D: "8", C: "KJT7542" },
+          },
+          promptText: <Bid219SecondHandRich />,
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid219SecondHandRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "KQ8", H: "AJ3", D: "86", C: "KT752" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-20",
+    difficulty: 2,
+    title: "Have I shown my hand? (2)",
+    trumpSuit: "NT",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ 2♥ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding after interference",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Have I shown my hand?",
+      promptThemeTint: "showHand",
+      auctionAllWhite: true,
+      customPrompts: [
+        {
+          id: "bid2-20-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What should South bid now?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Lets look at a possible continuation",
+          revealText: <Bid219RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-20-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          hideAuction: true,
+          continueButtonLabel: "Let's look at the same auction again, but if we bid 2NT instead of pass",
+          promptText: <Bid219ContinuationRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-20-2nt-meaning",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hideAuction: true,
+          hideBiddingHand: true,
+          promptText: <Bid220Revisit2NTRich />,
+          options: [
+            { id: "11to14", label: "11-14 balanced with a good double stopper" },
+            { id: "15to17", label: "15-17 balanced" },
+            { id: "18to19", label: "18-19 balanced" },
+          ],
+          expectedChoice: "18to19",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid220Revisit2NTRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "75", H: "AQT", D: "AQ943", C: "J82" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-21",
+    difficulty: 2,
+    title: "Have I shown my hand? (3)",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ 1NT P 2♣ 3♣ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding after Stayman",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Have I shown my hand?",
+      promptThemeTint: "showHand",
+      auctionAllWhite: true,
+      auctionHighlightCall: { row: 0, seat: "N" },
+      auctionHighlightTint: "alert",
+      auctionHighlightNote: "simple stayman",
+      customPrompts: [
+        {
+          id: "bid2-21-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What should South bid now?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid220RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "Q97", H: "AK4", D: "KQ32", C: "Q42" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-22",
+    difficulty: 2,
+    title: "Have I shown my hand? (4)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ 1♠ 2♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Forced rebid after partner's forcing call",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Have I shown my hand?",
+      promptThemeTint: "showHand",
+      auctionAllWhite: true,
+      customPrompts: [
+        {
+          id: "bid2-22-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid221IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-22-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2s",
+          expectedChoiceDisplay: "2♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid221RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-22-continue-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          hideAuction: true,
+          promptText: <Bid221ContinueOneRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-22-continue-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          hideAuction: true,
+          promptText: <Bid221ContinueTwoRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "754", H: "T2", D: "AKQ8", C: "K943" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-23",
+    difficulty: 2,
+    title: "Have I shown my hand? (5)",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P 2♦ 4♥ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "After game forcing 2♦",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Have I shown my hand?",
+      promptThemeTint: "showHand",
+      auctionPartnersRed: true,
+      customPrompts: [
+        {
+          id: "bid2-23-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid222IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-23-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Now with that introduction - what do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "double",
+          expectedChoiceDisplay: "X",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: <Bid222RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-23-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid222ContinueRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AT943", H: "KT3", D: "82", C: "AJ4" },
     },
     rounds: [],
   },
