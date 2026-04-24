@@ -22,7 +22,7 @@ function JustAdded() {
             </li>
             <li>
               <Link to="/bidding/practice?difficulty=2&problem=bid2-19" className="JustAdded-link">
-                Have I shown my hand? →
+                The Power of Pass →
               </Link>
             </li>
           </ul>

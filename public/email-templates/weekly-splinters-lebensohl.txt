@@ -1,15 +1,15 @@
 This week on Bridge Champions
 BridgeChampions.com
 
-Forcing Declarer & Have I Shown My Hand?
+Forcing Declarer & The Power of Pass
 
 Forcing declarer is one of the most valuable defence skills you can learn. It teaches what trumps are really for in a suit contract: control and communication, not just extra tricks.
 
-On the bidding side this week, we are working on Have I shown my hand? This is where many players get stuck: not knowing whether partner's bid is forcing, or passing unexpectedly when they should continue describing their hand.
+On the bidding side this week, we are working on The Power of Pass. This is where many players get stuck: not knowing whether partner's bid is forcing, or passing unexpectedly when they should continue describing their hand.
 
 ---
 Bidding Stage 2 — Problem 20
-Theme: Have I shown my hand?
+Theme: The Power of Pass
 
 Auction:
 | S  | W    | N  | E  | S |
@@ -41,7 +41,7 @@ Links
 Forcing declarer (defence, difficulty 1, problem 13):
 https://bridgechampions.web.app/defence/practice?difficulty=1&problem=df1-13
 
-Have I shown my hand? (bidding, difficulty 2, problem 19):
+The Power of Pass (bidding, difficulty 2, problem 19):
 https://bridgechampions.com/bidding/practice?difficulty=2&problem=bid2-19
 
 You can also use the quick link on the front page of the website for this week's material.

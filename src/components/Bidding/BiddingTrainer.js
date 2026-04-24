@@ -667,7 +667,7 @@ function Bid219RevealRich() {
         <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
       </p>
       <section className="ct-revealRichCard ct-revealRichCard--amber">
-        <h4 className="ct-revealRichHeading">Have I shown my hand?</h4>
+        <h4 className="ct-revealRichHeading">The Power of Pass</h4>
         <p className="ct-revealRichBody">
           Pass is the correct bid. You opened <TextWithColoredSuits text="1♦" />, so partner expects about 11-14 points
           and 4-5 diamonds. Bidding again here would be &quot;bidding your hand twice&quot; which means to make a second
@@ -4117,7 +4117,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid2-19",
     difficulty: 2,
-    title: "Have I shown my hand? (1)",
+    title: "The Power of Pass (1)",
     trumpSuit: "C",
     contract: "—",
     dealerCompass: "S",
@@ -4132,7 +4132,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Approximate nature of your hand",
       contractLabelBeforeStartOnly: true,
-      themeLabel: "Theme: Have I shown my hand?",
+      themeLabel: "Theme: The Power of Pass",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4191,7 +4191,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid2-20",
     difficulty: 2,
-    title: "Have I shown my hand? (2)",
+    title: "The Power of Pass (2)",
     trumpSuit: "NT",
     contract: "—",
     dealerCompass: "S",
@@ -4206,7 +4206,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Responding after interference",
       contractLabelBeforeStartOnly: true,
-      themeLabel: "Theme: Have I shown my hand?",
+      themeLabel: "Theme: The Power of Pass",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4261,7 +4261,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid2-21",
     difficulty: 2,
-    title: "Have I shown my hand? (3)",
+    title: "The Power of Pass (3)",
     trumpSuit: "C",
     contract: "—",
     dealerCompass: "E",
@@ -4276,7 +4276,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Responding after Stayman",
       contractLabelBeforeStartOnly: true,
-      themeLabel: "Theme: Have I shown my hand?",
+      themeLabel: "Theme: The Power of Pass",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       auctionHighlightCall: { row: 0, seat: "N" },
@@ -4306,7 +4306,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid2-22",
     difficulty: 2,
-    title: "Have I shown my hand? (4)",
+    title: "The Power of Pass (4)",
     trumpSuit: "S",
     contract: "—",
     dealerCompass: "S",
@@ -4321,7 +4321,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "Forced rebid after partner's forcing call",
       contractLabelBeforeStartOnly: true,
-      themeLabel: "Theme: Have I shown my hand?",
+      themeLabel: "Theme: The Power of Pass",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4371,7 +4371,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid2-23",
     difficulty: 2,
-    title: "Have I shown my hand? (5)",
+    title: "The Power of Pass (5)",
     trumpSuit: "H",
     contract: "—",
     dealerCompass: "S",
@@ -4386,7 +4386,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       contractLabel: "After game forcing 2♦",
       contractLabelBeforeStartOnly: true,
-      themeLabel: "Theme: Have I shown my hand?",
+      themeLabel: "Theme: The Power of Pass",
       promptThemeTint: "showHand",
       auctionPartnersRed: true,
       customPrompts: [

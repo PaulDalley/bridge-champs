@@ -1462,7 +1462,7 @@ button.ct-categoryTab {
   margin: 14px 0;
 }
 
-/* Theme: Have I shown my hand? (bidding difficulty 2, problem 19) */
+/* Theme: The Power of Pass (bidding difficulty 2, problem 19) */
 .ct-problemTab--themeShowHand {
   background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
   border-color: rgba(22, 163, 74, 0.35);
