@@ -97,6 +97,18 @@ service cloud.firestore {
         allow create, update, delete: if isAdmin();
     }
 
+    // Promo usage attribution (affiliate reporting).
+    // Users can create a row for themselves at checkout; only admins can read/manage.
+    match /promoCodeUsage/{entryId} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.promoCodeEntered is string
+        && request.resource.data.promoCodeApplied is string
+        && request.resource.data.provider is string
+        && request.resource.data.status is string;
+      allow read, update, delete: if isAdmin();
+    }
+
     match /videos/{videoId} {
         allow read;
         allow create, update, delete: if isAdmin();

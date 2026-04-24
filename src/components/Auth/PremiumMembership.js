@@ -882,6 +882,7 @@ class PremiumMembership extends Component {
                             : PRICING_TIERS[selectedTier].price
                         )}
                         getToken={this.getAppliedPromoToken}
+                        getEnteredPromoCode={() => this.normalizePromoCode(this.state.promoCode)}
                         processing={() => this.setState({ stripeProcessing: true })}
                         clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}

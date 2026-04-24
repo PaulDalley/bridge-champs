@@ -1,6 +1,7 @@
 import React from "react";
 import { Preloader } from "react-materialize";
 import $ from "jquery";
+import { firebase } from "../../firebase/config";
 
 const stripeCreateCheckoutSessionUrl =
   "https://us-central1-bridgechampions.cloudfunctions.net/stripeCreateCheckoutSession";
@@ -8,6 +9,42 @@ const stripeCreateCheckoutSessionUrl =
 class StripeCheckout extends React.Component {
   state = {
     loading: false,
+  };
+
+  normalizeCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
+
+  capturePromoUsage = async ({ response, postData, enteredPromoCode, appliedPromoCode }) => {
+    if (!this.props.uid) return;
+    if (!enteredPromoCode) return;
+    try {
+      const sessionId = response?.sessionId || "";
+      const docId = sessionId
+        ? `stripe_${sessionId}`
+        : `stripe_${this.props.uid}_${Date.now()}`;
+
+      await firebase
+        .firestore()
+        .collection("promoCodeUsage")
+        .doc(docId)
+        .set(
+          {
+            uid: this.props.uid,
+            email: this.props.email || "",
+            promoCodeEntered: enteredPromoCode,
+            promoCodeApplied: appliedPromoCode || enteredPromoCode,
+            tierName: postData?.tierName || "",
+            priceId: postData?.priceId || "",
+            provider: "stripe",
+            status: "checkout_session_created",
+            stripeSessionId: sessionId,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        );
+    } catch (e) {
+      console.error("Failed to capture promo usage", e);
+    }
   };
 
   handleCheckout = () => {
@@ -22,6 +59,10 @@ class StripeCheckout extends React.Component {
     };
 
     const coupon = this.props.getToken();
+    const enteredPromoCode = this.normalizeCode(
+      typeof this.props.getEnteredPromoCode === "function" ? this.props.getEnteredPromoCode() : ""
+    );
+    const appliedPromoCode = this.normalizeCode(coupon);
     if (coupon && coupon !== "") {
       postData.coupon = coupon;
     }
@@ -38,6 +79,14 @@ class StripeCheckout extends React.Component {
     .done((response) => {
         console.log("Checkout session response:", response);
         if (response && response.url) {
+          if (enteredPromoCode) {
+            this.capturePromoUsage({
+              response,
+              postData,
+              enteredPromoCode,
+              appliedPromoCode,
+            });
+          }
           // Persist the Checkout Session ID locally so the /success page can verify/activate
           // even if the session_id query param is lost/truncated.
           try {
