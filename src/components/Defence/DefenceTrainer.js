@@ -964,7 +964,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
-      videoUrlBeforeStart: "https://www.youtube.com/shorts/pGoakHt-2Nk",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/StIWzoOoqBA?si=DixgCgApKwMCsR2K",
       auctionHighlightCall: { row: 0, seat: "W" },
       auctionHighlightNote: "3♥ was an 11+ point spade raise.",
       customPrompts: [

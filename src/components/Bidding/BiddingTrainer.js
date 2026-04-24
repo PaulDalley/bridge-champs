@@ -4133,7 +4133,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Approximate nature of your hand",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
-      videoUrlBeforeStart: "https://www.youtube.com/shorts/pGoakHt-2Nk",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/mMbfba-TzfM?si=_4mbnmdTy_obCDeV",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
