@@ -4133,6 +4133,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Approximate nature of your hand",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/pGoakHt-2Nk",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4207,6 +4208,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Responding after interference",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/jbJUGwzvZro",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4277,6 +4279,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Responding after Stayman",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/U7ufmQhcCX4",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       auctionHighlightCall: { row: 0, seat: "N" },
@@ -4322,6 +4325,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Forced rebid after partner's forcing call",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/LiZo5dh1eZ0",
       promptThemeTint: "showHand",
       auctionAllWhite: true,
       customPrompts: [
@@ -4387,6 +4391,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "After game forcing 2♦",
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: The Power of Pass",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/pGoakHt-2Nk",
       promptThemeTint: "showHand",
       auctionPartnersRed: true,
       customPrompts: [

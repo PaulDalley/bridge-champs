@@ -3,23 +3,28 @@ BridgeChampions.com
 
 Forcing Declarer & The Power of Pass
 
+Forcing declarer
+"My tip for any player wanting to take their bridge to the next level, I see players of all levels get this wrong consistently" Paul
+
 Forcing declarer is one of the most valuable defence skills you can learn. It teaches what trumps are really for in a suit contract: control and communication, not just extra tricks.
 
-On the bidding side this week, we are working on The Power of Pass. This is where many players get stuck: not knowing whether partner's bid is forcing, or passing unexpectedly when they should continue describing their hand.
+Power of Pass
+On the bidding side this week, we are working on The Power of Pass. Ask yourself - have I shown my hand? Would partner be able to guess the approximate nature of my hand - If yes, pass is often going to be the correct bid.
 
 ---
 Bidding Stage 2 — Problem 20
 Theme: The Power of Pass
 
 Auction:
-| S  | W    | N  | E  | S |
-| 1D | Pass | 1S | 2H | ? |
+W     N     E     S
+                  1D
+1S    2H   Pass   ?
 
 You (South)
-S  7 5
-H  A Q 10
-D  A Q 9 4 3
-C  J 8 2
+S  7 5 4
+H  10 2
+D  A K Q 8
+C  K 9 4 3
 
 What should South bid now?
 This is a very instructive spot. We expect 90%+ of players to get this one wrong the first time through.
@@ -30,7 +35,7 @@ Help me shape the weekly topics
 I want to cater these weekly sessions to what members genuinely want and need at the table. If something is troubling you, please tell me. No question is too basic, and you will never sound silly by asking.
 
 Topics I'm considering next:
-1) Is this bid forcing?
+1) Is this bid forcing? - a couple easy rules to avoid mix ups.
 2) Counting winners as declarer
 3) Counting winners as a defender
 4) Please send any questions or topics you want more help with.

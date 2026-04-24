@@ -964,6 +964,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/pGoakHt-2Nk",
       auctionHighlightCall: { row: 0, seat: "W" },
       auctionHighlightNote: "3♥ was an 11+ point spade raise.",
       customPrompts: [
@@ -1123,6 +1124,7 @@ const DEFENCE_PUZZLES = [
       playThroughRoundAfterPreInclusive: 0,
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/lsw1baqGu1U",
       auctionHighlightCall: { row: 1, seat: "W" },
       auctionHighlightNote: "2♠ showed 4 spades.",
       customPrompts: [
@@ -1347,6 +1349,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/7-mK5X3KSD4",
       customPrompts: [
         {
           id: "df1-15-force-idea",
@@ -1453,6 +1456,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      videoUrlBeforeStart: "https://www.youtube.com/shorts/jsGst_u7-LU",
       auctionHighlightCall: { row: 1, seat: "W" },
       auctionHighlightNote: "3♦ showed 5 card diamond suit and slam try",
       customPrompts: [
