@@ -11,21 +11,29 @@ import {
   setProfileName,
 } from "../../store/actions/authActions";
 import HandShapeMissingClubTrainer from "./HandShapeMissingClubTrainer";
+import OpponentShapeTrainer from "./OpponentShapeTrainer";
 import "../Counting/CountingTrumpsTrainer.css";
 import "./TreadmillPracticePage.css";
 
 const NARROW_MAX_PX = 480;
+const TOOL_KEYS = {
+  HAND_SHAPE: "hand-shape",
+  OPPONENT_SHAPE: "opponent-shape",
+};
 
 function TreadmillPracticePage({
   history,
   uid,
   authReady,
+  subscriptionActive,
+  isAdmin,
   startFacebookLogin: doFacebookLogin,
   startGoogleLogin: doGoogleLogin,
   signupEmailAndPasswordLogin: doSignupEmail,
   setProfileName: doSetProfileName,
 }) {
   const practiceViewSentRef = useRef(false);
+  const [activeTool, setActiveTool] = useState(TOOL_KEYS.HAND_SHAPE);
   const [isNarrowViewport, setIsNarrowViewport] = useState(() =>
     typeof window !== "undefined" ? window.matchMedia(`(max-width: ${NARROW_MAX_PX}px)`).matches : false
   );
@@ -52,6 +60,7 @@ function TreadmillPracticePage({
     typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "");
 
   const showGuestSignup = authReady && !uid;
+  const canUseOpponentShape = isAdmin || !!subscriptionActive;
 
   return (
     <div
@@ -85,36 +94,84 @@ function TreadmillPracticePage({
               <div className="ct-topNavRow ct-topNavRow--diff" aria-label="Treadmill tools">
                 <span className="ct-topNavLabel">Tool</span>
                 <div className="ct-diffTabs" role="tablist">
-                  <span role="tab" aria-selected="true" className="ct-diffTab ct-diffTab--active tm-toolTab">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTool === TOOL_KEYS.HAND_SHAPE}
+                    className={`ct-diffTab tm-toolTabBtn ${
+                      activeTool === TOOL_KEYS.HAND_SHAPE ? "ct-diffTab--active" : ""
+                    }`}
+                    onClick={() => setActiveTool(TOOL_KEYS.HAND_SHAPE)}
+                  >
                     Hand shape
-                  </span>
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTool === TOOL_KEYS.OPPONENT_SHAPE}
+                    className={`ct-diffTab tm-toolTabBtn ${
+                      activeTool === TOOL_KEYS.OPPONENT_SHAPE ? "ct-diffTab--active" : ""
+                    }`}
+                    onClick={() => setActiveTool(TOOL_KEYS.OPPONENT_SHAPE)}
+                  >
+                    Opponent shape {!canUseOpponentShape ? "🔒" : ""}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="tm-main">
-            <HandShapeMissingClubTrainer
-              uid={uid || ""}
-              canRecordLeaderboard={authReady && !!uid}
-              belowLeaderboardSlot={
-                showGuestSignup ? (
-                  <section className="tm-signupPanel" aria-label="Create account">
-                    <Signup
-                      embedded
-                      embeddedTitle="Create username to compete on the leaderboard."
-                      embeddedSubtitle="30 second sign up, then you're ready to play!"
-                      facebookLogin={doFacebookLogin}
-                      googleLogin={doGoogleLogin}
-                      emailLogin={doSignupEmail}
-                      setProfileName={doSetProfileName}
-                      history={history}
-                      redirectPathAfterAuth="/treadmill/practice"
-                    />
-                  </section>
-                ) : null
-              }
-            />
+            {activeTool === TOOL_KEYS.HAND_SHAPE ? (
+              <HandShapeMissingClubTrainer
+                uid={uid || ""}
+                canRecordLeaderboard={authReady && !!uid}
+                belowLeaderboardSlot={
+                  showGuestSignup ? (
+                    <section className="tm-signupPanel" aria-label="Create account">
+                      <Signup
+                        embedded
+                        embeddedTitle="Create username to compete on the leaderboard."
+                        embeddedSubtitle="30 second sign up, then you're ready to play!"
+                        facebookLogin={doFacebookLogin}
+                        googleLogin={doGoogleLogin}
+                        emailLogin={doSignupEmail}
+                        setProfileName={doSetProfileName}
+                        history={history}
+                        redirectPathAfterAuth="/treadmill/practice"
+                      />
+                    </section>
+                  ) : null
+                }
+              />
+            ) : canUseOpponentShape ? (
+              <OpponentShapeTrainer />
+            ) : (
+              <section className="tm-lockedPanel" aria-live="polite">
+                <h2 className="tm-lockedPanel-title">Opponent shape is for paid members</h2>
+                <p className="tm-lockedPanel-body">
+                  This tool is available to active Basic and Premium subscribers.
+                </p>
+                <div className="tm-lockedPanel-actions">
+                  {!uid ? (
+                    <button
+                      type="button"
+                      className="ct-btn"
+                      onClick={() => history.push("/login")}
+                    >
+                      Log in
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="ct-btn ct-btn--secondary"
+                    onClick={() => history.push("/membership")}
+                  >
+                    View membership
+                  </button>
+                </div>
+              </section>
+            )}
           </div>
         </div>
       </div>
@@ -131,6 +188,8 @@ function TreadmillPracticePage({
 const mapStateToProps = (state) => ({
   uid: state.auth?.uid,
   authReady: state.auth?.authReady === true,
+  subscriptionActive: state.auth?.subscriptionActive === true,
+  isAdmin: state.auth?.a === true,
 });
 
 const mapDispatchToProps = (dispatch) => ({
