@@ -12,6 +12,10 @@ class StripeCheckout extends React.Component {
   };
 
   normalizeCode = (code) => String(code || "").toLowerCase().replace(/\s+/g, "").trim();
+  normalizeAmount = (amount) => {
+    const n = Number(amount);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  };
 
   capturePromoUsage = async ({ response, postData, enteredPromoCode, appliedPromoCode }) => {
     if (!this.props.uid) return;
@@ -33,6 +37,7 @@ class StripeCheckout extends React.Component {
             promoCodeEntered: enteredPromoCode,
             promoCodeApplied: appliedPromoCode || enteredPromoCode,
             tierName: postData?.tierName || "",
+            monthlyAmountAud: this.normalizeAmount(postData?.monthlyAmountAud),
             priceId: postData?.priceId || "",
             provider: "stripe",
             status: "checkout_session_created",
@@ -56,6 +61,7 @@ class StripeCheckout extends React.Component {
       email: this.props.email,
       uid: this.props.uid,
       tierName: this.props.tierName || "Premium",
+      monthlyAmountAud: this.normalizeAmount(this.props.tierPrice),
     };
 
     const coupon = this.props.getToken();
