@@ -12,6 +12,7 @@ import {
 } from "../../store/actions/authActions";
 import HandShapeMissingClubTrainer from "./HandShapeMissingClubTrainer";
 import OpponentShapeTrainer from "./OpponentShapeTrainer";
+import BuildingBlocksTrainer from "./BuildingBlocksTrainer";
 import "../Counting/CountingTrumpsTrainer.css";
 import "./TreadmillPracticePage.css";
 
@@ -19,6 +20,7 @@ const NARROW_MAX_PX = 480;
 const TOOL_KEYS = {
   HAND_SHAPE: "hand-shape",
   OPPONENT_SHAPE: "opponent-shape",
+  BUILDING_BLOCKS: "building-blocks",
 };
 
 function TreadmillPracticePage({
@@ -61,6 +63,7 @@ function TreadmillPracticePage({
 
   const showGuestSignup = authReady && !uid;
   const canUseOpponentShape = isAdmin || !!subscriptionActive;
+  const canUseBuildingBlocks = isAdmin || !!subscriptionActive;
 
   return (
     <div
@@ -116,13 +119,53 @@ function TreadmillPracticePage({
                   >
                     Opponent shape {!canUseOpponentShape ? "🔒" : ""}
                   </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTool === TOOL_KEYS.BUILDING_BLOCKS}
+                    className={`ct-diffTab tm-toolTabBtn ${
+                      activeTool === TOOL_KEYS.BUILDING_BLOCKS ? "ct-diffTab--active" : ""
+                    }`}
+                    onClick={() => setActiveTool(TOOL_KEYS.BUILDING_BLOCKS)}
+                  >
+                    Building blocks
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="tm-main">
-            {activeTool === TOOL_KEYS.HAND_SHAPE ? (
+            {activeTool === TOOL_KEYS.BUILDING_BLOCKS ? (
+              canUseBuildingBlocks ? (
+                <BuildingBlocksTrainer />
+              ) : (
+                <section className="tm-lockedPanel" aria-live="polite">
+                  <h2 className="tm-lockedPanel-title">Building blocks is for paid members</h2>
+                  <p className="tm-lockedPanel-body">
+                    This tool is available to active Basic and Premium subscribers.
+                  </p>
+                  <div className="tm-lockedPanel-actions">
+                    {!uid ? (
+                      <button
+                        type="button"
+                        className="ct-btn"
+                        onClick={() => history.push("/login")}
+                      >
+                        Log in
+                      </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      className="ct-btn ct-btn--secondary"
+                      onClick={() => history.push("/membership")}
+                    >
+                      View membership
+                    </button>
+                  </div>
+                </section>
+              )
+            ) : activeTool === TOOL_KEYS.HAND_SHAPE ? (
               <HandShapeMissingClubTrainer
                 uid={uid || ""}
                 canRecordLeaderboard={authReady && !!uid}

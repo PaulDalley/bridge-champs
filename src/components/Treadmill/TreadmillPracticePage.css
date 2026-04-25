@@ -313,6 +313,159 @@
   gap: 0.55rem;
 }
 
+.tm-buildingBlocks {
+  max-width: 28rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid #cfe1ff;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(56, 189, 248, 0.16), transparent 34%),
+    radial-gradient(circle at 95% 100%, rgba(99, 102, 241, 0.15), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.12);
+}
+
+.tm-buildingBlocks-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  padding: 0.45rem 0.35rem;
+}
+
+.tm-buildingBlocks-row + .tm-buildingBlocks-row {
+  border-top: 1px dashed #dbeafe;
+  padding-top: 0.8rem;
+}
+
+.tm-buildingBlocks-label {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.tm-buildingBlocks .tm-buildingBlocksDigitInput.ct-numBoxInput--hidden {
+  font-size: max(16px, var(--text-xl)) !important;
+  font-weight: 800 !important;
+  color: transparent !important;
+  opacity: 0.01 !important;
+  caret-color: transparent !important;
+}
+
+.tm-arcadeMeter {
+  width: min(22rem, 100%);
+  margin: 0 auto 1rem;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 0.28rem;
+}
+
+.tm-arcadeMeterStep {
+  height: 0.58rem;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #e2e8f0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.tm-arcadeMeterStep--on {
+  border-color: #22c55e;
+  background: linear-gradient(180deg, #86efac 0%, #22c55e 100%);
+  box-shadow:
+    0 0 10px rgba(34, 197, 94, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.tm-arcadeCheer {
+  min-height: 1.3rem;
+  margin: -0.35rem 0 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.tm-arcadeCheerText {
+  font-size: var(--text-sm);
+  font-weight: 900;
+  color: #0f766e;
+  text-shadow: 0 0 12px rgba(45, 212, 191, 0.42);
+  letter-spacing: 0.01em;
+  animation: tm-arcadeCheerFade 1.6s ease-out both;
+}
+
+@keyframes tm-arcadeCheerFade {
+  0% {
+    opacity: 0;
+    transform: translateY(3px) scale(0.98);
+  }
+  18% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+.tm-buildingBlocks-answerWrap {
+  position: relative;
+}
+
+.tm-arcadeTickRail {
+  position: absolute;
+  right: -0.35rem;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 1.2rem;
+  pointer-events: none;
+}
+
+.tm-arcadePopTick {
+  position: absolute;
+  right: 0;
+  top: calc(var(--tick-index) * 0.45rem);
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  line-height: 1;
+  color: #16a34a;
+  text-shadow:
+    0 0 10px rgba(34, 197, 94, 0.55),
+    0 0 16px rgba(74, 222, 128, 0.45);
+  opacity: 0;
+  animation: tm-arcadeTickPop 1.1s ease-out forwards;
+}
+
+@keyframes tm-arcadeTickPop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 6px) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.03);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -20px) scale(0.95);
+  }
+}
+
+@media (max-width: 480px) {
+  .tm-buildingBlocks {
+    padding: 0.75rem 0.65rem;
+  }
+
+  .tm-buildingBlocks-row {
+    padding: 0.35rem 0.15rem;
+    gap: 0.7rem;
+  }
+}
+
 .tm-oppShape {
   max-width: 52rem;
   margin: 0 auto;
@@ -324,6 +477,12 @@
   font-size: var(--text-2xl);
   font-weight: 900;
   color: #0f172a;
+}
+
+@media (min-width: 481px) {
+  .tm-oppShape .tm-arcadeMeter {
+    margin-bottom: 1.45rem;
+  }
 }
 
 .tm-oppShape-lead {
@@ -459,6 +618,11 @@
 
   .tm-oppShape-handRow + .tm-oppShape-handRow {
     margin-top: 0.4rem;
+  }
+
+  .tm-arcadeMeter {
+    gap: 0.22rem;
+    margin-bottom: 0.7rem;
   }
 }
 
