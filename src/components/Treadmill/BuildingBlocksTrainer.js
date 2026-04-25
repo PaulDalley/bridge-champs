@@ -13,7 +13,7 @@ function pickRandomOurCount(previousValue) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-export default function BuildingBlocksTrainer() {
+export default function BuildingBlocksTrainer({ lockedPreview = false }) {
   const inputRef = useRef(null);
   const correctTimerRef = useRef(null);
   const cheerTimerRef = useRef(null);
@@ -41,9 +41,10 @@ export default function BuildingBlocksTrainer() {
   }, [clearTimers]);
 
   useEffect(() => {
+    if (lockedPreview) return undefined;
     const t = window.setTimeout(() => inputRef.current?.focus?.({ preventScroll: true }), 0);
     return () => window.clearTimeout(t);
-  }, [ourCount]);
+  }, [lockedPreview, ourCount]);
 
   const advanceRound = useCallback(() => {
     setOurCount((prev) => pickRandomOurCount(prev));
@@ -53,6 +54,7 @@ export default function BuildingBlocksTrainer() {
 
   const handleInputChange = useCallback(
     (rawValue) => {
+      if (lockedPreview) return;
       if (showSuccessTick) return;
       const cleaned = String(rawValue ?? "").replace(/[^0-9]/g, "").slice(0, 1);
       setInputValue(cleaned);
@@ -95,8 +97,13 @@ export default function BuildingBlocksTrainer() {
     [advanceRound, clearTimers, ourCount, showSuccessTick, streakCount]
   );
 
+  const previewClass = lockedPreview ? "tm-toolPreview tm-toolPreview--locked" : "";
+
   return (
-    <section className="tm-buildingBlocks" aria-live="polite">
+    <section className={`tm-buildingBlocks ${previewClass}`} aria-live="polite">
+      {lockedPreview ? (
+        <p className="tm-toolPreview-note">Preview only. Subscribe to use this tool.</p>
+      ) : null}
       <div
         className="tm-arcadeMeter"
         role="progressbar"
@@ -129,6 +136,7 @@ export default function BuildingBlocksTrainer() {
           <div
             className={`ct-numBox ct-numBox--dist ${showSuccessTick ? "tm-numBox--successPulse" : ""}`}
             onPointerDown={(e) => {
+              if (lockedPreview) return;
               const el = inputRef.current;
               if (!el) return;
               if (e.pointerType === "mouse") {
@@ -158,6 +166,7 @@ export default function BuildingBlocksTrainer() {
               autoCapitalize="off"
               spellCheck={false}
               onFocus={(e) => e.target.select()}
+              disabled={lockedPreview}
             />
           </div>
           <div className="tm-arcadeTickRail" aria-hidden="true">

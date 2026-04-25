@@ -81,7 +81,7 @@ function buildNextRound(previousRound) {
   };
 }
 
-export default function OpponentShapeTrainer() {
+export default function OpponentShapeTrainer({ lockedPreview = false }) {
   const inputRef = useRef(null);
   const correctTimerRef = useRef(null);
   const tryAgainTimerRef = useRef(null);
@@ -131,12 +131,14 @@ export default function OpponentShapeTrainer() {
   );
 
   useEffect(() => {
+    if (lockedPreview) return undefined;
     const t = window.setTimeout(() => inputRef.current?.focus?.({ preventScroll: true }), 0);
     return () => window.clearTimeout(t);
-  }, [round.leftCount, round.patternIndex, round.suit.key]);
+  }, [lockedPreview, round.leftCount, round.patternIndex, round.suit.key]);
 
   const handleInputChange = useCallback(
     (rawValue) => {
+      if (lockedPreview) return;
       if (showSuccessTick) return;
 
       const cleaned = String(rawValue ?? "").replace(/[^0-9]/g, "").slice(0, 1);
@@ -189,6 +191,7 @@ export default function OpponentShapeTrainer() {
       advanceRound,
       clearActionTimers,
       clearCheerTimer,
+      lockedPreview,
       round.leftCount,
       round.opponentsTotal,
       showSuccessTick,
@@ -196,9 +199,14 @@ export default function OpponentShapeTrainer() {
     ]
   );
 
+  const previewClass = lockedPreview ? "tm-toolPreview tm-toolPreview--locked" : "";
+
   return (
-    <section className="tm-oppShape" aria-live="polite">
+    <section className={`tm-oppShape ${previewClass}`} aria-live="polite">
       <h2 className="tm-oppShape-title">Opponent shape drill</h2>
+      {lockedPreview ? (
+        <p className="tm-toolPreview-note">Preview only. Subscribe to use this tool.</p>
+      ) : null}
       <div
         className="tm-arcadeMeter"
         role="progressbar"
@@ -257,6 +265,7 @@ export default function OpponentShapeTrainer() {
             <div
               className={`ct-numBox ct-numBox--dist ${showSuccessTick ? "tm-numBox--successPulse" : ""}`}
               onPointerDown={(e) => {
+                if (lockedPreview) return;
                 const el = inputRef.current;
                 if (!el) return;
                 if (e.pointerType === "mouse") e.preventDefault();
@@ -282,6 +291,7 @@ export default function OpponentShapeTrainer() {
                 autoCapitalize="off"
                 spellCheck={false}
                 onFocus={(e) => e.target.select()}
+                disabled={lockedPreview}
               />
             </div>
             <div className="tm-arcadeTickRail" aria-hidden="true">

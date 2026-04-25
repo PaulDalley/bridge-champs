@@ -313,6 +313,29 @@
   gap: 0.55rem;
 }
 
+.tm-toolPreview-note {
+  margin: 0 0 0.65rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.tm-toolPreview--locked .tm-arcadeCheerText {
+  opacity: 0.6;
+}
+
+.tm-previewCta {
+  max-width: 28rem;
+  margin: 0.75rem auto 0;
+}
+
+.tm-previewCta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+}
+
 .tm-buildingBlocks {
   max-width: 28rem;
   margin: 0 auto;

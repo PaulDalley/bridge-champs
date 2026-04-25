@@ -128,7 +128,7 @@ function TreadmillPracticePage({
                     }`}
                     onClick={() => setActiveTool(TOOL_KEYS.BUILDING_BLOCKS)}
                   >
-                    Building blocks
+                    Building blocks {!canUseBuildingBlocks ? "🔒" : ""}
                   </button>
                 </div>
               </div>
@@ -137,34 +137,31 @@ function TreadmillPracticePage({
 
           <div className="tm-main">
             {activeTool === TOOL_KEYS.BUILDING_BLOCKS ? (
-              canUseBuildingBlocks ? (
-                <BuildingBlocksTrainer />
-              ) : (
-                <section className="tm-lockedPanel" aria-live="polite">
-                  <h2 className="tm-lockedPanel-title">Building blocks is for paid members</h2>
-                  <p className="tm-lockedPanel-body">
-                    This tool is available to active Basic and Premium subscribers.
-                  </p>
-                  <div className="tm-lockedPanel-actions">
-                    {!uid ? (
+              <>
+                <BuildingBlocksTrainer lockedPreview={!canUseBuildingBlocks} />
+                {!canUseBuildingBlocks ? (
+                  <section className="tm-previewCta" aria-label="Membership options">
+                    <div className="tm-previewCta-actions">
+                      {!uid ? (
+                        <button
+                          type="button"
+                          className="ct-btn"
+                          onClick={() => history.push("/login")}
+                        >
+                          Log in
+                        </button>
+                      ) : null}
                       <button
                         type="button"
-                        className="ct-btn"
-                        onClick={() => history.push("/login")}
+                        className="ct-btn ct-btn--secondary"
+                        onClick={() => history.push("/membership")}
                       >
-                        Log in
+                        Subscribe
                       </button>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="ct-btn ct-btn--secondary"
-                      onClick={() => history.push("/membership")}
-                    >
-                      View membership
-                    </button>
-                  </div>
-                </section>
-              )
+                    </div>
+                  </section>
+                ) : null}
+              </>
             ) : activeTool === TOOL_KEYS.HAND_SHAPE ? (
               <HandShapeMissingClubTrainer
                 uid={uid || ""}
@@ -187,33 +184,32 @@ function TreadmillPracticePage({
                   ) : null
                 }
               />
-            ) : canUseOpponentShape ? (
-              <OpponentShapeTrainer />
             ) : (
-              <section className="tm-lockedPanel" aria-live="polite">
-                <h2 className="tm-lockedPanel-title">Opponent shape is for paid members</h2>
-                <p className="tm-lockedPanel-body">
-                  This tool is available to active Basic and Premium subscribers.
-                </p>
-                <div className="tm-lockedPanel-actions">
-                  {!uid ? (
-                    <button
-                      type="button"
-                      className="ct-btn"
-                      onClick={() => history.push("/login")}
-                    >
-                      Log in
-                    </button>
-                  ) : null}
-                  <button
-                    type="button"
-                    className="ct-btn ct-btn--secondary"
-                    onClick={() => history.push("/membership")}
-                  >
-                    View membership
-                  </button>
-                </div>
-              </section>
+              <>
+                <OpponentShapeTrainer lockedPreview={!canUseOpponentShape} />
+                {!canUseOpponentShape ? (
+                  <section className="tm-previewCta" aria-label="Membership options">
+                    <div className="tm-previewCta-actions">
+                      {!uid ? (
+                        <button
+                          type="button"
+                          className="ct-btn"
+                          onClick={() => history.push("/login")}
+                        >
+                          Log in
+                        </button>
+                      ) : null}
+                      <button
+                        type="button"
+                        className="ct-btn ct-btn--secondary"
+                        onClick={() => history.push("/membership")}
+                      >
+                        Subscribe
+                      </button>
+                    </div>
+                  </section>
+                ) : null}
+              </>
             )}
           </div>
         </div>
