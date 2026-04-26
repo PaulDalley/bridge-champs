@@ -53,14 +53,42 @@ function compassLetterForStorageSeat(seat, declarerCompass) {
   return i >= 0 ? compassLetters[i] : null;
 }
 
+const COMPASS_FULL_NAME = { N: "North", E: "East", S: "South", W: "West" };
+
+/**
+ * Display-only override for the "You (…)" seat label. Does not affect play or layout.
+ * Accepts N/E/S/W or full compass names (any case); other non-empty strings are shown as-is.
+ * @param {string|undefined|null} override
+ * @returns {string|null}
+ */
+export function normalizeYouCompassLabelOverride(override) {
+  if (override == null) return null;
+  const s = String(override).trim();
+  if (!s) return null;
+  const one = s.length === 1 ? s.toUpperCase() : null;
+  if (one && COMPASS_FULL_NAME[one]) return COMPASS_FULL_NAME[one];
+  const key = s.toLowerCase();
+  if (key === "north") return "North";
+  if (key === "east") return "East";
+  if (key === "south") return "South";
+  if (key === "west") return "West";
+  return s;
+}
+
 /**
  * @param {string} seat Runner storage seat id (same contract as the play runner)
- * @param {{ viewerSeat: string, declarerCompass: string }} ctx
- * @returns {string} "You" or a single compass letter (N/E/S/W)
+ * @param {{ viewerSeat: string, declarerCompass: string, viewerCompassLabelOverride?: string }} ctx
+ * @returns {string} "You (South)" etc., or a single compass letter (N/E/S/W)
  */
-export function compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass }) {
+export function compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass, viewerCompassLabelOverride }) {
   if (!seat) return "";
-  if (seat === viewerSeat) return "You";
+  if (seat === viewerSeat) {
+    const forced = normalizeYouCompassLabelOverride(viewerCompassLabelOverride);
+    if (forced) return `You (${forced})`;
+    const letter = compassLetterForStorageSeat(viewerSeat, declarerCompass);
+    const name = letter ? COMPASS_FULL_NAME[letter] || letter : "";
+    return name ? `You (${name})` : "You";
+  }
   const c = compassLetterForStorageSeat(seat, declarerCompass);
   return c || String(seat);
 }

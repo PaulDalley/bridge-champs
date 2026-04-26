@@ -10,7 +10,12 @@ import { filterBeginnerTrainerPuzzles } from "../../data/beginnerModeConfig";
 import PracticeVideoBlock from "./PracticeVideoBlock";
 import { CLOCKWISE, partnerCompass, lhoCompass, rhoCompass, buildSeatCompassMaps } from "../../bridge/seatCompassMaps";
 import { PLAY_ENGINE_COMPASS_CLOCKWISE, followSeatsClockwiseFromLeader } from "../../bridge/compassPlayOrder";
-import { isCompassTrainerEngine, puzzleHasPlayInHand, compassTrainerSeatLabel } from "../../bridge/trainerCompassEngine";
+import {
+  isCompassTrainerEngine,
+  puzzleHasPlayInHand,
+  compassTrainerSeatLabel,
+  normalizeYouCompassLabelOverride,
+} from "../../bridge/trainerCompassEngine";
 import "./CountingTrumpsTrainer.css";
 
 // Runner storage seat ids (historical JSON + state shape). Layout is viewer-centric on screen;
@@ -4421,11 +4426,14 @@ function CountingTrumpsTrainer({
 
   const visibleFullHandSeatsBase = useMemo(() => {
     // "You" is defined per-problem by `viewerCompass`, mapped to an internal seat key (`viewerSeat`).
+    const forceViewerVisible = !!normalizeYouCompassLabelOverride(puzzle?.promptOptions?.viewerCompassLabelOverride);
     // If a puzzle explicitly sets visible seats, honour it across trainers (useful for build/test setups).
     const youSeat = viewerSeat;
     const vf = puzzle?.visibleFullHandSeats;
     if (Array.isArray(vf) && vf.length > 0) {
-      return [...new Set(vf)];
+      const merged = [...new Set(vf)];
+      if (forceViewerVisible && !merged.includes(youSeat)) merged.push(youSeat);
+      return merged;
     }
     // Bidding mode is strict: only show the viewer's hand unless a puzzle explicitly reveals more.
     if (categoryKey === "bidding") {
@@ -4444,8 +4452,9 @@ function CountingTrumpsTrainer({
       if (!merged.includes("DUMMY")) merged.push("DUMMY");
       if (!merged.includes(youSeat)) merged.push(youSeat);
     }
+    if (forceViewerVisible && !merged.includes(youSeat)) merged.push(youSeat);
     return merged;
-  }, [viewerSeat, puzzle?.shownHands, puzzle?.visibleFullHandSeats, puzzle?.rounds, puzzle?.trainerEngine, categoryKey]);
+  }, [viewerSeat, puzzle?.shownHands, puzzle?.visibleFullHandSeats, puzzle?.rounds, puzzle?.trainerEngine, categoryKey, puzzle?.promptOptions?.viewerCompassLabelOverride]);
 
   const visibleFullHandSeats = useMemo(() => {
     const baseWithSticky = [...new Set([...(visibleFullHandSeatsBase || []), ...(stickyRevealFullHandSeats || [])])];
@@ -7218,12 +7227,22 @@ function CountingTrumpsTrainer({
 
   const roleLabelForSeat = (seat) => {
     if (isCompassTrainerEngine(puzzle)) {
-      return compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass });
+      return compassTrainerSeatLabel(seat, {
+        viewerSeat,
+        declarerCompass,
+        viewerCompassLabelOverride: puzzle?.promptOptions?.viewerCompassLabelOverride,
+      });
     }
     // Required label sets:
-    // - Viewer is declarer: You, LHO, RHO, Dummy
-    // - Viewer is defender: You, Partner, Declarer, Dummy
-    if (seat === viewerSeat) return "You";
+    // - Viewer is declarer: You (compass), LHO, RHO, Dummy
+    // - Viewer is defender: You (compass), Partner, Declarer, Dummy
+    if (seat === viewerSeat) {
+      const forced = normalizeYouCompassLabelOverride(puzzle?.promptOptions?.viewerCompassLabelOverride);
+      if (forced) return `You (${forced})`;
+      const map = { N: "North", E: "East", S: "South", W: "West" };
+      const vn = map[viewerCompass] || viewerCompass;
+      return `You (${vn})`;
+    }
 
     if (viewerIsDeclarer) {
       if (seat === "DUMMY") return "Dummy";
