@@ -14,6 +14,35 @@
   display: flow-root;
 }
 
+.tm-handShape-guestPromo {
+  margin: 0 0 0.75rem;
+}
+
+.tm-handShape-dailyHint {
+  margin: 0 0 0.75rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #1d4ed8;
+  line-height: 1.4;
+}
+
+.tm-handShape-dailyWall {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.tm-handShape-dailyWall .tm-toolPreview-note {
+  margin-bottom: 0.85rem;
+}
+
+.tm-handShape-dailyWall .ct-btn {
+  width: 100%;
+  max-width: 20rem;
+}
+
 /* Vacant suit: full-cell tap target; numeric font size avoids iOS input zoom */
 .tm-handShape .tm-handShapeDigitInput.ct-numBoxInput--hidden {
   font-size: max(16px, var(--text-xl)) !important;

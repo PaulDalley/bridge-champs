@@ -81,7 +81,11 @@ function buildNextRound(previousRound) {
   };
 }
 
-export default function OpponentShapeTrainer({ lockedPreview = false }) {
+export default function OpponentShapeTrainer({
+  lockedPreview = false,
+  previewNote,
+  onDailyRoundConsumed,
+}) {
   const inputRef = useRef(null);
   const correctTimerRef = useRef(null);
   const tryAgainTimerRef = useRef(null);
@@ -172,6 +176,7 @@ export default function OpponentShapeTrainer({ lockedPreview = false }) {
         clearActionTimers();
         correctTimerRef.current = window.setTimeout(() => {
           correctTimerRef.current = null;
+          if (typeof onDailyRoundConsumed === "function") onDailyRoundConsumed();
           advanceRound();
         }, CORRECT_PAUSE_MS);
         return;
@@ -192,6 +197,7 @@ export default function OpponentShapeTrainer({ lockedPreview = false }) {
       clearActionTimers,
       clearCheerTimer,
       lockedPreview,
+      onDailyRoundConsumed,
       round.leftCount,
       round.opponentsTotal,
       showSuccessTick,
@@ -205,7 +211,9 @@ export default function OpponentShapeTrainer({ lockedPreview = false }) {
     <section className={`tm-oppShape ${previewClass}`} aria-live="polite">
       <h2 className="tm-oppShape-title">Opponent shape drill</h2>
       {lockedPreview ? (
-        <p className="tm-toolPreview-note">Preview only. Subscribe to use this tool.</p>
+        <p className="tm-toolPreview-note">
+          {previewNote || "Preview only. Subscribe to use this tool."}
+        </p>
       ) : null}
       <div
         className="tm-arcadeMeter"

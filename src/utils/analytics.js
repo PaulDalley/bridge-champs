@@ -63,3 +63,29 @@ export function sendBeginnerLandingCtaClick(params = {}) {
   const gtag = getGtag();
   if (gtag) gtag("event", "beginner_landing_cta_click", { ...params, send_to: GA4_MEASUREMENT_ID });
 }
+
+/**
+ * GA4 — Treadmill drills (/treadmill, /treadmill/practice).
+ * Reports > Engagement > Events (mark as key events if you want conversions).
+ *
+ * Events:
+ * - treadmill_landing_view — user opened /treadmill marketing page
+ * - treadmill_tool_select — practice page; params include treadmill_tool + auth_segment
+ *
+ * Recommended GA4 custom dimensions (Admin > Custom definitions): register event parameters
+ * `treadmill_tool`, `auth_segment` if you want breakdown charts.
+ *
+ * @param {string} eventName
+ * @param {Object} params - treadmill_tool?: 'hand_shape'|'opponent_shape'|'building_blocks', auth_segment?: 'guest'|'free_signed_in'|'subscriber'
+ */
+export function sendTreadmillEvent(eventName, params = {}) {
+  const gtag = getGtag();
+  if (gtag) gtag("event", eventName, { ...params, send_to: GA4_MEASUREMENT_ID });
+}
+
+/** For GA4 param `auth_segment` on Treadmill events (compact segments). */
+export function treadmillAuthSegmentForGa({ uid, subscriptionActive, isAdmin }) {
+  if (!uid) return "guest";
+  if (isAdmin || subscriptionActive === true) return "subscriber";
+  return "free_signed_in";
+}

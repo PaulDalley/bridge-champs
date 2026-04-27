@@ -59,6 +59,13 @@ export default function HandShapeMissingClubTrainer({
   belowLeaderboardSlot,
   canRecordLeaderboard = false,
   uid = "",
+  treadmillUnlimited = true,
+  /** Guest / free-tier promo only; omit for signed-in subscribers (parent passes undefined). */
+  guestPromoNote,
+  dailyInteractionBlocked = false,
+  dailyFreeRemaining = Infinity,
+  onDailyRoundConsumed,
+  onSubscribeClick,
 }) {
   const shapes = useMemo(() => TREADMILL_HAND_SHAPES.map(parseShape).filter(Boolean), []);
   const hiddenInputRef = useRef(null);
@@ -226,8 +233,15 @@ export default function HandShapeMissingClubTrainer({
     return () => window.removeEventListener("keydown", onKey);
   }, [pendingStreakRecord, finishStreakModalAndAdvance]);
 
+  const reportDailyRound = useCallback(() => {
+    if (uid && !treadmillUnlimited && typeof onDailyRoundConsumed === "function") {
+      onDailyRoundConsumed();
+    }
+  }, [onDailyRoundConsumed, treadmillUnlimited, uid]);
+
   const handleHiddenChange = useCallback(
     (raw) => {
+      if (dailyInteractionBlocked) return;
       if (showSuccessTick || pendingStreakRecord) return;
       const cleaned = String(raw ?? "")
         .replace(/[^0-9]/g, "")
@@ -262,6 +276,7 @@ export default function HandShapeMissingClubTrainer({
             const timeMs = Date.now() - streakStartMsRef.current;
             advanceTimerRef.current = window.setTimeout(() => {
               advanceTimerRef.current = null;
+              reportDailyRound();
               setShowSuccessTick(false);
               setPendingStreakRecord({ timeMs });
             }, CORRECT_PAUSE_MS);
@@ -270,6 +285,7 @@ export default function HandShapeMissingClubTrainer({
           resetStreak();
           advanceTimerRef.current = window.setTimeout(() => {
             advanceTimerRef.current = null;
+            reportDailyRound();
             advanceAfterSuccess();
           }, CORRECT_PAUSE_MS);
           return;
@@ -277,6 +293,7 @@ export default function HandShapeMissingClubTrainer({
 
         advanceTimerRef.current = window.setTimeout(() => {
           advanceTimerRef.current = null;
+          reportDailyRound();
           advanceAfterSuccess();
         }, CORRECT_PAUSE_MS);
         return;
@@ -297,10 +314,12 @@ export default function HandShapeMissingClubTrainer({
     [
       advanceAfterSuccess,
       clearTimers,
+      dailyInteractionBlocked,
       expectedHidden,
       hiddenMaxLen,
       canRecordLeaderboard,
       pendingStreakRecord,
+      reportDailyRound,
       resetStreak,
       showSuccessTick,
     ]
@@ -341,32 +360,58 @@ export default function HandShapeMissingClubTrainer({
 
   return (
     <div className="tm-handShape" aria-live="polite">
-      <div className="tm-handShape-introRow">
-        <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
-        {showStreakHud ? (
-          <div
-            className="tm-handShape-streakHud"
-            role="timer"
-            aria-label={`Current streak ${streakCount} of 10, elapsed ${formatTreadmillTimeShort(
-              streakElapsedMs ?? 0
-            )}`}
-          >
-            <span className="tm-handShape-streakHud-count">{streakCount}/10</span>
-            <span className="tm-handShape-streakHud-time" aria-hidden="true">
-              {formatTreadmillTimeShort(streakElapsedMs ?? 0)}
-            </span>
-          </div>
-        ) : null}
-      </div>
-      {!showStreakHud ? (
-        <p className="tm-handShape-preTimerHint">Don&apos;t use addition, just pattern recognition.</p>
+      {guestPromoNote && !treadmillUnlimited ? (
+        <p className="tm-handShape-guestPromo tm-toolPreview-note">{guestPromoNote}</p>
       ) : null}
+      {dailyInteractionBlocked && !treadmillUnlimited ? (
+        <div className="tm-handShape-dailyWall" role="status">
+          <p className="tm-toolPreview-note">
+            You&apos;ve used today&apos;s 4 free correct answers on this drill. Subscribe for unlimited access.
+          </p>
+          {typeof onSubscribeClick === "function" ? (
+            <button type="button" className="ct-btn ct-btn--secondary" onClick={onSubscribeClick}>
+              View membership
+            </button>
+          ) : null}
+        </div>
+      ) : null}
+      {!dailyInteractionBlocked &&
+      uid &&
+      !treadmillUnlimited &&
+      Number.isFinite(dailyFreeRemaining) ? (
+        <p className="tm-handShape-dailyHint" aria-live="polite">
+          Free today: {dailyFreeRemaining} of 4 free correct {dailyFreeRemaining === 1 ? "answer" : "answers"} left on
+          this drill.
+        </p>
+      ) : null}
+      {!dailyInteractionBlocked ? (
+        <>
+          <div className="tm-handShape-introRow">
+            <div className="ct-questionText tm-handShape-intro">Fill in the missing shape</div>
+            {showStreakHud ? (
+              <div
+                className="tm-handShape-streakHud"
+                role="timer"
+                aria-label={`Current streak ${streakCount} of 10, elapsed ${formatTreadmillTimeShort(
+                  streakElapsedMs ?? 0
+                )}`}
+              >
+                <span className="tm-handShape-streakHud-count">{streakCount}/10</span>
+                <span className="tm-handShape-streakHud-time" aria-hidden="true">
+                  {formatTreadmillTimeShort(streakElapsedMs ?? 0)}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          {!showStreakHud ? (
+            <p className="tm-handShape-preTimerHint">Don&apos;t use addition, just pattern recognition.</p>
+          ) : null}
 
-      <div
-        className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
-        role="group"
-        aria-label="Hand shape lengths by suit"
-      >
+          <div
+            className={`ct-shapeRow tm-shapeRow ${pendingStreakRecord ? "tm-handShape--blocked" : ""}`}
+            role="group"
+            aria-label="Hand shape lengths by suit"
+          >
         {rows.map((row) => (
           <div
             key={row.suitKey}
@@ -428,24 +473,26 @@ export default function HandShapeMissingClubTrainer({
             </div>
           </div>
         ))}
-      </div>
+          </div>
 
-      <div className="tm-handShape-feedbackSlot" aria-live="assertive">
-        <div className="tm-handShape-feedbackInner">
-          {!pendingStreakRecord && showSuccessTick && (
-            <div className="tm-successTick" role="status" aria-label="Correct">
-              <span className="tm-successTickMark" aria-hidden="true">
-                ✓
-              </span>
+          <div className="tm-handShape-feedbackSlot" aria-live="assertive">
+            <div className="tm-handShape-feedbackInner">
+              {!pendingStreakRecord && showSuccessTick && (
+                <div className="tm-successTick" role="status" aria-label="Correct">
+                  <span className="tm-successTickMark" aria-hidden="true">
+                    ✓
+                  </span>
+                </div>
+              )}
+              {!pendingStreakRecord && showTryAgain && (
+                <div className="tm-tryAgainHint" role="status">
+                  Try again
+                </div>
+              )}
             </div>
-          )}
-          {!pendingStreakRecord && showTryAgain && (
-            <div className="tm-tryAgainHint" role="status">
-              Try again
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </>
+      ) : null}
 
       <section className="tm-lbBoard" aria-labelledby="tm-lb-board-title">
         <div className="tm-lbBoard-header">

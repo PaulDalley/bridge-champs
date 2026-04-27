@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { TRAINER_CATEGORY_TABS } from "../Trainers/trainerCategoryTabs";
-import { sendPracticeEvent } from "../../utils/analytics";
+import { sendPracticeEvent, sendTreadmillEvent, treadmillAuthSegmentForGa } from "../../utils/analytics";
 import Signup from "../Auth/Signup";
 import {
   startFacebookLogin,
@@ -10,6 +10,14 @@ import {
   signupEmailAndPasswordLogin,
   setProfileName,
 } from "../../store/actions/authActions";
+import {
+  TREADMILL_TRAINER_HAND_SHAPE,
+  TREADMILL_TRAINER_OPPONENT_SHAPE,
+  TREADMILL_TRAINER_BUILDING_BLOCKS,
+  incrementTreadmillDailyCount,
+  treadmillDailyLimitReached,
+  treadmillFreeRoundsRemaining,
+} from "../../utils/treadmillDailyTries";
 import HandShapeMissingClubTrainer from "./HandShapeMissingClubTrainer";
 import OpponentShapeTrainer from "./OpponentShapeTrainer";
 import BuildingBlocksTrainer from "./BuildingBlocksTrainer";
@@ -23,6 +31,43 @@ const TOOL_KEYS = {
   BUILDING_BLOCKS: "building-blocks",
 };
 
+/** Guest / free-tier only — do not show when `treadmillUnlimited` (Basic, Premium, or admin). */
+const TREADMILL_GUEST_ACCOUNT_PROMO_NOTE =
+  "Create an account below — 4 free correct answers per day on this drill, unlimited with Basic or Premium.";
+
+const TREADMILL_EMBEDDED_SIGNUP_TITLE = "Create a username to play";
+const TREADMILL_EMBEDDED_SIGNUP_SUBTITLE = "30 second sign up, then you're ready to play!";
+
+const TREADMILL_DAILY_LIMIT_DONE_NOTE =
+  "You've used today's 4 free correct answers on this drill. Subscribe for unlimited access (Basic or Premium).";
+
+function treadmillLockedPreviewNote({ treadmillUnlimited, uid, dailyExhausted }) {
+  if (treadmillUnlimited) return undefined;
+  if (!uid) return TREADMILL_GUEST_ACCOUNT_PROMO_NOTE;
+  if (dailyExhausted) return TREADMILL_DAILY_LIMIT_DONE_NOTE;
+  return undefined;
+}
+
+function toolFromPathname(pathname) {
+  const p = pathname || "";
+  if (p.endsWith("/opponent-shape")) return TOOL_KEYS.OPPONENT_SHAPE;
+  if (p.endsWith("/building-blocks")) return TOOL_KEYS.BUILDING_BLOCKS;
+  return TOOL_KEYS.HAND_SHAPE;
+}
+
+function pathnameForTool(tool) {
+  if (tool === TOOL_KEYS.OPPONENT_SHAPE) return "/treadmill/practice/opponent-shape";
+  if (tool === TOOL_KEYS.BUILDING_BLOCKS) return "/treadmill/practice/building-blocks";
+  return "/treadmill/practice";
+}
+
+/** GA4 event param `treadmill_tool` — snake_case per GA4 conventions. */
+function treadmillToolGaValue(tool) {
+  if (tool === TOOL_KEYS.OPPONENT_SHAPE) return "opponent_shape";
+  if (tool === TOOL_KEYS.BUILDING_BLOCKS) return "building_blocks";
+  return "hand_shape";
+}
+
 function TreadmillPracticePage({
   history,
   uid,
@@ -35,7 +80,8 @@ function TreadmillPracticePage({
   setProfileName: doSetProfileName,
 }) {
   const practiceViewSentRef = useRef(false);
-  const [activeTool, setActiveTool] = useState(TOOL_KEYS.HAND_SHAPE);
+  const treadmillToolGaSentRef = useRef(null);
+  const [activeTool, setActiveTool] = useState(() => toolFromPathname(history.location?.pathname));
   const [isNarrowViewport, setIsNarrowViewport] = useState(() =>
     typeof window !== "undefined" ? window.matchMedia(`(max-width: ${NARROW_MAX_PX}px)`).matches : false
   );
@@ -46,8 +92,26 @@ function TreadmillPracticePage({
     sendPracticeEvent("practice_view", {
       trainer: "Treadmill",
       category_key: "treadmill",
+      treadmill_tool: treadmillToolGaValue(toolFromPathname(history.location.pathname)),
     });
-  }, []);
+  }, [history.location.pathname]);
+
+  useEffect(() => {
+    setActiveTool(toolFromPathname(history.location?.pathname));
+  }, [history.location?.pathname]);
+
+  useEffect(() => {
+    if (treadmillToolGaSentRef.current === activeTool) return;
+    treadmillToolGaSentRef.current = activeTool;
+    sendTreadmillEvent("treadmill_tool_select", {
+      treadmill_tool: treadmillToolGaValue(activeTool),
+      auth_segment: treadmillAuthSegmentForGa({
+        uid,
+        subscriptionActive,
+        isAdmin,
+      }),
+    });
+  }, [activeTool, uid, subscriptionActive, isAdmin]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -62,8 +126,51 @@ function TreadmillPracticePage({
     typeof window !== "undefined" && /localhost|127\.0\.0\.1/.test(window.location?.hostname || "");
 
   const showGuestSignup = authReady && !uid;
-  const canUseOpponentShape = isAdmin || !!subscriptionActive;
-  const canUseBuildingBlocks = isAdmin || !!subscriptionActive;
+  const treadmillUnlimited = isAdmin || !!subscriptionActive;
+  const [dailyTick, setDailyTick] = useState(0);
+
+  const consumeDaily = useCallback(
+    (trainerId) => {
+      if (!uid || treadmillUnlimited) return;
+      incrementTreadmillDailyCount(uid, trainerId);
+      setDailyTick((t) => t + 1);
+    },
+    [uid, treadmillUnlimited]
+  );
+
+  const opponentDailyExhausted = useMemo(
+    () =>
+      !!uid &&
+      !treadmillUnlimited &&
+      treadmillDailyLimitReached(uid, TREADMILL_TRAINER_OPPONENT_SHAPE, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
+  const buildingDailyExhausted = useMemo(
+    () =>
+      !!uid &&
+      !treadmillUnlimited &&
+      treadmillDailyLimitReached(uid, TREADMILL_TRAINER_BUILDING_BLOCKS, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
+  const handDailyBlocked = useMemo(
+    () =>
+      !!uid &&
+      !treadmillUnlimited &&
+      treadmillDailyLimitReached(uid, TREADMILL_TRAINER_HAND_SHAPE, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
+
+  const oppLocked = !uid || opponentDailyExhausted;
+  const bbLocked = !uid || buildingDailyExhausted;
+
+  const handFreeRemaining = useMemo(
+    () => treadmillFreeRoundsRemaining(uid, TREADMILL_TRAINER_HAND_SHAPE, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
+
+  const loginReturnPath = `${history.location.pathname || "/treadmill/practice"}${
+    history.location.search || ""
+  }`;
 
   return (
     <div
@@ -104,7 +211,10 @@ function TreadmillPracticePage({
                     className={`ct-diffTab tm-toolTabBtn ${
                       activeTool === TOOL_KEYS.HAND_SHAPE ? "ct-diffTab--active" : ""
                     }`}
-                    onClick={() => setActiveTool(TOOL_KEYS.HAND_SHAPE)}
+                    onClick={() => {
+                      const path = pathnameForTool(TOOL_KEYS.HAND_SHAPE);
+                      if (history.location.pathname !== path) history.replace(path);
+                    }}
                   >
                     Hand shape
                   </button>
@@ -115,9 +225,12 @@ function TreadmillPracticePage({
                     className={`ct-diffTab tm-toolTabBtn ${
                       activeTool === TOOL_KEYS.OPPONENT_SHAPE ? "ct-diffTab--active" : ""
                     }`}
-                    onClick={() => setActiveTool(TOOL_KEYS.OPPONENT_SHAPE)}
+                    onClick={() => {
+                      const path = pathnameForTool(TOOL_KEYS.OPPONENT_SHAPE);
+                      if (history.location.pathname !== path) history.replace(path);
+                    }}
                   >
-                    Opponent shape {!canUseOpponentShape ? "🔒" : ""}
+                    Opponent shape {!uid ? "🔒" : ""}
                   </button>
                   <button
                     type="button"
@@ -126,9 +239,12 @@ function TreadmillPracticePage({
                     className={`ct-diffTab tm-toolTabBtn ${
                       activeTool === TOOL_KEYS.BUILDING_BLOCKS ? "ct-diffTab--active" : ""
                     }`}
-                    onClick={() => setActiveTool(TOOL_KEYS.BUILDING_BLOCKS)}
+                    onClick={() => {
+                      const path = pathnameForTool(TOOL_KEYS.BUILDING_BLOCKS);
+                      if (history.location.pathname !== path) history.replace(path);
+                    }}
                   >
-                    Building blocks {!canUseBuildingBlocks ? "🔒" : ""}
+                    Building blocks {!uid ? "🔒" : ""}
                   </button>
                 </div>
               </div>
@@ -138,25 +254,42 @@ function TreadmillPracticePage({
           <div className="tm-main">
             {activeTool === TOOL_KEYS.BUILDING_BLOCKS ? (
               <>
-                <BuildingBlocksTrainer lockedPreview={!canUseBuildingBlocks} />
-                {!canUseBuildingBlocks ? (
+                <BuildingBlocksTrainer
+                  lockedPreview={bbLocked}
+                  previewNote={treadmillLockedPreviewNote({
+                    treadmillUnlimited,
+                    uid,
+                    dailyExhausted: buildingDailyExhausted,
+                  })}
+                  onDailyRoundConsumed={
+                    uid && !treadmillUnlimited
+                      ? () => consumeDaily(TREADMILL_TRAINER_BUILDING_BLOCKS)
+                      : undefined
+                  }
+                />
+                {!uid ? (
+                  <section className="tm-signupPanel" aria-label="Create account">
+                    <Signup
+                      embedded
+                      embeddedTitle={TREADMILL_EMBEDDED_SIGNUP_TITLE}
+                      embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
+                      facebookLogin={doFacebookLogin}
+                      googleLogin={doGoogleLogin}
+                      emailLogin={doSignupEmail}
+                      setProfileName={doSetProfileName}
+                      history={history}
+                      redirectPathAfterAuth={loginReturnPath}
+                    />
+                  </section>
+                ) : buildingDailyExhausted && !treadmillUnlimited ? (
                   <section className="tm-previewCta" aria-label="Membership options">
                     <div className="tm-previewCta-actions">
-                      {!uid ? (
-                        <button
-                          type="button"
-                          className="ct-btn"
-                          onClick={() => history.push("/login")}
-                        >
-                          Log in
-                        </button>
-                      ) : null}
                       <button
                         type="button"
                         className="ct-btn ct-btn--secondary"
                         onClick={() => history.push("/membership")}
                       >
-                        Subscribe
+                        View membership
                       </button>
                     </div>
                   </section>
@@ -165,6 +298,12 @@ function TreadmillPracticePage({
             ) : activeTool === TOOL_KEYS.HAND_SHAPE ? (
               <HandShapeMissingClubTrainer
                 uid={uid || ""}
+                treadmillUnlimited={treadmillUnlimited}
+                guestPromoNote={treadmillUnlimited || uid ? undefined : TREADMILL_GUEST_ACCOUNT_PROMO_NOTE}
+                dailyInteractionBlocked={handDailyBlocked}
+                dailyFreeRemaining={handFreeRemaining}
+                onDailyRoundConsumed={() => consumeDaily(TREADMILL_TRAINER_HAND_SHAPE)}
+                onSubscribeClick={() => history.push("/membership")}
                 canRecordLeaderboard={authReady && !!uid}
                 belowLeaderboardSlot={
                   showGuestSignup ? (
@@ -172,13 +311,13 @@ function TreadmillPracticePage({
                       <Signup
                         embedded
                         embeddedTitle="Create username to compete on the leaderboard."
-                        embeddedSubtitle="30 second sign up, then you're ready to play!"
+                        embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
                         facebookLogin={doFacebookLogin}
                         googleLogin={doGoogleLogin}
                         emailLogin={doSignupEmail}
                         setProfileName={doSetProfileName}
                         history={history}
-                        redirectPathAfterAuth="/treadmill/practice"
+                        redirectPathAfterAuth={loginReturnPath}
                       />
                     </section>
                   ) : null
@@ -186,25 +325,42 @@ function TreadmillPracticePage({
               />
             ) : (
               <>
-                <OpponentShapeTrainer lockedPreview={!canUseOpponentShape} />
-                {!canUseOpponentShape ? (
+                <OpponentShapeTrainer
+                  lockedPreview={oppLocked}
+                  previewNote={treadmillLockedPreviewNote({
+                    treadmillUnlimited,
+                    uid,
+                    dailyExhausted: opponentDailyExhausted,
+                  })}
+                  onDailyRoundConsumed={
+                    uid && !treadmillUnlimited
+                      ? () => consumeDaily(TREADMILL_TRAINER_OPPONENT_SHAPE)
+                      : undefined
+                  }
+                />
+                {!uid ? (
+                  <section className="tm-signupPanel" aria-label="Create account">
+                    <Signup
+                      embedded
+                      embeddedTitle={TREADMILL_EMBEDDED_SIGNUP_TITLE}
+                      embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
+                      facebookLogin={doFacebookLogin}
+                      googleLogin={doGoogleLogin}
+                      emailLogin={doSignupEmail}
+                      setProfileName={doSetProfileName}
+                      history={history}
+                      redirectPathAfterAuth={loginReturnPath}
+                    />
+                  </section>
+                ) : opponentDailyExhausted && !treadmillUnlimited ? (
                   <section className="tm-previewCta" aria-label="Membership options">
                     <div className="tm-previewCta-actions">
-                      {!uid ? (
-                        <button
-                          type="button"
-                          className="ct-btn"
-                          onClick={() => history.push("/login")}
-                        >
-                          Log in
-                        </button>
-                      ) : null}
                       <button
                         type="button"
                         className="ct-btn ct-btn--secondary"
                         onClick={() => history.push("/membership")}
                       >
-                        Subscribe
+                        View membership
                       </button>
                     </div>
                   </section>

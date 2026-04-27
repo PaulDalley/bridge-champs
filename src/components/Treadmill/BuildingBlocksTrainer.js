@@ -13,7 +13,11 @@ function pickRandomOurCount(previousValue) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-export default function BuildingBlocksTrainer({ lockedPreview = false }) {
+export default function BuildingBlocksTrainer({
+  lockedPreview = false,
+  previewNote,
+  onDailyRoundConsumed,
+}) {
   const inputRef = useRef(null);
   const correctTimerRef = useRef(null);
   const cheerTimerRef = useRef(null);
@@ -85,6 +89,7 @@ export default function BuildingBlocksTrainer({ lockedPreview = false }) {
         clearTimers();
         correctTimerRef.current = window.setTimeout(() => {
           correctTimerRef.current = null;
+          if (typeof onDailyRoundConsumed === "function") onDailyRoundConsumed();
           advanceRound();
         }, CORRECT_PAUSE_MS);
         return;
@@ -94,7 +99,7 @@ export default function BuildingBlocksTrainer({ lockedPreview = false }) {
       setStreakCount(0);
       window.setTimeout(() => inputRef.current?.focus?.({ preventScroll: true }), 0);
     },
-    [advanceRound, clearTimers, ourCount, showSuccessTick, streakCount]
+    [advanceRound, clearTimers, onDailyRoundConsumed, ourCount, showSuccessTick, streakCount]
   );
 
   const previewClass = lockedPreview ? "tm-toolPreview tm-toolPreview--locked" : "";
@@ -102,7 +107,9 @@ export default function BuildingBlocksTrainer({ lockedPreview = false }) {
   return (
     <section className={`tm-buildingBlocks ${previewClass}`} aria-live="polite">
       {lockedPreview ? (
-        <p className="tm-toolPreview-note">Preview only. Subscribe to use this tool.</p>
+        <p className="tm-toolPreview-note">
+          {previewNote || "Preview only. Subscribe to use this tool."}
+        </p>
       ) : null}
       <div
         className="tm-arcadeMeter"

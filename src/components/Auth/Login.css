@@ -214,3 +214,59 @@
     font-size: 2.4rem;
   }
 }
+
+/* Embedded on Treadmill practice (narrow column) */
+.Login-container--embedded {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.Login-container--embedded::before {
+  display: none;
+}
+
+.Login-container--embedded .Login-card {
+  max-width: 100%;
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow-md, 0 8px 24px rgba(15, 23, 42, 0.1));
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg, 12px);
+}
+
+.Login-container--embedded .Login-header {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.Login-container--embedded .Login-title {
+  font-size: var(--text-2xl);
+  text-align: left;
+}
+
+.Login-container--embedded .Login-subtitle {
+  font-size: var(--text-sm);
+  text-align: left;
+  line-height: 1.45;
+}
+
+.Login-container--embedded .Login-form {
+  gap: 1rem;
+}
+
+.Login-container--embedded .Login-footer {
+  margin-top: 1.35rem;
+  padding-top: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .Login-container--embedded .Login-card {
+    padding: 1.1rem 1rem;
+  }
+
+  .Login-container--embedded .Login-title {
+    font-size: var(--text-xl);
+  }
+}

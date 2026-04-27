@@ -72,11 +72,14 @@ class Login extends Component {
     this.props
       .emailLogin(email, password)
       .then((res) => {
-        // Used by loginRedirectToContent to avoid redirecting to /success for the wrong account.
-        this._lastLoginUid = res?.uid;
+        const credUser = res?.user ?? res;
+        this._lastLoginUid = credUser?.uid;
+        if (this.props.redirectPathAfterAuth) {
+          this.props.history.push(this.props.redirectPathAfterAuth);
+          return;
+        }
         if (this.props.login) {
-          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
-          else this.props.paypalSubscribe(res.uid);
+          if (this.props.paypalSubscribe) this.props.paypalSubscribe(credUser.uid);
         } else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -89,9 +92,12 @@ class Login extends Component {
       .facebookLogin()
       .then((res) => {
         this._lastLoginUid = res?.user?.uid;
+        if (this.props.redirectPathAfterAuth) {
+          this.props.history.push(this.props.redirectPathAfterAuth);
+          return;
+        }
         if (this.props.login) {
-          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
-          else this.props.paypalSubscribe(res.user.uid);
+          if (this.props.paypalSubscribe) this.props.paypalSubscribe(res.user.uid);
         } else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -104,9 +110,12 @@ class Login extends Component {
       .googleLogin()
       .then((res) => {
         this._lastLoginUid = res?.user?.uid;
+        if (this.props.redirectPathAfterAuth) {
+          this.props.history.push(this.props.redirectPathAfterAuth);
+          return;
+        }
         if (this.props.login) {
-          if (this.props.redirectPathAfterAuth) this.props.history.push(this.props.redirectPathAfterAuth);
-          else this.props.paypalSubscribe(res.user.uid);
+          if (this.props.paypalSubscribe) this.props.paypalSubscribe(res.user.uid);
         } else this.loginRedirectToContent();
       })
       .catch((err) => {
@@ -165,12 +174,15 @@ class Login extends Component {
 
   render() {
     const { email, password, err, forgottenPasswordModalOpen, emailReset, resetPasswordMessage } = this.state;
+    const { embedded, idPrefix = "" } = this.props;
     const signupLink = this.props.redirectPathAfterAuth
       ? `/signup?redirectTo=${encodeURIComponent(this.props.redirectPathAfterAuth)}`
       : "/signup";
+    const emailId = `${idPrefix}email`;
+    const passwordId = `${idPrefix}password`;
 
     return (
-      <div className="Login-container">
+      <div className={embedded ? "Login-container Login-container--embedded" : "Login-container"}>
         <div className="Login-card">
           <div className="Login-header">
             <h1 className="Login-title">Welcome Back</h1>
@@ -181,9 +193,9 @@ class Login extends Component {
 
           <form onSubmit={this.onSubmit} className="Login-form">
             <div className="Login-input-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor={emailId}>Email</label>
               <input
-                id="email"
+                id={emailId}
                 className="Login-input-field"
                 type="email"
                 name="email"
@@ -194,9 +206,9 @@ class Login extends Component {
             </div>
 
             <div className="Login-input-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor={passwordId}>Password</label>
               <input
-                id="password"
+                id={passwordId}
                 className="Login-input-field"
                 type="password"
                 name="password"
