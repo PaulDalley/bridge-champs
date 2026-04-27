@@ -280,6 +280,7 @@ const DEFENCE_PUZZLES = [
     auction: "2♠ P 4♠ P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -376,6 +377,7 @@ const DEFENCE_PUZZLES = [
     auction: "1♥ P 2♥ P 4♥ P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♥ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -469,6 +471,7 @@ const DEFENCE_PUZZLES = [
     auction: "1NT P 3NT P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 3NT by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -544,6 +547,7 @@ const DEFENCE_PUZZLES = [
     auction: "P P 1♦ 1N P 2♦ P 2♥ P 2N P 3♥ P 4♥ P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♥ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -620,6 +624,7 @@ const DEFENCE_PUZZLES = [
     auction: "1C 1S P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -714,6 +719,7 @@ const DEFENCE_PUZZLES = [
     auction: "P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -774,6 +780,7 @@ const DEFENCE_PUZZLES = [
     auction: "4D P 5D P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 5♦ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -878,6 +885,7 @@ const DEFENCE_PUZZLES = [
     auction: "1N P 3C P 3S P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -976,6 +984,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "east"],
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -1136,6 +1145,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "east"],
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -1363,6 +1373,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "west"],
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -1471,6 +1482,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "west"],
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -1659,6 +1671,7 @@ const DEFENCE_PUZZLES = [
     viewerCompass: "S",
     promptOptions: {
       promptPlacement: "left",
+      contractLabel: "Contract is 4♠ by West",
       viewerCompassLabelOverride: "S",
       hideAuction: true,
       disableWarmupTrumpGuess: true,
