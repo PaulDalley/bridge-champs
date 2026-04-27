@@ -110,7 +110,10 @@ function TreadmillLandingPage({
               Race the clock, chase a streak — then jump straight into the real trainer.
             </p>
             <div className="tmLanding-ctaRow">
-              <Link className="tmLanding-cta tmLanding-cta--primary" to="/treadmill/practice">
+              <Link
+                className="tmLanding-cta tmLanding-cta--primary tmLanding-cta--hero"
+                to="/treadmill/practice"
+              >
                 Start Treadmill
               </Link>
             </div>

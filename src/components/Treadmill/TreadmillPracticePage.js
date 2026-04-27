@@ -216,7 +216,7 @@ function TreadmillPracticePage({
                       if (history.location.pathname !== path) history.replace(path);
                     }}
                   >
-                    Hand shape
+                    Hand shape {!uid ? "🔒" : ""}
                   </button>
                   <button
                     type="button"
@@ -299,7 +299,12 @@ function TreadmillPracticePage({
               <HandShapeMissingClubTrainer
                 uid={uid || ""}
                 treadmillUnlimited={treadmillUnlimited}
-                guestPromoNote={treadmillUnlimited || uid ? undefined : TREADMILL_GUEST_ACCOUNT_PROMO_NOTE}
+                lockedPreview={!uid}
+                previewNote={treadmillLockedPreviewNote({
+                  treadmillUnlimited,
+                  uid,
+                  dailyExhausted: false,
+                })}
                 dailyInteractionBlocked={handDailyBlocked}
                 dailyFreeRemaining={handFreeRemaining}
                 onDailyRoundConsumed={() => consumeDaily(TREADMILL_TRAINER_HAND_SHAPE)}
@@ -310,7 +315,7 @@ function TreadmillPracticePage({
                     <section className="tm-signupPanel" aria-label="Create account">
                       <Signup
                         embedded
-                        embeddedTitle="Create username to compete on the leaderboard."
+                        embeddedTitle={TREADMILL_EMBEDDED_SIGNUP_TITLE}
                         embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
                         facebookLogin={doFacebookLogin}
                         googleLogin={doGoogleLogin}

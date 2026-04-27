@@ -60,8 +60,9 @@ export default function HandShapeMissingClubTrainer({
   canRecordLeaderboard = false,
   uid = "",
   treadmillUnlimited = true,
-  /** Guest / free-tier promo only; omit for signed-in subscribers (parent passes undefined). */
-  guestPromoNote,
+  /** When true, show a read-only preview (same pattern as Building blocks / Opponent shape). */
+  lockedPreview = false,
+  previewNote,
   dailyInteractionBlocked = false,
   dailyFreeRemaining = Infinity,
   onDailyRoundConsumed,
@@ -198,6 +199,7 @@ export default function HandShapeMissingClubTrainer({
   }, [pendingStreakRecord]);
 
   useEffect(() => {
+    if (lockedPreview) return undefined;
     if (pendingStreakRecord) {
       const t = window.setTimeout(() => aliasInputRef.current?.focus?.({ preventScroll: true }), 60);
       return () => window.clearTimeout(t);
@@ -211,7 +213,7 @@ export default function HandShapeMissingClubTrainer({
       });
     }, 0);
     return () => window.clearTimeout(t);
-  }, [shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord]);
+  }, [lockedPreview, shapeIdx, hiddenSuit, columnOrder.join(""), pendingStreakRecord]);
 
   useEffect(() => {
     if (streakCount === 0 || pendingStreakRecord) return undefined;
@@ -241,6 +243,7 @@ export default function HandShapeMissingClubTrainer({
 
   const handleHiddenChange = useCallback(
     (raw) => {
+      if (lockedPreview) return;
       if (dailyInteractionBlocked) return;
       if (showSuccessTick || pendingStreakRecord) return;
       const cleaned = String(raw ?? "")
@@ -317,6 +320,7 @@ export default function HandShapeMissingClubTrainer({
       dailyInteractionBlocked,
       expectedHidden,
       hiddenMaxLen,
+      lockedPreview,
       canRecordLeaderboard,
       pendingStreakRecord,
       reportDailyRound,
@@ -351,17 +355,18 @@ export default function HandShapeMissingClubTrainer({
       ariaSuit: meta.ariaSuit,
       isRed: meta.isRed,
       locked,
-      displayValue: locked ? String(count) : hiddenInput,
+      displayValue: locked ? String(count) : lockedPreview ? "?" : hiddenInput,
     };
   });
 
   const hiddenAriaSuit = SUIT_META[hiddenSuit]?.ariaSuit || "suit";
-  const inputLocked = showSuccessTick || !!pendingStreakRecord;
+  const inputLocked = showSuccessTick || !!pendingStreakRecord || lockedPreview;
+  const previewShellClass = lockedPreview ? "tm-toolPreview tm-toolPreview--locked" : "";
 
   return (
-    <div className="tm-handShape" aria-live="polite">
-      {guestPromoNote && !treadmillUnlimited ? (
-        <p className="tm-handShape-guestPromo tm-toolPreview-note">{guestPromoNote}</p>
+    <div className={`tm-handShape ${previewShellClass}`} aria-live="polite">
+      {lockedPreview ? (
+        <p className="tm-toolPreview-note">{previewNote || "Preview only. Sign in or create an account below to play."}</p>
       ) : null}
       {dailyInteractionBlocked && !treadmillUnlimited ? (
         <div className="tm-handShape-dailyWall" role="status">
@@ -403,7 +408,7 @@ export default function HandShapeMissingClubTrainer({
               </div>
             ) : null}
           </div>
-          {!showStreakHud ? (
+          {!lockedPreview && !showStreakHud ? (
             <p className="tm-handShape-preTimerHint">Don&apos;t use addition, just pattern recognition.</p>
           ) : null}
 
@@ -424,10 +429,10 @@ export default function HandShapeMissingClubTrainer({
               </span>
             </div>
             <div
-              className={`ct-numBox ct-numBox--dist ${row.locked ? "ct-numBox--locked" : ""} ${
+              className={`ct-numBox ct-numBox--dist ${row.locked || lockedPreview ? "ct-numBox--locked" : ""} ${
                 showSuccessTick && !row.locked ? "tm-numBox--successPulse" : ""
               }`}
-              {...(!row.locked
+              {...(!row.locked && !lockedPreview
                 ? {
                     onPointerDown: (e) => {
                       if (inputLocked) return;
@@ -447,7 +452,7 @@ export default function HandShapeMissingClubTrainer({
               <div className="ct-numBoxValue ct-numBoxValue--dist" aria-hidden="true">
                 {row.displayValue}
               </div>
-              {!row.locked ? (
+              {!row.locked && !lockedPreview ? (
                 <input
                   ref={hiddenInputRef}
                   className="ct-numBoxInput ct-numBoxInput--hidden tm-handShapeDigitInput"
