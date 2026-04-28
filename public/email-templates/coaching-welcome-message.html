@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome message — Bridge Champions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1917;
+      --body: #292524;
+      --muted: #57534e;
+      --cream: #fffbf5;
+      --card: #ffffff;
+      --warm-line: #e7ddd4;
+      --accent: #c2410c;
+      --accent-hover: #9a3412;
+      --accent-soft: rgba(194, 65, 12, 0.09);
+      --sky: #0e7490;
+      --sky-soft: rgba(14, 116, 144, 0.1);
+      --page-top: #fff7ed;
+      --page-mid: #ffedd5;
+      --page-bottom: #fce7f3;
+      --shadow: rgba(28, 25, 23, 0.08);
+      --shadow-deep: rgba(28, 25, 23, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Lexend", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      color: var(--body);
+      background:
+        radial-gradient(ellipse 120% 80% at 100% 0%, rgba(252, 231, 243, 0.9) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 70% at 0% 100%, rgba(255, 237, 213, 0.95) 0%, transparent 50%),
+        linear-gradient(165deg, var(--page-top) 0%, var(--page-mid) 45%, var(--page-bottom) 100%);
+      padding: 2.25rem 1.25rem 3.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+
+    .sheet {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow:
+        0 2px 4px var(--shadow),
+        0 16px 40px var(--shadow-deep);
+      border: 1px solid rgba(231, 221, 212, 0.85);
+      overflow: hidden;
+    }
+
+    .sheet-header {
+      position: relative;
+      padding: 1.75rem 1.85rem 1.5rem;
+      background:
+        linear-gradient(135deg, var(--accent-soft) 0%, var(--sky-soft) 100%);
+      border-bottom: 1px solid var(--warm-line);
+    }
+
+    .sheet-header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #ea580c, var(--sky));
+      opacity: 0.85;
+    }
+
+    .site-line {
+      font-family: "Outfit", system-ui, sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+
+    .greeting {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      font-size: clamp(1.5rem, 4vw, 1.85rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .lead {
+      margin: 0.35rem 0 0;
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .body {
+      padding: 1.75rem 1.85rem 2rem;
+      background: linear-gradient(180deg, var(--cream) 0%, var(--card) 18%);
+    }
+
+    .body p {
+      margin: 0 0 1.1rem;
+      color: var(--body);
+      max-width: 36em;
+    }
+
+    .body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .block {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.35rem 1.35rem 1.4rem;
+      background: linear-gradient(145deg, #fffdfb 0%, #fff7ed 100%);
+      border-radius: 14px;
+      border: 1px solid rgba(231, 221, 212, 0.9);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .block-title {
+      font-family: "Outfit", system-ui, sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--sky);
+      margin: 0 0 0.85rem;
+    }
+
+    /* List uses inline-styled table in markup so copy-paste into email keeps numbers */
+
+    .signoff {
+      margin-top: 1.6rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--warm-line);
+    }
+
+    .note {
+      margin-top: 2rem;
+      padding: 1rem 1.15rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      font-weight: 400;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 12px;
+      border: 1px solid rgba(231, 221, 212, 0.8);
+      backdrop-filter: blur(6px);
+    }
+
+    .note code {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: 0.8em;
+      background: rgba(255, 247, 237, 0.9);
+      padding: 0.12em 0.4em;
+      border-radius: 6px;
+      border: 1px solid var(--warm-line);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="sheet">
+      <header class="sheet-header">
+        <p class="site-line">Bridge Champions</p>
+        <p class="greeting">Hi Nyook,</p>
+        <p class="lead">Glad you’re here—here’s a simple way to get the most from the site.</p>
+      </header>
+      <div class="body">
+        <p>Welcome to BridgeChampions.com.</p>
+        <p>
+          Please don’t hesitate to contact me with any questions, concerns, or
+          anything bridge-related.
+        </p>
+
+        <div class="block">
+          <p class="block-title">How I suggest using the site</p>
+          <!-- Table + inline styles: email clients strip <style>; pseudo-elements/counters do not paste. -->
+          <table
+            class="action-steps-table"
+            role="presentation"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            aria-label="Suggested steps"
+            style="width:100%;border-collapse:collapse;margin:0;font-size:inherit;line-height:1.6;color:#292524;"
+          >
+            <tr>
+              <td valign="top" style="width:48px;padding:0 14px 18px 0;vertical-align:top;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td align="center" valign="middle" bgcolor="#d8eef5" style="width:40px;height:40px;min-width:40px;background-color:#d8eef5;border:2px solid #045065;border-radius:10px;text-align:center;mso-line-height-rule:exactly;padding:0;vertical-align:middle;"><font face="Arial, Helvetica, sans-serif" size="4" color="#022f3a"><b>1</b></font></td>
+                  </tr>
+                </table>
+              </td>
+              <td valign="top" style="padding:0 0 18px 0;vertical-align:top;font-family:Lexend,Segoe UI,Arial,sans-serif;">
+                Start with Practical Learning (on the front page). Pick a topic
+                you’d like to review.
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" style="width:48px;padding:0 14px 18px 0;vertical-align:top;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td align="center" valign="middle" bgcolor="#fde8d8" style="width:40px;height:40px;min-width:40px;background-color:#fde8d8;border:2px solid #7c2d12;border-radius:10px;text-align:center;mso-line-height-rule:exactly;padding:0;vertical-align:middle;"><font face="Arial, Helvetica, sans-serif" size="4" color="#5c1d0d"><b>2</b></font></td>
+                  </tr>
+                </table>
+              </td>
+              <td valign="top" style="padding:0 0 18px 0;vertical-align:top;font-family:Lexend,Segoe UI,Arial,sans-serif;">
+                Spend at least a few minutes, a few times a week, on the
+                “treadmill.” You’ll find it under Practical Learning.
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" style="width:48px;padding:0 14px 18px 0;vertical-align:top;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td align="center" valign="middle" bgcolor="#fcefd9" style="width:40px;height:40px;min-width:40px;background-color:#fcefd9;border:2px solid #6b3010;border-radius:10px;text-align:center;mso-line-height-rule:exactly;padding:0;vertical-align:middle;"><font face="Arial, Helvetica, sans-serif" size="4" color="#4a2309"><b>3</b></font></td>
+                  </tr>
+                </table>
+              </td>
+              <td valign="top" style="padding:0 0 18px 0;vertical-align:top;font-family:Lexend,Segoe UI,Arial,sans-serif;">
+                Use the articles when you want a bit of extra reading—they pull
+                the ideas together.
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" style="width:48px;padding:0 14px 0 0;vertical-align:top;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td align="center" valign="middle" bgcolor="#d1f5f0" style="width:40px;height:40px;min-width:40px;background-color:#d1f5f0;border:2px solid #115e59;border-radius:10px;text-align:center;mso-line-height-rule:exactly;padding:0;vertical-align:middle;"><font face="Arial, Helvetica, sans-serif" size="4" color="#0d4a46"><b>4</b></font></td>
+                  </tr>
+                </table>
+              </td>
+              <td valign="top" style="padding:0;vertical-align:top;font-family:Lexend,Segoe UI,Arial,sans-serif;">
+                Tell me what you’d like more guidance on, including from recent
+                hands at the table.
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <p class="signoff muted">Best,</p>
+        <p class="muted">Paul</p>
+      </div>
+    </div>
+
+    <p class="note">
+      <strong style="font-weight:600;">Copying into email:</strong> Most webmail strips page styles, so the steps use a
+      table with real numbers and inline formatting—they should paste into Gmail / Outlook with the list intact.
+      Select the message inside the white card (from the greeting through “Best, Paul”), copy, then paste into compose.
+      If your client still flattens layout, paste with <strong style="font-weight:600;">Ctrl+Shift+V</strong> won’t help—use normal paste.
+      Edit names in <code>public/email-templates/coaching-welcome-message.html</code>.
+    </p>
+  </div>
+</body>
+</html>

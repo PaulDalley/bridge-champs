@@ -1624,6 +1624,341 @@ function Bid310Reveal2Rich() {
   );
 }
 
+function Bid127IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Preempt style has evolved. Here is what the best pairs do today — in plain terms, with reasons you can use
+          right away.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid127PartnerWarnRich() {
+  return (
+    <div className="ct-revealRich">
+      <section
+        className="ct-revealRichCard ct-revealRichCard--amber"
+        style={{
+          borderLeft: "4px solid #dc2626",
+        }}
+      >
+        <div className="ct-revealRichLead" style={{ marginBottom: 10 }}>
+          <span className="ct-revealRichBadge ct-revealRichBadge--violet">Before you play</span>
+        </div>
+        <h4 className="ct-revealRichHeading">You must discuss preempts with partner</h4>
+        <p className="ct-revealRichBody">
+          None of this works if partner is on a different page. Agree what your bids show, at which level, and how
+          disciplined you will be.
+        </p>
+        <p className="ct-revealRichBody">
+          Best case: your partner also works through the same material on Bridge Champions. If not, have a clear
+          sit-down about preempts before you lean on them in competition.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid127RulesRich() {
+  return (
+    <div className="ct-revealRich">
+      <h4 className="ct-revealRichHeading" style={{ marginTop: 0, marginBottom: 14 }}>
+        Simple rules — vulnerability
+      </h4>
+
+      <section
+        className="ct-revealRichCard ct-revealRichCard--slate"
+        style={{
+          marginBottom: 14,
+          borderLeft: "4px solid rgba(185, 28, 28, 0.55)",
+        }}
+      >
+        <p className="ct-revealRichLead" style={{ marginBottom: 10 }}>
+          <span className="ct-revealRichBadge ct-revealRichBadge--violet">Vulnerable</span>
+        </p>
+        <p className="ct-revealRichBody">
+          Vulnerable preempts must have a good suit.
+        </p>
+        <p className="ct-revealRichBody">
+          The idea behind it: when vulnerable, partner is looking for game and needs to be able to rely on you having a
+          good suit.
+        </p>
+        <p className="ct-revealRichBody">
+          People think it&apos;s because of the possibility of getting penalty doubled vulnerable — that&apos;s a small
+          part of the story, not the main story.
+        </p>
+      </section>
+
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichLead" style={{ marginBottom: 10 }}>
+          <span className="ct-revealRichBadge">Not vulnerable</span>
+        </p>
+        <p className="ct-revealRichBody">
+          Standards drop a lot. Our goal here is to be disruptive — make an aggressive preempt with a very weak hand,
+          and make it difficult for our opponents.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid127PreemptBidRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          In a world championship, the good pairs were opening <TextWithColoredSuits text="3♥" /> or even{" "}
+          <TextWithColoredSuits text="4♥" />. The idea is: we aren&apos;t vulnerable — it&apos;s time to be disruptive;
+          standards go out the window.
+        </p>
+        <p className="ct-revealRichBody">
+          Furthermore, we bump up our aggression a bit more when, on top of being not vulnerable, the opponents{" "}
+          <em className="ct-revealRichKey">are</em> vulnerable — that is the most appropriate time to go{" "}
+          <span className="ct-revealRichKey">&quot;completely crazy&quot;</span>.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid127CalibrateRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          However, if you open <TextWithColoredSuits text="3♥" /> and your partner is upset that you &quot;only have 2
+          points&quot;, I urge you to go back to step 1 and discuss and calibrate your preempts — the best methods are
+          methods that don&apos;t upset partner.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid128OpeningRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichLead">
+          <TextWithColoredSuits text="1♠" /> is the correct bid.
+        </p>
+        <p className="ct-revealRichBody" style={{ marginTop: 12 }}>
+          If we are going to open <TextWithColoredSuits text="3♥" /> on the previous hand, with 2 points, we can&apos;t
+          treat a nice 10-point hand as a preempt when we aren&apos;t vulnerable.
+        </p>
+        <p className="ct-revealRichBody">
+          Passing, however, is not an option with a nice 7-card suit like this.
+        </p>
+        <div className="ct-revealRichRuleBox">
+          <h4 className="ct-revealRichHeading" style={{ marginTop: 0, marginBottom: 10 }}>
+            You must decide
+          </h4>
+          <ul className="ct-revealRichPoints">
+            <li>
+              Either I squeeze it into a 3-level preempt, <em>or</em>
+            </li>
+            <li>I squeeze it into a 1-level opening.</li>
+          </ul>
+        </div>
+        <p className="ct-revealRichBody" style={{ marginTop: 16 }}>
+          When we aren&apos;t vulnerable, we lower the standards of our preempts — and, as a flow-on effect, we lower the
+          standards (certainly the point-count standard) of our opening bid.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichLead" style={{ marginBottom: "0.5rem" }}>
+          &ldquo;It&apos;s a bidder&apos;s game&rdquo;
+        </p>
+        <p className="ct-revealRichBody">
+          You have to be comfortable bidding more, passing less (when you aren&apos;t vulnerable) if you want to get
+          ahead.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid129MuddyWatersRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichLead">I want to muddy the waters slightly.</p>
+        <p className="ct-revealRichBody" style={{ marginTop: 12 }}>
+          I&apos;ve said &ldquo;it&apos;s a bidder&apos;s game&rdquo; and to bid more when we aren&apos;t vulnerable.
+          However, when I look at this hand I notice:
+        </p>
+        <h4 className="ct-revealRichHeading" style={{ marginTop: 16, marginBottom: 10 }}>
+          1. A bad long suit
+        </h4>
+        <p className="ct-revealRichBody">
+          A bad long suit, that in itself is not fatal to making a bid as we&apos;ve seen; we throw our standards{' '}
+          &ldquo;out the window&rdquo; when we aren&apos;t vulnerable.
+        </p>
+        <h4 className="ct-revealRichHeading" style={{ marginTop: 16, marginBottom: 10 }}>
+          2. Lots of stuff in the outside suits
+        </h4>
+        <p className="ct-revealRichBody">
+          Lots of stuff in the outside suits — this is actually a big negative for making a preempt, surprisingly. The
+          reason is: the stronger we are in our short suits, the less likely the opponents are to be making contracts.
+        </p>
+        <p className="ct-revealRichBody" style={{ marginTop: 16 }}>
+          Take a look at this hand — do you think it&apos;s likely that the opponents are making a slam? Probably they
+          aren&apos;t. Compare that with problem 27 when you had only 2 points — there&apos;s no reason to doubt the
+          opponents have game or slam on.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid129PassRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichLead">I love bidding a lot, but this hand I am fine to pass.</p>
+        <p className="ct-revealRichBody" style={{ marginTop: 14 }}>
+          So let&apos;s summarise reasons to bid, and reasons not to bid:
+        </p>
+        <table className="ct-revealRichPlusMinusTable">
+          <thead>
+            <tr>
+              <th scope="col" className="ct-revealRichPlusMinusTable-plus">
+                For
+              </th>
+              <th scope="col" className="ct-revealRichPlusMinusTable-minus">
+                Against
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">Very weak hands — surprisingly.</td>
+              <td>
+                Lots of points in the side suits — less chance the opponents are making slam or game.
+              </td>
+            </tr>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">Quality long suit.</td>
+              <td>
+                Bad long suit (though this isn&apos;t fatal when we aren&apos;t vulnerable).
+              </td>
+            </tr>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">Distributional is good — singletons.</td>
+              <td>7222 or 6322 is bad (very bad).</td>
+            </tr>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">
+                We aren&apos;t vulnerable — and even better when the opponents are vulnerable.
+              </td>
+              <td>
+                When we are vulnerable we want to make sure we have a good suit. It&apos;s not really an
+                &ldquo;against&rdquo; factor — but it&apos;s a time to be strict and disciplined.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
+}
+
+function Bid130RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <PracticeAuctionMiniTable
+          auctionText="4♠ X P P P"
+          dealerCompass="S"
+          vulnerability="EW Vul"
+          className="ct-revealRichBody--belowMiniTable"
+        />
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          The final contract was <TextWithColoredSuits text="4♠X" />, going 2 off for 300.
+        </p>
+        <p className="ct-revealRichBody">
+          However, the opponents can make a grand slam comfortably, a huge result.
+        </p>
+        <h4 className="ct-revealRichHeading" style={{ marginTop: 16, marginBottom: 10 }}>
+          Why this preempt works
+        </h4>
+        <ul className="ct-revealRichPoints">
+          <li>Vulnerability is in your favour.</li>
+          <li>Weak hand with a good suit.</li>
+          <li>Distributional shape (singleton).</li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid131RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <PracticeAuctionMiniTable
+          auctionText="3♥ P 4♥ P P P"
+          dealerCompass="N"
+          vulnerability="NS Vul"
+          className="ct-revealRichBody--belowMiniTable"
+        />
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          <TextWithColoredSuits text="4♥" /> is the correct bid, knowing that partner has a solid heart suit for this
+          bid (a vulnerable preempt). We have no hesitation or fear in bidding our vulnerable game here, even though
+          our combined point count is below 20 points.
+        </p>
+        <p className="ct-revealRichBody">
+          On this hand there are 9 top tricks (7 hearts and 2 spades). Declarer was able to get a diamond ruff for the
+          10th trick, but otherwise worst-case scenario, a spade finesse would be the 10th trick (if the opponents
+          managed to draw all the trumps).
+        </p>
+        <p className="ct-revealRichBody">
+          Rule: making game opposite a vulnerable preempt is not about points, it is about useful features.
+        </p>
+        <table className="ct-revealRichPlusMinusTable">
+          <thead>
+            <tr>
+              <th scope="col" className="ct-revealRichPlusMinusTable-plus">
+                Useful feature
+              </th>
+              <th scope="col" className="ct-revealRichPlusMinusTable-minus">
+                Why it matters
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">Trumps.</td>
+              <td>A long, robust fit turns preemptive pressure into tricks.</td>
+            </tr>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">Shortage (even a doubleton is useful).</td>
+              <td>Ruffing potential creates extra winners.</td>
+            </tr>
+            <tr>
+              <td className="ct-revealRichPlusMinusTable-plusCell">
+                <strong className="ct-revealRichKey">Source of tricks (biggest one).</strong>
+              </td>
+              <td>
+                <TextWithColoredSuits text="AKQ" /> or, on this hand, <TextWithColoredSuits text="AKJ" /> can be 2 or 3
+                tricks.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
+}
+
 /**
  * Bidding practice: opening (1–5) and responding (6–10). Uses CountingTrumpsTrainer with question-only flow (no tricks).
  */
@@ -2979,7 +3314,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid1-26",
     difficulty: 1,
-    title: "2-level overcalls (25): Bare clubs — still bid 2♣?",
+    title: "2-level overcalls (26): Bare clubs — still bid 2♣?",
     trumpSuit: "C",
     contract: "—",
     dealerCompass: "E",
@@ -3043,7 +3378,7 @@ const BIDDING_PUZZLES = [
   {
     id: "bid1-27",
     difficulty: 1,
-    title: "2-level overcalls (26): Weak hearts — double instead?",
+    title: "2-level overcalls (27): Weak hearts — double instead?",
     trumpSuit: "D",
     contract: "—",
     dealerCompass: "E",
@@ -3063,7 +3398,7 @@ const BIDDING_PUZZLES = [
       questionNumbers: [],
       themeLabel: "2-level overcalls",
       promptThemeTint: "twoLevel",
-      contractLabel: "East opens 1♠ — neither side vulnerable, you are South",
+      contractLabel: "Modern Overcalls",
       contractLabelBeforeStartOnly: true,
       auctionAllWhite: true,
       hidePlayDecisionHeading: true,
@@ -3091,6 +3426,274 @@ const BIDDING_PUZZLES = [
           atRoundIdx: -1,
           promptText:
             "This is consistent with the idea that typically we do not overcall a 5332 on the 2 level — though often that shape may be a double instead.",
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-29",
+    difficulty: 1,
+    title: "Preempts (27): Partner agreement & vulnerable suits",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "?",
+    vulnerability: "EW Vul",
+    shownHands: {
+      DECLARER: { S: "762", H: "Q1087542", D: "42", C: "8" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Theme: Preempts",
+      promptThemeTint: "preempt",
+      contractLabel: "Modern Preempts",
+      contractLabelBeforeStartOnly: true,
+      auctionOpponentsRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "bid1-29-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid127IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-29-partner",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid127PartnerWarnRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-29-rules",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid127RulesRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-29-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Would you make a bid with this hand?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: ["3h", "4h"],
+          expectedChoiceDisplay: "3♥ or 4♥",
+          wrongTryText: "Not quite — think world-class preempt aggression when you are not vulnerable.",
+          noContinue: false,
+          revealText: <Bid127PreemptBidRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-29-calibrate",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid127CalibrateRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-30",
+    difficulty: 1,
+    title: "Preempts (28): Seven spades — what do you bid?",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "?",
+    vulnerability: "EW Vul",
+    shownHands: {
+      DECLARER: { S: "AKT8643", H: "KT4", D: "73", C: "4" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Theme: Preempts",
+      promptThemeTint: "preempt",
+      contractLabel: "Modern Preempts",
+      contractLabelBeforeStartOnly: true,
+      auctionOpponentsRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "bid1-30-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What are your thoughts on this one?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "1s",
+          expectedChoiceDisplay: "1♠",
+          wrongTryText: "Think again — with this shape when you aren't vulnerable, you still need a plan.",
+          noContinue: false,
+          revealText: <Bid128OpeningRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-31",
+    difficulty: 1,
+    title: "Preempts (29): Muddying the waters",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "?",
+    vulnerability: "EW Vul",
+    shownHands: {
+      DECLARER: { S: "T76432", H: "KT3", D: "JT", C: "A9" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Theme: Preempts",
+      promptThemeTint: "preempt",
+      contractLabel: "Modern Preempts",
+      contractLabelBeforeStartOnly: true,
+      auctionOpponentsRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "bid1-31-muddy",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid129MuddyWatersRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-31-choice",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is your choice?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "This is a hand to pass — try again.",
+          noContinue: false,
+          revealText: <Bid129PassRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-32",
+    difficulty: 1,
+    title: "Preempts (30): Consolidate and calibrate",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "?",
+    vulnerability: "EW Vul",
+    shownHands: {
+      DECLARER: { S: "QJT8432", H: "2", D: "JT84", C: "2" },
+      DUMMY: { S: "K97", H: "J97", D: "Q75", C: "T976" },
+      RHO: { S: "5", H: "AKQ4", D: "K963", C: "AQ85" },
+      LHO: { S: "A6", H: "T8653", D: "A2", C: "KJ43" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Theme: Preempts",
+      promptThemeTint: "preempt",
+      contractLabel: "Modern Preempts",
+      contractLabelBeforeStartOnly: true,
+      auctionOpponentsRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "bid1-32-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Okay, so lets consolidate and calibrate. What do we bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          wrongTryText: "Try again — this is the hand where we put maximum pressure on right now.",
+          noContinue: false,
+          revealFullHandSeats: ["DUMMY", "RHO", "LHO"],
+          revealText: <Bid130RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-33",
+    difficulty: 1,
+    title: "Preempts (31): Final calibration",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "3♥ P ?",
+    vulnerability: "NS Vul",
+    shownHands: {
+      DECLARER: { S: "AKJ7", H: "K4", D: "74", C: "97543" },
+      DUMMY: { S: "T8", H: "AQJ9763", D: "953", C: "2" },
+      RHO: { S: "9653", H: "T5", D: "AKQ6", C: "AJ6" },
+      LHO: { S: "Q42", H: "82", D: "JT82", C: "KQT8" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Theme: Preempts",
+      promptThemeTint: "preempt",
+      contractLabel: "Modern Preempts",
+      contractLabelBeforeStartOnly: true,
+      auctionPartnersRed: true,
+      hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "",
+      customPrompts: [
+        {
+          id: "bid1-33-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Okay, so lets consolidate and calibrate. What do we bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4h",
+          expectedChoiceDisplay: "4♥",
+          wrongTryText: "Not quite — trust partner's vulnerable preempt quality and push to game.",
+          noContinue: false,
+          revealFullHandSeats: ["DUMMY", "RHO", "LHO"],
+          revealText: <Bid131RevealRich />,
           videoUrl: "",
         },
       ],
