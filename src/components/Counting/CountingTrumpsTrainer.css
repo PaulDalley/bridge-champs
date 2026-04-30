@@ -2074,6 +2074,12 @@ button.ct-categoryTab {
   max-width: 100%;
   position: sticky;
   top: calc(5rem + 6px);
+  /* Tall reveals + bidding box + auction grid can exceed the viewport; scroll inside the rail instead of clipping. */
+  max-height: calc(100vh - 5rem - 12px - env(safe-area-inset-bottom, 0px));
+  max-height: calc(100dvh - 5rem - 12px - env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 4px 0 0;
   box-sizing: border-box;
   margin-left: 32px;
@@ -2124,6 +2130,11 @@ button.ct-categoryTab {
   max-width: 100%;
   position: sticky;
   top: calc(5rem + 6px);
+  max-height: calc(100vh - 5rem - 12px - env(safe-area-inset-bottom, 0px));
+  max-height: calc(100dvh - 5rem - 12px - env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
   margin-left: 32px;
 }

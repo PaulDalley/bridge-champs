@@ -3797,7 +3797,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionOpponentsRed: true,
       hidePlayDecisionHeading: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/P1UZ8eaeNqs?si=71U3F4RUo8llUQJO",
       customPrompts: [
         {
           id: "bid1-29-intro",
@@ -3870,7 +3870,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionOpponentsRed: true,
       hidePlayDecisionHeading: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/I7HOlXN5LlY?si=hvGbArSo2XTQlDo3",
       customPrompts: [
         {
           id: "bid1-30-q",
@@ -3915,7 +3915,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionOpponentsRed: true,
       hidePlayDecisionHeading: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/hd8yt1QodnM?si=WZ2En-XXJ-U6N1fG",
       customPrompts: [
         {
           id: "bid1-31-muddy",
@@ -3970,7 +3970,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionOpponentsRed: true,
       hidePlayDecisionHeading: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/eVA9UnD1HK4?si=rLewZHqw7o7eUU_7",
       customPrompts: [
         {
           id: "bid1-32-q",
@@ -3982,7 +3982,6 @@ const BIDDING_PUZZLES = [
           expectedChoiceDisplay: "4♠",
           wrongTryText: "Try again — this is the hand where we put maximum pressure on right now.",
           noContinue: false,
-          revealFullHandSeats: ["DUMMY", "RHO", "LHO"],
           revealText: <Bid130RevealRich />,
           videoUrl: "",
         },
@@ -4019,7 +4018,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       auctionPartnersRed: true,
       hidePlayDecisionHeading: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/MyghAMTgE64?si=eRizWAdB-F-khi7C",
       customPrompts: [
         {
           id: "bid1-33-q",
@@ -4065,6 +4064,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Is this forcing?",
       contractLabelBeforeStartOnly: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/ucvI5UTVFGA?si=TcQ4dMRmdqD7BkB-",
       customPrompts: [
         {
           id: "bid1-34-intro",
@@ -4113,7 +4113,7 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
-    auction: "1♥ P 1♠ 2♦ P ?",
+    auction: "1♥ P 1♠ 2♦ P P ?",
     vulnerability: "Nil Vul",
     shownHands: {
       DECLARER: { S: "J10842", H: "3", D: "94", C: "AQ1098" },
@@ -4129,6 +4129,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Is this forcing?",
       contractLabelBeforeStartOnly: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/0fuGBRlVJg8?si=v-KR3bJCwGSjV7Xg",
       customPrompts: [
         {
           id: "bid1-35-q",
@@ -4179,6 +4180,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Is this forcing?",
       contractLabelBeforeStartOnly: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/JYtx5gcUMAQ?si=SeWsdPfqCffWhaOl",
       customPrompts: [
         {
           id: "bid1-36-q",
@@ -4229,6 +4231,7 @@ const BIDDING_PUZZLES = [
       contractLabel: "Is this forcing?",
       contractLabelBeforeStartOnly: true,
       hidePlayDecisionHeading: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/UVvU4yaQecw?si=RDwlAvlVVW-fL2e2",
       customPrompts: [
         {
           id: "bid1-37-q",

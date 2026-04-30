@@ -84,7 +84,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
       if (!embedRef.current) return;
       playerRef.current = new window.YT.Player(embedRef.current, {
         videoId,
-        playerVars: { rel: 0, modestbranding: 1 },
+        playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
         events: {
           onStateChange(ev) {
             if (ev.data === window.YT.PlayerState.ENDED) {
