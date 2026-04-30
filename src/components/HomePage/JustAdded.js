@@ -16,13 +16,13 @@ function JustAdded() {
           <p className="JustAdded-groupTitle">This week</p>
           <ul className="JustAdded-list">
             <li>
-              <Link to="/defence/practice?problem=df1-13" className="JustAdded-link">
-                Forcing declarer →
+              <Link to="/bidding/practice?difficulty=1&problem=bid1-29" className="JustAdded-link">
+                Modern Preempts →
               </Link>
             </li>
             <li>
-              <Link to="/bidding/practice?difficulty=2&problem=bid2-19" className="JustAdded-link">
-                The Power of Pass →
+              <Link to="/bidding/practice?difficulty=1&problem=bid1-34" className="JustAdded-link">
+                Is this forcing? →
               </Link>
             </li>
           </ul>
@@ -32,13 +32,13 @@ function JustAdded() {
           <p className="JustAdded-groupTitle">Last week</p>
           <ul className="JustAdded-list">
             <li>
-              <Link to="/bidding/practice?difficulty=3&problem=bid3-1" className="JustAdded-link">
-                Splinters →
+              <Link to="/defence/practice?problem=df1-13" className="JustAdded-link">
+                Forcing declarer →
               </Link>
             </li>
             <li>
-              <Link to="/bidding/practice?difficulty=3&problem=bid3-6" className="JustAdded-link">
-                Lebensohl →
+              <Link to="/bidding/practice?difficulty=2&problem=bid2-19" className="JustAdded-link">
+                The Power of Pass →
               </Link>
             </li>
           </ul>
