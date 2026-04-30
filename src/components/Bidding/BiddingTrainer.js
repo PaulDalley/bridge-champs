@@ -1959,6 +1959,345 @@ function Bid131RevealRich() {
   );
 }
 
+function Bid132IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Is this forcing?</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          When the auction gets competitive, a lot of the time there is confusion around whether a bid is forcing or
+          not.
+        </p>
+        <p className="ct-revealRichBody">
+          The other question that comes up: <strong>how do you force if you want to?</strong>
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid132RuleRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Simple rule</h4>
+        <p className="ct-revealRichBody">
+          The best way to resolve everything is to remember this rule:{" "}
+          <span className="ct-revealRichKey">&quot;Responder&apos;s first bid is forcing.&quot;</span>
+        </p>
+        <p className="ct-revealRichBody">Any other normal bids are not forcing.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          So forget the rule &quot;change of suit is forcing.&quot; It is much more important to be able to compete and bid
+          suits, without having to worry about pushing the auction too high.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid132RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♦" />
+        </span>
+        <span> is right.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          In modern bridge it is important for us to be able to bid good quality distributional hands.
+        </p>
+        <p className="ct-revealRichBody">
+          It feels natural to be able to bid <TextWithColoredSuits text="3♦" /> — you have a decent distributional hand
+          and a short heart.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          It would be a problem if <TextWithColoredSuits text="3♦" /> showed a very strong hand. It would mean we
+          can&apos;t bid our normal/mediocre hands, which are the hands we are dealt most of the time.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid132WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          So how do we know this bid isn&apos;t forcing?
+          <br />
+          <span className="ct-revealRichKey">&quot;Responder&apos;s first bid is forcing&quot;</span> — every other normal bid
+          is not.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          If opener wants to force here, a jump or cue of the opponent&apos;s suit, or perhaps beginning with a double,
+          can do that. (We&apos;ll look at this more later.)
+        </p>
+        <p className="ct-revealRichBody">
+          But the main point is that opener can feel free to bid 5-5 hands naturally like this without worrying that
+          it&apos;s &quot;forcing.&quot;
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid133RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♣" />
+        </span>
+        <span> is correct.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">The correct bid is <TextWithColoredSuits text="3♣" />.</p>
+        <p className="ct-revealRichBody">
+          We should be keen to bid our reasonable 5-5 hands like this. In the previous example we saw opener do it,
+          and similarly in this example responder can enjoy the same liberties.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          The important thing to remember is: <span className="ct-revealRichKey">&quot;Responder&apos;s first bid is forcing,&quot;</span>{" "}
+          but second bid is not.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid133WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          All in all, we can see that both responder and opener can freely bid their 5-5 hands, which is very important
+          since bridge is won or lost in the competitive bidding.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid134RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">X</span>
+        <span> is correct.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <h4 className="ct-revealRichHeading">Why not 2♠?</h4>
+        <p className="ct-revealRichBody">
+          <span className="ct-revealRichKey">Responder&apos;s first bid is forcing.</span> If we bid{" "}
+          <TextWithColoredSuits text="2♠" /> here, we force the auction up with only 7 points.
+        </p>
+        <p className="ct-revealRichBody">
+          That can easily get us too high. If <TextWithColoredSuits text="2♠" /> were non-forcing it would be great —
+          but in this position, it is responder&apos;s first bid.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">How we handle this</h4>
+        <p className="ct-revealRichBody">
+          I hate doubling with a distributional hand or long suit, but this is one of those situations where we do it.
+        </p>
+        <p className="ct-revealRichBody">
+          Method: when responder&apos;s first bid would be forcing, responder can <strong>double first</strong> and then
+          bid a suit to show a weaker hand — not strong enough to force.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid134WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Summary method</h4>
+        <ul className="ct-revealRichPoints">
+          <li>With strong hands: bid naturally and force.</li>
+          <li>
+            Not strong enough but still want to compete: start with <strong>X</strong>, then bid your suit.
+          </li>
+        </ul>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          That tells partner: &quot;I have a single-suited hand, but I was not good enough to make a forcing responder
+          first bid.&quot;
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid135RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="3♦" />
+        </span>
+        <span> is correct.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          The correct bid is <TextWithColoredSuits text="3♦" />.
+        </p>
+        <p className="ct-revealRichBody">
+          Unfortunately we can&apos;t just bid <TextWithColoredSuits text="3♣" />, because that is not forcing. Only{" "}
+          <span className="ct-revealRichKey">&quot;responder&apos;s first bid is forcing&quot;</span>; any other change of suit in
+          competition is not forcing.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Since this is not responder&apos;s first bid, it isn&apos;t forcing. So the natural option of{" "}
+          <TextWithColoredSuits text="3♣" /> is risky, because partner will often pass it.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid135ContinueRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Bidding <TextWithColoredSuits text="3♦" /> (the opponent&apos;s suit) shows strength: &quot;I have a big hand and
+          didn&apos;t have a better bid available.&quot;
+        </p>
+        <p className="ct-revealRichBody">
+          Responder&apos;s typical action opposite this is to bid <TextWithColoredSuits text="3NT" /> with a stopper in
+          diamonds.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Rule: when opener cue-bids the opponent suit, it says: &quot;I&apos;m strong and want to game-force. I may have a
+          distributional hand, but I can&apos;t bid it naturally because that would not be forcing.&quot;
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid135WrapRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          This is a slightly quirky situation. But rest assured, the majority of the time (90%+) you are just competing
+          for the partscore and bidding your hand naturally, with the knowledge that partner won&apos;t expect too much.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          You are allowed to bid your suits naturally in competition with low-point-count hands, because only{" "}
+          <span className="ct-revealRichKey">&quot;responder&apos;s first bid&quot;</span> is forcing.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid136Q1RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">No</span>
+        <span> — that is not correct.</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          As we have seen, it is important to be able to compete and bid your suits naturally when you have a minimal
+          amount of points.
+        </p>
+        <p className="ct-revealRichBody">
+          If all changes of suit were forcing, your hands would too frequently be tied. Most of the time you are not
+          strong enough to make a forcing bid.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Sadly we are usually dealt minimum-range hands, not 17+ point hands.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid136Q2RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          <span className="ct-revealRichKey">Responder&apos;s first bid</span> is always forcing.
+        </p>
+        <p className="ct-revealRichBody">
+          I think I have repeated that enough times for it to stick!
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid136Q3RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Double first, then bid</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          In a situation where a bid is natural and forcing, double then bidding a suit shows a different type of hand
+          — a hand that was not strong enough to force.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid136Q4RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">No</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Definitely not. We still have our normal takeout doubles, as always, and we use them commonly.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          But we also use double in competition to show a weak single-suiter with the manoeuvre:
+          <strong> double first, then bid a suit</strong>.
+        </p>
+        <p className="ct-revealRichBody">
+          With a normal takeout double, we typically leave partner in the suit they bid. We do not usually double then
+          bid our own suit, because takeout doubles are based on tolerance for the other suits, not just one.
+        </p>
+      </section>
+    </div>
+  );
+}
+
 /**
  * Bidding practice: opening (1–5) and responding (6–10). Uses CountingTrumpsTrainer with question-only flow (no tricks).
  */
@@ -3694,6 +4033,318 @@ const BIDDING_PUZZLES = [
           noContinue: false,
           revealFullHandSeats: ["DUMMY", "RHO", "LHO"],
           revealText: <Bid131RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-34",
+    difficulty: 1,
+    title: "Is this forcing? (32): Competitive auction",
+    newUntil: "2026-05-14",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P 1NT 2♥ ?",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "AQ1084", H: "7", D: "KQJ73", C: "82" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Is this forcing?",
+      promptThemeTint: "newColour",
+      contractLabel: "Is this forcing?",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-34-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid132IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-34-rule",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid132RuleRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-34-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "In this auction, what do you do?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3d",
+          expectedChoiceDisplay: "3♦",
+          noContinue: false,
+          revealText: <Bid132RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-34-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid132WrapRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-35",
+    difficulty: 1,
+    title: "Is this forcing? (33): Responder's second bid",
+    newUntil: "2026-05-14",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ P 1♠ 2♦ P ?",
+    vulnerability: "Nil Vul",
+    shownHands: {
+      DECLARER: { S: "J10842", H: "3", D: "94", C: "AQ1098" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Is this forcing?",
+      promptThemeTint: "newColour",
+      contractLabel: "Is this forcing?",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-35-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          noContinue: false,
+          revealText: <Bid133RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-35-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid133WrapRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-36",
+    difficulty: 1,
+    title: "Is this forcing? (34): First-response hand type",
+    newUntil: "2026-05-14",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ 2♣ ?",
+    vulnerability: "Nil Vul",
+    shownHands: {
+      DECLARER: { S: "KQ10932", H: "87", D: "Q108", C: "76" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Is this forcing?",
+      promptThemeTint: "newColour",
+      contractLabel: "Is this forcing?",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-36-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "It's really nice to bid your six-card suits. Is it right to do so here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "double",
+          expectedChoiceDisplay: "X",
+          noContinue: false,
+          revealText: <Bid134RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-36-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid134WrapRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-37",
+    difficulty: 1,
+    title: "Is this forcing? (35): Cue-bid for strength",
+    newUntil: "2026-05-14",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♠ P 1NT 2♦ ?",
+    vulnerability: "Nil Vul",
+    shownHands: {
+      DECLARER: { S: "AKQ87", H: "A", D: "54", C: "AJ1083" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Is this forcing?",
+      promptThemeTint: "newColour",
+      contractLabel: "Is this forcing?",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-37-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Do we have a simple option here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3d",
+          expectedChoiceDisplay: "3♦",
+          noContinue: false,
+          revealText: <Bid135RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-37-continue",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid135ContinueRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-37-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid135WrapRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+  },
+  {
+    id: "bid1-38",
+    difficulty: 1,
+    title: "Is this forcing? (36): Recap",
+    newUntil: "2026-05-14",
+    trumpSuit: "NT",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "Recap",
+    vulnerability: "None Vul",
+    shownHands: {
+      DECLARER: { S: "", H: "", D: "", C: "" },
+    },
+    rounds: [],
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      themeLabel: "Is this forcing?",
+      promptThemeTint: "newColour",
+      contractLabel: "Is this forcing?",
+      contractLabelBeforeStartOnly: true,
+      hidePlayDecisionHeading: true,
+      customPrompts: [
+        {
+          id: "bid1-38-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "A lot of people were/are taught, \"change of suit is forcing\". Is that correct?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          noContinue: false,
+          revealText: <Bid136Q1RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-38-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Which change of suit is always forcing?",
+          options: [
+            { id: "responderFirstBid", label: "Responder's first bid" },
+            { id: "openerFirstBid", label: "Opener's first bid" },
+            { id: "doubleThenBid", label: "Any double then bid" },
+          ],
+          expectedChoice: "responderFirstBid",
+          noContinue: false,
+          revealText: <Bid136Q2RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-38-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "If you are responder, the bidding is competitive and already on the two level. You are ready to make your first bid, but are not strong enough to force the bidding up. What is the common way to handle this?",
+          options: [
+            { id: "passThenBid", label: "Pass first then bid" },
+            { id: "doubleThenBid", label: "Double first then bid" },
+            { id: "bidThenRebid", label: "Just bid then rebid your suit" },
+            { id: "cueBid", label: "Cue bid the opponent's suit" },
+          ],
+          expectedChoice: "doubleThenBid",
+          noContinue: false,
+          revealText: <Bid136Q3RevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid1-38-q4",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "In competition all doubles mean a single suit that isn't strong enough to bid.",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          noContinue: false,
+          revealText: <Bid136Q4RevealRich />,
           videoUrl: "",
         },
       ],
