@@ -1886,9 +1886,9 @@ button.ct-categoryTab {
 
   .ct-handFan--full .ct-miniCard.ct-miniCard--fan {
     flex: 0 0 auto;
-    width: clamp(22px, 7.2vw, 40px);
-    min-width: 22px;
-    max-width: 44px;
+    width: clamp(26px, 7.2vw, 44px);
+    min-width: 26px;
+    max-width: 48px;
   }
 }
 
@@ -2347,6 +2347,16 @@ button.ct-categoryTab {
   .ct-layout--fullhands .ct-tableWithSidebar .ct-table {
     margin-right: 0;
     max-width: 100%;
+  }
+
+  /*
+   * Stacked sidebar layout: keep width:auto shrink-wrap for >1400px side-by-side, but here the table
+   * must span the felt or the centre grid can collapse on tablets (iPad) → microscopic 13-card fans.
+   */
+  .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight,
+  .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight.ct-table--westVisible {
+    width: 100%;
+    min-width: 0;
   }
 
   .ct-layout--fullhands .ct-tableWithSidebar .ct-tableWithSidebar-main {
