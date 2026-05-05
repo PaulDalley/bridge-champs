@@ -3,7 +3,9 @@
  *
  * Usage:
  *   node scripts/list-promo-code-usage.js blue
- *   node scripts/list-promo-code-usage.js blue --include-inactive
+ *   node scripts/list-promo-code-usage.js pete26 --match entered
+ *   node scripts/list-promo-code-usage.js blue --match applied --include-inactive
+ *   node scripts/list-promo-code-usage.js blue --require-confirmed
  *
  * Requires:
  *   serviceAccountKey.json in project root.
@@ -37,6 +39,12 @@ const amountFromTier = (tierName) => {
   if (s.includes("basic")) return 25;
   return 0;
 };
+const CONFIRMED_STATUSES = new Set([
+  "checkout_session_completed",
+  "subscription_activated",
+  "invoice_paid",
+  "payment_succeeded",
+]);
 
 async function main() {
   const codeArg = process.argv[2];
@@ -47,15 +55,28 @@ async function main() {
 
   const target = normalize(codeArg);
   const includeInactive = process.argv.includes("--include-inactive");
+  const requireConfirmed = process.argv.includes("--require-confirmed");
+  const matchIndex = process.argv.indexOf("--match");
+  const matchModeRaw = matchIndex >= 0 ? process.argv[matchIndex + 1] : "entered";
+  const matchMode = normalize(matchModeRaw) || "entered";
+  if (!["entered", "applied", "either"].includes(matchMode)) {
+    console.error("Invalid --match option. Use one of: entered, applied, either");
+    process.exit(1);
+  }
   const snap = await db.collection("promoCodeUsage").orderBy("createdAt", "desc").get();
 
-  // Keep only latest record per uid for this promo code.
+  // Keep only latest record per uid for this promo code filter.
   const latestByUid = new Map();
   for (const doc of snap.docs) {
     const d = doc.data() || {};
     const entered = normalize(d.promoCodeEntered);
     const applied = normalize(d.promoCodeApplied);
-    if (entered !== target && applied !== target) continue;
+    if (matchMode === "entered" && entered !== target) continue;
+    if (matchMode === "applied" && applied !== target) continue;
+    if (matchMode === "either" && entered !== target && applied !== target) continue;
+    const status = normalize(d.status);
+    const isConfirmed = CONFIRMED_STATUSES.has(status) || d.confirmedPaid === true;
+    if (requireConfirmed && !isConfirmed) continue;
     const uid = d.uid || "";
     if (!uid) continue;
 
@@ -112,15 +133,22 @@ async function main() {
   const total = rows.reduce((sum, r) => sum + (Number(r.monthlyAmountAud) || 0), 0);
   const affiliate25 = total * 0.25;
 
-  console.log(`Promo code '${target}' matches: ${rows.length}${includeInactive ? " (including inactive)" : " (active only)"}`);
+  console.log(
+    `Promo code '${target}' matches: ${rows.length}` +
+      ` | match=${matchMode}` +
+      `${requireConfirmed ? " | confirmed-only" : ""}` +
+      `${includeInactive ? " | including inactive" : " | active only"}`
+  );
   if (!rows.length) return;
 
   console.log("");
-  console.log("| Subscriber | Subscribed Date | Monthly Amount (AUD) | Active |");
-  console.log("|---|---:|---:|---:|");
+  console.log("| Subscriber | Entered | Applied | Subscribed Date | Monthly Amount (AUD) | Status | Active |");
+  console.log("|---|---|---|---:|---:|---|---:|");
   rows.forEach((r) => {
     console.log(
-      `| ${r.email || r.uid} | ${formatDate(r.createdAt)} | ${Number(r.monthlyAmountAud || 0).toFixed(2)} | ${r.active ? "Yes" : "No"} |`
+      `| ${r.email || r.uid} | ${r.entered || "-"} | ${r.applied || "-"} | ${formatDate(r.createdAt)} | ${Number(
+        r.monthlyAmountAud || 0
+      ).toFixed(2)} | ${r.status || "-"} | ${r.active ? "Yes" : "No"} |`
     );
   });
   console.log("");
