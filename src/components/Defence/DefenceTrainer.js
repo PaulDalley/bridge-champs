@@ -624,7 +624,7 @@ const DEFENCE_PUZZLES = [
     auction: "1C 1S P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
-      contractLabel: "Contract is 4♠ by West",
+      contractLabel: "Contract is 4♠ by East",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -716,10 +716,10 @@ const DEFENCE_PUZZLES = [
     viewerCompass: "E",
     visibleFullHandSeats: ["RHO", "DUMMY"],
     revealFullHandsAtEnd: ["RHO", "DECLARER"],
-    auction: "P 4S P P P",
+    auction: "P P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
-      contractLabel: "Contract is 4♠ by West",
+      contractLabel: "Contract is 4♠ by East",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -885,7 +885,7 @@ const DEFENCE_PUZZLES = [
     auction: "1N P 3C P 3S P 4S P P P",
     promptOptions: {
       promptPlacement: "left",
-      contractLabel: "Contract is 4♠ by West",
+      contractLabel: "Contract is 4♠ by East",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -984,7 +984,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "east"],
     promptOptions: {
       promptPlacement: "left",
-      contractLabel: "Contract is 4♠ by West",
+      contractLabel: "Contract is 4♠ by East",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
@@ -1145,7 +1145,7 @@ const DEFENCE_PUZZLES = [
     revealFullHandsAtEnd: ["north", "east"],
     promptOptions: {
       promptPlacement: "left",
-      contractLabel: "Contract is 4♠ by West",
+      contractLabel: "Contract is 4♠ by East",
       viewerCompassLabelOverride: "S",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
