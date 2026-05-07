@@ -1392,7 +1392,7 @@ const CARDPLAY_PUZZLES_ALL = [
           expectedChoice: "ruff_dummy",
           noContinue: true,
           revealText:
-            "Ruff stuff in dummy. This hand is all about ruffing a diamond in dummy. Cash ♦A and ♦K, then play a diamond and ruff in dummy. Don't draw any trumps first — if you do, the defence can continue trumps and prevent you getting the ruff.\n\nRuff stuff in dummy does not always mean a singleton or doubleton in dummy!",
+            "Ruff stuff in dummy. This hand is all about ruffing a diamond in dummy. It is a bit of a blindspot because dummy has 3 diamonds!\n\nCash ♦A and ♦K, then play a diamond, just simply losing that trick. We are now ready to ruff our 4th diamond in dummy. Don't draw any trumps first — if you do, the defence can continue trumps and prevent you getting the ruff.\n\nRuff stuff in dummy does not always mean a singleton or doubleton in dummy!",
           videoUrl: "",
         },
       ],
@@ -2405,9 +2405,9 @@ const CARDPLAY_PUZZLES_ALL = [
     },
     shownHands: {
       DUMMY: { S: "8765", H: "AKQ97", D: "A32", C: "2" },
-      DECLARER: { S: "AK43", H: "982", D: "4", C: "A9876" },
-      LHO: { S: "", H: "JT654", D: "K765", C: "9842" },
-      RHO: { S: "QJT92", H: "", D: "QJT98", C: "QT7" },
+      DECLARER: { S: "AK43", H: "382", D: "4", C: "AKQJ6" },
+      LHO: { S: "", H: "JT654", D: "K765", C: "9854" },
+      RHO: { S: "QJT92", H: "", D: "QJT98", C: "T73" },
     },
     visibleFullHandSeats: ["DUMMY", "DECLARER"],
     revealFullHandsAtEnd: ["LHO", "RHO"],
