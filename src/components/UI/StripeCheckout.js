@@ -17,6 +17,33 @@ class StripeCheckout extends React.Component {
     return Number.isFinite(n) && n > 0 ? n : null;
   };
 
+  capturePromoAuditOnMember = async ({
+    enteredPromoCode,
+    appliedPromoCode,
+    stripeSessionId = "",
+    stage = "checkout_session_created",
+  }) => {
+    if (!this.props.uid || !enteredPromoCode) return;
+    try {
+      await firebase
+        .firestore()
+        .collection("members")
+        .doc(this.props.uid)
+        .set(
+          {
+            lastPromoCodeEntered: enteredPromoCode,
+            lastPromoCodeApplied: appliedPromoCode || enteredPromoCode,
+            lastPromoCaptureStage: stage,
+            lastPromoCaptureSessionId: stripeSessionId || "",
+            lastPromoCaptureAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        );
+    } catch (e) {
+      console.error("Failed to capture promo audit on members doc", e);
+    }
+  };
+
   capturePromoUsage = async ({ response, postData, enteredPromoCode, appliedPromoCode }) => {
     if (!this.props.uid) return;
     if (!enteredPromoCode) return;
@@ -47,6 +74,13 @@ class StripeCheckout extends React.Component {
           },
           { merge: true }
         );
+
+      await this.capturePromoAuditOnMember({
+        enteredPromoCode,
+        appliedPromoCode,
+        stripeSessionId: sessionId,
+        stage: "checkout_session_created",
+      });
     } catch (e) {
       console.error("Failed to capture promo usage", e);
     }
@@ -73,6 +107,15 @@ class StripeCheckout extends React.Component {
       postData.coupon = coupon;
     }
 
+    if (enteredPromoCode) {
+      // Capture an immediate audit trail before network/redirect paths.
+      this.capturePromoAuditOnMember({
+        enteredPromoCode,
+        appliedPromoCode,
+        stage: "checkout_started",
+      });
+    }
+
     console.log("Creating checkout session with data:", postData);
 
     $.ajax({
@@ -82,11 +125,12 @@ class StripeCheckout extends React.Component {
       dataType: "json",
       data: JSON.stringify(postData),
     })
-    .done((response) => {
+    .done(async (response) => {
         console.log("Checkout session response:", response);
         if (response && response.url) {
           if (enteredPromoCode) {
-            this.capturePromoUsage({
+            // Await write before redirect so entered code is reliably persisted.
+            await this.capturePromoUsage({
               response,
               postData,
               enteredPromoCode,
