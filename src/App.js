@@ -48,8 +48,8 @@ import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage"
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
 import CountingTrumpsTrainer from "./components/Counting/CountingTrumpsTrainer";
 import CountingHub from "./components/Counting/CountingHub";
-import CardPlayHub from "./components/CardPlay/CardPlayHub";
-import CardPlayTrainer from "./components/CardPlay/CardPlayTrainer";
+import DeclarerHub from "./components/Declarer/DeclarerHub";
+import DeclarerTrainer from "./components/Declarer/DeclarerTrainer";
 import DefenceHub from "./components/Defence/DefenceHub";
 import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
@@ -292,12 +292,19 @@ const routes = (
     />
     <Route path="/system/recommendations" component={SystemPage} exact />
 
-    <Route path="/cardPlay/practice" component={CardPlayTrainer} exact />
-    <Route path="/cardPlay/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
-    <Route path="/cardPlay/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
-    <Route path="/cardPlay/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} exact />
-    <Route path="/cardPlay/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} />
-    <Route path="/cardPlay" component={CardPlayHub} exact />
+    <Route path="/declarer/practice" component={DeclarerTrainer} exact />
+    <Route path="/declarer/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
+    <Route path="/declarer/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
+    <Route path="/declarer/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} exact />
+    <Route path="/declarer/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} />
+    <Route path="/declarer" component={DeclarerHub} exact />
+
+    <Route path="/cardPlay/practice" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/practice", search: routeProps.location.search }} />} />
+    <Route path="/cardPlay/articles/:id" render={(routeProps) => <Redirect to={{ pathname: `/declarer/articles/${routeProps.match.params.id}`, search: routeProps.location.search }} />} />
+    <Route path="/cardPlay/articles" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/articles", search: routeProps.location.search }} />} />
+    <Route path="/cardPlay/basics/:id" render={(routeProps) => <Redirect to={{ pathname: `/declarer/basics/${routeProps.match.params.id}`, search: routeProps.location.search }} />} />
+    <Route path="/cardPlay/basics" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/basics", search: routeProps.location.search }} />} />
+    <Route path="/cardPlay" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer", search: routeProps.location.search }} />} />
 
     <Route path="/defence/practice" component={DefenceTrainer} exact />
     <Route path="/defence/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defence" bodyRef="defenceBody" />} exact />

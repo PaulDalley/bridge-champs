@@ -32,11 +32,12 @@ export const getPracticeRootPath = (beginnerModeEnabled) =>
   beginnerModeEnabled ? "/beginner/practice" : "/bidding/practice";
 
 export const getArticlesRootPath = (beginnerModeEnabled) =>
-  beginnerModeEnabled ? "/beginner/articles" : "/cardPlay/articles";
+  beginnerModeEnabled ? "/beginner/articles" : "/declarer/articles";
 
 export const getRouteAfterToggle = (pathname = "", beginnerModeEnabled) => {
   const inArticleContext =
     pathname.startsWith("/cardPlay") ||
+    pathname.startsWith("/declarer") ||
     pathname.startsWith("/defence") ||
     pathname.startsWith("/bidding") ||
     pathname.startsWith("/counting") ||

@@ -6,8 +6,8 @@ const TOPICS = [
   {
     id: "declarer",
     label: "Declarer",
-    practicePath: "/cardPlay/practice",
-    legacyPath: "/cardPlay",
+    practicePath: "/declarer/practice",
+    legacyPath: "/declarer",
   },
   {
     id: "defence",

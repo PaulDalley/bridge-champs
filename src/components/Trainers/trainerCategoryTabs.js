@@ -3,7 +3,7 @@
  * Single source for CountingTrumpsTrainer and standalone pages (e.g. Treadmill).
  */
 export const TRAINER_CATEGORY_TABS = [
-  { key: "declarer", label: "Declarer", path: "/cardPlay/practice" },
+  { key: "declarer", label: "Declarer", path: "/declarer/practice" },
   { key: "defence", label: "Defence", path: "/defence/practice" },
   { key: "counting", label: "Counting", path: "/counting/practice" },
   { key: "bidding", label: "Bidding", path: "/bidding/practice" },

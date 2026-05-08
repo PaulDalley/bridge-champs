@@ -29,7 +29,7 @@ export const THEME_PACKS = [
     id: "using-entries",
     title: "Theme: Using entries productively",
     description: "",
-    to: { pathname: "/cardPlay/practice", search: "?difficulty=2&problem=cp2-6" },
+    to: { pathname: "/declarer/practice", search: "?difficulty=2&problem=cp2-6" },
     categoryKey: "declarer",
     themeTint: "entriesProductive",
     starterProblemId: "cp2-6",

@@ -13,7 +13,7 @@ const CategorySelector = () => {
     },
     {
       name: 'Declarer Play',
-      path: '/cardPlay',
+      path: '/declarer',
       icon: '♦♣',
       description: 'Skilled declarer play comes from simple counting and basic pattern recognition',
       color: 'secondary',

@@ -398,6 +398,52 @@ button.ct-categoryTab {
   font-weight: 600;
 }
 
+.ct-revealRichEyebrow {
+  margin: 0 0 8px;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+/* Inline honour chip (e.g. J♥, 10♥) in rich practice prompts */
+.ct-revealHonorInline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+  padding: 2px 10px 3px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  border: 1px solid rgba(190, 24, 93, 0.35);
+  background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%);
+  vertical-align: middle;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.ct-revealHonorInline .ct-suitSym--red,
+.ct-revealHonorInline .ct-suitSym--black {
+  font-weight: 800;
+}
+
+/* Memorable pull-quote line inside rich prompts (e.g. “See the 4-3 fits.”) */
+.ct-revealPullQuote {
+  text-align: center;
+  padding: 18px 20px 20px;
+}
+
+.ct-revealPullQuoteText {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #9a3412;
+  line-height: 1.25;
+}
+
 /* Defence df1-14: brighter teaching callouts + mini "card" pattern chips. */
 .ct-df14-note {
   margin: 0;
@@ -1586,6 +1632,66 @@ button.ct-categoryTab {
   margin: 14px 0;
 }
 
+/* Theme: See the 4-3 (declarer practical learning, problems 12-16) — chartreuse/lime: contrasts cyan “draw trumps”, purple “ruffing”, orange “knock ace” */
+.ct-problemTab--themeSee43 {
+  background: linear-gradient(180deg, #ecfccb 0%, #d9f99d 100%);
+  border-color: rgba(63, 98, 18, 0.42);
+}
+.ct-problemTab--themeSee43:hover:not(:disabled) {
+  background: linear-gradient(180deg, #d9f99d 0%, #bef264 100%);
+}
+.ct-problemTab--themeSee43.ct-problemTab--active {
+  border: 2px solid #4d7c0f;
+  background: linear-gradient(180deg, #bef264 0%, #a3e635 100%);
+  color: #1a2e05;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(63, 98, 18, 0.45);
+}
+.ct-sidePrompt--themeSee43 {
+  background: linear-gradient(180deg, #f7fee7 0%, #ecfccb 100%);
+  border-left: 3px solid rgba(63, 98, 18, 0.58);
+}
+.ct-sidePrompt--themeSee43 .ct-revealContent .ct-revealParagraph:first-child {
+  color: #365314;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeSee43 .ct-revealList {
+  background: rgba(63, 98, 18, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
+/* Theme: Slam judgment (bidding stage 2, problems 24-28) — cobalt/sky palette so it contrasts the green "showHand" set before it */
+.ct-problemTab--themeSlamJudgment {
+  background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: rgba(29, 78, 216, 0.38);
+}
+.ct-problemTab--themeSlamJudgment:hover:not(:disabled) {
+  background: linear-gradient(180deg, #bfdbfe 0%, #93c5fd 100%);
+}
+.ct-problemTab--themeSlamJudgment.ct-problemTab--active {
+  border: 2px solid #1d4ed8;
+  background: linear-gradient(180deg, #93c5fd 0%, #60a5fa 100%);
+  color: #0b234f;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.35);
+}
+.ct-sidePrompt--themeSlamJudgment {
+  background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+  border-left: 3px solid rgba(29, 78, 216, 0.52);
+}
+.ct-sidePrompt--themeSlamJudgment .ct-revealContent .ct-revealParagraph:first-child {
+  color: #1e3a8a;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeSlamJudgment .ct-revealList {
+  background: rgba(29, 78, 216, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
 /* Theme label (e.g. on start overlay and in rail) */
 .ct-themeLabel {
   font-size: 1.15rem;
@@ -1669,6 +1775,18 @@ button.ct-categoryTab {
   color: #166534;
   border: 2px solid #16a34a;
   box-shadow: 0 2px 6px rgba(22, 163, 74, 0.2);
+}
+.ct-themeLabel--themeSee43 {
+  background: linear-gradient(180deg, #ecfccb 0%, #d9f99d 100%);
+  color: #365314;
+  border: 2px solid #4d7c0f;
+  box-shadow: 0 2px 6px rgba(63, 98, 18, 0.22);
+}
+.ct-themeLabel--themeSlamJudgment {
+  background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e3a8a;
+  border: 2px solid #1d4ed8;
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.22);
 }
 
 .ct-newBadge {
@@ -4527,6 +4645,16 @@ button.ct-categoryTab {
   border-left: 4px solid #ea580c;
   background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.12));
   color: #9a3412;
+}
+
+/* Match .ct-auctionCall--ring when a call + note are highlighted together (e.g. Stayman under 2♣). */
+.ct-auctionHighlightNote.ct-auctionHighlightNote--pairedCallRing {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border: 2px solid #0f4c3a;
+  border-left: 2px solid #0f4c3a;
+  border-radius: 999px;
+  background: rgba(15, 76, 58, 0.06);
 }
 
 /*

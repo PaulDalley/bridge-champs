@@ -27,7 +27,7 @@ import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
 
 const ARTICLE_TOPIC_TABS = [
-  { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
+  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay", "cardPlayBasics"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
   { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
   { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
@@ -156,7 +156,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       articleType === "counting"
         ? `/counting/articles/${id}`
         : articleType === "cardPlay"
-          ? `/cardPlay/articles/${id}`
+          ? `/declarer/articles/${id}`
           : articleType === "beginnerCardPlay"
             ? `/beginner/articles/declarer/${id}`
           : articleType === "beginnerDefence"
@@ -172,7 +172,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           : articleType === "biddingAdvanced"
             ? `/bidding/advanced/${id}`
           : articleType === "cardPlayBasics"
-            ? `/cardPlay/basics/${id}`
+            ? `/declarer/basics/${id}`
           : articleType === "defenceBasics"
             ? `/defence/basics/${id}`
           : articleType === "bidding"

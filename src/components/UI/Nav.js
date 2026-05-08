@@ -141,6 +141,7 @@ class Nav extends Component {
     const trainerPaths = [
       "/practice",
       "/cardPlay",
+      "/declarer",
       "/defence",
       "/bidding",
       "/counting",
@@ -153,6 +154,8 @@ class Nav extends Component {
       "/article/",
       "/cardPlay/articles",
       "/cardPlay/basics",
+      "/declarer/articles",
+      "/declarer/basics",
       "/defence/articles",
       "/defence/basics",
       "/bidding/advanced",

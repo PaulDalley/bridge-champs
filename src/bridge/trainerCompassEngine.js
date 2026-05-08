@@ -78,7 +78,7 @@ export function normalizeYouCompassLabelOverride(override) {
 /**
  * @param {string} seat Runner storage seat id (same contract as the play runner)
  * @param {{ viewerSeat: string, declarerCompass: string, viewerCompassLabelOverride?: string }} ctx
- * @returns {string} "You (South)" etc., or a single compass letter (N/E/S/W)
+ * @returns {string} "You (South)" etc.; other seats get compass names ("West", "East", …) or "Dummy" for dummy.
  */
 export function compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass, viewerCompassLabelOverride }) {
   if (!seat) return "";
@@ -90,5 +90,7 @@ export function compassTrainerSeatLabel(seat, { viewerSeat, declarerCompass, vie
     return name ? `You (${name})` : "You";
   }
   const c = compassLetterForStorageSeat(seat, declarerCompass);
-  return c || String(seat);
+  if (!c) return String(seat);
+  if (seat === "DUMMY") return "Dummy";
+  return COMPASS_FULL_NAME[c] || c;
 }

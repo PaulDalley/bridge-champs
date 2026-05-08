@@ -48,8 +48,8 @@ import SkeletonLoader from "../UI/SkeletonLoader";
 const getListPathForArticleType = (type) => {
   if (type === "biddingBasics") return "/bidding/basics";
   if (type === "bidding" || type === "biddingAdvanced") return "/bidding/advanced";
-  if (type === "cardPlayBasics") return "/cardPlay/basics";
-  if (type === "cardPlay") return "/cardPlay/articles";
+  if (type === "cardPlayBasics") return "/declarer/basics";
+  if (type === "cardPlay") return "/declarer/articles";
   if (type === "beginnerCardPlay") return "/beginner/articles/declarer";
   if (type === "beginnerDefence") return "/beginner/articles/defence";
   if (type === "beginnerBidding") return "/beginner/articles/bidding";
@@ -61,7 +61,7 @@ const getListPathForArticleType = (type) => {
 };
 
 const ARTICLE_TOPIC_TABS = [
-  { id: "declarer", label: "Declarer", path: "/cardPlay/articles", types: ["cardPlay", "cardPlayBasics"] },
+  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay", "cardPlayBasics"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
   { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
   { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
@@ -405,7 +405,7 @@ const DisplayCategoryArticle = ({
     const baseUrl = "https://bridgechampions.com";
     if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${articleId}`;
     if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
-    if (articleType === "cardPlayBasics") return `${baseUrl}/cardPlay/basics/${articleId}`;
+    if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/basics/${articleId}`;
     if (articleType === "defenceBasics") return `${baseUrl}/defence/basics/${articleId}`;
     if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${articleId}`;
     if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${articleId}`;
