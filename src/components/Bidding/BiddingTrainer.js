@@ -6157,6 +6157,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Slam judgment",
       promptThemeTint: "slamJudgment",
+      videoUrlBeforeStart: "https://youtube.com/shorts/J05pbztmizo?si=XZU2GbNC6YkQ0ez7",
       customPrompts: [
         {
           id: "bid2-24-intro",
@@ -6239,6 +6240,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Slam judgment",
       promptThemeTint: "slamJudgment",
+      videoUrlBeforeStart: "https://youtube.com/shorts/n2qIUGdvHzk?si=7zjlgtxrSC1Y24Os",
       customPrompts: [
         {
           id: "bid2-25-intro",
@@ -6307,6 +6309,7 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Slam judgment",
       promptThemeTint: "slamJudgment",
       auctionPartnersRed: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/Bic527UvNys?si=Y3XYwgjCRQnuleSQ",
       customPrompts: [
         {
           id: "bid2-26-intro",
@@ -6372,6 +6375,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Slam judgment",
       promptThemeTint: "slamJudgment",
+      videoUrlBeforeStart: "https://youtube.com/shorts/fRAcidsIH2s?si=m4I716kNl2NSYjs2",
       customPrompts: [
         {
           id: "bid2-27-intro",
@@ -6436,6 +6440,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Slam judgment",
       promptThemeTint: "slamJudgment",
+      videoUrlBeforeStart: "https://youtube.com/shorts/k03nMDK3DT0?si=vUrcs1OJNav46dZV",
       customPrompts: [
         {
           id: "bid2-28-intro",
