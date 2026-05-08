@@ -1,5 +1,246 @@
 import React from "react";
-import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
+import { PLAY_ENGINE_COMPASS_CLOCKWISE } from "../../bridge/compassPlayOrder";
+import { TRAINER_ENGINE_COMPASS, TRAINER_PUZZLE_DEFAULTS_V2 } from "../../bridge/trainerCompassEngine";
+import CountingTrumpsTrainer, { TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
+
+/** Rich prompt copy for cp1-12 (`FormattedRevealText` accepts React nodes). */
+const CP1_12_INTRO = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichEyebrow">Tournament hand</p>
+      <p className="ct-revealRichBody">This was a hand from the Adelaide National Open tournament that tripped up some players.</p>
+      <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+        Please have a think what you would do, and answer this question — <strong>where are your 9 tricks coming from?</strong>
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_12_EIGHT_TRICKS = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">This is a good way of thinking about the hand —</p>
+      <div className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody" style={{ margin: 0 }}>
+          &ldquo;If I play clubs, which looks like a good source of tricks, I will have 3 club tricks, 3 hearts and 2 diamonds — that totals 8
+          tricks.&rdquo;
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+const CP1_12_NINTH_QUESTION = (
+  <div className="ct-revealRichRoot">
+    <p className="ct-revealRichBody" style={{ margin: 0 }}>
+      So where is the <strong>9th trick</strong> coming from?
+    </p>
+  </div>
+);
+
+const CP1_12_NINTH_REVEAL = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead" style={{ color: "#0f766e" }}>
+        Hearts! Let&apos;s look at why.
+      </p>
+      <p className="ct-revealRichBody">
+        We could definitely make a spade trick, but the problem is — No Trump contracts are often a race, us against them!
+      </p>
+      <p className="ct-revealRichBody">
+        If we take a spade trick, the opponents can knock out our second diamond stopper. Then the gates are wide open for their diamond winners,
+        before we have set up clubs.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_12_FOUR_THREE = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <div className="ct-revealRichCard ct-revealRichCard--amber ct-revealPullQuote" role="figure" aria-label="Key phrase">
+        <p className="ct-revealPullQuoteText">See the 4-3 fits.</p>
+      </div>
+      <p className="ct-revealRichBody">
+        They are often a good source of tricks. In bridge our greatest source of tricks will often be our long suit; a 4-3 fit does indeed qualify as a
+        &ldquo;long suit&rdquo;.
+      </p>
+      <p className="ct-revealRichBody">When you see your 4-3 fits, you will score more tricks.</p>
+    </div>
+  </div>
+);
+
+const CP1_12_HEART_CHANCES = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        If the hearts break 3-3 our 4th heart is good, or if the{" "}
+        <span className="ct-revealHonorInline" aria-label="Jack of hearts">
+          <TextWithColoredSuits text="J♥" />
+        </span>{" "}
+        comes down singleton or doubleton, the{" "}
+        <span className="ct-revealHonorInline" aria-label="Ten of hearts">
+          <TextWithColoredSuits text="10♥" />
+        </span>{" "}
+        will still score.
+      </p>
+      <p className="ct-revealRichBody">All up we have about a 50% chance of scoring 4 heart tricks!</p>
+      <p className="ct-revealRichBody ct-revealRichBody--muted">
+        When you glanced at this hand did you realise you had such a good chance of scoring 4 heart tricks?
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_12_ALWAYS = (
+  <div className="ct-revealRichRoot">
+    <p className="ct-revealRichLead" style={{ margin: 0, textAlign: "center" }}>
+      Always see the 4-3.
+    </p>
+  </div>
+);
+
+const CP1_16_HEARTS_PRO = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        Declarer, as a priority, continued going after the heart suit, in a way that was a bit counter-intuitive to some people. Many people are focused
+        on the{" "}
+        <span className="ct-revealHonorInline">
+          <TextWithColoredSuits text="K♥" />
+        </span>{" "}
+        scoring a trick. While that is nice, this player was more focused on the 4-3.
+      </p>
+      <div className="ct-revealRichCard ct-revealRichCard--amber ct-revealPullQuote" role="figure" aria-label="Key phrase">
+        <p className="ct-revealPullQuoteText">See the 4-3.</p>
+      </div>
+    </div>
+  </div>
+);
+
+const CP1_16_TRUMP_COUNT_EXPLAIN = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">There is 1 trump remaining.</p>
+      <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+        Two rounds have been played where both opponents followed suit in trumps. That is 4 trumps played by the opponents. We have seen 4 of their
+        trumps, and they started with 5, so 1 is still outstanding.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_16_HEART_DIST_EXPLAIN = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        The original heart distribution was 4333. Even though the King loses, the 4th heart is a trick. It is a very useful trick since we can throw away
+        our club loser on it.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_16_REST_OURS = (
+  <div className="ct-revealRichRoot">
+    <p className="ct-revealRichBody" style={{ margin: 0 }}>
+      As you can see, the rest of the tricks are now ours.
+    </p>
+  </div>
+);
+
+const CP1_13_INTRO = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">You are declaring 3NT.</p>
+      <p className="ct-revealRichBody">
+        Lets count our certain tricks - a great habit at the start of a hand.
+      </p>
+      <div className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody" style={{ margin: 0 }}>
+          1 spade, 1 heart, 2 clubs, and 4 diamonds = 8 tricks.
+        </p>
+      </div>
+      <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+        Not a bad start. Think about where your <strong>9th trick</strong> will come from.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_13_WRAP = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <div className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody" style={{ margin: 0 }}>
+          Your 4th spade is now a winner, the 4-3 fit is once again the source of more winners.
+        </p>
+      </div>
+      <p className="ct-revealRichBody">
+        We now have made our contract: 2 spade tricks, 1 heart, 2 clubs and 4 diamonds for a total of 9 tricks.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_15_COUNT_CERTAIN = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">Lets count your certain tricks.</p>
+      <div className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody" style={{ margin: 0 }}>
+          4 spades, 2 hearts, 3 clubs, 2 diamonds — total 11 tricks.
+        </p>
+      </div>
+      <p className="ct-revealRichBody">
+        Here we have two 4-3 fits that might give us more tricks, clubs and hearts.
+      </p>
+      <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+        Lets watch the play and see if we can keep track of them.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_15_HEART_FIRST_MSG = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        In this hand, testing clubs first would be a mistake. If clubs don&apos;t break and we then lose a heart trick, the opponents can cash their
+        club winner and we are 1 off.
+      </p>
+      <div className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody" style={{ margin: 0 }}>
+          That is why we make the seemingly strange-looking play of losing a heart first. Now we are in position to see whether hearts or clubs break
+          and give us the extra trick.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+const CP1_15_HEART_DIST_MSG = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        We were hoping the original heart distribution would be <strong>4-3-3-3</strong>, however it has shown to be <strong>4-2-3-4</strong>.
+      </p>
+      <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">
+        So unfortunately our 4th heart is not a trick. Let&apos;s carry on.
+      </p>
+    </div>
+  </div>
+);
+
+const CP1_15_CLUB_EXPLAIN = (
+  <div className="ct-revealRichRoot">
+    <div className="ct-revealRich">
+      <p className="ct-revealRichBody">
+        The clubs broke <strong>4-3-3-3</strong>, so our 4th club is the last remaining club and will be our 12th trick!
+      </p>
+    </div>
+  </div>
+);
 
 const CARDPLAY_PUZZLES_ALL = [
   {
@@ -1164,6 +1405,799 @@ const CARDPLAY_PUZZLES_ALL = [
     ],
   },
   {
+    id: "cp1-12",
+    difficulty: 1,
+    ...TRAINER_PUZZLE_DEFAULTS_V2,
+    trainerEngine: TRAINER_ENGINE_COMPASS,
+    seatMode: "compass",
+    playEngine: PLAY_ENGINE_COMPASS_CLOCKWISE,
+    title: "3NT: See the 4-3 (Adelaide)",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "1NT P 2C P 2H P 3NT P P P",
+    promptOptions: {
+      promptThemeTint: "see43",
+      themeLabel: "Theme: See the 4-3",
+      contractLabel: "3NT by South",
+      promptPlacement: "right",
+      hideAuction: false,
+      auctionHighlightCall: { row: 1, seat: "N" },
+      auctionHighlightNote: "Stayman",
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: false,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-12-intro",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_12_INTRO,
+        },
+        {
+          id: "cp1-12-eight-tricks",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_12_EIGHT_TRICKS,
+        },
+        {
+          id: "cp1-12-ninth-trick",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: CP1_12_NINTH_QUESTION,
+          options: [
+            { id: "spades", label: "Spades" },
+            { id: "hearts", label: "Hearts" },
+            { id: "clubs", label: "Clubs" },
+          ],
+          expectedChoice: "hearts",
+          revealText: CP1_12_NINTH_REVEAL,
+        },
+        {
+          id: "cp1-12-four-three",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_12_FOUR_THREE,
+        },
+        {
+          id: "cp1-12-heart-chances",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_12_HEART_CHANCES,
+        },
+        {
+          id: "cp1-12-always",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_12_ALWAYS,
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "Q53", H: "T865", D: "AT", C: "KQ93" },
+      south: { S: "KT82", H: "AKQ", D: "K9", C: "JT86" },
+      west: { S: "A964", H: "732", D: "743", C: "A54" },
+      east: { S: "J7", H: "J94", D: "QJ8652", C: "72" },
+    },
+    visibleFullHandSeats: ["N", "S"],
+    revealFullHandsAtEnd: ["E", "W"],
+    rounds: [
+      {
+        label: "Trick 1 (♦7, ♦10, ♦2, ♦K)",
+        plays: [
+          { seat: "W", card: { rank: "7", suit: "D" } },
+          { seat: "N", card: { rank: "T", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "K", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-13",
+    difficulty: 1,
+    ...TRAINER_PUZZLE_DEFAULTS_V2,
+    trainerEngine: TRAINER_ENGINE_COMPASS,
+    seatMode: "compass",
+    playEngine: PLAY_ENGINE_COMPASS_CLOCKWISE,
+    title: "3NT: See the 4-3 — find trick 9",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "see43",
+      themeLabel: "Theme: See the 4-3",
+      contractLabel: "3NT by South",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: false,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-13-intro",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_13_INTRO,
+        },
+        {
+          id: "cp1-13-finesse-choice",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "The heart finesse is my only chance at making this contract?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          revealText:
+            "No, the heart finesse is not our only chance.\n\nThe heart finesse is a good chance for our 9th trick, but we have more chances than just that. By now hopefully you are able to \"see the 4-3\".",
+        },
+        {
+          id: "cp1-13-watch-play",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "Watch the play.",
+          continueButtonLabel: "Watch the play",
+          infoContinueToRoundIdx: 1,
+        },
+        {
+          id: "cp1-13-keep-spades",
+          type: "INFO",
+          atRoundIdx: 2,
+          promptText:
+            "We keep going with the spade suit as we are trying to set up our 4th one!",
+        },
+        {
+          id: "cp1-13-spade-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 5,
+          fixed: { S: 4, N: 3 },
+          expectedDistribution: { W: 3, N: 3, E: 3, S: 4 },
+          promptText: "What was the original spade distribution?",
+        },
+        {
+          id: "cp1-13-wrap",
+          type: "INFO",
+          atRoundIdx: 5,
+          promptText: CP1_13_WRAP,
+          continueButtonLabel: "Show me the full hand",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "A675", H: "98", D: "AK3J", C: "K45" },
+      north: { S: "342", H: "AQ76", D: "Q2T", C: "8A9" },
+      west: { S: "T89", H: "T432", D: "974", C: "6Q7" },
+      east: { S: "KJQ", H: "KJ5", D: "658", C: "J3T2" },
+    },
+    visibleFullHandSeats: ["N", "S"],
+    revealFullHandsAtEnd: ["E", "W"],
+    rounds: [
+      {
+        label: "Opening lead shown (♠10)",
+        plays: [{ seat: "W", card: { rank: "T", suit: "S" } }],
+      },
+      {
+        label: "Trick 1 (♠10, ♠2, ♠J, ♠5)",
+        plays: [
+          { seat: "W", card: { rank: "T", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "J", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♣2, ♣4, ♣Q, ♣A)",
+        plays: [
+          { seat: "E", card: { rank: "2", suit: "C" } },
+          { seat: "S", card: { rank: "4", suit: "C" } },
+          { seat: "W", card: { rank: "Q", suit: "C" } },
+          { seat: "N", card: { rank: "A", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♠3, ♠Q, ♠6, ♠9)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "S" } },
+          { seat: "E", card: { rank: "Q", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+          { seat: "W", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♣J, ♣K, ♣6, ♣8)",
+        plays: [
+          { seat: "E", card: { rank: "J", suit: "C" } },
+          { seat: "S", card: { rank: "K", suit: "C" } },
+          { seat: "W", card: { rank: "6", suit: "C" } },
+          { seat: "N", card: { rank: "8", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 5 (♠A, ♠9, ♠4, ♠K)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "9", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "K", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-14",
+    difficulty: 1,
+    ...TRAINER_PUZZLE_DEFAULTS_V2,
+    trainerEngine: TRAINER_ENGINE_COMPASS,
+    seatMode: "compass",
+    playEngine: PLAY_ENGINE_COMPASS_CLOCKWISE,
+    title: "4♠: See the 4-3 — diamond start",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    preserveEndStateAtDone: true,
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "see43",
+      themeLabel: "Theme: See the 4-3",
+      contractLabel: "4♠ by South",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: false,
+      customPrompts: [
+        {
+          id: "cp1-14-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: "You are declaring 4♠.",
+        },
+        {
+          id: "cp1-14-trumps-after-ruff",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 2,
+          promptText:
+            "A diamond has just been ruffed. How many spades are left with the opponents?",
+          expectedAnswer: 4,
+          successText:
+            "They started with 5 — after this ruff, they have 4 left.",
+        },
+        {
+          id: "cp1-14-trumps-drawn-msg",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText:
+            "All the trumps are drawn. You have lost 3 tricks already, the first three. You cannot afford to lose a heart.",
+        },
+        {
+          id: "cp1-14-heart-finesse-check",
+          type: "PLAY_DECISION",
+          atRoundIdx: 4,
+          promptText:
+            "If the heart finesse loses, I will go down in this contract?",
+          options: [
+            { id: "true", label: "True" },
+            { id: "false", label: "False" },
+          ],
+          expectedChoice: "false",
+          revealText:
+            "You can still make it even if the heart finesse is losing.\n\nRemember to \"See the 4-3\", it is a big source of tricks and will help you make more contracts. On this hand the K♥ is offside, but because the clubs break, we can establish our 4th club trick, and pitch a heart.",
+        },
+        {
+          id: "cp1-14-watch-play",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: "Watch the play.",
+          continueButtonLabel: "Watch the play",
+        },
+        {
+          id: "cp1-14-clubs-good-msg",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText:
+            "Our 4th club is good, since the club suit has broken 3-3 (the club suit was 4333).",
+        },
+        {
+          id: "cp1-14-crossruff-msg",
+          type: "INFO",
+          atRoundIdx: 8,
+          promptText:
+            "Now just a simple cross ruff, there are no trumps out.",
+        },
+      ],
+    },
+    shownHands: {
+      // Same honor profile / lengths as the draft deal; spot cards redistributed so suits don’t read as straight ladders (still one full deck).
+      north: { S: "Q3K6", H: "QA", D: "2Q6", C: "753K" },
+      south: { S: "8A5T", H: "35", D: "T973", C: "6AQ" },
+      east: { S: "94J", H: "K9287", D: "58", C: "28J" },
+      west: { S: "27", H: "4JT6", D: "AKJ4", C: "4T9" },
+    },
+    visibleFullHandSeats: ["N", "S"],
+    rounds: [
+      {
+        label: "Trick 1 (♦A, ♦2, ♦5, ♦3 — West leads)",
+        plays: [
+          { seat: "W", card: { rank: "A", suit: "D" } },
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "5", suit: "D" } },
+          { seat: "S", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♦K, ♦6, ♦8, ♦7)",
+        plays: [
+          { seat: "W", card: { rank: "K", suit: "D" } },
+          { seat: "N", card: { rank: "6", suit: "D" } },
+          { seat: "E", card: { rank: "8", suit: "D" } },
+          { seat: "S", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♦4, ♦Q, ♠4 ruff, ♦9)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "D" } },
+          { seat: "N", card: { rank: "Q", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
+          { seat: "S", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♠9, ♠5, ♠2, ♠K — East leads)",
+        plays: [
+          { seat: "E", card: { rank: "9", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (♠Q, ♠J, ♠8, ♠7 — North leads)",
+        plays: [
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "J", suit: "S" } },
+          { seat: "S", card: { rank: "8", suit: "S" } },
+          { seat: "W", card: { rank: "7", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Club 3, 2, Q, 4)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "C" } },
+          { seat: "E", card: { rank: "2", suit: "C" } },
+          { seat: "S", card: { rank: "Q", suit: "C" } },
+          { seat: "W", card: { rank: "4", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (Club A, 9, 5, 8)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "9", suit: "C" } },
+          { seat: "N", card: { rank: "5", suit: "C" } },
+          { seat: "E", card: { rank: "8", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 8 (Club 6, 10, K, J)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "C" } },
+          { seat: "W", card: { rank: "T", suit: "C" } },
+          { seat: "N", card: { rank: "K", suit: "C" } },
+          { seat: "E", card: { rank: "J", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 9 (7 of clubs, 2 of hearts, 3 of hearts, 4 of hearts)",
+        plays: [
+          { seat: "N", card: { rank: "7", suit: "C" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "3", suit: "H" } },
+          { seat: "W", card: { rank: "4", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-15",
+    difficulty: 1,
+    ...TRAINER_PUZZLE_DEFAULTS_V2,
+    trainerEngine: TRAINER_ENGINE_COMPASS,
+    seatMode: "compass",
+    playEngine: PLAY_ENGINE_COMPASS_CLOCKWISE,
+    title: "6NT: two 4-3 fits",
+    trumpSuit: null,
+    contract: "6NT",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "see43",
+      themeLabel: "Theme: See the 4-3",
+      contractLabel: "6NT by South",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: false,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-15-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: "You are declaring 6NT!",
+        },
+        {
+          id: "cp1-15-count-certain",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: CP1_15_COUNT_CERTAIN,
+        },
+        {
+          id: "cp1-15-heart-first-msg",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: CP1_15_HEART_FIRST_MSG,
+        },
+        {
+          id: "cp1-15-heart-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 4,
+          fixed: { S: 4, N: 3 },
+          expectedDistribution: { W: 2, N: 3, E: 4, S: 4 },
+          promptText: "The heart suit distribution was",
+        },
+        {
+          id: "cp1-15-heart-dist-msg",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: CP1_15_HEART_DIST_MSG,
+        },
+        {
+          id: "cp1-15-club-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "C",
+          atRoundIdx: 7,
+          fixed: { S: 4, N: 3 },
+          expectedDistribution: { W: 3, N: 3, E: 3, S: 4 },
+          promptText: "What was the original club distribution?",
+        },
+        {
+          id: "cp1-15-club-explain",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText: CP1_15_CLUB_EXPLAIN,
+          continueButtonLabel: "Reveal full hand",
+          infoEndsWithReveal:
+            "The clubs broke 4-3-3-3, so our 4th club is the last remaining club and will be our 12th trick!\n\nSo in the end, we will make 4 spades, 2 hearts, 2 diamonds, and 4 club tricks for a total of 12 tricks!",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "KJ4", H: "8743", D: "AK", C: "9874" },
+      south: { S: "AQT5", H: "AK5", D: "753", C: "AKQ" },
+      west: { S: "983", H: "J6", D: "QJT86", C: "J52" },
+      east: { S: "762", H: "QT29", D: "942", C: "T63" },
+    },
+    visibleFullHandSeats: ["N", "S"],
+    revealFullHandsAtEnd: ["E", "W"],
+    rounds: [
+      {
+        label: "Trick 1 (♦Q, ♦A, ♦2, ♦3)",
+        plays: [
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+          { seat: "N", card: { rank: "A", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♥3, ♥2, ♥5, ♥J)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "5", suit: "H" } },
+          { seat: "W", card: { rank: "J", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♦6, ♦K, ♦4, ♦5)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "D" } },
+          { seat: "N", card: { rank: "K", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+          { seat: "S", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♥4, ♥9, ♥K, ♥6)",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "9", suit: "H" } },
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "6", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (♥A, ♠3, ♥7, ♥10)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "S" } },
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (♣A, ♣2, ♣4, ♣3)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "2", suit: "C" } },
+          { seat: "N", card: { rank: "4", suit: "C" } },
+          { seat: "E", card: { rank: "3", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (♣K, ♣5, ♣7, ♣6)",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "C" } },
+          { seat: "W", card: { rank: "5", suit: "C" } },
+          { seat: "N", card: { rank: "7", suit: "C" } },
+          { seat: "E", card: { rank: "6", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 8 (♣Q, ♣J, ♣8, ♣10)",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "C" } },
+          { seat: "W", card: { rank: "J", suit: "C" } },
+          { seat: "N", card: { rank: "8", suit: "C" } },
+          { seat: "E", card: { rank: "T", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp1-16",
+    difficulty: 1,
+    ...TRAINER_PUZZLE_DEFAULTS_V2,
+    trainerEngine: TRAINER_ENGINE_COMPASS,
+    seatMode: "compass",
+    playEngine: PLAY_ENGINE_COMPASS_CLOCKWISE,
+    title: "4♠: trump lead — count losers",
+    trumpSuit: null,
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    auction: "",
+    promptOptions: {
+      promptThemeTint: "see43",
+      themeLabel: "Theme: See the 4-3",
+      contractLabel: "4♠ by South",
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      hideOpponentLabels: false,
+      startAutoPlayThroughRoundIdx: 0,
+      customPrompts: [
+        {
+          id: "cp1-16-loser-intro",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "You are declaring 4S and the opponents have led a trump. It is a great idea, especially in suit contracts, to count losers.\n\nOur loser count: On a bad day, you could lose 3 heart tricks and a club.",
+        },
+        {
+          id: "cp1-16-watch-play",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText:
+            "Let's watch the play, and see how a top international expert played the hand. Keep focused as you will need to follow along.",
+          continueButtonLabel: "Continue",
+        },
+        {
+          id: "cp1-16-trump-track-intro",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText: "Let's, as always, keep track of what's going on with trumps.",
+        },
+        {
+          id: "cp1-16-opp-trumps-started",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 3,
+          promptText: "At the beginning of the hand, the opponents started with how many trumps?",
+          expectedAnswer: 5,
+          autoContinueOnCorrect: true,
+        },
+        {
+          id: "cp1-16-trump-fit-info",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText: "We had a 4-4 fit; the opponents started with 5 trumps.",
+        },
+        {
+          id: "cp1-16-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 3,
+          promptText: "How many are left?",
+          expectedAnswer: 1,
+          autoContinueOnCorrect: true,
+        },
+        {
+          id: "cp1-16-trumps-count-explain",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText: CP1_16_TRUMP_COUNT_EXPLAIN,
+          continueButtonLabel: "Continue",
+        },
+        {
+          id: "cp1-16-draw-final-trump",
+          type: "INFO",
+          atRoundIdx: 3,
+          promptText: "Declarer decided to draw the final trump.",
+          continueButtonLabel: "Continue",
+        },
+        {
+          id: "cp1-16-heart-plan",
+          type: "INFO",
+          atRoundIdx: 4,
+          promptText: CP1_16_HEARTS_PRO,
+          continueButtonLabel: "Continue",
+        },
+        {
+          id: "cp1-16-heart-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 7,
+          fixed: { S: 3, N: 4 },
+          expectedDistribution: { W: 3, N: 4, E: 3, S: 3 },
+          promptText: "What was the original heart distribution?",
+        },
+        {
+          id: "cp1-16-heart-dist-explain",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText: CP1_16_HEART_DIST_EXPLAIN,
+        },
+        {
+          id: "cp1-16-watch-rest",
+          type: "INFO",
+          atRoundIdx: 7,
+          promptText: "Let's watch the rest of the play.",
+          continueButtonLabel: "Let's watch the rest of the play",
+        },
+        {
+          id: "cp1-16-final-reveal",
+          type: "INFO",
+          atRoundIdx: 10,
+          promptText: CP1_16_REST_OURS,
+          continueButtonLabel: "Reveal the full hand",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "AQJ7", H: "K642", D: "54", C: "A75" },
+      south: { S: "KT86", H: "875", D: "AKJ", C: "KT9" },
+      west: { S: "42", H: "T93", D: "QT82", C: "J632" },
+      east: { S: "953", H: "AQJ", D: "9763", C: "Q84" },
+    },
+    visibleFullHandSeats: ["N", "S"],
+    revealFullHandsAtEnd: ["E", "W"],
+    rounds: [
+      {
+        label: "Opening lead shown (♠2)",
+        plays: [{ seat: "W", card: { rank: "2", suit: "S" } }],
+      },
+      {
+        label: "Trick 1 (♠2, ♠7, ♠5, ♠8)",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "7", suit: "S" } },
+          { seat: "E", card: { rank: "5", suit: "S" } },
+          { seat: "S", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♥5, ♥3, ♥2, ♥J)",
+        plays: [
+          { seat: "S", card: { rank: "5", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "2", suit: "H" } },
+          { seat: "E", card: { rank: "J", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♠3, ♠6, ♠4, ♠J)",
+        plays: [
+          { seat: "E", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+          { seat: "W", card: { rank: "4", suit: "S" } },
+          { seat: "N", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♠A, ♠9, ♠10, ♣2)",
+        plays: [
+          { seat: "N", card: { rank: "A", suit: "S" } },
+          { seat: "E", card: { rank: "9", suit: "S" } },
+          { seat: "S", card: { rank: "T", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 5 (♥4, ♥Q, ♥7, ♥9)",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "Q", suit: "H" } },
+          { seat: "S", card: { rank: "7", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (♦3, ♦A, ♦2, ♦4)",
+        plays: [
+          { seat: "E", card: { rank: "3", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "2", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 7 (♥8, ♥10, ♥K, ♥A)",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "H" } },
+          { seat: "W", card: { rank: "T", suit: "H" } },
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "A", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 8 (♦6, ♦K, ♦8, ♦5)",
+        plays: [
+          { seat: "E", card: { rank: "6", suit: "D" } },
+          { seat: "S", card: { rank: "K", suit: "D" } },
+          { seat: "W", card: { rank: "8", suit: "D" } },
+          { seat: "N", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 9 (♦J, ♦Q, ♠Q ruffs, ♦7)",
+        plays: [
+          { seat: "S", card: { rank: "J", suit: "D" } },
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 10 (♥6, ♦9, ♣9, ♣3)",
+        plays: [
+          { seat: "N", card: { rank: "6", suit: "H" } },
+          { seat: "E", card: { rank: "9", suit: "D" } },
+          { seat: "S", card: { rank: "9", suit: "C" } },
+          { seat: "W", card: { rank: "3", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "cp2-2",
     difficulty: 2,
     title: "4♠: diamond lead — goal and trick 2",
@@ -1422,9 +2456,9 @@ const CARDPLAY_PUZZLES_ALL = [
     newUntil: "2026-04-30",
     trumpSuit: null,
     contract: "3NT",
-    dealerCompass: "W",
-    declarerCompass: "W",
-    viewerCompass: "W",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
     auction: "1NT P 3NT P P P",
     promptOptions: {
       promptPlacement: "right",

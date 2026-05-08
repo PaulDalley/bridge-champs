@@ -899,6 +899,456 @@ function Bid222ContinueRich() {
   );
 }
 
+function Bid224IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          You decided to open <TextWithColoredSuits text="1♥" /> which is the style of your partnership (you are
+          reluctant to open <TextWithColoredSuits text="2♣" />
+          , it&apos;s best to avoid that bid if possible).
+        </p>
+        <p className="ct-revealRichBody">
+          Partner bids <TextWithColoredSuits text="2♥" />.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid224PassOrSlamQuestionRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Since you have a lot of points, you decide to make a slam try. You bid <TextWithColoredSuits text="3♠" />,
+          which for your partnership shows a shortage in spades, and a very good hand, interested in slam.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate" style={{ marginTop: 12 }}>
+        <p className="ct-revealRichHeading" style={{ marginBottom: 0 }}>
+          What do you think now?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid224PassRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody ct-revealRichBody--tightAfterHeading">Pass.</p>
+        <p className="ct-revealRichBody">
+          Let&apos;s look at why pass is a good idea, focusing on the ingredients for slam.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Ingredients for slam</h4>
+        <ul className="ct-revealRichFactorsList" aria-label="Ingredients for slam">
+          <li>
+            <span className="ct-revealRichFactorsList-title">Ingredient #1: Good trumps</span>
+            <p className="ct-revealRichFactorsList-body">
+              For slam you need very good trumps, AKQJ when you have an 8 card fit. You can&apos;t afford a trump loser
+              most of the time. When the hand is otherwise perfect, you can afford 1 trump loser (in slam, of course we
+              are allowed 1 loser only)!
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">Ingredient #2</span>
+            <p className="ct-revealRichFactorsList-body">
+              On regular hands, we need a lot of points (33 or so points for slam).
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">Ingredient #3</span>
+            <p className="ct-revealRichFactorsList-body">
+              On the occasions where we don&apos;t have 33 points, we need a big source of tricks — 5 card side suits are
+              great; 6+ side suits are magic.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">Ingredient #4</span>
+            <p className="ct-revealRichFactorsList-body">
+              We need sharp cards — aces and kings — and shortages, singletons or voids.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid224HandDetailRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          On this hand we do not meet the 33 point mark. We can&apos;t be confident about a very robust trump suit (AKQJ)
+          — it would be asking too much to expect partner to have the king and jack.
+        </p>
+        <p className="ct-revealRichBody">
+          Also, we have a normal type distribution — we do not have a 5 or 6 card side suit, and no reason to expect
+          dummy to either.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid224PartnerRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Slam is far too much of a stretch. On this hand, the trumps broke 4-1, you had a trump loser and a club loser
+          off the top. Game is not even a certainty!
+        </p>
+        <aside className="ct-revealRichFactorsSummary" role="note">
+          Remember for slam we need very good trumps including the J if we only have an 8 card fit — we can&apos;t afford
+          trump losers.
+        </aside>
+      </section>
+    </div>
+  );
+}
+
+function Bid225IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          This was a hand, where the players had an artificial auction, not worth repeating here.
+        </p>
+        <p className="ct-revealRichBody">But you are in the driver&apos;s seat.</p>
+        <p className="ct-revealRichBody">
+          You have found out that your partner has 11–13 points with 3 hearts.
+        </p>
+        <p className="ct-revealRichBody">
+          You have made a slam try, and your partner has signed off — communicating to you &quot;I have a very bad hand
+          for you&quot;.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid225SlamCorrectRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Continue investigating slam</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          It was correct to continue investigating slam — on this deal, bidding slam is excellent. Let&apos;s look at the
+          ingredients that this hand has, which make slam excellent:
+        </p>
+        <p className="ct-revealRichBody">
+          Firstly, it does not have the required 33 points. We have 18 opposite 11 or so, giving 29. So what are the
+          factors that made this one work?
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">What made slam work</h4>
+        <ul className="ct-revealRichFactorsList" aria-label="Factors that made slam work on this deal">
+          <li>
+            <span className="ct-revealRichFactorsList-title">1. Trump quality</span>
+            <p className="ct-revealRichFactorsList-body">
+              Very good trumps — we do not have a trump loser here, as we have the AKQJ — the Jack is an important card
+              when we are thinking of slam!
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">2. A long side suit</span>
+            <p className="ct-revealRichFactorsList-body">
+              A 5 card side suit is a great asset as it is a lovely source of tricks.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">3. Shortness</span>
+            <p className="ct-revealRichFactorsList-body">Shortage in clubs.</p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">4. Sharp cards</span>
+            <p className="ct-revealRichFactorsList-body">
+              Sharp cards — the hand is full of Aces and Kings.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid225ClosingRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Partner, quite understandably, thought he had a terrible hand. But slam was easy, just losing the Ace of
+          diamonds. This is on account of your excellent trump suit, sharp cards, and 5 card side suit.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid226IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          This hand came up in a national selection trial. Partner&apos;s preempt is somewhat standard, although when
+          vulnerable the agreement is that a preempt shows a &quot;good suit&quot;, and about 6–10 points.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid226SlamRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Bid slam</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Slam and even grand slam, is actually excellent here, despite not being even close to the 33 point mark. Why is
+          that?
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <ul className="ct-revealRichFactorsList" aria-label="Why slam is excellent on this deal">
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span aria-hidden="true">✓ </span>
+              Absolutely magical 6 card heart suit (the better quality the suit, the more magical it is).
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span aria-hidden="true">✓ </span>
+              Shortage - voids are amazing things.
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span aria-hidden="true">✓ </span>
+              Sharp side suit cards (Ace of clubs).
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span aria-hidden="true">✓ </span>
+              Big trump fit - 9 card trump fit.
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span aria-hidden="true">✓ </span>
+              Excellent trumps, expecting a minimum of <span className="ct-revealRichMono">AQxxxx</span> from partner.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid226ClosingRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Declarer was able to draw trumps and make 6 heart tricks, along with 6 trump tricks, and the Ace of clubs, for
+          13!
+        </p>
+        <p className="ct-revealRichBody">
+          6 card side suits are magic; they don&apos;t need to be as good as this. When the 6 card suit has 2–3 of the
+          top honours, there can be huge potential.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid227IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          This was a hand from the most recent US National selection, where the winning team showed great judgment on
+          this hand.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid227SlamVsGameRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          You have shown diamonds and clubs game forcing. Your bid of <TextWithColoredSuits text="3♠" /> in this
+          partnership showed spades and very likely showed your shape.
+        </p>
+        <p className="ct-revealRichBody">
+          How do you feel about this hand — do you think slam is likely, or are you happy to just sign off in{" "}
+          <TextWithColoredSuits text="5♦" />?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid227FiveDRevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+          <TextWithColoredSuits text="5♦" />
+        </span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          On this hand, the multiple time world champion just bid <TextWithColoredSuits text="5♦" />. This might be
+          surprising, as the hand has many of the features we said were useful for slam. Let&apos;s weigh up the
+          features.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Features that look good</h4>
+        <ul className="ct-revealRichFactorsList" aria-label="Positive features">
+          <li>
+            <span className="ct-revealRichFactorsList-title">1. Excellent trumps</span>
+            <p className="ct-revealRichFactorsList-body">Absolutely no trump losers.</p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span className="ct-revealRichFactorsList-title">2.</span> A very decent 5 card side suit.
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span className="ct-revealRichFactorsList-title">3.</span> Shortage (voids).
+            </p>
+          </li>
+        </ul>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Why slam is still a bad idea</h4>
+        <ul className="ct-revealRichFactorsList" aria-label="Why slam is a bad idea">
+          <li>
+            <span className="ct-revealRichFactorsList-title">1.</span>
+            <p className="ct-revealRichFactorsList-body">
+              You have already shown your partner that you have a 6-5 — partner knows about your 5 card side suit. It is
+              not an unexpected asset.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">2.</span>
+            <p className="ct-revealRichFactorsList-body">
+              Partner already knows that you are game forcing / strong — at least say 17+ points. You have 18 — not
+              really anything extra to spare.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">3.</span>
+            <p className="ct-revealRichFactorsList-body">
+              Your void is not very useful: it is opposite partner&apos;s long / strong suit — that is a bad fit. The
+              less points opposite your shortage, the better.
+            </p>
+          </li>
+          <li>
+            <span className="ct-revealRichFactorsList-title">4.</span>
+            <p className="ct-revealRichFactorsList-body">
+              Your spades aren&apos;t sharp — <TextWithColoredSuits text="Kx" /> or <TextWithColoredSuits text="Ax" />{" "}
+              would be much better than <TextWithColoredSuits text="Qx" /> in a doubleton.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid227ClosingRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Game is not even easy to make.
+        </p>
+        <p className="ct-revealRichBody">Slam should be out of the picture.</p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <h4 className="ct-revealRichHeading">Two main takeaways</h4>
+        <ul className="ct-revealRichFactorsList" aria-label="Takeaways">
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span className="ct-revealRichFactorsList-title">1.</span> You have already shown your hand to your partner
+              — in the context of what you have shown, your hand is not anything special.
+            </p>
+          </li>
+          <li>
+            <p className="ct-revealRichFactorsList-body">
+              <span className="ct-revealRichFactorsList-title">2.</span> Shortage opposite strength / length is not good;
+              it signals misfit.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Bid228IntroRich() {
+  return (
+    <div className="ct-revealRich">
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          Partner has opened a 15-17 No trump and you have 15 points, what will you do?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Bid228RevealRich() {
+  return (
+    <div className="ct-revealRich">
+      <p className="ct-revealRichLead">
+        <span className="ct-revealRichBadge ct-revealRichBadge--violet">Settle for game</span>
+      </p>
+      <section className="ct-revealRichCard ct-revealRichCard--amber">
+        <p className="ct-revealRichBody">
+          It was best on this hand to settle for game. With balanced hands, we should be very reluctant to bid games
+          that don&apos;t have the full 33 points.
+        </p>
+        <p className="ct-revealRichBody">
+          Furthermore, 4333 shape is not something that will help your side make extra tricks beyond the point count of
+          the hand.
+        </p>
+        <p className="ct-revealRichBody">
+          Even 4432 has greater chances of succeeding because you have those nice 4 card suits that can produce extra
+          tricks.
+        </p>
+      </section>
+      <section className="ct-revealRichCard ct-revealRichCard--slate">
+        <p className="ct-revealRichBody">
+          Be careful, with ordinary hands stay out of the ones that aren&apos;t 33 points.
+        </p>
+      </section>
+    </div>
+  );
+}
+
 function Bid31SplintersIntroRich() {
   return (
     <div className="ct-revealRich">
@@ -2532,6 +2982,7 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
+    revealFullHandsAtEnd: ["DUMMY"],
     auction: "1♥ P ?",
     promptOptions: {
       promptPlacement: "right",
@@ -5683,6 +6134,338 @@ const BIDDING_PUZZLES = [
     },
     shownHands: {
       DECLARER: { S: "AT943", H: "KT3", D: "82", C: "AJ4" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-24",
+    difficulty: 2,
+    title: "Slam judgment",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ P 2♥ P 3♠ P 4♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Slam judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Slam judgment",
+      promptThemeTint: "slamJudgment",
+      customPrompts: [
+        {
+          id: "bid2-24-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid224IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-24-q-pass",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: <Bid224PassOrSlamQuestionRich />,
+          options: [
+            {
+              id: "slam",
+              label: "I will bid slam, it's probably going to be at least a good chance.",
+            },
+            {
+              id: "pass",
+              label: "I will just pass",
+            },
+          ],
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: <Bid224PassRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-24-hand-detail",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid224HandDetailRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-24-unveil",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: "Reveal partner's hand when you're ready.",
+          options: [{ id: "reveal", label: "Reveal partner's hand" }],
+          expectedChoice: "reveal",
+          expectedChoiceDisplay: "Reveal",
+          wrongTryText: "Use the button to reveal.",
+          noContinue: false,
+          revealFullHandSeats: ["DUMMY"],
+          revealText: <Bid224PartnerRevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "A", H: "AQ974", D: "AKJ4", C: "KT3" },
+      DUMMY: { S: "KJ104", H: "K82", D: "765", C: "432" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-25",
+    difficulty: 2,
+    title: "Slam judgment",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Slam judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Slam judgment",
+      promptThemeTint: "slamJudgment",
+      customPrompts: [
+        {
+          id: "bid2-25-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid225IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-25-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: "What do you do?",
+          options: [
+            {
+              id: "bidGame",
+              label: "Just bid game, I've already made a slam try and partner has said no.",
+            },
+            { id: "continueSlam", label: "Continue investigating slam" },
+          ],
+          expectedChoice: "continueSlam",
+          expectedChoiceDisplay: "Continue investigating slam",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["DUMMY"],
+          revealFullHandSeatsOnContinue: true,
+          playCardRevealHideSuccessBanner: true,
+          revealText: <Bid225SlamCorrectRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-25-closing",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid225ClosingRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "74", H: "AKQJ6", D: "KJT84", C: "A" },
+      DUMMY: { S: "AK93", H: "982", D: "Q76", C: "Q98" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-26",
+    difficulty: 2,
+    title: "Slam judgment",
+    trumpSuit: "S",
+    contract: "—",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    dealerCompass: "N",
+    auction: "2♠ 5♦ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Slam judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Slam judgment",
+      promptThemeTint: "slamJudgment",
+      auctionPartnersRed: true,
+      customPrompts: [
+        {
+          id: "bid2-26-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid226IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-26-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: "What would you do?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "compete5s", label: "Compete to 5S" },
+            { id: "bidSlam", label: "Bid slam!" },
+          ],
+          expectedChoice: "bidSlam",
+          expectedChoiceDisplay: "Bid slam",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["DUMMY"],
+          revealFullHandSeatsOnContinue: true,
+          playCardRevealHideSuccessBanner: true,
+          revealText: <Bid226SlamRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-26-closing",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid226ClosingRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K93", H: "AKQT84", D: "", C: "A764" },
+      DUMMY: { S: "AQ10852", H: "76", D: "543", C: "32" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-27",
+    difficulty: 2,
+    title: "Slam judgment",
+    trumpSuit: "D",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♥ P 3♣ P 3♥ P 3♠ P 4♦ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Slam judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Slam judgment",
+      promptThemeTint: "slamJudgment",
+      customPrompts: [
+        {
+          id: "bid2-27-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid227IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-27-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: <Bid227SlamVsGameRich />,
+          options: [
+            { id: "bid5d", label: "Just bid 5D" },
+            { id: "slamTry", label: "Look more for slam" },
+          ],
+          expectedChoice: "bid5d",
+          expectedChoiceDisplay: "Just bid 5D",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Reveal full hand",
+          revealFullHandSeats: ["DUMMY"],
+          revealFullHandSeatsOnContinue: true,
+          playCardRevealHideSuccessBanner: true,
+          revealText: <Bid227FiveDRevealRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-27-closing",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid227ClosingRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "Q4", H: "", D: "AKQJT9", C: "AQ982" },
+      DUMMY: { S: "A10987", H: "QJ8765", D: "65", C: "" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-28",
+    difficulty: 2,
+    title: "Slam judgment",
+    trumpSuit: null,
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Slam judgment",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Slam judgment",
+      promptThemeTint: "slamJudgment",
+      customPrompts: [
+        {
+          id: "bid2-28-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: <Bid228IntroRich />,
+          videoUrl: "",
+        },
+        {
+          id: "bid2-28-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          promptText: "What will you do?",
+          options: [
+            { id: "inviteSlam", label: "I'll invite to slam" },
+            { id: "settleGame", label: "I'll just settle for game" },
+          ],
+          expectedChoice: "settleGame",
+          expectedChoiceDisplay: "Settle for game",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: <Bid228RevealRich />,
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K93", H: "AQ74", D: "QJ8", C: "K73" },
     },
     rounds: [],
   },
