@@ -27,10 +27,9 @@ import { Helmet } from "react-helmet-async";
 import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materialize";
 
 const ARTICLE_TOPIC_TABS = [
-  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay", "cardPlayBasics"] },
-  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
-  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
-  { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
+  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
+  { id: "bidding", label: "Bidding", path: "/bidding", types: ["bidding", "biddingAdvanced"] },
 ];
 const BEGINNER_ARTICLE_TOPIC_TABS = [
   {
@@ -328,8 +327,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     return `/create/${articleType}`;
   };
 
-  const isComingSoonBasics = articleType === "cardPlayBasics" || articleType === "defenceBasics";
-  const showComingSoon = isComingSoonBasics && a !== true;
+  const showComingSoon = false;
 
   const getCategoryInfo = () => {
     switch (articleType) {
@@ -343,10 +341,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         return { name: 'Bidding – Improve your fundamentals', subtitle: 'Critically important to get this right. Build a solid foundation.' };
       case 'biddingAdvanced':
         return { name: 'Bidding – Articles & explanations', subtitle: 'Deeper concepts and expert-level bidding judgment.' };
-      case 'cardPlayBasics':
-        return { name: 'Declarer Play – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
-      case 'defenceBasics':
-        return { name: 'Defence – Improve your fundamentals', subtitle: 'Coming soon. Build a solid foundation.' };
       case 'counting':
         return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
       case 'beginnerCardPlay':
@@ -511,7 +505,22 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   };
 
   const getCategoryUrl = () => {
-    return `https://bridgechampions.com/${articleType}`;
+    const baseUrl = "https://bridgechampions.com";
+    const categoryPathMap = {
+      cardPlay: "/declarer/articles",
+      cardPlayBasics: "/declarer/articles",
+      defence: "/defence/articles",
+      defenceBasics: "/defence/articles",
+      bidding: "/bidding",
+      biddingAdvanced: "/bidding",
+      biddingBasics: "/bidding",
+      counting: "/declarer/articles",
+      beginnerCardPlay: "/beginner/articles/declarer",
+      beginnerDefence: "/beginner/articles/defence",
+      beginnerBidding: "/beginner/articles/bidding",
+      beginnerCounting: "/beginner/articles/counting",
+    };
+    return `${baseUrl}${categoryPathMap[articleType] || "/"}`;
   };
 
   return (

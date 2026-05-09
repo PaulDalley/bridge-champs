@@ -8,6 +8,7 @@ import { BEGINNER_LANDING_TESTIMONIALS } from "../../data/beginner/beginnerLandi
 import "./BeginnerLandingPage.css";
 
 const PRACTICE_PATH = "/beginner/practice/declarer";
+const ARTICLES_PATH = "/beginner/articles";
 const VIDEO_DOC = "beginnerLandingVideo";
 /** Shown when Firestore `beginnerLandingVideo` has no URL (admins can override in site settings). */
 const DEFAULT_BEGINNER_LANDING_INTRO_VIDEO = "https://www.youtube.com/shorts/_2fhCCQ-iR4";
@@ -176,6 +177,7 @@ function BeginnerLandingVideo({ isAdmin }) {
 function BeginnerLandingPage({ location, isAdmin }) {
   const search = location?.search || "";
   const toPractice = { pathname: PRACTICE_PATH, search };
+  const toArticles = { pathname: ARTICLES_PATH, search };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -261,6 +263,13 @@ function BeginnerLandingPage({ location, isAdmin }) {
             onClick={() => onCtaClick("hero")}
           >
             Start Playing
+          </Link>
+          <Link
+            className="BeginnerLanding-cta BeginnerLanding-cta--secondary"
+            to={toArticles}
+            onClick={() => onCtaClick("hero-articles")}
+          >
+            Beginner Articles
           </Link>
         </div>
       </section>

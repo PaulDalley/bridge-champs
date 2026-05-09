@@ -292,12 +292,12 @@ class Nav extends Component {
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && this.goTo("/learn")}
-                aria-label="Articles section"
+                aria-label="Learn section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-articles">
                   <i className="fas fa-newspaper" aria-hidden="true" />
                 </div>
-                <div className="Nav-tab-label">Articles</div>
+                <div className="Nav-tab-label">Learn</div>
               </div>
 
               <div
@@ -306,7 +306,7 @@ class Nav extends Component {
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner")}
-                aria-label="Learn bridge from scratch — beginner lessons (new)"
+                aria-label="Beginner section"
               >
                 <span className="Nav-tab-badge" aria-hidden="true">
                   NEW
@@ -317,7 +317,7 @@ class Nav extends Component {
                     menu_book
                   </i>
                 </div>
-                <div className="Nav-tab-label Nav-tab-label--beginner">Learn bridge from scratch</div>
+                <div className="Nav-tab-label Nav-tab-label--beginner">Beginner</div>
               </div>
             </div>
           </div>

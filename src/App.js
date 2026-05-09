@@ -19,6 +19,7 @@ import "materialize-css";
 import React, { Component, lazy, Suspense } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"; // Routes replaced Switch component deprecated.
+import { Helmet } from "react-helmet-async";
 import "./App.css";
 import Contact from "./components/UI/Contact";
 import About from "./components/UI/About";
@@ -92,6 +93,11 @@ import configureStore from "./store/configureStore";
 const store = configureStore();
 /** "Learn bridge from scratch" — routes enabled on production (was localhost-only). */
 const beginnerRoutesEnabled = true;
+const NoIndexTag = () => (
+  <Helmet>
+    <meta name="robots" content="noindex,follow" />
+  </Helmet>
+);
 
 const routes = (
   <Switch>
@@ -128,7 +134,7 @@ const routes = (
       exact
       render={() =>
         beginnerRoutesEnabled ? (
-          <Redirect to="/beginner/practice/declarer" />
+          <Redirect to="/beginner/articles/declarer" />
         ) : (
           <Redirect to="/" />
         )
@@ -280,6 +286,18 @@ const routes = (
         />
       )}
     />
+    <Route
+      path="/learn/beginner"
+      exact
+      render={(routeProps) => (
+        <Redirect
+          to={{
+            pathname: "/beginner",
+            search: routeProps.location.search,
+          }}
+        />
+      )}
+    />
     <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
     <Route path="/other" component={OtherHub} exact />
     <Route path="/system" component={SystemCardEditor} exact />
@@ -292,41 +310,103 @@ const routes = (
     />
     <Route path="/system/recommendations" component={SystemPage} exact />
 
-    <Route path="/declarer/practice" component={DeclarerTrainer} exact />
+    <Route
+      path="/declarer/practice"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <DeclarerTrainer {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/declarer/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
     <Route path="/declarer/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
-    <Route path="/declarer/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} exact />
-    <Route path="/declarer/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlayBasics" bodyRef="cardPlayBasicsBody" />} />
     <Route path="/declarer" component={DeclarerHub} exact />
 
     <Route path="/cardPlay/practice" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/practice", search: routeProps.location.search }} />} />
     <Route path="/cardPlay/articles/:id" render={(routeProps) => <Redirect to={{ pathname: `/declarer/articles/${routeProps.match.params.id}`, search: routeProps.location.search }} />} />
     <Route path="/cardPlay/articles" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/articles", search: routeProps.location.search }} />} />
-    <Route path="/cardPlay/basics/:id" render={(routeProps) => <Redirect to={{ pathname: `/declarer/basics/${routeProps.match.params.id}`, search: routeProps.location.search }} />} />
-    <Route path="/cardPlay/basics" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/basics", search: routeProps.location.search }} />} />
     <Route path="/cardPlay" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer", search: routeProps.location.search }} />} />
 
-    <Route path="/defence/practice" component={DefenceTrainer} exact />
+    <Route
+      path="/defence/practice"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <DefenceTrainer {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/defence/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defence" bodyRef="defenceBody" />} exact />
     <Route path="/defence/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defence" bodyRef="defenceBody" />} />
-    <Route path="/defence/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defenceBasics" bodyRef="defenceBasicsBody" />} exact />
-    <Route path="/defence/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defenceBasics" bodyRef="defenceBasicsBody" />} />
     <Route path="/defence" component={DefenceHub} exact />
 
     <Route
       path="/counting/articles"
-      render={(routeProps) => <CategoryArticles {...routeProps} articleType="counting" bodyRef="countingBody" />}
       exact
+      render={(routeProps) => (
+        <Redirect
+          to={{
+            pathname: "/declarer/articles",
+            search: routeProps.location.search,
+          }}
+        />
+      )}
     />
     <Route
       path="/counting/articles/:id"
-      render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="counting" bodyRef="countingBody" />}
+      render={(routeProps) => (
+        <Redirect
+          to={{
+            pathname: `/declarer/articles/${routeProps.match.params.id}`,
+            search: routeProps.location.search,
+          }}
+        />
+      )}
     />
-    <Route path="/counting/practice" render={(routeProps) => <CountingTrumpsTrainer {...routeProps} trainerLabel="Counting" categoryKey="counting" />} exact />
+    <Route
+      path="/counting/practice"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <CountingTrumpsTrainer {...routeProps} trainerLabel="Counting" categoryKey="counting" />
+        </>
+      )}
+    />
     <Route path="/counting" component={CountingHub} exact />
-    <Route path="/treadmill/practice/opponent-shape" component={TreadmillPracticePage} exact />
-    <Route path="/treadmill/practice/building-blocks" component={TreadmillPracticePage} exact />
-    <Route path="/treadmill/practice" component={TreadmillPracticePage} exact />
+    <Route
+      path="/treadmill/practice/opponent-shape"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <TreadmillPracticePage {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/treadmill/practice/building-blocks"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <TreadmillPracticePage {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/treadmill/practice"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <TreadmillPracticePage {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/treadmill" component={TreadmillLandingPage} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />
@@ -442,21 +522,6 @@ const routes = (
       )}
     />
     <Route
-      path="/create/defence/basics"
-      create={true}
-      creating={true}
-      render={() => (
-        <Suspense fallback={<SkeletonLoader type="article" />}>
-          <CreateCategoryArticle
-            articleType="defenceBasics"
-            bodyRef="defenceBasicsBody"
-            create={true}
-            creating={true}
-          />
-        </Suspense>
-      )}
-    />
-    <Route
       path="/create/defence"
       exact
       render={() => (
@@ -471,21 +536,6 @@ const routes = (
       )}
     />
 
-    <Route
-      path="/create/cardPlay/basics"
-      create={true}
-      creating={true}
-      render={() => (
-        <Suspense fallback={<SkeletonLoader type="article" />}>
-          <CreateCategoryArticle
-            articleType="cardPlayBasics"
-            bodyRef="cardPlayBasicsBody"
-            create={true}
-            creating={true}
-          />
-        </Suspense>
-      )}
-    />
     <Route
       path="/create/cardPlay"
       exact
@@ -513,21 +563,6 @@ const routes = (
           <CreateCategoryArticle
             articleType="bidding"
             bodyRef="biddingBody"
-            create={true}
-            creating={true}
-          />
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/create/bidding/basics"
-      create={true}
-      creating={true}
-      render={() => (
-        <Suspense fallback={<SkeletonLoader type="article" />}>
-          <CreateCategoryArticle
-            articleType="biddingBasics"
-            bodyRef="biddingBasicsBody"
             create={true}
             creating={true}
           />
@@ -641,32 +676,6 @@ const routes = (
       )}
     />
     <Route
-      path="/edit/cardPlayBasics/:id"
-      render={(routeProps) => (
-        <Suspense fallback={<SkeletonLoader type="article" />}>
-          <CreateCategoryArticle
-            {...routeProps}
-            edit={true}
-            articleType="cardPlayBasics"
-            bodyRef="cardPlayBasicsBody"
-          />
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/edit/defenceBasics/:id"
-      render={(routeProps) => (
-        <Suspense fallback={<SkeletonLoader type="article" />}>
-          <CreateCategoryArticle
-            {...routeProps}
-            edit={true}
-            articleType="defenceBasics"
-            bodyRef="defenceBasicsBody"
-          />
-        </Suspense>
-      )}
-    />
-    <Route
       path="/edit/bidding/:id"
       render={(routeProps) => (
         <Suspense fallback={<SkeletonLoader type="article" />}>
@@ -701,11 +710,18 @@ const routes = (
         </Suspense>
       )}
     />
-    <Route path="/bidding/practice" component={BiddingTrainer} exact />
+    <Route
+      path="/bidding/practice"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <BiddingTrainer {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/bidding" component={BiddingHub} exact />
     <Route path="/bidding/worthwhile-conventions/jacoby-2nt" component={JacobyConventionArticle} exact />
-    <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
-    <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
     <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
     <Route path="/bidding/advanced/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="bidding" bodyRef="biddingBody" />} />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
@@ -748,9 +764,33 @@ const routes = (
 
     <Route path="/testingground" component={TestingGround} />
 
-    <Route path="/membership" component={PremiumMembership} />
-    <Route path="/subscribe" component={PremiumMembership} />
-    <Route path="/settings" component={Settings} />
+    <Route
+      path="/membership"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <PremiumMembership {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/subscribe"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <PremiumMembership {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/settings"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <Settings {...routeProps} />
+        </>
+      )}
+    />
     <Route
       path="/articles"
       render={(routeProps) => <Articles {...routeProps} />}
@@ -790,12 +830,33 @@ const routes = (
     {/*<Route path="/article/:id" component={Article} /> */}
     <Route
       path="/login"
-      component={AuthComponent}
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <AuthComponent {...routeProps} />
+        </>
+      )}
       // element={<AuthComponent />}
     />
 
-    <Route path="/signup" component={AuthComponent} />
-    <Route path="/complete-profile" component={CompleteProfile} />
+    <Route
+      path="/signup"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <AuthComponent {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/complete-profile"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <CompleteProfile {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/success" render={() => <HomePage success />} />
     <Route path="/error" render={() => <HomePage error />} />
     {/*<Route path="/error" component={RegistrationError} />*/}

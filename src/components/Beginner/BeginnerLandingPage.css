@@ -109,6 +109,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.95rem 1.75rem;
+  margin-top: 0.8rem;
   font-size: var(--text-sm);
   font-weight: 700;
   text-decoration: none;
@@ -118,15 +119,39 @@
 
 .BeginnerLanding-cta--primary {
   color: #083426;
-  background: linear-gradient(135deg, #e8c767 0%, #d4af37 100%);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #ffdc7a 0%, #f0b90b 100%);
+  border: 1px solid rgba(255, 240, 180, 0.75);
+  box-shadow: 0 10px 30px rgba(240, 185, 11, 0.42);
+}
+
+.BeginnerLanding-cta--secondary {
+  margin-left: 0.65rem;
+  color: #083426;
+  background: linear-gradient(135deg, #ffdc7a 0%, #f0b90b 100%);
+  border: 1px solid rgba(255, 240, 180, 0.75);
+  box-shadow: 0 10px 30px rgba(240, 185, 11, 0.42);
 }
 
 .BeginnerLanding-cta--primary:hover,
 .BeginnerLanding-cta--primary:focus {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 14px 34px rgba(240, 185, 11, 0.58);
   color: #052a1f;
+}
+
+.BeginnerLanding-cta--secondary:hover,
+.BeginnerLanding-cta--secondary:focus {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ffdc7a 0%, #f0b90b 100%);
+  color: #052a1f;
+  border-color: rgba(255, 240, 180, 0.95);
+  box-shadow: 0 14px 34px rgba(240, 185, 11, 0.58);
+}
+
+@media (max-width: 640px) {
+  .BeginnerLanding-cta--secondary {
+    margin-left: 0;
+  }
 }
 
 .BeginnerLanding-body {

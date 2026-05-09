@@ -12,14 +12,12 @@ Disallow: /membership
 Disallow: /login
 
 # Allow important pages
-Allow: /cardPlay
+Allow: /learn
+Allow: /declarer
 Allow: /defence
 Allow: /bidding
-Allow: /quizzes
-Allow: /articles
-Allow: /videos
 
-# Sitemap location (will be added after sitemap generation)
+# Sitemap location
 Sitemap: https://bridgechampions.com/sitemap.xml
 
 

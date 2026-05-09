@@ -61,10 +61,9 @@ const getListPathForArticleType = (type) => {
 };
 
 const ARTICLE_TOPIC_TABS = [
-  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay", "cardPlayBasics"] },
-  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence", "defenceBasics"] },
-  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingBasics", "biddingAdvanced"] },
-  { id: "counting", label: "Counting", path: "/counting/articles", types: ["counting"] },
+  { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
+  { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
+  { id: "bidding", label: "Bidding", path: "/bidding", types: ["bidding", "biddingAdvanced"] },
 ];
 const BEGINNER_ARTICLE_TOPIC_TABS = [
   {
@@ -403,10 +402,14 @@ const DisplayCategoryArticle = ({
 
   const getArticleUrl = () => {
     const baseUrl = "https://bridgechampions.com";
-    if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${articleId}`;
+    if (articleType === "cardPlay") return `${baseUrl}/declarer/articles/${articleId}`;
+    if (articleType === "biddingBasics") return `${baseUrl}/bidding/advanced/${articleId}`;
     if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
-    if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/basics/${articleId}`;
-    if (articleType === "defenceBasics") return `${baseUrl}/defence/basics/${articleId}`;
+    if (articleType === "biddingAdvanced") return `${baseUrl}/bidding/advanced/${articleId}`;
+    if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/articles/${articleId}`;
+    if (articleType === "defence") return `${baseUrl}/defence/articles/${articleId}`;
+    if (articleType === "defenceBasics") return `${baseUrl}/defence/articles/${articleId}`;
+    if (articleType === "counting") return `${baseUrl}/declarer/articles/${articleId}`;
     if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${articleId}`;
     if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${articleId}`;
     if (articleType === "beginnerBidding") return `${baseUrl}/beginner/articles/bidding/${articleId}`;
