@@ -7,17 +7,52 @@
  *   node scripts/list-promo-code-usage.js blue --match applied --include-inactive
  *   node scripts/list-promo-code-usage.js blue --require-confirmed
  *
- * Requires:
- *   serviceAccountKey.json in project root.
+ * Lookup which promo code one email used (checkout / members audit):
+ *   node scripts/list-promo-code-usage.js --email someone@example.com
+ *
+ * Service account JSON (first match wins):
+ *   --key <path> | env FIREBASE_SERVICE_ACCOUNT | ~/Downloads/firebase key.json |
+ *   ~/Downloads/bridgechampions-firebase-adminsdk-fbsvc-a2157e530a.json | ./serviceAccountKey.json
  */
 
 const admin = require("firebase-admin");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 
-const keyPath = path.join(__dirname, "..", "serviceAccountKey.json");
-if (!fs.existsSync(keyPath)) {
-  console.error("Missing serviceAccountKey.json in project root.");
+function getArgValue(flag) {
+  const i = process.argv.indexOf(flag);
+  if (i === -1) return null;
+  const v = process.argv[i + 1];
+  if (!v || v.startsWith("-")) return null;
+  return v;
+}
+
+function resolveServiceAccountPath() {
+  const fromFlag = getArgValue("--key");
+  if (fromFlag) return path.resolve(fromFlag);
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    return path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT);
+  }
+  const downloadsSpaced = path.join(os.homedir(), "Downloads", "firebase key.json");
+  if (fs.existsSync(downloadsSpaced)) return downloadsSpaced;
+  const downloadsSdk = path.join(
+    os.homedir(),
+    "Downloads",
+    "bridgechampions-firebase-adminsdk-fbsvc-a2157e530a.json"
+  );
+  if (fs.existsSync(downloadsSdk)) return downloadsSdk;
+  const root = path.join(__dirname, "..", "serviceAccountKey.json");
+  if (fs.existsSync(root)) return root;
+  return null;
+}
+
+const keyPath = resolveServiceAccountPath();
+if (!keyPath || !fs.existsSync(keyPath)) {
+  console.error(
+    "No service account JSON found. Use --key <path>, set FIREBASE_SERVICE_ACCOUNT, " +
+      "add serviceAccountKey.json to project root, or place firebase key.json in Downloads."
+  );
   process.exit(1);
 }
 
@@ -46,10 +81,90 @@ const CONFIRMED_STATUSES = new Set([
   "payment_succeeded",
 ]);
 
+async function lookupPromoByEmail(emailRaw) {
+  const email = String(emailRaw || "").trim().toLowerCase();
+  if (!email || !email.includes("@")) {
+    console.error("Provide a valid email after --email");
+    process.exit(1);
+  }
+
+  let user;
+  try {
+    user = await admin.auth().getUserByEmail(email);
+  } catch (e) {
+    console.error("Firebase Auth:", e.message || e);
+    process.exit(1);
+  }
+
+  const uid = user.uid;
+  console.log(`Auth email: ${user.email || email}`);
+  console.log(`UID: ${uid}\n`);
+
+  const memberSnap = await db.collection("members").doc(uid).get();
+  const m = memberSnap.exists ? memberSnap.data() || {} : {};
+
+  console.log("--- members/{uid} (last checkout promo audit) ---");
+  console.log("lastPromoCodeEntered:", m.lastPromoCodeEntered ?? "(none)");
+  console.log("lastPromoCodeApplied:", m.lastPromoCodeApplied ?? "(none)");
+  console.log("lastPromoCaptureStage:", m.lastPromoCaptureStage ?? "(none)");
+  console.log("lastPromoCaptureSessionId:", m.lastPromoCaptureSessionId ?? "(none)");
+  console.log("");
+
+  const usageSnap = await db.collection("promoCodeUsage").where("uid", "==", uid).get();
+
+  if (usageSnap.empty) {
+    console.log("No promoCodeUsage documents for this uid (no promo captured at checkout, or older data).");
+    return;
+  }
+
+  const rows = usageSnap.docs.map((doc) => {
+    const d = doc.data() || {};
+    return {
+      docId: doc.id,
+      entered: d.promoCodeEntered || "",
+      applied: d.promoCodeApplied || "",
+      status: d.status || "",
+      tierName: d.tierName || "",
+      createdAt: toIso(d.createdAt),
+      stripeSessionId: d.stripeSessionId || "",
+      emailOnDoc: d.email || "",
+    };
+  });
+
+  rows.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+
+  console.log("--- promoCodeUsage (newest first) ---");
+  console.log("| Entered | Applied | Date | Status | Tier |");
+  console.log("|---|---|---|:---:|---|");
+  rows.forEach((r) => {
+    console.log(
+      `| ${r.entered || "-"} | ${r.applied || "-"} | ${formatDate(r.createdAt)} | ${r.status || "-"} | ${r.tierName || "-"} |`
+    );
+  });
+  console.log("");
+  console.log(
+    "Most recent entered:",
+    rows[0]?.entered || "(unknown)",
+    "| applied:",
+    rows[0]?.applied || "(unknown)"
+  );
+}
+
 async function main() {
+  const emailFlag = process.argv.indexOf("--email");
+  if (emailFlag >= 0) {
+    const emailArg = process.argv[emailFlag + 1];
+    await lookupPromoByEmail(emailArg);
+    return;
+  }
+
   const codeArg = process.argv[2];
-  if (!codeArg) {
-    console.error("Usage: node scripts/list-promo-code-usage.js <promo-code>");
+  if (!codeArg || codeArg.startsWith("-")) {
+    console.error(
+      "Usage:\n" +
+        "  node scripts/list-promo-code-usage.js <promo-code>\n" +
+        "  node scripts/list-promo-code-usage.js --email user@example.com"
+    );
     process.exit(1);
   }
 
