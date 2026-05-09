@@ -230,31 +230,23 @@ const routes = (
     <Route
       path="/beginner/articles/counting"
       exact
-      render={(routeProps) => (
+      render={() =>
         beginnerRoutesEnabled ? (
-          <CategoryArticles
-            {...routeProps}
-            articleType="beginnerCounting"
-            bodyRef="beginnerCountingBody"
-          />
+          <Redirect to="/beginner/articles/declarer" />
         ) : (
           <Redirect to="/" />
         )
-      )}
+      }
     />
     <Route
       path="/beginner/articles/counting/:id"
-      render={(routeProps) => (
+      render={() =>
         beginnerRoutesEnabled ? (
-          <DisplayCategoryArticle
-            {...routeProps}
-            articleType="beginnerCounting"
-            bodyRef="beginnerCountingBody"
-          />
+          <Redirect to="/beginner/articles/declarer" />
         ) : (
           <Redirect to="/" />
         )
-      )}
+      }
     />
 
     <Route
@@ -506,20 +498,13 @@ const routes = (
     <Route
       path="/create/beginner/counting"
       exact
-      render={() => (
+      render={() =>
         beginnerRoutesEnabled ? (
-          <Suspense fallback={<SkeletonLoader type="article" />}>
-            <CreateCategoryArticle
-              articleType="beginnerCounting"
-              bodyRef="beginnerCountingBody"
-              create={true}
-              creating={true}
-            />
-          </Suspense>
+          <Redirect to="/create/beginner/declarer" />
         ) : (
           <Redirect to="/" />
         )
-      )}
+      }
     />
     <Route
       path="/create/defence"
@@ -634,20 +619,13 @@ const routes = (
     />
     <Route
       path="/edit/beginnerCounting/:id"
-      render={(routeProps) => (
+      render={() =>
         beginnerRoutesEnabled ? (
-          <Suspense fallback={<SkeletonLoader type="article" />}>
-            <CreateCategoryArticle
-              {...routeProps}
-              edit={true}
-              articleType="beginnerCounting"
-              bodyRef="beginnerCountingBody"
-            />
-          </Suspense>
+          <Redirect to="/beginner/articles/declarer" />
         ) : (
           <Redirect to="/" />
         )
-      )}
+      }
     />
     <Route
       path="/edit/defence/:id"

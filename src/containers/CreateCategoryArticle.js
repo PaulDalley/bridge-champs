@@ -38,9 +38,10 @@ import BoardManager from "../components/Articles/BoardManager";
 
 import RichTextEditor from "react-rte";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import logger from "../utils/logger";
+import { getBeginnerSubcategoryPresetList } from "../data/beginner/beginnerArticleSubcategories";
 
 const CreateCategoryArticle = ({
   articleType,
@@ -149,8 +150,23 @@ const CreateCategoryArticle = ({
   const [body, setBody] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [hasVideo, setHasVideo] = useState(false);
+  const [seoSubtopic, setSeoSubtopic] = useState("");
+  const [primaryKeyword, setPrimaryKeyword] = useState("");
+  const [relatedLinks, setRelatedLinks] = useState("");
+  const [ctaTarget, setCtaTarget] = useState("");
   const [categoriesSubscription, setCategoriesSubscription] =
     useState(undefined);
+
+  const beginnerPresetSubcategories = getBeginnerSubcategoryPresetList(articleType);
+  const subcategorySelectOptions = useMemo(() => {
+    if (!beginnerPresetSubcategories) return [];
+    const set = new Set(beginnerPresetSubcategories);
+    const out = [...beginnerPresetSubcategories];
+    if (subcategory && !set.has(subcategory)) {
+      out.unshift(subcategory);
+    }
+    return out;
+  }, [beginnerPresetSubcategories, subcategory]);
 
   const setDataIfEditing = (articleMetadata) => {
     if (!articleMetadata) return;
@@ -166,6 +182,10 @@ const CreateCategoryArticle = ({
       subcategory,
       videoUrl,
       hasVideo,
+      seoSubtopic,
+      primaryKeyword,
+      relatedLinks,
+      ctaTarget,
       id,
     } = articleMetadata;
 
@@ -187,6 +207,10 @@ const CreateCategoryArticle = ({
     setSubcategory(subcategory || "");
     setVideoUrl(videoUrl || "");
     setHasVideo(hasVideo === true);
+    setSeoSubtopic(seoSubtopic || "");
+    setPrimaryKeyword(primaryKeyword || "");
+    setRelatedLinks(relatedLinks || "");
+    setCtaTarget(ctaTarget || "");
     setBody(body);
 
     // Only fetch article body if we have a body ID
@@ -336,6 +360,10 @@ const CreateCategoryArticle = ({
       articleNumber: articleNumber,
       videoUrl: videoUrl,
       hasVideo: hasVideo,
+      seoSubtopic: seoSubtopic,
+      primaryKeyword: primaryKeyword,
+      relatedLinks: relatedLinks,
+      ctaTarget: ctaTarget,
     };
 
     if (subcategory !== "") {
@@ -379,6 +407,10 @@ const CreateCategoryArticle = ({
       id: summaryId, // This should be the summary document ID
       videoUrl: videoUrl,
       hasVideo: hasVideo,
+      seoSubtopic: seoSubtopic,
+      primaryKeyword: primaryKeyword,
+      relatedLinks: relatedLinks,
+      ctaTarget: ctaTarget,
     };
 
     if (subcategory !== "") {
@@ -663,13 +695,31 @@ const CreateCategoryArticle = ({
         )}
 
         <Row>
-          <TextInput
-            s={6}
-            name="subcategory"
-            label="Add (Optional) Subcategory or leave blank"
-            value={subcategory}
-            onChange={(e) => setSubcategory(e.target.value)}
-          ></TextInput>
+          {beginnerPresetSubcategories ? (
+            <Select
+              s={12}
+              name="subcategory"
+              type="select"
+              label="Subcategory (beginner topic)"
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+            >
+              <option value="">— None —</option>
+              {subcategorySelectOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </Select>
+          ) : (
+            <TextInput
+              s={6}
+              name="subcategory"
+              label="Add (Optional) Subcategory or leave blank"
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+            ></TextInput>
+          )}
         </Row>
 
         <Row>
@@ -732,6 +782,42 @@ const CreateCategoryArticle = ({
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="https://www.youtube.com/watch?v=..."
+          ></TextInput>
+        </Row>
+        <Row>
+          <TextInput
+            s={12}
+            name="seoSubtopic"
+            label="SEO Subtopic (e.g. Opening Leads, Signals, Beginner Bidding)"
+            value={seoSubtopic}
+            onChange={(e) => setSeoSubtopic(e.target.value)}
+          ></TextInput>
+        </Row>
+        <Row>
+          <TextInput
+            s={12}
+            name="primaryKeyword"
+            label="Primary Keyword / Query Intent"
+            value={primaryKeyword}
+            onChange={(e) => setPrimaryKeyword(e.target.value)}
+          ></TextInput>
+        </Row>
+        <Row>
+          <Textarea
+            s={12}
+            name="relatedLinks"
+            label="Related Links (one URL path per line)"
+            value={relatedLinks}
+            onChange={(e) => setRelatedLinks(e.target.value)}
+          />
+        </Row>
+        <Row>
+          <TextInput
+            s={12}
+            name="ctaTarget"
+            label="CTA Target Path (e.g. /declarer/practice)"
+            value={ctaTarget}
+            onChange={(e) => setCtaTarget(e.target.value)}
           ></TextInput>
         </Row>
         <Row>

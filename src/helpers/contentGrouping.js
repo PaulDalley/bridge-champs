@@ -98,6 +98,49 @@ export const groupContentByLevel = (articles = [], videos = [], practiceQuestion
 };
 
 /**
+ * Group beginner articles by subcategory labels (Firestore: subcategory).
+ * Preserves preset label order; unmatched / empty subcategory goes to "Other topics".
+ * @param {Array} articles
+ * @param {string[]} presetLabels - ordered list from beginnerArticleSubcategories
+ * @returns {Array<{ label: string, articles: Array }>}
+ */
+export const groupBeginnerArticlesBySubcategory = (articles = [], presetLabels = []) => {
+  const byLabel = new Map();
+  presetLabels.forEach((label) => byLabel.set(label, []));
+  const other = [];
+
+  articles.forEach((article) => {
+    const sub = (article?.subcategory || "").trim();
+    if (sub && byLabel.has(sub)) {
+      byLabel.get(sub).push(article);
+    } else {
+      other.push(article);
+    }
+  });
+
+  const sortInGroup = (arr) =>
+    [...arr].sort((a, b) => {
+      const d = Number(a?.difficulty || 1) - Number(b?.difficulty || 1);
+      if (d !== 0) return d;
+      return Number(a?.articleNumber || 0) - Number(b?.articleNumber || 0);
+    });
+
+  const sections = presetLabels.map((label) => ({
+    label,
+    articles: sortInGroup(byLabel.get(label) || []),
+  }));
+
+  if (other.length > 0) {
+    sections.push({
+      label: "Other topics",
+      articles: sortInGroup(other),
+    });
+  }
+
+  return sections;
+};
+
+/**
  * Map category name to video category string
  * @param {string} articleType - 'cardPlay', 'bidding', or 'defence'
  * @returns {string} - 'Declarer Play', 'Bidding', or 'Defence'

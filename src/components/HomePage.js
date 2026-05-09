@@ -238,7 +238,7 @@ class HomePage extends Component {
         </h1>
 
         <p className="HomePage-hero-subtitle">
-          For the last 15 years, studying, practicing, and playing tournament bridge has been my life. I’m bringing what I’ve learned to my members—clear, practical lessons, no nonsense.
+          For the last 15 years, studying, practising, and playing tournament bridge has been my life. I’m bringing what I’ve learned to my members—clear, practical lessons, no nonsense.
         </p>
 
         <div className="HomePage-hero-video">

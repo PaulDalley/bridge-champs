@@ -53,7 +53,6 @@ const getListPathForArticleType = (type) => {
   if (type === "beginnerCardPlay") return "/beginner/articles/declarer";
   if (type === "beginnerDefence") return "/beginner/articles/defence";
   if (type === "beginnerBidding") return "/beginner/articles/bidding";
-  if (type === "beginnerCounting") return "/beginner/articles/counting";
   if (type === "defenceBasics") return "/defence/basics";
   if (type === "defence") return "/defence/articles";
   if (type === "counting") return "/counting/articles";
@@ -83,12 +82,6 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
     label: "Bidding",
     path: "/beginner/articles/bidding",
     types: ["beginnerBidding"],
-  },
-  {
-    id: "counting",
-    label: "Counting",
-    path: "/beginner/articles/counting",
-    types: ["beginnerCounting"],
   },
 ];
 
@@ -413,7 +406,6 @@ const DisplayCategoryArticle = ({
     if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${articleId}`;
     if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${articleId}`;
     if (articleType === "beginnerBidding") return `${baseUrl}/beginner/articles/bidding/${articleId}`;
-    if (articleType === "beginnerCounting") return `${baseUrl}/beginner/articles/counting/${articleId}`;
     return `${baseUrl}/${articleType}/${articleId}`;
   };
 
@@ -429,7 +421,6 @@ const DisplayCategoryArticle = ({
       beginnerCardPlay: "Beginner Declarer",
       beginnerDefence: "Beginner Defence",
       beginnerBidding: "Beginner Bidding",
-      beginnerCounting: "Beginner Counting",
     };
     return categoryMap[articleType] || articleType;
   };

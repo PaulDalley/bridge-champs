@@ -117,6 +117,35 @@
   margin-bottom: 4rem;
 }
 
+/* Beginner hub: articles grouped by subcategory */
+.CategoryArticles-subtopic-section {
+  margin-bottom: var(--space-3xl);
+}
+
+.CategoryArticles-subtopic-section:last-child {
+  margin-bottom: 0;
+}
+
+.CategoryArticles-subtopic-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #0f4c3a;
+  margin: 0 0 var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid #dbe3ea;
+}
+
+.CategoryArticles-subtopic-empty {
+  font-size: var(--text-sm);
+  color: #6b7280;
+  margin: 0;
+}
+
+.CategoryArticles--beginner-subtopics .CategoryArticles-level-group {
+  margin-top: var(--space-2xl);
+}
+
 .CategoryArticles-level-group:last-child {
   margin-bottom: 0;
 }

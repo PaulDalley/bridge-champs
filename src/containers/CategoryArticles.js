@@ -13,7 +13,12 @@ import {
   filterCategoryArticles,
   sortCategoryArticlesByLevelAndArticleNumber,
 } from "../helpers/helpers";
-import { groupContentByLevel, mapCategoryToVideoCategory } from "../helpers/contentGrouping";
+import {
+  groupContentByLevel,
+  groupBeginnerArticlesBySubcategory,
+  mapCategoryToVideoCategory,
+} from "../helpers/contentGrouping";
+import { getBeginnerSubcategoryPresetList } from "../data/beginner/beginnerArticleSubcategories";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
@@ -49,12 +54,6 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
     label: "Bidding",
     path: "/beginner/articles/bidding",
     types: ["beginnerBidding"],
-  },
-  {
-    id: "counting",
-    label: "Counting",
-    path: "/beginner/articles/counting",
-    types: ["beginnerCounting"],
   },
 ];
 
@@ -162,8 +161,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
             ? `/beginner/articles/defence/${id}`
           : articleType === "beginnerBidding"
             ? `/beginner/articles/bidding/${id}`
-          : articleType === "beginnerCounting"
-            ? `/beginner/articles/counting/${id}`
           : articleType === "defence"
             ? `/defence/articles/${id}`
           : articleType === "biddingBasics"
@@ -314,12 +311,17 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     practiceQuestions || []
   );
 
+  const beginnerSubcategoryPreset = getBeginnerSubcategoryPresetList(articleType);
+  const beginnerSubtopicSections =
+    beginnerSubcategoryPreset && filteredArticles != null
+      ? groupBeginnerArticlesBySubcategory(filteredArticles, [...beginnerSubcategoryPreset])
+      : null;
+
   // Get category info
   const getCreatePath = () => {
     if (articleType === "beginnerCardPlay") return "/create/beginner/declarer";
     if (articleType === "beginnerDefence") return "/create/beginner/defence";
     if (articleType === "beginnerBidding") return "/create/beginner/bidding";
-    if (articleType === "beginnerCounting") return "/create/beginner/counting";
     if (articleType === "biddingBasics") return "/create/bidding/basics";
     if (articleType === "bidding") return "/create/bidding";
     if (articleType === "cardPlayBasics") return "/create/cardPlay/basics";
@@ -349,8 +351,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         return { name: 'Beginner Defence', subtitle: 'Beginner-friendly defence explanations and examples.' };
       case 'beginnerBidding':
         return { name: 'Beginner Bidding', subtitle: 'Beginner bidding lessons from first principles.' };
-      case 'beginnerCounting':
-        return { name: 'Beginner Counting', subtitle: 'Beginner counting concepts and walkthroughs.' };
       default: 
         return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
     }
@@ -518,7 +518,6 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       beginnerCardPlay: "/beginner/articles/declarer",
       beginnerDefence: "/beginner/articles/defence",
       beginnerBidding: "/beginner/articles/bidding",
-      beginnerCounting: "/beginner/articles/counting",
     };
     return `${baseUrl}${categoryPathMap[articleType] || "/"}`;
   };
@@ -723,6 +722,124 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           {articles === undefined || videosLoading ? (
             <div className="CategoryArticles-grid">
               <SkeletonLoader type="card" count={6} />
+            </div>
+          ) : beginnerSubtopicSections ? (
+            <div className="CategoryArticles-level-groups CategoryArticles--beginner-subtopics">
+              {beginnerSubtopicSections.map((section) => (
+                <div
+                  key={section.label}
+                  className="CategoryArticles-subtopic-section"
+                >
+                  <h2 className="CategoryArticles-subtopic-heading">{section.label}</h2>
+                  {section.articles.length === 0 ? (
+                    <p className="CategoryArticles-subtopic-empty">Articles coming soon.</p>
+                  ) : (
+                    <div className="CategoryArticles-grid">
+                      {section.articles.map((article) => (
+                        <CategoryArticleListItem
+                          key={article.id}
+                          createdAt={article.createdAt}
+                          body={article.body}
+                          category={article.category}
+                          difficulty={article.difficulty}
+                          articleNumber={article.articleNumber}
+                          id={article.id}
+                          teaser={article.teaser}
+                          teaser_board={article.teaser_board}
+                          title={article.title}
+                          router={history}
+                          a={a}
+                          subscriptionActive={subscriptionActive}
+                          hasVideo={article.hasVideo === true}
+                          isFree={article.isFree === true}
+                          clickHandler={setCurrentArticleAndGoTo}
+                          articleType={articleType}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {groupedContent.map((group, groupIdx) => {
+                const hasSupplemental =
+                  (group.videos?.length > 0) ||
+                  (group.practiceQuestions?.length > 0);
+                if (!hasSupplemental) return null;
+                const bannerText = bannerTexts[group.level] || `Level ${group.level}`;
+                return (
+                  <div
+                    key={`beginner-supp-${group.level}-${groupIdx}`}
+                    className="CategoryArticles-level-group"
+                  >
+                    <LevelBanner
+                      text={bannerText}
+                      level={group.level}
+                      category={articleType}
+                      categoryName={categoryInfo.name}
+                      onUpdate={() => {
+                        const fetchBannerTexts = async () => {
+                          const texts = {};
+                          const levels = groupedContent.map((g) => g.level);
+                          for (const level of levels) {
+                            try {
+                              const text = await getBannerText(articleType, level);
+                              texts[level] = text;
+                            } catch (error) {
+                              texts[level] =
+                                level === "1"
+                                  ? "Start here - Learn the patterns"
+                                  : `Level ${level}`;
+                            }
+                          }
+                          setBannerTexts(texts);
+                        };
+                        fetchBannerTexts();
+                      }}
+                    />
+                    <div className="CategoryArticles-grid">
+                      {group.videos.map((video) => (
+                        <VideoCard
+                          key={video.id}
+                          id={video.id}
+                          title={video.title}
+                          url={video.url}
+                          description={video.description}
+                          createdAt={video.createdAt}
+                          difficulty={video.difficulty || "1"}
+                          a={a}
+                          subscriptionActive={subscriptionActive}
+                          onDelete={a === true ? handleDeleteVideo : undefined}
+                        />
+                      ))}
+                    </div>
+                    {group.practiceQuestions && group.practiceQuestions.length > 0 && (
+                      <div className="CategoryArticles-practice-questions-section">
+                        <h2 className="CategoryArticles-practice-questions-header">
+                          Practice Questions
+                        </h2>
+                        <div className="CategoryArticles-grid">
+                          {group.practiceQuestions.map((bundle) => (
+                            <PracticeQuestionBundleCard
+                              key={bundle.id}
+                              id={bundle.id}
+                              title={bundle.title}
+                              teaser={bundle.teaser}
+                              difficulty={bundle.difficulty}
+                              articleNumber={bundle.articleNumber}
+                              questionCount={bundle.questionCount || 0}
+                              clickHandler={(id) => {
+                                history.push(`/practice-questions/${id}`);
+                              }}
+                              a={a}
+                              subscriptionActive={subscriptionActive}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : groupedContent.length > 0 ? (
             <div className="CategoryArticles-level-groups">
