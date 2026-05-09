@@ -43,6 +43,24 @@ import { useSelector, useDispatch } from "react-redux";
 import logger from "../utils/logger";
 import { getBeginnerSubcategoryPresetList } from "../data/beginner/beginnerArticleSubcategories";
 
+/** Human-readable pillar labels for the editor heading (articleType is the Firestore/summary key). */
+const ARTICLE_TYPE_EDITOR_LABELS = {
+  beginnerCardPlay: "Beginner Declarer",
+  beginnerDefence: "Beginner Defence",
+  beginnerBidding: "Beginner Bidding",
+  cardPlay: "Declarer",
+  defence: "Defence",
+  bidding: "Bidding",
+  biddingBasics: "Bidding fundamentals",
+  biddingAdvanced: "Bidding",
+  cardPlayBasics: "Declarer fundamentals",
+  defenceBasics: "Defence fundamentals",
+  counting: "Counting",
+};
+
+const getArticleTypeEditorLabel = (type) =>
+  (type && ARTICLE_TYPE_EDITOR_LABELS[type]) || type || "Category";
+
 const CreateCategoryArticle = ({
   articleType,
   bodyRef,
@@ -168,6 +186,9 @@ const CreateCategoryArticle = ({
     return out;
   }, [beginnerPresetSubcategories, subcategory]);
 
+  const isBeginnerArticleType =
+    typeof articleType === "string" && articleType.startsWith("beginner");
+
   const setDataIfEditing = (articleMetadata) => {
     if (!articleMetadata) return;
 
@@ -212,6 +233,10 @@ const CreateCategoryArticle = ({
     setRelatedLinks(relatedLinks || "");
     setCtaTarget(ctaTarget || "");
     setBody(body);
+
+    if (isBeginnerArticleType) {
+      setDifficulty("1");
+    }
 
     // Only fetch article body if we have a body ID
     if (body) {
@@ -354,7 +379,7 @@ const CreateCategoryArticle = ({
       articleType: articleType,
       title: title,
       category: category,
-      difficulty: difficulty,
+      difficulty: isBeginnerArticleType ? "1" : difficulty,
       teaser_board: teaserBoard,
       teaser: teaser,
       articleNumber: articleNumber,
@@ -399,7 +424,7 @@ const CreateCategoryArticle = ({
       articleType: articleType,
       title: title,
       category: category,
-      difficulty: difficulty,
+      difficulty: isBeginnerArticleType ? "1" : difficulty,
       articleNumber: articleNumber,
       teaser_board: teaserBoard,
       teaser: teaser,
@@ -661,8 +686,8 @@ const CreateCategoryArticle = ({
     <div className="CreateArticle-container">
       <form>
         <h3 style={{ paddingTop: "3rem", textAlign: "center" }}>
-          {" "}
-          Create {articleType} post
+          {edit ? "Edit" : "Create"}{" "}
+          {getArticleTypeEditorLabel(articleType)} post
         </h3>
         <Row>
           <TextInput
@@ -722,6 +747,7 @@ const CreateCategoryArticle = ({
           )}
         </Row>
 
+        {!isBeginnerArticleType && (
         <Row>
           <Select
             s={12}
@@ -739,6 +765,7 @@ const CreateCategoryArticle = ({
             })}
           </Select>
         </Row>
+        )}
         <Row>
           <Select
             s={12}
