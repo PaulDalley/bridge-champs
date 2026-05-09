@@ -436,10 +436,10 @@ class HomePage extends Component {
                 {(!this.state.sessionId || this.state.verifyResult?.ok) && (
                   <>
                     <p>
-                      Thank you for subscribing! Your membership is now active and you have full access to all our premium content.
+                      Thank you for subscribing! Your membership is now active — you have full access to our interactive trainers, quizzes, and member-only video features.
                     </p>
                     <p>
-                      You can start exploring our comprehensive articles, instructional videos, practice questions, and interactive quizzes right away.
+                      Lesson articles are free for everyone on the site; your membership unlocks the complete practice library and premium videos.
                     </p>
                   </>
                 )}

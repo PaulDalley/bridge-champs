@@ -17,7 +17,7 @@ function OtherHub() {
             <Icon>article</Icon>
           </div>
           <div className="oh-cardTitle">Extra articles</div>
-          <div className="oh-cardText">All articles across the site.</div>
+          <div className="oh-cardText">Free lesson articles and guides across the site.</div>
         </Link>
 
         <Link to="/quizzes" className="oh-card" role="listitem" aria-label="Quizzes">

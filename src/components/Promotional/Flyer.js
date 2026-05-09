@@ -99,8 +99,8 @@ const Flyer = () => {
                 <h3 className="Flyer-pricing-name">Basic Membership</h3>
                 <div className="Flyer-pricing-price">A$25<span>/month</span></div>
                 <ul className="Flyer-pricing-benefits">
-                  <li>All articles on Declarer Play, Defence, and Bidding</li>
-                  <li>Interactive quizzes and practice hands</li>
+                  <li>Full interactive trainer library (Practical Learning hands)</li>
+                  <li>Quizzes and organized practice by difficulty</li>
                   <li>Organized by difficulty level</li>
                 </ul>
               </div>

@@ -37,7 +37,7 @@ function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
             <i className="material-icons" aria-hidden>star</i>
           </span>
           <span className="RecentlyAdded-subscribeCtaContent">
-            <strong>Start 7-day free trial</strong> — Unlock all training exercises, articles, and quizzes
+            <strong>Start 7-day free trial</strong> — Unlock the full interactive trainer library and quizzes
           </span>
           <span className="RecentlyAdded-subscribeCtaBtn">Start free trial</span>
         </Link>

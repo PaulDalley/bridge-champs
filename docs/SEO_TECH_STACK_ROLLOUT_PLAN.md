@@ -194,10 +194,112 @@ Already **covered or partially covered** in [NEXT_SITE_ARCHITECTURE.md](./NEXT_S
 
 ---
 
-## 12. Revision history
+## 12. Full-site SEO maximization plan (concrete)
+
+This section ties **every major SEO lever** to **what you will build** and **how the chosen stack exploits it**. It is the operational companion to [NEXT_SITE_ARCHITECTURE.md](./NEXT_SITE_ARCHITECTURE.md) (IA, templates, paid/free split).
+
+**Intent:** “Maximize in every respect” here means: **technical crawlability + speed**, **content depth aligned to search intent**, **trust signals for informational bridge teaching**, **measurable iteration**, and **sustainable scale** — not keyword stuffing or gray-hat shortcuts.
+
+### 12.1 Five pillars (all required)
+
+| Pillar | What “maximized” means | Primary owner (typical) |
+|--------|-------------------------|-------------------------|
+| **A. Technical foundation** | Indexable HTML per URL, correct meta/canonical/robots/sitemap, valid structured data, fast CWV, stable IA. | Engineering + hosting |
+| **B. Content & intent** | Hubs + articles match real queries; one primary intent per URL; depth over thin pages; internal links from pillars. | Editorial + engineering (templates) |
+| **C. Experience & trust** | Clear who-we-are, accuracy, visible dates where facts evolve, accessible readable templates (indirect quality). | Editorial + design |
+| **D. Distribution & reputation** | Earned links and mentions from clubs/teachers; brand searches find you; social previews look correct. | Ops + light engineering (OG) |
+| **E. Measurement & feedback** | Search Console + analytics + periodic refresh of top URLs from query data. | You + occasional eng fixes |
+
+### 12.2 How the target stack exploits each pillar
+
+**Default stack:** Next.js App Router + Git-backed MDX/Markdown + SSG for indexable routes (see §3).
+
+| SEO pillar | Mechanism in stack | Concrete implementation notes |
+|------------|-------------------|-------------------------------|
+| **A — Technical** | SSG / `generateMetadata` / static HTML | Every indexable route ships **full HTML + title/description in first response**; no duplicate meta sources. |
+| **A — Technical** | Build-time content validation | Zod/Velite/content collections: **fail CI** on bad frontmatter, duplicate slugs — prevents silent SEO regressions. |
+| **A — Technical** | `next/image` (or pipeline) + font strategy | LCP/CLS budgets on hub/article templates; see [NEXT_SITE_ARCHITECTURE.md §11](./NEXT_SITE_ARCHITECTURE.md#11-page-templates--layout--design-specification). |
+| **B — Content** | MDX in repo | PR-reviewed content; version history; optional partial **ISR** or rebuild-on-push if freshness cadence increases later. |
+| **B — Content** | Dynamic route segments from content graph | One `[...slug]` pattern → **sitemap** generated from the same graph as pages — no drift. |
+| **C — Trust** | Templates | Article template supports **last updated**, author/org attribution policy, prominent **About** / methodology links. |
+| **D — Distribution** | Metadata API + optional OG image route | Per-page **Open Graph / Twitter** cards; correct canonical for shares; avoid misleading previews. |
+| **E — Measurement** | Same URLs over time | **301 map** preserved; GSC property stable; **redirect audit** after cutover. |
+
+**If you chose Astro instead of Next:** pillar A–B remain similar (SSG + collections); trainer **islands** must be explicitly bounded so public routes stay lightweight.
+
+### 12.3 Phased roadmap (build + SEO outcomes)
+
+Use this as the **sequencing contract** between “new site” work and “organic growth” work. Overlap phases where staffing allows; do not skip **Phase 0** decisions.
+
+| Phase | Engineering / content outcomes | SEO outcomes |
+|-------|-------------------------------|--------------|
+| **0 — Lock foundations** | Hosting pattern (§4), framework ADR, URL prefix (`/learn` etc.), monorepo layout (§5). | Single canonical domain strategy; staging **noindex**; no accidental duplicate deploys in Google. |
+| **1 — SEO shell MVP** | Scaffold app: **home**, **one hub**, **two articles**, nav, footer, `robots.txt`, `sitemap.xml`, sample JSON-LD, **baseline Lighthouse/GSC** property for previews. | Proof that **view-source** is substantive; snippet control on pilot URLs. |
+| **2 — Template scale** | Hub + article templates finalized; MDX components for diagrams/hands; image/heading conventions; related-links block; breadcrumb + `BreadcrumbList`. | Consistent internal linking; eligible rich results where honest; CWV budget enforced on templates. |
+| **3 — Content migration waves** | Export Firestore/HTML → MDX with redirect map; QA **top 20–50** legacy URLs first. | Preserve equity via **301**; fix coverage errors in GSC; monitor soft 404s. |
+| **4 — Cutover + monitoring** | Deploy; Search Console **change of address** only if domain changes (here: same domain — focus **redirect** + **coverage**). | Impressions/clicks trend + indexation of new URLs; fix redirect chains. |
+| **5 — Growth loop** | Editorial calendar from **GSC Queries** (high-impression / low-CTR, gaps); refresh dates on factual posts; new pillars where clusters warrant. | Rising relevance on existing intents; fewer thin pages; better CTR from improved titles/descriptions. |
+| **6 — Trainers / app** | Members’ routes **noindex** where appropriate; CTAs from articles to trainers; shared auth. | Organic landing → conversion without **cloaking**; premium depth behind login stays honest. |
+
+### 12.4 Technical exploitation checklist (ship before calling “SEO-ready”)
+
+Checklist for **indexable** routes (hub, article, key marketing):
+
+- [ ] **First byte HTML**: `<title>`, meta description, visible H1 and intro copy without executing React for meaning.
+- [ ] **One canonical URL** per piece of content; parameters/filters canonicalized or **noindex**.
+- [ ] **`robots.txt`** allows crawling of public routes; blocks admin/staging.
+- [ ] **XML sitemap** auto-generated; submitted in GSC/Bing; `<lastmod>` where meaningful.
+- [ ] **Structured data** validated (Rich Results Test / GSC): `Organization`, `WebSite` (with `SearchAction` only if site search is real), `BreadcrumbList`, `Article` when editorial criteria match Google’s docs.
+- [ ] **OG/Twitter** meta for sharing; optional dynamic OG images for flagship pages only if ROI clear.
+- [ ] **Core Web Vitals**: hub + article templates meet agreed mobile budgets (document numbers in CI or periodic Lighthouse).
+- [ ] **Images**: descriptive **alt** where not decorative; dimensions set; modern formats via build pipeline.
+- [ ] **Mobile**: readable type, tap targets — aligns with mobile-first indexing and usability.
+
+### 12.5 Content program (non-technical but mandatory for “maximize”)
+
+Without this, the best stack only crawls empty shells faster.
+
+| Practice | Rule of thumb |
+|----------|----------------|
+| **Intent mapping** | Each article answers **one** primary question; hubs organize sibling intents (see [NEXT_SITE_ARCHITECTURE §10](./NEXT_SITE_ARCHITECTURE.md#10-free-public-layer--information-architecture-wiki-style)). |
+| **Depth bar** | Prefer fewer strong articles over many stubs; merge thin pages into definitive guides where possible. |
+| **Freshness** | Bridge conventions / laws / examples — add **`dateModified`** and actually update when facts change. |
+| **Internal links** | Every new article launches with **inbound** from at least one hub or related article (no orphans). |
+| **E-E-A-T alignment** | Visible **who teaches**, citations to authorities where appropriate, corrections policy — supports quality raters’ expectations for learning content. |
+
+### 12.6 Off-site and zero-budget distribution
+
+| Tactic | Fit for Bridge Champions |
+|--------|---------------------------|
+| **Club / teacher partnerships** | Newsletter mentions, syllabus links — **earned** links relevant to bridge education. |
+| **Community presence** | Answer questions where allowed; link **only** when it truly helps (avoid spam patterns). |
+| **Brand SERP** | Consistent `Organization` schema, accurate Google Business Profile **only if** applicable; strong **About** page. |
+
+Avoid paid link schemes, PBNs, or mass automated outreach — inconsistent with long-term reputation for an education brand.
+
+### 12.7 Metrics that matter (avoid vanity)
+
+| Metric | Use |
+|--------|-----|
+| **GSC**: impressions, clicks, avg position (segment by query/page) | Prioritize content updates and title/description experiments. |
+| **GSC**: coverage, indexing, enhancements | Catch regressions after deploys. |
+| **Landing organic sessions → signup/trial** (analytics) | Connect SEO to business outcomes. |
+| **Rank trackers** (optional, paid) | Supplementary only — GSC remains canonical for Google. |
+
+### 12.8 Explicit non-goals (until strategy changes)
+
+- **Programmatic city/service spam** (“bridge lessons in [city]” at scale without unique value).
+- **Fake FAQ schema** to steal SERP features.
+- **Separate “SEO doorway” domains** that duplicate the main site.
+- **hreflang** until multi-locale content exists.
+
+---
+
+## 13. Revision history
 
 | Date | Author | Change |
 |------|--------|--------|
 | 2026-05-09 | — | Initial planning doc split from architecture conversation; pre-build only. |
 | 2026-05-09 | — | Added §6 Design and aesthetics vs SEO (indirect effects vs technical SEO). |
 | 2026-05-09 | — | Added §11 Authoritative sources and gap review. |
+| 2026-05-09 | — | Added §12 Full-site SEO maximization plan (pillars, phased roadmap, stack exploitation, checklists). |

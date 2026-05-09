@@ -3,7 +3,7 @@
 **Status:** Draft — refine in place as decisions solidify.  
 **Goal:** Ship a replacement for the current public experience on the **same primary URL** when ready (cutover / migration), without doubling hosting complexity unnecessarily.
 
-**Related:** Stack choice, Firebase hosting patterns, migration phases, and SEO acceptance criteria — [SEO_TECH_STACK_ROLLOUT_PLAN.md](./SEO_TECH_STACK_ROLLOUT_PLAN.md) (planning-only until you start implementation).
+**Related:** Stack choice, Firebase hosting patterns, migration phases, SEO acceptance criteria, and the **full-site SEO program** — [SEO_TECH_STACK_ROLLOUT_PLAN.md](./SEO_TECH_STACK_ROLLOUT_PLAN.md) (planning-only until you start implementation). Start at **§12** for the concrete maximization roadmap.
 
 ---
 
@@ -23,6 +23,27 @@
 | **Free / public** | **Reference layer** built for SEO and discovery: **pillar (hub) pages**, **article (leaf) pages**, navigation and internal linking — not a flat “blog only” unless intentionally minimal v1. |
 
 **Principle:** Paid delivers **interaction and depth of practice**; free delivers **answers, structure, and trust** so search and social traffic land on real HTML pages before conversion to trainers.
+
+### 1.2 Expanding the free layer vs paid value proposition (strategy)
+
+**Intent:** Significantly grow the **free / reference** surface for **SEO, discovery, and trust** — without making membership feel vague or redundant. The split is **format and depth**, not “quality vs junk”: free must be genuinely helpful and accurate (see [SEO_TECH_STACK_ROLLOUT_PLAN.md](./SEO_TECH_STACK_ROLLOUT_PLAN.md) §12.5 content program).
+
+| Dimension | **Free (expanded)** | **Paid (clear proposition)** |
+|-----------|---------------------|------------------------------|
+| **Primary job** | Answer searches, explain concepts, map the curriculum (**hubs + articles**), build authority. | **Deliberate practice**: interactive trainers, structured progression, volume of hands, feedback loops. |
+| **Depth** | Strong explanations per topic; “enough to learn and apply” for many readers. | **Repetition, variation, scenarios**, timed/drill-style flows, staged difficulty — things articles cannot replace. |
+| **Format** | Reading, diagrams, examples — **passive + illustrative**. | **Doing**: choose bids/plays, step through deals, membership-only UX. |
+| **SEO role** | Indexable HTML at scale; internal linking between pillars. | Mostly **noindex** app routes; linked from free content via CTAs. |
+
+**Messaging principle:** Free = “understand and find your way”; paid = “**practice until it sticks**” (or your tightened variant). Avoid implying paid is “the real teaching” and free is teaser-only — that undermines trust for **E-E-A-T**. Avoid implying free replaces membership — that kills conversion.
+
+**Operational rules:**
+
+1. **Do not** hide educational substance from crawlers that paying users see at the same URL (**cloaking**). Previews and indexable pages must reflect what visitors actually get.
+2. **Do** use honest boundaries: e.g. “Full step-by-step interactive deals on this convention — members,” with enough **free** explanation that the article still satisfies informational intent.
+3. **Do** repeat the paid value on hub/footer CTAs and after high-intent articles — membership solves **practice volume and structure**, not “secrets.”
+
+**Anti-pattern:** Unlimited thin free pages for keyword coverage — hurts quality signals; prefer **fewer, deeper** pillars and articles ([SEO_TECH_STACK_ROLLOUT_PLAN.md](./SEO_TECH_STACK_ROLLOUT_PLAN.md) §12.8 non-goals still apply).
 
 ---
 
@@ -278,9 +299,30 @@ Plan will include (detail later):
 
 ---
 
-## 13. Revision history
+## 13. Full-site SEO maximization (how this architecture fits)
+
+“Building a new site with tech that best exploits SEO” here means: **the public reference layer is delivered as real HTML per URL**, content is **reviewable and validated at build**, and **measurement** closes the loop. Tactical detail (pillars, phased roadmap, stack exploitation table, checklists, non-goals) lives in **[SEO_TECH_STACK_ROLLOUT_PLAN.md §12](./SEO_TECH_STACK_ROLLOUT_PLAN.md#12-full-site-seo-maximization-plan-concrete)** — keep that section updated as decisions lock.
+
+**Alignment snapshot:**
+
+| This document defines… | SEO maximization uses it for… |
+|-------------------------|-------------------------------|
+| §2 Rendering model (SSG-first for indexable routes) | Crawlable first byte; predictable snippets |
+| §3 Framework + MDX/Git content | `generateMetadata`, sitemap from same graph as pages |
+| §5 SEO technical requirements | Acceptance criteria for launch |
+| §6 Auth / indexing boundaries | Honest paywall; avoid cloaking |
+| §10 IA (hubs + articles) | Internal linking + intent coverage |
+| §11 Page templates | CWV, readability, OG-friendly structure |
+
+**Rule:** Any new public page type must specify **index or noindex**, **template**, and **how it enters the sitemap** before shipping.
+
+---
+
+## 14. Revision history
 
 | Date | Change |
 |------|--------|
 | *(add rows as this doc evolves)* | |
 | 2026-05-09 | Added product split, article stack tech spec, IA (hubs vs leaves), page templates. |
+| 2026-05-09 | Added §13 SEO maximization alignment and link to rollout doc §12. |
+| 2026-05-09 | Added §1.2 expanding free vs paid value proposition (strategy table + rules). |

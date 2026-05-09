@@ -612,11 +612,7 @@ class PremiumMembership extends Component {
                 <div className="PremiumMembership-tier-benefits">
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to all Practical Learning problems</span>
-                  </div>
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to all articles</span>
+                    <span>Full access to all Practical Learning interactive trainers</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
@@ -702,10 +698,6 @@ class PremiumMembership extends Component {
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
                     <span>Videos to accompany all training problems</span>
-                  </div>
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Videos to accompany several articles, with more coming</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
