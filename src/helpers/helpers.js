@@ -905,6 +905,58 @@ export const parseDocumentIntoJSX = (
   // Process each segment
   const articleDataArray = [];
   let globalIdx = 0;
+  const calloutRegex = /<Callout\s+type=["'](rule|example|mistake|checklist)["']\s*>([\s\S]*?)<\/Callout>/gi;
+  const renderSegmentWithCallouts = (segment, keyBase) => {
+    const items = [];
+    if (!segment || !segment.trim()) return items;
+
+    let cursor = 0;
+    let localIdx = 0;
+    let match;
+    calloutRegex.lastIndex = 0;
+
+    while ((match = calloutRegex.exec(segment)) !== null) {
+      const before = segment.slice(cursor, match.index);
+      if (before.trim()) {
+        items.push(
+          <Markup key={`${keyBase}-content-${localIdx}`} content={before} />
+        );
+      }
+
+      const type = (match[1] || "rule").toLowerCase();
+      const body = (match[2] || "").trim();
+      const badgeMap = {
+        rule: "Rule",
+        example: "Example",
+        mistake: "Common mistake",
+        checklist: "Checklist",
+      };
+
+      items.push(
+        <aside
+          key={`${keyBase}-callout-${localIdx}`}
+          className={`ArticleCallout ArticleCallout--${type}`}
+          role="note"
+          aria-label={`${badgeMap[type] || "Callout"} section`}
+        >
+          <div className="ArticleCallout-badge">{badgeMap[type] || "Callout"}</div>
+          <div className="ArticleCallout-body">
+            <Markup content={body} />
+          </div>
+        </aside>
+      );
+
+      cursor = match.index + match[0].length;
+      localIdx += 1;
+    }
+
+    const after = segment.slice(cursor);
+    if (after.trim()) {
+      items.push(<Markup key={`${keyBase}-content-tail`} content={after} />);
+    }
+
+    return items;
+  };
   
   segments.forEach((segment, segIdx) => {
     if (segment.includes("MakeBoard")) {
@@ -951,13 +1003,15 @@ export const parseDocumentIntoJSX = (
       
       // Render remaining content as Markup if there's any
       if (segment.trim()) {
-        articleDataArray.push(<Markup key={`content-${globalIdx}`} content={segment} />);
-        globalIdx++;
+        const rendered = renderSegmentWithCallouts(segment, `content-${globalIdx}`);
+        rendered.forEach((node) => articleDataArray.push(node));
+        globalIdx += rendered.length;
       }
     } else if (segment.trim()) {
       // Regular content
-      articleDataArray.push(<Markup key={`content-${globalIdx}`} content={segment} />);
-      globalIdx++;
+      const rendered = renderSegmentWithCallouts(segment, `content-${globalIdx}`);
+      rendered.forEach((node) => articleDataArray.push(node));
+      globalIdx += rendered.length;
     }
   });
   

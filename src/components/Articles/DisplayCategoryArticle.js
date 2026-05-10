@@ -436,6 +436,17 @@ const DisplayCategoryArticle = ({
     : ARTICLE_TOPIC_TABS;
   const activeTopicId =
     topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+  const backToListDestination = {
+    pathname: getListPathForArticleType(articleType),
+    search: location?.search || "",
+  };
+  const backToListLabel = `Back to ${getCategoryName()} articles`;
+  const articleContainerClassName = `DisplayArticle-container${
+    isBeginnerArticleType ? " DisplayArticle-container--beginner" : ""
+  }`;
+  const articleContentClassName = `DisplayArticle-content${
+    isBeginnerArticleType ? " DisplayArticle-content--beginner" : ""
+  }`;
 
   return (
     <>
@@ -476,7 +487,7 @@ const DisplayCategoryArticle = ({
         </Helmet>
       )}
       
-      <article className="DisplayArticle-container" aria-label="Article content">
+      <article className={articleContainerClassName} aria-label="Article content">
         <div className="ArticleTopBanner">
           <strong>Heads up:</strong> We’re adding video versions to all articles—more coming soon.
         </div>
@@ -542,6 +553,7 @@ const DisplayCategoryArticle = ({
       )}
 
       <div className="DisplayArticle-topicNavWrap">
+        <p className="DisplayArticle-topicHint">Browse topics:</p>
         <div className="DisplayArticle-topicNavRow">
         <div className="DisplayArticle-topicNav" role="tablist" aria-label="Article topics">
           {topicTabs.map((tab) => (
@@ -560,6 +572,17 @@ const DisplayCategoryArticle = ({
           ))}
         </div>
         </div>
+      </div>
+
+      <div className="DisplayArticle-backNavWrap">
+        <button
+          type="button"
+          className="DisplayArticle-backNavBtn"
+          onClick={() => history.push(backToListDestination)}
+          aria-label={backToListLabel}
+        >
+          <span aria-hidden="true">←</span> {backToListLabel}
+        </button>
       </div>
       
       <div style={{ maxWidth: '75rem', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -665,8 +688,19 @@ const DisplayCategoryArticle = ({
 
       {renderVideoSection(useMetaData?.videoUrl, canWatchVideo, history)}
       
-      <div className="DisplayArticle-content" role="article">
+      <div className={articleContentClassName} role="article">
         {articleDataArray}
+      </div>
+
+      <div className="DisplayArticle-backNavWrap DisplayArticle-backNavWrap--bottom">
+        <button
+          type="button"
+          className="DisplayArticle-backNavBtn"
+          onClick={() => history.push(backToListDestination)}
+          aria-label={backToListLabel}
+        >
+          <span aria-hidden="true">←</span> {backToListLabel}
+        </button>
       </div>
 
       {article && (
