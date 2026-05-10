@@ -85,6 +85,22 @@ service cloud.firestore {
         allow create, update, delete: if isAdmin();
     }
 
+    // Beginner pillar — article summaries (public read, same pattern as cardPlay/defence)
+    match /beginnerCardPlay/{articleId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
+    match /beginnerDefence/{articleId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
+    match /beginnerBidding/{articleId} {
+        allow read;
+        allow create, update, delete: if isAdmin();
+    }
+
     match /quizzes/{quizId} {
         allow read;
         allow create, update, delete: if isAdmin();
@@ -136,6 +152,21 @@ service cloud.firestore {
     }
 
     match /countingBody/{countingBodyId} {
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /beginnerCardPlayBody/{bodyId} {
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /beginnerDefenceBody/{bodyId} {
+      allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /beginnerBiddingBody/{bodyId} {
       allow read: if hasValidSubscription() || isAdmin() || resource.data.isFree == true;
       allow create, update, delete: if isAdmin();
     }
