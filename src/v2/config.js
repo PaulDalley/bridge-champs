@@ -28,6 +28,21 @@ export const ARTICLE_CATEGORIES = {
     summaryCollection: 'counting',
     bodyCollection: 'countingBody',
   },
+  beginnerCardPlay: {
+    name: 'Beginner Declarer',
+    summaryCollection: 'beginnerCardPlay',
+    bodyCollection: 'beginnerCardPlayBody',
+  },
+  beginnerDefence: {
+    name: 'Beginner Defence',
+    summaryCollection: 'beginnerDefence',
+    bodyCollection: 'beginnerDefenceBody',
+  },
+  beginnerBidding: {
+    name: 'Beginner Bidding',
+    summaryCollection: 'beginnerBidding',
+    bodyCollection: 'beginnerBiddingBody',
+  },
 };
 
 

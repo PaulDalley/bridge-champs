@@ -12,7 +12,13 @@ import database, {
   defenceSummaryRef,
   defenceBodyRef,
   countingSummaryRef,
-  countingBodyRef
+  countingBodyRef,
+  beginnerCardPlaySummaryRef,
+  beginnerCardPlayBodyRef,
+  beginnerDefenceSummaryRef,
+  beginnerDefenceBodyRef,
+  beginnerBiddingSummaryRef,
+  beginnerBiddingBodyRef,
 } from '../../firebase/config';
 import { ARTICLE_CATEGORIES } from '../config';
 
@@ -26,6 +32,9 @@ const getSummaryRef = (category) => {
     bidding: biddingSummaryRef,
     defence: defenceSummaryRef,
     counting: countingSummaryRef,
+    beginnerCardPlay: beginnerCardPlaySummaryRef,
+    beginnerDefence: beginnerDefenceSummaryRef,
+    beginnerBidding: beginnerBiddingSummaryRef,
   };
   return refMap[category];
 };
@@ -36,6 +45,9 @@ const getBodyRef = (category) => {
     bidding: biddingBodyRef,
     defence: defenceBodyRef,
     counting: countingBodyRef,
+    beginnerCardPlay: beginnerCardPlayBodyRef,
+    beginnerDefence: beginnerDefenceBodyRef,
+    beginnerBidding: beginnerBiddingBodyRef,
   };
   return refMap[category];
 };
