@@ -28,6 +28,12 @@ import database, {
   countingSummaryRef,
   countingBodyRef,
   countingBodyBackupsRef,
+  beginnerCardPlaySummaryRef,
+  beginnerCardPlayBodyRef,
+  beginnerDefenceSummaryRef,
+  beginnerDefenceBodyRef,
+  beginnerBiddingSummaryRef,
+  beginnerBiddingBodyRef,
 } from "../../firebase/config";
 /*const articlesRef = database.ref('articles');
  const articleRef = database.ref('article');*/
@@ -49,6 +55,12 @@ const matchTypeToRef = {
   defenceBasicsBody: defenceBasicsBodyRef,
   counting: countingSummaryRef,
   countingBody: countingBodyRef,
+  beginnerCardPlay: beginnerCardPlaySummaryRef,
+  beginnerCardPlayBody: beginnerCardPlayBodyRef,
+  beginnerDefence: beginnerDefenceSummaryRef,
+  beginnerDefenceBody: beginnerDefenceBodyRef,
+  beginnerBidding: beginnerBiddingSummaryRef,
+  beginnerBiddingBody: beginnerBiddingBodyRef,
 };
 
 const matchBodyRefToBackupRef = {

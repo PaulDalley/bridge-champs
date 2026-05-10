@@ -64,6 +64,14 @@ const countingSummaryRef = database.collection("counting");
 const countingBodyRef = database.collection("countingBody");
 const countingBodyBackupsRef = database.collection("countingBodyBackups");
 
+// Beginner pillar articles (Learn bridge from scratch — must match `articleType` / `bodyRef` in App routes)
+const beginnerCardPlaySummaryRef = database.collection("beginnerCardPlay");
+const beginnerCardPlayBodyRef = database.collection("beginnerCardPlayBody");
+const beginnerDefenceSummaryRef = database.collection("beginnerDefence");
+const beginnerDefenceBodyRef = database.collection("beginnerDefenceBody");
+const beginnerBiddingSummaryRef = database.collection("beginnerBidding");
+const beginnerBiddingBodyRef = database.collection("beginnerBiddingBody");
+
 const usersRef = database.collection("users");
 const categoriesRef = database.collection("categories");
 const quizzesRef = database.collection("quizzes");
@@ -116,6 +124,12 @@ export {
   countingSummaryRef,
   countingBodyRef,
   countingBodyBackupsRef,
+  beginnerCardPlaySummaryRef,
+  beginnerCardPlayBodyRef,
+  beginnerDefenceSummaryRef,
+  beginnerDefenceBodyRef,
+  beginnerBiddingSummaryRef,
+  beginnerBiddingBodyRef,
   categoriesRef,
   quizzesRef,
   quizRef,
