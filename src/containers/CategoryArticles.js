@@ -34,7 +34,7 @@ import { Button, Row, Col, Card, Icon, TextInput, Select } from "react-materiali
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
-  { id: "bidding", label: "Bidding", path: "/bidding", types: ["bidding", "biddingAdvanced"] },
+  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingAdvanced"] },
 ];
 const BEGINNER_ARTICLE_TOPIC_TABS = [
   {
@@ -511,9 +511,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       cardPlayBasics: "/declarer/articles",
       defence: "/defence/articles",
       defenceBasics: "/defence/articles",
-      bidding: "/bidding",
-      biddingAdvanced: "/bidding",
-      biddingBasics: "/bidding",
+      bidding: "/bidding/advanced",
+      biddingAdvanced: "/bidding/advanced",
+      biddingBasics: "/bidding/basics",
       counting: "/declarer/articles",
       beginnerCardPlay: "/beginner/articles/declarer",
       beginnerDefence: "/beginner/articles/defence",

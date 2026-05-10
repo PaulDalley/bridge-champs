@@ -68,7 +68,7 @@ const getListPathForArticleType = (type) => {
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
-  { id: "bidding", label: "Bidding", path: "/bidding", types: ["bidding", "biddingAdvanced"] },
+  { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingAdvanced"] },
 ];
 const BEGINNER_ARTICLE_TOPIC_TABS = [
   {
