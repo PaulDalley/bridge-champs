@@ -27,6 +27,12 @@ import {
   defenceBasicsSummaryRef,
   defenceBasicsBodyRef,
   countingSummaryRef,
+  beginnerCardPlaySummaryRef,
+  beginnerCardPlayBodyRef,
+  beginnerDefenceSummaryRef,
+  beginnerDefenceBodyRef,
+  beginnerBiddingSummaryRef,
+  beginnerBiddingBodyRef,
 } from "../../firebase/config";
 
 import {
@@ -566,6 +572,9 @@ const DisplayCategoryArticle = ({
           biddingBasics: biddingBasicsSummaryRef,
           biddingAdvanced: biddingAdvancedSummaryRef,
           counting: countingSummaryRef,
+          beginnerCardPlay: beginnerCardPlaySummaryRef,
+          beginnerDefence: beginnerDefenceSummaryRef,
+          beginnerBidding: beginnerBiddingSummaryRef,
         })}
       </div>
 
@@ -594,6 +603,9 @@ const DisplayCategoryArticle = ({
                           bidding: biddingSummaryRef,
                           biddingBasics: biddingBasicsSummaryRef,
                           biddingAdvanced: biddingAdvancedSummaryRef,
+                          beginnerCardPlay: beginnerCardPlaySummaryRef,
+                          beginnerDefence: beginnerDefenceSummaryRef,
+                          beginnerBidding: beginnerBiddingSummaryRef,
                           articles: articlesRef,
                         };
                         const bodyRefMap = {
@@ -604,6 +616,9 @@ const DisplayCategoryArticle = ({
                           bidding: biddingBodyRef,
                           biddingBasics: biddingBasicsBodyRef,
                           biddingAdvanced: biddingAdvancedBodyRef,
+                          beginnerCardPlay: beginnerCardPlayBodyRef,
+                          beginnerDefence: beginnerDefenceBodyRef,
+                          beginnerBidding: beginnerBiddingBodyRef,
                           articles: articleRef,
                         };
                         const summaryRef = summaryRefMap[articleType];
