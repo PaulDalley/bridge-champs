@@ -28,7 +28,19 @@ import {
   Textarea,
   DatePicker,
 } from "react-materialize"; // Input component deprecated
-import { categoriesRef, biddingSummaryRef, biddingBasicsSummaryRef, biddingAdvancedSummaryRef, cardPlaySummaryRef, cardPlayBasicsSummaryRef, defenceSummaryRef, defenceBasicsSummaryRef } from "../firebase/config";
+import {
+  categoriesRef,
+  biddingSummaryRef,
+  biddingBasicsSummaryRef,
+  biddingAdvancedSummaryRef,
+  cardPlaySummaryRef,
+  cardPlayBasicsSummaryRef,
+  defenceSummaryRef,
+  defenceBasicsSummaryRef,
+  beginnerCardPlaySummaryRef,
+  beginnerDefenceSummaryRef,
+  beginnerBiddingSummaryRef,
+} from "../firebase/config";
 import "./CreateArticle.css";
 import $ from "jquery";
 
@@ -259,6 +271,9 @@ const CreateCategoryArticle = ({
   const getListPathForArticleType = (type) => {
     if (type === "biddingBasics") return "/bidding/basics";
     if (type === "bidding") return "/bidding/advanced";
+    if (type === "beginnerCardPlay") return "/beginner/articles/declarer";
+    if (type === "beginnerDefence") return "/beginner/articles/defence";
+    if (type === "beginnerBidding") return "/beginner/articles/bidding";
     if (type === "cardPlayBasics") return "/cardPlay/basics";
     if (type === "defenceBasics") return "/defence/basics";
     return "/" + type;
@@ -272,8 +287,23 @@ const CreateCategoryArticle = ({
       setArticleLoaded(false);
       // The articleId in the URL is the body document ID, not the summary document ID
       // We need to query the summary collection to find the document where body == articleId
-      const refMap = { bidding: biddingSummaryRef, biddingBasics: biddingBasicsSummaryRef, biddingAdvanced: biddingAdvancedSummaryRef, cardPlay: cardPlaySummaryRef, cardPlayBasics: cardPlayBasicsSummaryRef, defence: defenceSummaryRef, defenceBasics: defenceBasicsSummaryRef };
+      const refMap = {
+        bidding: biddingSummaryRef,
+        biddingBasics: biddingBasicsSummaryRef,
+        biddingAdvanced: biddingAdvancedSummaryRef,
+        cardPlay: cardPlaySummaryRef,
+        cardPlayBasics: cardPlayBasicsSummaryRef,
+        defence: defenceSummaryRef,
+        defenceBasics: defenceBasicsSummaryRef,
+        beginnerCardPlay: beginnerCardPlaySummaryRef,
+        beginnerDefence: beginnerDefenceSummaryRef,
+        beginnerBidding: beginnerBiddingSummaryRef,
+      };
       const summaryRef = refMap[articleType];
+      if (!summaryRef) {
+        logger.error("No summary collection mapping for articleType:", articleType);
+        return;
+      }
       
       summaryRef
         .where("body", "==", currentArticleId)
@@ -583,7 +613,7 @@ const CreateCategoryArticle = ({
     history.push(getListPathForArticleType(articleType));
   };
 
-  const submitDeleteArticle = (e) => {
+  const submitDeleteArticle = async (e) => {
     e.preventDefault();
     let modal = $(".modal");
     let modalOverlay = $(".modal-overlay");
@@ -593,8 +623,13 @@ const CreateCategoryArticle = ({
     $("body").css({ overflow: "auto" });
     // Use summary document ID (not body id) so the reducer and Firestore delete the correct docs
     const summaryId = summaryDocumentId || articleId;
-    dispatch(startDeleteArticle(summaryId, body, articleType, bodyRef));
-    history.push(getListPathForArticleType(articleType));
+    try {
+      await dispatch(startDeleteArticle(summaryId, body, articleType, bodyRef));
+      history.push(getListPathForArticleType(articleType));
+    } catch (err) {
+      logger.error("Delete failed:", err);
+      Toast({ html: "Delete failed. Please try again.", classes: "red" });
+    }
   };
 
   const loadBackups = async () => {

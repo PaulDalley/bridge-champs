@@ -493,19 +493,26 @@ export const startDeleteArticle = (articleId, bodyId, summaryRef, bodyRef) => {
     const batch = database.batch();
     const useSummaryRef = matchTypeToRef[summaryRef];
     const useBodyRef = matchTypeToRef[bodyRef];
+    if (!useSummaryRef || !useBodyRef) {
+      const err = new Error(`Invalid refs for delete: summaryRef='${summaryRef}', bodyRef='${bodyRef}'`);
+      dispatch(articleError(err));
+      return Promise.reject(err);
+    }
     const articleBodyRef = useBodyRef.doc(bodyId);
     const articlesMetadataRef = useSummaryRef.doc(articleId);
     batch.delete(articlesMetadataRef);
     batch.delete(articleBodyRef);
-    batch
+    return batch
       .commit()
       .then(() => {
         // console.log("Article deleted");
         dispatch(deleteArticle(articleId, bodyId, summaryRef, bodyRef));
+        return true;
       })
       .catch((err) => {
         dispatch(articleError(err));
         console.log(err);
+        throw err;
       });
   };
 };
