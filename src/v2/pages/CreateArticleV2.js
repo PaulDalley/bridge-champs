@@ -20,6 +20,7 @@ const CreateArticleV2 = ({ match, history }) => {
   const isEdit = !!id;
 
   const [loading, setLoading] = useState(isEdit);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [saving, setSaving] = useState(false);
   
   // Article metadata
@@ -61,6 +62,7 @@ const CreateArticleV2 = ({ match, history }) => {
     
     try {
       setLoading(true);
+      setLoadFailed(false);
       console.log('Loading state set to true');
       
       console.log('Calling getArticle...');
@@ -69,6 +71,7 @@ const CreateArticleV2 = ({ match, history }) => {
       
       if (!article) {
         console.error('ERROR: Article is null or undefined');
+        setLoadFailed(true);
         Toast({
           html: `Article not found. ID: ${id}`,
           classes: 'red',
@@ -148,6 +151,7 @@ const CreateArticleV2 = ({ match, history }) => {
       }
       
       console.log('=== LOAD ARTICLE SUCCESS ===');
+      setLoadFailed(false);
     } catch (error) {
       console.error('=== LOAD ARTICLE ERROR ===');
       console.error('Error type:', error?.constructor?.name || typeof error);
@@ -162,6 +166,7 @@ const CreateArticleV2 = ({ match, history }) => {
         classes: 'red',
         displayLength: 10000,
       });
+      setLoadFailed(true);
     } finally {
       console.log('Setting loading state to false');
       setLoading(false);
@@ -369,7 +374,7 @@ const CreateArticleV2 = ({ match, history }) => {
   }
   
   // Show error if no article loaded in edit mode
-  if (isEdit && !loading && !title) {
+  if (isEdit && !loading && loadFailed) {
     return (
       <div className="CreateArticleV2-loading">
         <p style={{ color: 'red', fontSize: '1.5rem' }}>
