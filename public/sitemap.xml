@@ -72,6 +72,58 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Beginner article index pages -->
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/declarer</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/defence</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/bidding</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Beginner declarer article pages -->
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/declarer/scRLDZcTTmboZFDVRTq5</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/declarer/v5mZyAQXeBBWpgDD2PUj</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/declarer/7nKvD5E5BYBrkAX1lmFS</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/beginner/articles/declarer/CHceqeWpWsRcHIFnGA1N</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
 
 
