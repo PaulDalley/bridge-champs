@@ -154,7 +154,8 @@ class Login extends Component {
       .sendPasswordResetEmail(emailReset.trim())
       .then(() => {
         this.setState({
-          resetPasswordMessage: "Check your email — we sent you a link to reset your password.",
+          resetPasswordMessage:
+            "Check your email — we sent you a link to reset your password. If you don't see it within a few minutes, check your junk or spam folder.",
         });
         setTimeout(() => {
           this.closeForgottenPasswordModal();
