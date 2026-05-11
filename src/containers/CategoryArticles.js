@@ -22,6 +22,10 @@ import {
   getBeginnerSubcategoryPresetList,
   getBeginnerSubcategoryAliasMap,
 } from "../data/beginner/beginnerArticleSubcategories";
+import {
+  getLearnSubcategoryPresetList,
+  getLearnSubcategoryAliasMap,
+} from "../data/learn/declarerArticleSubcategories";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
@@ -315,14 +319,21 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   );
 
   const beginnerSubcategoryPreset = getBeginnerSubcategoryPresetList(articleType);
+  const learnSubcategoryPreset = getLearnSubcategoryPresetList(articleType);
+  const activeSubcategoryPreset = beginnerSubcategoryPreset || learnSubcategoryPreset;
   const beginnerSubcategoryAliases = getBeginnerSubcategoryAliasMap(articleType);
+  const learnSubcategoryAliases = getLearnSubcategoryAliasMap(articleType);
+  const activeSubcategoryAliases = {
+    ...(learnSubcategoryAliases || {}),
+    ...(beginnerSubcategoryAliases || {}),
+  };
   const normalizeSubcategoryLabel = (value = "") =>
     String(value)
       .trim()
       .toLowerCase()
       .replace(/\.+$/g, "")
       .replace(/\s+/g, " ");
-  const normalizedAliasMap = Object.entries(beginnerSubcategoryAliases || {}).reduce(
+  const normalizedAliasMap = Object.entries(activeSubcategoryAliases || {}).reduce(
     (acc, [from, to]) => {
       const key = normalizeSubcategoryLabel(from);
       if (key) acc[key] = to;
@@ -330,8 +341,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     },
     {}
   );
-  const normalizedBeginnerArticles =
-    beginnerSubcategoryPreset && filteredArticles != null
+  const normalizedSubcategoryArticles =
+    activeSubcategoryPreset && filteredArticles != null
       ? filteredArticles.map((article) => {
           const originalSub = (article?.subcategory || "").trim();
           const canonicalSub = normalizedAliasMap[normalizeSubcategoryLabel(originalSub)];
@@ -339,11 +350,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           return { ...article, subcategory: canonicalSub };
         })
       : filteredArticles;
-  const beginnerSubtopicSections =
-    beginnerSubcategoryPreset && normalizedBeginnerArticles != null
+  const subtopicSections =
+    activeSubcategoryPreset && normalizedSubcategoryArticles != null
       ? groupBeginnerArticlesBySubcategory(
-          normalizedBeginnerArticles,
-          [...beginnerSubcategoryPreset]
+          normalizedSubcategoryArticles,
+          [...activeSubcategoryPreset]
         )
       : null;
 
@@ -836,9 +847,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
             <div className="CategoryArticles-grid">
               <SkeletonLoader type="card" count={6} />
             </div>
-          ) : beginnerSubtopicSections ? (
-            <div className="CategoryArticles-level-groups CategoryArticles--beginner-subtopics">
-              {beginnerSubtopicSections.map((section) => (
+          ) : subtopicSections ? (
+            <div className="CategoryArticles-level-groups CategoryArticles--subtopics">
+              {subtopicSections.map((section) => (
                 <div
                   key={section.label}
                   className="CategoryArticles-subtopic-section"

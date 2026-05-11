@@ -1291,18 +1291,48 @@
   }
 }
 
-/* Hard-stop readability override: keep article text crisp */
-.DisplayArticle-content .interweave,
-.DisplayArticle-content .interweave p,
-.DisplayArticle-content .interweave li {
+/* Hard-stop readability override: keep Learn article text crisp */
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave p,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave li,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave td,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave th,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave blockquote {
   color: #0f172a !important;
   opacity: 1 !important;
-  font-weight: 500;
+  font-weight: 520;
 }
 
-.DisplayArticle-content .interweave p strong,
-.DisplayArticle-content .interweave li strong {
-  color: #0b3f30;
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h1,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h2,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h3,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h4 {
+  color: #0b172a !important;
+  font-weight: 800 !important;
+}
+
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave p strong,
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave li strong {
+  color: #0f4c3a !important;
+  font-weight: 800 !important;
+}
+
+.DisplayArticle-container:not(.DisplayArticle-container--beginner)
+  .DisplayArticle-content
+  .interweave
+  span:not(.red-suit):not(.black-suit) {
+  color: inherit !important;
+}
+
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave a {
+  color: #0f4c3a !important;
+  font-weight: 700 !important;
+  text-decoration-color: rgba(15, 76, 58, 0.45) !important;
+}
+
+.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave a:hover {
+  color: #0d5b45 !important;
+  text-decoration-color: #0d5b45 !important;
 }
 
 /* High-visibility article navigation links ("Where to next") */
