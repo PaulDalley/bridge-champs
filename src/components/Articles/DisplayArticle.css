@@ -1107,6 +1107,28 @@
   border-color: #7fb09a;
 }
 
+.DisplayArticle-content--beginner .interweave pre {
+  border: 1px solid #c7d9f2;
+  border-left: 5px solid #1f4f8f;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, #edf4ff 0%, #f8fbff 100%);
+  color: #0f2947;
+  padding: 1rem 1.1rem;
+  margin: 1.1rem 0 1.35rem;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  font-weight: 700;
+  box-shadow: 0 6px 12px rgba(31, 79, 143, 0.12);
+  white-space: pre-wrap;
+}
+
+.DisplayArticle-content--beginner .interweave pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
 .DisplayArticle-content--beginner .interweave .bc-rule,
 .DisplayArticle-content--beginner .interweave .bc-example,
 .DisplayArticle-content--beginner .interweave .bc-mistake,

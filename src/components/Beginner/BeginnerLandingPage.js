@@ -164,7 +164,7 @@ function BeginnerLandingVideo({ isAdmin }) {
       <div className="BeginnerLanding-video-frame">
         <iframe
           src={embedUrl}
-          title="Introduction to learning bridge from scratch"
+          title="Introduction to learning bridge fundamentals"
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -182,9 +182,9 @@ function BeginnerLandingPage({ location, isAdmin }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Learn Bridge from Scratch — Bridge Champions",
+    name: "Learn Bridge and Strengthen Fundamentals — Bridge Champions",
     description:
-      "Start learning contract bridge with a short intro and interactive practice. Clear steps for complete beginners—try your first hands free.",
+      "Learn contract bridge with clear steps and interactive practice. Ideal for new players and anyone revising core fundamentals.",
     url: LANDING_CANONICAL,
     isPartOf: {
       "@type": "WebSite",
@@ -208,30 +208,30 @@ function BeginnerLandingPage({ location, isAdmin }) {
   return (
     <div className="BeginnerLanding">
       <Helmet>
-        <title>Learn Bridge from Scratch — Free Start | Bridge Champions</title>
+        <title>Learn Bridge and Strengthen Fundamentals | Bridge Champions</title>
         <meta
           name="description"
-          content="Start learning contract bridge with a short intro and interactive practice. Clear steps for complete beginners—try your first hands free."
+          content="Learn contract bridge with short, practical lessons and interactive hands. Great for beginners and players revising the fundamentals."
         />
         <link rel="canonical" href={LANDING_CANONICAL} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="Bridge Champions" />
         <meta property="og:url" content={LANDING_CANONICAL} />
-        <meta property="og:title" content="Learn Bridge from Scratch — Bridge Champions" />
+        <meta property="og:title" content="Learn Bridge and Strengthen Fundamentals — Bridge Champions" />
         <meta
           property="og:description"
-          content="Interactive practice and clear steps for complete beginners. Try your first hands free—no fluff."
+          content="Interactive practice and clear steps for beginners and players refreshing core fundamentals."
         />
         <meta property="og:image" content={OG_IMAGE_URL} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={LANDING_CANONICAL} />
-        <meta name="twitter:title" content="Learn Bridge from Scratch — Bridge Champions" />
+        <meta name="twitter:title" content="Learn Bridge and Strengthen Fundamentals — Bridge Champions" />
         <meta
           name="twitter:description"
-          content="Interactive practice for complete beginners. Try your first hands free."
+          content="Interactive practice for beginners and players revising core fundamentals."
         />
         <meta name="twitter:image" content={OG_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
@@ -240,12 +240,12 @@ function BeginnerLandingPage({ location, isAdmin }) {
       <section className="BeginnerLanding-hero" aria-labelledby="BeginnerLanding-heading">
         <div className="BeginnerLanding-hero-overlay" aria-hidden="true" />
         <div className="BeginnerLanding-hero-inner">
-          <p className="BeginnerLanding-eyebrow">New · Beginner path</p>
+          <p className="BeginnerLanding-eyebrow">Beginner + Fundamentals</p>
           <h1 id="BeginnerLanding-heading" className="BeginnerLanding-title">
-            Learn bridge <span className="BeginnerLanding-title-accent">from scratch</span>
+            Learn bridge <span className="BeginnerLanding-title-accent">or refresh your fundamentals</span>
           </h1>
           <p className="BeginnerLanding-lead">
-            You&apos;ll know how to play bridge in 5-10 minutes from now.
+            Practical lessons for new players and for experienced players revising the basics.
           </p>
           <p className="BeginnerLanding-trust">
             Taught by{" "}

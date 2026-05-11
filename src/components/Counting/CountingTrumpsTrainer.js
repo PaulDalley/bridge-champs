@@ -442,11 +442,11 @@ export function TextWithColoredSuits({ text }) {
   return <>{nodes}</>;
 }
 
-/** Inviting lesson headline for Learn bridge from scratch (/beginner/practice). */
+/** Inviting lesson headline for beginner fundamentals (/beginner/practice). */
 function BeginnerLessonContractTitle({ text }) {
   return (
     <div className="ct-beginnerLessonBanner">
-      <div className="ct-beginnerLessonBanner-eyebrow">Learn bridge from scratch</div>
+      <div className="ct-beginnerLessonBanner-eyebrow">Learn bridge or strengthen your fundamentals</div>
       <div className="ct-beginnerLessonBanner-title">
         <TextWithColoredSuits text={text} />
       </div>

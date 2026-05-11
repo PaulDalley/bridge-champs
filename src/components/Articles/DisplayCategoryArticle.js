@@ -90,6 +90,19 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
   },
 ];
 
+const escapeRegExp = (input = "") =>
+  String(input).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const stripLeadingDuplicateTitle = (html, title) => {
+  if (!html || !title) return html;
+  const titlePattern = escapeRegExp(String(title).trim());
+  const re = new RegExp(
+    `^\\s*<h[12][^>]*>\\s*${titlePattern}\\s*<\\/h[12]>\\s*`,
+    "i"
+  );
+  return html.replace(re, "");
+};
+
 const toSafeDate = (value) => {
   if (!value) return null;
   if (typeof value?.toDate === "function") return value.toDate();
@@ -351,9 +364,13 @@ const DisplayCategoryArticle = ({
   const [freeError, setFreeError] = useState("");
 
   if (articleText) {
+    const articleTextForRender = stripLeadingDuplicateTitle(
+      articleText,
+      useMetaData?.title
+    );
     // Pass canWatchVideo so free articles unlock embedded videos even for logged-out users.
     articleDataArray = parseDocumentIntoJSX(
-      articleText,
+      articleTextForRender,
       false,
       undefined,
       undefined,
@@ -610,21 +627,6 @@ const DisplayCategoryArticle = ({
               <strong>📹 Video Available:</strong> This article includes a video version below (same content as the text).
             </div>
           )}
-          <div className="DisplayArticle-metaRow">
-            <div className="DisplayArticle-category" aria-label="Article number">
-              Article {useMetaData.articleNumber}
-            </div>
-            {(() => {
-              if (!useMetaData.createdAt) return null;
-              const articleDate = useMetaData.createdAt.toDate ? useMetaData.createdAt.toDate() : new Date(useMetaData.createdAt);
-              const thirtyDaysAgo = new Date();
-              thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-              const isNew = articleDate > thirtyDaysAgo;
-              return isNew ? (
-                <span className="ArticleListItem-new-badge" aria-label="New article">NEW</span>
-              ) : null;
-            })()}
-          </div>
         </header>
       )}
 
