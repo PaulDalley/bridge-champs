@@ -667,7 +667,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
       <div className="CategoryArticles-header">
         <div className="container">
-          <nav className="CategoryArticles-breadcrumbs" aria-label="Breadcrumb">
+          <div
+            className="CategoryArticles-breadcrumbs"
+            role="navigation"
+            aria-label="Breadcrumb"
+          >
             {breadcrumbItems.map((item, idx) => (
               <React.Fragment key={`${item.name}-${idx}`}>
                 <a href={item.path}>{item.name}</a>
@@ -678,7 +682,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                 ) : null}
               </React.Fragment>
             ))}
-          </nav>
+          </div>
           <h1 className="CategoryArticles-title">{categoryInfo.name}</h1>
           <p className="CategoryArticles-subtitle">
             {categoryInfo.subtitle}

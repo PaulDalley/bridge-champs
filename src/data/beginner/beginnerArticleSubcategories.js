@@ -8,6 +8,7 @@ export const BEGINNER_DECLARER_SUBCATEGORIES = [
   "Honor Combinations and Finesses",
   "Establishing Side-Suit Winners",
   "Suit Contract Strategies",
+  "No-Trump Strategies",
 ];
 
 export const BEGINNER_DEFENCE_SUBCATEGORIES = [

@@ -575,7 +575,11 @@ const DisplayCategoryArticle = ({
             } ${!isFree && !canWatchVideo ? "DisplayArticle-header--locked" : ""}`}
           >
             <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
-          <nav className="DisplayArticle-breadcrumbs" aria-label="Breadcrumb">
+          <div
+            className="DisplayArticle-breadcrumbs"
+            role="navigation"
+            aria-label="Breadcrumb"
+          >
             {breadcrumbItems.map((item, idx) => (
               <React.Fragment key={`${item.name}-${idx}`}>
                 {item.path ? (
@@ -590,7 +594,7 @@ const DisplayCategoryArticle = ({
                 ) : null}
               </React.Fragment>
             ))}
-          </nav>
+          </div>
           {hasVideos && !canWatchVideo && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
