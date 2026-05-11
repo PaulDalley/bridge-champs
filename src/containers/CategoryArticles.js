@@ -316,11 +316,25 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
   const beginnerSubcategoryPreset = getBeginnerSubcategoryPresetList(articleType);
   const beginnerSubcategoryAliases = getBeginnerSubcategoryAliasMap(articleType);
+  const normalizeSubcategoryLabel = (value = "") =>
+    String(value)
+      .trim()
+      .toLowerCase()
+      .replace(/\.+$/g, "")
+      .replace(/\s+/g, " ");
+  const normalizedAliasMap = Object.entries(beginnerSubcategoryAliases || {}).reduce(
+    (acc, [from, to]) => {
+      const key = normalizeSubcategoryLabel(from);
+      if (key) acc[key] = to;
+      return acc;
+    },
+    {}
+  );
   const normalizedBeginnerArticles =
     beginnerSubcategoryPreset && filteredArticles != null
       ? filteredArticles.map((article) => {
           const originalSub = (article?.subcategory || "").trim();
-          const canonicalSub = beginnerSubcategoryAliases[originalSub];
+          const canonicalSub = normalizedAliasMap[normalizeSubcategoryLabel(originalSub)];
           if (!canonicalSub) return article;
           return { ...article, subcategory: canonicalSub };
         })

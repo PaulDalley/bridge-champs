@@ -58,18 +58,126 @@ class PremiumMembership extends Component {
     effectiveStripePriceId: null, // Override from promo (e.g. ausyouth = A$20/mo)
     effectiveMonthlyPrice: null,
     promoDaysFree: 0, // From last successful validation (for copy: free days vs price promo)
+    referralCodeFromLink: "",
+    referralReferrerUid: "",
+    referralReferrerName: "",
+    referralLookupDone: false,
+    referralAttributionSaved: false,
   };
 
   componentDidMount() {
     // Let both logged-in and logged-out users see the subscription page (no redirect to /signup)
+    this.loadReferralFromQuery();
   }
 
   componentDidUpdate(prevProps) {
     // When user logs out while on this page, just re-render (show tier cards again)
     if (prevProps.uid && !this.props.uid) {
-      this.setState({ showLogin: false, authChoice: null });
+      this.setState({ showLogin: false, authChoice: null, referralAttributionSaved: false });
+    }
+    if (prevProps.location?.search !== this.props.location?.search) {
+      this.loadReferralFromQuery();
+    }
+    if (this.props.uid && !this.state.referralAttributionSaved && this.isReferralPremiumOfferActive()) {
+      this.persistReferralAttribution();
+    }
+    if (this.isReferralPremiumOfferActive() && this.state.selectedTier === "basic") {
+      this.setState({ selectedTier: "premium" });
     }
   }
+
+  normalizeReferralCode = (code) => String(code || "").replace(/\s+/g, "").trim().toUpperCase();
+
+  isReferralPremiumOfferActive = () =>
+    !!(this.state.referralCodeFromLink && this.state.referralReferrerUid);
+
+  getReferrerName = (data) => {
+    const first = String(data?.firstName || "").trim();
+    const last = String(data?.surname || "").trim();
+    const displayName = [first, last].filter(Boolean).join(" ").trim();
+    if (displayName) return displayName;
+    const fallback = String(data?.displayName || "").trim();
+    if (fallback) return fallback;
+    const email = String(data?.email || "").trim();
+    if (email) return email;
+    return "a Bridge Champions member";
+  };
+
+  loadReferralFromQuery = async () => {
+    const search = this.props.location?.search || "";
+    const params = new URLSearchParams(search);
+    const codeFromUrl = this.normalizeReferralCode(params.get("ref"));
+    if (!codeFromUrl) {
+      this.setState({
+        referralCodeFromLink: "",
+        referralReferrerUid: "",
+        referralReferrerName: "",
+        referralLookupDone: true,
+      });
+      return;
+    }
+
+    try {
+      const snap = await firebase
+        .firestore()
+        .collection("members")
+        .where("referralCode", "==", codeFromUrl)
+        .limit(1)
+        .get();
+      if (snap.empty) {
+        this.setState({
+          referralCodeFromLink: "",
+          referralReferrerUid: "",
+          referralReferrerName: "",
+          referralLookupDone: true,
+        });
+        return;
+      }
+      const refDoc = snap.docs[0];
+      const refData = refDoc.data() || {};
+      this.setState({
+        referralCodeFromLink: codeFromUrl,
+        referralReferrerUid: refDoc.id,
+        referralReferrerName: this.getReferrerName(refData),
+        referralLookupDone: true,
+      });
+    } catch (err) {
+      console.error("Failed to resolve referral code from URL", err);
+      this.setState({
+        referralCodeFromLink: "",
+        referralReferrerUid: "",
+        referralReferrerName: "",
+        referralLookupDone: true,
+      });
+    }
+  };
+
+  persistReferralAttribution = async () => {
+    const { uid } = this.props;
+    if (!uid || !this.isReferralPremiumOfferActive()) return;
+    if (uid === this.state.referralReferrerUid) {
+      this.setState({ referralAttributionSaved: true });
+      return;
+    }
+    try {
+      await firebase
+        .firestore()
+        .collection("members")
+        .doc(uid)
+        .set(
+          {
+            referredByCode: this.state.referralCodeFromLink,
+            referredByUid: this.state.referralReferrerUid,
+            referredByName: this.state.referralReferrerName || "",
+            referredAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        );
+      this.setState({ referralAttributionSaved: true });
+    } catch (err) {
+      console.error("Failed to save referral attribution", err);
+    }
+  };
 
 
   handlePromoCodeChange = (e) => {
@@ -143,6 +251,9 @@ class PremiumMembership extends Component {
   };
 
   getAppliedPromoToken = () => {
+    if (this.isReferralPremiumOfferActive()) {
+      return this.state.selectedTier === "premium" ? "blue" : null;
+    }
     const normalized = this.normalizePromoCode(this.state.promoCode);
     // KLINGER/EASTS are Premium-only. Never send these through Basic checkout.
     if (this.isPremiumOnlyFreeMonthPromo(normalized) && this.state.selectedTier !== "premium") {
@@ -275,10 +386,18 @@ class PremiumMembership extends Component {
   }
 
   showLogin = (tier) => {
+    if (this.isReferralPremiumOfferActive() && tier !== "premium") {
+      this.setState({ showLogin: true, authChoice: null, selectedTier: "premium" });
+      return;
+    }
     this.setState({ showLogin: true, authChoice: null, selectedTier: tier });
   };
 
   selectTier = (tier) => {
+    if (this.isReferralPremiumOfferActive() && tier !== "premium") {
+      this.setState({ selectedTier: "premium" });
+      return;
+    }
     this.setState({ selectedTier: tier });
   };
 
@@ -344,6 +463,8 @@ class PremiumMembership extends Component {
   render() {
     const { selectedTier, showLogin, authComplete, paypalRedirectLoading } = this.state;
     const { uid, subscriptionActive, authReady } = this.props;
+    const referralPremiumOfferActive = this.isReferralPremiumOfferActive();
+    const referralReferrerName = this.state.referralReferrerName || "a Bridge Champions member";
 
     // Show "already subscribed" message for any active subscriber
     if (uid && subscriptionActive && authReady) {
@@ -398,7 +519,8 @@ class PremiumMembership extends Component {
       this.state.promoSuccess &&
       this.state.promoDaysFree > 0;
     const isFreeFirstMonthOnBasicCard = isBluePromoActive;
-    const isFreeFirstMonthOnPremiumCard = isBluePromoActive || isPremiumOnlyPromoActive;
+    const isFreeFirstMonthOnPremiumCard =
+      isBluePromoActive || isPremiumOnlyPromoActive || referralPremiumOfferActive;
     const selectedTierBasePrice =
       selectedTier && PRICING_TIERS[selectedTier]
         ? PRICING_TIERS[selectedTier].price
@@ -414,7 +536,9 @@ class PremiumMembership extends Component {
       this.state.promoDaysFree > 0 &&
       !!selectedTier;
     const isFreeFirstMonthAppliedOnSelectedTier =
-      isBlueAppliedOnSelectedTier || isPremiumOnlyPromoAppliedOnPremium;
+      (referralPremiumOfferActive && selectedTier === "premium") ||
+      isBlueAppliedOnSelectedTier ||
+      isPremiumOnlyPromoAppliedOnPremium;
     const subscribePath = this.props.location.pathname || "/subscribe";
     return (
       <div className="PremiumMembership-container">
@@ -513,6 +637,12 @@ class PremiumMembership extends Component {
               <span className="PremiumMembership-title">Bridge Champions</span>
             </span>
           )}
+          {referralPremiumOfferActive && (
+            <div className="PremiumMembership-header_text" style={{ marginTop: "12px", color: "#0f4c3a" }}>
+              You have been referred by <strong>{referralReferrerName}</strong>. You will get{" "}
+              <strong>1 month of Premium free</strong> when you complete Premium signup.
+            </div>
+          )}
 
           {!showLogin && !authReady && (
             <div className="PremiumMembership-header_text_small" style={{ color: "#666" }}>
@@ -534,107 +664,111 @@ class PremiumMembership extends Component {
         )}
 
         {/* PROMO CODE INPUT */}
-        <Row>
-          <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>
-            <div className="PremiumMembership-promoShell">
-              <label className="PremiumMembership-promoLabel">
-                Have a promo code? (Optional)
-              </label>
-              <input
-                type="text"
-                placeholder="Enter promo code"
-                value={this.state.promoCode}
-                onChange={this.handlePromoCodeChange}
-                onKeyDown={this.handlePromoCodeKeyDown}
-                onBlur={this.handlePromoCodeBlur}
-                className="PremiumMembership-promo-input-large"
-              />
-              {this.state.promoError && (
-                <div className="PremiumMembership-promoError">
-                  {this.state.promoError}
-                </div>
-              )}
-              {this.state.promoSuccess && (
-                <div className="PremiumMembership-promoSuccess">
-                  {this.state.promoSuccess}
-                </div>
-              )}
-              {this.state.promoSuccess && (
-                <div className="PremiumMembership-promoNextStep">
-                  {this.state.effectiveMonthlyPrice != null
-                    ? `Next step: choose Premium below, then complete checkout — your rate will be A$${this.state.effectiveMonthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial (about US$${membershipUsdApproxWhole(this.state.effectiveMonthlyPrice)}/month at typical FX; your bank sets the rate).`
-                    : this.state.promoDaysFree > 0
-                      ? "Next step: choose a plan below, then complete checkout — your code adds the free time shown above before regular billing."
-                      : "Next step: choose a plan below, then complete checkout — your code will be applied at checkout."}
-                </div>
-              )}
-            </div>
-          </Col>
-        </Row>
+        {!referralPremiumOfferActive && (
+          <Row>
+            <Col s={12} m={8} l={6} offset="m2 l3" style={{ marginBottom: "2rem" }}>
+              <div className="PremiumMembership-promoShell">
+                <label className="PremiumMembership-promoLabel">
+                  Have a promo code? (Optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter promo code"
+                  value={this.state.promoCode}
+                  onChange={this.handlePromoCodeChange}
+                  onKeyDown={this.handlePromoCodeKeyDown}
+                  onBlur={this.handlePromoCodeBlur}
+                  className="PremiumMembership-promo-input-large"
+                />
+                {this.state.promoError && (
+                  <div className="PremiumMembership-promoError">
+                    {this.state.promoError}
+                  </div>
+                )}
+                {this.state.promoSuccess && (
+                  <div className="PremiumMembership-promoSuccess">
+                    {this.state.promoSuccess}
+                  </div>
+                )}
+                {this.state.promoSuccess && (
+                  <div className="PremiumMembership-promoNextStep">
+                    {this.state.effectiveMonthlyPrice != null
+                      ? `Next step: choose Premium below, then complete checkout — your rate will be A$${this.state.effectiveMonthlyPrice}/month after the ${DEFAULT_TRIAL_DAYS}-day free trial (about US$${membershipUsdApproxWhole(this.state.effectiveMonthlyPrice)}/month at typical FX; your bank sets the rate).`
+                      : this.state.promoDaysFree > 0
+                        ? "Next step: choose a plan below, then complete checkout — your code adds the free time shown above before regular billing."
+                        : "Next step: choose a plan below, then complete checkout — your code will be applied at checkout."}
+                  </div>
+                )}
+              </div>
+            </Col>
+          </Row>
+        )}
 
         {/* TWO-TIER PRICING CARDS */}
         {showBothTiers && (
           <Row>
             {/* BASIC TIER */}
-            <Col s={12} m={6}>
-              <Card className="PremiumMembership-pricing-card">
-                <h4 className="PremiumMembership-tier-name">Basic Membership</h4>
-                <div className="PremiumMembership-price">
-                  {isFreeFirstMonthOnBasicCard ? (
-                    <>
-                      <span
-                        style={{
-                          textDecoration: "line-through",
-                          opacity: 0.55,
-                          marginRight: "0.35em",
-                          fontSize: "0.85em",
-                        }}
-                      >
-                        A${PRICING_TIERS.basic.price}
-                      </span>
-                      FREE
-                    </>
-                  ) : (
-                    <>A${PRICING_TIERS.basic.price}</>
-                  )}
-                  <span className="PremiumMembership-price-period">
-                    {isFreeFirstMonthOnBasicCard ? " first month" : "/month"}
-                  </span>
-                </div>
-                <div className="PremiumMembership-priceFx">
-                  {isFreeFirstMonthOnBasicCard ? (
-                    <>Then ≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
-                  ) : (
-                    <>≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
-                  )}
-                </div>
+            {!referralPremiumOfferActive && (
+              <Col s={12} m={6}>
+                <Card className="PremiumMembership-pricing-card">
+                  <h4 className="PremiumMembership-tier-name">Basic Membership</h4>
+                  <div className="PremiumMembership-price">
+                    {isFreeFirstMonthOnBasicCard ? (
+                      <>
+                        <span
+                          style={{
+                            textDecoration: "line-through",
+                            opacity: 0.55,
+                            marginRight: "0.35em",
+                            fontSize: "0.85em",
+                          }}
+                        >
+                          A${PRICING_TIERS.basic.price}
+                        </span>
+                        FREE
+                      </>
+                    ) : (
+                      <>A${PRICING_TIERS.basic.price}</>
+                    )}
+                    <span className="PremiumMembership-price-period">
+                      {isFreeFirstMonthOnBasicCard ? " first month" : "/month"}
+                    </span>
+                  </div>
+                  <div className="PremiumMembership-priceFx">
+                    {isFreeFirstMonthOnBasicCard ? (
+                      <>Then ≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
+                    ) : (
+                      <>≈ US${membershipUsdApproxWhole(PRICING_TIERS.basic.price)}/month</>
+                    )}
+                  </div>
 
-                <div className="PremiumMembership-tier-benefits">
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Full access to all Practical Learning interactive trainers</span>
+                  <div className="PremiumMembership-tier-benefits">
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span>Full access to all Practical Learning interactive trainers</span>
+                    </div>
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span>Access to "The Treadmill"</span>
+                    </div>
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span>Access to "Just Play" (in development)</span>
+                    </div>
                   </div>
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to "The Treadmill"</span>
-                  </div>
-                  <div className="PremiumMembership-benefit">
-                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                    <span>Access to "Just Play" (in development)</span>
-                  </div>
-                </div>
 
-                <button
-                  className="PremiumMembership-custom-button PremiumMembership-custom-button-basic"
-                  onClick={() => uid ? this.selectTier('basic') : this.showLogin('basic')}
-                >
-                  Start {DEFAULT_TRIAL_DAYS}-day free trial (Basic)
-                </button>
-              </Card>
-            </Col>
+                  <button
+                    className="PremiumMembership-custom-button PremiumMembership-custom-button-basic"
+                    onClick={() => uid ? this.selectTier('basic') : this.showLogin('basic')}
+                  >
+                    Start {DEFAULT_TRIAL_DAYS}-day free trial (Basic)
+                  </button>
+                </Card>
+              </Col>
+            )}
 
             {/* PREMIUM TIER */}
-            <Col s={12} m={6}>
+            <Col s={12} m={referralPremiumOfferActive ? 12 : 6}>
               <Card className="PremiumMembership-pricing-card PremiumMembership-pricing-card-featured">
                 <div className="PremiumMembership-popular-badge">RECOMMENDED BY PAUL</div>
                 <h4 className="PremiumMembership-tier-name">Premium</h4>
@@ -651,7 +785,7 @@ class PremiumMembership extends Component {
                       >
                         A${PRICING_TIERS.premium.price}
                       </span>
-                      FREE
+                      A$0
                     </>
                   ) : this.state.effectiveMonthlyPrice != null ? (
                     <>
@@ -709,7 +843,9 @@ class PremiumMembership extends Component {
                   className="PremiumMembership-custom-button PremiumMembership-custom-button-premium"
                   onClick={() => uid ? this.selectTier('premium') : this.showLogin('premium')}
                 >
-                  Start {DEFAULT_TRIAL_DAYS}-day free trial (Premium)
+                  {referralPremiumOfferActive
+                    ? "Start Premium — first month free"
+                    : `Start ${DEFAULT_TRIAL_DAYS}-day free trial (Premium)`}
                 </button>
               </Card>
             </Col>
@@ -729,7 +865,7 @@ class PremiumMembership extends Component {
                         <span style={{ textDecoration: "line-through", opacity: 0.65, marginRight: "0.35em" }}>
                           A${selectedTierBasePrice}
                         </span>
-                        <span>Free for the first month</span>
+                        <span>A$0 for the first month</span>
                         <span className="PremiumMembership-payment-priceFx"> Then A${selectedTierBasePrice}/month.</span>
                       </>
                     ) : (
@@ -811,7 +947,21 @@ class PremiumMembership extends Component {
                     )}
                   </div>
                 )}
-                {!this.state.promoCode && (
+                {referralPremiumOfferActive && selectedTier === "premium" && (
+                  <div
+                    style={{
+                      marginBottom: "1rem",
+                      padding: "0.75rem 1rem",
+                      background: "#e8f5e9",
+                      borderRadius: "6px",
+                      fontSize: "var(--text-sm)",
+                    }}
+                  >
+                    <strong>Referral active:</strong> referred by {referralReferrerName}. You get 1 month of
+                    Premium free (A$0 first month), then normal Premium billing.
+                  </div>
+                )}
+                {!this.state.promoCode && !referralPremiumOfferActive && (
                   <div
                     style={{
                       marginBottom: "1rem",
@@ -839,8 +989,10 @@ class PremiumMembership extends Component {
                       <p className="PremiumMembership-trialLead">
                         {isFreeFirstMonthAppliedOnSelectedTier ? (
                           <>
-                            <strong>{this.state.promoCode.toUpperCase()} applied:</strong> first 30 days free, then A$
-                            {selectedTierBasePrice}/month unless canceled.
+                            <strong>
+                              {referralPremiumOfferActive ? "Referral applied:" : `${this.state.promoCode.toUpperCase()} applied:`}
+                            </strong>{" "}
+                            first month A$0, then A${selectedTierBasePrice}/month unless canceled.
                           </>
                         ) : (
                           <>
@@ -874,7 +1026,11 @@ class PremiumMembership extends Component {
                             : PRICING_TIERS[selectedTier].price
                         )}
                         getToken={this.getAppliedPromoToken}
-                        getEnteredPromoCode={() => this.normalizePromoCode(this.state.promoCode)}
+                        getEnteredPromoCode={() =>
+                          referralPremiumOfferActive
+                            ? this.normalizePromoCode(this.state.referralCodeFromLink)
+                            : this.normalizePromoCode(this.state.promoCode)
+                        }
                         processing={() => this.setState({ stripeProcessing: true })}
                         clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}

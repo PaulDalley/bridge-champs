@@ -105,14 +105,27 @@ export const groupContentByLevel = (articles = [], videos = [], practiceQuestion
  * @returns {Array<{ label: string, articles: Array }>}
  */
 export const groupBeginnerArticlesBySubcategory = (articles = [], presetLabels = []) => {
+  const normalizeSubcategoryLabel = (value = "") =>
+    String(value)
+      .trim()
+      .toLowerCase()
+      .replace(/\.+$/g, "")
+      .replace(/\s+/g, " ");
+
   const byLabel = new Map();
-  presetLabels.forEach((label) => byLabel.set(label, []));
+  const normalizedPresetLabelToDisplayLabel = new Map();
+  presetLabels.forEach((label) => {
+    byLabel.set(label, []);
+    normalizedPresetLabelToDisplayLabel.set(normalizeSubcategoryLabel(label), label);
+  });
   const other = [];
 
   articles.forEach((article) => {
     const sub = (article?.subcategory || "").trim();
-    if (sub && byLabel.has(sub)) {
-      byLabel.get(sub).push(article);
+    const normalizedSub = normalizeSubcategoryLabel(sub);
+    const displayLabel = normalizedPresetLabelToDisplayLabel.get(normalizedSub);
+    if (displayLabel && byLabel.has(displayLabel)) {
+      byLabel.get(displayLabel).push(article);
     } else {
       other.push(article);
     }

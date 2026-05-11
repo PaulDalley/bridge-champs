@@ -1,0 +1,124 @@
+.ReferPage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 48px;
+}
+
+.ReferPage-card {
+  width: min(920px, 100%);
+  background: #ffffff;
+  border: 1px solid #e3e8ee;
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(10, 37, 64, 0.08);
+  padding: 24px;
+}
+
+.ReferPage-eyebrow {
+  margin: 0 0 6px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #236b57;
+}
+
+.ReferPage-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  color: #0e2a3d;
+}
+
+.ReferPage-body {
+  margin: 12px 0 0;
+  font-size: var(--text-sm);
+  color: #30465a;
+}
+
+.ReferPage-section {
+  margin-top: 20px;
+}
+
+.ReferPage-label {
+  margin: 0 0 8px;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #163349;
+}
+
+.ReferPage-help {
+  margin: 0 0 10px;
+  font-size: var(--text-xs);
+  color: #3f586f;
+}
+
+.ReferPage-inline {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ReferPage-input {
+  width: 100%;
+  border: 1px solid #c4d2df;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: var(--text-sm);
+  color: #1a3042;
+}
+
+.ReferPage-input--readonly {
+  background: #f6f9fc;
+}
+
+.ReferPage-input:focus {
+  outline: 2px solid #9cc4ef;
+  border-color: #6aa5e6;
+}
+
+.ReferPage-btn {
+  border: 1px solid #1e6bb8;
+  background: #fff;
+  color: #1e6bb8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ReferPage-btn:hover {
+  background: #f1f7ff;
+}
+
+.ReferPage-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ReferPage-actions {
+  margin-top: 12px;
+}
+
+.ReferPage-btn--primary {
+  background: #1e6bb8;
+  color: #fff;
+}
+
+.ReferPage-btn--primary:hover {
+  background: #155a9d;
+}
+
+.ReferPage-footnote {
+  margin: 12px 0 0;
+  font-size: var(--text-xs);
+  color: #3f586f;
+}
+
+@media (max-width: 740px) {
+  .ReferPage-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,170 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import toastr from "toastr";
+import { firebase } from "../../firebase/config";
+import "./ReferPage.css";
+
+class ReferPage extends Component {
+  state = {
+    loading: false,
+    referralCode: "",
+  };
+
+  componentDidMount() {
+    this.handleAuthRoutingAndLoad();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.uid !== this.props.uid ||
+      prevProps.authReady !== this.props.authReady
+    ) {
+      this.handleAuthRoutingAndLoad();
+    }
+  }
+
+  handleAuthRoutingAndLoad = () => {
+    const { uid, authReady, history } = this.props;
+    if (!authReady) return;
+    if (!uid) {
+      const redirect = encodeURIComponent("/refer");
+      history.push(`/login?redirect=${redirect}`);
+      return;
+    }
+    if (!this.state.referralCode && !this.state.loading) {
+      this.ensureReferralCode();
+    }
+  };
+
+  buildReferralCode = (uid) => {
+    const safeUid = String(uid || "")
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .toUpperCase();
+    const padded = safeUid.padEnd(10, "X");
+    const head = padded.slice(0, 5);
+    const tail = padded.slice(-5);
+    return `REF-${head}-${tail}`;
+  };
+
+  getReferralLink = (code) => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://bridgechampions.com";
+    return `${origin}/membership?ref=${encodeURIComponent(code)}`;
+  };
+
+  ensureReferralCode = async () => {
+    const { uid } = this.props;
+    if (!uid) return;
+    this.setState({ loading: true });
+    try {
+      const ref = firebase.firestore().collection("members").doc(uid);
+      const snap = await ref.get();
+      const memberData = snap.exists ? snap.data() || {} : {};
+      const existing = typeof memberData.referralCode === "string" ? memberData.referralCode.trim() : "";
+      const referralCode = existing || this.buildReferralCode(uid);
+
+      if (!existing) {
+        await ref.set(
+          {
+            referralCode,
+            referralCodeCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        );
+      }
+
+      this.setState({ referralCode, loading: false });
+    } catch (err) {
+      console.error("Failed to prepare referral code", err);
+      toastr.error("Could not load your referral code right now.");
+      this.setState({ loading: false });
+    }
+  };
+
+  copyText = async (value, successMessage) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      toastr.success(successMessage);
+    } catch (err) {
+      toastr.error("Could not copy automatically. Please copy manually.");
+    }
+  };
+
+  render() {
+    const { referralCode, loading } = this.state;
+    const referralLink = referralCode ? this.getReferralLink(referralCode) : "";
+
+    return (
+      <div className="ReferPage">
+        <Helmet>
+          <title>Refer a Friend | Bridge Champions</title>
+          <meta
+            name="description"
+            content="Share your Bridge Champions referral code and invite friends to join."
+          />
+          <meta name="robots" content="noindex,follow" />
+        </Helmet>
+
+        <div className="ReferPage-card">
+          <p className="ReferPage-eyebrow">Refer a Friend</p>
+          <h1 className="ReferPage-title">Share your code in seconds</h1>
+          <p className="ReferPage-body">
+            Send your referral code or link to as many friends or partners as you like.
+          </p>
+
+          <div className="ReferPage-section">
+            <p className="ReferPage-label">Your referral code</p>
+            <div className="ReferPage-inline">
+              <input
+                className="ReferPage-input ReferPage-input--readonly"
+                type="text"
+                readOnly
+                value={loading ? "Loading..." : referralCode}
+              />
+              <button
+                type="button"
+                className="ReferPage-btn"
+                disabled={loading || !referralCode}
+                onClick={() => this.copyText(referralCode, "Referral code copied")}
+              >
+                Copy code
+              </button>
+            </div>
+          </div>
+
+          <div className="ReferPage-section">
+            <p className="ReferPage-label">Your referral link</p>
+            <div className="ReferPage-inline">
+              <input
+                className="ReferPage-input ReferPage-input--readonly"
+                type="text"
+                readOnly
+                value={loading ? "Loading..." : referralLink}
+              />
+              <button
+                type="button"
+                className="ReferPage-btn"
+                disabled={loading || !referralLink}
+                onClick={() => this.copyText(referralLink, "Referral link copied")}
+              >
+                Copy link
+              </button>
+            </div>
+          </div>
+
+          <p className="ReferPage-footnote">
+            Send the link to a friend, or the code so they can enter it when signing up.
+          </p>
+        </div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  uid: state.auth.uid,
+  authReady: state.auth.authReady,
+});
+
+export default withRouter(connect(mapStateToProps)(ReferPage));

@@ -44,6 +44,7 @@ import CompleteProfile from "./components/Auth/CompleteProfile";
 import TestingGround from "./components/TestingGround";
 import SkeletonLoader from "./components/UI/SkeletonLoader";
 import Settings from "./components/UI/Settings";
+import ReferPage from "./components/UI/ReferPage";
 import Flyer from "./components/Promotional/Flyer";
 import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage";
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
@@ -766,6 +767,15 @@ const routes = (
         <>
           <NoIndexTag />
           <Settings {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/refer"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <ReferPage {...routeProps} />
         </>
       )}
     />

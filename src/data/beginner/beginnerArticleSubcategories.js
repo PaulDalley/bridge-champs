@@ -12,18 +12,18 @@ export const BEGINNER_DECLARER_SUBCATEGORIES = [
 ];
 
 export const BEGINNER_DEFENCE_SUBCATEGORIES = [
-  "Opening leads",
-  "Second hand low",
-  "Third hand high",
-  "Lead through strength. Lead towards weakness.",
+  "Opening Leads",
+  "Second Hand Low",
+  "Third Hand High",
+  "Lead Through Strength, Lead Towards Weakness",
 ];
 
 export const BEGINNER_BIDDING_SUBCATEGORIES = [
-  "Opening bids",
-  "Responder's first bid",
-  "Opener's rebid",
+  "Opening Bids",
+  "Responder's First Bid",
+  "Opener's Rebid",
   "1NT opening",
-  "Competitive bidding.",
+  "Competitive Bidding",
 ];
 
 /**
@@ -37,6 +37,21 @@ export const BEGINNER_SUBCATEGORY_ALIASES = {
     "Low towards honors": "Honor Combinations and Finesses",
     "Playing our long suits": "Establishing Side-Suit Winners",
     "Ruff in dummy": "Suit Contract Strategies",
+  },
+  beginnerDefence: {
+    "Opening leads": "Opening Leads",
+    "Opening lead": "Opening Leads",
+    "Second hand low": "Second Hand Low",
+    "Third hand high": "Third Hand High",
+    "Lead through strength. Lead towards weakness.": "Lead Through Strength, Lead Towards Weakness",
+    "Lead through strength, lead towards weakness": "Lead Through Strength, Lead Towards Weakness",
+  },
+  beginnerBidding: {
+    "Opening bids": "Opening Bids",
+    "Responder's first bid": "Responder's First Bid",
+    "Opener's rebid": "Opener's Rebid",
+    "Competitive bidding.": "Competitive Bidding",
+    "Competitive bidding": "Competitive Bidding",
   },
 };
 
