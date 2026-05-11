@@ -53,7 +53,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "sitemap:generate": "node scripts/generate-sitemap.js --apply"
   },
   "browserslist": {
     "production": [

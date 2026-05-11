@@ -91,6 +91,14 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
   },
 ];
 
+const toSafeDate = (value) => {
+  if (!value) return null;
+  if (typeof value?.toDate === "function") return value.toDate();
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed;
+};
+
 // Helper function to render admin edit and delete buttons
 const renderAdminEditButton = (isAdmin, articleType, articleId, bodyRef, history, dispatch, summaryRefMap) => {
   if (!isAdmin) return null;
@@ -441,6 +449,50 @@ const DisplayCategoryArticle = ({
     search: location?.search || "",
   };
   const backToListLabel = `Back to ${getCategoryName()} articles`;
+  const createdDate = toSafeDate(useMetaData?.createdAt);
+  const updatedDate = toSafeDate(useMetaData?.updatedAt) || createdDate;
+  const articleAuthor = useMetaData?.authorName || "Bridge Champions";
+  const siteBaseUrl = "https://bridgechampions.com";
+  const breadcrumbItems = [
+    { name: "Home", path: "/" },
+    { name: `${getCategoryName()} Articles`, path: getListPathForArticleType(articleType) },
+    { name: useMetaData?.title || "Article", path: null },
+  ];
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: useMetaData?.title || "Bridge Champions article",
+    description: getArticleDescription(),
+    author: {
+      "@type": "Organization",
+      name: articleAuthor,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Bridge Champions",
+      url: siteBaseUrl,
+    },
+    articleSection: getCategoryName(),
+    datePublished: createdDate ? createdDate.toISOString() : undefined,
+    dateModified: updatedDate ? updatedDate.toISOString() : undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": getArticleUrl(),
+    },
+    keywords: [useMetaData?.primaryKeyword, useMetaData?.seoSubtopic]
+      .filter(Boolean)
+      .join(", "),
+  };
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbItems.map((item, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: item.name,
+      item: item.path ? `${siteBaseUrl}${item.path}` : getArticleUrl(),
+    })),
+  };
   const articleContainerClassName = `DisplayArticle-container${
     isBeginnerArticleType ? " DisplayArticle-container--beginner" : ""
   }`;
@@ -484,6 +536,15 @@ const DisplayCategoryArticle = ({
                 : new Date(useMetaData.createdAt).toISOString()
             } />
           )}
+          {updatedDate && (
+            <meta property="article:modified_time" content={updatedDate.toISOString()} />
+          )}
+          <script type="application/ld+json">
+            {JSON.stringify(articleStructuredData)}
+          </script>
+          <script type="application/ld+json">
+            {JSON.stringify(breadcrumbStructuredData)}
+          </script>
         </Helmet>
       )}
       
@@ -498,6 +559,22 @@ const DisplayCategoryArticle = ({
             } ${!isFree && !canWatchVideo ? "DisplayArticle-header--locked" : ""}`}
           >
             <h1 className="DisplayArticle-title">{useMetaData.title}</h1>
+          <nav className="DisplayArticle-breadcrumbs" aria-label="Breadcrumb">
+            {breadcrumbItems.map((item, idx) => (
+              <React.Fragment key={`${item.name}-${idx}`}>
+                {item.path ? (
+                  <a href={item.path}>{item.name}</a>
+                ) : (
+                  <span aria-current="page">{item.name}</span>
+                )}
+                {idx < breadcrumbItems.length - 1 ? (
+                  <span className="DisplayArticle-breadcrumb-sep" aria-hidden="true">
+                    /
+                  </span>
+                ) : null}
+              </React.Fragment>
+            ))}
+          </nav>
           {hasVideos && !canWatchVideo && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',
@@ -537,6 +614,19 @@ const DisplayCategoryArticle = ({
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '0.8rem', marginTop: '1.5rem' }}>
             <div className="DisplayArticle-category" aria-label="Article number">
               Article {useMetaData.articleNumber}
+            </div>
+            {createdDate && (
+              <div className="DisplayArticle-createdAt" aria-label="Published date">
+                Published {makeDateString(createdDate)}
+              </div>
+            )}
+            {updatedDate && (
+              <div className="DisplayArticle-createdAt" aria-label="Updated date">
+                Updated {makeDateString(updatedDate)}
+              </div>
+            )}
+            <div className="DisplayArticle-createdAt" aria-label="Author">
+              By {articleAuthor}
             </div>
             {(() => {
               if (!useMetaData.createdAt) return null;

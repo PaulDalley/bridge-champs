@@ -29,6 +29,31 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.CategoryArticles-breadcrumbs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: var(--text-sm);
+}
+
+.CategoryArticles-breadcrumbs a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.CategoryArticles-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.CategoryArticles-breadcrumb-sep {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 700;
+}
+
 /* Topic nav under header */
 .CategoryArticles-topicNavWrap {
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);

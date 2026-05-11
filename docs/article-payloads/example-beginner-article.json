@@ -1,0 +1,20 @@
+{
+  "title": "REPLACE: Article title",
+  "teaser": "REPLACE: 1-2 sentence teaser.",
+  "metaDescription": "REPLACE: 140-160 char meta description.",
+  "articleType": "beginnerCardPlay",
+  "category": "Beginner Declarer",
+  "subcategory": "Trump Management",
+  "seoSubtopic": "Trump Management",
+  "primaryKeyword": "when not to draw trumps bridge beginner",
+  "ctaTarget": "/beginner/articles/declarer",
+  "isFree": true,
+  "relatedLinks": [
+    "/beginner/articles/declarer"
+  ],
+  "relatedLinkTitles": [
+    "Drawing trumps: a simple habit that saves tricks",
+    "Ruffs in dummy: win extra tricks with dummy's trumps"
+  ],
+  "bodyHtml": "<h2>REPLACE: Heading</h2><p>REPLACE: Intro paragraph.</p><h3>REPLACE: Section</h3><p>REPLACE: Body.</p><Callout type=\"checklist\"><h3>Quick checklist</h3><ul><li>Point 1</li><li>Point 2</li><li>Point 3</li></ul></Callout><Callout type=\"mistake\"><h3>Common beginner mistake</h3><p>REPLACE: Mistake text.</p></Callout><Callout type=\"rule\"><h3>Final takeaway</h3><p>REPLACE: Key sentence.</p></Callout><h3>Related reading</h3><ul><li><a href=\"/beginner/articles/declarer\">Beginner declarer hub</a></li></ul>"
+}

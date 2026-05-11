@@ -4,10 +4,10 @@
  */
 
 export const BEGINNER_DECLARER_SUBCATEGORIES = [
-  "Drawing trumps",
-  "Low towards honors.",
-  "Playing our long suits",
-  "Ruff in dummy",
+  "Trump Management",
+  "Honor Combinations and Finesses",
+  "Establishing Side-Suit Winners",
+  "Suit Contract Strategies",
 ];
 
 export const BEGINNER_DEFENCE_SUBCATEGORIES = [
@@ -25,6 +25,20 @@ export const BEGINNER_BIDDING_SUBCATEGORIES = [
   "Competitive bidding.",
 ];
 
+/**
+ * Legacy -> canonical beginner subcategory aliases.
+ * Keeps older articles grouped under current parent labels.
+ */
+export const BEGINNER_SUBCATEGORY_ALIASES = {
+  beginnerCardPlay: {
+    "Drawing trumps": "Trump Management",
+    "Low towards honors.": "Honor Combinations and Finesses",
+    "Low towards honors": "Honor Combinations and Finesses",
+    "Playing our long suits": "Establishing Side-Suit Winners",
+    "Ruff in dummy": "Suit Contract Strategies",
+  },
+};
+
 /** @returns {readonly string[] | null} */
 export function getBeginnerSubcategoryPresetList(articleType) {
   switch (articleType) {
@@ -37,4 +51,9 @@ export function getBeginnerSubcategoryPresetList(articleType) {
     default:
       return null;
   }
+}
+
+/** @returns {Readonly<Record<string, string>>} */
+export function getBeginnerSubcategoryAliasMap(articleType) {
+  return BEGINNER_SUBCATEGORY_ALIASES[articleType] || {};
 }

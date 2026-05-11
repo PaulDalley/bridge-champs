@@ -420,6 +420,32 @@
   letter-spacing: 0.5px;
 }
 
+.DisplayArticle-breadcrumbs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem auto 0.35rem;
+  max-width: 75rem;
+  font-size: var(--text-sm);
+}
+
+.DisplayArticle-breadcrumbs a,
+.DisplayArticle-breadcrumbs span {
+  color: #0f4c3a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.DisplayArticle-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.DisplayArticle-breadcrumb-sep {
+  color: #5f8276;
+}
+
 /* Blockquote styling */
 .interweave blockquote {
   border: 1px solid #c9d7e8;
@@ -933,6 +959,37 @@
 .DisplayArticle-content--beginner .interweave .bc-action p:last-child,
 .DisplayArticle-content--beginner .interweave .bc-memory p:last-child {
   margin-bottom: 0;
+}
+
+.DisplayArticle-content--beginner .interweave .bc-related-links {
+  margin-top: 2rem;
+}
+
+.DisplayArticle-content--beginner .interweave .bc-related-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+}
+
+.DisplayArticle-content--beginner .interweave .bc-related-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  border-radius: 0.85rem;
+  border: 1px solid #9ec6b5;
+  background: linear-gradient(180deg, #f7fbf9 0%, #eaf4ef 100%);
+  color: #0b3f30;
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  padding: 0.6rem 0.8rem;
+}
+
+.DisplayArticle-content--beginner .interweave .bc-related-link-btn:hover {
+  background: linear-gradient(180deg, #ebf6f1 0%, #dceee6 100%);
+  border-color: #7fb09a;
 }
 
 .DisplayArticle-content--beginner .interweave .bc-rule,

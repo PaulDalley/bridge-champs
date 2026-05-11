@@ -18,7 +18,10 @@ import {
   groupBeginnerArticlesBySubcategory,
   mapCategoryToVideoCategory,
 } from "../helpers/contentGrouping";
-import { getBeginnerSubcategoryPresetList } from "../data/beginner/beginnerArticleSubcategories";
+import {
+  getBeginnerSubcategoryPresetList,
+  getBeginnerSubcategoryAliasMap,
+} from "../data/beginner/beginnerArticleSubcategories";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
@@ -312,9 +315,22 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   );
 
   const beginnerSubcategoryPreset = getBeginnerSubcategoryPresetList(articleType);
-  const beginnerSubtopicSections =
+  const beginnerSubcategoryAliases = getBeginnerSubcategoryAliasMap(articleType);
+  const normalizedBeginnerArticles =
     beginnerSubcategoryPreset && filteredArticles != null
-      ? groupBeginnerArticlesBySubcategory(filteredArticles, [...beginnerSubcategoryPreset])
+      ? filteredArticles.map((article) => {
+          const originalSub = (article?.subcategory || "").trim();
+          const canonicalSub = beginnerSubcategoryAliases[originalSub];
+          if (!canonicalSub) return article;
+          return { ...article, subcategory: canonicalSub };
+        })
+      : filteredArticles;
+  const beginnerSubtopicSections =
+    beginnerSubcategoryPreset && normalizedBeginnerArticles != null
+      ? groupBeginnerArticlesBySubcategory(
+          normalizedBeginnerArticles,
+          [...beginnerSubcategoryPreset]
+        )
       : null;
 
   // Get category info
@@ -504,22 +520,83 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     return `${categoryInfo.subtitle}. Browse our collection of expert ${categoryInfo.name.toLowerCase()} articles and improve your Bridge game.`;
   };
 
+  const categoryPathMap = {
+    cardPlay: "/declarer/articles",
+    cardPlayBasics: "/declarer/articles",
+    defence: "/defence/articles",
+    defenceBasics: "/defence/articles",
+    bidding: "/bidding/advanced",
+    biddingAdvanced: "/bidding/advanced",
+    biddingBasics: "/bidding/basics",
+    counting: "/declarer/articles",
+    beginnerCardPlay: "/beginner/articles/declarer",
+    beginnerDefence: "/beginner/articles/defence",
+    beginnerBidding: "/beginner/articles/bidding",
+  };
+  const categoryHubPathMap = {
+    cardPlay: "/declarer",
+    cardPlayBasics: "/declarer",
+    defence: "/defence",
+    defenceBasics: "/defence",
+    bidding: "/bidding",
+    biddingAdvanced: "/bidding",
+    biddingBasics: "/bidding",
+    counting: "/counting",
+    beginnerCardPlay: "/beginner",
+    beginnerDefence: "/beginner",
+    beginnerBidding: "/beginner",
+  };
+
   const getCategoryUrl = () => {
     const baseUrl = "https://bridgechampions.com";
-    const categoryPathMap = {
-      cardPlay: "/declarer/articles",
-      cardPlayBasics: "/declarer/articles",
-      defence: "/defence/articles",
-      defenceBasics: "/defence/articles",
-      bidding: "/bidding/advanced",
-      biddingAdvanced: "/bidding/advanced",
-      biddingBasics: "/bidding/basics",
-      counting: "/declarer/articles",
-      beginnerCardPlay: "/beginner/articles/declarer",
-      beginnerDefence: "/beginner/articles/defence",
-      beginnerBidding: "/beginner/articles/bidding",
-    };
     return `${baseUrl}${categoryPathMap[articleType] || "/"}`;
+  };
+  const breadcrumbItems = (() => {
+    if (isBeginnerArticleType) {
+      return [
+        { name: "Home", path: "/" },
+        { name: "Beginner", path: "/beginner" },
+        { name: `${categoryInfo.name} Articles`, path: categoryPathMap[articleType] || "/" },
+      ];
+    }
+    return [
+      { name: "Home", path: "/" },
+      { name: categoryInfo.name, path: categoryHubPathMap[articleType] || "/" },
+      { name: `${categoryInfo.name} Articles`, path: categoryPathMap[articleType] || "/" },
+    ];
+  })();
+  const collectionStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: getCategoryTitle(),
+    description: getCategoryDescription(),
+    url: getCategoryUrl(),
+    inLanguage: "en",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Bridge Champions",
+      url: "https://bridgechampions.com",
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: (filteredArticles || []).length,
+      itemListElement: (filteredArticles || []).slice(0, 25).map((item, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        url: `${getCategoryUrl()}/${item.id}`,
+        name: item.title || `Article ${idx + 1}`,
+      })),
+    },
+  };
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbItems.map((item, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: item.name,
+      item: `https://bridgechampions.com${item.path}`,
+    })),
   };
 
   return (
@@ -531,6 +608,12 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
         <meta property="og:url" content={getCategoryUrl()} />
         <meta property="og:title" content={getCategoryTitle()} />
         <meta property="og:description" content={getCategoryDescription()} />
+        <script type="application/ld+json">
+          {JSON.stringify(collectionStructuredData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbStructuredData)}
+        </script>
       </Helmet>
       {/* Admin Action Buttons */}
       {a === true && (
@@ -584,6 +667,18 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
       <div className="CategoryArticles-header">
         <div className="container">
+          <nav className="CategoryArticles-breadcrumbs" aria-label="Breadcrumb">
+            {breadcrumbItems.map((item, idx) => (
+              <React.Fragment key={`${item.name}-${idx}`}>
+                <a href={item.path}>{item.name}</a>
+                {idx < breadcrumbItems.length - 1 ? (
+                  <span className="CategoryArticles-breadcrumb-sep" aria-hidden="true">
+                    /
+                  </span>
+                ) : null}
+              </React.Fragment>
+            ))}
+          </nav>
           <h1 className="CategoryArticles-title">{categoryInfo.name}</h1>
           <p className="CategoryArticles-subtitle">
             {categoryInfo.subtitle}
