@@ -37,7 +37,6 @@ import {
 
 import {
   parseDocumentIntoJSX,
-  makeDateString,
   findArticleById,
   makeBoardObjectFromString,
   getDifficultyStr,
@@ -611,22 +610,9 @@ const DisplayCategoryArticle = ({
               <strong>📹 Video Available:</strong> This article includes a video version below (same content as the text).
             </div>
           )}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '0.8rem', marginTop: '1.5rem' }}>
+          <div className="DisplayArticle-metaRow">
             <div className="DisplayArticle-category" aria-label="Article number">
               Article {useMetaData.articleNumber}
-            </div>
-            {createdDate && (
-              <div className="DisplayArticle-createdAt" aria-label="Published date">
-                Published {makeDateString(createdDate)}
-              </div>
-            )}
-            {updatedDate && (
-              <div className="DisplayArticle-createdAt" aria-label="Updated date">
-                Updated {makeDateString(updatedDate)}
-              </div>
-            )}
-            <div className="DisplayArticle-createdAt" aria-label="Author">
-              By {articleAuthor}
             </div>
             {(() => {
               if (!useMetaData.createdAt) return null;
