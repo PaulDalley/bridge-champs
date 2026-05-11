@@ -736,47 +736,70 @@
 }
 
 /* End-of-article related navigation (e.g. "Related reading") */
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul {
-  border: 1px solid #c6dace;
-  background: linear-gradient(180deg, #f8fcfa 0%, #eef7f2 100%);
-  border-radius: 0.95rem;
-  padding: 0.85rem;
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul {
+  border: 1px solid #b8d3c7;
+  background: linear-gradient(180deg, #f4fbf8 0%, #e9f5ef 100%);
+  border-radius: 1.15rem;
+  padding: 0.95rem;
+  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.08);
 }
 
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li {
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li {
   list-style: none !important;
   margin: 0.45rem 0;
   padding-left: 0;
 }
 
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li::before {
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li::before,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li::before {
   content: none !important;
 }
 
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a {
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a,
+.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"] {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  border: 1px solid #b8d3c7;
-  border-radius: 0.8rem;
-  background: #ffffff;
+  border: 1px solid #8db7a2;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f3fbf7 100%);
   text-decoration: none;
-  padding: 0.58rem 0.82rem;
-  color: #0b3f30;
-  font-size: var(--text-sm);
+  padding: 0.72rem 0.96rem;
+  min-height: 3.1rem;
+  color: #0a3a2c;
+  font-size: var(--text-base);
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(15, 76, 58, 0.08);
+  letter-spacing: 0.01em;
+  box-shadow: 0 3px 10px rgba(15, 76, 58, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease,
+    background 0.15s ease;
 }
 
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a::before {
-  content: "↗";
-  color: #0f4c3a;
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a::before,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a::before,
+.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]::before {
+  content: "→";
+  color: #0b6c4e;
   font-weight: 900;
 }
 
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a:hover {
-  border-color: #7ea893;
-  background: #f6fbf8;
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a:hover,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a:hover,
+.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]:hover {
+  border-color: #4f9175;
+  background: linear-gradient(180deg, #ffffff 0%, #e9f8f1 100%);
+  box-shadow: 0 7px 16px rgba(15, 76, 58, 0.14);
+  transform: translateY(-1px);
+}
+
+.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a:focus-visible,
+.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a:focus-visible,
+.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]:focus-visible {
+  outline: 3px solid #7dc8a6;
+  outline-offset: 2px;
 }
 
 .ArticleListItem-new-badge {
@@ -1280,4 +1303,45 @@
 .DisplayArticle-content .interweave p strong,
 .DisplayArticle-content .interweave li strong {
   color: #0b3f30;
+}
+
+/* High-visibility article navigation links ("Where to next") */
+.DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"],
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"] {
+  display: flex !important;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 3.2rem;
+  padding: 0.78rem 1rem !important;
+  border-radius: 1rem !important;
+  border: 2px solid #1b6b52 !important;
+  background: linear-gradient(180deg, #1f7a5e 0%, #195f49 100%) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: var(--text-base) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.01em;
+  box-shadow: 0 8px 18px rgba(15, 76, 58, 0.24);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]::before,
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]::before {
+  content: "→";
+  color: #d6ffef;
+  font-weight: 900;
+}
+
+.DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:hover,
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 76, 58, 0.28);
+}
+
+.DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:focus-visible,
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:focus-visible {
+  outline: 3px solid #91e2c2;
+  outline-offset: 2px;
 }
