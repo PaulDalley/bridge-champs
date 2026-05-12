@@ -4,11 +4,11 @@
 
 ## Sitewide stats
 
-- Total articles indexed in collections: **99**
+- Total articles indexed in collections: **100**
 - Ghosts (body missing / empty): **0**
 - Thin (< 600 words, body present): **76** — of which very thin (< 250 words): **11**
-- Orphans (no inbound internal links): **4**
-- Free / paid split: **99 free · 0 paid**
+- Orphans (no inbound internal links): **5**
+- Free / paid split: **100 free · 0 paid**
 - No trainer link in body and no ctaTarget set: **0**
 - Internal links that point to a SUMMARY id (paywall risk): **0**
 - Missing teaser (meta description): **0**
@@ -44,11 +44,12 @@ Each group shares at least 2 meaningful keywords in the title. Decide which URL 
 | `/defence/articles/yeEqhsXrHlYaQVYFrZLl` | Dummy Type 3: Ruffing Dummy and How to Counter It | 596 | 2026-05-12 |
 | `/defence/articles/zkWYwNSDTcVqPCQqQ88e` | Dummy Type 1: Limited Entries and How to Pressure It | 882 | 2026-05-12 |
 
-### Cluster: `stayman` (4 articles)
+### Cluster: `stayman` (5 articles)
 
 | URL | Title | Words | Updated |
 |---|---|---:|---|
 | `/bidding/advanced/QmadBtW2QFMGu3o51NNi` | Find a Major Fit as Responder: Mainstream Methods | 494 | 2026-05-12 |
+| `/bidding/advanced/Czs8FCV33GJN6Jtchw8o` | How to find a major-suit fit after 1NT: Stayman, Smolen, Puppet & Texas (complete guide) | 1317 | 2026-05-12 |
 | `/bidding/advanced/AbPr2z4sByvVgT1U5Ehc` | Puppet Stayman: How to Check for 5-Card Majors | 391 | 2026-05-12 |
 | `/bidding/advanced/DcqQjNCQDyNMWk2fOvIO` | Smolen Convention: Show 5-4 Majors After Stayman | 275 | 2026-05-12 |
 | `/bidding/advanced/U2h4h8kDjcgPT9k4YLq0` | Stayman Convention: Find a 4-4 Major Fit After 1NT | 258 | 2026-05-12 |
@@ -164,21 +165,22 @@ Each group shares at least 2 meaningful keywords in the title. Decide which URL 
 | **KEEP** | The Forcing Defence: Drain Declarer's Trumps | 655 | 3 | yes | cta | 2026-05-12 | `/defence/articles/3R10e13E6N3uCnQ9yGUD` | healthy | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **KEEP** | The Hammer in Defence: Take Tricks Before Declarer Settles | 871 | 1 | yes | cta | 2026-05-12 | `/defence/articles/QbsVGH5V0YvfxPBavmdw` | healthy | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 
-## Bidding (legacy) (37)
+## Bidding (legacy) (38)
 
 | Verdict | Title | Words | Inbound | Free? | Trainer? | Updated | URL | Flags | Action |
 |---|---|---:|---:|:---:|:---:|---|---|---|---|
+| **REVIEW-CLUSTER** | How to find a major-suit fit after 1NT: Stayman, Smolen, Puppet & Texas (complete guide) | 1317 | 0 | yes | yes | 2026-05-12 | `/bidding/advanced/Czs8FCV33GJN6Jtchw8o` | orphan (no inbound links); title too long for SERP (88 chars); overlaps with 4 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Misfit Auctions: Put the Brakes On Early | 234 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/ShmC7JaVqJPSCDapjdnE` | very thin (234 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Bidding as a Conversation: Share Information Efficiently | 237 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/ZStj8Bg4UJkUxlCFI3lt` | very thin (237 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | After 1NT: Respond More on Balanced Hands | 242 | 5 | yes | cta | 2026-05-12 | `/bidding/advanced/U7XPYnHrxkT9n2mYmGZ8` | very thin (242 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Texas Transfers: Transfer Directly to Game | 242 | 2 | yes | cta | 2026-05-12 | `/bidding/advanced/imr5fXsuVBeMFItvoGY3` | very thin (242 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Texas Transfers: Transfer Directly to Game | 242 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/imr5fXsuVBeMFItvoGY3` | very thin (242 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Vulnerable Auctions: Why Too Careful Can Be Costly | 253 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/KTH7BWkLEPoaI0X4V3t6` | thin (253 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Stayman Convention: Find a 4-4 Major Fit After 1NT | 258 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/U2h4h8kDjcgPT9k4YLq0` | thin (258 words); overlaps with 3 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Stayman vs Transfers: Which Tool Should You Use? | 265 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/i2CIdysS7cErPJYWBUDO` | thin (265 words); overlaps with 1 other article(s) on "transfers" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Stayman Convention: Find a 4-4 Major Fit After 1NT | 258 | 4 | yes | cta | 2026-05-12 | `/bidding/advanced/U2h4h8kDjcgPT9k4YLq0` | thin (258 words); overlaps with 4 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Stayman vs Transfers: Which Tool Should You Use? | 265 | 4 | yes | cta | 2026-05-12 | `/bidding/advanced/i2CIdysS7cErPJYWBUDO` | thin (265 words); overlaps with 1 other article(s) on "transfers" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | After Partner Opens 1NT: Pass or Invite | 271 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/zVE5Qhi9ZVcBlztH1gZ5` | thin (271 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | 1NT with a Six-Card Suit: When It Still Works | 275 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/JRfBfhpEImvkkf8kFEgw` | thin (275 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Smolen Convention: Show 5-4 Majors After Stayman | 275 | 2 | yes | cta | 2026-05-12 | `/bidding/advanced/DcqQjNCQDyNMWk2fOvIO` | thin (275 words); overlaps with 3 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Transfers: A must have tool for NT openings | 281 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/uiRZXtZ2zjxVxq7e1lAb` | thin (281 words); overlaps with 1 other article(s) on "transfers" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Smolen Convention: Show 5-4 Majors After Stayman | 275 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/DcqQjNCQDyNMWk2fOvIO` | thin (275 words); overlaps with 4 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Transfers: A must have tool for NT openings | 281 | 4 | yes | cta | 2026-05-12 | `/bidding/advanced/uiRZXtZ2zjxVxq7e1lAb` | thin (281 words); overlaps with 1 other article(s) on "transfers" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Non-Vulnerable Preempting: Apply Maximum Pressure | 291 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/e0ibArOtZwt5CWmzZVIv` | thin (291 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Should You Invite with 11? Practical Guide | 305 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/B4nPwmcsPuwmprAcU32E` | thin (305 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Hand Evaluation 3: Do More with a Good Suit | 308 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/pclpFd42oS8tKnrofv3A` | thin (308 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
@@ -186,12 +188,12 @@ Each group shares at least 2 meaningful keywords in the title. Decide which URL 
 | **EXPAND** | Preempting in First Seat: When to Be Bold | 355 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/0COk2JlNnbKzBGJHAmpO` | thin (355 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Responding to a Takeout Double: Keep It Practical | 373 | 6 | yes | cta | 2026-05-12 | `/bidding/advanced/bAld6xJ0zVd2NRekKXND` | thin (373 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | KISS 3: Support Partner as a Priority | 378 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/JRedeLU4KnYI01b1shA8` | thin (378 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Puppet Stayman: How to Check for 5-Card Majors | 391 | 2 | yes | cta | 2026-05-12 | `/bidding/advanced/AbPr2z4sByvVgT1U5Ehc` | thin (391 words); overlaps with 3 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Puppet Stayman: How to Check for 5-Card Majors | 391 | 3 | yes | cta | 2026-05-12 | `/bidding/advanced/AbPr2z4sByvVgT1U5Ehc` | thin (391 words); overlaps with 4 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Vulnerable Preempting: Risk and Reward | 425 | 5 | yes | cta | 2026-05-12 | `/bidding/advanced/DbK4Q0MfX55QFdjEDuOO` | thin (425 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Fourth Suit Forcing and Checkback: Core Structures | 433 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/kjsnezFNbXA1WsfvFEl4` | thin (433 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Bidding Basics: Build a Clear Auction Plan | 444 | 5 | yes | cta | 2026-05-12 | `/bidding/advanced/UqzicrX1JPrffdoZ89dJ` | thin (444 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Hand Evaluation 4: Do Less with a Weak Trump Suit | 470 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/Wac8vjXveDhjyi7x7RRu` | thin (470 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
-| **EXPAND** | Find a Major Fit as Responder: Mainstream Methods | 494 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/QmadBtW2QFMGu3o51NNi` | thin (494 words); overlaps with 3 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
+| **EXPAND** | Find a Major Fit as Responder: Mainstream Methods | 494 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/QmadBtW2QFMGu3o51NNi` | thin (494 words); overlaps with 4 other article(s) on "stayman" | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Four-Level Doubles: What to Do Next | 511 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/dfCl8Oz7REuPxBSvWi0S` | thin (511 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Just Bid 3NT: Recognize the Right Auctions | 534 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/9Yz35mbg93rpzNfTc1Op` | thin (534 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
 | **EXPAND** | Second Suit in Competition: Compete with Purpose | 534 | 1 | yes | cta | 2026-05-12 | `/bidding/advanced/PSIgQcbARccHtx2K0x6R` | thin (534 words) | [ ] keep · [ ] retitle · [ ] expand · [ ] merge → ___ · [ ] kill |
