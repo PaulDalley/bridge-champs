@@ -48,6 +48,43 @@
       content="fd06NCLtHtjRnHk9qlua4FBX9sJh7mSnB9IZNfsJti0"
     />
 
+    <!-- Sitewide Organization + WebSite JSON-LD: establishes brand identity
+         and lets Google associate articles with a known publisher.
+         Update sameAs as public profiles are added. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://bridgechampions.com/#organization",
+          "name": "Bridge Champions",
+          "url": "https://bridgechampions.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95"
+          },
+          "founder": {
+            "@type": "Person",
+            "@id": "https://bridgechampions.com/#author",
+            "name": "Paul Dalley",
+            "jobTitle": "Bridge teacher"
+          },
+          "sameAs": []
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://bridgechampions.com/#website",
+          "url": "https://bridgechampions.com",
+          "name": "Bridge Champions",
+          "description": "Bridge lessons, practice trainers, and quizzes for beginners and experienced players.",
+          "publisher": { "@id": "https://bridgechampions.com/#organization" },
+          "inLanguage": "en"
+        }
+      ]
+    }
+    </script>
+
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/

@@ -100,31 +100,119 @@ const STATIC_URLS = [
 ];
 
 const DYNAMIC_COLLECTIONS = [
-  { collection: "cardPlay", pathPrefix: "/declarer/articles", priority: "0.7" },
-  { collection: "defence", pathPrefix: "/defence/articles", priority: "0.7" },
-  { collection: "bidding", pathPrefix: "/bidding/advanced", priority: "0.7" },
-  { collection: "biddingAdvanced", pathPrefix: "/bidding/advanced", priority: "0.7" },
-  { collection: "biddingBasics", pathPrefix: "/bidding/basics", priority: "0.7" },
-  { collection: "counting", pathPrefix: "/counting/articles", priority: "0.6" },
-  { collection: "beginnerCardPlay", pathPrefix: "/beginner/articles/declarer", priority: "0.7" },
-  { collection: "beginnerDefence", pathPrefix: "/beginner/articles/defence", priority: "0.6" },
-  { collection: "beginnerBidding", pathPrefix: "/beginner/articles/bidding", priority: "0.6" },
+  {
+    summary: "cardPlay",
+    body: "cardPlayBody",
+    pathPrefix: "/declarer/articles",
+    priority: "0.7",
+  },
+  {
+    summary: "defence",
+    body: "defenceBody",
+    pathPrefix: "/defence/articles",
+    priority: "0.7",
+  },
+  {
+    summary: "bidding",
+    body: "biddingBody",
+    pathPrefix: "/bidding/advanced",
+    priority: "0.7",
+  },
+  {
+    summary: "biddingAdvanced",
+    body: "biddingAdvancedBody",
+    pathPrefix: "/bidding/advanced",
+    priority: "0.7",
+  },
+  {
+    summary: "biddingBasics",
+    body: "biddingBasicsBody",
+    pathPrefix: "/bidding/basics",
+    priority: "0.7",
+  },
+  {
+    summary: "counting",
+    body: "countingBody",
+    pathPrefix: "/counting/articles",
+    priority: "0.6",
+  },
+  {
+    summary: "beginnerCardPlay",
+    body: "beginnerCardPlayBody",
+    pathPrefix: "/beginner/articles/declarer",
+    priority: "0.7",
+  },
+  {
+    summary: "beginnerDefence",
+    body: "beginnerDefenceBody",
+    pathPrefix: "/beginner/articles/defence",
+    priority: "0.6",
+  },
+  {
+    summary: "beginnerBidding",
+    body: "beginnerBiddingBody",
+    pathPrefix: "/beginner/articles/bidding",
+    priority: "0.6",
+  },
 ];
+
+function extractBodyId(data) {
+  const body = data && data.body;
+  if (!body) return null;
+  if (typeof body === "string") return body;
+  if (typeof body.id === "string") return body.id;
+  if (body._key && Array.isArray(body._key.path?.segments)) {
+    const segs = body._key.path.segments;
+    return segs[segs.length - 1] || null;
+  }
+  return null;
+}
 
 async function getDynamicUrls() {
   const out = [];
+  let skippedNoBody = 0;
+  let skippedMissingBody = 0;
   for (const cfg of DYNAMIC_COLLECTIONS) {
-    const snap = await db.collection(cfg.collection).get();
-    snap.forEach((doc) => {
+    const summarySnap = await db.collection(cfg.summary).get();
+    const docs = [...summarySnap.docs];
+    for (const doc of docs) {
       const data = doc.data() || {};
-      const date = toDateValue(data.updatedAt) || toDateValue(data.createdAt) || new Date();
+      const bodyId = extractBodyId(data) || doc.id;
+      if (!bodyId) {
+        skippedNoBody++;
+        continue;
+      }
+      // Confirm the body document still exists (filters out ghost entries
+      // where the summary points at a deleted body doc).
+      const bodyDoc = await db.collection(cfg.body).doc(bodyId).get();
+      if (!bodyDoc.exists) {
+        skippedMissingBody++;
+        continue;
+      }
+      const bodyData = bodyDoc.data() || {};
+      const bodyText = bodyData.text || bodyData.body || "";
+      if (!bodyText || String(bodyText).trim().length < 40) {
+        skippedMissingBody++;
+        continue;
+      }
+      const date =
+        toDateValue(bodyData.updatedAt) ||
+        toDateValue(data.updatedAt) ||
+        toDateValue(bodyData.createdAt) ||
+        toDateValue(data.createdAt) ||
+        new Date();
       out.push({
-        loc: `${cfg.pathPrefix}/${doc.id}`,
+        loc: `${cfg.pathPrefix}/${bodyId}`,
         lastmod: toYmd(date),
         changefreq: "monthly",
         priority: cfg.priority,
       });
-    });
+    }
+  }
+  if (skippedNoBody || skippedMissingBody) {
+    console.log(
+      `Skipped ${skippedNoBody} summary docs with no body ref + ${skippedMissingBody} with missing/empty body docs.`
+    );
   }
   return out;
 }

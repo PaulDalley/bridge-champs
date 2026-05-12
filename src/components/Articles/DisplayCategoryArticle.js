@@ -49,6 +49,43 @@ import FeedbackForm from "./FeedbackForm";
 import { useSelector, useDispatch } from "react-redux";
 import SkeletonLoader from "../UI/SkeletonLoader";
 
+// Site-wide author + publisher identity for structured data and visible
+// attribution. Update DEFAULT_AUTHOR.sameAs as you add public profiles
+// (YouTube, LinkedIn, X, etc.) — Google reads sameAs to consolidate your
+// author/brand identity across the web.
+const DEFAULT_AUTHOR = {
+  name: "Paul Dalley",
+  jobTitle: "Bridge teacher",
+  url: "https://bridgechampions.com/about",
+  sameAs: [
+    // "https://www.youtube.com/@bridgechampions",
+    // "https://www.linkedin.com/in/paul-dalley",
+  ],
+};
+
+const SITE_PUBLISHER = {
+  name: "Bridge Champions",
+  url: "https://bridgechampions.com",
+  logoUrl:
+    "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95",
+  sameAs: [
+    // "https://www.youtube.com/@bridgechampions",
+  ],
+};
+
+function formatLastUpdated(date) {
+  if (!date) return "";
+  try {
+    return new Intl.DateTimeFormat("en-AU", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+  } catch (_) {
+    return date.toDateString();
+  }
+}
+
 // List path for redirect after delete
 const getListPathForArticleType = (type) => {
   if (type === "biddingBasics") return "/bidding/basics";
@@ -593,8 +630,28 @@ const DisplayCategoryArticle = ({
   const backToListLabel = `Back to ${getCategoryName()} articles`;
   const createdDate = toSafeDate(useMetaData?.createdAt);
   const updatedDate = toSafeDate(useMetaData?.updatedAt) || createdDate;
-  const articleAuthor = useMetaData?.authorName || "Bridge Champions";
-  const siteBaseUrl = "https://bridgechampions.com";
+  const customAuthorName = useMetaData?.authorName;
+  const looksLikePerson =
+    typeof customAuthorName === "string" &&
+    /\s/.test(customAuthorName.trim()) &&
+    !/champion|bridge\b/i.test(customAuthorName);
+  const articleAuthor = looksLikePerson
+    ? {
+        "@type": "Person",
+        name: customAuthorName,
+        url: DEFAULT_AUTHOR.url,
+      }
+    : {
+        "@type": "Person",
+        name: DEFAULT_AUTHOR.name,
+        jobTitle: DEFAULT_AUTHOR.jobTitle,
+        url: DEFAULT_AUTHOR.url,
+        ...(DEFAULT_AUTHOR.sameAs && DEFAULT_AUTHOR.sameAs.length
+          ? { sameAs: DEFAULT_AUTHOR.sameAs }
+          : {}),
+      };
+  const visibleAuthorName = looksLikePerson ? customAuthorName : DEFAULT_AUTHOR.name;
+  const siteBaseUrl = SITE_PUBLISHER.url;
   const breadcrumbItems = [
     { name: "Home", path: "/" },
     { name: `${getCategoryName()} Articles`, path: getListPathForArticleType(articleType) },
@@ -605,14 +662,18 @@ const DisplayCategoryArticle = ({
     "@type": "Article",
     headline: useMetaData?.title || "Bridge Champions article",
     description: getArticleDescription(),
-    author: {
-      "@type": "Organization",
-      name: articleAuthor,
-    },
+    author: articleAuthor,
     publisher: {
       "@type": "Organization",
-      name: "Bridge Champions",
-      url: siteBaseUrl,
+      name: SITE_PUBLISHER.name,
+      url: SITE_PUBLISHER.url,
+      logo: {
+        "@type": "ImageObject",
+        url: SITE_PUBLISHER.logoUrl,
+      },
+      ...(SITE_PUBLISHER.sameAs && SITE_PUBLISHER.sameAs.length
+        ? { sameAs: SITE_PUBLISHER.sameAs }
+        : {}),
     },
     articleSection: getCategoryName(),
     datePublished: createdDate ? createdDate.toISOString() : undefined,
@@ -721,6 +782,31 @@ const DisplayCategoryArticle = ({
               </React.Fragment>
             ))}
           </div>
+          {(updatedDate || visibleAuthorName) && (
+            <div
+              className="DisplayArticle-byline"
+              aria-label="Article byline"
+            >
+              {visibleAuthorName && (
+                <span className="DisplayArticle-byline-author">
+                  By {visibleAuthorName}
+                </span>
+              )}
+              {visibleAuthorName && updatedDate && (
+                <span className="DisplayArticle-byline-sep" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              {updatedDate && (
+                <span className="DisplayArticle-byline-updated">
+                  Updated{" "}
+                  <time dateTime={updatedDate.toISOString()}>
+                    {formatLastUpdated(updatedDate)}
+                  </time>
+                </span>
+              )}
+            </div>
+          )}
           {hasVideos && !canWatchVideo && (
             <div className="DisplayArticle-video-notice" style={{
               marginTop: '1rem',

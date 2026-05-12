@@ -447,6 +447,35 @@
   color: #5f8276;
 }
 
+/* Byline: visible author + last-updated under the breadcrumbs.
+   Quiet by default so it doesn't compete with the title. */
+.DisplayArticle-byline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.15rem auto 0.55rem;
+  max-width: 75rem;
+  font-size: var(--text-sm);
+  color: #4a5b54;
+  font-weight: 500;
+}
+
+.DisplayArticle-byline-author {
+  color: #0f4c3a;
+  font-weight: 700;
+}
+
+.DisplayArticle-byline-sep {
+  color: #5f8276;
+}
+
+.DisplayArticle-byline-updated time {
+  font-weight: 600;
+  color: #1d2a25;
+}
+
 /* Blockquote styling */
 .interweave blockquote {
   border: 1px solid #c9d7e8;
@@ -650,6 +679,11 @@
     margin-bottom: 0.45rem;
     font-size: var(--text-xs);
     gap: 0.28rem;
+  }
+  .DisplayArticle-byline {
+    font-size: var(--text-xs);
+    margin: 0 auto 0.5rem;
+    gap: 0.35rem;
   }
   .DisplayArticle-category,
   .DisplayArticle-difficulty,

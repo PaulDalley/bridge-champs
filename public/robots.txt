@@ -4,18 +4,34 @@
 User-agent: *
 Allow: /
 
-# Disallow admin/edit pages
-Disallow: /create/
-Disallow: /edit/
-Disallow: /profile
-Disallow: /membership
-Disallow: /login
-
-# Allow important pages
+# Public content layer
 Allow: /learn
 Allow: /declarer
 Allow: /defence
 Allow: /bidding
+Allow: /beginner
+Allow: /counting
+
+# Member / interactive surfaces (logged-in or transactional UI). These render
+# meaningful content only for authenticated users, so we keep them out of
+# search results to avoid thin/duplicate indexing.
+Disallow: /create/
+Disallow: /edit/
+Disallow: /profile
+Disallow: /membership
+Disallow: /subscribe
+Disallow: /login
+Disallow: /signup
+Disallow: /admin
+Disallow: /settings
+Disallow: /refer
+
+# Interactive trainers (gated practice product, not reference content).
+Disallow: /declarer/practice
+Disallow: /defence/practice
+Disallow: /bidding/practice
+Disallow: /counting/practice
+Disallow: /counting-trumps
 
 # Sitemap location
 Sitemap: https://bridgechampions.com/sitemap.xml

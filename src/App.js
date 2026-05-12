@@ -703,6 +703,8 @@ const routes = (
     <Route path="/bidding/worthwhile-conventions/jacoby-2nt" component={JacobyConventionArticle} exact />
     <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
     <Route path="/bidding/advanced/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="bidding" bodyRef="biddingBody" />} />
+    <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
+    <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
 
     <Route
