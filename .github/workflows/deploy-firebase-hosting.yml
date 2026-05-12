@@ -68,6 +68,15 @@ jobs:
       - name: Copy committed sitemap into build/
         run: cp public/sitemap.xml build/sitemap.xml || true
 
+      # firebase.json rewrites every unmatched URL to /_shell.html (so SPA
+      # routes like /pillars and /bidding/advanced/<id> still load the React
+      # app). Without _shell.html on disk Hosting returns 404 for those
+      # routes. The prerender step in refresh-seo writes a richer _shell;
+      # fast-deploy just needs a basic copy of index.html so the SPA shell
+      # loads while the slower SEO refresh catches up.
+      - name: Seed SPA fallback (_shell.html)
+        run: cp build/index.html build/_shell.html
+
       - name: Upload build/ for the SEO refresh job
         uses: actions/upload-artifact@v4
         with:
