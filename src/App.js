@@ -23,6 +23,7 @@ import { Helmet } from "react-helmet-async";
 import "./App.css";
 import Contact from "./components/UI/Contact";
 import About from "./components/UI/About";
+import PillarsIndex from "./components/Pillars/PillarsIndex";
 import PrivacyPolicy from "./components/UI/PrivacyPolicy";
 import HomePage from "./components/HomePage";
 import Articles from "./containers/Articles";
@@ -816,6 +817,10 @@ const routes = (
       component={About}
       // element={<About />}
     />
+
+    {/* Admin-only drafting area for long-form pillar articles. Hidden from
+        the sitemap and from non-admin visitors; see PillarsIndex.js. */}
+    <Route path="/pillars" component={PillarsIndex} exact />
 
     {/*<Route path="/article/:id" component={Article} /> */}
     <Route

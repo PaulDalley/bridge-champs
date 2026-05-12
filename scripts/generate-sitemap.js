@@ -173,11 +173,17 @@ async function getDynamicUrls() {
   const out = [];
   let skippedNoBody = 0;
   let skippedMissingBody = 0;
+  let skippedHidden = 0;
   for (const cfg of DYNAMIC_COLLECTIONS) {
     const summarySnap = await db.collection(cfg.summary).get();
     const docs = [...summarySnap.docs];
     for (const doc of docs) {
       const data = doc.data() || {};
+      // Hidden drafts (admin-only previews) must NEVER end up in the sitemap.
+      if (data.isHidden === true) {
+        skippedHidden++;
+        continue;
+      }
       const bodyId = extractBodyId(data) || doc.id;
       if (!bodyId) {
         skippedNoBody++;
@@ -210,9 +216,9 @@ async function getDynamicUrls() {
       });
     }
   }
-  if (skippedNoBody || skippedMissingBody) {
+  if (skippedNoBody || skippedMissingBody || skippedHidden) {
     console.log(
-      `Skipped ${skippedNoBody} summary docs with no body ref + ${skippedMissingBody} with missing/empty body docs.`
+      `Skipped ${skippedNoBody} summary docs with no body ref, ${skippedMissingBody} with missing/empty body docs, and ${skippedHidden} hidden drafts.`
     );
   }
   return out;

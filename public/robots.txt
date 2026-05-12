@@ -17,6 +17,7 @@ Allow: /counting
 # search results to avoid thin/duplicate indexing.
 Disallow: /create/
 Disallow: /edit/
+Disallow: /edit-article-v2/
 Disallow: /profile
 Disallow: /membership
 Disallow: /subscribe
@@ -25,6 +26,11 @@ Disallow: /signup
 Disallow: /admin
 Disallow: /settings
 Disallow: /refer
+
+# Admin-only drafting area for in-progress long-form pillar articles.
+# These URLs return a "not found" page to anyone who isn't an admin and
+# are intentionally excluded from the sitemap.
+Disallow: /pillars
 
 # Interactive trainers (gated practice product, not reference content).
 Disallow: /declarer/practice

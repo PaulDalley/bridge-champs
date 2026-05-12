@@ -108,6 +108,7 @@ function pickRelatedArticles({
   const scored = allArticles
     .filter((a) => {
       if (!a || typeof a !== "object") return false;
+      if (a.isHidden === true) return false;
       const bodyId = a.body || a.id;
       if (!bodyId) return false;
       if (bodyId === currentBodyId) return false;

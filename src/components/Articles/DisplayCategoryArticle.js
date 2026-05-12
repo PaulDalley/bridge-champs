@@ -497,6 +497,11 @@ const DisplayCategoryArticle = ({
   const isPremium = tier === 'premium';
   const isAdmin = a === true;
   const isLoggedIn = Boolean(uid);
+
+  // Hidden articles (drafts in /pillars) are admin-only. Non-admins get a
+  // simple "not found" panel and no <meta> leakage. Sitemap/prerender skip
+  // these too, so no crawler should ever arrive here.
+  const isHiddenDraft = useMetaData?.isHidden === true;
   // For logged-out users, metadata can lag; the body doc is readable for free articles and carries isFree too.
   const isFree = useMetaData?.isFree === true || isFreeFromBodyDoc === true;
   const canWatchVideo = isAdmin || isPremium || isFree;
@@ -712,12 +717,45 @@ const DisplayCategoryArticle = ({
     isBeginnerArticleType ? " DisplayArticle-content--beginner" : ""
   }`;
 
+  if (isHiddenDraft && !isAdmin) {
+    return (
+      <>
+        <Helmet>
+          <title>Not found — Bridge Champions</title>
+          <meta name="robots" content="noindex,nofollow" />
+        </Helmet>
+        <article
+          className="DisplayArticle-container"
+          aria-label="Article not available"
+          style={{ padding: "3rem 1.5rem", maxWidth: "60rem", margin: "0 auto" }}
+        >
+          <h1 style={{ fontSize: "var(--text-3xl)", fontWeight: 800 }}>
+            This article isn’t available.
+          </h1>
+          <p style={{ fontSize: "var(--text-base)", lineHeight: 1.6 }}>
+            The page you’re looking for is either still being drafted or has
+            been moved. Try the{" "}
+            <a href="/learn" style={{ color: "#0f4c3a", fontWeight: 700 }}>
+              learn library
+            </a>{" "}
+            or head back to the{" "}
+            <a href="/" style={{ color: "#0f4c3a", fontWeight: 700 }}>
+              home page
+            </a>
+            .
+          </p>
+        </article>
+      </>
+    );
+  }
+
   return (
     <>
       {useMetaData && (
         <Helmet>
           <title>{getArticleTitle()}</title>
           <meta name="description" content={getArticleDescription()} />
+          {isHiddenDraft && <meta name="robots" content="noindex,nofollow" />}
           <link rel="canonical" href={getArticleUrl()} />
           
           {/* Open Graph / Facebook */}
@@ -766,6 +804,13 @@ const DisplayCategoryArticle = ({
       )}
       
       <article className={articleContainerClassName} aria-label="Article content">
+        {isHiddenDraft && isAdmin && (
+          <div className="DisplayArticle-draftBanner" role="status">
+            <strong>HIDDEN DRAFT</strong> · Only admins can see this URL.
+            It is excluded from the sitemap and emits <code>noindex,nofollow</code>.
+            Use the <a href="/pillars">/pillars</a> page to publish when ready.
+          </div>
+        )}
         <div className="ArticleTopBanner">
           <strong>Heads up:</strong> We’re adding video versions to all articles—more coming soon.
         </div>
