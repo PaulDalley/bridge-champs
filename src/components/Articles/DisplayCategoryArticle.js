@@ -46,6 +46,7 @@ import MakeBoard from "../../components/BridgeBoard/MakeBoard";
 import { Col, ProgressBar } from "react-materialize";
 import Comments from "../Comments/Comments";
 import FeedbackForm from "./FeedbackForm";
+import RelatedArticles from "./RelatedArticles";
 import { useSelector, useDispatch } from "react-redux";
 import SkeletonLoader from "../UI/SkeletonLoader";
 
@@ -1085,6 +1086,14 @@ const DisplayCategoryArticle = ({
           )}
         </section>
       )}
+
+      <RelatedArticles
+        articleType={articleType}
+        currentArticleId={articleId}
+        currentBodyId={useMetaData?.body || articleId}
+        currentTitle={useMetaData?.title}
+        currentDifficulty={useMetaData?.difficulty}
+      />
 
       <div className="DisplayArticle-backNavWrap DisplayArticle-backNavWrap--bottom">
         <button

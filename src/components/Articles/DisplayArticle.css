@@ -1577,3 +1577,119 @@
   font-size: var(--text-base);
   color: #0f172a;
 }
+
+/* =====================================================================
+   Related articles widget
+   Fixes the site-wide orphan problem: every article gets 3-5 outbound
+   links to siblings + trainer, restoring the internal link graph that
+   crawlers need to weight pages relative to each other.
+   ===================================================================== */
+
+.DisplayArticle-related {
+  margin: 2.5rem 0 1.5rem;
+  padding: 1.8rem 1.6rem 1.4rem;
+  border: 1px solid #d6e4dc;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fbf9 0%, #ecf5f0 100%);
+  box-shadow: 0 6px 18px rgba(15, 76, 58, 0.08);
+}
+
+.DisplayArticle-relatedHeading {
+  margin: 0 0 0.9rem;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: #0b2b22;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.DisplayArticle-relatedList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.DisplayArticle-relatedItem {
+  margin: 0;
+  padding: 0;
+}
+
+.DisplayArticle-relatedLink,
+.DisplayArticle-relatedLink:visited {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #d6e4dc;
+  background: #ffffff;
+  color: #0b2b22;
+  text-decoration: none !important;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.DisplayArticle-relatedLink:hover,
+.DisplayArticle-relatedLink:focus {
+  border-color: #0f4c3a;
+  box-shadow: 0 4px 10px rgba(15, 76, 58, 0.18);
+  transform: translateY(-1px);
+  color: #0b2b22;
+  text-decoration: none !important;
+}
+
+.DisplayArticle-relatedLinkTitle {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.35;
+  color: #0f4c3a;
+}
+
+.DisplayArticle-relatedLink:hover .DisplayArticle-relatedLinkTitle,
+.DisplayArticle-relatedLink:focus .DisplayArticle-relatedLinkTitle {
+  color: #0a3a2d;
+}
+
+.DisplayArticle-relatedLinkTeaser {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: var(--text-sm);
+  color: #2f4a40;
+  line-height: 1.45;
+}
+
+.DisplayArticle-relatedFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.DisplayArticle-relatedSecondary,
+.DisplayArticle-relatedSecondary:visited {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #0f4c3a;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.DisplayArticle-relatedSecondary:hover,
+.DisplayArticle-relatedSecondary:focus {
+  color: #195f49;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 640px) {
+  .DisplayArticle-related {
+    padding: 1.4rem 1.1rem 1.1rem;
+  }
+  .DisplayArticle-relatedHeading {
+    font-size: var(--text-xl);
+  }
+}

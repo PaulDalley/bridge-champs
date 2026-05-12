@@ -198,9 +198,28 @@ async function snapshotRoute(browser, routePath) {
       }
     }
 
+    // On article routes, wait (best-effort) for the related-articles widget
+    // to populate. This is what gives crawlers the internal-link graph.
+    // If it doesn't show up in time, we still snapshot — just without it.
+    if (isArticleRoute) {
+      try {
+        await page.waitForFunction(
+          () => {
+            const related = document.querySelector(".DisplayArticle-related");
+            if (!related) return false;
+            const items = related.querySelectorAll(".DisplayArticle-relatedItem");
+            return items.length > 0;
+          },
+          { timeout: 8000, polling: 300 }
+        );
+      } catch (_) {
+        console.warn(`NOTE ${routePath} :: related-articles widget did not populate before snapshot`);
+      }
+    }
+
     await page.evaluate(async () => {
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-      await sleep(1000);
+      await sleep(500);
     });
 
     await page.evaluate(() => {
