@@ -23,7 +23,6 @@ export const BEGINNER_BIDDING_SUBCATEGORIES = [
   "Responder's First Bid",
   "Opener's Rebid",
   "1NT opening",
-  "Competitive Bidding",
 ];
 
 /**

@@ -156,12 +156,7 @@
 
 .interweave {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-weight: 400;
-  font-size: 1.95rem;
-  line-height: 1.9; /* Better readability */
-  color: #2d3748;
   padding: 0;
-  letter-spacing: 0.01em;
 }
 
 .interweave p {
@@ -173,14 +168,11 @@
 }
 
 .interweave span {
-  color: #8d0018;
   padding: 0;
 }
 
 .interweave strong {
   padding: 0;
-  font-weight: 700 !important;
-  color: #1a1d23;
 }
 
 .interweave * {
@@ -212,9 +204,7 @@
 .interweave li {
   list-style-type: disc !important;
   margin-bottom: 1.2rem;
-  line-height: 1.9;
   padding-left: 0.5rem;
-  color: #2d3748;
 }
 
 .interweave ul li::marker {
@@ -1291,65 +1281,116 @@
   }
 }
 
-/* Hard-stop readability override: keep Learn article text crisp */
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave p,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave li,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave td,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave th,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave blockquote {
-  color: #0f172a !important;
+/* =========================================================================
+   ARTICLE TYPOGRAPHY — SINGLE SOURCE OF TRUTH
+   -------------------------------------------------------------------------
+   All article body text renders inside `.DisplayArticle-content`. Whether
+   it comes through Interweave's `.interweave` wrapper, a `.ArticleCallout`,
+   or directly, the rules below enumerate every text-bearing element and
+   force a single, high-contrast, readable style. Do NOT add ad-hoc
+   color/weight rules to `.interweave *` selectors above — edit this block.
+   ========================================================================= */
+
+/* Body copy elements: paragraphs, list items, table cells, quotes. */
+.DisplayArticle-content :where(p, li, td, th, blockquote, dd, dt, figcaption) {
+  color: #111827 !important;
+  font-size: var(--text-base) !important;
+  font-weight: 500 !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0 !important;
   opacity: 1 !important;
-  font-weight: 520;
+  filter: none !important;
+  text-shadow: none !important;
 }
 
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h1,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h2,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h3,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave h4 {
-  color: #0b172a !important;
-  font-weight: 800 !important;
-}
-
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave p strong,
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave li strong {
-  color: #0f4c3a !important;
-  font-weight: 800 !important;
-}
-
-.DisplayArticle-container:not(.DisplayArticle-container--beginner)
-  .DisplayArticle-content
-  .interweave
-  span:not(.red-suit):not(.black-suit) {
+/* Inline text wrappers inside the article body inherit the dark color
+   (without these, Interweave's <span class="interweave"> wrapper sometimes
+   shows lighter text). */
+.DisplayArticle-content :where(p, li, td, th, blockquote, dd, dt) :where(span, em, i, u) {
   color: inherit !important;
+  opacity: 1 !important;
 }
 
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave a {
-  color: #0f4c3a !important;
+/* Bold gets dark green for emphasis; never faded. */
+.DisplayArticle-content :where(strong, b),
+.DisplayArticle-content :where(p, li) :where(strong, b) {
+  color: #0b3f30 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+/* Headings: dark, heavy. */
+.DisplayArticle-content :where(h1, h2, h3, h4, h5, h6) {
+  color: #0b2b22 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  opacity: 1 !important;
+}
+
+.DisplayArticle-content :where(h2) {
+  font-size: var(--text-3xl) !important;
+  border-bottom: 2px solid rgba(15, 76, 58, 0.22);
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+}
+
+.DisplayArticle-content :where(h3) {
+  font-size: var(--text-2xl) !important;
+  border-left: 4px solid #0f4c3a;
+  background: linear-gradient(90deg, rgba(15, 76, 58, 0.08), rgba(15, 76, 58, 0));
+  border-radius: 0.5rem;
+  padding: 0.8rem 1rem;
+  margin-top: 2rem;
+}
+
+/* Lists get the green-bordered card treatment. */
+.DisplayArticle-content :where(ul, ol) {
+  border-left: 4px solid #1b6b52;
+  background: #f1f8f4;
+  border-radius: 0.8rem;
+}
+
+/* Links: dark green, underlined, never faded. */
+.DisplayArticle-content :where(p, li, td, blockquote) :where(a),
+.DisplayArticle-content > :where(a) {
+  color: #0b5f46 !important;
   font-weight: 700 !important;
-  text-decoration-color: rgba(15, 76, 58, 0.45) !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(11, 95, 70, 0.55) !important;
+  text-underline-offset: 0.18em;
+  opacity: 1 !important;
 }
 
-.DisplayArticle-container:not(.DisplayArticle-container--beginner) .DisplayArticle-content .interweave a:hover {
-  color: #0d5b45 !important;
-  text-decoration-color: #0d5b45 !important;
+.DisplayArticle-content :where(p, li, td, blockquote) :where(a:hover),
+.DisplayArticle-content > :where(a:hover) {
+  color: #083d2e !important;
+  text-decoration-color: #083d2e !important;
 }
 
 /* High-visibility article navigation links ("Where to next") */
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"],
-.DisplayArticle-content .interweave ul li > a[href*="/articles/"] {
-  display: flex !important;
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"],
+.DisplayArticle-content .interweave ul li > a[href^="/bidding/"],
+.DisplayArticle-content .interweave ul li > a[href^="/declarer/"],
+.DisplayArticle-content .interweave ul li > a[href^="/defence/"],
+.DisplayArticle-content ul li > a[href^="/beginner/articles/"],
+.DisplayArticle-content ul li > a[href*="/articles/"],
+.DisplayArticle-content ul li > a[href^="/bidding/"],
+.DisplayArticle-content ul li > a[href^="/declarer/"],
+.DisplayArticle-content ul li > a[href^="/defence/"] {
+  display: flex;
   align-items: center;
   gap: 0.65rem;
   width: 100%;
   min-height: 3.2rem;
-  padding: 0.78rem 1rem !important;
-  border-radius: 1rem !important;
-  border: 2px solid #1b6b52 !important;
+  padding: 0.78rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid #1b6b52;
   background: linear-gradient(180deg, #1f7a5e 0%, #195f49 100%) !important;
   color: #ffffff !important;
   text-decoration: none !important;
-  font-size: var(--text-base) !important;
+  font-size: var(--text-base);
   font-weight: 800 !important;
   letter-spacing: 0.01em;
   box-shadow: 0 8px 18px rgba(15, 76, 58, 0.24);
@@ -1357,21 +1398,126 @@
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]::before,
-.DisplayArticle-content .interweave ul li > a[href*="/articles/"]::before {
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]::before,
+.DisplayArticle-content .interweave ul li > a[href^="/bidding/"]::before,
+.DisplayArticle-content .interweave ul li > a[href^="/declarer/"]::before,
+.DisplayArticle-content .interweave ul li > a[href^="/defence/"]::before,
+.DisplayArticle-content ul li > a[href^="/beginner/articles/"]::before,
+.DisplayArticle-content ul li > a[href*="/articles/"]::before,
+.DisplayArticle-content ul li > a[href^="/bidding/"]::before,
+.DisplayArticle-content ul li > a[href^="/declarer/"]::before,
+.DisplayArticle-content ul li > a[href^="/defence/"]::before {
   content: "→";
-  color: #d6ffef;
+  color: #d6ffef !important;
   font-weight: 900;
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:hover,
-.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:hover {
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:hover,
+.DisplayArticle-content .interweave ul li > a[href^="/bidding/"]:hover,
+.DisplayArticle-content .interweave ul li > a[href^="/declarer/"]:hover,
+.DisplayArticle-content .interweave ul li > a[href^="/defence/"]:hover,
+.DisplayArticle-content ul li > a[href^="/beginner/articles/"]:hover,
+.DisplayArticle-content ul li > a[href*="/articles/"]:hover,
+.DisplayArticle-content ul li > a[href^="/bidding/"]:hover,
+.DisplayArticle-content ul li > a[href^="/declarer/"]:hover,
+.DisplayArticle-content ul li > a[href^="/defence/"]:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(15, 76, 58, 0.28);
+  color: #ffffff !important;
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:focus-visible,
-.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:focus-visible {
+.DisplayArticle-content .interweave ul li > a[href*="/articles/"]:focus-visible,
+.DisplayArticle-content .interweave ul li > a[href^="/bidding/"]:focus-visible,
+.DisplayArticle-content .interweave ul li > a[href^="/declarer/"]:focus-visible,
+.DisplayArticle-content .interweave ul li > a[href^="/defence/"]:focus-visible,
+.DisplayArticle-content ul li > a[href^="/beginner/articles/"]:focus-visible,
+.DisplayArticle-content ul li > a[href*="/articles/"]:focus-visible,
+.DisplayArticle-content ul li > a[href^="/bidding/"]:focus-visible,
+.DisplayArticle-content ul li > a[href^="/declarer/"]:focus-visible,
+.DisplayArticle-content ul li > a[href^="/defence/"]:focus-visible {
   outline: 3px solid #91e2c2;
   outline-offset: 2px;
+}
+
+.DisplayArticle-ctaCard {
+  max-width: 75rem;
+  margin: 2.4rem auto 1.2rem;
+  padding: 1.4rem 1.6rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e5f7ee 100%);
+  border: 1px solid rgba(15, 76, 58, 0.18);
+  border-radius: 1rem;
+  box-shadow: 0 10px 26px rgba(15, 76, 58, 0.12);
+}
+
+.DisplayArticle-ctaHeading {
+  margin: 0 0 0.6rem;
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  color: #0b2b22;
+}
+
+.DisplayArticle-ctaBody {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: #0f172a;
+}
+
+.DisplayArticle-ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.78rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0f4c3a 0%, #0b7a54 100%);
+  box-shadow: 0 10px 24px rgba(11, 122, 84, 0.24);
+}
+
+.DisplayArticle-ctaButton:hover,
+.DisplayArticle-ctaButton:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(11, 122, 84, 0.32);
+}
+
+.DisplayArticle-ctaHint {
+  margin: 0.7rem 0 0;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: #185445;
+}
+
+.DisplayArticle-ctaFlowDetails {
+  margin-top: 1rem;
+  border: 1px solid rgba(15, 76, 58, 0.22);
+  border-radius: 0.8rem;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.DisplayArticle-ctaFlowSummary {
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #0f4c3a;
+  background: #eef8f3;
+}
+
+.DisplayArticle-ctaFlowBody {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.DisplayArticle-ctaFlowBody p {
+  margin: 0 0 0.7rem;
+  font-size: var(--text-sm);
+  color: #0f172a;
 }

@@ -64,6 +64,21 @@ const getListPathForArticleType = (type) => {
   return "/";
 };
 
+const getPracticePathForArticleType = (type) => {
+  if (type === "bidding" || type === "biddingAdvanced" || type === "biddingBasics") return "/bidding/practice";
+  if (type === "cardPlay" || type === "cardPlayBasics") return "/declarer/practice";
+  if (type === "defence" || type === "defenceBasics") return "/defence/practice";
+  if (type === "counting") return "/counting/practice";
+  if (
+    type === "beginnerCardPlay" ||
+    type === "beginnerDefence" ||
+    type === "beginnerBidding"
+  ) {
+    return "/beginner/practice";
+  }
+  return "/";
+};
+
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
@@ -357,9 +372,25 @@ const DisplayCategoryArticle = ({
   const hasVideos = articleText ? hasVideosInContent(articleText) : false;
   const isPremium = tier === 'premium';
   const isAdmin = a === true;
+  const isLoggedIn = Boolean(uid);
   // For logged-out users, metadata can lag; the body doc is readable for free articles and carries isFree too.
   const isFree = useMetaData?.isFree === true || isFreeFromBodyDoc === true;
   const canWatchVideo = isAdmin || isPremium || isFree;
+  const preferredPracticePath = useMetaData?.ctaTarget || getPracticePathForArticleType(articleType);
+  const isLebensohlArticle =
+    articleId === "fI7DC63YopLtZy9fIobM" ||
+    articleId === "wsCt4ouPgZU1cB86fj2A" ||
+    useMetaData?.body === "wsCt4ouPgZU1cB86fj2A" ||
+    /lebensohl/i.test(String(useMetaData?.title || "")) ||
+    /lebensohl/i.test(String(articleText || ""));
+  const signInThenTrialPath = `/login?redirectTo=${encodeURIComponent("/subscribe")}`;
+  const trialSignupPath = `/signup?redirectTo=${encodeURIComponent("/subscribe")}`;
+  const ctaPath = isPremium || isAdmin ? preferredPracticePath : isLoggedIn ? "/subscribe" : trialSignupPath;
+  const ctaButtonLabel = isPremium || isAdmin
+    ? "Train this theme now"
+    : isLoggedIn
+      ? "Start your 7-day free trial"
+      : "Create your account and start a 7-day free trial";
   const [freeUpdating, setFreeUpdating] = useState(false);
   const [freeError, setFreeError] = useState("");
 
@@ -773,6 +804,86 @@ const DisplayCategoryArticle = ({
       <div className={articleContentClassName} role="article">
         {articleDataArray}
       </div>
+
+      {isLebensohlArticle ? (
+        <section className="DisplayArticle-ctaCard" aria-label="Lebensohl trainer call to action">
+          <h3 className="DisplayArticle-ctaHeading">Try the Lebensohl problem questions</h3>
+          <p className="DisplayArticle-ctaBody">
+            This topic has guided problem questions so you can practice the exact decisions, not just read about them.
+          </p>
+
+          {isPremium || isAdmin ? (
+            <>
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton"
+                onClick={() => history.push(preferredPracticePath)}
+              >
+                Open Lebensohl trainer questions
+              </button>
+              <p className="DisplayArticle-ctaHint">
+                You are unlocked - go run the reps.
+              </p>
+            </>
+          ) : isLoggedIn ? (
+            <>
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton"
+                onClick={() => history.push("/subscribe")}
+              >
+                Start 7-day free trial to unlock questions
+              </button>
+              <p className="DisplayArticle-ctaHint">
+                You are signed in. Start trial, then jump straight into the problem set.
+              </p>
+            </>
+          ) : (
+            <>
+              <details className="DisplayArticle-ctaFlowDetails">
+                <summary className="DisplayArticle-ctaFlowSummary">
+                  Sign in first (takes about 1 minute)
+                </summary>
+                <div className="DisplayArticle-ctaFlowBody">
+                  <p>
+                    Step 1: Sign in or create your account.
+                  </p>
+                  <button
+                    type="button"
+                    className="DisplayArticle-ctaButton"
+                    onClick={() => history.push(signInThenTrialPath)}
+                  >
+                    Sign in / create account
+                  </button>
+                  <p className="DisplayArticle-ctaHint">
+                    Step 2: Start your 7-day free trial. Step 3: open the Lebensohl problem questions.
+                  </p>
+                </div>
+              </details>
+            </>
+          )}
+        </section>
+      ) : (
+        <section className="DisplayArticle-ctaCard" aria-label="Practice call to action">
+          <h3 className="DisplayArticle-ctaHeading">Build the habit with guided practice</h3>
+          <p className="DisplayArticle-ctaBody">
+            Reading helps, but trainer reps are what make bidding decisions automatic under pressure.
+            Use the trainer to train your mind and lock this theme in.
+          </p>
+          <button
+            type="button"
+            className="DisplayArticle-ctaButton"
+            onClick={() => history.push(ctaPath)}
+          >
+            {ctaButtonLabel}
+          </button>
+          {!isPremium && !isAdmin && (
+            <p className="DisplayArticle-ctaHint">
+              Sign up first, then choose your subscription plan. Includes a 7-day free trial.
+            </p>
+          )}
+        </section>
+      )}
 
       <div className="DisplayArticle-backNavWrap DisplayArticle-backNavWrap--bottom">
         <button
