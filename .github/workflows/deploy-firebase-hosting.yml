@@ -1,22 +1,28 @@
-# Deploys the CRA production build to Firebase Hosting (live channel).
+# Deploy to Firebase Hosting.
+#
+# This workflow is split into two jobs so the live site is updated FAST
+# even when the slow SEO post-processing steps (Puppeteer prerender,
+# Open Graph image generation) hang or fail:
+#
+#   1. fast-deploy — install, build, and ship to Firebase Hosting using
+#      whatever public/sitemap.xml is already in the repo. Always finishes
+#      within ~10 minutes; this is the path users notice.
+#   2. refresh-seo — regenerates sitemap.xml from Firestore, prerenders
+#      every public route, generates OG images, then redeploys Hosting
+#      with the refreshed static assets. Slow (up to 30 min), best-effort,
+#      hard-timed-out per step. If anything in here hangs, the live site
+#      that fast-deploy shipped stays live; the next push refreshes again.
+#
+# Each individual step also has its own `timeout-minutes:` so a single
+# stuck Puppeteer page can never block the rest of the workflow.
 #
 # --- One-time setup (so git/GitHub deploys Firebase; no local `firebase login` needed for releases) ---
-# 1. Firebase Console → Project settings → Service accounts → Generate new private key (JSON).
-# 2. Google Cloud Console → IAM → ensure that service account has a role that can deploy Hosting
-#    (e.g. "Firebase Hosting Admin", or "Editor" on the project for a personal project).
-# 3. GitHub → this repo → Settings → Secrets and variables → Actions → New repository secret
+# 1. Firebase Console -> Project settings -> Service accounts -> Generate new private key (JSON).
+# 2. Google Cloud Console -> IAM -> ensure that service account has a role that can deploy Hosting.
+# 3. GitHub -> this repo -> Settings -> Secrets and variables -> Actions -> New repository secret
 #      Name:  FIREBASE_SERVICE_ACCOUNT
 #      Value: paste the ENTIRE JSON file contents (one line is fine).
-# 4. Merge to `main` and push — this workflow only runs on `main` (see `on:` below).
-#    Or: Actions tab → "Deploy Firebase Hosting" → "Run workflow" (uses latest default branch code
-#    when run from the UI; clone is still the branch you select in the dropdown).
-#
-# If pushes to `main` never deploy: the secret is missing, mis-named, or the JSON account lacks IAM.
-# This does not give the Cursor cloud agent your Firebase login; it uses the GitHub-hosted runner
-# with the service account JSON stored only as an encrypted secret.
-#
-# After Hosting, we *try* to publish Firestore rules (same secret). This step never fails the job:
-# if the service account lacks IAM, Hosting still shipped and the app falls back to device storage.
+# 4. Merge to `main` and push. Or: Actions tab -> "Deploy Firebase Hosting" -> "Run workflow".
 name: Deploy Firebase Hosting
 
 on:
@@ -27,16 +33,20 @@ on:
 
 # Only one deploy at a time per branch. A new push on `main` cancels any
 # in-flight run on `main` so the latest commit is what reaches Hosting.
-# Without this, rapid pushes pile up 20-30min Puppeteer runs in parallel
-# (each prerender + og:images is heavy) and stale builds can race.
 concurrency:
   group: deploy-firebase-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  # ---------------------------------------------------------------------
+  # 1. Fast path: build + deploy Hosting in ~10 minutes flat.
+  # ---------------------------------------------------------------------
+  fast-deploy:
+    name: Build + deploy Hosting (fast)
     runs-on: ubuntu-latest
-    # GitHub is moving built-in actions off Node 20; this opts their JS runtime to Node 24 (see changelog).
+    timeout-minutes: 12
+    # GitHub is moving built-in actions off Node 20; this opts their JS
+    # runtime to Node 24 (see GitHub changelog).
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -47,68 +57,28 @@ jobs:
           node-version: "22"
           cache: npm
 
-      - name: Install and build
-        run: |
-          npm ci --legacy-peer-deps
-          npm run build
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+        timeout-minutes: 6
 
-      # Generate sitemap.xml from Firestore + prerender every public URL into
-      # build/<path>/index.html so crawlers and social previews see real HTML
-      # on first byte. Failures here never block the Hosting deploy.
-      - name: Generate sitemap (best effort)
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          set -euo pipefail
-          if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
-            echo "::warning::FIREBASE_SERVICE_ACCOUNT empty; skipping sitemap regen."
-            exit 0
-          fi
-          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
-          set +e
-          FIREBASE_SERVICE_ACCOUNT="${GITHUB_WORKSPACE}/serviceAccount.json" \
-            npm run sitemap:generate
-          sm_exit=$?
-          set -e
-          if [ "$sm_exit" -ne 0 ]; then
-            echo "::warning::Sitemap regen failed (exit ${sm_exit}); shipping existing public/sitemap.xml."
-          fi
-          # Copy the freshly written sitemap into the build output too.
-          if [ -f public/sitemap.xml ]; then
-            cp public/sitemap.xml build/sitemap.xml
-          fi
+      - name: Build production bundle
+        run: npm run build
+        timeout-minutes: 6
 
-      - name: Prerender public routes (best effort)
-        run: |
-          set +e
-          # GitHub-hosted runners are 4-CPU / 16GB; Puppeteer at concurrency 6
-          # is well within memory headroom and roughly halves wall-clock time
-          # for the ~110-URL crawl.
-          npm run prerender -- --concurrency 6 --timeout 30000
-          pr_exit=$?
-          set -e
-          if [ "$pr_exit" -ne 0 ]; then
-            echo "::warning::Prerender failed (exit ${pr_exit}); deploying SPA shell only."
-          else
-            echo "Prerender complete."
-            if [ -f build/prerender-failures.json ]; then
-              echo "::warning::Some routes failed to prerender; see build/prerender-failures.json artifact."
-            fi
-          fi
+      - name: Copy committed sitemap into build/
+        run: cp public/sitemap.xml build/sitemap.xml || true
 
-      - name: Generate per-article Open Graph images (best effort)
-        run: |
-          set +e
-          npm run og:images -- --concurrency 6
-          og_exit=$?
-          set -e
-          if [ "$og_exit" -ne 0 ]; then
-            echo "::warning::OG image generation failed (exit ${og_exit}); shares will fall back to default logo."
-          else
-            echo "OG image generation complete."
-          fi
+      - name: Upload build/ for the SEO refresh job
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: build/
+          retention-days: 1
+          if-no-files-found: error
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
@@ -116,22 +86,106 @@ jobs:
           channelId: live
 
       - name: Deploy Firestore security rules (best effort)
+        timeout-minutes: 3
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           set -euo pipefail
           if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
-            echo "::warning::FIREBASE_SERVICE_ACCOUNT is empty; skipping Firestore rules deploy."
+            echo "::warning::FIREBASE_SERVICE_ACCOUNT empty; skipping rules deploy."
             exit 0
           fi
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          python3 -c "import json; print('Firestore rules deploy using:', json.load(open('serviceAccount.json'))['client_email'])"
           set +e
           npx --yes firebase-tools@13 deploy --only firestore:rules --project bridgechampions --non-interactive
           rules_exit=$?
           set -e
           if [ "$rules_exit" -ne 0 ]; then
-            echo "::warning::Firestore rules were not updated (exit ${rules_exit}). Hosting already deployed. Grant this service account a role that can update Firestore rules (e.g. Editor on project bridgechampions) to enable the global leaderboard."
+            echo "::warning::Firestore rules were not updated (exit ${rules_exit}). Hosting already deployed."
           fi
           exit 0
+
+  # ---------------------------------------------------------------------
+  # 2. SEO refresh: sitemap + prerender + og-images, then re-upload.
+  #    Slow, best effort. The site is already live by the time this runs.
+  # ---------------------------------------------------------------------
+  refresh-seo:
+    name: Refresh SEO assets (sitemap + prerender + og)
+    needs: fast-deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    # Never fails the workflow as a whole; the live site already shipped.
+    continue-on-error: true
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies (incl. puppeteer)
+        run: npm ci --legacy-peer-deps
+        timeout-minutes: 6
+
+      - name: Download build artifact from fast-deploy
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: build/
+
+      - name: Regenerate sitemap.xml from Firestore (best effort)
+        timeout-minutes: 5
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set +e
+          if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
+            echo "::warning::FIREBASE_SERVICE_ACCOUNT empty; skipping sitemap regen."
+            exit 0
+          fi
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          FIREBASE_SERVICE_ACCOUNT="${GITHUB_WORKSPACE}/serviceAccount.json" \
+            npm run sitemap:generate
+          sm_exit=$?
+          if [ "$sm_exit" -ne 0 ]; then
+            echo "::warning::sitemap:generate failed (exit ${sm_exit}); continuing."
+          fi
+          if [ -f public/sitemap.xml ]; then
+            cp public/sitemap.xml build/sitemap.xml
+          fi
+          exit 0
+
+      - name: Prerender public routes (best effort, hard timeout)
+        timeout-minutes: 15
+        run: |
+          set +e
+          npm run prerender -- --concurrency 6 --timeout 30000
+          pr_exit=$?
+          if [ "$pr_exit" -ne 0 ]; then
+            echo "::warning::prerender failed/timed out (exit ${pr_exit}); continuing."
+          fi
+          exit 0
+
+      - name: Generate per-article OG images (best effort, hard timeout)
+        timeout-minutes: 15
+        run: |
+          set +e
+          npm run og:images -- --concurrency 6
+          og_exit=$?
+          if [ "$og_exit" -ne 0 ]; then
+            echo "::warning::og:images failed/timed out (exit ${og_exit}); continuing."
+          fi
+          exit 0
+
+      - name: Redeploy Hosting with refreshed SEO assets
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
