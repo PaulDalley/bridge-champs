@@ -467,6 +467,21 @@
   font-weight: 700;
 }
 
+.DisplayArticle-byline-authorLink,
+.DisplayArticle-byline-authorLink:visited {
+  color: #0f4c3a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.DisplayArticle-byline-authorLink:hover,
+.DisplayArticle-byline-authorLink:focus {
+  color: #195f49;
+  text-decoration-thickness: 2px;
+}
+
 .DisplayArticle-byline-sep {
   color: #5f8276;
 }

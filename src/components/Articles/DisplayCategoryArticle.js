@@ -586,6 +586,11 @@ const DisplayCategoryArticle = ({
     return "Learn Bridge or improve your mastery with daily access into the minds, insights and recent play of some of the most knowledgeable Bridge Champions and expert players around.";
   };
 
+  const getOgImageUrl = () => {
+    const baseUrl = "https://bridgechampions.com";
+    return articleId ? `${baseUrl}/og/${articleId}.png` : `${baseUrl}/og/default.png`;
+  };
+
   const getArticleUrl = () => {
     const baseUrl = "https://bridgechampions.com";
     if (articleType === "cardPlay") return `${baseUrl}/declarer/articles/${articleId}`;
@@ -643,6 +648,7 @@ const DisplayCategoryArticle = ({
       }
     : {
         "@type": "Person",
+        "@id": "https://bridgechampions.com/#author",
         name: DEFAULT_AUTHOR.name,
         jobTitle: DEFAULT_AUTHOR.jobTitle,
         url: DEFAULT_AUTHOR.url,
@@ -662,9 +668,11 @@ const DisplayCategoryArticle = ({
     "@type": "Article",
     headline: useMetaData?.title || "Bridge Champions article",
     description: getArticleDescription(),
+    image: [getOgImageUrl()],
     author: articleAuthor,
     publisher: {
       "@type": "Organization",
+      "@id": "https://bridgechampions.com/#organization",
       name: SITE_PUBLISHER.name,
       url: SITE_PUBLISHER.url,
       logo: {
@@ -717,6 +725,10 @@ const DisplayCategoryArticle = ({
           <meta property="og:title" content={useMetaData.title || "Bridge Champions"} />
           <meta property="og:description" content={getArticleDescription()} />
           <meta property="og:site_name" content="Bridge Champions" />
+          <meta property="og:image" content={getOgImageUrl()} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={`${useMetaData.title || "Bridge Champions"} \u2014 Bridge Champions`} />
           {useMetaData.videoUrl && (
             <meta property="og:video" content={useMetaData.videoUrl} />
           )}
@@ -726,6 +738,7 @@ const DisplayCategoryArticle = ({
           <meta name="twitter:url" content={getArticleUrl()} />
           <meta name="twitter:title" content={useMetaData.title || "Bridge Champions"} />
           <meta name="twitter:description" content={getArticleDescription()} />
+          <meta name="twitter:image" content={getOgImageUrl()} />
           
           {/* Article specific meta */}
           <meta property="article:section" content={getCategoryName()} />
@@ -789,7 +802,14 @@ const DisplayCategoryArticle = ({
             >
               {visibleAuthorName && (
                 <span className="DisplayArticle-byline-author">
-                  By {visibleAuthorName}
+                  By{" "}
+                  <a
+                    href="/about"
+                    className="DisplayArticle-byline-authorLink"
+                    rel="author"
+                  >
+                    {visibleAuthorName}
+                  </a>
                 </span>
               )}
               {visibleAuthorName && updatedDate && (

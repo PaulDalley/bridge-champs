@@ -1,85 +1,116 @@
 .About-container {
-    padding: 3rem 2rem;
-    min-height: 70vh;
+  padding: 3rem 2rem;
+  min-height: 70vh;
 }
 
 .About-card {
-    padding: 3rem;
+  padding: 3rem;
 }
 
 .About-title {
-    color: #1976D2;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
+  color: #0b3f30;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
-.About-content h4 {
-    color: #333;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
+.About-section {
+  margin: 2.5rem 0;
 }
 
-.About-content h5 {
-    color: #555;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
+.About-content h2 {
+  color: #0b2b22;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.About-content h3 {
+  color: #1d2a25;
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
+  font-size: var(--text-xl);
+  font-weight: 700;
 }
 
 .About-content p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #666;
-    margin-bottom: 1.5rem;
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: #1d2a25;
+  margin-bottom: 1.2rem;
+}
+
+.About-content a {
+  color: #0f4c3a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.About-content a:hover {
+  color: #195f49;
 }
 
 .About-achievements {
-    list-style: none;
-    padding-left: 0;
-    margin: 1rem 0 2rem 0;
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0 2rem 0;
 }
 
 .About-achievements li {
-    font-size: 1.1rem;
-    color: #555;
-    padding: 0.5rem 0;
-    padding-left: 2rem;
-    position: relative;
+  font-size: var(--text-base);
+  color: #1d2a25;
+  padding: 0.5rem 0;
+  padding-left: 2.2rem;
+  position: relative;
+  line-height: 1.5;
 }
 
 .About-achievements li:before {
-    content: "🏆";
-    position: absolute;
-    left: 0;
+  content: "🏆";
+  position: absolute;
+  left: 0;
+}
+
+.About-method {
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.About-method li {
+  font-size: var(--text-base);
+  color: #1d2a25;
+  line-height: 1.7;
+  margin-bottom: 0.9rem;
 }
 
 .About-cta {
-    background-color: #f5f5f5;
-    padding: 2rem;
-    border-radius: 8px;
-    margin-top: 3rem;
-    text-align: center;
+  background: linear-gradient(135deg, #f5faf7 0%, #ecf5f0 100%);
+  border-left: 4px solid #0f4c3a;
+  padding: 1.6rem 1.8rem;
+  border-radius: 8px;
+  margin-top: 2.5rem;
 }
 
 .About-cta p {
-    margin: 0;
-    font-size: 1.2rem;
-    color: #333;
-    font-weight: 500;
+  margin: 0;
+  font-size: var(--text-base);
+  color: #0b2b22;
+  font-weight: 500;
+  line-height: 1.7;
 }
 
 @media only screen and (max-width: 600px) {
-    .About-container {
-        padding: 1rem;
-    }
-    
-    .About-card {
-        padding: 1.5rem;
-    }
-    
-    .About-title {
-        font-size: 2rem;
-    }
+  .About-container {
+    padding: 1rem;
+  }
+
+  .About-card {
+    padding: 1.5rem;
+  }
 }

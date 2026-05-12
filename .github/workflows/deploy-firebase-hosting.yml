@@ -85,6 +85,18 @@ jobs:
             fi
           fi
 
+      - name: Generate per-article Open Graph images (best effort)
+        run: |
+          set +e
+          npm run og:images -- --concurrency 3
+          og_exit=$?
+          set -e
+          if [ "$og_exit" -ne 0 ]; then
+            echo "::warning::OG image generation failed (exit ${og_exit}); shares will fall back to default logo."
+          else
+            echo "OG image generation complete."
+          fi
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

@@ -82,6 +82,7 @@ const NOW_YMD = toYmd(new Date());
 
 const STATIC_URLS = [
   { loc: "/", changefreq: "daily", priority: "1.0" },
+  { loc: "/about", changefreq: "monthly", priority: "0.7" },
   { loc: "/learn", changefreq: "daily", priority: "0.9" },
   { loc: "/learn/beginner", changefreq: "weekly", priority: "0.8" },
   { loc: "/declarer", changefreq: "daily", priority: "0.9" },
