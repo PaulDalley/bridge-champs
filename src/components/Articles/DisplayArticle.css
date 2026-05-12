@@ -15,7 +15,7 @@
   border: 1px solid rgba(15, 76, 58, 0.18);
   background: rgba(15, 76, 58, 0.06);
   color: #0F4C3A;
-  font-size: 1.55rem;
+  font-size: var(--text-base);
   line-height: 1.45;
   font-weight: 600;
 }
@@ -140,7 +140,7 @@
 }
 
 .DisplayArticle-content {
-  max-width: 80rem; /* Optimal reading width (65-75 characters) */
+  max-width: 84rem; /* Comfortable reading width for larger article typography */
   margin: 0 auto;
   padding: 4rem 4rem;
   background-color: #ffffff;
@@ -1294,13 +1294,18 @@
 /* Body copy elements: paragraphs, list items, table cells, quotes. */
 .DisplayArticle-content :where(p, li, td, th, blockquote, dd, dt, figcaption) {
   color: #111827 !important;
-  font-size: var(--text-base) !important;
+  font-size: var(--text-lg) !important;
   font-weight: 500 !important;
-  line-height: 1.7 !important;
+  line-height: 1.72 !important;
   letter-spacing: 0 !important;
   opacity: 1 !important;
   filter: none !important;
   text-shadow: none !important;
+}
+
+.DisplayArticle-content :where(.interweave, .ArticleCallout-body) {
+  font-size: var(--text-lg) !important;
+  line-height: 1.72 !important;
 }
 
 /* Inline text wrappers inside the article body inherit the dark color
@@ -1349,6 +1354,8 @@
   border-left: 4px solid #1b6b52;
   background: #f1f8f4;
   border-radius: 0.8rem;
+  margin-top: 1.4rem;
+  margin-bottom: 1.8rem;
 }
 
 /* Links: dark green, underlined, never faded. */
@@ -1390,7 +1397,7 @@
   background: linear-gradient(180deg, #1f7a5e 0%, #195f49 100%) !important;
   color: #ffffff !important;
   text-decoration: none !important;
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: 800 !important;
   letter-spacing: 0.01em;
   box-shadow: 0 8px 18px rgba(15, 76, 58, 0.24);
@@ -1461,8 +1468,8 @@
 
 .DisplayArticle-ctaBody {
   margin: 0;
-  font-size: var(--text-sm);
-  line-height: 1.55;
+  font-size: var(--text-base);
+  line-height: 1.6;
   color: #0f172a;
 }
 
@@ -1475,7 +1482,7 @@
   border: 0;
   border-radius: 999px;
   cursor: pointer;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 700;
   color: #ffffff;
   background: linear-gradient(135deg, #0f4c3a 0%, #0b7a54 100%);
@@ -1490,8 +1497,8 @@
 
 .DisplayArticle-ctaHint {
   margin: 0.7rem 0 0;
-  font-size: var(--text-xs);
-  line-height: 1.45;
+  font-size: var(--text-sm);
+  line-height: 1.5;
   color: #185445;
 }
 
@@ -1506,7 +1513,7 @@
 .DisplayArticle-ctaFlowSummary {
   cursor: pointer;
   padding: 0.9rem 1rem;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 700;
   color: #0f4c3a;
   background: #eef8f3;
@@ -1518,6 +1525,6 @@
 
 .DisplayArticle-ctaFlowBody p {
   margin: 0 0 0.7rem;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: #0f172a;
 }

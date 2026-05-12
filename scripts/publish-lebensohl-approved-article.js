@@ -19,6 +19,7 @@ const FieldValue = admin.firestore.FieldValue;
 
 const HUB_PATH = "/bidding/advanced";
 const TITLE = "Lebensohl: Compete Smart Without Guessing";
+const LEBENSOHL_TRAINER_PATH = "/bidding/practice?difficulty=3&problem=bid3-6";
 
 const payload = {
   title: TITLE,
@@ -30,7 +31,7 @@ const payload = {
   subcategory: "Conventions and Artificial Methods",
   seoSubtopic: "Conventions and Artificial Methods",
   primaryKeyword: "lebensohl compete smart without guessing",
-  ctaTarget: "/bidding/practice",
+  ctaTarget: LEBENSOHL_TRAINER_PATH,
   relatedLinks: [
     "/bidding/advanced/uryhI78pcS2v6yBKNTyG",
     "/bidding/advanced/7EOLfZHFMk8uvW3f2l8L",

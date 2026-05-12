@@ -19,13 +19,16 @@ const FieldValue = admin.firestore.FieldValue;
 
 const summaryId = "fI7DC63YopLtZy9fIobM";
 const bodyId = "wsCt4ouPgZU1cB86fj2A";
+const lebensohlTrainerPath = "/bidding/practice?difficulty=3&problem=bid3-6";
+const subscribeThenTrainerPath = `/subscribe?redirectTo=${encodeURIComponent(lebensohlTrainerPath)}`;
+const signupThenSubscribePath = `/signup?redirectTo=${encodeURIComponent(subscribeThenTrainerPath)}`;
 
 const ctaHtml = `
 <h3>Practice the Lebensohl decisions</h3>
 <Callout type="example">
   <p>When you are ready, try the Lebensohl problem questions. Reading gives you the idea; the questions help make the decisions feel automatic.</p>
-  <p>If you are not signed in, sign in first - it takes about 1 minute. Then you can start the 7-day free trial and use the trainer.</p>
-  <p><a href="/signup?redirectTo=%2Fsubscribe">Sign in or create account</a> · <a href="/bidding/practice">Go to the bidding trainer</a></p>
+  <p>If you are not signed in, sign in first - it takes about 1 minute. Then you can start the 7-day free trial and continue to these exact Lebensohl questions.</p>
+  <p><a href="${signupThenSubscribePath}">Sign in or create account</a> · <a href="${lebensohlTrainerPath}">Go to the Lebensohl questions</a></p>
 </Callout>
 `.trim();
 
@@ -44,11 +47,18 @@ async function main() {
     }
   }
 
+  html = html.replace(/href="\/bidding\/practice"/g, `href="${lebensohlTrainerPath}"`);
+  html = html.replace(
+    /href="\/signup\?redirectTo=%2Fsubscribe"/g,
+    `href="${signupThenSubscribePath}"`
+  );
+
   await bodyRef.set(
     {
       text: html,
       body: { text: html },
       isFree: true,
+      ctaTarget: lebensohlTrainerPath,
       freeUpdatedAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     },
@@ -58,6 +68,7 @@ async function main() {
   await db.collection("bidding").doc(summaryId).set(
     {
       isFree: true,
+      ctaTarget: lebensohlTrainerPath,
       freeUpdatedAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     },

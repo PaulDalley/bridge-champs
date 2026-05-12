@@ -140,6 +140,9 @@ class StripeCheckout extends React.Component {
           // Persist the Checkout Session ID locally so the /success page can verify/activate
           // even if the session_id query param is lost/truncated.
           try {
+            if (this.props.redirectAfterCheckout) {
+              localStorage.setItem("postCheckoutRedirectTo", this.props.redirectAfterCheckout);
+            }
             if (response.sessionId) {
               localStorage.setItem("postCheckoutSessionId", response.sessionId);
               localStorage.setItem("lastStripeCheckoutSessionId", response.sessionId);

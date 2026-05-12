@@ -74,6 +74,41 @@ const matchBodyRefToBackupRef = {
   countingBody: countingBodyBackupsRef,
 };
 
+const matchBodyRefToSummaryRef = {
+  biddingBody: biddingSummaryRef,
+  biddingBasicsBody: biddingBasicsSummaryRef,
+  biddingAdvancedBody: biddingAdvancedSummaryRef,
+  cardPlayBody: cardPlaySummaryRef,
+  cardPlayBasicsBody: cardPlayBasicsSummaryRef,
+  defenceBody: defenceSummaryRef,
+  defenceBasicsBody: defenceBasicsSummaryRef,
+  countingBody: countingSummaryRef,
+  beginnerCardPlayBody: beginnerCardPlaySummaryRef,
+  beginnerDefenceBody: beginnerDefenceSummaryRef,
+  beginnerBiddingBody: beginnerBiddingSummaryRef,
+};
+
+const getRouteTypeFromBodyRef = (bodyRef) =>
+  typeof bodyRef === "string" && bodyRef.endsWith("Body")
+    ? bodyRef.replace("Body", "")
+    : "article";
+
+const getArticlePathFromBodyRef = (bodyRef, bodyId) => {
+  const routeType = getRouteTypeFromBodyRef(bodyRef);
+  if (routeType === "counting") return `/counting/articles/${bodyId}`;
+  if (routeType === "cardPlay") return `/declarer/articles/${bodyId}`;
+  if (routeType === "beginnerCardPlay") return `/beginner/articles/declarer/${bodyId}`;
+  if (routeType === "beginnerDefence") return `/beginner/articles/defence/${bodyId}`;
+  if (routeType === "beginnerBidding") return `/beginner/articles/bidding/${bodyId}`;
+  if (routeType === "defence") return `/defence/articles/${bodyId}`;
+  if (routeType === "biddingBasics") return `/bidding/basics/${bodyId}`;
+  if (routeType === "biddingAdvanced") return `/bidding/advanced/${bodyId}`;
+  if (routeType === "cardPlayBasics") return `/declarer/basics/${bodyId}`;
+  if (routeType === "defenceBasics") return `/defence/basics/${bodyId}`;
+  if (routeType === "bidding") return `/bidding/advanced/${bodyId}`;
+  return `/${routeType}/${bodyId}`;
+};
+
 export const setCurrentArticle = (article) => ({
   type: actions.SET_CURRENT_CATEGORY_ARTICLE,
   currentArticle: article,
@@ -188,35 +223,75 @@ export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
 export const getArticle = (id, router, bodyRef) => {
   return (dispatch) => {
     const useBodyRef = matchTypeToRef[bodyRef];
+    const useSummaryRef = matchBodyRefToSummaryRef[bodyRef];
     // console.log(`--- in getArticle with id: ${id} and bodyRef: ${bodyRef} ---`);
     // console.log("attempting to use");
     // console.log(useBodyRef);
+
+    const dispatchBodySnapshot = (snapshot) => {
+      const article = snapshot.data();
+      const bodyId = snapshot.id;
+      if (article === undefined) return false;
+      dispatch(setArticle(article, bodyId));
+      return true;
+    };
+
+    const resolveSummaryIdToBody = () => {
+      if (!useSummaryRef) return Promise.resolve(false);
+
+      return useSummaryRef
+        .doc(id)
+        .get()
+        .then((summarySnapshot) => {
+          if (!summarySnapshot.exists) return false;
+
+          const summary = summarySnapshot.data() || {};
+          const bodyId = summary.body;
+          if (!bodyId || typeof bodyId !== "string") return false;
+
+          return useBodyRef
+            .doc(bodyId)
+            .get()
+            .then((bodySnapshot) => {
+              if (!dispatchBodySnapshot(bodySnapshot)) return false;
+              const nextPath = getArticlePathFromBodyRef(bodyRef, bodyId);
+              if (router?.replace) router.replace(nextPath);
+              else if (router?.push) router.push(nextPath);
+              return true;
+            });
+        });
+    };
+
+    const redirectToMembership = () => {
+      localStorage.setItem("contentRedirectId", id);
+      localStorage.setItem("contentRedirectType", getRouteTypeFromBodyRef(bodyRef));
+      localStorage.setItem("contentRedirectAt", String(Date.now()));
+      router.push("/membership");
+    };
 
     return useBodyRef
       .doc(id)
       .get()
       .then((snapshot) => {
-        const article = snapshot.data();
-        const id = snapshot.id;
-        if (article === undefined)
+        if (dispatchBodySnapshot(snapshot)) return undefined;
+
+        return resolveSummaryIdToBody().then((resolved) => {
+          if (resolved) return undefined;
           return { body: { text: "<p>Article body text was blank</p>" } };
-        dispatch(setArticle(article, id));
+        });
       })
       .catch((err) => {
         // console.log(
         //   `--- There was an error fetching Category Article with ${bodyRef} ---`
         // );
         // console.log(err);
-        localStorage.setItem("contentRedirectId", id);
-        // Redirect back to the correct category route after login.
-        // bodyRef is usually like "cardPlayBody" / "defenceBody" / "biddingBody".
-        const routeType =
-          typeof bodyRef === "string" && bodyRef.endsWith("Body")
-            ? bodyRef.replace("Body", "")
-            : "article";
-        localStorage.setItem("contentRedirectType", routeType);
-        localStorage.setItem("contentRedirectAt", String(Date.now()));
-        router.push("/membership");
+        return resolveSummaryIdToBody()
+          .then((resolved) => {
+            if (!resolved) redirectToMembership();
+          })
+          .catch(() => {
+            redirectToMembership();
+          });
       });
   };
 };

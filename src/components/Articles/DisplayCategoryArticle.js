@@ -79,6 +79,92 @@ const getPracticePathForArticleType = (type) => {
   return "/";
 };
 
+const hasProblemDeepLink = (path = "") =>
+  /[?&]problem=/.test(String(path));
+
+const makeBiddingProblemPath = (difficulty, problemId) =>
+  `/bidding/practice?difficulty=${encodeURIComponent(String(difficulty))}&problem=${encodeURIComponent(problemId)}`;
+
+const BIDDING_ARTICLE_PRACTICE_TARGETS = [
+  {
+    patterns: [/lebensohl/i],
+    path: makeBiddingProblemPath(3, "bid3-6"),
+  },
+  {
+    patterns: [/1-level overcall/i, /one-level overcall/i],
+    path: makeBiddingProblemPath(1, "bid1-17"),
+  },
+  {
+    patterns: [/2-level overcall/i, /two-level overcall/i],
+    path: makeBiddingProblemPath(1, "bid1-22"),
+  },
+  {
+    patterns: [/preempt/i],
+    path: makeBiddingProblemPath(1, "bid1-29"),
+  },
+  {
+    patterns: [/is this auction forcing/i, /is this forcing/i, /forcing-status/i],
+    path: makeBiddingProblemPath(1, "bid1-34"),
+  },
+  {
+    patterns: [/duplicate bidding/i, /disciplined duplicate/i],
+    path: makeBiddingProblemPath(2, "bid2-1"),
+  },
+  {
+    patterns: [/advanced hand evaluation/i, /evaluate a hand beyond raw points/i],
+    path: makeBiddingProblemPath(2, "bid2-6"),
+  },
+  {
+    patterns: [/responding to a double/i, /respond after partner doubles/i],
+    path: makeBiddingProblemPath(2, "bid2-14"),
+  },
+  {
+    patterns: [/when is double the right call/i, /\bdoubles?\b/i],
+    path: makeBiddingProblemPath(2, "bid2-9"),
+  },
+  {
+    patterns: [/power of pass/i, /when is pass the strongest bid/i],
+    path: makeBiddingProblemPath(2, "bid2-19"),
+  },
+  {
+    patterns: [/slam judgment/i, /when to bid slam/i],
+    path: makeBiddingProblemPath(2, "bid2-24"),
+  },
+  {
+    patterns: [/splinter/i],
+    path: makeBiddingProblemPath(3, "bid3-1"),
+  },
+  {
+    patterns: [/should you open the bidding/i, /opening hand evaluation/i],
+    path: makeBiddingProblemPath(1, "bid1-1"),
+  },
+  {
+    patterns: [/respond to partner'?s opening bid/i, /responding to partner/i],
+    path: makeBiddingProblemPath(1, "bid1-6"),
+  },
+  {
+    patterns: [/modern 1nt opening/i, /1nt opening really promise/i],
+    path: makeBiddingProblemPath(1, "bid1-11"),
+  },
+];
+
+const getExactPracticePathForArticle = ({ articleType, title, articleText }) => {
+  if (!(articleType === "bidding" || articleType === "biddingAdvanced" || articleType === "biddingBasics")) {
+    return "";
+  }
+
+  if (/lebensohl/i.test(`${title || ""}\n${articleText || ""}`)) {
+    return makeBiddingProblemPath(3, "bid3-6");
+  }
+
+  const titleText = String(title || "");
+  const target = BIDDING_ARTICLE_PRACTICE_TARGETS.find(({ patterns }) =>
+    patterns.some((pattern) => pattern.test(titleText))
+  );
+
+  return target?.path || "";
+};
+
 const ARTICLE_TOPIC_TABS = [
   { id: "declarer", label: "Declarer", path: "/declarer/articles", types: ["cardPlay"] },
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
@@ -376,16 +462,25 @@ const DisplayCategoryArticle = ({
   // For logged-out users, metadata can lag; the body doc is readable for free articles and carries isFree too.
   const isFree = useMetaData?.isFree === true || isFreeFromBodyDoc === true;
   const canWatchVideo = isAdmin || isPremium || isFree;
-  const preferredPracticePath = useMetaData?.ctaTarget || getPracticePathForArticleType(articleType);
+  const metadataPracticePath = useMetaData?.ctaTarget || "";
+  const exactPracticePath = getExactPracticePathForArticle({
+    articleType,
+    title: useMetaData?.title,
+    articleText,
+  });
+  const preferredPracticePath = hasProblemDeepLink(metadataPracticePath)
+    ? metadataPracticePath
+    : exactPracticePath || metadataPracticePath || getPracticePathForArticleType(articleType);
+  const subscribeThenPracticePath = `/subscribe?redirectTo=${encodeURIComponent(preferredPracticePath)}`;
   const isLebensohlArticle =
     articleId === "fI7DC63YopLtZy9fIobM" ||
     articleId === "wsCt4ouPgZU1cB86fj2A" ||
     useMetaData?.body === "wsCt4ouPgZU1cB86fj2A" ||
     /lebensohl/i.test(String(useMetaData?.title || "")) ||
     /lebensohl/i.test(String(articleText || ""));
-  const signInThenTrialPath = `/login?redirectTo=${encodeURIComponent("/subscribe")}`;
-  const trialSignupPath = `/signup?redirectTo=${encodeURIComponent("/subscribe")}`;
-  const ctaPath = isPremium || isAdmin ? preferredPracticePath : isLoggedIn ? "/subscribe" : trialSignupPath;
+  const signInThenTrialPath = `/login?redirectTo=${encodeURIComponent(subscribeThenPracticePath)}`;
+  const trialSignupPath = `/signup?redirectTo=${encodeURIComponent(subscribeThenPracticePath)}`;
+  const ctaPath = isPremium || isAdmin ? preferredPracticePath : isLoggedIn ? subscribeThenPracticePath : trialSignupPath;
   const ctaButtonLabel = isPremium || isAdmin
     ? "Train this theme now"
     : isLoggedIn
@@ -830,7 +925,7 @@ const DisplayCategoryArticle = ({
               <button
                 type="button"
                 className="DisplayArticle-ctaButton"
-                onClick={() => history.push("/subscribe")}
+                onClick={() => history.push(subscribeThenPracticePath)}
               >
                 Start 7-day free trial to unlock questions
               </button>

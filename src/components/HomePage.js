@@ -32,6 +32,31 @@ class HomePage extends Component {
     waitingForAuth: false,
   };
 
+  getPostCheckoutRedirectPath = () => {
+    try {
+      const params = new URLSearchParams(this.props.location?.search || "");
+      const fromUrl = params.get("redirectTo");
+      if (fromUrl && fromUrl.startsWith("/")) return fromUrl;
+
+      const fromStorage = localStorage.getItem("postCheckoutRedirectTo");
+      if (fromStorage && fromStorage.startsWith("/")) return fromStorage;
+    } catch (e) {
+      // ignore
+    }
+    return "";
+  };
+
+  continueAfterCheckout = () => {
+    const redirectPath = this.getPostCheckoutRedirectPath();
+    if (!redirectPath) return;
+    try {
+      localStorage.removeItem("postCheckoutRedirectTo");
+    } catch (e) {
+      // ignore
+    }
+    this.props.history.push(redirectPath);
+  };
+
   componentDidMount() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -274,6 +299,9 @@ class HomePage extends Component {
         new Date(this.props.subscriptionExpires).getTime() -
         2 * 24 * 60 * 60 * 1000;
     }
+    const postCheckoutRedirectPath = this.props.success
+      ? this.getPostCheckoutRedirectPath()
+      : "";
 
     // Guest layout = category cards before the green hero when there is no Firebase uid (or empty).
     // Append ?guestHome=1 to the URL to force that layout while logged in (e.g. to compare layouts).
@@ -441,6 +469,16 @@ class HomePage extends Component {
                     <p>
                       Lesson articles are free for everyone on the site; your membership unlocks the complete practice library and premium videos.
                     </p>
+                    {postCheckoutRedirectPath && (
+                      <Button
+                        waves="light"
+                        onClick={this.continueAfterCheckout}
+                        style={{ backgroundColor: "#0F4C3A", marginTop: "0.75rem" }}
+                      >
+                        Continue to your trainer questions
+                        <Icon right>arrow_forward</Icon>
+                      </Button>
+                    )}
                   </>
                 )}
                 {this.state.sessionId && !this.state.verifyResult?.ok && !this.state.verifyingCheckout && this.state.verifyError && (

@@ -42,6 +42,12 @@ const processReturnBase =
 const DEFAULT_TRIAL_TOKEN = "weekfree";
 const DEFAULT_TRIAL_DAYS = 7;
 
+const getRedirectToFromLocation = (location) => {
+  const params = new URLSearchParams(location?.search || "");
+  const redirectTo = params.get("redirectTo");
+  return redirectTo && redirectTo.startsWith("/") ? redirectTo : "";
+};
+
 class PremiumMembership extends Component {
   state = {
     authComplete: false,
@@ -376,7 +382,7 @@ class PremiumMembership extends Component {
         new Date(nextProps.subscriptionExpires).getTime() -
         2 * 24 * 60 * 60 * 1000;
       if (nextProps.subscriptionActive && new Date() < whenSubExpiresMinus2Days) {
-        this.props.history.push("/");
+        this.props.history.push(getRedirectToFromLocation(this.props.location) || "/");
       }
     }
 
@@ -415,6 +421,14 @@ class PremiumMembership extends Component {
     const tier = PRICING_TIERS[this.state.selectedTier];
     const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${tier.paypalButton}`;
     let returnUrl = `${processReturnBase}?uid=${encodeURIComponent(uid)}`;
+    const redirectAfterCheckout = getRedirectToFromLocation(this.props.location);
+    if (redirectAfterCheckout) {
+      try {
+        localStorage.setItem("postCheckoutRedirectTo", redirectAfterCheckout);
+      } catch (e) {
+        // ignore
+      }
+    }
     const appliedToken = this.getAppliedPromoToken();
     if (appliedToken) {
       returnUrl = returnUrl + "&promo=" + encodeURIComponent(appliedToken);
@@ -470,6 +484,7 @@ class PremiumMembership extends Component {
     if (uid && subscriptionActive && authReady) {
       const tierName = this.props.tier === "premium" ? "Premium" : "Basic";
       const isBasic = this.props.tier === "basic";
+      const redirectTo = getRedirectToFromLocation(this.props.location);
       return (
         <div className="PremiumMembership-container">
           <Card className="PremiumMembership-pricing-card" style={{ maxWidth: "32rem", margin: "4rem auto", padding: "2rem", textAlign: "center" }}>
@@ -489,8 +504,8 @@ class PremiumMembership extends Component {
                 {this.state.paypalRedirectLoading ? "Redirecting…" : "Upgrade to Premium"}
               </Button>
             )}
-            <Button waves="light" onClick={() => this.props.history.push("/")} style={{ backgroundColor: isBasic ? "#666" : "#0F4C3A" }}>
-              Go to homepage
+            <Button waves="light" onClick={() => this.props.history.push(redirectTo || "/")} style={{ backgroundColor: isBasic ? "#666" : "#0F4C3A" }}>
+              {redirectTo ? "Continue to the trainer questions" : "Go to homepage"}
             </Button>
           </Card>
         </div>
@@ -539,7 +554,8 @@ class PremiumMembership extends Component {
       (referralPremiumOfferActive && selectedTier === "premium") ||
       isBlueAppliedOnSelectedTier ||
       isPremiumOnlyPromoAppliedOnPremium;
-    const subscribePath = this.props.location.pathname || "/subscribe";
+    const subscribePath = `${this.props.location.pathname || "/subscribe"}${this.props.location.search || ""}`;
+    const redirectAfterCheckout = getRedirectToFromLocation(this.props.location);
     return (
       <div className="PremiumMembership-container">
         {showLogin && !uid && authReady && (
@@ -1035,6 +1051,7 @@ class PremiumMembership extends Component {
                         clearProcessing={() => this.setState({ stripeProcessing: false })}
                         changeSubscriptionActiveStatus={this.props.changeSubscriptionActiveStatus}
                         history={this.props.history}
+                        redirectAfterCheckout={redirectAfterCheckout}
                       />
                     </div>
                   </div>
