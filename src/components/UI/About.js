@@ -39,7 +39,9 @@ const personJsonLd = {
     "@id": "https://bridgechampions.com/#organization",
   },
   award: ACHIEVEMENTS.map((a) => `${a.year} — ${a.text}`),
-  sameAs: [],
+  sameAs: [
+    "https://www.youtube.com/@BridgeChampions",
+  ],
 };
 
 const aboutPageJsonLd = {

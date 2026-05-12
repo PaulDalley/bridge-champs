@@ -69,7 +69,7 @@ const SITE_PUBLISHER = {
   logoUrl:
     "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95",
   sameAs: [
-    // "https://www.youtube.com/@bridgechampions",
+    "https://www.youtube.com/@BridgeChampions",
   ],
 };
 
