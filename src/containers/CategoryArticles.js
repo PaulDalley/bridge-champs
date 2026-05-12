@@ -330,6 +330,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const normalizeSubcategoryLabel = (value = "") =>
     String(value)
       .trim()
+      .replace(/[’`]/g, "'")
       .toLowerCase()
       .replace(/\.+$/g, "")
       .replace(/\s+/g, " ");

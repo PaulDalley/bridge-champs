@@ -108,6 +108,7 @@ export const groupBeginnerArticlesBySubcategory = (articles = [], presetLabels =
   const normalizeSubcategoryLabel = (value = "") =>
     String(value)
       .trim()
+      .replace(/[’`]/g, "'")
       .toLowerCase()
       .replace(/\.+$/g, "")
       .replace(/\s+/g, " ");
