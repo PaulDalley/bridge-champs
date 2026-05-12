@@ -25,6 +25,14 @@ on:
       - main
   workflow_dispatch:
 
+# Only one deploy at a time per branch. A new push on `main` cancels any
+# in-flight run on `main` so the latest commit is what reaches Hosting.
+# Without this, rapid pushes pile up 20-30min Puppeteer runs in parallel
+# (each prerender + og:images is heavy) and stale builds can race.
+concurrency:
+  group: deploy-firebase-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -73,7 +81,10 @@ jobs:
       - name: Prerender public routes (best effort)
         run: |
           set +e
-          npm run prerender -- --concurrency 3 --timeout 30000
+          # GitHub-hosted runners are 4-CPU / 16GB; Puppeteer at concurrency 6
+          # is well within memory headroom and roughly halves wall-clock time
+          # for the ~110-URL crawl.
+          npm run prerender -- --concurrency 6 --timeout 30000
           pr_exit=$?
           set -e
           if [ "$pr_exit" -ne 0 ]; then
@@ -88,7 +99,7 @@ jobs:
       - name: Generate per-article Open Graph images (best effort)
         run: |
           set +e
-          npm run og:images -- --concurrency 3
+          npm run og:images -- --concurrency 6
           og_exit=$?
           set -e
           if [ "$og_exit" -ne 0 ]; then
