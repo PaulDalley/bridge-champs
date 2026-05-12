@@ -44,6 +44,47 @@ jobs:
           npm ci --legacy-peer-deps
           npm run build
 
+      # Generate sitemap.xml from Firestore + prerender every public URL into
+      # build/<path>/index.html so crawlers and social previews see real HTML
+      # on first byte. Failures here never block the Hosting deploy.
+      - name: Generate sitemap (best effort)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set -euo pipefail
+          if [ -z "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
+            echo "::warning::FIREBASE_SERVICE_ACCOUNT empty; skipping sitemap regen."
+            exit 0
+          fi
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          set +e
+          FIREBASE_SERVICE_ACCOUNT="${GITHUB_WORKSPACE}/serviceAccount.json" \
+            npm run sitemap:generate
+          sm_exit=$?
+          set -e
+          if [ "$sm_exit" -ne 0 ]; then
+            echo "::warning::Sitemap regen failed (exit ${sm_exit}); shipping existing public/sitemap.xml."
+          fi
+          # Copy the freshly written sitemap into the build output too.
+          if [ -f public/sitemap.xml ]; then
+            cp public/sitemap.xml build/sitemap.xml
+          fi
+
+      - name: Prerender public routes (best effort)
+        run: |
+          set +e
+          npm run prerender -- --concurrency 3 --timeout 30000
+          pr_exit=$?
+          set -e
+          if [ "$pr_exit" -ne 0 ]; then
+            echo "::warning::Prerender failed (exit ${pr_exit}); deploying SPA shell only."
+          else
+            echo "Prerender complete."
+            if [ -f build/prerender-failures.json ]; then
+              echo "::warning::Some routes failed to prerender; see build/prerender-failures.json artifact."
+            fi
+          fi
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,339 @@
+/**
+ * Prerender public routes from the production CRA build.
+ *
+ * Reads URLs from public/sitemap.xml, serves the build/ folder over a local
+ * Express server, then uses Puppeteer to visit each route and snapshot the
+ * rendered HTML to build/<path>/index.html. Firebase Hosting's SPA rewrite
+ * falls through to those real files for crawler/social requests, while
+ * React still hydrates for normal users.
+ *
+ * Usage:
+ *   node scripts/prerender.js [--port 5050] [--concurrency 3] [--limit N]
+ *                             [--only /path1,/path2] [--timeout 25000]
+ */
+
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const puppeteer = require("puppeteer");
+
+const ROOT = path.join(__dirname, "..");
+const BUILD_DIR = path.join(ROOT, "build");
+const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
+const PROD_BASE = "https://bridgechampions.com";
+
+function getArgValue(flag, fallback) {
+  const i = process.argv.indexOf(flag);
+  if (i === -1) return fallback;
+  const v = process.argv[i + 1];
+  if (!v || v.startsWith("-")) return fallback;
+  return v;
+}
+
+const PORT = Number(getArgValue("--port", "5050"));
+const CONCURRENCY = Math.max(1, Number(getArgValue("--concurrency", "3")));
+const LIMIT = Number(getArgValue("--limit", "0")) || 0;
+const TIMEOUT_MS = Number(getArgValue("--timeout", "25000"));
+const ONLY = (getArgValue("--only", "") || "")
+  .split(",")
+  .map((p) => p.trim())
+  .filter(Boolean);
+
+function readSitemapUrls() {
+  if (!fs.existsSync(SITEMAP_PATH)) {
+    throw new Error(
+      `No sitemap at ${SITEMAP_PATH}. Run \`npm run sitemap:generate\` first.`
+    );
+  }
+  const xml = fs.readFileSync(SITEMAP_PATH, "utf8");
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  return locs
+    .map((u) => {
+      try {
+        const url = new URL(u);
+        return url.pathname + (url.search || "");
+      } catch (_) {
+        return null;
+      }
+    })
+    .filter(Boolean)
+    .filter((p) => !p.startsWith("/login") && !p.startsWith("/membership"));
+}
+
+function normalisePath(p) {
+  if (p === "/" || p === "") return "/";
+  return p.endsWith("/") ? p.slice(0, -1) : p;
+}
+
+function fileForRoute(routePath) {
+  const clean = normalisePath(routePath);
+  const segments = clean === "/" ? [] : clean.replace(/^\/+/, "").split("/");
+  const dir = path.join(BUILD_DIR, ...segments);
+  return { dir, file: path.join(dir, "index.html") };
+}
+
+function startStaticServer() {
+  if (!fs.existsSync(BUILD_DIR)) {
+    throw new Error(
+      `No build directory at ${BUILD_DIR}. Run \`npm run build\` first.`
+    );
+  }
+  const app = express();
+  app.use(
+    express.static(BUILD_DIR, {
+      extensions: ["html"],
+      index: false,
+      redirect: false,
+    })
+  );
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(BUILD_DIR, "index.html"));
+  });
+  return new Promise((resolve) => {
+    const server = app.listen(PORT, () => resolve(server));
+  });
+}
+
+async function snapshotRoute(browser, routePath) {
+  const page = await browser.newPage();
+  const localUrl = `http://localhost:${PORT}${routePath}`;
+  let html = null;
+  try {
+    page.setDefaultNavigationTimeout(TIMEOUT_MS);
+    await page.setUserAgent(
+      "Mozilla/5.0 (compatible; BridgeChampsPrerender/1.0; +https://bridgechampions.com)"
+    );
+    await page.setRequestInterception(true);
+    page.on("request", (req) => {
+      const url = req.url();
+      if (/googletagmanager\.com|google-analytics\.com|googleadservices\.com|doubleclick\.net|hotjar\.com|stripe\.com\/v3/.test(url)) {
+        return req.abort();
+      }
+      return req.continue();
+    });
+
+    const response = await page.goto(localUrl, { waitUntil: "domcontentloaded" });
+    if (response && response.status() >= 400) {
+      throw new Error(`HTTP ${response.status()} at ${routePath}`);
+    }
+
+    const articleRoutePatterns = [
+      /^\/declarer\/articles\/[A-Za-z0-9_-]+$/,
+      /^\/defence\/articles\/[A-Za-z0-9_-]+$/,
+      /^\/bidding\/advanced\/[A-Za-z0-9_-]+$/,
+      /^\/bidding\/basics\/[A-Za-z0-9_-]+$/,
+      /^\/counting\/articles\/[A-Za-z0-9_-]+$/,
+      /^\/beginner\/articles\/(declarer|defence|bidding)\/[A-Za-z0-9_-]+$/,
+    ];
+    const isArticleRoute = articleRoutePatterns.some((re) => re.test(routePath));
+
+    try {
+      await page.waitForFunction(
+        (expectArticle) => {
+          const root = document.getElementById("root");
+          if (!root) return false;
+          if (expectArticle) {
+            const article = document.querySelector(".DisplayArticle-content");
+            if (!article) return false;
+            return article.textContent.trim().length > 300;
+          }
+          const hub = document.querySelector(
+            ".CategoryArticles, .HomePage, main, .BeginnerLanding, .LandingPage"
+          );
+          if (hub && hub.textContent.trim().length > 200) return true;
+          return root.textContent.trim().length > 300;
+        },
+        { timeout: 20000, polling: 400 },
+        isArticleRoute
+      );
+    } catch (waitErr) {
+      let snapshotDiag = null;
+      try {
+        snapshotDiag = await page.evaluate(() => ({
+          title: document.title || "",
+          url: location.href,
+          rootSize: (document.getElementById("root") || {}).textContent?.length || 0,
+          hasArticle: !!document.querySelector(".DisplayArticle-content"),
+          articleSize:
+            (document.querySelector(".DisplayArticle-content") || {}).textContent?.length || 0,
+          hasCategoryArticles: !!document.querySelector(".CategoryArticles"),
+        }));
+        if (process.env.PRERENDER_DEBUG) console.warn("DIAG:", JSON.stringify(snapshotDiag));
+      } catch (diagErr) {
+        if (process.env.PRERENDER_DEBUG) console.warn("DIAG-ERR (retrying after 500ms):", diagErr.message);
+        try {
+          await new Promise((r) => setTimeout(r, 500));
+          snapshotDiag = await page.evaluate(() => ({
+            title: document.title || "",
+            rootSize: (document.getElementById("root") || {}).textContent?.length || 0,
+            hasArticle: !!document.querySelector(".DisplayArticle-content"),
+            articleSize:
+              (document.querySelector(".DisplayArticle-content") || {}).textContent?.length || 0,
+          }));
+        } catch (_) {
+          throw waitErr;
+        }
+      }
+      const DEFAULT_TITLE_FRAGMENTS = [
+        "Bridge Champions \u2014 Bridge lessons",
+        "Bridge Champions \u2014",
+      ];
+      const titleIsDefault = DEFAULT_TITLE_FRAGMENTS.some((t) =>
+        (snapshotDiag.title || "").includes(t)
+      );
+      const articleOk = isArticleRoute && snapshotDiag.hasArticle && snapshotDiag.articleSize > 300;
+      const hubOk = !isArticleRoute && !titleIsDefault && snapshotDiag.rootSize > 800;
+      if (articleOk || hubOk) {
+        console.warn(
+          `SOFT ${routePath} :: wait timed out but page is filled (title="${(snapshotDiag.title || "").slice(
+            0,
+            80
+          )}", rootSize=${snapshotDiag.rootSize})`
+        );
+      } else {
+        if (process.env.PRERENDER_DEBUG) {
+          console.warn("DEBUG diag:", JSON.stringify(snapshotDiag, null, 2));
+        }
+        throw waitErr;
+      }
+    }
+
+    await page.evaluate(async () => {
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      await sleep(1000);
+    });
+
+    await page.evaluate(() => {
+      const dedupeBy = (selector, keyFn) => {
+        const seen = new Map();
+        document.head.querySelectorAll(selector).forEach((el) => {
+          const k = keyFn(el);
+          if (!k) return;
+          seen.set(k, el);
+        });
+        document.head.querySelectorAll(selector).forEach((el) => {
+          const k = keyFn(el);
+          if (!k) return;
+          if (seen.get(k) !== el) el.remove();
+        });
+      };
+      dedupeBy("meta[name]", (el) => `n:${el.getAttribute("name")}`);
+      dedupeBy("meta[property]", (el) => `p:${el.getAttribute("property")}`);
+      dedupeBy("link[rel='canonical']", () => "canonical");
+
+      const titles = document.head.querySelectorAll("title");
+      if (titles.length > 1) {
+        for (let i = 0; i < titles.length - 1; i++) titles[i].remove();
+      }
+
+      const marker = document.createElement("meta");
+      marker.setAttribute("name", "x-prerendered");
+      marker.setAttribute("content", new Date().toISOString());
+      document.head.appendChild(marker);
+    });
+
+    html = await page.content();
+  } finally {
+    await page.close();
+  }
+  return html;
+}
+
+async function writeSnapshot(routePath, html) {
+  const { dir, file } = fileForRoute(routePath);
+  await fs.promises.mkdir(dir, { recursive: true });
+  await fs.promises.writeFile(file, html, "utf8");
+  return path.relative(BUILD_DIR, file);
+}
+
+async function runQueue(items, worker) {
+  let idx = 0;
+  const results = { ok: 0, fail: 0, failed: [] };
+  async function next() {
+    while (idx < items.length) {
+      const myIdx = idx++;
+      const item = items[myIdx];
+      const label = `[${myIdx + 1}/${items.length}] ${item}`;
+      try {
+        const written = await worker(item);
+        results.ok++;
+        console.log(`OK   ${label} -> ${written}`);
+      } catch (err) {
+        results.fail++;
+        results.failed.push({ path: item, error: err.message });
+        console.warn(`FAIL ${label} :: ${err.message}`);
+      }
+    }
+  }
+  const workers = Array.from({ length: CONCURRENCY }, () => next());
+  await Promise.all(workers);
+  return results;
+}
+
+function preserveSpaShell() {
+  const shellSource = path.join(BUILD_DIR, "index.html");
+  const shellTarget = path.join(BUILD_DIR, "_shell.html");
+  if (!fs.existsSync(shellSource)) {
+    throw new Error(`No build/index.html — did you run \`npm run build\`?`);
+  }
+  fs.copyFileSync(shellSource, shellTarget);
+  console.log(`Preserved SPA shell at build/_shell.html`);
+}
+
+async function run() {
+  console.log("Reading sitemap…");
+  preserveSpaShell();
+  let routes = readSitemapUrls();
+  const onlyFilters = ONLY.filter((s) => s && s !== "/");
+  if (onlyFilters.length || ONLY.includes("/")) {
+    routes = routes.filter(
+      (p) =>
+        (ONLY.includes("/") && p === "/") ||
+        onlyFilters.some((only) => p === only || p.startsWith(`${only}/`))
+    );
+  }
+  routes = [...new Set(routes.map(normalisePath))];
+  if (LIMIT) routes = routes.slice(0, LIMIT);
+  if (!routes.length) {
+    console.warn("No routes to prerender. Exiting.");
+    return;
+  }
+  console.log(`Will prerender ${routes.length} routes (concurrency=${CONCURRENCY}).`);
+
+  console.log("Starting static server…");
+  const server = await startStaticServer();
+  console.log(`Static server on http://localhost:${PORT}`);
+
+  console.log("Launching Chromium…");
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+  });
+
+  let results;
+  try {
+    results = await runQueue(routes, async (routePath) => {
+      const html = await snapshotRoute(browser, routePath);
+      return writeSnapshot(routePath, html);
+    });
+  } finally {
+    await browser.close();
+    server.close();
+  }
+
+  console.log("---");
+  console.log(`Done. ok=${results.ok} fail=${results.fail} base=${PROD_BASE}`);
+  if (results.failed.length) {
+    const summaryPath = path.join(BUILD_DIR, "prerender-failures.json");
+    fs.writeFileSync(summaryPath, JSON.stringify(results.failed, null, 2));
+    console.log(`Wrote failure detail to ${path.relative(ROOT, summaryPath)}`);
+  }
+}
+
+run().then(
+  () => process.exit(0),
+  (err) => {
+    console.error("Prerender failed:", err);
+    process.exit(1);
+  }
+);
