@@ -86,13 +86,13 @@ function TreadmillLandingPage({
         <title>Bridge Treadmill — speed drills | Bridge Champions</title>
         <meta
           name="description"
-          content="Quick bridge drills: hand shape, opponent shape, building blocks. Timed reps and streaks — practice online."
+          content="Quick bridge drills: hand shape, opponent shape, building blocks, and Card Rush. Timed reps and streaks — practice online."
         />
         <link rel="canonical" href={CANONICAL} />
         <meta property="og:title" content="Bridge Treadmill — speed drills" />
         <meta
           property="og:description"
-          content="Race the clock, build a streak — hand shape, opponent shape, and building blocks in one place."
+          content="Race the clock, build a streak — hand shape, opponent shape, building blocks, and Card Rush in one place."
         />
         <meta property="og:url" content={CANONICAL} />
       </Helmet>
@@ -125,7 +125,7 @@ function TreadmillLandingPage({
                 Streaks
               </span>
               <span className="tmLanding-chip tmLanding-chip--mint" role="listitem">
-                3 drill modes
+                4 drill modes
               </span>
             </div>
           </div>

@@ -14,6 +14,7 @@ import {
   TREADMILL_TRAINER_HAND_SHAPE,
   TREADMILL_TRAINER_OPPONENT_SHAPE,
   TREADMILL_TRAINER_BUILDING_BLOCKS,
+  TREADMILL_TRAINER_CARD_RUSH,
   incrementTreadmillDailyCount,
   treadmillDailyLimitReached,
   treadmillFreeRoundsRemaining,
@@ -21,6 +22,7 @@ import {
 import HandShapeMissingClubTrainer from "./HandShapeMissingClubTrainer";
 import OpponentShapeTrainer from "./OpponentShapeTrainer";
 import BuildingBlocksTrainer from "./BuildingBlocksTrainer";
+import CardRushTrainer from "./CardRushTrainer";
 import "../Counting/CountingTrumpsTrainer.css";
 import "./TreadmillPracticePage.css";
 
@@ -29,7 +31,11 @@ const TOOL_KEYS = {
   HAND_SHAPE: "hand-shape",
   OPPONENT_SHAPE: "opponent-shape",
   BUILDING_BLOCKS: "building-blocks",
+  CARD_RUSH: "card-rush",
 };
+
+/** Flip to true when Card Rush is ready to go public. */
+const CARD_RUSH_PUBLIC = false;
 
 /** Guest / free-tier only — do not show when `treadmillUnlimited` (Basic, Premium, or admin). */
 const TREADMILL_GUEST_ACCOUNT_PROMO_NOTE =
@@ -52,12 +58,14 @@ function toolFromPathname(pathname) {
   const p = pathname || "";
   if (p.endsWith("/opponent-shape")) return TOOL_KEYS.OPPONENT_SHAPE;
   if (p.endsWith("/building-blocks")) return TOOL_KEYS.BUILDING_BLOCKS;
+  if (p.endsWith("/card-rush")) return TOOL_KEYS.CARD_RUSH;
   return TOOL_KEYS.HAND_SHAPE;
 }
 
 function pathnameForTool(tool) {
   if (tool === TOOL_KEYS.OPPONENT_SHAPE) return "/treadmill/practice/opponent-shape";
   if (tool === TOOL_KEYS.BUILDING_BLOCKS) return "/treadmill/practice/building-blocks";
+  if (tool === TOOL_KEYS.CARD_RUSH) return "/treadmill/practice/card-rush";
   return "/treadmill/practice";
 }
 
@@ -65,6 +73,7 @@ function pathnameForTool(tool) {
 function treadmillToolGaValue(tool) {
   if (tool === TOOL_KEYS.OPPONENT_SHAPE) return "opponent_shape";
   if (tool === TOOL_KEYS.BUILDING_BLOCKS) return "building_blocks";
+  if (tool === TOOL_KEYS.CARD_RUSH) return "card_rush";
   return "hand_shape";
 }
 
@@ -74,6 +83,8 @@ function TreadmillPracticePage({
   authReady,
   subscriptionActive,
   isAdmin,
+  firstName,
+  surname,
   startFacebookLogin: doFacebookLogin,
   startGoogleLogin: doGoogleLogin,
   signupEmailAndPasswordLogin: doSignupEmail,
@@ -152,6 +163,17 @@ function TreadmillPracticePage({
       treadmillDailyLimitReached(uid, TREADMILL_TRAINER_BUILDING_BLOCKS, treadmillUnlimited),
     [uid, treadmillUnlimited, dailyTick]
   );
+  const cardRushDailyExhausted = useMemo(
+    () =>
+      !!uid &&
+      !treadmillUnlimited &&
+      treadmillDailyLimitReached(uid, TREADMILL_TRAINER_CARD_RUSH, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
+  const cardRushFreeRemaining = useMemo(
+    () => treadmillFreeRoundsRemaining(uid, TREADMILL_TRAINER_CARD_RUSH, treadmillUnlimited),
+    [uid, treadmillUnlimited, dailyTick]
+  );
   const handDailyBlocked = useMemo(
     () =>
       !!uid &&
@@ -162,6 +184,15 @@ function TreadmillPracticePage({
 
   const oppLocked = !uid || opponentDailyExhausted;
   const bbLocked = !uid || buildingDailyExhausted;
+  const crLocked = !uid;
+  const crAlias = useMemo(() => {
+    const f = String(firstName || "").trim();
+    const s = String(surname || "").trim();
+    if (!f && !s) return "";
+    if (!s) return f;
+    if (!f) return s;
+    return `${f} ${s.charAt(0)}.`;
+  }, [firstName, surname]);
 
   const handFreeRemaining = useMemo(
     () => treadmillFreeRoundsRemaining(uid, TREADMILL_TRAINER_HAND_SHAPE, treadmillUnlimited),
@@ -246,13 +277,87 @@ function TreadmillPracticePage({
                   >
                     Building blocks {!uid ? "🔒" : ""}
                   </button>
+                  {CARD_RUSH_PUBLIC ? (
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={activeTool === TOOL_KEYS.CARD_RUSH}
+                      className={`ct-diffTab tm-toolTabBtn ${
+                        activeTool === TOOL_KEYS.CARD_RUSH ? "ct-diffTab--active" : ""
+                      }`}
+                      onClick={() => {
+                        const path = pathnameForTool(TOOL_KEYS.CARD_RUSH);
+                        if (history.location.pathname !== path) history.replace(path);
+                      }}
+                    >
+                      Card Rush
+                      <span className="ct-newBadge" aria-label="New">
+                        New
+                      </span>
+                      {!uid ? "🔒" : ""}
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>
           </div>
 
           <div className="tm-main">
-            {activeTool === TOOL_KEYS.BUILDING_BLOCKS ? (
+            {activeTool === TOOL_KEYS.CARD_RUSH ? (
+              <>
+                <CardRushTrainer
+                  uid={uid || ""}
+                  alias={crAlias}
+                  canRecordLeaderboard={authReady && !!uid}
+                  lockedPreview={crLocked}
+                  previewNote={treadmillLockedPreviewNote({
+                    treadmillUnlimited,
+                    uid,
+                    dailyExhausted: cardRushDailyExhausted,
+                  })}
+                  dailyInteractionBlocked={!!uid && !treadmillUnlimited && cardRushDailyExhausted}
+                  dailyFreeRemaining={cardRushFreeRemaining}
+                  onDailyRoundConsumed={
+                    uid && !treadmillUnlimited
+                      ? () => consumeDaily(TREADMILL_TRAINER_CARD_RUSH)
+                      : undefined
+                  }
+                  onSubscribeClick={() => history.push("/membership")}
+                  belowLeaderboardSlot={
+                    showGuestSignup ? (
+                      <section className="tm-signupPanel" aria-label="Create account">
+                        <Signup
+                          embedded
+                          embeddedTitle={TREADMILL_EMBEDDED_SIGNUP_TITLE}
+                          embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
+                          facebookLogin={doFacebookLogin}
+                          googleLogin={doGoogleLogin}
+                          emailLogin={doSignupEmail}
+                          setProfileName={doSetProfileName}
+                          history={history}
+                          redirectPathAfterAuth={loginReturnPath}
+                        />
+                      </section>
+                    ) : null
+                  }
+                />
+                {!uid ? (
+                  <section className="tm-signupPanel" aria-label="Create account">
+                    <Signup
+                      embedded
+                      embeddedTitle={TREADMILL_EMBEDDED_SIGNUP_TITLE}
+                      embeddedSubtitle={TREADMILL_EMBEDDED_SIGNUP_SUBTITLE}
+                      facebookLogin={doFacebookLogin}
+                      googleLogin={doGoogleLogin}
+                      emailLogin={doSignupEmail}
+                      setProfileName={doSetProfileName}
+                      history={history}
+                      redirectPathAfterAuth={loginReturnPath}
+                    />
+                  </section>
+                ) : null}
+              </>
+            ) : activeTool === TOOL_KEYS.BUILDING_BLOCKS ? (
               <>
                 <BuildingBlocksTrainer
                   lockedPreview={bbLocked}
@@ -390,6 +495,8 @@ const mapStateToProps = (state) => ({
   authReady: state.auth?.authReady === true,
   subscriptionActive: state.auth?.subscriptionActive === true,
   isAdmin: state.auth?.a === true,
+  firstName: state.auth?.firstName || "",
+  surname: state.auth?.surname || "",
 });
 
 const mapDispatchToProps = (dispatch) => ({

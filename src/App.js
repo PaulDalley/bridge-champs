@@ -392,6 +392,16 @@ const routes = (
       )}
     />
     <Route
+      path="/treadmill/practice/card-rush"
+      exact
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <TreadmillPracticePage {...routeProps} />
+        </>
+      )}
+    />
+    <Route
       path="/treadmill/practice"
       exact
       render={(routeProps) => (

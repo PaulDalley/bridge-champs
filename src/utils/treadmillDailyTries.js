@@ -4,6 +4,7 @@ export const TREADMILL_FREE_DAILY_LIMIT = 4;
 export const TREADMILL_TRAINER_HAND_SHAPE = "hand-shape";
 export const TREADMILL_TRAINER_OPPONENT_SHAPE = "opponent-shape";
 export const TREADMILL_TRAINER_BUILDING_BLOCKS = "building-blocks";
+export const TREADMILL_TRAINER_CARD_RUSH = "card-rush";
 
 function localDateKey() {
   const d = new Date();

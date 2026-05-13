@@ -208,6 +208,21 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // Newsletter lead capture from article pages. Public create so SEO visitors
+    // can submit without an account; admin-only read/manage in console.
+    match /newsletterLeads/{leadId} {
+      allow create: if request.resource.data.email is string
+        && request.resource.data.email.size() >= 5
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.source is string
+        && request.resource.data.sourcePath is string
+        && request.resource.data.articleId is string
+        && request.resource.data.articleType is string
+        && request.resource.data.articleTitle is string
+        && request.resource.data.status is string;
+      allow read, update, delete: if isAdmin();
+    }
+
     match /handSubmissions/{submissionId} {
       // Logged-in users can submit; only admins can read/manage.
       allow create: if request.auth != null;
@@ -241,6 +256,23 @@ service cloud.firestore {
         && request.resource.data.timeMs is number
         && request.resource.data.timeMs >= 2000
         && request.resource.data.timeMs <= 600000;
+      allow delete: if false;
+    }
+
+    // Card Rush — best 2-min Puzzle-Rush score per user (uid). World-readable.
+    // Score = puzzles correct in the run; timeMs = elapsed time (used as tiebreaker).
+    match /cardRushScores/{userId} {
+      allow read: if true;
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.alias is string
+        && request.resource.data.alias.size() <= 40
+        && request.resource.data.score is number
+        && request.resource.data.score >= 1
+        && request.resource.data.score <= 999
+        && request.resource.data.timeMs is number
+        && request.resource.data.timeMs >= 0
+        && request.resource.data.timeMs <= 300000;
       allow delete: if false;
     }
   }
