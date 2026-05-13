@@ -94,6 +94,18 @@ const COLLECTION_INFO = {
     body: "beginnerDefenceBody",
     pathPrefix: "/beginner/articles/defence",
   },
+  cardPlay: {
+    body: "cardPlayBody",
+    pathPrefix: "/declarer/articles",
+  },
+  defence: {
+    body: "defenceBody",
+    pathPrefix: "/defence/articles",
+  },
+  bidding: {
+    body: "biddingBody",
+    pathPrefix: "/bidding/advanced",
+  },
 };
 
 // Mirror the pair list from plan-thin-merges.js. The "primary" key marks
@@ -162,6 +174,22 @@ const PAIRS = [
     primary: "a",
     a: { collection: "beginnerCardPlay", bodyId: "7nKvD5E5BYBrkAX1lmFS" }, // Low Towards Honors (2 inbound)
     b: { collection: "beginnerCardPlay", bodyId: "3u1r8dH5sFpYnELlOM5l" }, // Finesse and Double
+  },
+
+  // Learn (declarer)
+  {
+    cluster: "Drawing trumps decision",
+    proposedMergedTitle: "Drawing Trumps: Make the Right Plan and Avoid Autopilot",
+    primary: "a",
+    a: { collection: "cardPlay", bodyId: "596acvZI8xbQE5NBLx9k" }, // Draw Trumps or Delay (453w, 6 inbound)
+    b: { collection: "cardPlay", bodyId: "KLGbVxlHSR2vSGdPYkip" }, // Draw Trumps with Purpose (407w)
+  },
+  {
+    cluster: "Counting trumps",
+    proposedMergedTitle: "Count Winners in Trumps: Avoid Missed Tricks and Read the Trump Layout",
+    primary: "a",
+    a: { collection: "cardPlay", bodyId: "IpwW7AMlQdRWoF8YlsKp" }, // Count Winners in Trumps (1135w, healthy)
+    b: { collection: "cardPlay", bodyId: "j7zM1utho0hMsmXl4e8V" }, // Count Trumps Accurately (184w, 3 inbound)
   },
 ];
 
