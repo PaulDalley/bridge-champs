@@ -102,6 +102,8 @@
  * @property {Card[]} correctCards        Cards counted as correct (include touching equivalents).
  * @property {string} [explanation]       Free-text shown in the review modal (supports ♠J, ♥10 chips).
  * @property {1|2|3} [difficulty]         Optional difficulty band.
+ * @property {boolean} [includeInPool]    When false, puzzle is excluded from normal random runs
+ *                                        and can be tested via preview-only URL mode.
  */
 
 /** @type {CardRushPuzzle[]} */
@@ -302,6 +304,91 @@ export const CARD_RUSH_SEED_PUZZLES = [
     correctCards: ["ST"],
     explanation:
       "Declarer needs to set up the spade suit for tricks. With ♠KQ7 in dummy and ♠102 in hand, lead the ♠10 from the short side to drive out East's ♠A. Whether East ducks or wins the ace, dummy's ♠K, ♠Q, and ♠7 are all winners — four spade tricks established alongside the ♠J already won at trick 1.",
+    difficulty: 1,
+  },
+  {
+    id: "cr-006",
+    topic: "Knock out the Ace",
+    contract: "4H",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    trumpSuit: "H",
+    // Declarer level 1, problem 3 (cp1-3):
+    // Trick 1 is completed (diamond lead won by declarer's ace),
+    // then declarer chooses the trick-2 lead.
+    lastTrick: {
+      leader: "W",
+      plays: [
+        { seat: "W", card: "DQ" },
+        { seat: "N", card: "D2" },
+        { seat: "E", card: "D3" },
+        { seat: "S", card: "DA" },
+      ],
+      winner: "S",
+    },
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    visibleHands: {
+      // Dummy (North): ♠QJ3 ♥Q53 ♦82 ♣T8642, minus ♦2 played to trick 1.
+      N: ["SQ", "SJ", "S3", "HQ", "H5", "H3", "D8", "CT", "C8", "C6", "C4", "C2"],
+      // Declarer / you (South): ♠K4 ♥AK9862 ♦A94 ♣A7, minus ♦A played to trick 1.
+      S: ["SK", "S4", "HA", "HK", "H9", "H8", "H6", "H2", "D9", "D4", "CA", "C7"],
+    },
+    // Correct answer requested: lead the king of spades at trick 2.
+    correctCards: ["SK"],
+    explanation: "Its a good idea to knock out the Ace and setup a useful trick source.",
+    difficulty: 1,
+  },
+  {
+    id: "cr-007",
+    topic: "Knock out the Ace",
+    contract: "3NT",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    // Declarer level 1, problem 6 (cp1-6):
+    // Show first two tricks with manual click-to-advance replay.
+    replayControl: "click",
+    replayTricks: [
+      {
+        leader: "W",
+        plays: [
+          { seat: "W", card: "H5" },
+          { seat: "N", card: "H6" },
+          { seat: "E", card: "HA" },
+          { seat: "S", card: "H4" },
+        ],
+        winner: "E",
+      },
+      {
+        leader: "E",
+        plays: [
+          { seat: "E", card: "H9" },
+          { seat: "S", card: "HK" },
+          { seat: "W", card: "H3" },
+          { seat: "N", card: "H7" },
+        ],
+        winner: "S",
+      },
+    ],
+    // Trick 3 lead from declarer after replaying tricks 1 and 2.
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    visibleHands: {
+      // Dummy (N): ♠K92 ♥76 ♦762 ♣AJT84, minus ♥6 and ♥7 from tricks 1-2.
+      N: ["SK", "S9", "S2", "D7", "D6", "D2", "CA", "CJ", "CT", "C8", "C4"],
+      // Declarer (S): ♠AQ32 ♥K4 ♦KQJT ♣K93, minus ♥4 and ♥K from tricks 1-2.
+      S: ["SA", "SQ", "S3", "S2", "DK", "DQ", "DJ", "DT", "CK", "C9", "C3"],
+      // West (W): ♠876 ♥9532 ♦985 ♣Q76, minus ♥5 and ♥3 from tricks 1-2.
+      W: ["S8", "S7", "S6", "H9", "H2", "D9", "D8", "D5", "CQ", "C7", "C6"],
+      // East (E): ♠JT5 ♥AQ982 ♦A43 ♣98, minus ♥A and ♥9 from tricks 1-2.
+      E: ["SJ", "ST", "S5", "HQ", "H8", "H2", "DA", "D4", "D3", "C9", "C8"],
+    },
+    // Any club card is accepted.
+    correctCards: ["CK", "C9", "C3"],
+    explanation:
+      "Unfortunately we can't play diamonds even though it looks natural to do so, the opponents have too many heart winners if we lose the lead, so we have to go after clubs.",
     difficulty: 1,
   },
 

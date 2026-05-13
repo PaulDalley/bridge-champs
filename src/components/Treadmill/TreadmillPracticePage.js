@@ -35,7 +35,7 @@ const TOOL_KEYS = {
 };
 
 /** Flip to true when Card Rush is ready to go public. */
-const CARD_RUSH_PUBLIC = false;
+const CARD_RUSH_PUBLIC = true;
 
 /** Guest / free-tier only — do not show when `treadmillUnlimited` (Basic, Premium, or admin). */
 const TREADMILL_GUEST_ACCOUNT_PROMO_NOTE =
@@ -110,6 +110,12 @@ function TreadmillPracticePage({
   useEffect(() => {
     setActiveTool(toolFromPathname(history.location?.pathname));
   }, [history.location?.pathname]);
+
+  const cardRushPreviewPuzzleId = useMemo(() => {
+    const search = history.location?.search || "";
+    const params = new URLSearchParams(search);
+    return params.get("cardRushPreview") || "";
+  }, [history.location?.search]);
 
   useEffect(() => {
     if (treadmillToolGaSentRef.current === activeTool) return;
@@ -314,6 +320,7 @@ function TreadmillPracticePage({
                   uid={uid || ""}
                   alias={crAlias}
                   canRecordLeaderboard={authReady && !!uid}
+                  previewPuzzleId={cardRushPreviewPuzzleId}
                   lockedPreview={crLocked}
                   previewNote={treadmillLockedPreviewNote({
                     treadmillUnlimited,

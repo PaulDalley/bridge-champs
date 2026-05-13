@@ -21,6 +21,20 @@
 .crTrainer--idle, .crTrainer--done, .crTrainer--empty { align-items: stretch; }
 .crTrainer--running { position: relative; }
 
+.crPreviewBanner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  align-self: center;
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fdba74;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
 /* ── Suit colours used everywhere ───────────────────────────────────────── */
 .crSuit--spades   { color: #0f172a; }
 .crSuit--hearts   { color: #b91c1c; }
@@ -473,7 +487,7 @@
 }
 
 .crStripTrick-slot--empty { width: clamp(46px, 5vw, 60px); }
-.crStripTrick-slot--enter { animation: crTrickCardIn 220ms ease-out; }
+.crStripTrick-slot--enter { animation: crTrickCardIn 290ms ease-out; }
 
 /* Slight overlap toward the centre so it reads as 4 cards meeting in the middle. */
 .crStripTrick-pos--n .crStripTrick-slot { transform: translateY(8px);  }

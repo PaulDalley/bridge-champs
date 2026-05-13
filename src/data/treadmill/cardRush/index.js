@@ -5,7 +5,10 @@ import { CARD_RUSH_SEED_PUZZLES } from "./seed";
  * hand-authored seed; future revisions can append puzzles from existing
  * trainer collections via an adapter layer added here.
  */
-export const CARD_RUSH_PUZZLE_POOL = [...CARD_RUSH_SEED_PUZZLES];
+export const CARD_RUSH_ALL_PUZZLES = [...CARD_RUSH_SEED_PUZZLES];
+
+/** Puzzles shown in normal random runs (draft / preview puzzles are excluded). */
+export const CARD_RUSH_PUZZLE_POOL = CARD_RUSH_ALL_PUZZLES.filter((p) => p?.includeInPool !== false);
 
 /** All suits in display order — alternating colours (♠ ♥ ♣ ♦) to match the
  *  existing Treadmill / Counting / Beginner trainer hands strips. */

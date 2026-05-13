@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  CARD_RUSH_ALL_PUZZLES,
   CARD_RUSH_PUZZLE_POOL,
   cardRank,
   cardSuit,
@@ -576,7 +577,7 @@ function TrickStrip({ puzzle, onReplayDoneChange }) {
     }
 
     const timers = [];
-    const CARD_STEP_MS = 220;
+    const CARD_STEP_MS = 290;
     const BETWEEN_TRICKS_MS = 320;
     let at = 0;
 
@@ -963,11 +964,17 @@ export default function CardRushTrainer({
   onDailyRoundConsumed,
   onSubscribeClick,
   belowLeaderboardSlot = null,
+  previewPuzzleId = "",
 }) {
-  const poolSize = CARD_RUSH_PUZZLE_POOL.length;
+  const previewPuzzle = useMemo(
+    () => CARD_RUSH_ALL_PUZZLES.find((p) => String(p?.id || "") === String(previewPuzzleId || "")) || null,
+    [previewPuzzleId]
+  );
+  const sourcePool = useMemo(() => (previewPuzzle ? [previewPuzzle] : CARD_RUSH_PUZZLE_POOL), [previewPuzzle]);
+  const poolSize = sourcePool.length;
   const hasPuzzles = poolSize > 0;
 
-  const [puzzleSeq, setPuzzleSeq] = useState(() => (hasPuzzles ? pickRandomPuzzles(40) : []));
+  const [puzzleSeq, setPuzzleSeq] = useState(() => (hasPuzzles ? pickRandomPuzzles(40, sourcePool) : []));
   const [currentIdx, setCurrentIdx] = useState(0);
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
@@ -1049,7 +1056,7 @@ export default function CardRushTrainer({
       if (lockedPreview || !hasPuzzles) return;
       const next = mode === MODE_PRACTICE ? MODE_PRACTICE : MODE_COMPETITIVE;
       setRunMode(next);
-      setPuzzleSeq(pickRandomPuzzles(80));
+      setPuzzleSeq(pickRandomPuzzles(80, sourcePool));
       setCurrentIdx(0);
       setStreak(0);
       setBestStreak(0);
@@ -1064,7 +1071,7 @@ export default function CardRushTrainer({
       setTickNow(Date.now());
       setRunState("running");
     },
-    [lockedPreview, hasPuzzles]
+    [lockedPreview, hasPuzzles, sourcePool]
   );
 
   const finishRun = useCallback((outcome) => {
@@ -1151,13 +1158,25 @@ export default function CardRushTrainer({
           const next = idx + 1;
           if (next >= puzzleSeq.length) {
             // Refill mid-run if we somehow exhaust the pool order.
-            setPuzzleSeq((seq) => [...seq, ...pickRandomPuzzles(40)]);
+            setPuzzleSeq((seq) => [...seq, ...pickRandomPuzzles(40, sourcePool)]);
           }
           return next;
         });
       }, POST_ANSWER_PAUSE_MS);
     },
-    [lockedPreview, runState, currentPuzzle, highlight, streak, livesLeft, onDailyRoundConsumed, finishRun, puzzleSeq.length, isCompetitive]
+    [
+      lockedPreview,
+      runState,
+      currentPuzzle,
+      highlight,
+      streak,
+      livesLeft,
+      onDailyRoundConsumed,
+      finishRun,
+      puzzleSeq.length,
+      isCompetitive,
+      sourcePool,
+    ]
   );
 
   // ── Locked preview ────────────────────────────────────────────────────────
@@ -1317,6 +1336,11 @@ export default function CardRushTrainer({
         score={score}
         mode={runMode}
       />
+      {previewPuzzle ? (
+        <div className="crPreviewBanner">
+          Preview mode: <strong>{previewPuzzle.id}</strong>
+        </div>
+      ) : null}
 
       <PlayBoard
         puzzle={currentPuzzle}
