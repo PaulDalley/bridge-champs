@@ -309,8 +309,17 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     return () => unsubscribe();
   }, [articleType]);
 
-  // Group articles, videos, and practice questions by level for banner display
-  const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(articles);
+  // Group articles, videos, and practice questions by level for banner display.
+  // Drop hidden drafts and post-merge redirect stubs from the category list —
+  // hidden drafts live in /pillars; redirect stubs only exist to bounce
+  // inbound traffic to a primary URL.
+  const visibleArticles = (articles || []).filter((a) => {
+    if (!a) return false;
+    if (a.isHidden === true) return false;
+    if (typeof a.redirectTo === "string" && a.redirectTo.startsWith("/")) return false;
+    return true;
+  });
+  const sortedArticles = sortCategoryArticlesByLevelAndArticleNumber(visibleArticles);
   const filteredArticles = filterCategoryArticles(sortedArticles, filters);
   const groupedContent = groupContentByLevel(
     filteredArticles || [],

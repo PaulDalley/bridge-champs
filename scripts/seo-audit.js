@@ -255,6 +255,11 @@ async function collectAll() {
       const plain = stripHtml(bodyHtml);
       const words = wordCount(plain);
 
+      const isHidden = data.isHidden === true;
+      const redirectTo =
+        typeof data.redirectTo === "string" && data.redirectTo.startsWith("/")
+          ? data.redirectTo
+          : null;
       all.push({
         collectionSummary: cfg.summary,
         collectionBody: cfg.body,
@@ -271,6 +276,8 @@ async function collectAll() {
         ctaTarget,
         authorName,
         isFree,
+        isHidden,
+        redirectTo,
         videoUrl,
         difficulty,
         words,
@@ -333,6 +340,20 @@ function verdictFor(article, clusters) {
   const reasons = [];
   let verdict = "KEEP";
 
+  // Surface non-indexable articles distinctly so they don't crowd the
+  // EXPAND list with stubs that are intentionally tiny.
+  if (article.redirectTo) {
+    return {
+      verdict: "REDIRECT",
+      reasons: [`redirects to ${article.redirectTo} (post-merge stub)`],
+    };
+  }
+  if (article.isHidden) {
+    return {
+      verdict: "HIDDEN",
+      reasons: ["hidden draft (admin-only)"],
+    };
+  }
   if (!article.bodyExists) {
     return { verdict: "KILL", reasons: ["body missing or empty (ghost)"] };
   }
@@ -470,20 +491,27 @@ function renderMarkdown(articles, clusters) {
     arr.sort((a, b) => a.title.localeCompare(b.title));
   }
 
+  // Hidden drafts and post-merge redirect stubs are not user-facing
+  // articles — exclude them from thin/orphan/etc rollups so the report
+  // reflects the published library.
+  const isLive = (a) => !a.isHidden && !a.redirectTo;
   const stats = {
     total: articles.length,
-    ghosts: articles.filter((a) => !a.bodyExists).length,
-    thin: articles.filter((a) => a.bodyExists && a.words < 600).length,
-    veryThin: articles.filter((a) => a.bodyExists && a.words < 250).length,
-    orphans: articles.filter((a) => a.bodyExists && a.inboundCount === 0).length,
+    indexable: articles.filter(isLive).length,
+    redirects: articles.filter((a) => !!a.redirectTo).length,
+    hidden: articles.filter((a) => a.isHidden).length,
+    ghosts: articles.filter((a) => !a.bodyExists && isLive(a)).length,
+    thin: articles.filter((a) => isLive(a) && a.bodyExists && a.words < 600).length,
+    veryThin: articles.filter((a) => isLive(a) && a.bodyExists && a.words < 250).length,
+    orphans: articles.filter((a) => isLive(a) && a.bodyExists && a.inboundCount === 0).length,
     noTrainer: articles.filter(
-      (a) => a.bodyExists && !a.hasTrainerLink && !a.ctaTarget
+      (a) => isLive(a) && a.bodyExists && !a.hasTrainerLink && !a.ctaTarget
     ).length,
-    paywallRisk: articles.filter((a) => a.paywallRiskLinks > 0).length,
-    noMeta: articles.filter((a) => !a.teaser).length,
-    noKeyword: articles.filter((a) => !a.primaryKeyword).length,
-    free: articles.filter((a) => a.isFree).length,
-    paid: articles.filter((a) => !a.isFree).length,
+    paywallRisk: articles.filter((a) => isLive(a) && a.paywallRiskLinks > 0).length,
+    noMeta: articles.filter((a) => isLive(a) && !a.teaser).length,
+    noKeyword: articles.filter((a) => isLive(a) && !a.primaryKeyword).length,
+    free: articles.filter((a) => isLive(a) && a.isFree).length,
+    paid: articles.filter((a) => isLive(a) && !a.isFree).length,
     healthy: 0,
   };
 
@@ -504,7 +532,9 @@ function renderMarkdown(articles, clusters) {
   lines.push("");
   lines.push("## Sitewide stats");
   lines.push("");
-  lines.push(`- Total articles indexed in collections: **${stats.total}**`);
+  lines.push(
+    `- Total articles indexed in collections: **${stats.total}** — indexable (live, not redirect/hidden): **${stats.indexable}**, redirect stubs: **${stats.redirects}**, hidden drafts: **${stats.hidden}**`
+  );
   lines.push(`- Ghosts (body missing / empty): **${stats.ghosts}**`);
   lines.push(
     `- Thin (< 600 words, body present): **${stats.thin}** — of which very thin (< 250 words): **${stats.veryThin}**`

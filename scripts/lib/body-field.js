@@ -55,4 +55,29 @@ function buildBodyUpdate(shape, newHtml) {
   }
 }
 
-module.exports = { extractBodyHtml, buildBodyUpdate };
+/**
+ * Many older docs were written with BOTH a flat `text` field AND a nested
+ * `body.text` field carrying the same content (legacy belt-and-suspenders).
+ * Writing only to the primary shape leaves the sibling stale. Pass the
+ * raw bodyData to this helper to get an update that writes to whichever
+ * field(s) the doc currently uses, keeping them in lockstep.
+ */
+function buildPreservingBodyUpdate(bodyData, newHtml) {
+  const { shape } = extractBodyHtml(bodyData);
+  const update = buildBodyUpdate(shape, newHtml);
+  const hasNestedSibling =
+    !!bodyData &&
+    !!bodyData.body &&
+    typeof bodyData.body === "object" &&
+    typeof bodyData.body.text === "string";
+  if (shape === "flat-text" && hasNestedSibling) {
+    update["body.text"] = newHtml;
+  }
+  const hasFlatSibling = !!bodyData && typeof bodyData.text === "string";
+  if (shape === "nested" && hasFlatSibling) {
+    update.text = newHtml;
+  }
+  return update;
+}
+
+module.exports = { extractBodyHtml, buildBodyUpdate, buildPreservingBodyUpdate };

@@ -48,6 +48,7 @@ import Comments from "../Comments/Comments";
 import FeedbackForm from "./FeedbackForm";
 import RelatedArticles from "./RelatedArticles";
 import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import SkeletonLoader from "../UI/SkeletonLoader";
 
 // Site-wide author + publisher identity for structured data and visible
@@ -716,6 +717,18 @@ const DisplayCategoryArticle = ({
   const articleContentClassName = `DisplayArticle-content${
     isBeginnerArticleType ? " DisplayArticle-content--beginner" : ""
   }`;
+
+  // Merged-article redirect: if this summary points at a primary URL via
+  // redirectTo, bounce visitors there immediately. The primary URL holds
+  // the canonical and the prerendered content; this URL is excluded from
+  // sitemap + RelatedArticles so Google should drop it from the index.
+  const redirectTarget =
+    typeof useMetaData?.redirectTo === "string" && useMetaData.redirectTo.startsWith("/")
+      ? useMetaData.redirectTo
+      : null;
+  if (redirectTarget) {
+    return <Redirect to={redirectTarget} />;
+  }
 
   if (isHiddenDraft && !isAdmin) {
     return (

@@ -28,7 +28,7 @@ const admin = require("firebase-admin");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { extractBodyHtml, buildBodyUpdate } = require("./lib/body-field");
+const { extractBodyHtml, buildPreservingBodyUpdate } = require("./lib/body-field");
 
 const MIN_WORD_THRESHOLD = 600;
 const SIBLINGS_TO_LINK = 4;
@@ -194,6 +194,7 @@ function pickSiblings({ allSummaries, currentBodyId, currentSummaryId, currentTi
       if (a.summaryId === currentSummaryId) return false;
       if (a.bodyId === currentBodyId) return false;
       if (a.isHidden === true) return false;
+      if (typeof a.redirectTo === "string" && a.redirectTo.startsWith("/")) return false;
       if (!a.title) return false;
       return true;
     })
@@ -287,6 +288,7 @@ async function loadAllSummariesForCollections(cfgs) {
         difficulty: d.difficulty,
         articleNumber: d.articleNumber,
         isHidden: d.isHidden === true,
+        redirectTo: typeof d.redirectTo === "string" ? d.redirectTo : null,
       };
     });
   }
@@ -334,6 +336,11 @@ async function run() {
     for (const s of summaries) {
       stats.scanned++;
       if (s.isHidden) {
+        stats.skippedHidden++;
+        continue;
+      }
+      // Post-merge redirect stubs are intentionally tiny — never backfill them.
+      if (typeof s.redirectTo === "string" && s.redirectTo.startsWith("/")) {
         stats.skippedHidden++;
         continue;
       }
@@ -396,7 +403,7 @@ async function run() {
             }) + "\n"
           );
         }
-        const bodyUpdate = buildBodyUpdate(bodyShape, updatedHtml);
+        const bodyUpdate = buildPreservingBodyUpdate(bodyData, updatedHtml);
         await db
           .collection(bodyName)
           .doc(s.bodyId)

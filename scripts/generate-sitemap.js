@@ -185,6 +185,12 @@ async function getDynamicUrls() {
         skippedHidden++;
         continue;
       }
+      // Articles that redirect to a primary URL (post-merge) must also be
+      // excluded — they exist only to bounce inbound traffic.
+      if (typeof data.redirectTo === "string" && data.redirectTo.startsWith("/")) {
+        skippedHidden++;
+        continue;
+      }
       const bodyId = extractBodyId(data) || doc.id;
       if (!bodyId) {
         skippedNoBody++;

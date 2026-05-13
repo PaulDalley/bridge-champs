@@ -109,6 +109,10 @@ function pickRelatedArticles({
     .filter((a) => {
       if (!a || typeof a !== "object") return false;
       if (a.isHidden === true) return false;
+      // Post-merge redirect stubs must not be suggested as related reading.
+      if (typeof a.redirectTo === "string" && a.redirectTo.startsWith("/")) {
+        return false;
+      }
       const bodyId = a.body || a.id;
       if (!bodyId) return false;
       if (bodyId === currentBodyId) return false;
