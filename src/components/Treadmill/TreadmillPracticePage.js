@@ -277,7 +277,7 @@ function TreadmillPracticePage({
                   >
                     Building blocks {!uid ? "🔒" : ""}
                   </button>
-                  {CARD_RUSH_PUBLIC ? (
+                  {(CARD_RUSH_PUBLIC || !!uid) ? (
                     <button
                       type="button"
                       role="tab"
@@ -291,10 +291,15 @@ function TreadmillPracticePage({
                       }}
                     >
                       Card Rush
-                      <span className="ct-newBadge" aria-label="New">
-                        New
-                      </span>
-                      {!uid ? "🔒" : ""}
+                      {!CARD_RUSH_PUBLIC ? (
+                        <span className="ct-newBadge" style={{ background: "#64748b" }} aria-label="Preview">
+                          Preview
+                        </span>
+                      ) : (
+                        <span className="ct-newBadge" aria-label="New">
+                          New
+                        </span>
+                      )}
                     </button>
                   ) : null}
                 </div>

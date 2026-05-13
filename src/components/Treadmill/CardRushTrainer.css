@@ -574,14 +574,72 @@
 /* Side panel: constrain width so it sits neatly beside the trick cross. */
 .crStripArea--side {
   justify-content: stretch;
-  min-width: 160px;
+  min-width: 0;
   max-width: 230px;
+  flex-shrink: 0;
 }
 
-.crStripArea--side .crSeat {
+/* ── Side hand (E/W dummy) — MiniCard tiles grouped by suit ─────────────
+ *  Sits on the green felt (no white box). Uses the same crMini cards as
+ *  StripHand so sizes and colours are visually consistent.
+ *  ──────────────────────────────────────────────────────────────────────── */
+.crSideHand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   width: 100%;
-  max-width: none;
-  /* taller suit rows so cards are easy to read in the narrow column */
+}
+
+.crSideHand-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.crSideHand-label {
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: #f0fdf4;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.crSideHand-suits {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* One suit's worth of MiniCards in a row — cards share borders like the strip */
+.crSideHand-suitRow {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.crSideHand-suitRow .crMini { border-left-width: 0; }
+.crSideHand-suitRow .crMini:first-child { border-left-width: 1px; }
+
+/* Cards in the side hand use the same size cap as the strip hand */
+.crSideHand .crMini--hand {
+  width: clamp(28px, 9vw, 44px);
+  max-width: 44px;
+}
+
+.crSideHand-void {
+  font-size: var(--text-xs);
+  color: rgba(248, 250, 252, 0.55);
+  font-style: italic;
+  padding: 0 0.3rem;
+  align-self: center;
+}
+
+.crSideHand--playable {
+  outline: 1.5px dashed rgba(250, 204, 21, 0.55);
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 /* ── Locked / signed-out prompt ────────────────────────────────────────── */
@@ -610,6 +668,16 @@
 
 /* Phone tweaks — keep the layout, just tighten paddings and trick size. */
 @media (max-width: 640px) {
+  /* On mobile, collapse the side grid back to a flex column so dummy
+     stacks above the trick area, but offset it toward its compass side. */
+  .crStripBoard--opp-e,
+  .crStripBoard--opp-w {
+    display: flex;
+    flex-direction: column;
+  }
+  .crStripBoard--opp-e .crStripArea--side { align-self: flex-end; padding-right: 0; }
+  .crStripBoard--opp-w .crStripArea--side { align-self: flex-start; }
+
   .crStripBoard {
     padding: 0.85rem 0.7rem 0.95rem;
     gap: 0.6rem;

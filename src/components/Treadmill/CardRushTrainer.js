@@ -423,6 +423,67 @@ function MiniCard({ card, variant = "hand", playable = false, illegal = false, s
 }
 
 /**
+ * Side-column hand used when dummy is East or West. Cards are shown in the
+ * same MiniCard tile style as the main strips, but grouped by suit into rows
+ * so the column stays narrow. No white background box — it sits on the felt.
+ */
+function SideHand({ seat, puzzle, ledSuit, highlightCard, highlightVariant, dailyHardBlock, onPick }) {
+  const cards = puzzle.visibleHands?.[seat] || null;
+  const isPlayable = !dailyHardBlock && seat === puzzle.toPlaySeat && Array.isArray(cards);
+  const groups = useMemo(() => (cards ? groupBySuit(cards) : []), [cards]);
+  const hasLedSuit = !!ledSuit && Array.isArray(cards) && cards.some((c) => cardSuit(c) === ledSuit);
+  const label = rowLabel(seat, puzzle);
+
+  if (!cards) {
+    return (
+      <div className="crSideHand crSideHand--hidden">
+        <div className="crSideHand-head">
+          <span className="crSideHand-label">{label}</span>
+        </div>
+        <div className="crStripHand-cards crStripHand-cards--hidden" aria-hidden="true">
+          <span className="crStripHand-hiddenBack">🂠</span>
+          <span className="crStripHand-hiddenLabel">Hidden</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`crSideHand ${isPlayable ? "crSideHand--playable" : ""}`}>
+      <div className="crSideHand-head">
+        <span className="crSideHand-label">{label}</span>
+        {isPlayable ? <span className="crStripHand-cue">your move</span> : null}
+      </div>
+      <div className="crSideHand-suits">
+        {groups.map((g) => (
+          <div key={g.suit} className="crSideHand-suitRow">
+            {g.cards.map((card) => {
+              const illegal = isPlayable && hasLedSuit && cardSuit(card) !== ledSuit;
+              const isHighlighted = card === highlightCard;
+              const state = isHighlighted ? highlightVariant : null;
+              return (
+                <MiniCard
+                  key={`crsd-${seat}-${card}`}
+                  card={card}
+                  variant="hand"
+                  playable={isPlayable && !illegal && !highlightCard}
+                  illegal={illegal}
+                  state={state}
+                  onPick={onPick}
+                />
+              );
+            })}
+            {g.cards.length === 0 && (
+              <span className="crSideHand-void">—</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
  * One hand row in the strip layout: a small label on top, then a 13-column
  * grid of MiniCards. Played cards (i.e. cards no longer in the hand) leave
  * a transparent placeholder so the row width stays stable through a deal.
@@ -671,10 +732,6 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
     setReplayDone(!hasReplay);
   }, [puzzle.id, puzzle.replayTricks, puzzle.lastTrick]);
 
-  const oppCards = opponentSeat ? (visible[opponentSeat] || null) : null;
-  const oppPlayable = !dailyHardBlock && replayDone && opponentSeat === puzzle.toPlaySeat && Array.isArray(oppCards);
-  const dmy = dummySeat(puzzle.declarerCompass);
-
   return (
     <div
       className={`crStripBoard${isSide ? ` crStripBoard--opp-${opponentSeat.toLowerCase()}` : ""}`}
@@ -699,17 +756,14 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
       </div>
       {opponentSeat && isSide ? (
         <div className="crStripArea crStripArea--side">
-          <SeatHand
+          <SideHand
             seat={opponentSeat}
-            cards={oppCards}
-            isViewer={false}
-            playable={oppPlayable}
+            puzzle={puzzle}
             ledSuit={ledSuit}
             highlightCard={highlightCard}
             highlightVariant={highlightVariant}
+            dailyHardBlock={dailyHardBlock || !replayDone}
             onPick={onPick}
-            showRoleHint
-            roleHint={opponentSeat === dmy ? "Dummy" : null}
           />
         </div>
       ) : null}
