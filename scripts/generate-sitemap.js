@@ -10,6 +10,7 @@ const admin = require("firebase-admin");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { extractBodyHtml } = require("./lib/body-field");
 
 function getArgValue(flag) {
   const i = process.argv.indexOf(flag);
@@ -197,8 +198,8 @@ async function getDynamicUrls() {
         continue;
       }
       const bodyData = bodyDoc.data() || {};
-      const bodyText = bodyData.text || bodyData.body || "";
-      if (!bodyText || String(bodyText).trim().length < 40) {
+      const { html: bodyText } = extractBodyHtml(bodyData);
+      if (!bodyText || bodyText.trim().length < 40) {
         skippedMissingBody++;
         continue;
       }

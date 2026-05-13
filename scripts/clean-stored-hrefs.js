@@ -30,6 +30,7 @@ const admin = require("firebase-admin");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { extractBodyHtml, buildBodyUpdate } = require("./lib/body-field");
 
 function getArgValue(flag) {
   const i = process.argv.indexOf(flag);
@@ -312,8 +313,7 @@ async function run() {
     for (const doc of bodySnap.docs) {
       totalDocsScanned++;
       const data = doc.data() || {};
-      const field = typeof data.text === "string" ? "text" : "body";
-      const html = toStringSafe(data[field] || "");
+      const { html, shape } = extractBodyHtml(data);
       if (!html) continue;
       const result = rewriteHrefs({
         html,
@@ -343,23 +343,25 @@ async function run() {
               when: new Date().toISOString(),
               collection: cfg.body,
               docId: doc.id,
-              field,
+              shape,
               originalText: html,
               changes: result.changes,
             };
             fs.appendFileSync(backupPath, JSON.stringify(backupRow) + "\n", "utf8");
 
-            // Then write the new text.
+            // Then write the new text back to the same field path the doc
+            // originally used (preserves nested vs flat shape).
+            const bodyUpdate = buildBodyUpdate(shape, result.out);
             await db
               .collection(cfg.body)
               .doc(doc.id)
               .update({
-                [field]: result.out,
+                ...bodyUpdate,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
                 hrefCleanupAt: new Date().toISOString(),
               });
             console.log(
-              `WROTE ${cfg.body}/${doc.id} (${result.rewrites} hrefs rewritten)`
+              `WROTE ${cfg.body}/${doc.id} (${result.rewrites} hrefs rewritten, shape=${shape})`
             );
           }
         }

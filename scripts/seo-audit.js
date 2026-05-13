@@ -17,6 +17,7 @@ const admin = require("firebase-admin");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { extractBodyHtml } = require("./lib/body-field");
 
 function getArgValue(flag) {
   const i = process.argv.indexOf(flag);
@@ -209,7 +210,7 @@ async function collectAll() {
 
       const bodyDoc = await db.collection(cfg.body).doc(bodyId).get();
       const bodyData = bodyDoc.exists ? bodyDoc.data() || {} : {};
-      const bodyHtml = toStringSafe(bodyData.text || bodyData.body || "");
+      const { html: bodyHtml } = extractBodyHtml(bodyData);
       const bodyExists = bodyDoc.exists && stripHtml(bodyHtml).length >= 40;
 
       bodyIds.add(bodyId);
