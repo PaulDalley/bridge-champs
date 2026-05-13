@@ -34,6 +34,26 @@ const SUIT_CLASS = { S: "crSuit--spades", H: "crSuit--hearts", D: "crSuit--diamo
 const SEAT_LABEL = { N: "North", E: "East", S: "South", W: "West" };
 const ALL_SEATS = ["N", "E", "S", "W"];
 
+/** Non-interactive board shown to logged-out users so they can quickly grasp the format. */
+const LOCKED_PREVIEW_PUZZLE = {
+  id: "cr-locked-preview",
+  topic: "Preview",
+  contract: "4H",
+  declarerCompass: "S",
+  viewerCompass: "S",
+  trumpSuit: "H",
+  currentTrick: { leader: "S", plays: [] },
+  toPlaySeat: "S",
+  playRevealSeats: ["S", "N"],
+  visibleHands: {
+    N: ["SK", "S9", "S2", "HQ", "H7", "H4", "CK", "C8", "C4", "DK", "DJ", "D6", "D2"],
+    S: ["SA", "SQ", "SJ", "H5", "H3", "H2", "CA", "C5", "C3", "CQ", "D7", "D5", "D3"],
+    W: ["S8", "S6", "S5", "HK", "H9", "H6", "CJ", "C9", "C7", "DA", "DQ", "DT", "D8"],
+    E: ["ST", "S7", "S4", "HA", "HJ", "HT", "H8", "C6", "C2", "D5", "D4", "D3", "D2"],
+  },
+  correctCards: [],
+};
+
 function formatMs(ms) {
   if (!Number.isFinite(ms) || ms < 0) return "0.0s";
   const total = ms / 1000;
@@ -845,7 +865,7 @@ function BridgeTable({ puzzle, highlightCard, highlightVariant, dailyHardBlock, 
   );
 }
 
-/** Tile bar showing every attempt; click any tile to open review (when run finished). */
+/** Tile bar showing attempts; any completed attempt can be reviewed immediately. */
 function TileStrip({ attempts, currentIdx, runState, onReview }) {
   const tiles = [];
   // Always show at least the cells already attempted plus a "current" placeholder.
@@ -866,7 +886,7 @@ function TileStrip({ attempts, currentIdx, runState, onReview }) {
       glyph = "•";
       label = `Puzzle ${i + 1} — current`;
     }
-    const clickable = !!a && runState !== "running";
+    const clickable = !!a;
     tiles.push(
       clickable ? (
         <button
@@ -1240,6 +1260,11 @@ export default function CardRushTrainer({
               <span className="crModeBtn-meta">1 minute · 3 lives</span>
             </button>
           </div>
+          <p className="crIntro-guidance">
+            When the auction is not included assume declarer has a normal type of hand (8 card trump fit,
+            balanced hand). These problems are meant to be quick, pattern recognition style that can be done
+            quickly.
+          </p>
           {Number.isFinite(dailyFreeRemaining) ? (
             <p className="crIntro-quota">
               {dailyFreeRemaining > 0
@@ -1432,9 +1457,15 @@ function CardRushLeaderboardPanel({ rows, error, uid, alias, belowLeaderboardSlo
 /** Simple placeholder shown to logged-out / paywalled users. */
 function CardRushPreviewMock() {
   return (
-    <div className="crLockedPrompt">
-      <span className="crLockedPrompt-icon" aria-hidden="true">🃏</span>
-      <p className="crLockedPrompt-msg">Sign in to play Card Rush.</p>
+    <div className="crLockedPreview">
+      <p className="crLockedPreview-note">Preview (non-interactive)</p>
+      <PlayBoard
+        puzzle={LOCKED_PREVIEW_PUZZLE}
+        highlightCard={null}
+        highlightVariant={null}
+        dailyHardBlock
+        onPick={undefined}
+      />
     </div>
   );
 }

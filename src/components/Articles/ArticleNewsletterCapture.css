@@ -1,0 +1,109 @@
+.ArticleNewsletterCapture {
+  max-width: 75rem;
+  margin: 1.2rem auto 1.6rem;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid rgba(15, 76, 58, 0.18);
+  border-left: 4px solid #1f7a5e;
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, #f7fcf9 0%, #eef8f2 100%);
+}
+
+.ArticleNewsletterCapture-heading {
+  margin: 0 0 0.35rem;
+  color: #0b2b22;
+  font-size: var(--text-lg);
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.ArticleNewsletterCapture-body {
+  margin: 0 0 0.75rem;
+  color: #1f3f35;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.ArticleNewsletterCapture-form {
+  margin: 0;
+}
+
+.ArticleNewsletterCapture-label {
+  display: block;
+  margin: 0 0 0.35rem;
+  color: #14382f;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ArticleNewsletterCapture-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.55rem;
+}
+
+.ArticleNewsletterCapture-input {
+  width: 100%;
+  height: 3.4rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(15, 76, 58, 0.28);
+  border-radius: 0.6rem;
+  background: #fff;
+  color: #0f172a;
+  font-size: var(--text-sm);
+}
+
+.ArticleNewsletterCapture-input:focus {
+  outline: 3px solid #8ddcbc;
+  outline-offset: 1px;
+}
+
+.ArticleNewsletterCapture-button {
+  height: 3.4rem;
+  padding: 0 1rem;
+  border: 1px solid #0f4c3a;
+  border-radius: 0.6rem;
+  background: #0f4c3a;
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ArticleNewsletterCapture-button:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.ArticleNewsletterCapture-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ArticleNewsletterCapture-note {
+  margin: 0.5rem 0 0;
+  color: #35584d;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.ArticleNewsletterCapture-success {
+  margin: 0;
+  color: #0e3d2f;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+.ArticleNewsletterCapture-error {
+  margin: 0.45rem 0 0;
+  color: #8e1d26;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+  .ArticleNewsletterCapture-row {
+    grid-template-columns: 1fr;
+  }
+}

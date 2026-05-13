@@ -391,6 +391,153 @@ export const CARD_RUSH_SEED_PUZZLES = [
       "Unfortunately we can't play diamonds even though it looks natural to do so, the opponents have too many heart winners if we lose the lead, so we have to go after clubs.",
     difficulty: 1,
   },
+  {
+    id: "cr-preview-df1-2",
+    topic: "Recognising dummy types",
+    contract: "4S",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    trumpSuit: "S",
+    // Defence stage 1, problem 2:
+    // partner leads trump, dummy follows low, you win the ace, declarer follows.
+    lastTrick: {
+      leader: "N",
+      plays: [
+        { seat: "N", card: "S4" },
+        { seat: "E", card: "S2" },
+        { seat: "S", card: "SA" },
+        { seat: "W", card: "S3" },
+      ],
+      winner: "S",
+    },
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    // Defender sees own hand + dummy during play.
+    playRevealSeats: ["S", "E"],
+    visibleHands: {
+      // North (partner / LHO) after trick 1.
+      N: ["S5", "HA", "HT", "H5", "D8", "D4", "CK", "CJ", "C9", "C7", "C6", "C5"],
+      // East (dummy) after trick 1.
+      E: ["SK", "SQ", "H7", "H3", "H2", "DA", "DK", "DT", "D9", "D3", "D2", "C2"],
+      // South (you / RHO) after trick 1.
+      S: ["S2", "HQ", "HJ", "H9", "H8", "D7", "D6", "D5", "CQ", "CT", "C9", "C8"],
+      // West (declarer) after trick 1.
+      W: ["SJ", "S9", "S8", "S7", "S2", "HK", "H6", "H4", "DQ", "DJ", "CA", "C2"],
+    },
+    // Any heart card is correct.
+    correctCards: ["HQ", "HJ", "H9", "H8"],
+    explanation: "We need to take our heart tricks before declarer draws trumps and makes 6 diamond tricks.",
+    difficulty: 1,
+    // Preview only until approved.
+    includeInPool: false,
+  },
+  {
+    id: "cr-008",
+    topic: "just draw trumps",
+    contract: "4S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    trumpSuit: "S",
+    // Original board had North as declarer; this puzzle is rotated 180°
+    // so the user is always South.
+    replayControl: "click",
+    replayTricks: [
+      {
+        // Trick 1: 10♥ lead, 2♥ from dummy, A♥, 5♥.
+        leader: "W",
+        plays: [
+          { seat: "W", card: "HT" },
+          { seat: "N", card: "H2" },
+          { seat: "E", card: "HA" },
+          { seat: "S", card: "H5" },
+        ],
+        winner: "E",
+      },
+      {
+        // Trick 2: K♣, A♣, J♣, 6♣.
+        leader: "E",
+        plays: [
+          { seat: "E", card: "CK" },
+          { seat: "S", card: "CA" },
+          { seat: "W", card: "CJ" },
+          { seat: "N", card: "C6" },
+        ],
+        winner: "S",
+      },
+    ],
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    // Hands below are after replay tricks 1 and 2 have been removed.
+    visibleHands: {
+      // Dummy (North)
+      N: ["SQ", "SJ", "S9", "S8", "S4", "S2", "H8", "C7", "DK", "D4", "D3"],
+      // You / Declarer (South)
+      S: ["SA", "S3", "HK", "HQ", "H6", "C8", "C3", "C2", "DA", "D9", "D2"],
+      // East opponent
+      E: ["SK", "ST", "S5", "H7", "H3", "CQ", "C5", "C4", "DJ", "DT", "D7"],
+      // West opponent
+      W: ["S7", "S6", "HJ", "H9", "H4", "CT", "C9", "DQ", "D8", "D6", "D5"],
+    },
+    // User's correct play after trick 2.
+    correctCards: ["SA"],
+    explanation:
+      "you want to draw trumps as fast as possible. You will likely have 5 trump tricks. You also have 2 hearts, 1 club and 2 diamonds for a total of 10. If you delay drawing trumps, the risk is one of your tricks may get ruffed, especially a heart trick. Or put simply, there is no reason to delay\n\nDid you think of quickly throwing your club loser on a heart? There is no real reason to do that, you can throw your diamond loser later. Just get rid of the enemy's trumps.",
+    difficulty: 1,
+  },
+  {
+    id: "cr-009",
+    topic: "Just draw trumps",
+    contract: "4H",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    trumpSuit: "H",
+    // Trick 1 shown: 10♣, 3♣, A♣, 2♣.
+    // Trick 2 shown after click: 4♠, A♠, 6♠, 2♠.
+    replayControl: "click",
+    replayTricks: [
+      {
+        leader: "W",
+        plays: [
+          { seat: "W", card: "CT" },
+          { seat: "N", card: "C3" },
+          { seat: "E", card: "CA" },
+          { seat: "S", card: "C2" },
+        ],
+        winner: "E",
+      },
+      {
+        leader: "E",
+        plays: [
+          { seat: "E", card: "S4" },
+          { seat: "S", card: "SA" },
+          { seat: "W", card: "S6" },
+          { seat: "N", card: "S2" },
+        ],
+        winner: "S",
+      },
+    ],
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    // Hands are shown at the start (after trick 1 only), so trick-2 cards
+    // should still be present in each hand during trick-1 view.
+    visibleHands: {
+      // Dummy (North): minus 3♣ from trick 1.
+      N: ["HK", "H2", "S8", "S3", "S2", "DA", "DQ", "D5", "C9", "C7", "C5", "C4"],
+      // You (South): minus 2♣ from trick 1.
+      S: ["HA", "HJ", "HT", "H7", "H5", "H4", "SA", "S7", "DK", "DT", "D9", "D8"],
+      // West: minus 10♣ from trick 1.
+      W: ["HQ", "H8", "H6", "SK", "SJ", "S9", "S6", "D2", "CK", "CJ", "C8", "C6"],
+      // East: minus A♣ from trick 1.
+      E: ["H9", "H3", "SQ", "ST", "S5", "S4", "DJ", "D7", "D6", "D4", "D3", "CQ"],
+    },
+    // Accept any heart from declarer.
+    correctCards: ["HA", "HJ", "HT", "H7", "H5", "H4"],
+    explanation:
+      "No reason to delay drawing trumps here. Low to the King and then finesse the Queen on the way back looks most natural, but the main point is to just tackle the trumps. You have side suit winners you want to enjoy (diamonds) and you have no reason to leave the enemy with trumps. If there is no reason to delay drawing trumps, don't delay!",
+    difficulty: 1,
+  },
 
 ];
 

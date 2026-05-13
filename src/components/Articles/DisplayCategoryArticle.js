@@ -46,6 +46,7 @@ import MakeBoard from "../../components/BridgeBoard/MakeBoard";
 import { Col, ProgressBar } from "react-materialize";
 import Comments from "../Comments/Comments";
 import FeedbackForm from "./FeedbackForm";
+import ArticleNewsletterCapture from "./ArticleNewsletterCapture";
 import RelatedArticles from "./RelatedArticles";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -924,6 +925,12 @@ const DisplayCategoryArticle = ({
           )}
         </header>
       )}
+
+      <ArticleNewsletterCapture
+        articleId={articleId}
+        articleType={articleType}
+        articleTitle={useMetaData?.title}
+      />
 
       <div className="DisplayArticle-topicNavWrap">
         <p className="DisplayArticle-topicHint">Browse topics:</p>
