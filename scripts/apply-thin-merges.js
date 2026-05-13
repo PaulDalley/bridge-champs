@@ -191,6 +191,43 @@ const PAIRS = [
     a: { collection: "cardPlay", bodyId: "IpwW7AMlQdRWoF8YlsKp" }, // Count Winners in Trumps (1135w, healthy)
     b: { collection: "cardPlay", bodyId: "j7zM1utho0hMsmXl4e8V" }, // Count Trumps Accurately (184w, 3 inbound)
   },
+
+  // Learn Round 2 (declarer + bidding)
+  {
+    cluster: "Counting losers (declarer)",
+    proposedMergedTitle: "Counting Losers: Plan the Hand and Spot Hidden Dangers Early",
+    primary: "a",
+    a: { collection: "cardPlay", bodyId: "g4cdPlWES6Yy21ERvk8C" }, // Count Losers in Suit Contracts (602w)
+    b: { collection: "cardPlay", bodyId: "ZI3KbhQTQh4ZQKlnOn8d" }, // Count Potential Losers (357w, 3 inbound)
+  },
+  {
+    cluster: "Transfers (NT)",
+    proposedMergedTitle: "Transfers After 1NT: When to Use Them and When to Choose Stayman Instead",
+    primary: "a",
+    a: { collection: "bidding", bodyId: "i2CIdysS7cErPJYWBUDO" }, // Stayman vs Transfers (381w, 6 inbound)
+    b: { collection: "bidding", bodyId: "uiRZXtZ2zjxVxq7e1lAb" }, // Transfers: A must have tool (412w, 5 inbound)
+  },
+  {
+    cluster: "Preempting by vulnerability",
+    proposedMergedTitle: "Preempting by Vulnerability: Risk and Reward Across the Colours",
+    primary: "a",
+    a: { collection: "bidding", bodyId: "DbK4Q0MfX55QFdjEDuOO" }, // Vulnerable Preempting (489w, 7 inbound)
+    b: { collection: "bidding", bodyId: "e0ibArOtZwt5CWmzZVIv" }, // Non-Vulnerable Preempting (372w, 3 inbound)
+  },
+  {
+    cluster: "Bidding fundamentals",
+    proposedMergedTitle: "Bidding Basics: Build a Clear Auction Plan and Treat Bidding as a Conversation",
+    primary: "a",
+    a: { collection: "bidding", bodyId: "UqzicrX1JPrffdoZ89dJ" }, // Bidding Basics: Build a Clear Auction Plan (542w, 7 inbound)
+    b: { collection: "bidding", bodyId: "ZStj8Bg4UJkUxlCFI3lt" }, // Bidding as a Conversation (332w, 2 inbound)
+  },
+  {
+    cluster: "Responding to 1NT",
+    proposedMergedTitle: "Responding to 1NT on Balanced Hands: Pass or Invite",
+    primary: "a",
+    a: { collection: "bidding", bodyId: "U7XPYnHrxkT9n2mYmGZ8" }, // After 1NT: Respond More on Balanced Hands (299w, 8 inbound)
+    b: { collection: "bidding", bodyId: "zVE5Qhi9ZVcBlztH1gZ5" }, // After Partner Opens 1NT: Pass or Invite (323w, 5 inbound)
+  },
 ];
 
 function findSummaryDocByBodyId(collection, bodyId) {
@@ -244,15 +281,41 @@ function fixDoubleOpenH3(html) {
   return String(html).replace(/<h3[^>]*>\s*(<h3[^>]*>)/gi, "$1");
 }
 
+// Strip auto-backfilled "Read next in this series" blocks (added by
+// scripts/backfill-thin-articles-readnext.js). They are wrapped in
+// HTML comment markers; remove the whole block (markers + content +
+// closing aside). Also handles legacy bodies where the close marker
+// was lost — in that case strip from the open marker to end-of-file.
+function stripBackfillBlocks(html) {
+  if (!html) return html;
+  let out = String(html);
+  out = out.replace(
+    /<!--\s*BACKFILL:read-next:v\d+\s*-->[\s\S]*?<!--\s*\/BACKFILL:read-next:v\d+\s*-->/gi,
+    ""
+  );
+  out = out.replace(/<!--\s*BACKFILL:read-next:v\d+\s*-->[\s\S]*$/gi, "");
+  // Defensive: also strip any standalone <aside class="DisplayArticle-readNext"> ... </aside>
+  // (in case the markers are missing entirely).
+  out = out.replace(
+    /<aside\b[^>]*class=["'][^"']*\bDisplayArticle-readNext\b[^"']*["'][^>]*>[\s\S]*?<\/aside>/gi,
+    ""
+  );
+  return out;
+}
+
 // Strip the trailing "Where to next" / "Try this at the table" / "Drill it
 // in the trainer" sections so we can append a single deduped block at the
 // bottom of the merged article. Match starts at an <h3> or <h2> with
 // matching heading text and grabs everything from there to end-of-string.
 function stripTrailingNav(html) {
   if (!html) return html;
+  // Strip auto-backfill aside blocks first so they don't bleed into the
+  // legacy-nav regex below (their <h3>Read next in this series</h3> would
+  // match and leave a dangling <aside>).
+  const noBackfill = stripBackfillBlocks(html);
   // Run double-h3 cleanup first so the regex below doesn't trip on a bare
   // <h3> that has no text inside.
-  const cleaned = fixDoubleOpenH3(html);
+  const cleaned = fixDoubleOpenH3(noBackfill);
   const re =
     /<(h2|h3)[^>]*>\s*(?:where to next|where next|read next|try this at the table|drill it in the trainer)[\s\S]*$/i;
   const out = cleaned.replace(re, "").trim();
