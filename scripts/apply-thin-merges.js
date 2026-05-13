@@ -329,7 +329,7 @@ function buildMergedBody({ primary, secondary, hubPath }) {
 
   // The two halves: primary keeps its own structure; secondary gets prefixed
   // with a transition note so the reader knows where the new section starts.
-  const secondaryIntro = `<p><em>The next section was originally a separate beginner article on the same topic — combined here for easier reading.</em></p>`;
+  const secondaryIntro = `<p><em>The next section was originally a separate article on the same topic — combined here for easier reading.</em></p>`;
   return [
     primaryStripped.trim(),
     secondaryIntro,

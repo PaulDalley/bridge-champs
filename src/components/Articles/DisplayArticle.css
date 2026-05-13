@@ -1498,6 +1498,133 @@
   outline-offset: 2px;
 }
 
+/* "Read next in this series" — backfill block. Decoupled from the
+   green-pill style used by the trailing "Where to next" lists so the
+   contrast stays readable and the block reads as an inline reading
+   suggestion (not a terminal CTA). High specificity (via .interweave
+   + the aside class, plus !important on the link colors) so it wins
+   against both the global .interweave a rule and the pill rule. */
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext,
+.DisplayArticle-content aside.DisplayArticle-readNext {
+  margin: 2rem 0;
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: #f6fbf8;
+  border: 1px solid #cbe7d8;
+  border-left: 4px solid #1f7a5e;
+  border-radius: 0.85rem;
+  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.06);
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext > h3,
+.DisplayArticle-content aside.DisplayArticle-readNext > h3 {
+  margin: 0 0 0.85rem;
+  padding: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: #0b2b22;
+  border: 0;
+  background: none;
+  text-transform: none;
+  letter-spacing: 0.005em;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul,
+.DisplayArticle-content aside.DisplayArticle-readNext ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  background: #ffffff;
+  border: 1px solid #d8ebe1;
+  border-radius: 0.6rem;
+  list-style: none;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li::marker,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li::marker {
+  content: "";
+}
+
+/* Override the global pill style for read-next links specifically. */
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li > a,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li > a {
+  display: inline;
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none !important;
+  color: #0b3f30 !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(15, 76, 58, 0.35) !important;
+  text-underline-offset: 2px;
+  font-size: var(--text-base);
+  font-weight: 700 !important;
+  letter-spacing: 0;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li > a::before,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li > a::before {
+  content: "→ ";
+  color: #1f7a5e !important;
+  font-weight: 900;
+  margin-right: 0.15rem;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li > a:hover,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li > a:hover {
+  color: #0b2b22 !important;
+  text-decoration-color: #0b2b22 !important;
+  background: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li > a:focus-visible,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li > a:focus-visible {
+  outline: 3px solid #91e2c2;
+  outline-offset: 2px;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li > a strong,
+.DisplayArticle-content aside.DisplayArticle-readNext ul li > a strong {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.DisplayArticle-content .interweave aside.DisplayArticle-readNext .readnext-teaser,
+.DisplayArticle-content aside.DisplayArticle-readNext .readnext-teaser {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: #2a4a3f;
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  .DisplayArticle-content .interweave aside.DisplayArticle-readNext,
+  .DisplayArticle-content aside.DisplayArticle-readNext {
+    padding: 0.95rem 1rem 1rem;
+  }
+  .DisplayArticle-content .interweave aside.DisplayArticle-readNext ul li,
+  .DisplayArticle-content aside.DisplayArticle-readNext ul li {
+    padding: 0.55rem 0.65rem;
+  }
+}
+
 .DisplayArticle-ctaCard {
   max-width: 75rem;
   margin: 2.4rem auto 1.2rem;
