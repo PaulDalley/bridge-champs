@@ -2344,6 +2344,16 @@ const DEFENCE_PUZZLES = [
           ),
         },
         {
+          id: "df1-20-heart-count",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 2,
+          expectedDistribution: { west: 2, east: 3, south: 3, north: 5 },
+          fixed: { east: 3, south: 3 },
+          promptText: "Lets practice our counting habit. What was the heart distribution?",
+          successText: "Declarer had 2 hearts, Partner 5, Dummy 3, 3 for us.",
+        },
+        {
           id: "df1-20-trumps-left",
           type: "DISTRIBUTION_GUESS",
           suit: "S",
@@ -2351,7 +2361,7 @@ const DEFENCE_PUZZLES = [
           expectedDistribution: { west: 5, east: 3, south: 3, north: 2 },
           fixed: { west: 5, east: 3, south: 3 },
           promptText:
-            "West now on lead.\n\nDeclarer is about to draw trumps. Let's keep the usual habit of keeping an eye on trumps, what is the likely number partner has?",
+            "Declarer is now on lead and about to draw trumps.\n\nAgain lets practice the habit. How many trumps do we expect from partner?",
           successText: "We are expecting two trumps from partner.",
         },
         {
@@ -2411,15 +2421,15 @@ const DEFENCE_PUZZLES = [
           type: "INFO",
           atRoundIdx: 8,
           promptText:
-            "Declarer took a finesse into the Jack, destroying the contract completely. If, however, you had won the Ace, declarer would've had no choice but to just bang down the King of diamonds when he got in, as there was no entry to dummy to take the losing finesse! (declarer of course cannot see all the cards, and was hoping it was a winning finesse, which is more likely than hoping the Jack will fall).",
+            "Declarer took a finesse into the Jack, which was the setting trick. If, however, you had won the Ace, declarer would've had no choice but to just bang down the King of diamonds when he got in, as there was no entry to dummy to take the losing finesse! (declarer of course cannot see all the cards, and was hoping it was a winning finesse, which is more likely than hoping the Jack will fall).",
         },
       ],
     },
     shownHands: {
-      west: { S: "KQJA7", H: "95", D: "KT764", C: "3" },
+      west: { S: "KQJA7", H: "95", D: "KT764", C: "A" },
       east: { S: "842", H: "J73", D: "Q85", C: "KJ92" },
       south: { S: "T65", H: "Q84", D: "A93", C: "T765" },
-      north: { S: "93", H: "AKT62", D: "J2", C: "AQ84" },
+      north: { S: "93", H: "AKT62", D: "J2", C: "Q843" },
     },
     rounds: [
       {
