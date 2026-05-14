@@ -2987,6 +2987,7 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
@@ -7091,6 +7092,546 @@ const BIDDING_PUZZLES = [
     },
     shownHands: {
       DECLARER: { S: "K109", H: "QJ84", D: "102", C: "8762" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-11",
+    difficulty: 3,
+    title: "Reverses (1): identifying a reverse",
+    newUntil: "2026-12-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ P 1♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "What is a reverse?",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Reverses",
+      promptThemeTint: "reverses",
+      customPrompts: [
+        {
+          id: "bid3-11-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    In this series I will look at everything to do with reverses, from how to identify one through to
+                    how to respond to one, and everything in between.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    These bids are often misunderstood and vaguely defined, they are an important bid and players
+                    should be confident using them.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-11-requirements",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">Requirements for a reverse</p>
+                  <ol className="ct-revealRichPoints">
+                    <li>
+                      <strong>16+ points.</strong> In some areas bridge is about discipline, consistency and
+                      reliability. Bidding is often like that. A reverse shows high-card point strength, and partner
+                      should be able to rely on that when trying to best judge the auction.
+                    </li>
+                    <li>
+                      <strong>An unbalanced hand.</strong> You would never reverse on a balanced hand.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-11-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">
+                    2<span className="ct-suitSym ct-suitSym--red">♥</span>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    2<span className="ct-suitSym ct-suitSym--red">♥</span> is the correct bid. It is a reverse. How can we
+                    clearly identify when a bid is a reverse? The best way is this: if partner wants to just take you
+                    back to your first suit, it requires going to the 3rd level.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">Let's think on that for a moment. Take the auction, for example:</p>
+                  <table className="ct-deadlyDuckPlanTable" aria-label="Example auction">
+                    <tbody>
+                      <tr>
+                        <th scope="col">S</th>
+                        <th scope="col">W</th>
+                        <th scope="col">N</th>
+                        <th scope="col">E</th>
+                      </tr>
+                      <tr>
+                        <td>
+                          1<span className="ct-suitSym ct-suitSym--red">♥</span>
+                        </td>
+                        <td>P</td>
+                        <td>1♠</td>
+                        <td>P</td>
+                      </tr>
+                      <tr>
+                        <td>2♣</td>
+                        <td />
+                        <td />
+                        <td />
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p className="ct-revealRichBody">
+                    Why is 2♣ not a reverse? Because if partner wants to take you back to your first suit, they can do
+                    so on the 2 level, by bidding 2
+                    <span className="ct-suitSym ct-suitSym--red">♥</span>.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    A reverse forces us higher, to the 3 level at least, which is a starting reason for why we need
+                    extra strength for the bid.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "4", H: "KQ109", D: "AK7", C: "AJ1085" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-12",
+    difficulty: 3,
+    title: "Reverses (2): opening bid discipline",
+    newUntil: "2026-12-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "What is your opening bid?",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Reverses",
+      promptThemeTint: "reverses",
+      customPrompts: [
+        {
+          id: "bid3-12-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">Opening bid decision</p>
+                  <p className="ct-revealRichBody">What is your opening bid?</p>
+                </div>
+              </div>
+            </div>
+          ),
+          playDecisionInput: "biddingBox",
+          expectedChoice: "1nt",
+          expectedChoiceDisplay: "1NT",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">1NT</p>
+                  <p className="ct-revealRichBody">
+                    Aha moment: this is a 1NT opening, not a 1♣ opening with the intention to reverse.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">Why 1NT?</p>
+                  <ol className="ct-revealRichPoints">
+                    <li>
+                      Balanced-ish 2-4-2-5 and similar shapes (especially without a 5-card major) are often
+                      considered balanced-ish and suitable for 1NT.
+                    </li>
+                    <li>
+                      Let's focus on our short suits. I've talked about this in the series "the modern 1NT". It's very
+                      appropriate to open 1NT when you have points stacked in your short suits. On this hand, you have
+                      9/16 points in your short suits, more than half of your points are in your short suits. That is a
+                      strong indication that 1NT is correct.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-12-reverse-flavour",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">The flavour of a reverse</p>
+                  <p className="ct-revealRichBody">
+                    The flavour of a reverse is that the suits are quality. Partner can expect quality suits, and
+                    points in your advertised suits.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Very often you will play in those suits, and possibly even in slam (if partner ever picks up a
+                    decent hand!), so you want to make sure, if you reverse, you really mean it:
+                  </p>
+                  <p className="ct-revealRichBody">
+                    "Partner, I have quality suits and a quality hand".
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AQ", H: "KQ109", D: "K10", C: "Q10872" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-13",
+    difficulty: 3,
+    title: "Reverses (3): responder with a weak hand",
+    newUntil: "2026-12-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ P 2♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-13-q1--reveal": "1♦ P 1♠ P 2♥ P 2NT",
+        "bid3-13-q2": "1♦ P 1♠ P 2♥ P 2NT P 3♦ P ?",
+        "bid3-13-q2--reveal": "1♦ P 1♠ P 2♥ P 2NT P 3♦ P P",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responding to a reverse",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Reverses",
+      promptThemeTint: "reverses",
+      customPrompts: [
+        {
+          id: "bid3-13-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Partner has reversed - remember the telling sign: if we want to get back to partner's first suit,
+                    we need to go to the 3 level.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Most modern partnerships, after a reverse, have a bid to show a bad hand. To say to partner, with
+                    your 16+ points, we do not have enough for game, I've got a maximum of about 7-ish points.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    IMPORTANT: this is a subject for partnership agreement. I will present you with a recommendation
+                    but ultimately you have to agree with your partner and be on the same page.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-13-method",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    I recommend a simple approach - make the bid of 2NT show a bad hand. It is the single and only bid
+                    after a reverse that is not game forcing - it says to partner "I don't think we have enough for
+                    game, unless you have extra".
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-13-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What would you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">2NT</p>
+                  <p className="ct-revealRichBody">
+                    2NT - tell partner despite her 16+ points, we may not have enough for game.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-13-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What now?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">Pass</p>
+                  <p className="ct-revealRichBody">
+                    Opener is just retreating back to their first 5+ card suit. That communicates to you: okay, let's
+                    just play in part-score.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Very often you will pass that. If for example you had a 6+ quality spade suit, and short diamonds,
+                    you could correct to spades. Partner already knows however that your hand is limited, and has told
+                    you that game is no longer on the menu.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AQ107", H: "84", D: "863", C: "9754" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-14",
+    difficulty: 3,
+    title: "Reverses (4): not enough to reverse",
+    newUntil: "2026-12-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ P 1♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Reverse discipline",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Reverses",
+      promptThemeTint: "reverses",
+      customPrompts: [
+        {
+          id: "bid3-14-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2c",
+          expectedChoiceDisplay: "2♣",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">2♣</p>
+                  <p className="ct-revealRichBody">
+                    We don't have enough to reverse; unfortunately we can't bid 2
+                    <span className="ct-suitSym ct-suitSym--red">♥</span>. We have to be content just bidding 2♣.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    This shows 5+ clubs, and an unbalanced hand. Some people rebid 1NT in such situations, but it is
+                    not the expert choice for a couple reasons:
+                  </p>
+                  <ol className="ct-revealRichPoints">
+                    <li>
+                      The hand is not balanced. A 1NT rebid generally communicates a balanced hand: 4-4-3-2, 4-3-3-3
+                      type shapes (and 4-4-4-1 is balanced enough for most good partnerships).
+                    </li>
+                    <li>
+                      The range of the hand isn't appropriate for an 11-14 rebid. This hand has 15 high-card points.
+                      Partner is alert to the possibility that this bid can have up to 15 points, whereas a 1NT rebid
+                      cannot.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-14-final-note",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Would you just fudge it slightly and make this a reverse? I strongly recommend against it, this hand simply doesn't qualify. It's better to be accountable with it. A reverse is a bid that shows high-card points, and partner should be able to rely on that.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "4", H: "K107", D: "KJ94", C: "AKJ107" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-15",
+    difficulty: 3,
+    title: "Reverses (5): competition changes requirements",
+    newUntil: "2026-12-15",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♣ P 1♥ 1♠ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionShowResolvedDuringInfoPromptId: "bid3-15-q",
+      auctionResolvedText: "1♣ P 1♥ 1♠ 2♦",
+      auctionShowResolvedOnlyAfterPromptAsked: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Reverses in competition",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Reverses",
+      promptThemeTint: "reverses",
+      customPrompts: [
+        {
+          id: "bid3-15-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "The auction has gotten competitive, are the rules still the same?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2d",
+          expectedChoiceDisplay: "2♦",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">
+                    2<span className="ct-suitSym ct-suitSym--red">♦</span>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    2<span className="ct-suitSym ct-suitSym--red">♦</span> is the correct bid in competition. When we
+                    are competing, we don't have the luxury of "standards" that we have in ordinary non-competitive
+                    auctions.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Things are fast-paced in competitive auctions; you can't afford to just sit back. For that reason,
+                    the point requirement is no longer there.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-15-final-note",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "In 2026 auctions have become hypercompetitive. If you have a distributional hand with good suits, you have to get into the auction, otherwise it will pass you by.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "874", H: "4", D: "AK109", C: "KQJ98" },
     },
     rounds: [],
   },

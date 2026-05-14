@@ -68,6 +68,25 @@ function BiddingHub() {
                 Written explanations, examples, and video for bidding ideas.
               </div>
             </Link>
+            <Link
+              to="/bidding/advanced/reverses"
+              className="ch-card ch-card--article"
+              role="listitem"
+              aria-label="New article — Reverses in bridge"
+            >
+              <div className="ch-cardHeader">
+                <div className="ch-cardIcon ch-cardIcon--technique" aria-hidden="true">
+                  <Icon>auto_stories</Icon>
+                </div>
+                <div>
+                  <div className="ch-cardTitle">New: Reverses article</div>
+                  <div className="ch-cardMicro">Just added to Learn - Bidding</div>
+                </div>
+              </div>
+              <div className="ch-cardText">
+                Reverses in Bridge: how to identify, bid, respond, and handle competition.
+              </div>
+            </Link>
           </div>
         </section>
       </div>

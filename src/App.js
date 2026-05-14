@@ -57,6 +57,7 @@ import DefenceHub from "./components/Defence/DefenceHub";
 import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticle";
+import ReversesArticle from "./components/Bidding/ReversesArticle";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage";
 import TreadmillLandingPage from "./components/Treadmill/TreadmillLandingPage";
@@ -712,6 +713,7 @@ const routes = (
     />
     <Route path="/bidding" component={BiddingHub} exact />
     <Route path="/bidding/worthwhile-conventions/jacoby-2nt" component={JacobyConventionArticle} exact />
+    <Route path="/bidding/advanced/reverses" component={ReversesArticle} exact />
     <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
     <Route path="/bidding/advanced/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="bidding" bodyRef="biddingBody" />} />
     <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />

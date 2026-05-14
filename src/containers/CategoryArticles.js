@@ -865,11 +865,34 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                   className="CategoryArticles-subtopic-section"
                 >
                   <h2 className="CategoryArticles-subtopic-heading">{section.label}</h2>
-                  {section.articles.length === 0 ? (
+                  {(() => {
+                    const injectReversesCard =
+                      (articleType === "bidding" || articleType === "biddingAdvanced") &&
+                      section.label === "Conventions and Artificial Methods" &&
+                      !section.articles.some((article) => article?.id === "reverses");
+                    const sectionArticles = injectReversesCard
+                      ? [
+                          {
+                            id: "reverses",
+                            body: "reverses",
+                            category: "bidding",
+                            difficulty: "3",
+                            articleNumber: "19",
+                            title: "Reverses in Bridge: How to Identify, Bid, and Respond",
+                            teaser:
+                              "A practical guide to identifying true reverses, responding with weak hands, and handling competition.",
+                            createdAt: new Date().toISOString(),
+                            isFree: true,
+                          },
+                          ...section.articles,
+                        ]
+                      : section.articles;
+
+                    return sectionArticles.length === 0 ? (
                     <p className="CategoryArticles-subtopic-empty">Articles coming soon.</p>
                   ) : (
                     <div className="CategoryArticles-grid">
-                      {section.articles.map((article) => (
+                      {sectionArticles.map((article) => (
                         <CategoryArticleListItem
                           key={article.id}
                           createdAt={article.createdAt}
@@ -891,7 +914,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                         />
                       ))}
                     </div>
-                  )}
+                    );
+                  })()}
                 </div>
               ))}
               {groupedContent.map((group, groupIdx) => {

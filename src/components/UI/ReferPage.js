@@ -77,7 +77,7 @@ class ReferPage extends Component {
       this.setState({ referralCode, loading: false });
     } catch (err) {
       console.error("Failed to prepare referral code", err);
-      toastr.error("Could not load your referral code right now.");
+      toastr.error("Could not load your referral link right now.");
       this.setState({ loading: false });
     }
   };
@@ -101,40 +101,23 @@ class ReferPage extends Component {
           <title>Refer a Friend | Bridge Champions</title>
           <meta
             name="description"
-            content="Share your Bridge Champions referral code and invite friends to join."
+            content="Share your Bridge Champions referral link and invite friends to join."
           />
           <meta name="robots" content="noindex,follow" />
         </Helmet>
 
         <div className="ReferPage-card">
           <p className="ReferPage-eyebrow">Refer a Friend</p>
-          <h1 className="ReferPage-title">Share your code in seconds</h1>
+          <h1 className="ReferPage-title">Share your referral link in seconds</h1>
           <p className="ReferPage-body">
-            Send your referral code or link to as many friends or partners as you like.
+            This page creates your personal referral link. Copy the generated link below and send that link to your friend.
           </p>
 
           <div className="ReferPage-section">
-            <p className="ReferPage-label">Your referral code</p>
-            <div className="ReferPage-inline">
-              <input
-                className="ReferPage-input ReferPage-input--readonly"
-                type="text"
-                readOnly
-                value={loading ? "Loading..." : referralCode}
-              />
-              <button
-                type="button"
-                className="ReferPage-btn"
-                disabled={loading || !referralCode}
-                onClick={() => this.copyText(referralCode, "Referral code copied")}
-              >
-                Copy code
-              </button>
-            </div>
-          </div>
-
-          <div className="ReferPage-section">
-            <p className="ReferPage-label">Your referral link</p>
+            <p className="ReferPage-label">Your generated referral link</p>
+            <p className="ReferPage-help">
+              Do not send <strong>bridgechampions.com/refer</strong> to friends - that page is only where you generate and copy your own link.
+            </p>
             <div className="ReferPage-inline">
               <input
                 className="ReferPage-input ReferPage-input--readonly"
@@ -154,7 +137,7 @@ class ReferPage extends Component {
           </div>
 
           <p className="ReferPage-footnote">
-            Send the link to a friend, or the code so they can enter it when signing up.
+            Once copied, send your generated link to any friend who wants to join Bridge Champions.
           </p>
         </div>
       </div>

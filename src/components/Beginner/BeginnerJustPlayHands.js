@@ -287,7 +287,50 @@ function chooseBotCard(botSeat, hand, trickPlays, contract) {
   const inLed = hand.filter((c) => c.suit === led);
   if (inLed.length) {
     if (trickPlays.length === 1) {
+      // Second hand low.
       return pickLowestByRank(inLed);
+    }
+    if (trickPlays.length === 2) {
+      // Third hand high: textbook beginner rule with cheapest-of-touching-honors refinement.
+      // Exception: partner already led A or K (treated as already winning the trick).
+      const winningSoFar = winningPlayInTrick(trickPlays, contract);
+      const partnerWinning =
+        !!winningSoFar && samePartnership(botSeat, winningSoFar.seat);
+      const partnerWonWithTopHonor =
+        partnerWinning &&
+        (winningSoFar.card.rank === "A" || winningSoFar.card.rank === "K");
+      if (partnerWonWithTopHonor) {
+        return pickLowestByRank(inLed);
+      }
+      if (winningSoFar && !partnerWinning) {
+        // Second hand beat partner's lead: cover cheapest possible, else duck.
+        const cover = pickMinimumWinnerInSuit(inLed, winningSoFar.card);
+        if (cover) return cover;
+        return pickLowestByRank(inLed);
+      }
+      // Partner still winning with a non-A/K (or trick wide open): play "third hand high".
+      const sortedDesc = [...inLed].sort(
+        (a, b) => rankValueTrick(b.rank) - rankValueTrick(a.rank)
+      );
+      const topCard = sortedDesc[0];
+      // No honors in suit (top below T): just play the highest spot card.
+      if (rankValueTrick(topCard.rank) < rankValueTrick("T")) {
+        return topCard;
+      }
+      // Cheapest of any touching block starting at the very top (AKQ→Q, QJT→T, KJ→K).
+      let chosen = topCard;
+      for (let i = 1; i < sortedDesc.length; i += 1) {
+        if (
+          rankValueTrick(sortedDesc[i - 1].rank) -
+            rankValueTrick(sortedDesc[i].rank) ===
+          1
+        ) {
+          chosen = sortedDesc[i];
+        } else {
+          break;
+        }
+      }
+      return chosen;
     }
     if (trickPlays.length === 3) {
       const winningNow = winningPlayInTrick(trickPlays, contract);
