@@ -210,7 +210,7 @@ const DEFENCE_PUZZLES = [
     trumpSuit: null,
     contract: "3NT",
     auction: "1NT P 3NT P P P",
-    dealerCompass: "W",
+    dealerCompass: "E",
     declarerCompass: "S",
     viewerCompass: "E",
     visibleFullHandSeats: ["RHO", "DUMMY"],
@@ -617,7 +617,7 @@ const DEFENCE_PUZZLES = [
     trumpSuit: "S",
     contract: "4♠",
     dealerCompass: "N",
-    declarerCompass: "E",
+    declarerCompass: "W",
     viewerCompass: "S",
     visibleFullHandSeats: ["RHO", "DUMMY"],
     revealFullHandsAtEnd: ["RHO", "DECLARER"],
@@ -1369,6 +1369,7 @@ const DEFENCE_PUZZLES = [
     dealerCompass: "W",
     declarerCompass: "W",
     viewerCompass: "S",
+    visibleFullHandSeats: ["S", "E"],
     visibleFullHandSeats: ["south", "east"],
     revealFullHandsAtEnd: ["north", "west"],
     promptOptions: {
@@ -1478,6 +1479,7 @@ const DEFENCE_PUZZLES = [
     dealerCompass: "W",
     declarerCompass: "W",
     viewerCompass: "S",
+    visibleFullHandSeats: ["S", "N"],
     visibleFullHandSeats: ["south", "east"],
     revealFullHandsAtEnd: ["north", "west"],
     promptOptions: {
@@ -1669,6 +1671,7 @@ const DEFENCE_PUZZLES = [
     dealerCompass: "W",
     declarerCompass: "W",
     viewerCompass: "S",
+    visibleFullHandSeats: ["S", "N"],
     promptOptions: {
       promptPlacement: "left",
       contractLabel: "Contract is 4♠ by West",
@@ -1803,6 +1806,968 @@ const DEFENCE_PUZZLES = [
     },
     shownHands: {},
     rounds: [],
+  },
+  {
+    id: "df1-18",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "3NT: the deadly duck (declarer view)",
+    trumpSuit: null,
+    contract: "3NT",
+    vulnerability: "E-W vulnerable",
+    auction: "1NT P 3NT P P P",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S", "N"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "deadlyDuck",
+      themeLabel: "Theme: Deadly Duck",
+      customPrompts: [
+        {
+          id: "df1-18-rule-prelude",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">This is the rule</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Let's make the idea clear so you can use it next time you play bridge.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-intro-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--sky">
+              <p className="ct-df14-noteTitle">Defence theme setup</p>
+              <p className="ct-df14-noteBody">
+                This is a set of problems on Defence. In order to illustrate how powerful this idea is, I want to start
+                by showing you from declarer's point of view.
+              </p>
+              <p className="ct-df14-noteBody">
+                The bidding looks strange, but this pair play 10-13 No Trump when they aren't vulnerable.
+              </p>
+              <p className="ct-df14-noteBody">But let's not worry about the bidding; let's worry about making the contract.</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-intro-2",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate ct-deadlyDuckCard">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Declarer's plan</p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">This declarer had a simple plan - there are 6 top tricks:</p>
+                  <table className="ct-deadlyDuckPlanTable" aria-label="Top tricks">
+                    <tbody>
+                      <tr>
+                        <th scope="row">1 trick</th>
+                        <td>
+                          Spade <span className="ct-suitSym ct-suitSym--black">♠</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3 tricks</th>
+                        <td>
+                          Hearts <span className="ct-suitSym ct-suitSym--red">♥</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2 tricks</th>
+                        <td>
+                          Diamonds <span className="ct-suitSym ct-suitSym--red">♦</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                Declarer's idea was to make 3 spade tricks, a reasonable goal - mostly just needing one of the honors
+                onside.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">That will bring the trick count to 8.</p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                Also, at some point hoping to make a club trick, which should be fine provided the opponents don't cash
+                too many diamond winners.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">The only real concern is if the diamond suit is a 5 card suit, in which case</p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-diamond-break",
+          type: "DISTRIBUTION_GUESS",
+          suit: "D",
+          atRoundIdx: 0,
+          expectedDistribution: { west: 5, north: 3, south: 4, east: 1 },
+          fixed: { west: 5, north: 3, south: 4 },
+          promptText: "What is the diamond break?",
+          successText: "If west has 5 diamonds, east will have 1.",
+        },
+        {
+          id: "df1-18-intro-3",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--gold">
+              <p className="ct-df14-noteBody">
+                Since East will only have 1 diamond anyway (if the lead is from a 5 card suit), declarer simply won the
+                first trick as there is no need to hold up (East already will have none left!).
+              </p>
+              <p className="ct-df14-noteBody">
+                Also, a club switch might not be so great for declarer - it looks like a weaker suit than diamonds!
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-after-spade",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--rose">
+              <p className="ct-df14-noteBody">Declarer now quite logically plays a spade to the J♠.</p>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-what-next",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: (
+            <div className="ct-df14-note ct-df14-note--victory">
+              <p className="ct-df14-noteBody">
+                Declarer was very much so expecting to lose that trick, and then repeat the spade finesse.
+              </p>
+              <p className="ct-df14-noteBody">
+                You would think winning the J♠ is a good thing? It turns out that East has found a deadly duck.
+              </p>
+              <p className="ct-df14-noteTitle">What do you play next?</p>
+            </div>
+          ),
+          options: [
+            { id: "spade", label: "Spade" },
+            { id: "heart", label: "Heart" },
+            { id: "diamond", label: "Diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: ["spade", "heart", "diamond", "club"],
+          noContinue: false,
+          continueButtonLabel: "Reveal full hand",
+          revealFullHandSeats: ["N", "E", "S", "W"],
+          revealFullHandSeatsOnContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Trick question</p>
+                  <p className="ct-revealRichBody">
+                    It is a trick question, to get you thinking. Because nothing works, the duck has destroyed declarer's
+                    chances.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-18-what-next-detail",
+          type: "INFO",
+          atRoundIdx: 2,
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    If declarer plays spades, he gets lucky - they break 3-3. Except East throws away the K♠ on the A♠,
+                    and West gets in. This allows West to play diamonds, and setup enough tricks to beat the contract
+                    when he wins the A♣.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    If you try come back to hand with a club, West wins the club, clears clubs. Now when East wins the
+                    K♠, he has lots of club tricks to cash.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    A diamond back to hand? Also losing, now the diamond gates are wide open, and when East wins the K♠,
+                    a club to West's hand will be 1 off.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-18-rule-duck",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Rule: A time to duck</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    On this hand, you can see the spade suit is robust enough to take the rest of the tricks if you win
+                    your King, so duck is likely to be a good idea.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    No rule in bridge is 100% perfect, but I've found this rule to be right far more often than it is
+                    wrong. Try it out, develop the confidence to do it smoothly at the table. Have a good attitude in
+                    the rare instances it goes wrong.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      west: { S: "Q76", H: "932", D: "QJT95", C: "A7" },
+      east: { S: "K43", H: "J765", D: "8", C: "JT932" },
+      south: { S: "852", H: "T84", D: "AK32", C: "K64" },
+      north: { S: "AJT9", H: "AKQ", D: "764", C: "Q85" },
+    },
+    rounds: [
+      {
+        label: "Opening lead shown (Q♦ on table)",
+        plays: [{ seat: "W", card: { rank: "Q", suit: "D" } }],
+      },
+      {
+        label: "Trick 1 (Q♦ lead; 4♦, 8♦, A♦)",
+        plays: [
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+          { seat: "E", card: { rank: "8", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (2♠, 6♠, J♠, 3♠)",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "J", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-19",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: deadly duck in hearts",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♣ P 1♠ P 3♠ P 4♠ P P P",
+    dealerCompass: "E",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S", "E"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "deadlyDuck",
+      themeLabel: "Theme: Deadly Duck",
+      customPrompts: [
+        {
+          id: "df1-19-rule",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Rule - A time to duck</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Let's see if we have an easy time spotting it here.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-19-system-note",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate ct-deadlyDuckCard">
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    In their system East showed 16-18 with 4 spades, seems reasonable if you count an extra point for
+                    the doubleton club (and you should with a trump fit).
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    Partner is off to a diamond lead which looks good for you, perhaps you can set up some diamond
+                    winners. A small interesting point for this hand - your partner is not someone who randomly
+                    underleads Aces, so you know declarer has that card.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    Declarer has the AK of diamonds, and should've won the first trick with the Ace, not the King (as
+                    declarer it's often correct to win with the highest of equal cards, it will keep the defenders
+                    guessing more).
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-19-heart-fired",
+          type: "INFO",
+          atRoundIdx: 1,
+          promptText: "Declarer immediately fires off a heart.",
+        },
+        {
+          id: "df1-19-take-or-duck",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "Take the trick or duck?",
+          options: [
+            { id: "take", label: "Take" },
+            { id: "duck", label: "Duck" },
+          ],
+          expectedChoice: "duck",
+          noContinue: false,
+          revealFullHandSeats: ["N", "E", "S", "W"],
+          revealFullHandSeatsOnContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Duck</p>
+                  <p className="ct-revealRichBody">
+                    Duck, because if you take the trick, it looks certain that declarer will easily scoop up the rest
+                    of heart tricks, so it fits in with our rule.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Rule</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-19-wrap",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate ct-deadlyDuckCard">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Declarer is in trouble</p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    Declarer is in trouble here, in fact, the contract has become hopeless.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    The key idea of the hand is, declarer wants to set up the hearts before the diamond losers are
+                    exposed. But now that declarer is stuck in dummy with the J♥, he has no moves. He has to get back
+                    to hand to play the heart suit up again - but doing so opens up the diamond losers!
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    The key idea - ducking hurts declarer because he needs to burn an entry to play the suit up again.
+                    Entries are limited in bridge, putting strain on declarer's entries will often defeat the contract.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      west: { S: "J762", H: "542", D: "AK7", C: "872" },
+      east: { S: "AK83", H: "KJT9", D: "486", C: "A5" },
+      south: { S: "95", H: "A63", D: "QJ93", C: "KJ64" },
+      north: { S: "QT4", H: "Q87", D: "T52", C: "QT93" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (diamond lead: low, 4, J, King)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+          { seat: "S", card: { rank: "J", suit: "D" } },
+          { seat: "W", card: { rank: "K", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (2♥, 7♥, J♥ — your turn)",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "J", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 completed (2♥, 7♥, J♥, 3♥)",
+        keepExistingTrickCards: true,
+        plays: [{ seat: "S", card: { rank: "3", suit: "H" } }],
+      },
+    ],
+  },
+  {
+    id: "df1-20",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: competitive auction, deadly duck setup",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♠ 2♥ 2♠ 3♥ 4♦ P 4♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S", "E"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "deadlyDuck",
+      themeLabel: "Theme: Deadly Duck",
+      customPrompts: [
+        {
+          id: "df1-20-auction-idea-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate ct-deadlyDuckCard">
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    In their system, 4D showed a 5 card suit. This is reasonably common in competitive auctions,
+                    showing shapely hands so partner has all the information to know whether it's best to defend or
+                    declare on the 4 level, if the opponents decide to bid.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    The idea is - if your points complement partner, it's often good to declare, if you are misfitting,
+                    it may be better to defend.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-20-auction-idea-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate ct-deadlyDuckCard">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Summary</p>
+                  <ul className="ct-revealRichPoints">
+                    <li>
+                      Shortage opposite partner's length/strength is a misfit and indicates defending is better.
+                    </li>
+                    <li>
+                      Strength and quality cards opposite partner's length indicates a fit and that declaring could go
+                      well, Kx for example is an excellent holding opposite partner's second suit, whereas a singleton
+                      is bad for declaring - it will be difficult to set that suit up as declarer.
+                    </li>
+                  </ul>
+                  <p className="ct-revealRichBody ct-deadlyDuckBody">
+                    The main point, however, is the play - so let's move to that.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-20-trumps-left",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 2,
+          expectedDistribution: { west: 5, east: 3, south: 3, north: 2 },
+          fixed: { west: 5, east: 3, south: 3 },
+          promptText:
+            "West now on lead.\n\nDeclarer is about to draw trumps. Let's keep the usual habit of keeping an eye on trumps, what is the likely number partner has?",
+          successText: "We are expecting two trumps from partner.",
+        },
+        {
+          id: "df1-20-trumps-drawn-note",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "continue",
+          promptText:
+            "With trumps drawn, we are expecting declarer to try setup his long side suit - diamonds.",
+        },
+        {
+          id: "df1-20-diamond-duck",
+          type: "PLAY_DECISION",
+          atRoundIdx: 6,
+          promptText: "Take it or duck it?",
+          options: [
+            { id: "duck", label: "Duck" },
+            { id: "take", label: "Take" },
+          ],
+          expectedChoice: "duck",
+          noContinue: false,
+          continueButtonLabel: "Reveal full hand",
+          revealFullHandSeats: ["N", "E", "S", "W"],
+          revealFullHandSeatsOnContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Duck</p>
+                  <p className="ct-revealRichBody">Duck, this conforms with the rule.</p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading ct-deadlyDuckRuleHeading">Rule - The time to duck</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    I'm not saying that ducking will always magically make tricks appear, but more often than not, for
+                    a host of reasons, it can do good things.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Most often declarer's entries can be affected, but in this context, something nice happens. Let's
+                    reveal the full hand to watch what happens when you duck the Queen.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-20-final-note",
+          type: "INFO",
+          atRoundIdx: 8,
+          promptText:
+            "Declarer took a finesse into the Jack, destroying the contract completely. If, however, you had won the Ace, declarer would've had no choice but to just bang down the King of diamonds when he got in, as there was no entry to dummy to take the losing finesse! (declarer of course cannot see all the cards, and was hoping it was a winning finesse, which is more likely than hoping the Jack will fall).",
+        },
+      ],
+    },
+    shownHands: {
+      west: { S: "KQJA7", H: "95", D: "KT764", C: "3" },
+      east: { S: "842", H: "J73", D: "Q85", C: "KJ92" },
+      south: { S: "T65", H: "Q84", D: "A93", C: "T765" },
+      north: { S: "93", H: "AKT62", D: "J2", C: "AQ84" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (A♥, 3♥, 4♥, 5♥)",
+        plays: [
+          { seat: "N", card: { rank: "A", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+          { seat: "S", card: { rank: "4", suit: "H" } },
+          { seat: "W", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2 (K♥, 7♥, 8♥, 9♥)",
+        plays: [
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "7", suit: "H" } },
+          { seat: "S", card: { rank: "8", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (2♥, J♥, Q♥, 7♠)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "H" } },
+          { seat: "E", card: { rank: "J", suit: "H" } },
+          { seat: "S", card: { rank: "Q", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (A♠, 3♠, 2♠, 5♠)",
+        plays: [
+          { seat: "W", card: { rank: "A", suit: "S" } },
+          { seat: "N", card: { rank: "3", suit: "S" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5 (K♠, 9♠, 4♠, 6♠)",
+        plays: [
+          { seat: "W", card: { rank: "K", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (Q♠, 6♥, 8♠, T♠)",
+        plays: [
+          { seat: "W", card: { rank: "Q", suit: "S" } },
+          { seat: "N", card: { rank: "6", suit: "H" } },
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "T", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7 (4♦, 2♦, Q♦ — your turn)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "D" } },
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "Q", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 7 completed (3♦ by South)",
+        keepExistingTrickCards: true,
+        plays: [{ seat: "S", card: { rank: "3", suit: "D" } }],
+      },
+      {
+        label: "Trick 8 (5♦ by East, 9♦ by South, T♦ by West, J♦ by North)",
+        plays: [
+          { seat: "E", card: { rank: "5", suit: "D" } },
+          { seat: "S", card: { rank: "9", suit: "D" } },
+          { seat: "W", card: { rank: "T", suit: "D" } },
+          { seat: "N", card: { rank: "J", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-21",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: deadly duck in trumps",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "1♣ P 1♠ P 3♠ P 4♠ P P P",
+    dealerCompass: "E",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S", "E"],
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "deadlyDuck",
+      themeLabel: "Theme: Deadly Duck",
+      customPrompts: [
+        {
+          id: "df1-21-duck-or-win",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Let's get ready to play smoothly. If declarer plays a trump (spade) up, what are we going to do?",
+          options: [
+            { id: "duck", label: "Duck" },
+            { id: "win", label: "Win" },
+          ],
+          expectedChoice: "duck",
+          noContinue: false,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Duck</p>
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">This applies for the trump suit also.</p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-21-post-trump-duck",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <div className="ct-revealRichRuleBox">
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      <strong>Rule</strong>
+                    </p>
+                    <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                      A time to duck: If winning gives declarer the rest of the tricks in the suit.
+                    </p>
+                  </div>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">This applies to the trump suit as well.</p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Declarer now in dummy may try a low spade, losing to partner's Jack. It really is a guess for
+                    declarer: they could try the King of spades, but that would lose if you ducked with Ax (a
+                    doubleton), which is equally as reasonable.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-21-plan-note",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["N", "E", "S", "W"],
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    The idea of this hand is declarer wants to draw trumps as soon as possible, and then play clubs,
+                    pitching a diamond. Ducking messes up that plan. Declarer can't conveniently come back to hand to
+                    play a spade up again, so has to guess what to do while in dummy (play the K or play low). In fact,
+                    both could be losing options if North had, for example, AJx.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Perhaps declarer misplayed and should've played a spade to the 10, that's not the point for us
+                    today.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      east: { S: "KQT9", H: "54", D: "987", C: "AKQJ" },
+      west: { S: "8764", H: "Q87", D: "AK2", C: "953" },
+      south: { S: "A53", H: "A92", D: "QJ6", C: "T874" },
+      north: { S: "J2", H: "KJT63", D: "T543", C: "62" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (3♦, 7♦, J♦, A♦)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "D" } },
+          { seat: "E", card: { rank: "7", suit: "D" } },
+          { seat: "S", card: { rank: "J", suit: "D" } },
+          { seat: "W", card: { rank: "A", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (4♠, 2♠, K♠, 3♠)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "K", suit: "S" } },
+          { seat: "S", card: { rank: "3", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "df1-22",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♥: deadly duck setup",
+    trumpSuit: "H",
+    contract: "4♥",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S", "E"],
+    auction: "1♥ P 1NT P 4♥ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "deadlyDuck",
+      themeLabel: "Theme: Deadly Duck",
+      customPrompts: [
+        {
+          id: "df1-22-rule-exception",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    We need to give an exception to our rule. If you think declarer may have a singleton in that suit,
+                    do not duck.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    Hint: in modern-day partnerships, players sometimes give count. That can help you in these
+                    situations, for example in the diamond suit.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-22-count-hint",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    You have 4 diamonds, dummy has 4. If you are concerned declarer has a singleton, partner would have
+                    4.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    If partner shows an even number of cards, take the Ace and be on the safe side, as it is possible
+                    partner has 4.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    If partner shows an odd number of cards, it is no longer possible for declarer to have 1 and
+                    partner to have 4.
+                  </p>
+                  <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
+                    That is a good partnership bridge idea, but for our purposes the main point is this: if you think
+                    it could be a singleton, be careful with the duck and don't do it.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-22-take-or-duck",
+          type: "PLAY_DECISION",
+          atRoundIdx: 1,
+          promptText: "Is this a time to duck or take?",
+          options: [
+            { id: "duck", label: "Duck" },
+            { id: "winAce", label: "Win the Ace" },
+          ],
+          expectedChoice: "winAce",
+          noContinue: false,
+          continueButtonLabel: "Reveal full hand",
+          revealFullHandSeats: ["N", "E", "S", "W"],
+          revealFullHandSeatsOnContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Win the Ace</p>
+                  <p className="ct-revealRichBody">
+                    Win the Ace. Declarer has shown a distributional hand with lots of hearts, so it is quite possible
+                    they have a singleton diamond.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-22-final-note",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: "Declarer only has 9 tricks, and is trying to steal a 10th in diamonds.",
+        },
+      ],
+    },
+    shownHands: {
+      east: { S: "9842", H: "4", D: "KQT9", C: "9876" },
+      west: { S: "AK7", H: "AKQJ732", D: "2", C: "53" },
+      south: { S: "65", H: "986", D: "A863", C: "KJ42" },
+      north: { S: "QJT3", H: "T5", D: "J754", C: "AQT" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (Q♠, 2♠, 5♠, A♠)",
+        plays: [
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "A", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (2♦, 4♦, K♦ — your turn)",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+          { seat: "E", card: { rank: "K", suit: "D" } },
+        ],
+      },
+    ],
   },
   {
     id: "df3-1",

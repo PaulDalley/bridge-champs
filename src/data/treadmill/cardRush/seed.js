@@ -258,10 +258,10 @@ export const CARD_RUSH_SEED_PUZZLES = [
     // Limit reveal to what Declarer stage 1, problem 2 provides.
     playRevealSeats: ["S", "N"],
     visibleHands: {
-      // Dummy (N), minus ♣3 and ♣4 from first 2 tricks.
-      N: ["SJ", "S7", "S2", "H2", "DA", "D7", "D6", "D4", "D3", "C7", "C6"],
-      // You (S), minus ♣2 and ♣K from first 2 tricks.
-      S: ["SA", "SK", "S9", "S5", "S3", "HA", "H9", "H8", "H3", "DQ", "D2"],
+      // Dummy (N), minus ♣3 from trick 1.
+      N: ["SJ", "S7", "S2", "H2", "DA", "D7", "D6", "D4", "D3", "C7", "C6", "C4"],
+      // You (S), minus ♣2 from trick 1.
+      S: ["SA", "SK", "S9", "S5", "S3", "HA", "H9", "H8", "H3", "DQ", "D2", "CK"],
     },
     correctCards: ["HA"],
     explanation:
@@ -376,14 +376,14 @@ export const CARD_RUSH_SEED_PUZZLES = [
     toPlaySeat: "S",
     playRevealSeats: ["S", "N"],
     visibleHands: {
-      // Dummy (N): ♠K92 ♥76 ♦762 ♣AJT84, minus ♥6 and ♥7 from tricks 1-2.
-      N: ["SK", "S9", "S2", "D7", "D6", "D2", "CA", "CJ", "CT", "C8", "C4"],
-      // Declarer (S): ♠AQ32 ♥K4 ♦KQJT ♣K93, minus ♥4 and ♥K from tricks 1-2.
-      S: ["SA", "SQ", "S3", "S2", "DK", "DQ", "DJ", "DT", "CK", "C9", "C3"],
-      // West (W): ♠876 ♥9532 ♦985 ♣Q76, minus ♥5 and ♥3 from tricks 1-2.
-      W: ["S8", "S7", "S6", "H9", "H2", "D9", "D8", "D5", "CQ", "C7", "C6"],
-      // East (E): ♠JT5 ♥AQ982 ♦A43 ♣98, minus ♥A and ♥9 from tricks 1-2.
-      E: ["SJ", "ST", "S5", "HQ", "H8", "H2", "DA", "D4", "D3", "C9", "C8"],
+      // Dummy (N): ♠K92 ♥76 ♦762 ♣AJT84, minus ♥6 from trick 1.
+      N: ["SK", "S9", "S2", "H7", "D7", "D6", "D2", "CA", "CJ", "CT", "C8", "C4"],
+      // Declarer (S): ♠AQ32 ♥K4 ♦KQJT ♣K93, minus ♥4 from trick 1.
+      S: ["SA", "SQ", "S3", "S2", "HK", "DK", "DQ", "DJ", "DT", "CK", "C9", "C3"],
+      // West (W): ♠876 ♥9532 ♦985 ♣Q76, minus ♥5 from trick 1.
+      W: ["S8", "S7", "S6", "H9", "H3", "H2", "D9", "D8", "D5", "CQ", "C7", "C6"],
+      // East (E): ♠JT5 ♥AQ982 ♦A43 ♣98, minus ♥A from trick 1.
+      E: ["SJ", "ST", "S5", "HQ", "H9", "H8", "H2", "DA", "D4", "D3", "C9", "C8"],
     },
     // Any club card is accepted.
     correctCards: ["CK", "C9", "C3"],
@@ -432,6 +432,44 @@ export const CARD_RUSH_SEED_PUZZLES = [
     includeInPool: false,
   },
   {
+    id: "cr-011",
+    topic: "Deadly Duck",
+    title: "3NT: the deadly duck",
+    contract: "3NT",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    // Hand 18 preview (Defence stage 1): trick 1 complete, declarer to lead trick 2.
+    lastTrick: {
+      leader: "W",
+      plays: [
+        { seat: "W", card: "DQ" },
+        { seat: "N", card: "D4" },
+        { seat: "E", card: "D8" },
+        { seat: "S", card: "DA" },
+      ],
+      winner: "S",
+    },
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    visibleHands: {
+      // North (dummy in this orientation), after D4 at trick 1.
+      N: ["SA", "SJ", "ST", "S9", "HA", "HK", "HQ", "D7", "D6", "CQ", "C8", "C5"],
+      // South / you (declarer), after DA at trick 1.
+      S: ["S8", "S5", "S2", "HT", "H8", "H4", "DK", "D3", "D2", "CK", "C6", "C4"],
+      // West, after DQ led at trick 1.
+      W: ["SQ", "S7", "S6", "H9", "H2", "DJ", "DT", "D9", "D5", "CA", "C7"],
+      // East, after D8 played at trick 1.
+      E: ["SK", "S4", "S3", "HJ", "H7", "H6", "H5", "H3", "CJ", "CT", "C9", "C3", "C2"],
+    },
+    // Any spade lead is accepted for this release.
+    correctCards: ["S8", "S5", "S2"],
+    explanation:
+      "Use entries productively and set up that spade suit, you will probably need to play low towards that twice.",
+    difficulty: 1,
+    includeInPool: true,
+  },
+  {
     id: "cr-008",
     topic: "just draw trumps",
     contract: "4S",
@@ -468,16 +506,16 @@ export const CARD_RUSH_SEED_PUZZLES = [
     currentTrick: { leader: "S", plays: [] },
     toPlaySeat: "S",
     playRevealSeats: ["S", "N"],
-    // Hands below are after replay tricks 1 and 2 have been removed.
+      // Hands below are after replay trick 1 only.
     visibleHands: {
       // Dummy (North)
-      N: ["SQ", "SJ", "S9", "S8", "S4", "S2", "H8", "C7", "DK", "D4", "D3"],
+      N: ["SQ", "SJ", "S9", "S8", "S4", "S2", "H8", "C7", "C6", "DK", "D4", "D3"],
       // You / Declarer (South)
-      S: ["SA", "S3", "HK", "HQ", "H6", "C8", "C3", "C2", "DA", "D9", "D2"],
+      S: ["SA", "S3", "HK", "HQ", "H6", "CA", "C8", "C3", "C2", "DA", "D9", "D2"],
       // East opponent
-      E: ["SK", "ST", "S5", "H7", "H3", "CQ", "C5", "C4", "DJ", "DT", "D7"],
+      E: ["SK", "ST", "S5", "H7", "H3", "CK", "CQ", "C5", "C4", "DJ", "DT", "D7"],
       // West opponent
-      W: ["S7", "S6", "HJ", "H9", "H4", "CT", "C9", "DQ", "D8", "D6", "D5"],
+      W: ["S7", "S6", "HJ", "H9", "H4", "CT", "C9", "CJ", "DQ", "D8", "D6", "D5"],
     },
     // User's correct play after trick 2.
     correctCards: ["SA"],
@@ -536,6 +574,45 @@ export const CARD_RUSH_SEED_PUZZLES = [
     correctCards: ["HA", "HJ", "HT", "H7", "H5", "H4"],
     explanation:
       "No reason to delay drawing trumps here. Low to the King and then finesse the Queen on the way back looks most natural, but the main point is to just tackle the trumps. You have side suit winners you want to enjoy (diamonds) and you have no reason to leave the enemy with trumps. If there is no reason to delay drawing trumps, don't delay!",
+    difficulty: 1,
+  },
+  {
+    id: "cr-010",
+    topic: "ruff in dummy",
+    contract: "2C",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    trumpSuit: "C",
+    // Rotated 90° clockwise from original table (original declarer was East).
+    // Trick 1 as provided: 7♣, 2♣, K♣, A♣.
+    lastTrick: {
+      leader: "W",
+      plays: [
+        { seat: "W", card: "C7" },
+        { seat: "N", card: "C2" },
+        { seat: "E", card: "CK" },
+        { seat: "S", card: "CA" },
+      ],
+      winner: "S",
+    },
+    currentTrick: { leader: "S", plays: [] },
+    toPlaySeat: "S",
+    playRevealSeats: ["S", "N"],
+    // Hands after trick 1 cards are removed.
+    visibleHands: {
+      // Dummy (North) — from original West.
+      N: ["CT", "C3", "HJ", "HT", "H7", "H4", "H3", "S4", "S3", "D6", "D5", "D3"],
+      // You / Declarer (South) — from original East.
+      S: ["CQ", "C9", "C8", "C5", "H8", "SA", "SJ", "S6", "S5", "DA", "DK", "D7"],
+      // West defender — from original South.
+      W: ["C6", "HA", "HQ", "H5", "H2", "SK", "S9", "S2", "DJ", "DT", "D9", "D2"],
+      // East defender — from original North.
+      E: ["CJ", "C4", "HK", "H9", "H6", "SQ", "ST", "S8", "S7", "DQ", "D8", "D4"],
+    },
+    // Any spade is acceptable at trick 2.
+    correctCards: ["SA", "SJ", "S6", "S5"],
+    explanation:
+      "Dummy is only useful for ruffing, its weak with a few trumps. The opponents have made a good lead. Lets immediately play spades to ensure a ruff in dummy. You can play Ace and another here, as they will return a club which you will win in hand with the Queen, so you don't need the spade entry. But a low spade is also fine.",
     difficulty: 1,
   },
 

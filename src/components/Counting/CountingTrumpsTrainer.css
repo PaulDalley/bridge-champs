@@ -600,6 +600,81 @@ button.ct-categoryTab {
   border-left: 4px solid #ea580c;
 }
 
+/* Deadly Duck readability + emphasis helpers */
+.ct-deadlyDuckCard {
+  padding: 18px 20px 20px;
+}
+
+.ct-deadlyDuckBody {
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+.ct-deadlyDuckRuleHeading {
+  font-size: var(--text-base);
+  letter-spacing: 0.04em;
+}
+
+.ct-deadlyDuckRuleBody {
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+.ct-deadlyDuckBubble {
+  position: relative;
+  border-radius: 18px;
+}
+
+.ct-deadlyDuckBubble::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  bottom: -12px;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background: inherit;
+  border-right: 1px solid rgba(15, 23, 42, 0.16);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.16);
+}
+
+.ct-deadlyDuckPlanTable {
+  width: 100%;
+  margin: 14px 0 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.ct-deadlyDuckPlanTable th,
+.ct-deadlyDuckPlanTable td {
+  padding: 12px 14px;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.ct-deadlyDuckPlanTable tr:first-child th,
+.ct-deadlyDuckPlanTable tr:first-child td {
+  border-top: none;
+}
+
+.ct-deadlyDuckPlanTable th {
+  width: 36%;
+  text-align: left;
+  color: #0f172a;
+  font-weight: 800;
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.ct-deadlyDuckPlanTable td {
+  color: #1e293b;
+  font-weight: 700;
+}
+
 .ct-revealRichPoints {
   margin: 0;
   padding-left: 1.25em;
@@ -1503,6 +1578,39 @@ button.ct-categoryTab {
   color: #9f1239;
 }
 
+/* Theme: Deadly Duck (defence d1 problems 18-22) — vivid amber to contrast nearby blues */
+.ct-problemTab--themeDeadlyDuck {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  border-color: rgba(180, 83, 9, 0.38);
+}
+.ct-problemTab--themeDeadlyDuck:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fde68a 0%, #fcd34d 100%);
+}
+.ct-problemTab--themeDeadlyDuck.ct-problemTab--active {
+  border: 2px solid #b45309;
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  color: #451a03;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.42);
+}
+.ct-sidePrompt--themeDeadlyDuck {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  border-left: 3px solid rgba(180, 83, 9, 0.5);
+}
+.ct-sidePrompt--themeDeadlyDuck .ct-revealContent .ct-revealParagraph:first-child {
+  color: #92400e;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeDeadlyDuck .ct-revealList {
+  background: rgba(180, 83, 9, 0.09);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeDeadlyDuck .ct-revealList .ct-revealListItem {
+  color: #92400e;
+}
+
 /* Theme: 2-level overcalls (bidding difficulty 1) */
 .ct-problemTab--themeTwoLevel {
   background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
@@ -1787,6 +1895,12 @@ button.ct-categoryTab {
   color: #1e3a8a;
   border: 2px solid #1d4ed8;
   box-shadow: 0 2px 6px rgba(29, 78, 216, 0.22);
+}
+.ct-themeLabel--themeDeadlyDuck {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 2px solid #b45309;
+  box-shadow: 0 2px 6px rgba(180, 83, 9, 0.2);
 }
 
 .ct-newBadge {
@@ -2447,6 +2561,13 @@ button.ct-categoryTab {
   justify-items: start;
   column-gap: 10px;
   row-gap: 0;
+}
+
+/* All-hands reveal (handsMask15): widen the West column enough to hold a 7-card side suit
+   at normal card size (existing .ct-table--westVisible rule caps card width at 42px → ~7×42 + gaps).
+   Card sizes are intentionally NOT changed here; the existing west-visible sizing remains. */
+.ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask15 {
+  grid-template-columns: minmax(320px, 340px) clamp(340px, 48vw, 560px) minmax(110px, 150px);
 }
 
 /* Override: when table is in sidebar layout, do NOT stretch to 100% — keep questions next to table */
@@ -4188,6 +4309,11 @@ button.ct-categoryTab {
   justify-self: start;
   align-items: flex-start;
 }
+/* West column: align hand to the right (toward table center) so long side-suit rows stay on-screen */
+.ct-layout--fullhands .ct-table--bottomRowLayout.ct-table--promptOnRight .ct-seat--left {
+  justify-self: end;
+  align-items: flex-end;
+}
 /* East hand: pack cards tightly, no wasted space */
 .ct-layout--fullhands .ct-table--bottomRowLayout .ct-seat--right .ct-suitHand {
   width: max-content;
@@ -5540,7 +5666,25 @@ button.ct-categoryTab {
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask13,
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask14,
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask15 {
-    grid-template-columns: minmax(36px, 18vw) minmax(72px, 1fr) minmax(36px, 18vw);
+    grid-template-columns: clamp(180px, 24vw, 280px) minmax(72px, 1fr) clamp(140px, 20vw, 240px);
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask7 .ct-seat--left,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask11 .ct-seat--left,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask13 .ct-seat--left,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask14 .ct-seat--left,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask15 .ct-seat--left {
+    justify-self: end;
+    align-self: start;
+  }
+
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask7 .ct-seat--right,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask11 .ct-seat--right,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask13 .ct-seat--right,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask14 .ct-seat--right,
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask15 .ct-seat--right {
+    justify-self: start;
+    align-self: start;
   }
 
   /* Hide compass seats with no visible hand so two-hand puzzles don’t leave a blank N/S or E/W strip */

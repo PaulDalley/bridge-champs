@@ -567,7 +567,7 @@ function StripHand({ seat, puzzle, ledSuit, highlightCard, highlightVariant, dai
  * "centre of the table" — current trick if mid-trick, last completed trick
  * (with a "Won by …" status) if the user is about to lead the next trick.
  */
-function TrickStrip({ puzzle, onReplayDoneChange }) {
+function TrickStrip({ puzzle, onReplayDoneChange, onShownPlaysChange }) {
   const cur = puzzle.currentTrick?.plays || [];
   const hasCurrentPlays = cur.length > 0;
   const replayTricks =
@@ -668,9 +668,24 @@ function TrickStrip({ puzzle, onReplayDoneChange }) {
     anim.revealedCount >= (replayTricks[manualTrickIdx]?.plays?.length || 0);
   const fullyRevealed = replayMode ? (manualReplay ? lastTrickFullyShown : anim.done) : true;
 
+  const shownPlays = useMemo(() => {
+    if (!replayMode) return cur;
+    const activeIdx = Math.min(manualReplay ? manualTrickIdx : anim.trickIdx, replayTricks.length - 1);
+    const shownInActive = (replayTricks[activeIdx]?.plays || []).slice(0, Math.max(0, anim.revealedCount));
+    const fromPrior = [];
+    for (let i = 0; i < activeIdx; i += 1) {
+      fromPrior.push(...(replayTricks[i]?.plays || []));
+    }
+    return [...fromPrior, ...shownInActive];
+  }, [replayMode, cur, manualReplay, manualTrickIdx, anim.trickIdx, anim.revealedCount, replayTricks]);
+
   useEffect(() => {
     if (typeof onReplayDoneChange === "function") onReplayDoneChange(fullyRevealed);
   }, [fullyRevealed, onReplayDoneChange]);
+
+  useEffect(() => {
+    if (typeof onShownPlaysChange === "function") onShownPlaysChange(shownPlays);
+  }, [shownPlays, onShownPlaysChange]);
 
   if (plays.length === 0 && !replayMode) {
     return (
@@ -745,13 +760,38 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
   // compass position is visually correct (East = right, West = left).
   const isSide = opponentSeat === "E" || opponentSeat === "W";
   const [replayDone, setReplayDone] = useState(true);
+  const [shownPlays, setShownPlays] = useState([]);
 
   useEffect(() => {
     const hasReplay =
       (Array.isArray(puzzle.replayTricks) && puzzle.replayTricks.length > 0) ||
       (puzzle.lastTrick && Array.isArray(puzzle.lastTrick.plays) && puzzle.lastTrick.plays.length > 0);
     setReplayDone(!hasReplay);
+    setShownPlays([]);
   }, [puzzle.id, puzzle.replayTricks, puzzle.lastTrick]);
+
+  const visibleHandsDuringPlay = useMemo(() => {
+    const removeBySeat = { N: new Set(), E: new Set(), S: new Set(), W: new Set() };
+    (shownPlays || []).forEach((p) => {
+      if (!p?.seat || !p?.card || !removeBySeat[p.seat]) return;
+      removeBySeat[p.seat].add(p.card);
+    });
+    const next = {};
+    Object.entries(visible).forEach(([seat, cards]) => {
+      if (!Array.isArray(cards)) {
+        next[seat] = cards;
+        return;
+      }
+      const removed = removeBySeat[seat] || new Set();
+      next[seat] = cards.filter((c) => !removed.has(c));
+    });
+    return next;
+  }, [visible, shownPlays]);
+
+  const puzzleForHands = useMemo(
+    () => ({ ...puzzle, visibleHands: visibleHandsDuringPlay }),
+    [puzzle, visibleHandsDuringPlay]
+  );
 
   return (
     <div
@@ -763,7 +803,7 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
         <div className="crStripArea crStripArea--top">
           <StripHand
             seat={opponentSeat}
-            puzzle={puzzle}
+            puzzle={puzzleForHands}
             ledSuit={ledSuit}
             highlightCard={highlightCard}
             highlightVariant={highlightVariant}
@@ -773,13 +813,13 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
         </div>
       ) : null}
       <div className="crStripArea crStripArea--center">
-        <TrickStrip puzzle={puzzle} onReplayDoneChange={setReplayDone} />
+        <TrickStrip puzzle={puzzle} onReplayDoneChange={setReplayDone} onShownPlaysChange={setShownPlays} />
       </div>
       {opponentSeat && isSide ? (
         <div className="crStripArea crStripArea--side">
           <SideHand
             seat={opponentSeat}
-            puzzle={puzzle}
+            puzzle={puzzleForHands}
             ledSuit={ledSuit}
             highlightCard={highlightCard}
             highlightVariant={highlightVariant}
@@ -792,7 +832,7 @@ function PlayBoard({ puzzle, highlightCard, highlightVariant, dailyHardBlock, on
         <div className="crStripArea crStripArea--south">
           <StripHand
             seat={southSeat}
-            puzzle={puzzle}
+            puzzle={puzzleForHands}
             ledSuit={ledSuit}
             highlightCard={highlightCard}
             highlightVariant={highlightVariant}
