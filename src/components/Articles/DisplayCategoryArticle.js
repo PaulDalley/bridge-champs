@@ -41,6 +41,7 @@ import {
   makeBoardObjectFromString,
   getDifficultyStr,
   hasVideosInContent,
+  sortCategoryArticlesByLevelAndArticleNumber,
 } from "../../helpers/helpers";
 import MakeBoard from "../../components/BridgeBoard/MakeBoard";
 import { Col, ProgressBar } from "react-materialize";
@@ -233,6 +234,18 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
 
 const escapeRegExp = (input = "") =>
   String(input).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const BEGINNER_HUB_PATH_BY_TYPE = {
+  beginnerCardPlay: "/beginner/articles/declarer",
+  beginnerDefence: "/beginner/articles/defence",
+  beginnerBidding: "/beginner/articles/bidding",
+};
+
+const BEGINNER_HUB_TITLE_BY_TYPE = {
+  beginnerCardPlay: "Bridge Declarer Play for Beginners",
+  beginnerDefence: "Bridge Defence for Beginners",
+  beginnerBidding: "Bridge Bidding for Beginners",
+};
 
 const stripLeadingDuplicateTitle = (html, title) => {
   if (!html || !title) return html;
@@ -602,7 +615,7 @@ const DisplayCategoryArticle = ({
   const getArticleUrl = () => {
     const baseUrl = "https://bridgechampions.com";
     if (articleType === "cardPlay") return `${baseUrl}/declarer/articles/${articleId}`;
-    if (articleType === "biddingBasics") return `${baseUrl}/bidding/advanced/${articleId}`;
+    if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${articleId}`;
     if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
     if (articleType === "biddingAdvanced") return `${baseUrl}/bidding/advanced/${articleId}`;
     if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/articles/${articleId}`;
@@ -718,6 +731,27 @@ const DisplayCategoryArticle = ({
   const articleContentClassName = `DisplayArticle-content${
     isBeginnerArticleType ? " DisplayArticle-content--beginner" : ""
   }`;
+  const beginnerSeriesArticles = isBeginnerArticleType
+    ? sortCategoryArticlesByLevelAndArticleNumber(
+        (articles || []).filter(
+          (item) =>
+            item &&
+            item.isHidden !== true &&
+            !(typeof item.redirectTo === "string" && item.redirectTo.startsWith("/"))
+        )
+      )
+    : [];
+  const beginnerSeriesCurrentIdx = beginnerSeriesArticles.findIndex(
+    (item) => item?.id === articleId || item?.body === articleId
+  );
+  const beginnerPrev = beginnerSeriesCurrentIdx > 0 ? beginnerSeriesArticles[beginnerSeriesCurrentIdx - 1] : null;
+  const beginnerNext =
+    beginnerSeriesCurrentIdx >= 0 && beginnerSeriesCurrentIdx < beginnerSeriesArticles.length - 1
+      ? beginnerSeriesArticles[beginnerSeriesCurrentIdx + 1]
+      : null;
+  const beginnerStart = beginnerSeriesArticles.length ? beginnerSeriesArticles[0] : null;
+  const beginnerHubPath = BEGINNER_HUB_PATH_BY_TYPE[articleType];
+  const beginnerHubTitle = BEGINNER_HUB_TITLE_BY_TYPE[articleType];
 
   // Merged-article redirect: if this summary points at a primary URL via
   // redirectTo, bounce visitors there immediately. The primary URL holds
@@ -1071,6 +1105,53 @@ const DisplayCategoryArticle = ({
       <div className={articleContentClassName} role="article">
         {articleDataArray}
       </div>
+
+      {isBeginnerArticleType && (beginnerHubPath || beginnerPrev || beginnerNext || beginnerStart) && (
+        <section className="DisplayArticle-ctaCard" aria-label="Beginner article navigation">
+          <h3 className="DisplayArticle-ctaHeading">Beginner learning path</h3>
+          <p className="DisplayArticle-ctaBody">
+            Use this sequence to stay consistent: start with the first lesson, then move forward one step at a time.
+          </p>
+          <div className="DisplayArticle-beginnerPathRow">
+            {beginnerHubPath && (
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton DisplayArticle-ctaButton--subtle"
+                onClick={() => history.push(beginnerHubPath)}
+              >
+                Open hub: {beginnerHubTitle}
+              </button>
+            )}
+            {beginnerStart && beginnerStart.id !== articleId && (
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton DisplayArticle-ctaButton--subtle"
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerStart.id}`)}
+              >
+                Start at lesson 1
+              </button>
+            )}
+            {beginnerPrev && (
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton DisplayArticle-ctaButton--subtle"
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerPrev.id}`)}
+              >
+                Previous lesson: {beginnerPrev.title}
+              </button>
+            )}
+            {beginnerNext && (
+              <button
+                type="button"
+                className="DisplayArticle-ctaButton"
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerNext.id}`)}
+              >
+                Next lesson: {beginnerNext.title}
+              </button>
+            )}
+          </div>
+        </section>
+      )}
 
       {isLebensohlArticle ? (
         <section className="DisplayArticle-ctaCard" aria-label="Lebensohl trainer call to action">

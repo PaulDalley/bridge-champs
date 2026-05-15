@@ -55,13 +55,24 @@ function loadYouTubeAPI() {
   });
 }
 
-function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmin, softMembershipCta = false }) {
+function PracticeVideoBlock({
+  videoUrl,
+  isPremium,
+  label,
+  className = "",
+  isAdmin,
+  softMembershipCta = false,
+  isBasicMember = false,
+}) {
   const canWatch = isPremium || isAdmin;
   const videoId = getYouTubeVideoId(videoUrl);
   const embedRef = useRef(null);
   const playerRef = useRef(null);
   const [isNarrowViewport, setIsNarrowViewport] = useState(getInitialNarrowViewport);
   const [narrowExpanded, setNarrowExpanded] = useState(false);
+  const membershipCtaLabel = isBasicMember ? "Upgrade to Premium" : "Start 7-day free trial";
+  const membershipCtaSubLabel = isBasicMember ? "Upgrade to Premium to watch" : "Start a 7-day free trial to watch";
+  const softMembershipCtaLabel = isBasicMember ? "Upgrade to Premium" : "View membership";
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -193,7 +204,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
                 if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
               }}
             >
-              View membership
+              {softMembershipCtaLabel}
             </Link>
           </div>
         </div>
@@ -233,7 +244,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
         <div className="ct-practiceVideo-lockedOverlay">
           <span className="ct-practiceVideo-lockedIcon" aria-hidden="true">🔒</span>
           <p className="ct-practiceVideo-lockedText">Premium video</p>
-          <p className="ct-practiceVideo-lockedSublabel">Start a 7-day free trial to watch</p>
+          <p className="ct-practiceVideo-lockedSublabel">{membershipCtaSubLabel}</p>
           <Link
             to="/membership"
             className="ct-practiceVideo-upgradeBtn"
@@ -241,7 +252,7 @@ function PracticeVideoBlock({ videoUrl, isPremium, label, className = "", isAdmi
               if (typeof sessionStorage !== "undefined") sessionStorage.setItem("subscription_upgrade_source", "video");
             }}
           >
-            Start 7-day free trial
+            {membershipCtaLabel}
           </Link>
         </div>
       </div>

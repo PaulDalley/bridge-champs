@@ -67,6 +67,7 @@ import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
 import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
 import BeginnerLandingPage from "./components/Beginner/BeginnerLandingPage";
+import ReviewDraftsPage from "./components/Review/ReviewDraftsPage";
 
 import { firebase } from "./firebase/config";
 
@@ -89,13 +90,15 @@ import {
   authReady,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
-import { getArticlesRootPath, getPracticeRootPath } from "./utils/beginnerMode";
+import { getArticlesRootPath, getPracticeRootPath, isLocalhostBuild } from "./utils/beginnerMode";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
 const store = configureStore();
 /** "Learn bridge from scratch" — routes enabled on production (was localhost-only). */
 const beginnerRoutesEnabled = true;
+/** Local-only review workspace for draft SEO article editing. */
+const reviewRoutesEnabled = isLocalhostBuild();
 const NoIndexTag = () => (
   <Helmet>
     <meta name="robots" content="noindex,follow" />
@@ -268,6 +271,20 @@ const routes = (
       path="/just-play/practice"
       exact
       render={() => <PracticalJustPlayPage />}
+    />
+    <Route
+      path="/learn/review"
+      exact
+      render={() =>
+        reviewRoutesEnabled ? (
+          <>
+            <NoIndexTag />
+            <ReviewDraftsPage />
+          </>
+        ) : (
+          <Redirect to="/learn" />
+        )
+      }
     />
     <Route
       path="/learn"

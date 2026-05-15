@@ -254,6 +254,71 @@
   color: #083426;
 }
 
+.BeginnerLanding-pathList {
+  margin: 0.65rem 0 0;
+  padding-left: 1.25rem;
+  color: #334155;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.BeginnerLanding-pathList li + li {
+  margin-top: 0.35rem;
+}
+
+.BeginnerLanding-hubGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+}
+
+@media (min-width: 720px) {
+  .BeginnerLanding-hubGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.BeginnerLanding-hubCard {
+  display: block;
+  padding: 0.95rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #dbe4f0;
+  background: #fff;
+  text-decoration: none;
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.05);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+}
+
+.BeginnerLanding-hubCard:hover,
+.BeginnerLanding-hubCard:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  border-color: #b8cce4;
+}
+
+.BeginnerLanding-hubTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.35;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.BeginnerLanding-hubBody {
+  margin: 0.5rem 0 0;
+  color: #475569;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.BeginnerLanding-hubCta {
+  display: inline-block;
+  margin-top: 0.6rem;
+  color: #0f4c3a;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
 .BeginnerLanding-video {
   position: relative;
   width: 100%;

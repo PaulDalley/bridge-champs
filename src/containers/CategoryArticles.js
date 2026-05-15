@@ -26,6 +26,7 @@ import {
   getLearnSubcategoryPresetList,
   getLearnSubcategoryAliasMap,
 } from "../data/learn/declarerArticleSubcategories";
+import { isLocalhostBuild } from "../utils/beginnerMode";
 import CategoryArticleListItem from "../components/Articles/CategoryArticleListItem";
 import VideoCard from "../components/Articles/VideoCard";
 import LevelBanner from "../components/Articles/LevelBanner";
@@ -43,6 +44,7 @@ const ARTICLE_TOPIC_TABS = [
   { id: "defence", label: "Defence", path: "/defence/articles", types: ["defence"] },
   { id: "bidding", label: "Bidding", path: "/bidding/advanced", types: ["bidding", "biddingAdvanced"] },
 ];
+const REVIEW_TOPIC_TAB = { id: "review", label: "Review", path: "/learn/review", types: [] };
 const BEGINNER_ARTICLE_TOPIC_TABS = [
   {
     id: "declarer",
@@ -63,6 +65,63 @@ const BEGINNER_ARTICLE_TOPIC_TABS = [
     types: ["beginnerBidding"],
   },
 ];
+
+const BEGINNER_CATEGORY_SEO = {
+  beginnerCardPlay: {
+    title: "Bridge Declarer Play for Beginners | Bridge Champions",
+    description:
+      "Learn declarer play in bridge with beginner-friendly lessons on drawing trumps, finesses, and creating extra winners.",
+    h1: "Bridge Declarer Play for Beginners",
+    subtitle:
+      "Step-by-step declarer lessons for new players: trump management, finesses, and notrump planning.",
+    roadmap: [
+      "Start with trump management and simple hand-planning.",
+      "Add finesses and honor-combination judgment.",
+      "Then learn to establish side-suit winners consistently.",
+    ],
+  },
+  beginnerDefence: {
+    title: "Bridge Defence for Beginners | Bridge Champions",
+    description:
+      "Beginner bridge defence lessons on opening leads, second hand low, third hand high, and practical defensive partnership habits.",
+    h1: "Bridge Defence for Beginners",
+    subtitle:
+      "Beginner defence made practical: opening leads, second hand low, third hand high, and clear partner communication.",
+    roadmap: [
+      "Start with opening leads and lead-planning basics.",
+      "Build second hand low and third hand high habits.",
+      "Then improve with lead-through-strength and lead-towards-weakness judgment.",
+    ],
+  },
+  beginnerBidding: {
+    title: "Bridge Bidding for Beginners | Bridge Champions",
+    description:
+      "Bridge bidding basics for beginners: opening bids, responder's first bid, opener rebids, and clear 1NT agreements.",
+    h1: "Bridge Bidding for Beginners",
+    subtitle:
+      "Learn beginner bidding from first principles: opening bids, responder priorities, opener rebids, and 1NT structure.",
+    roadmap: [
+      "Start with opening bids and minimum hand-evaluation rules.",
+      "Then master responder's first bid and fit-first decisions.",
+      "Finish with opener rebids and disciplined 1NT agreements.",
+    ],
+  },
+};
+
+const getArticlePathByType = (type, id) => {
+  if (type === "counting") return `/counting/articles/${id}`;
+  if (type === "cardPlay") return `/declarer/articles/${id}`;
+  if (type === "beginnerCardPlay") return `/beginner/articles/declarer/${id}`;
+  if (type === "beginnerDefence") return `/beginner/articles/defence/${id}`;
+  if (type === "beginnerBidding") return `/beginner/articles/bidding/${id}`;
+  if (type === "defence") return `/defence/articles/${id}`;
+  if (type === "biddingBasics") return `/bidding/basics/${id}`;
+  if (type === "biddingAdvanced") return `/bidding/advanced/${id}`;
+  if (type === "cardPlayBasics") return `/declarer/basics/${id}`;
+  if (type === "defenceBasics") return `/defence/basics/${id}`;
+  if (type === "bidding") return `/bidding/advanced/${id}`;
+  return `/${type}/${id}`;
+};
 
 const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const pageNumber = Number(location.search.split("e")[1]);
@@ -156,31 +215,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       return;
     }
     dispatch(setCurrentArticle(article));
-    // Most category article routes live at `/${articleType}/:id` or nested paths.
-    const nextPath =
-      articleType === "counting"
-        ? `/counting/articles/${id}`
-        : articleType === "cardPlay"
-          ? `/declarer/articles/${id}`
-          : articleType === "beginnerCardPlay"
-            ? `/beginner/articles/declarer/${id}`
-          : articleType === "beginnerDefence"
-            ? `/beginner/articles/defence/${id}`
-          : articleType === "beginnerBidding"
-            ? `/beginner/articles/bidding/${id}`
-          : articleType === "defence"
-            ? `/defence/articles/${id}`
-          : articleType === "biddingBasics"
-            ? `/bidding/basics/${id}`
-          : articleType === "biddingAdvanced"
-            ? `/bidding/advanced/${id}`
-          : articleType === "cardPlayBasics"
-            ? `/declarer/basics/${id}`
-          : articleType === "defenceBasics"
-            ? `/defence/basics/${id}`
-          : articleType === "bidding"
-            ? `/bidding/advanced/${id}`
-        : `/${articleType}/${id}`;
+    const nextPath = getArticlePathByType(articleType, id);
     history.push(nextPath);
   };
 
@@ -397,11 +432,20 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       case 'counting':
         return { name: 'Counting', subtitle: 'Articles and videos to support the Counting practice hands' };
       case 'beginnerCardPlay':
-        return { name: 'Beginner Declarer', subtitle: 'Beginner-friendly declarer lessons and foundations.' };
+        return {
+          name: BEGINNER_CATEGORY_SEO.beginnerCardPlay.h1,
+          subtitle: BEGINNER_CATEGORY_SEO.beginnerCardPlay.subtitle,
+        };
       case 'beginnerDefence':
-        return { name: 'Beginner Defence', subtitle: 'Beginner-friendly defence explanations and examples.' };
+        return {
+          name: BEGINNER_CATEGORY_SEO.beginnerDefence.h1,
+          subtitle: BEGINNER_CATEGORY_SEO.beginnerDefence.subtitle,
+        };
       case 'beginnerBidding':
-        return { name: 'Beginner Bidding', subtitle: 'Beginner bidding lessons from first principles.' };
+        return {
+          name: BEGINNER_CATEGORY_SEO.beginnerBidding.h1,
+          subtitle: BEGINNER_CATEGORY_SEO.beginnerBidding.subtitle,
+        };
       default: 
         return { name: articleType, subtitle: 'Expert bridge articles and analysis' };
     }
@@ -409,11 +453,16 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
 
   const categoryInfo = getCategoryInfo();
   const isBeginnerArticleType = articleType?.startsWith("beginner");
+  const standardTopicTabs = isLocalhostBuild()
+    ? [...ARTICLE_TOPIC_TABS, REVIEW_TOPIC_TAB]
+    : ARTICLE_TOPIC_TABS;
   const topicTabs = isBeginnerArticleType
     ? BEGINNER_ARTICLE_TOPIC_TABS
-    : ARTICLE_TOPIC_TABS;
+    : standardTopicTabs;
   const activeTopicId =
     topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+  const beginnerStarterArticles = isBeginnerArticleType ? sortedArticles.slice(0, 3) : [];
+  const beginnerRoadmap = BEGINNER_CATEGORY_SEO[articleType]?.roadmap || [];
 
   // Fetch banner texts for all levels when content changes
   useEffect(() => {
@@ -548,10 +597,16 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   }
 
   const getCategoryTitle = () => {
+    if (BEGINNER_CATEGORY_SEO[articleType]?.title) {
+      return BEGINNER_CATEGORY_SEO[articleType].title;
+    }
     return `${categoryInfo.name} Articles - Bridge Champions`;
   };
 
   const getCategoryDescription = () => {
+    if (BEGINNER_CATEGORY_SEO[articleType]?.description) {
+      return BEGINNER_CATEGORY_SEO[articleType].description;
+    }
     return `${categoryInfo.subtitle}. Browse our collection of expert ${categoryInfo.name.toLowerCase()} articles and improve your Bridge game.`;
   };
 
@@ -747,6 +802,33 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
           </div>
         </div>
       </div>
+
+      {isBeginnerArticleType && (
+        <section className="CategoryArticles-beginnerGuide container" aria-label="Beginner learning path">
+          <h2 className="CategoryArticles-beginnerGuideTitle">Start here: beginner learning path</h2>
+          {beginnerRoadmap.length > 0 && (
+            <ul className="CategoryArticles-beginnerGuidePoints">
+              {beginnerRoadmap.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          )}
+          {beginnerStarterArticles.length > 0 && (
+            <div className="CategoryArticles-beginnerStarterRow">
+              {beginnerStarterArticles.map((article, idx) => (
+                <button
+                  key={`starter-${article.id || idx}`}
+                  type="button"
+                  className="CategoryArticles-beginnerStarterBtn"
+                  onClick={() => setCurrentArticleAndGoTo(article, article.id)}
+                >
+                  {`Step ${idx + 1}: ${article.title || `Article ${idx + 1}`}`}
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {showComingSoon && (
         <div className="CategoryArticles-coming-soon container" style={{ textAlign: "center", padding: "4rem 2rem", maxWidth: "36rem", margin: "0 auto" }}>

@@ -3942,6 +3942,7 @@ function CountingTrumpsTrainer({
   /** Theme / per-problem intro videos: premium, admin, or any puzzle the table treats as free (e.g. first N beginner hands). */
   const currentPuzzleVideoUnlocked =
     effectiveTier === "premium" || isAdmin || isFreeProblem(currentProblemId);
+  const showBasicUpgradeVideoCta = !isAdmin && isMember && effectiveTier === "basic";
   const showPaywallOverlay = !isMember && !currentPuzzleIsFree && !currentPuzzleIsPreview && !isBlankDifficulty;
 
   // Always provide a puzzle object to keep hook order stable;
@@ -7644,6 +7645,7 @@ function CountingTrumpsTrainer({
           <PracticeVideoBlock
             videoUrl={effectiveThemeIntroUrl}
             isPremium={currentPuzzleVideoUnlocked}
+            isBasicMember={showBasicUpgradeVideoCta}
             label="Theme intro"
             className="ct-practiceVideo--beforeStart"
             isAdmin={isAdmin}
@@ -7667,6 +7669,7 @@ function CountingTrumpsTrainer({
           <PracticeVideoBlock
             videoUrl={perProblemIntroVideoUrl}
             isPremium={currentPuzzleVideoUnlocked}
+            isBasicMember={showBasicUpgradeVideoCta}
             label="30s problem intro"
             className="ct-practiceVideo--beforeStart"
             isAdmin={isAdmin}
@@ -8141,6 +8144,7 @@ function CountingTrumpsTrainer({
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrlStart}
                 isPremium={currentPuzzleVideoUnlocked}
+                isBasicMember={showBasicUpgradeVideoCta}
                 label="30s intro"
                 className="ct-practiceVideo--start"
                 isAdmin={isAdmin}
@@ -8189,6 +8193,7 @@ function CountingTrumpsTrainer({
               <PracticeVideoBlock
                 videoUrl={activeCustomPrompt?.videoUrl}
                 isPremium={currentPuzzleVideoUnlocked}
+                isBasicMember={showBasicUpgradeVideoCta}
                 label="30s explanation"
                 className="ct-practiceVideo--reveal"
                 isAdmin={isAdmin}

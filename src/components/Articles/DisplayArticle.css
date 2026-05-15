@@ -193,26 +193,25 @@
 
 .interweave ul,
 .interweave ol {
-  margin: 2.5rem 0;
-  padding-left: 3.5rem;
-  background-color: #f8f9fa;
-  padding: 2rem 2rem 2rem 3.5rem;
-  border-radius: 6px;
-  border-left: 3px solid #0F4C3A;
+  margin: 1.8rem 0 2rem;
+  padding-left: 2.4rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
 }
 
 .interweave li {
-  list-style-type: disc !important;
-  margin-bottom: 1.2rem;
-  padding-left: 0.5rem;
-}
-
-.interweave ul li::marker {
-  color: #0F4C3A;
+  margin-bottom: 0.85rem;
+  padding-left: 0.2rem;
+  line-height: 1.65;
 }
 
 .interweave ol li {
-  list-style-type: decimal !important;
+  list-style-type: decimal;
+}
+
+.interweave ul li {
+  list-style-type: disc;
 }
 
 .interweave h1,
@@ -224,7 +223,7 @@
   margin-bottom: 2rem;
   font-weight: 700 !important;
   line-height: 1.35;
-  color: #0F4C3A;
+  color: #111827;
   padding-top: 1.5rem;
   font-family: var(--font-body);
   letter-spacing: -0.01em;
@@ -255,43 +254,39 @@
 
 .interweave h2 {
   font-size: 3rem !important;
-  border-bottom: 2px solid #1B6B52;
+  border-bottom: 1px solid #d1d5db;
   padding-bottom: 1rem;
   margin-top: 4.5rem;
   margin-bottom: 2rem;
   font-weight: 700 !important;
-  color: #0F4C3A;
+  color: #111827;
   position: relative;
 }
 
 .interweave h2::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 4rem;
-  height: 2px;
-  background: linear-gradient(90deg, #1B6B52 0%, #0F4C3A 100%);
+  content: none;
 }
 
 .interweave h3 {
   font-size: 2.6rem !important;
   font-weight: 700 !important;
-  color: #1B6B52;
+  color: #1f2937;
   margin-top: 4rem;
   margin-bottom: 1.8rem;
-  padding-left: 1rem;
-  border-left: 4px solid #0F4C3A;
+  padding-left: 0;
+  border-left: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
 .interweave h4 {
   font-size: 2.3rem !important;
   font-weight: 600 !important;
-  color: #2d3748;
+  color: #374151;
   margin-top: 3.5rem;
   margin-bottom: 1.5rem;
-  padding-left: 0.8rem;
-  border-left: 3px solid #1B6B52;
+  padding-left: 0;
+  border-left: 0;
 }
 
 .interweave h5 {
@@ -757,89 +752,10 @@
   }
 }
 
-.DisplayArticle-content--beginner .interweave ul li > a:only-child {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  border: 1px solid #bfd8cc;
-  border-radius: 0.7rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f2f8f5 100%);
-  padding: 0.45rem 0.72rem;
-  text-decoration: none;
-}
-
-.DisplayArticle-content--beginner .interweave ul li > a:only-child::before {
-  content: "→";
-  font-weight: 900;
-  color: #0f4c3a;
-}
-
-/* End-of-article related navigation (e.g. "Related reading") */
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul {
-  border: 1px solid #b8d3c7;
-  background: linear-gradient(180deg, #f4fbf8 0%, #e9f5ef 100%);
-  border-radius: 1.15rem;
-  padding: 0.95rem;
-  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.08);
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li {
-  list-style: none !important;
-  margin: 0.45rem 0;
-  padding-left: 0;
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li::before,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li::before {
-  content: none !important;
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a,
-.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"] {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  border: 1px solid #8db7a2;
-  border-radius: 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f3fbf7 100%);
-  text-decoration: none;
-  padding: 0.72rem 0.96rem;
-  min-height: 3.1rem;
-  color: #0a3a2c;
-  font-size: var(--text-base);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  box-shadow: 0 3px 10px rgba(15, 76, 58, 0.1);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease,
-    background 0.15s ease;
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a::before,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a::before,
-.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]::before {
-  content: "→";
-  color: #0b6c4e;
-  font-weight: 900;
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a:hover,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a:hover,
-.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]:hover {
-  border-color: #4f9175;
-  background: linear-gradient(180deg, #ffffff 0%, #e9f8f1 100%);
-  box-shadow: 0 7px 16px rgba(15, 76, 58, 0.14);
-  transform: translateY(-1px);
-}
-
-.DisplayArticle-content--beginner .interweave h3:last-of-type + ul li a:focus-visible,
-.DisplayArticle-content--beginner .interweave h2:last-of-type + ul li a:focus-visible,
-.DisplayArticle-content--beginner .interweave ul li > a[href^="/beginner/articles/"]:focus-visible {
-  outline: 3px solid #7dc8a6;
-  outline-offset: 2px;
-}
+/* (Legacy "pill card" treatment for end-of-article links removed.
+   In-article links now render as plain text links — see character layer
+   at the end of this file. The trailing "Read next in this series" block
+   keeps its own dedicated styling via aside.DisplayArticle-readNext.) */
 
 .ArticleListItem-new-badge {
   display: inline-block;
@@ -988,17 +904,17 @@
 
 .DisplayArticle-content--beginner .interweave h2 {
   font-size: var(--text-3xl) !important;
-  color: #0b3f30;
-  border-bottom: 2px solid rgba(15, 76, 58, 0.25);
+  color: #111827;
+  border-bottom: 1px solid #d1d5db;
 }
 
 .DisplayArticle-content--beginner .interweave h3 {
   font-size: var(--text-2xl) !important;
-  color: #0f4c3a;
-  border-left: 4px solid #0f4c3a;
-  background: linear-gradient(90deg, rgba(15, 76, 58, 0.08), rgba(15, 76, 58, 0));
-  border-radius: 0.5rem;
-  padding: 0.8rem 1rem;
+  color: #1f2937;
+  border-left: 0;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
 .DisplayArticle-content--beginner .interweave p {
@@ -1010,9 +926,9 @@
 
 .DisplayArticle-content--beginner .interweave ul,
 .DisplayArticle-content--beginner .interweave ol {
-  border-left: 4px solid #1b6b52;
-  background: #f1f8f4;
-  border-radius: 0.8rem;
+  border-left: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
 .DisplayArticle-content--beginner .interweave li {
@@ -1389,42 +1305,67 @@
   padding-bottom: 0.6rem;
 }
 
+/* Clean article typography layer (global across all article categories). */
+.DisplayArticle-content :where(h1, h2) {
+  color: #0f172a !important;
+  border-bottom: 1px solid #d1d5db !important;
+  background: transparent !important;
+  padding-left: 0 !important;
+}
+
+.DisplayArticle-content :where(h1)::after,
+.DisplayArticle-content :where(h2)::after {
+  content: none !important;
+}
+
 .DisplayArticle-content :where(h3) {
   font-size: var(--text-2xl) !important;
-  border-left: 4px solid #0f4c3a;
-  background: linear-gradient(90deg, rgba(15, 76, 58, 0.08), rgba(15, 76, 58, 0));
-  border-radius: 0.5rem;
-  padding: 0.8rem 1rem;
-  margin-top: 2rem;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
+  color: #111827;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
-/* Lists get the green-bordered card treatment. */
 .DisplayArticle-content :where(ul, ol) {
-  border-left: 4px solid #1b6b52;
-  background: #f1f8f4;
-  border-radius: 0.8rem;
-  margin-top: 1.4rem;
+  margin-top: 1.2rem;
   margin-bottom: 1.8rem;
+  padding-left: 2.2rem;
+  list-style-position: outside;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
-/* Links: dark green, underlined, never faded. */
+.DisplayArticle-content :where(ul, ol) li {
+  margin-bottom: 0.65rem;
+  line-height: 1.65;
+}
+
+.DisplayArticle-content :where(ol) li::marker,
+.DisplayArticle-content :where(ul) li::marker {
+  color: #4b5563;
+  font-weight: 600;
+}
+
 .DisplayArticle-content :where(p, li, td, blockquote) :where(a),
 .DisplayArticle-content > :where(a) {
-  color: #0b5f46 !important;
-  font-weight: 700 !important;
+  color: #0f4c3a !important;
+  font-weight: 600 !important;
   text-decoration: underline !important;
-  text-decoration-color: rgba(11, 95, 70, 0.55) !important;
-  text-underline-offset: 0.18em;
-  opacity: 1 !important;
+  text-decoration-color: rgba(15, 76, 58, 0.35) !important;
+  text-underline-offset: 0.17em;
 }
 
 .DisplayArticle-content :where(p, li, td, blockquote) :where(a:hover),
 .DisplayArticle-content > :where(a:hover) {
-  color: #083d2e !important;
-  text-decoration-color: #083d2e !important;
+  color: #083426 !important;
+  text-decoration-color: rgba(8, 52, 38, 0.65) !important;
 }
 
-/* High-visibility article navigation links ("Where to next") */
+/* Keep in-article navigation links looking like links, not CTA cards. */
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"],
 .DisplayArticle-content .interweave ul li > a[href*="/articles/"],
 .DisplayArticle-content .interweave ul li > a[href^="/bidding/"],
@@ -1435,22 +1376,20 @@
 .DisplayArticle-content ul li > a[href^="/bidding/"],
 .DisplayArticle-content ul li > a[href^="/declarer/"],
 .DisplayArticle-content ul li > a[href^="/defence/"] {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  width: 100%;
-  min-height: 3.2rem;
-  padding: 0.78rem 1rem;
-  border-radius: 1rem;
-  border: 2px solid #1b6b52;
-  background: linear-gradient(180deg, #1f7a5e 0%, #195f49 100%) !important;
-  color: #ffffff !important;
-  text-decoration: none !important;
-  font-size: var(--text-lg);
-  font-weight: 800 !important;
-  letter-spacing: 0.01em;
-  box-shadow: 0 8px 18px rgba(15, 76, 58, 0.24);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  display: inline;
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  font-size: inherit;
+  letter-spacing: normal;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  color: #0f4c3a !important;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]::before,
@@ -1463,9 +1402,7 @@
 .DisplayArticle-content ul li > a[href^="/bidding/"]::before,
 .DisplayArticle-content ul li > a[href^="/declarer/"]::before,
 .DisplayArticle-content ul li > a[href^="/defence/"]::before {
-  content: "→";
-  color: #d6ffef !important;
-  font-weight: 900;
+  content: none;
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:hover,
@@ -1478,10 +1415,9 @@
 .DisplayArticle-content ul li > a[href^="/bidding/"]:hover,
 .DisplayArticle-content ul li > a[href^="/declarer/"]:hover,
 .DisplayArticle-content ul li > a[href^="/defence/"]:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(15, 76, 58, 0.28);
-  color: #ffffff !important;
+  transform: none;
+  filter: none;
+  color: #083426 !important;
 }
 
 .DisplayArticle-content .interweave ul li > a[href^="/beginner/articles/"]:focus-visible,
@@ -1494,7 +1430,7 @@
 .DisplayArticle-content ul li > a[href^="/bidding/"]:focus-visible,
 .DisplayArticle-content ul li > a[href^="/declarer/"]:focus-visible,
 .DisplayArticle-content ul li > a[href^="/defence/"]:focus-visible {
-  outline: 3px solid #91e2c2;
+  outline: 2px solid rgba(15, 76, 58, 0.3);
   outline-offset: 2px;
 }
 
@@ -1678,6 +1614,26 @@
   color: #185445;
 }
 
+.DisplayArticle-beginnerPathRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.8rem;
+}
+
+.DisplayArticle-ctaButton--subtle {
+  background: #ffffff;
+  color: #0f4c3a;
+  border: 1px solid #b8ccde;
+  box-shadow: none;
+}
+
+.DisplayArticle-ctaButton--subtle:hover,
+.DisplayArticle-ctaButton--subtle:focus-visible {
+  border-color: #0f4c3a;
+  box-shadow: 0 7px 16px rgba(15, 76, 58, 0.14);
+}
+
 .DisplayArticle-ctaFlowDetails {
   margin-top: 1rem;
   border: 1px solid rgba(15, 76, 58, 0.22);
@@ -1843,5 +1799,293 @@
   }
   .DisplayArticle-relatedHeading {
     font-size: var(--text-xl);
+  }
+}
+
+/* =========================================================================
+   ARTICLE CHARACTER LAYER (v3) — placed last so it wins on source order.
+   -------------------------------------------------------------------------
+   Goal: keep the clean, uncluttered base from the previous pass, but add
+   genuine editorial character through:
+     - a short brand-green accent under each h2 (instead of a thin gray rule
+       running the full width — far more distinctive)
+     - a small left accent bar on each h3
+     - bolder, brand-coloured numbers/bullets on lists
+     - a softer, slightly larger lead paragraph after h1
+     - cleaner, brand-tinted blockquote
+     - readable type stack (Inter via --font-body), comfortable measure
+   These rules are scoped to .DisplayArticle-content so they apply to ALL
+   article categories (beginner, declarer, defence, bidding, etc.).
+   ========================================================================= */
+
+/* ---- Type stack & measure ---------------------------------------------- */
+.DisplayArticle-content,
+.DisplayArticle-content .interweave,
+.DisplayArticle-content .ArticleCallout-body {
+  font-family: var(--font-body) !important;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.DisplayArticle-content :where(p, li, blockquote) {
+  max-width: 70ch;
+}
+
+.DisplayArticle-content :where(p) {
+  margin-top: 0;
+  margin-bottom: 1.4rem !important;
+}
+
+/* ---- Headings: clean base + distinctive accents ------------------------ */
+.DisplayArticle-content :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-body) !important;
+  font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
+}
+
+/* H1 — page title is rendered separately above the body, so .interweave h1
+   inside the body should stay restrained and match the editorial system. */
+.DisplayArticle-content :where(h1) {
+  color: #0b2b22 !important;
+  font-size: var(--text-3xl) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 3rem;
+  margin-bottom: 1.2rem;
+}
+
+/* H2 — short, branded accent rule sitting under the heading text.
+   Replaces the thin gray full-width rule with something with character. */
+.DisplayArticle-content :where(h2) {
+  color: #0b2b22 !important;
+  font-size: var(--text-3xl) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.012em !important;
+  margin-top: 3.6rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.55rem !important;
+  border-bottom: 0 !important;
+  position: relative;
+}
+
+.DisplayArticle-content :where(h2)::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0;
+  bottom: 0;
+  width: 4.5rem;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0f4c3a 0%, #1f7a5e 100%);
+}
+
+/* H3 — small left accent bar gives section openings a clear visual anchor
+   without boxing the content. */
+.DisplayArticle-content :where(h3) {
+  color: #0f3a2d !important;
+  font-size: var(--text-2xl) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.005em !important;
+  margin-top: 2.6rem;
+  margin-bottom: 1rem;
+  padding: 0.05rem 0 0.05rem 0.95rem !important;
+  border-left: 4px solid #1f7a5e !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  line-height: 1.3;
+}
+
+.DisplayArticle-content :where(h4) {
+  color: #14463a !important;
+  font-size: var(--text-xl) !important;
+  font-weight: 800 !important;
+  margin-top: 2.2rem;
+  margin-bottom: 0.8rem;
+  text-transform: none;
+}
+
+/* ---- Lead paragraph: the first paragraph after H1 is slightly larger and
+       slightly softer in colour for an editorial opener. ----------------- */
+.DisplayArticle-content .interweave > h1 + p,
+.DisplayArticle-content > h1 + p {
+  font-size: var(--text-xl) !important;
+  line-height: 1.65 !important;
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+  margin-bottom: 2rem !important;
+}
+
+/* ---- Lists: clean outside markers, brand-coloured numbers/bullets ----- */
+.DisplayArticle-content :where(ul, ol) {
+  margin: 1.2rem 0 1.8rem !important;
+  padding: 0 0 0 2.2rem !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  list-style-position: outside !important;
+}
+
+.DisplayArticle-content :where(ul) {
+  list-style-type: disc !important;
+}
+
+.DisplayArticle-content :where(ol) {
+  list-style-type: decimal !important;
+}
+
+.DisplayArticle-content :where(ul, ol) :where(li) {
+  margin: 0 0 0.55rem !important;
+  padding-left: 0.35rem !important;
+  line-height: 1.65 !important;
+}
+
+.DisplayArticle-content :where(ol) > li::marker {
+  color: #0f4c3a !important;
+  font-weight: 800 !important;
+}
+
+.DisplayArticle-content :where(ul) > li::marker {
+  color: #1f7a5e !important;
+}
+
+/* Nested lists keep the indent but lose extra vertical air. */
+.DisplayArticle-content :where(li) > :where(ul, ol) {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.6rem !important;
+}
+
+/* ---- Blockquote: brand-tinted, no clutter ------------------------------ */
+.DisplayArticle-content :where(blockquote) {
+  margin: 1.6rem 0 !important;
+  padding: 0.9rem 1.2rem !important;
+  border-left: 4px solid #1f7a5e !important;
+  background: #f6fbf8 !important;
+  border-radius: 0 0.55rem 0.55rem 0 !important;
+  box-shadow: none !important;
+  font-style: normal;
+  color: #0f172a !important;
+}
+
+.DisplayArticle-content :where(blockquote) :where(p) {
+  margin-bottom: 0.6rem !important;
+}
+
+.DisplayArticle-content :where(blockquote) :where(p:last-child) {
+  margin-bottom: 0 !important;
+}
+
+/* ---- Inline strong/em: keep colour subtle so it doesn't fight headings. */
+.DisplayArticle-content :where(p, li, td, blockquote) :where(strong, b) {
+  color: #0f3a2d !important;
+  font-weight: 800 !important;
+}
+
+.DisplayArticle-content :where(p, li, td, blockquote) :where(em, i) {
+  color: #1f2937 !important;
+  font-style: italic;
+}
+
+/* ---- Horizontal rules between major sections -------------------------- */
+.DisplayArticle-content :where(hr) {
+  border: 0 !important;
+  height: auto !important;
+  margin: 2.4rem auto !important;
+  text-align: center;
+  background: transparent !important;
+}
+
+.DisplayArticle-content :where(hr)::before {
+  content: "•  •  •";
+  letter-spacing: 0.6em;
+  color: #1f7a5e;
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+/* ---- Inline code & pre ------------------------------------------------- */
+.DisplayArticle-content :where(code) {
+  background: #f1f5f3 !important;
+  color: #0b3f30 !important;
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+  font-size: 0.94em;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-weight: 600;
+}
+
+.DisplayArticle-content :where(pre) {
+  background: #0f2a22 !important;
+  color: #e6f4ee !important;
+  border-radius: 0.6rem !important;
+  padding: 1rem 1.15rem !important;
+  margin: 1.4rem 0 !important;
+  overflow-x: auto;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.DisplayArticle-content :where(pre) :where(code) {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0;
+  font-weight: 500;
+}
+
+/* ---- Table: clean, modern, brand-aligned ------------------------------ */
+.DisplayArticle-content :where(table) {
+  border-collapse: collapse;
+  margin: 1.6rem 0;
+  width: 100%;
+  font-size: var(--text-base);
+}
+
+.DisplayArticle-content :where(th) {
+  background: #eef6f1 !important;
+  color: #0b2b22 !important;
+  font-weight: 800 !important;
+  text-align: left;
+  padding: 0.7rem 0.9rem !important;
+  border-bottom: 2px solid #cfe3d8 !important;
+}
+
+.DisplayArticle-content :where(td) {
+  padding: 0.7rem 0.9rem !important;
+  border-bottom: 1px solid #e6efe9 !important;
+}
+
+/* ---- Final defensive override: kill any green/tinted box that an older
+       rule above might still apply to lists at the end of an article.
+       This is what produced the "bracket" look in the screenshot. ------- */
+.DisplayArticle-content :where(.interweave, &) :where(ul, ol),
+.DisplayArticle-content :where(.interweave, &) :where(h2, h3):last-of-type + :where(ul, ol) {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 0 2.2rem !important;
+}
+
+/* Small screens: tighten heading rhythm so it still has character without
+   feeling cramped on phones. */
+@media (max-width: 640px) {
+  .DisplayArticle-content :where(h2) {
+    margin-top: 2.6rem;
+  }
+  .DisplayArticle-content :where(h3) {
+    margin-top: 2rem;
+    padding-left: 0.75rem !important;
+    border-left-width: 3px !important;
+  }
+  .DisplayArticle-content :where(h2)::after {
+    width: 3.5rem;
+    height: 3px;
+  }
+  .DisplayArticle-content :where(p, li, blockquote) {
+    max-width: none;
   }
 }

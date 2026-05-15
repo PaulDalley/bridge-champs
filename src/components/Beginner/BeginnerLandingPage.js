@@ -8,7 +8,7 @@ import { BEGINNER_LANDING_TESTIMONIALS } from "../../data/beginner/beginnerLandi
 import "./BeginnerLandingPage.css";
 
 const PRACTICE_PATH = "/beginner/practice/declarer";
-const ARTICLES_PATH = "/beginner/articles";
+const ARTICLES_PATH = "/beginner/articles/declarer";
 const VIDEO_DOC = "beginnerLandingVideo";
 /** Shown when Firestore `beginnerLandingVideo` has no URL (admins can override in site settings). */
 const DEFAULT_BEGINNER_LANDING_INTRO_VIDEO = "https://www.youtube.com/shorts/_2fhCCQ-iR4";
@@ -178,13 +178,30 @@ function BeginnerLandingPage({ location, isAdmin }) {
   const search = location?.search || "";
   const toPractice = { pathname: PRACTICE_PATH, search };
   const toArticles = { pathname: ARTICLES_PATH, search };
+  const beginnerArticleHubs = [
+    {
+      title: "Bridge declarer play for beginners",
+      description: "Learn trump management, finesses, and notrump planning.",
+      path: "/beginner/articles/declarer",
+    },
+    {
+      title: "Bridge defence for beginners",
+      description: "Build opening lead discipline and second hand low / third hand high habits.",
+      path: "/beginner/articles/defence",
+    },
+    {
+      title: "Bridge bidding for beginners",
+      description: "Master opening bids, responder priorities, and opener rebids.",
+      path: "/beginner/articles/bidding",
+    },
+  ];
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Learn Bridge and Strengthen Fundamentals — Bridge Champions",
+    name: "Learn Bridge for Beginners — Step-by-Step Fundamentals",
     description:
-      "Learn contract bridge with clear steps and interactive practice. Ideal for new players and anyone revising core fundamentals.",
+      "Learn contract bridge from scratch with step-by-step beginner lessons, practical examples, and interactive hands.",
     url: LANDING_CANONICAL,
     isPartOf: {
       "@type": "WebSite",
@@ -208,30 +225,30 @@ function BeginnerLandingPage({ location, isAdmin }) {
   return (
     <div className="BeginnerLanding">
       <Helmet>
-        <title>Learn Bridge and Strengthen Fundamentals | Bridge Champions</title>
+        <title>Learn Bridge for Beginners | Step-by-Step Lessons | Bridge Champions</title>
         <meta
           name="description"
-          content="Learn contract bridge with short, practical lessons and interactive hands. Great for beginners and players revising the fundamentals."
+          content="Learn bridge from scratch with beginner-friendly lessons on bidding, declarer play, and defence. Step-by-step guides plus interactive practice."
         />
         <link rel="canonical" href={LANDING_CANONICAL} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="Bridge Champions" />
         <meta property="og:url" content={LANDING_CANONICAL} />
-        <meta property="og:title" content="Learn Bridge and Strengthen Fundamentals — Bridge Champions" />
+        <meta property="og:title" content="Learn Bridge for Beginners — Bridge Champions" />
         <meta
           property="og:description"
-          content="Interactive practice and clear steps for beginners and players refreshing core fundamentals."
+          content="Step-by-step beginner bridge lessons on bidding, declarer play, and defence."
         />
         <meta property="og:image" content={OG_IMAGE_URL} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={LANDING_CANONICAL} />
-        <meta name="twitter:title" content="Learn Bridge and Strengthen Fundamentals — Bridge Champions" />
+        <meta name="twitter:title" content="Learn Bridge for Beginners — Bridge Champions" />
         <meta
           name="twitter:description"
-          content="Interactive practice for beginners and players revising core fundamentals."
+          content="Beginner bridge lessons with practical examples and guided practice."
         />
         <meta name="twitter:image" content={OG_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
@@ -245,7 +262,7 @@ function BeginnerLandingPage({ location, isAdmin }) {
             Learn bridge <span className="BeginnerLanding-title-accent">or refresh your fundamentals</span>
           </h1>
           <p className="BeginnerLanding-lead">
-            Practical lessons for new players and for experienced players revising the basics.
+            Practical bridge lessons for beginners, plus a clear roadmap for players revising fundamentals.
           </p>
           <p className="BeginnerLanding-trust">
             Taught by{" "}
@@ -283,6 +300,36 @@ function BeginnerLandingPage({ location, isAdmin }) {
             Short intro below—captions work with sound off.
           </p>
           <BeginnerLandingVideo isAdmin={isAdmin} />
+        </section>
+
+        <section className="BeginnerLanding-section" aria-labelledby="BeginnerLanding-start-heading">
+          <h2 id="BeginnerLanding-start-heading" className="BeginnerLanding-sectionTitle">
+            How to start learning bridge
+          </h2>
+          <p className="BeginnerLanding-sectionIntro">
+            If you are new to contract bridge, begin with beginner declarer lessons, then add beginner defence, then
+            beginner bidding. This sequence builds card-play confidence first, then partnership judgment.
+          </p>
+          <ol className="BeginnerLanding-pathList">
+            <li>Learn hand planning and trump management.</li>
+            <li>Add defensive habits: opening leads, second hand low, third hand high.</li>
+            <li>Build simple, disciplined bidding agreements.</li>
+          </ol>
+        </section>
+
+        <section className="BeginnerLanding-section" aria-labelledby="BeginnerLanding-hubs-heading">
+          <h2 id="BeginnerLanding-hubs-heading" className="BeginnerLanding-sectionTitle">
+            Beginner bridge article hubs
+          </h2>
+          <div className="BeginnerLanding-hubGrid">
+            {beginnerArticleHubs.map((hub) => (
+              <Link key={hub.path} to={{ pathname: hub.path, search }} className="BeginnerLanding-hubCard">
+                <h3 className="BeginnerLanding-hubTitle">{hub.title}</h3>
+                <p className="BeginnerLanding-hubBody">{hub.description}</p>
+                <span className="BeginnerLanding-hubCta">Open hub →</span>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section
