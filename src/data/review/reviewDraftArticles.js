@@ -317,7 +317,7 @@ It's always a good idea to immediately make a bid if you have one. Don't think a
 A responder order you can trust
 Step 1: With clear support, show support early.
 Step 2: Without support, bid a major if you have one.
-Step 3: When there is no fit, often No Trump is a sensible spot. 1NT is a contract that you should become very familiar and comfortable playing!
+Step 3: When there is no fit, often No Trump is a sensible spot. 1NT is a contract that you should become very familiar and comfortable with playing!
 
 This order prevents many “we missed our fit” auctions. Remember - always support partner when you have a fit. Let partner know you have support at the first opportunity.
 
@@ -338,7 +338,7 @@ Before bidding a new suit, ask:
 - Do I have enough points to respond to partner? On the 1-level, typically 6+.
 
 Notrump responses
-1NT especially is a frequently used contract when you do not have a fit. Get in the habit of bidding it when your side has 20+ points and no fit. If you have 25+ points and no fit, 3NT is typically going to be correct.
+1NT in particular is a frequently used contract when you do not have a fit. Get in the habit of bidding it when your side has 20+ points and no fit. If you have 25+ points and no fit, 3NT is typically going to be correct.
 
 When in doubt, with enough points, bid 1NT or 3NT. However, don't bend the rules to get there - make sure to first show your suits, especially your majors if you have them.
 
