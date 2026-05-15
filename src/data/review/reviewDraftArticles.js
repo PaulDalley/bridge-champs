@@ -462,78 +462,88 @@ Declarer play improves fast when planning is consistent. If you pause, count, an
   },
   {
     id: "BCD-02",
-    title: "Drawing Trumps for Beginners: When to Pull Trumps and When to Delay",
+    title: "Ruffing Losers in Dummy: A Beginner's Guide to One of Bridge's Best Tricks",
     articleType: "beginnerCardPlay",
-    subcategory: "Trump Management",
-    keyword: "drawing trumps bridge beginners",
+    subcategory: "Ruff in dummy",
+    keyword: "ruffing losers in dummy bridge beginner",
     metaDescription:
-      "Learn when to draw trumps immediately and when to delay, with practical examples.",
-    teaser: "Trump timing is one of the first declarer skills that quickly adds consistency.",
-    body: `The core question
-“Should I draw trumps now?” is one of the most important declarer decisions in suit contracts. Players often hear one rule only. Real improvement comes from learning timing.
+      "Learn how to ruff losers in dummy in bridge: when to set it up, how to time it, and the common mistakes to avoid.",
+    teaser: "One of the most reliable ways to turn a loser into a winner — once you know how to set it up.",
+    body: `What does “ruffing in dummy” actually mean?
+When you are declarer in a suit contract, you and dummy each have your own hand of cards. If dummy has a short suit (0, 1 or 2 cards), you can play that suit until dummy runs out of it - and then ruff the next round with one of dummy's trumps.
 
-Default principle
-In many contracts, drawing trumps early is correct because it stops defenders from ruffing your side-suit winners.
+That ruff turns what would have been a losing card in your hand into a winner.
 
-But this is a default, not a law.
+Why this is so powerful
+Ruffing losers in dummy is one of the most reliable ways to gain extra tricks as declarer. It is a core technique that almost every good player uses regularly.
 
-When drawing trumps early is best
-Draw trumps quickly when:
-- defenders can ruff your long-suit winners,
-- you do not need dummy's trumps for loser ruffs,
-- you already have enough entries to run your side winners later.
+Look for it whenever:
+- dummy has a short suit (a singleton or doubleton, sometimes a void),
+- your own hand has length in that same suit,
+- and dummy still has trumps left to do the ruffing.
 
-Early trump control often simplifies the whole hand.
+If all three are true, you have a real ruffing opportunity worth planning around.
 
-When delaying trumps is best
-Delay full trump draw when:
-- you must ruff losers in dummy first,
-- dummy entries are fragile,
-- taking side-suit setup first improves your winner count.
+A simple example
+Say you are declarer in 4 hearts. Dummy has a singleton diamond. Your hand has four small diamonds.
 
-If you draw trumps too early in these hands, you remove your own ruffing resource.
+If you play diamonds early:
+- the opponents will probably win a couple of tricks,
+- dummy will then be void in diamonds,
+- and the next time you play a diamond, you can ruff it in dummy with a trump.
 
-A practical decision framework
-Before touching trumps, ask:
-1. What losers do I need to fix?
-2. Do I need dummy trumps as a tool?
-3. What happens if defenders gain the lead now?
-4. If I draw trumps now, what plan remains?
+That ruff is one of your tricks. Without it, that diamond would have been another loser.
 
-This structure avoids autopilot mistakes.
+How to set it up cleanly
+The order of play matters. A common beginner mistake is to draw all the trumps first and then realise dummy has no trumps left to ruff with.
 
-Typical errors
-- Automatic ace-king of trumps with no plan.
-- Delaying trumps for no reason and giving defenders ruffs.
-- Forgetting that partial trump draws can be enough before switching plan.
+A simple sequence to remember:
+1. At trick one, before doing anything, count your losers.
+2. Spot the short suit in dummy that you could ruff.
+3. Decide how many ruffs you actually need.
+4. Make sure dummy still has at least that many trumps before you start drawing trumps.
+5. Often you will play the short suit first, take your ruff(s), then draw trumps.
 
-Partial draw idea
-Sometimes the best line is:
-- draw one or two rounds of trumps,
-- execute your side objective,
-- finish drawing trumps later.
+How many trumps does dummy need?
+A simple rule:
+- 1 ruff needed → dummy needs at least 1 trump remaining.
+- 2 ruffs needed → dummy needs at least 2 trumps.
+- 3 ruffs needed → dummy needs at least 3 trumps.
 
-This hybrid line appears often and is worth practicing.
+If you draw trumps too early and use up dummy's trumps, the ruff plan disappears.
 
-How auction clues help trump timing
-If bidding suggests a side shortage with defenders, be careful: your side winners may be at ruff risk.
-If bidding suggests flat defender hands, immediate ruff pressure may be lower.
+Which losers are worth ruffing?
+Ruff losers from your long hand, not from dummy.
 
-Even basic auction awareness improves this decision.
+The classic example: dummy has a singleton in a side suit, and you have four of them. The fourth round of that suit would be a loser - so you ruff it in dummy and turn it into a winner.
 
-Quick rehearsal exercise
-After each suit contract, answer:
-- Did I draw trumps too early?
-- Too late?
-- Or at the right moment?
+If you tried it the other way round (ruffing dummy's losers in your hand), you would not gain a trick because you are simply replacing one of your trump winners with a ruff.
 
-Then write one sentence:
-“Next time in this pattern, I will ______ first.”
+Common mistakes
+- Drawing all the trumps first “out of habit”, then having no trumps in dummy to ruff with.
+- Ruffing the wrong way round (dummy's losers in your hand instead of your losers in dummy).
+- Forgetting to play the short suit early enough to set up the ruff.
+- Letting opponents draw your dummy's trumps for you (by leading trumps themselves) and not adjusting your plan.
 
-This turns experience into repeatable judgment.
+When opponents lead trumps
+Defenders sometimes lead trumps specifically to stop you ruffing in dummy. If they do, you may need to:
+- take fewer ruffs than originally planned,
+- or look for a completely different way to get tricks (often a side-suit establishment line).
+
+This is why planning at trick one matters - the moment opponents start leading trumps, your plan may need to change.
+
+A practical checklist at trick one
+Before you play from dummy, ask:
+- Does dummy have a short suit?
+- Do I have length in that suit?
+- How many ruffs do I need?
+- Do I have enough trumps in dummy to take those ruffs?
+- Should I play that short suit before drawing trumps?
+
+If you do this every hand, ruffing losers in dummy becomes second nature.
 
 Final takeaway
-Drawing trumps is a timing decision, not a ritual. Learn why you are drawing them now, and your suit-contract results improve quickly.`,
+Ruffing losers in dummy is a cornerstone of declarer play. Spot dummy's short suits, count the ruffs you need, and order your play so dummy still has trumps when the time comes. Once you have this habit, you will start finding extra tricks on hands where you used to go down.`,
   },
   {
     id: "BCD-03",

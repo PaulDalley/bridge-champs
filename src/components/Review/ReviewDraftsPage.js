@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { REVIEW_DRAFT_ARTICLES } from "../../data/review/reviewDraftArticles";
 import "./ReviewDraftsPage.css";
 
-const STORAGE_KEY = "reviewDraftArticles.v2";
+const STORAGE_KEY = "reviewDraftArticles.v3";
 
 function loadLocalDrafts() {
   if (typeof window === "undefined") return REVIEW_DRAFT_ARTICLES;
