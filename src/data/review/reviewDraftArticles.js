@@ -386,13 +386,17 @@ Responder bidding is about accurate communication, nothing fancy. Show what matt
     body: `Why declarer planning matters
 Many players focus on “playing cards well,” but most contracts are won or lost before trick one. The difference is planning quality.
 
+CALLOUT: I recommend a habit that will hopefully stay with you over your bridge life. It is a very solid fundamental that will serve you well, even if it feels forced to begin with.
+
+KEY RULE: Take at least 20 seconds at trick 1 before playing a card from dummy. Never play before “taking a view” about the hand and your plan.
+
 A 20-second declarer planning routine
 Before playing from dummy, run this exact sequence:
 
-1) Count immediate winners (notrump) or likely losers (suit contract).
-2) Identify where extra tricks will come from.
-3) Spot the dangerous hand (the opponent you do not want leading through your weakness).
-4) Decide your first objective.
+1) Count winners and losers - As a beginner or even intermediate player, this is a confusing idea. I recommend you attempt it with the knowledge that it is a good habit to build, and will inform your play much more in future. There are lots of articles on this site about it.
+2) Try to spot where extra winners will come from, or how you can get rid of losers.
+
+I recommend, if you write a hand down on paper or have a hand record from a bridge session, circle the winners and the losers. Then, over a cup of coffee, think about what you can do with the losers - where can you throw them, or can you ruff them? Also think - how can I get more winners; which other tricks can I make winners?
 
 Possible first objectives:
 - draw trumps,
@@ -400,14 +404,13 @@ Possible first objectives:
 - ruff losers in dummy,
 - preserve key entries.
 
-Do one objective first. Do not mix plans.
+Come up with a coherent idea based on thinking such as “If I do X, I will have one less loser because I will ruff it.”
 
 Suit contracts: loser thinking
 In suit contracts, ask: “How many losers can I afford?”
 Then decide how to remove or manage each loser:
 - ruff one,
-- pitch one on a winner,
-- force defenders to give you tempo.
+- pitch one on a winner.
 
 This framework keeps play practical and calm.
 
@@ -417,27 +420,25 @@ In notrump, ask:
 - Which suit can give me extra tricks?
 - Which entries are critical?
 
-The right suit with the wrong entry timing still fails. Entry management is a core skill.
+There are lots of surrounding issues that might get in your way, such as entries, but when you are on the right track you will learn how to manage these obstacles better.
 
 Draw trumps now or later?
 Draw trumps early when defenders can ruff your winners.
 Delay when you need dummy's trumps to ruff losers first.
 
-The key is purpose. Trump timing should support your contract plan, not habit.
+The key is purpose. Trump timing should support your contract plan, not habit. Do I need my trumps in dummy, or can I afford to draw trumps immediately?
 
 Avoid the biggest declarer errors
 - Playing too fast from dummy.
-- Starting a side-suit plan before counting losers/winners.
-- Ignoring dangerous opponent control.
-- Burning entries accidentally.
+- Playing without a plan or purpose.
 
-A simple pause prevents most of these.
+A simple pause, and a focus on one or two planning ideas, will improve your game in the long run.
 
 Practical in-hand checklist card (mental version)
 Say to yourself:
-“Count. Danger. Objective. Entry.”
+“See if I can try to count winners, even just the simple exercise of counting to 5-10 or however many I have.” Try the same with losers - point to the losers you have in a suit. If the suit is AKxx, you have two winners and two losers.
 
-If you repeat this phrase each deal, planning becomes automatic.
+Repeat this and in the long run you will become a champion!
 
 How to train declarer planning
 When reviewing deals:
@@ -457,7 +458,7 @@ Suppose you are in 2 hearts:
 This is how planning converts into practical action.
 
 Final takeaway
-Declarer play improves fast when planning is consistent. If you pause, count, identify danger, and choose one clear objective before trick one, your results become far more stable.`,
+Declarer play improves fast when planning is consistent. If you pause, count, and choose one clear objective before trick one, your results will skyrocket.`,
   },
   {
     id: "BCD-02",
