@@ -227,22 +227,22 @@ Scoring should guide your judgment, not overwhelm it. At this stage, excellent p
       "Learn bridge opening bids with practical hand-evaluation rules you can apply every session.",
     teaser: "Build opening-bid discipline so partner can trust your first call every time.",
     body: `Why opening discipline matters
-Your opening bid is your partnership's first data point. If it is accurate, partner can navigate confidently. If it is loose and inconsistent, every later decision becomes harder.
+Your opening bid is your partnership's foundation in the auction. If it is accurate, partner can navigate confidently. If it is loose and inconsistent, every later decision becomes harder.
 
 A practical opening framework
 Use this sequence every time:
 
 1) Start with agreed values
-Use your partnership baseline and stick to it. “Close enough” openings create long-term damage.
+In Bridge, it typically pays to be accountable. If you have rules or agreements about point ranges for bids, or other requirements, its typically a good idea to stick to it. For example, if you've agreed that opening 1S shows 5+ spades and 11+ points, don't do it with 4 spades and 10 points!
 
 2) Upgrade or downgrade with shape
-Unbalanced hands often play better than flat hands with the same points. Evaluate shape quality, not just raw count.
+Unbalanced hands often play better than flat hands with the same points. It's a good idea to have a discussion with your partner that goes like this "With some distributional hands, like two 5 card suits, can we open with a point or 2 less?" The shape often makes up for the lack of points!
 
 3) Check controls and working honors
-Aces and kings in useful suits matter. Isolated queens and jacks in bad texture are less reliable.
+Points in your long suits is a great feature! If your long suits are weak, don't get too excited.
 
 4) Ask the honesty question
-Will this opening describe my hand in a way partner can act on?
+Would partner expect me to bid like this with this hand or am I asking for trouble?
 
 If the answer is no, step back.
 
@@ -251,42 +251,34 @@ What “trustworthy opening bids” look like
 - Partner can infer range and shape quickly.
 - Follow-up bids stay coherent.
 - You do not need rescue bids later.
+- Overall you develop partnership trust.
 
 Seat and vulnerability in close calls
-Two hands with the same points may produce different decisions depending on seat and vulnerability.
-- In aggressive seats, you may shade slightly with good shape.
-- Vulnerable, require stronger justification.
-
-Rule of thumb: let partnership trust beat table bravado.
+Two hands with the same points may produce different decisions depending on seat and vulnerability. This is an advanced idea though, and its best not to think too much on that yet. Just being aware about it is a good start.
 
 Common opening mistakes
-- Opening because one suit looks attractive while the hand is weak overall.
-- Opening borderline hands regardless of vulnerability.
-- Opening with no clear rebid path.
+- Opening because you feel like it or haven't opened in a few hands
 - Letting mood determine standards.
+- Making a bid you "know is wrong"
 
 When passing is correct
 Pass when:
-- hand quality is below your agreed standard,
-- shape does not support constructive action,
-- your likely rebids will misdescribe the hand.
-
-Pass is often the most accurate bid in marginal spots.
+- When you know its the right thing to do
+- You've agreed with your partner certain criteria and the hand you have doesn't cut it.
+- If there is doubt, you can choose your approach and then learn from it for future, but often you will "know" what you are doing is wrong or right.
 
 A quick pre-opening checklist
 Before opening, ask:
 1. Does this hand meet our agreed opening standard?
-2. If partner responds, do I have a sensible rebid plan?
-3. Is this opening descriptive, or am I hoping to get lucky?
-
-If you cannot answer clearly, avoid opening.
+2. Am I bending the rules for no reason?
+3. If you decide to open because you are distributional, don't take it too far and totally ignore points.
 
 Partnership conversation you should have
 To make opening bids reliable, agree:
-- opening style in first/second/third seat,
+- opening style, how strict are certain guidelines?
 - minimum shape quality for lighter opens,
 - what your 1NT opening promises,
-- how disciplined you are when vulnerable.
+- how disciplined you are when vulnerable - (when you are vulnerable its generally the time to be serious and really mean what you say!).
 
 Clarity before sessions saves boards during sessions.
 
