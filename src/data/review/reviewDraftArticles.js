@@ -304,49 +304,48 @@ Openings are not auditions for genius. They are partnership signals. Consistent 
       "Improve bridge auctions by learning when to raise, bid a new suit, or choose notrump as responder.",
     teaser: "Your first response should make opener's rebid easy, not complicated.",
     body: `Responder's mission
-After partner opens, your first call should make partner's rebid easier. Great responder bidding is not flashy; it is clear, practical communication.
+After partner opens, it becomes your job to describe your hand. Bidding is the process of each player describing their hand, and arriving at a sensible contract.
 
 What matters most first
 Responder should prioritize:
-1) Fit
-2) Major-suit shape
-3) Overall hand direction (minimum, invitational, game-going tendency)
+1) Fit - The golden rule of bridge: always support partner when you have a fit!
+2) Major suits. Bridge heavily favours the majors. They outrank the minors (you can bid 2H over 2D), they score better, and game is on the 4-level for a major. Unlike a minor where game is on the 5-level!
+3) You also need to think about your strength when you respond. Are you just going to make 1 bid and that will be it for your hand? Or do you have the strength to make multiple bids?
 
-If you delay critical fit information, opener is forced to guess.
+It's always a good idea to immediately make a bid if you have one. Don't think about holding back or waiting for a different moment in bridge - that's almost never a good idea.
 
 A responder order you can trust
 Step 1: With clear support, show support early.
-Step 2: Without support, check major-suit routes.
-Step 3: Use notrump only when it is the most descriptive call.
+Step 2: Without support, bid a major if you have one.
+Step 3: When there is no fit, often No Trump is a sensible spot. 1NT is a contract that you should become very familiar and comfortable playing!
 
-This order prevents many “we missed our fit” auctions.
+This order prevents many “we missed our fit” auctions. Remember - always support partner when you have a fit. Let partner know you have support at the first opportunity.
 
 Raising partner: why timing matters
 Raising early:
 - confirms fit,
 - narrows hand type,
 - lets opener evaluate distribution and controls.
+- You may not have a second chance - the bidding might shoot up when the opponents overcall!
 
-Late raises often create ambiguity and can miss the best contract level.
+Late raises often create ambiguity and can miss the best contract level. Be clear and purposeful with your bidding - support with support, don't go on a tangent.
 
 New suit responses: what they should say
 A new suit response should be meaningful, not a placeholder.
 Before bidding a new suit, ask:
-- Does this suit advance the auction?
-- Am I hiding a better fit?
-- Can opener infer my strength range?
+- Can't I support partner?
+- Do I have a 4+ card suit to bid (in some auctions you need 5+ to bid, but that's detail for a later article - typically on the 1-level you just need 4 cards to respond to partner)?
+- Do I have enough points to respond to partner? On the 1-level, typically 6+.
 
-If not, reconsider.
+Notrump responses
+1NT especially is a frequently used contract when you do not have a fit. Get in the habit of bidding it when your side has 20+ points and no fit. If you have 25+ points and no fit, 3NT is typically going to be correct.
 
-Notrump responses: use with discipline
-Notrump is powerful because it is descriptive. It is dangerous when used as a default escape.
-Do not choose notrump just because you dislike your alternatives. Choose it when it best reflects shape + values.
+When in doubt, with enough points, bid 1NT or 3NT. However, don't bend the rules to get there - make sure to first show your suits, especially your majors if you have them.
 
 Frequent responder errors
 - Delaying support with no strategic reason.
-- Auto-bidding notrump without shape analysis.
-- Taking “cute” routes that partner cannot decode.
-- Forgetting vulnerability and auction context.
+- Auto-bidding notrump without showing your major first.
+- Randomising and doing something unexpected. Bridge is not about bluffing or flamboyance - it's about consistency and reliability.
 
 A practical table checklist
 Before your response, ask:
@@ -362,7 +361,7 @@ Even with average cards, clear responder actions:
 - improve contract placement,
 - increase partnership confidence.
 
-You do not need advanced methods for this gain. You need repeatable structure.
+You do not need advanced methods for this gain. You need repeatable structure and an attitude of being reliable and clear with your bidding. “Would partner expect this hand for my bid?”
 
 Review drill for responder improvement
 After each session, tag three auctions where you were responder:
@@ -373,7 +372,7 @@ After each session, tag three auctions where you were responder:
 This simple review creates fast improvements.
 
 Final takeaway
-Responder bidding is communication, not performance. Show what matters first, keep your first response descriptive, and partner judgment gets much easier.`,
+Responder bidding is about accurate communication, nothing fancy. Show what matters first, keep your first response descriptive, and you will find yourself in good sensible contracts.`,
   },
   {
     id: "BCD-01",
