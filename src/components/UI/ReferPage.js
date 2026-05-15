@@ -110,14 +110,17 @@ class ReferPage extends Component {
           <p className="ReferPage-eyebrow">Refer a Friend</p>
           <h1 className="ReferPage-title">Share your referral link in seconds</h1>
           <p className="ReferPage-body">
-            This page creates your personal referral link. Copy the generated link below and send that link to your friend.
+            1. Click Copy Link
+          </p>
+          <p className="ReferPage-body">
+            2. Send it to a friend or bridge partner.
+          </p>
+          <p className="ReferPage-body">
+            3. Get a free month*
           </p>
 
           <div className="ReferPage-section">
             <p className="ReferPage-label">Your generated referral link</p>
-            <p className="ReferPage-help">
-              Do not send <strong>bridgechampions.com/refer</strong> to friends - that page is only where you generate and copy your own link.
-            </p>
             <div className="ReferPage-inline">
               <input
                 className="ReferPage-input ReferPage-input--readonly"
@@ -137,7 +140,7 @@ class ReferPage extends Component {
           </div>
 
           <p className="ReferPage-footnote">
-            Once copied, send your generated link to any friend who wants to join Bridge Champions.
+            * Free month only after the user stays past their trial period.
           </p>
         </div>
       </div>
