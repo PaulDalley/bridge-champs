@@ -331,6 +331,15 @@
   color: #0f4c3a;
 }
 
+.cardRushLanding-subhead {
+  margin: 1.5rem 0 0.75rem;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: #062f24;
+  border-left: 4px solid #15803d;
+  padding-left: 0.7rem;
+}
+
 .cardRushLanding-skillList,
 .cardRushLanding-whoList {
   list-style: none;

@@ -293,11 +293,12 @@ function TreadmillLandingPage({
             <li className="tmLanding-drillCard">
               <h3 className="tmLanding-drillName">Card Rush</h3>
               <p className="tmLanding-drillBlurb">
-                Spot the winning card under pressure. A live trick is dealt, and you have to pick the
-                correct play in seconds. Builds card-recognition and trick-taking instincts.
+                See the key play of a hand fast — draw trumps, set up a side suit, tap dummy, go for
+                ruffs. Trains the hand-recognition reflex behind almost every contract, for declarer
+                and defence.
               </p>
               <p className="tmLanding-drillSkill">
-                <strong>Builds:</strong> spotting winners, trick-play instincts, declarer and defender reflexes.
+                <strong>Builds:</strong> hand-plan recognition, declarer and defender reflexes.
               </p>
               <Link className="tmLanding-drillLink" to="/treadmill/card-rush">
                 Learn more about Card Rush →

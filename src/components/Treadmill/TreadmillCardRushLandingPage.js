@@ -19,7 +19,7 @@ const STRUCTURED_DATA = {
     applicationCategory: "EducationalApplication",
     operatingSystem: "Any (web browser)",
     description:
-      "Card Rush is a free online bridge drill. Spot the winning card in a live trick under time pressure. Builds card-recognition reflexes for declarer and defender play.",
+      "Card Rush is a free online bridge drill. Recognise the key play of each hand — draw trumps, set up a side suit, tap dummy, go for ruffs — under time pressure. Builds hand-recognition reflexes for declarer and defence.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     publisher: { "@type": "Organization", name: "Bridge Champions", url: SITE_ORIGIN },
   },
@@ -33,7 +33,7 @@ const STRUCTURED_DATA = {
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "Card Rush is a timed online bridge drill. A live trick is dealt to you, and you have to pick the correct card to play in seconds. Each round is a real bridge position — you're not memorising sequences, you're training the recognition that drives fast, accurate trick play.",
+            "Card Rush is a timed online bridge drill. You're dropped into a real hand and have to recognise the key element fast — as declarer, that's things like drawing trumps, setting up a side suit, going for ruffs, or knocking out a high card to set up a trick source. As a defender, it's things like tapping dummy, drawing dummy's trumps, or cashing the defence's tricks. You pick a card, but the win condition is recognising the right plan.",
         },
       },
       {
@@ -42,7 +42,7 @@ const STRUCTURED_DATA = {
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "Card Rush trains the fast skills you need at the table: spotting winners, knowing when to play high vs low, third-hand-high reflexes, second-hand-low instincts, when to ruff, and which card from a sequence to play. It's the closest thing online practice gives you to real bridge tempo.",
+            "Card Rush trains you to recognise the key element of each hand fast — draw trumps, set up a side suit, go for ruffs, set up a trick source. The same on defence: drawing dummy's trumps, tapping dummy, setting up the defenders' tricks, cashing in the right order. It's the hand-recognition reflex that fluent players have and slow players don't.",
         },
       },
       {
@@ -127,13 +127,13 @@ export default function TreadmillCardRushLandingPage() {
         <title>Card Rush — Free Online Bridge Speed Drill | Bridge Champions</title>
         <meta
           name="description"
-          content="Card Rush is a free online bridge drill. Spot the winning card under time pressure — build the fast trick-play reflexes you need at the table. Play now."
+          content="Card Rush is a free online bridge drill. Recognise the key play of each hand — draw trumps, set up a side suit, tap dummy — under time pressure. Play now."
         />
         <link rel="canonical" href={CANONICAL} />
         <meta property="og:title" content="Card Rush — Free Online Bridge Speed Drill" />
         <meta
           property="og:description"
-          content="Spot the winning card under time pressure. A free online bridge drill for fast, accurate trick play."
+          content="Recognise the key play of each hand under time pressure — a free online bridge drill for declarer and defence."
         />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="website" />
@@ -150,8 +150,9 @@ export default function TreadmillCardRushLandingPage() {
               Card <span className="cardRushLanding-titleAccent">Rush</span>
             </h1>
             <p className="cardRushLanding-lead">
-              Spot the winning card before the clock runs out. The fastest way to train the trick-play
-              reflexes you need at the bridge table.
+              See the key play before the clock runs out — draw trumps, set up a side suit, tap dummy,
+              go for ruffs. The fastest way to train the hand-recognition reflexes you need at the
+              bridge table.
             </p>
             <div className="cardRushLanding-ctaRow">
               <Link
@@ -180,20 +181,21 @@ export default function TreadmillCardRushLandingPage() {
             What is Card Rush?
           </h2>
           <p className="cardRushLanding-lead2">
-            Card Rush is a timed bridge drill that puts you in the middle of a live trick. You see the
-            cards on the table, the cards in your hand, and the cards in dummy — and you have to pick
-            the correct card to play, fast.
+            Card Rush is a timed bridge drill that trains you to recognise the key element of each
+            hand — fast.
           </p>
           <p className="cardRushLanding-body">
-            Each puzzle is a real bridge position from declarer or defender play. There's no auction
-            to read and no contract to plan — just the one decision that matters at this moment. You
-            either find the winning card or you don't, and the next puzzle loads immediately.
+            You're dropped straight into a real bridge position. As declarer, that might be: do I
+            draw trumps, set up a side suit, go for a ruff, or knock out a high card to set up a
+            trick source? As a defender: do I tap dummy, draw dummy's trumps, cash my tricks, or
+            switch suits? You click a card — but the win condition is recognising the right plan,
+            not just picking a legal card.
           </p>
           <p className="cardRushLanding-body">
             That's the whole point. Most online bridge practice forces you to think about everything
-            at once: the auction, the contract, the plan, the play. Card Rush strips that down so you
-            can do <em>dozens of trick-play reps</em> in the time it would take to play one full hand.
-            It's the bridge driving range.
+            at once: the auction, the contract, the plan, the play. Card Rush strips that down to the
+            one question that matters on this hand, so you can do <em>dozens of plan-recognition reps</em>
+            in the time it would take to play one full hand. It's the bridge driving range.
           </p>
         </div>
       </section>
@@ -204,32 +206,44 @@ export default function TreadmillCardRushLandingPage() {
             What Card Rush builds
           </h2>
           <p className="cardRushLanding-body">
-            The drill targets the fast decisions every bridge player has to make at the table — the
-            stuff you know in your head but freeze on when the clock is ticking:
+            Card Rush trains the recognition reflex behind almost every hand. Most players know the
+            ideas in theory — they just don't see them <em>fast enough</em> at the table. The drill
+            fixes that by isolating the recognition.
           </p>
+          <h3 className="cardRushLanding-subhead">As declarer</h3>
           <ul className="cardRushLanding-skillList">
             <li>
-              <strong>Spotting winners</strong> — recognising the high card in a suit before you've
-              had time to count.
+              <strong>Drawing trumps</strong> — knowing when to pull trumps immediately versus when
+              to wait.
             </li>
             <li>
-              <strong>Third hand high</strong> — playing the right card when partner leads and you're
-              third to play.
+              <strong>Setting up a side suit</strong> — spotting that the contract depends on a side
+              suit and how to build it.
             </li>
             <li>
-              <strong>Second hand low</strong> — the right defensive default, and the moments to
-              break it.
+              <strong>Going for ruffs</strong> — recognising the ruffing-value hands where extra
+              tricks come from short suits.
             </li>
             <li>
-              <strong>Which card from a sequence</strong> — KQJ, QJT, J9 — the cards look similar
-              under pressure, and the right choice matters.
+              <strong>Setting up a trick source</strong> — knocking out a high card or attacking a
+              suit to create winners.
+            </li>
+          </ul>
+          <h3 className="cardRushLanding-subhead">As a defender</h3>
+          <ul className="cardRushLanding-skillList">
+            <li>
+              <strong>Tapping dummy</strong> — forcing dummy to ruff so its trumps lose their value.
             </li>
             <li>
-              <strong>When to ruff and when not to</strong> — a snap decision that costs tricks at
-              the table if you hesitate.
+              <strong>Drawing dummy's trumps</strong> — leading trumps to strip declarer of a key
+              resource.
             </li>
             <li>
-              <strong>Reading dummy fast</strong> — knowing what dummy holds without staring.
+              <strong>Setting up the defenders' tricks</strong> — building winners in the right suit
+              before declarer establishes theirs.
+            </li>
+            <li>
+              <strong>Cashing in the right order</strong> — taking your tricks while you still can.
             </li>
           </ul>
           <p className="cardRushLanding-body">
@@ -312,17 +326,20 @@ export default function TreadmillCardRushLandingPage() {
             <div className="cardRushLanding-faqItem">
               <dt className="cardRushLanding-faqQ">What is Card Rush in bridge?</dt>
               <dd className="cardRushLanding-faqA">
-                A timed online bridge drill. A live trick is dealt to you and you have to pick the
-                correct card to play, fast. Each round is a real bridge position — you're training
-                trick-play recognition, not memorising sequences.
+                A timed online bridge drill. You're dropped into a real hand and have to recognise
+                the key element fast — as declarer, things like drawing trumps, setting up a side
+                suit, going for ruffs, or knocking out a high card. As a defender, things like
+                tapping dummy, drawing dummy's trumps, or cashing the defence's tricks. You click a
+                card, but the win condition is recognising the right plan.
               </dd>
             </div>
             <div className="cardRushLanding-faqItem">
               <dt className="cardRushLanding-faqQ">What skills does it build?</dt>
               <dd className="cardRushLanding-faqA">
-                Spotting winners, third-hand-high reflexes, second-hand-low instincts, which card
-                from a sequence to play, when to ruff, and how to read dummy fast. The fast skills
-                you need at the bridge table.
+                The hand-recognition reflex behind almost every contract. As declarer: when to draw
+                trumps, when to set up a side suit, when to go for ruffs, when to attack a trick
+                source. As a defender: when to tap dummy, when to draw dummy's trumps, when to set
+                up the defenders' tricks. It's the reflex fluent players have and slow players don't.
               </dd>
             </div>
             <div className="cardRushLanding-faqItem">
