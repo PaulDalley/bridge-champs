@@ -384,7 +384,7 @@ Responder bidding is about accurate communication, nothing fancy. Show what matt
       "Learn how to count combined partnership points in bridge and decide between game, part-score, or staying quiet at every auction.",
     teaser: "A practical guide to combined point ranges and the decisions they should drive.",
     body: `Why combined points matter
-Most bidding decisions come down to one question: does our side have enough strength to bid game, settle for part-score, or stay out of the auction?
+Many bidding decisions come down to one question: does our side have enough strength to bid game, settle for part-score, or stay out of the auction?
 
 Counting combined points - your hand plus what partner has shown - is one of the most important habits to build in bridge.
 
@@ -397,10 +397,14 @@ The standard guideline:
 If your side has 25+ combined points, look first for an 8-card major fit. With an 8-card fit in a major, 4 hearts or 4 spades is usually the right contract. Without a major fit, 3NT is almost always preferable to 5 of a minor. 5 of a minor is a last resort - it takes 11 tricks instead of 9 or 10.
 
 Whose job is it to drive the auction?
-Often only one player can actually see that the partnership has enough points. That player is in charge of pushing the auction forward.
+Often only one player can actually see that the partnership has enough points. In many auctions one player has already shown their point range and the other has not. A common example is one player has opened 1NT, and the other hasn't even made a bid yet.
+
+Once you have already shown your point count, it is typically your partner's responsibility to bid game if we have enough.
+
+On the other hand, if you haven't bid anything yet or shown your hand, it will likely be your responsibility to bid game or let your partner know what's going on somehow.
 
 Two common examples:
-- Partner opens 1NT (15-17 points). You have 10. You can already count to 25+. You should bid game - or at least invite it if borderline.
+- Partner opens 1NT (15-17 points). You have 10. You can already count to 25+. You should bid game.
 - Partner opens 1 club (12+ points). You have 13. You know you have at least 25 combined. Make sure the auction reaches game.
 
 If you have the information, it's your duty to use it. Partner cannot guess what is in your hand.
@@ -408,23 +412,20 @@ If you have the information, it's your duty to use it. Partner cannot guess what
 Competing in the 18-23 range
 With 18-23 combined points, you usually do not have enough for game. But you often do have enough to play a part-score.
 
-This range is where the part-score battle happens - 2 of your suit, 3 of a minor with a fit, that sort of thing. Don't let opponents push you out of the auction without contesting. A made part-score is worth fighting for.
+This range is where the part-score battle happens - 2 of your suit, 3 of a minor with a fit, that sort of thing. Don't let opponents push you out of the auction without contesting. A part-score is worth fighting for.
 
 Under 18 points - when a big fit beats points
 If your side has less than 18 combined points, you usually aren't bidding constructively. But there is one major exception: a big trump fit.
 
-If partner opens 1 spade and you have only 2 points but four-card spade support, it is usually right to raise. You might have only 14 or 15 combined points, but a 9+ card spade fit changes everything.
+If partner opens 1 spade and you have only 2 points but four-card spade support, it is usually right to raise. You might have only 14 or 15 combined points, but a 9+ card fit changes everything.
 
 This is called a preemptive raise, and we have a separate article on it.
 
-Why does it work? Because with big trump fits, you can often make a low-level contract on shape alone - and you take bidding room away from opponents who probably have the balance of strength.
+Why does it work? Because with big trump fits, you can often make a contract on shape alone - and you take bidding room away from opponents who probably have the balance of strength.
 
 How to build the habit
 Every time partner bids, train yourself to ask:
-1. What point range did partner promise?
-2. What is my own point count?
-3. What is the combined total?
-4. Which zone does that put us in - game, part-score, or stay quiet?
+1. What is our combined point count?
 
 The faster you do this in real time, the more accurate your auctions get.
 
