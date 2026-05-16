@@ -447,17 +447,19 @@ A preemptive raise is when you support partner's suit with very few points - som
 Always show support
 With 4+ card support for partner's suit, it is almost always a good idea to let partner know - even with very few or no points.
 
-There are times in bridge when points should drive your bid. And there are times when points should be ignored. This is one of those "ignore the points" moments. The trump fit is the message.
+There are times in bridge when points should drive your bid. And there are times when points should be ignored. This is one of those “ignore the points” moments. The big trump fit is the message.
 
 Jump raises today are preemptive
+This is a matter of partnership agreement, style, and what you feel comfortable with. You can do well in bridge by playing like this, or if you prefer, you will do fine by leaving it out.
+
 Modern bidding treats jump raises as preemptive. So:
 - 1 spade by partner, you jump to 3 spades → 4 spades and a weakish hand.
-- 1 spade by partner, you jump to 4 spades → 5+ spades and an even weaker, more distributional hand.
+- 1 spade by partner, you jump to 4 spades → 5+ spades, more distributional hand. Doesn't say much about points, typically 9 or less.
 
-These bids are NOT showing 15+ points. They are showing trump length and the desire to crowd the auction.
+These bids are NOT showing 15+ points. They are showing trump length and the desire to jam the auction quickly.
 
 When preemptive raises work best
-Preemptive raises are at their best when you are not vulnerable. The cost of going down a couple of tricks, even doubled, is much smaller, so the gamble is much more attractive.
+Preemptive raises are at their best when you are not vulnerable. The cost of going down a couple of tricks, even doubled, is much smaller, so the gamble is much more attractive. But don't discount your chances of making - big trump fits can be magical.
 
 Vulnerable, the cost of going down -2 doubled is steep. Pick your spots more carefully when vulnerable.
 
@@ -471,13 +473,14 @@ There are three big upsides to bidding aggressively when you have a big trump fi
 3. You force opponents to take risks. Whatever they do - bid on or pass - they are guessing. Some of the time they will guess wrong, and that swing comes to your side.
 
 Common preemptive raise mistakes
-- Refusing to raise because "I only have 2 points." If you have 4+ trumps, raise.
+- Refusing to raise because “I only have 2 points.” If you have 4+ trumps, raise.
 - Jumping preemptively when vulnerable with a flat hand. Distribution is your friend - flat hands rarely make good preempts.
 - Raising on 3 trumps. Preemptive jumps need 4+ trumps. With 3, a simple raise is usually enough.
+- Always discuss with partner - a bid that partner is not expecting is probably not going to go well.
 
 A practical checklist
 Before making a preemptive jump raise, ask:
-1. Do I have 4+ card support?
+1. Do I have 4+ card support? If so, probably do something!
 2. Is my hand weak (typically under 6 points)?
 3. Am I non-vulnerable, or at least not in the worst spot to be doubled?
 4. Do I have some shape (a shortage or extra length) that will help play?
