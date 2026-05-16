@@ -706,3 +706,203 @@
   font-size: var(--text-base);
   line-height: 1.45;
 }
+
+/* ─── SEO content sections (about / drills / FAQ) ───────────────────────────
+ * Added so the Treadmill landing page has real crawlable content alongside the
+ * visual marketing, and so per-tool drills get a description on the same page
+ * that explains what they build. Designed to read well stand-alone for Google
+ * and to match the rest of the page's visual language.
+ */
+
+.tmLanding-about {
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2rem);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.tmLanding-aboutInner {
+  max-width: 56rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tmLanding-aboutTitle {
+  margin: 0 0 1rem;
+  font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #062f24;
+}
+
+.tmLanding-aboutLead {
+  margin: 0 auto 1rem;
+  max-width: 50rem;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.6;
+  color: #1f2937;
+}
+
+.tmLanding-aboutBody {
+  margin: 0 auto;
+  max-width: 50rem;
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: #334155;
+}
+
+.tmLanding-drills {
+  padding: clamp(2.25rem, 6vw, 3.75rem) clamp(1.25rem, 4vw, 2rem);
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.tmLanding-drillsInner {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.tmLanding-drillsTitle {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #062f24;
+}
+
+.tmLanding-drillsLead {
+  margin: 0 auto 2rem;
+  max-width: 44rem;
+  text-align: center;
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: #475569;
+}
+
+.tmLanding-drillGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .tmLanding-drillGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.tmLanding-drillCard {
+  position: relative;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.tmLanding-drillCard:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.09);
+}
+
+.tmLanding-drillName {
+  margin: 0 0 0.5rem;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: #062f24;
+}
+
+.tmLanding-drillBlurb {
+  margin: 0 0 0.75rem;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: #334155;
+}
+
+.tmLanding-drillSkill {
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: #0a3026;
+  background: linear-gradient(135deg, rgba(15, 76, 58, 0.06) 0%, rgba(253, 230, 138, 0.18) 100%);
+  border-left: 3px solid #15803d;
+  border-radius: 0 8px 8px 0;
+}
+
+.tmLanding-drillLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: #0f4c3a;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(15, 76, 58, 0.18);
+  padding-bottom: 1px;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.tmLanding-drillLink:hover {
+  color: #062f24;
+  border-bottom-color: #0f4c3a;
+}
+
+.tmLanding-faq {
+  padding: clamp(2.25rem, 6vw, 3.75rem) clamp(1.25rem, 4vw, 2rem);
+  background: #fff;
+}
+
+.tmLanding-faqInner {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.tmLanding-faqTitle {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #062f24;
+}
+
+.tmLanding-faqList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.tmLanding-faqItem {
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.tmLanding-faqQ {
+  margin: 0 0 0.4rem;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: #062f24;
+}
+
+.tmLanding-faqA {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: #334155;
+}
+
+.tmLanding-faqCta {
+  margin-top: 2rem;
+  text-align: center;
+}

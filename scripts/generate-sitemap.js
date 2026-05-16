@@ -99,6 +99,12 @@ const STATIC_URLS = [
   { loc: "/beginner/articles/declarer", changefreq: "weekly", priority: "0.8" },
   { loc: "/beginner/articles/defence", changefreq: "weekly", priority: "0.7" },
   { loc: "/beginner/articles/bidding", changefreq: "weekly", priority: "0.7" },
+  // Treadmill hub + per-tool SEO landing pages. The /treadmill/practice/*
+  // routes are intentionally noindex (interactive trainers with little crawlable
+  // text) — the per-tool landing pages here carry the content and rank for the
+  // tool's keywords, then funnel users into the trainer.
+  { loc: "/treadmill", changefreq: "weekly", priority: "0.9" },
+  { loc: "/treadmill/card-rush", changefreq: "weekly", priority: "0.8" },
 ];
 
 const DYNAMIC_COLLECTIONS = [

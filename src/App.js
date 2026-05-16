@@ -61,6 +61,7 @@ import ReversesArticle from "./components/Bidding/ReversesArticle";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
 import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage";
 import TreadmillLandingPage from "./components/Treadmill/TreadmillLandingPage";
+import TreadmillCardRushLandingPage from "./components/Treadmill/TreadmillCardRushLandingPage";
 import PracticalJustPlayPage from "./components/Trainers/PracticalJustPlayPage";
 import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
@@ -429,6 +430,7 @@ const routes = (
         </>
       )}
     />
+    <Route path="/treadmill/card-rush" component={TreadmillCardRushLandingPage} exact />
     <Route path="/treadmill" component={TreadmillLandingPage} exact />
     <Route path="/ask" component={AskBridgeQuestionPage} />
     <Route path="/admin/submissions" component={HandSubmissionsAdmin} />

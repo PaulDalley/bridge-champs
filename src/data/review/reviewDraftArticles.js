@@ -140,6 +140,70 @@ export const REVIEW_DRAFT_ARTICLES = [
 - Final takeaway.`,
   },
   {
+    id: "BCT-01",
+    title: "How to Spot Winners Fast in Bridge: The Card Rush Method",
+    articleType: "beginnerCardPlay",
+    subcategory: "Card Play Fundamentals",
+    keyword: "spot winners fast bridge",
+    metaDescription:
+      "Learn how to spot the winning card fast in bridge — the trick-play reflex that separates fluent players from hesitant ones. Companion to Card Rush.",
+    teaser: "The trick-play reflex that separates fluent players from hesitant ones — and the drill that trains it.",
+    body: `Planned outline (Paul to edit). Pairs with the Card Rush trainer at /treadmill/practice/card-rush.
+- Why "fast" matters: bridge clocks (online and at the club) reward instant decisions. Hesitation costs tricks and signals information to the opponents.
+- The three "winner" categories you have to recognise: top of a sequence, a long-suit winner, and a card promoted by an opponent's play.
+- The recognition pattern: look at suit length first, then top card, then context (what's already been played).
+- Common mistakes that slow players down: counting in your head every time instead of recognising the pattern, hesitating on third-hand-high, freezing when dummy looks complicated.
+- A 30-second framework you can run at the table.
+- "Practice this skill the right way": link to Card Rush trainer with explanation of why isolated drilling beats playing full hands for this specific reflex.
+- Final takeaway.`,
+  },
+  {
+    id: "BCT-02",
+    title: "Hand Shape Recognition in Bridge: Train Your Eye for Distribution",
+    articleType: "beginnerBidding",
+    subcategory: "Hand Evaluation",
+    keyword: "hand shape recognition bridge",
+    metaDescription:
+      "Learn to recognise bridge hand shapes instantly — balanced, semi-balanced, distributional — and how to drill the skill until it's automatic.",
+    teaser: "Most bidding mistakes start with miscounting shape. Here's how to fix it.",
+    body: `Planned outline (Paul to edit). Pairs with the Hand Shape drill in the Treadmill at /treadmill/practice.
+- Why hand shape matters more than HCP for most decisions (opening / responding / overcalling / competing).
+- The three shape buckets every player should recognise instantly:
+  - Balanced (4-3-3-3, 4-4-3-2, 5-3-3-2)
+  - Semi-balanced (5-4-2-2, 6-3-2-2)
+  - Distributional (6-4 or longer, two-suiters, freaks)
+- The 5-second rule: if you can't name your shape in 5 seconds, you're guessing in the auction.
+- Common shape-recognition mistakes: counting only the long suit, forgetting the second suit, misreading a 4-4-4-1.
+- A simple training pattern that builds the reflex.
+- "Practice this skill the right way": link to Hand Shape drill in the Treadmill — explain why isolated reps beat playing full hands for shape recognition.
+- Final takeaway.
+
+Note: differentiated from the existing live article "Bridge Shapes Fundamentals" (intermediate, 449 words) by being beginner-tier with an explicit drill companion. If overlap feels too close once written, consider re-titling to "Hand Shape Recognition for Beginners" to claim a distinct SERP.`,
+  },
+  {
+    id: "BCT-03",
+    title: "Reading Opponent Distribution in Bridge: A Beginner's Detective Guide",
+    articleType: "beginnerDefence",
+    subcategory: "Reading the Hand",
+    keyword: "reading opponent distribution bridge",
+    metaDescription:
+      "Learn how to read opponents' distribution in bridge from the auction and play — the detective skill that lifts beginner defence to solid.",
+    teaser: "Bridge is a detective game. Here's how to read what opponents must hold.",
+    body: `Planned outline (Paul to edit). Pairs with the Opponent Shape drill in the Treadmill at /treadmill/practice.
+- Why reading opponent shape matters: in defence and as declarer, every accurate play depends on knowing what opponents hold.
+- The three sources of information: the auction (what they bid and didn't bid), the lead, the play to early tricks.
+- The starting picture: count from 13. Every suit length you fix narrows the unseen shapes.
+- Worked examples:
+  - "They opened 1NT" → 5-3-3-2 / 4-4-3-2 / 4-3-3-3 shapes only (if 15-17 standard).
+  - "They opened 1S and rebid 2S" → 6+ spades.
+  - "They responded 1NT to 1H" → no 4-card support, no 4 spades, 6-9 points.
+- Common mistakes: ignoring the negative inference (what they DIDN'T bid), not counting suits as they're played.
+- "Practice this skill the right way": link to Opponent Shape drill in the Treadmill — explain how isolated reps build the reflex.
+- Final takeaway.
+
+Note: differentiated from existing live article "Count the Unseen Hand: Read Distribution in Defence" (intermediate, 546 words) by being beginner-tier with an explicit drill companion and worked starter examples. If overlap feels too close once written, consider re-titling.`,
+  },
+  {
     id: "BCF-07",
     title: "Defensive Plan at Trick One: A Beginner's Guide",
     articleType: "beginnerDefence",
