@@ -513,9 +513,13 @@ The two doubles I recommend
 My recommended starting point for most partnerships is to have two doubles that are takeout - both ask partner to bid:
 
 1. The classic takeout double - made over an opponent's opening bid.
-2. The negative double - made when partner has opened and the opponents have overcalled, asking partner to find a better strain.
+2. The negative double - this is another name for the takeout double. It's best not to get too caught up on terminology. The main takeaway: most doubles on the 3-level or below are for takeout.
 
-Both share the same idea: they ask partner to bid, not to defend.
+As the opponents get higher - moving to the 4-level or above - contracts become more difficult to make, and doubles tend towards penalty. If you are a new partnership, a reasonable rule to make is: on the 3-level or below, doubles are for takeout. On the 4-level or higher, they become penalty.
+
+Advanced partnerships have more involved rules that take more partnership experience and development. A clear and predictable starting point is more useful than worrying about the absolute best meaning for the bid.
+
+Whether you call the double takeout or negative, they share the same idea: they ask partner to bid, not to defend.
 
 When to use a takeout double
 There are five things to look for before making a takeout double:
@@ -524,16 +528,16 @@ There are five things to look for before making a takeout double:
 Don't overuse a double when you have a simple bid of your own. When in doubt, bid your longest suit - don't double.
 
 2. A somewhat flat hand.
-With highly distributional hands - long suits, or two long suits of 5+ cards - it is usually not correct to double. Bid your suit instead.
+With highly distributional hands - long suits, or two long suits of 5+ cards - it is usually not correct to double. Bid your suit instead. 4-4-3-2 shapes are typical for takeout doubles, as are 4-4-4-1.
 
 3. Support for the unbid suits.
-Usually 4+ cards in each unbid suit. Sometimes 3 cards in one of them is acceptable, but the more support for the unbid suits, the better.
+Usually 4+ cards in each unbid suit. Sometimes 3 cards in one of them is acceptable, but the more support for the unbid suits, the better. Just remember, when you get very distributional - for example 5+ cards in one of the unbid suits - a double is typically not the right bid. Partner won't expect that type of hand!
 
 4. You don't already have a fit.
 Don't use doubles when you already have a fit with partner. Just raise to the appropriate level. Doubles are exploring tools - if the search is over, use a different bid.
 
 5. A shortage in the opponent's suit.
-0, 1 or 2 cards in their suit is the classic takeout-double shape. With a shortage, you do not want to be defending their contract - you want to compete and find your own.
+0, 1 or 2 cards in their suit is the classic takeout-double shape. With a shortage, often you do not want to be defending their contract - you want to compete and find your own.
 
 A typical takeout double hand
 Imagine the auction starts with 1 heart on your right, and you hold:
@@ -557,7 +561,7 @@ Common takeout double mistakes
 - Doubling because you don't know what else to do. Doubles need a shape and a plan.
 - Doubling with length in the opponents' suit. If you have 4+ of their suit, you don't want partner bidding - you want to defend.
 - Doubling when partner has already shown a suit you fit. Raise partner instead.
-- Doubling on a flat 8-point hand. You need enough strength to handle whatever partner bids.
+- Doubling when you really should just pass.
 
 Final takeaway
 The takeout double is one of the most valuable bidding tools in modern bridge. The pattern is simple: shortage in their suit, support for the others, enough strength to handle partner's response, and no better bid available. Get this right and you'll find good contracts that your opponents thought they had to themselves.`,
