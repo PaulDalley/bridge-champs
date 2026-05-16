@@ -375,6 +375,118 @@ Final takeaway
 Responder bidding is about accurate communication, nothing fancy. Show what matters first, keep your first response descriptive, and you will find yourself in good sensible contracts.`,
   },
   {
+    id: "BCB-05",
+    title: "Counting Combined Points in Bridge: When to Bid Game, Part-Score, or Pass",
+    articleType: "beginnerBidding",
+    subcategory: "Hand Evaluation",
+    keyword: "counting combined points bridge",
+    metaDescription:
+      "Learn how to count combined partnership points in bridge and decide between game, part-score, or staying quiet at every auction.",
+    teaser: "A practical guide to combined point ranges and the decisions they should drive.",
+    body: `Why combined points matter
+Most bidding decisions come down to one question: does our side have enough strength to bid game, settle for part-score, or stay out of the auction?
+
+Counting combined points - your hand plus what partner has shown - is one of the most important habits to build in bridge.
+
+The 25-point rule for game
+The standard guideline:
+- 25+ combined points → bid game.
+- 18-23 combined → look to compete for a part-score.
+- Under 18 → usually not enough strength to fight on points alone.
+
+If your side has 25+ combined points, look first for an 8-card major fit. With an 8-card fit in a major, 4 hearts or 4 spades is usually the right contract. Without a major fit, 3NT is almost always preferable to 5 of a minor. 5 of a minor is a last resort - it takes 11 tricks instead of 9 or 10.
+
+Whose job is it to drive the auction?
+Often only one player can actually see that the partnership has enough points. That player is in charge of pushing the auction forward.
+
+Two common examples:
+- Partner opens 1NT (15-17 points). You have 10. You can already count to 25+. You should bid game - or at least invite it if borderline.
+- Partner opens 1 club (12+ points). You have 13. You know you have at least 25 combined. Make sure the auction reaches game.
+
+If you have the information, it's your duty to use it. Partner cannot guess what is in your hand.
+
+Competing in the 18-23 range
+With 18-23 combined points, you usually do not have enough for game. But you often do have enough to play a part-score.
+
+This range is where the part-score battle happens - 2 of your suit, 3 of a minor with a fit, that sort of thing. Don't let opponents push you out of the auction without contesting. A made part-score is worth fighting for.
+
+Under 18 points - when a big fit beats points
+If your side has less than 18 combined points, you usually aren't bidding constructively. But there is one major exception: a big trump fit.
+
+If partner opens 1 spade and you have only 2 points but four-card spade support, it is usually right to raise. You might have only 14 or 15 combined points, but a 9+ card spade fit changes everything.
+
+This is called a preemptive raise, and we have a separate article on it.
+
+Why does it work? Because with big trump fits, you can often make a low-level contract on shape alone - and you take bidding room away from opponents who probably have the balance of strength.
+
+How to build the habit
+Every time partner bids, train yourself to ask:
+1. What point range did partner promise?
+2. What is my own point count?
+3. What is the combined total?
+4. Which zone does that put us in - game, part-score, or stay quiet?
+
+The faster you do this in real time, the more accurate your auctions get.
+
+Final takeaway
+Combined point ranges are not a rigid law - they are a practical decision framework. 25+ pushes you to game, 18-23 fights for the part-score, under 18 stays low unless you have a big fit. Develop the habit of doing the math at every call, and your bidding judgment improves quickly.`,
+  },
+  {
+    id: "BCB-06",
+    title: "Preemptive Raises in Bridge: Why Big Trump Fits Beat Big Points",
+    articleType: "beginnerBidding",
+    subcategory: "Competitive Bidding",
+    keyword: "preemptive raises bridge",
+    metaDescription:
+      "Learn preemptive raises in bridge: when to jump with trump support and few points, and why competitive bidding pays off.",
+    teaser: "Sometimes the right bid is loud and weak. Here's when - and why it works.",
+    body: `What is a preemptive raise?
+A preemptive raise is when you support partner's suit with very few points - sometimes none - but lots of trumps. The point of the bid is not to suggest a strong hand. It is to make the auction loud and difficult for the opponents, while letting partner know your side has a big fit.
+
+Always show support
+With 4+ card support for partner's suit, it is almost always a good idea to let partner know - even with very few or no points.
+
+There are times in bridge when points should drive your bid. And there are times when points should be ignored. This is one of those "ignore the points" moments. The trump fit is the message.
+
+Jump raises today are preemptive
+Modern bidding treats jump raises as preemptive. So:
+- 1 spade by partner, you jump to 3 spades → 4 spades and a weakish hand.
+- 1 spade by partner, you jump to 4 spades → 5+ spades and an even weaker, more distributional hand.
+
+These bids are NOT showing 15+ points. They are showing trump length and the desire to crowd the auction.
+
+When preemptive raises work best
+Preemptive raises are at their best when you are not vulnerable. The cost of going down a couple of tricks, even doubled, is much smaller, so the gamble is much more attractive.
+
+Vulnerable, the cost of going down -2 doubled is steep. Pick your spots more carefully when vulnerable.
+
+Why competitive bidding wins so much
+There are three big upsides to bidding aggressively when you have a big trump fit:
+
+1. You might just make the contract. Shape and trumps can produce many more tricks than the raw point count suggests. A 10-card fit with a singleton on the side can make a major even when combined points are well below 25.
+
+2. You get in the opponents' way. Once you have raised to 3 or 4 of partner's suit, opponents have to start guessing at the 4 or 5 level. They cannot use their full bidding system to find their best contract.
+
+3. You force opponents to take risks. Whatever they do - bid on or pass - they are guessing. Some of the time they will guess wrong, and that swing comes to your side.
+
+Common preemptive raise mistakes
+- Refusing to raise because "I only have 2 points." If you have 4+ trumps, raise.
+- Jumping preemptively when vulnerable with a flat hand. Distribution is your friend - flat hands rarely make good preempts.
+- Raising on 3 trumps. Preemptive jumps need 4+ trumps. With 3, a simple raise is usually enough.
+
+A practical checklist
+Before making a preemptive jump raise, ask:
+1. Do I have 4+ card support?
+2. Is my hand weak (typically under 6 points)?
+3. Am I non-vulnerable, or at least not in the worst spot to be doubled?
+4. Do I have some shape (a shortage or extra length) that will help play?
+
+If yes to most of these, jump with confidence.
+
+Final takeaway
+Preemptive raises are one of the most practical weapons in modern bridge. The pattern is simple: 4+ card trump support, weak hand, ideally non-vulnerable - jump. Sometimes you'll go down a couple of tricks. Often you'll make. And every time you do it, you make life harder for opponents who probably had the better hand.`,
+  },
+  {
     id: "BCD-01",
     title: "Declarer Play: How to Make a Simple Plan Before Trick One",
     articleType: "beginnerCardPlay",

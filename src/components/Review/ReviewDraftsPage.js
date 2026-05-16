@@ -12,7 +12,18 @@ function loadLocalDrafts() {
     if (!raw) return REVIEW_DRAFT_ARTICLES;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return REVIEW_DRAFT_ARTICLES;
-    return parsed;
+    // Merge: keep the user's in-progress edits exactly as cached, and
+    // append any seed drafts whose id is not yet present locally. This
+    // lets us add new drafts to the seed file without wiping any work
+    // already underway in the browser.
+    const localIds = new Set(parsed.map((item) => item && item.id).filter(Boolean));
+    const merged = [...parsed];
+    for (const seedDraft of REVIEW_DRAFT_ARTICLES) {
+      if (seedDraft && seedDraft.id && !localIds.has(seedDraft.id)) {
+        merged.push(seedDraft);
+      }
+    }
+    return merged;
   } catch (_) {
     return REVIEW_DRAFT_ARTICLES;
   }
