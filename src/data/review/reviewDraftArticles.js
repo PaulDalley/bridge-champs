@@ -491,6 +491,78 @@ Final takeaway
 Preemptive raises are one of the most practical weapons in modern bridge. The pattern is simple: 4+ card trump support, weak hand, ideally non-vulnerable - jump. Sometimes you'll go down a couple of tricks. Often you'll make. And every time you do it, you make life harder for opponents who probably had the better hand.`,
   },
   {
+    id: "BCB-07",
+    title: "Takeout Doubles in Bridge: A Beginner's Guide to Asking Partner to Bid",
+    articleType: "beginnerBidding",
+    subcategory: "Competitive Bidding",
+    keyword: "takeout double bridge",
+    metaDescription:
+      "Learn what a takeout double is in bridge, when to use one, and the practical hand shapes that make a good takeout double.",
+    teaser: "A double doesn't always mean penalty. Here's the most useful double in modern bridge.",
+    body: `Why doubles have two meanings
+When bridge started, "double" had a plain meaning: "I don't think you'll make this contract." It was made when you thought your opponents were overbidding, and it raised the penalty if they failed.
+
+That meaning still exists - it's called a penalty double - but the game has developed over the years, and most doubles in modern bridge are no longer penalty. They are takeout doubles, asking partner to bid.
+
+What is a takeout double?
+A takeout double is a double that asks partner to choose a suit, rather than punishing the opponents. When you make one, you are saying: "Partner, I have a reasonable hand and support for the suits we haven't yet bid. Please pick one and let's compete."
+
+It usually happens after an opponent has opened the bidding. You "double" their suit, but you mean "take it out into another suit."
+
+The two doubles I recommend
+My recommended starting point for most partnerships is to have two doubles that are takeout - both ask partner to bid:
+
+1. The classic takeout double - made over an opponent's opening bid.
+2. The negative double - made when partner has opened and the opponents have overcalled, asking partner to find a better strain.
+
+Both share the same idea: they ask partner to bid, not to defend.
+
+When to use a takeout double
+There are five things to look for before making a takeout double:
+
+1. No clear or obvious alternative.
+Don't overuse a double when you have a simple bid of your own. When in doubt, bid your longest suit - don't double.
+
+2. A somewhat flat hand.
+With highly distributional hands - long suits, or two long suits of 5+ cards - it is usually not correct to double. Bid your suit instead.
+
+3. Support for the unbid suits.
+Usually 4+ cards in each unbid suit. Sometimes 3 cards in one of them is acceptable, but the more support for the unbid suits, the better.
+
+4. You don't already have a fit.
+Don't use doubles when you already have a fit with partner. Just raise to the appropriate level. Doubles are exploring tools - if the search is over, use a different bid.
+
+5. A shortage in the opponent's suit.
+0, 1 or 2 cards in their suit is the classic takeout-double shape. With a shortage, you do not want to be defending their contract - you want to compete and find your own.
+
+A typical takeout double hand
+Imagine the auction starts with 1 heart on your right, and you hold:
+- 4 spades
+- 1 heart (shortage in their suit)
+- 4 diamonds
+- 4 clubs
+- 12 points
+
+Singleton heart, four cards in each of the three unbid suits, decent points, no clear suit to bid on your own. This is a textbook takeout double.
+
+How partner should respond (briefly)
+When you make a takeout double, partner is normally forced to bid (unless the next opponent bids for them). Partner should:
+- bid their longest unbid suit, even with very few points,
+- jump in a suit with a stronger hand,
+- pass only if they can punish opponents with great trumps in the doubled suit (rare).
+
+There's room for a separate article on responding to takeout doubles in more depth.
+
+Common takeout double mistakes
+- Doubling because you don't know what else to do. Doubles need a shape and a plan.
+- Doubling with length in the opponents' suit. If you have 4+ of their suit, you don't want partner bidding - you want to defend.
+- Doubling when partner has already shown a suit you fit. Raise partner instead.
+- Doubling on a flat 8-point hand. You need enough strength to handle whatever partner bids.
+
+Final takeaway
+The takeout double is one of the most valuable bidding tools in modern bridge. The pattern is simple: shortage in their suit, support for the others, enough strength to handle partner's response, and no better bid available. Get this right and you'll find good contracts that your opponents thought they had to themselves.`,
+  },
+  {
     id: "BCD-01",
     title: "Declarer Play: How to Make a Simple Plan Before Trick One",
     articleType: "beginnerCardPlay",
