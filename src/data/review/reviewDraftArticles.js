@@ -34,26 +34,86 @@ export const REVIEW_DRAFT_ARTICLES = [
   },
   {
     id: "BCB-09",
-    title: "Stayman for Beginners: How to Find a 4-4 Major Fit After 1NT",
+    title: "Stayman for Beginners: The Simple 2C Ask After Partner Opens 1NT",
     articleType: "beginnerBidding",
     subcategory: "1NT Auctions",
-    keyword: "stayman convention beginner",
+    keyword: "stayman for beginners after 1nt",
     metaDescription:
-      "Learn the Stayman convention in bridge: when to use 2 clubs over 1NT, opener's responses, and how to find a 4-4 major fit.",
-    teaser: "The single most useful convention in bridge — how Stayman works, in beginner-friendly terms.",
-    body: `Planned outline (Paul to expand):
-- Why Stayman exists: 1NT openings often hide a 4-card major. Stayman asks opener if they have one.
-- The bid: responder bids 2 clubs after partner's 1NT.
-- Opener's three possible responses:
-  - 2 diamonds = no 4-card major
-  - 2 hearts = 4 hearts
-  - 2 spades = 4 spades
-- When to use Stayman as responder: 8+ points with a 4-card major.
-- When NOT to use Stayman: weak hands (just pass 1NT), no 4-card major.
-- Following up after opener's response: pass, raise, or sign off.
-- Common Stayman mistakes: using it without a 4-card major, using it with too few points.
-- A simple flowchart / checklist.
-- Final takeaway.`,
+      "Learn Stayman in plain English: when to bid 2 clubs over partner's 1NT, what opener's replies mean, and when to use transfers instead.",
+    teaser: "A practical beginner version of Stayman: no overload, just what to do at the table.",
+    body: `<h2>Stayman in one sentence</h2>
+<p>Stayman is a question bid. After partner opens 1NT, you bid <strong>2 clubs</strong> to ask: "Do you have a 4-card major?"</p>
+
+<p>That is all it is at beginner level. Keep it simple, and it will win a lot of auctions for you.</p>
+
+<h2>Why Stayman exists</h2>
+<p>When partner opens 1NT, they often have a balanced hand and may still hold a 4-card major. If you also have a 4-card major, your side might have a 4-4 fit.</p>
+
+<p>A 4-4 major fit often plays better than no-trump, especially at game level. Stayman helps you find that fit quickly.</p>
+
+<h2>The basic auction</h2>
+<p>After 1NT - 2C (Stayman), opener replies:</p>
+<ul>
+  <li><strong>2D</strong> = no 4-card major</li>
+  <li><strong>2H</strong> = has 4 hearts (may also have 4 spades depending on system)</li>
+  <li><strong>2S</strong> = has 4 spades</li>
+</ul>
+
+<p>That is the core structure you should memorise first.</p>
+
+<h2>When to use Stayman</h2>
+<p>At beginner level, a practical rule is:</p>
+<ul>
+  <li>Use Stayman with <strong>8+ points</strong> and a <strong>4-card major</strong>.</li>
+  <li>With very weak hands, usually pass 1NT.</li>
+</ul>
+
+<p>It does not need to be perfect to be useful. This simple rule is good enough to start and play confident bridge.</p>
+
+<h2>When NOT to use Stayman</h2>
+<ul>
+  <li>No 4-card major? Usually do not use Stayman.</li>
+  <li>Very weak hand with no game interest? Usually pass 1NT.</li>
+  <li>Have a 5-card major? In many methods, use transfers instead of Stayman.</li>
+</ul>
+
+<p>That last point is important. Stayman and transfers work together, but they are not the same tool. For now, keep this simple: 4-card major ask = Stayman, 5-card major hand = usually transfer agreements.</p>
+
+<h2>What to do after opener replies</h2>
+<p>Once partner answers your Stayman bid, you choose a level based on strength:</p>
+<ul>
+  <li><strong>Weak range:</strong> stop low when possible.</li>
+  <li><strong>Invite range:</strong> make an invitational action.</li>
+  <li><strong>Game-going range:</strong> bid game.</li>
+</ul>
+
+<p>You do not need every advanced branch at first. Focus on finding the fit and reaching a sensible contract.</p>
+
+<h2>Quick practical examples</h2>
+<h3>Example 1: Find a heart fit</h3>
+<p>Partner opens 1NT. You hold 9 points and 4 hearts. Bid 2C. If partner replies 2H, you have found a 4-4 heart fit and can continue accordingly.</p>
+
+<h3>Example 2: No major fit found</h3>
+<p>Partner opens 1NT. You bid 2C. Partner replies 2D (no 4-card major). Now you know not to chase a 4-4 major fit and can choose between no-trump actions based on strength.</p>
+
+<h2>Common beginner mistakes</h2>
+<ul>
+  <li>Using Stayman without a 4-card major.</li>
+  <li>Using Stayman on very weak hands that should just pass.</li>
+  <li>Forgetting what 2D means (it means no 4-card major).</li>
+  <li>Treating Stayman as advanced and avoiding it completely.</li>
+</ul>
+
+<h2>A simple checklist</h2>
+<ol>
+  <li>Did partner open 1NT?</li>
+  <li>Do I have a 4-card major?</li>
+  <li>Do I have enough values to act (practical beginner rule: 8+)?</li>
+  <li>If yes, bid 2C Stayman.</li>
+</ol>
+
+<h2>Final takeaway</h2>
+<p>Stayman is one of the most useful beginner conventions because it solves one common problem: finding a 4-4 major fit after 1NT. Keep your first version simple - 2C asks, opener answers, then place the contract sensibly. You can add advanced branches later once this base is automatic.</p>`,
   },
   {
     id: "BCB-10",
@@ -202,78 +262,6 @@ Note: differentiated from the existing live article "Bridge Shapes Fundamentals"
 - Final takeaway.
 
 Note: differentiated from existing live article "Count the Unseen Hand: Read Distribution in Defence" (intermediate, 546 words) by being beginner-tier with an explicit drill companion and worked starter examples. If overlap feels too close once written, consider re-titling.`,
-  },
-  {
-    id: "BCF-08",
-    title: "Odds and Evens Discarding in Bridge: Should You Play It?",
-    articleType: "beginnerDefence",
-    subcategory: "Defensive Signals",
-    keyword: "odds and evens discarding bridge",
-    metaDescription:
-      "Learn how Odds and Evens discarding works in bridge, when to use it, and the practical pros and cons before you add it to your partnership.",
-    teaser: "A practical look at Odds and Evens: clear signals, real trade-offs, and whether it fits your partnership.",
-    body: `<h2>Try systems and enjoy your bridge</h2>
-<p>It is not a bad idea to try a variety of discarding approaches in bridge. Different pairs enjoy different methods, and there are advantages and disadvantages to every system.</p>
-
-<p>From what I have seen, most expert pairs do not play Odds and Evens discarding as their main method. But at the same time, bridge is meant to be enjoyed. If you feel comfortable with a system and your partnership likes it, that is already a good reason to use it.</p>
-
-<h2>Exactly when Odds and Evens applies</h2>
-<p>The first important point is to be precise about <em>when</em> you are giving an Odds and Evens signal. Most people who play it use it on the <strong>first discard</strong> of the hand, meaning the first time you cannot follow suit.</p>
-
-<p>For example, say clubs are trumps and declarer draws trumps. You follow to the first two rounds, then on the third round you have no clubs left and must discard. That first discard is the defined Odds and Evens signal moment.</p>
-
-<p>You can absolutely choose a different agreement, but the key is this: define it clearly with partner. If one person thinks it is first discard only and the other thinks it applies on every discard, confusion is guaranteed.</p>
-
-<h2>How the signal works</h2>
-<p>The core idea is simple:</p>
-<ul>
-  <li><strong>An odd card encourages that suit.</strong></li>
-  <li><strong>An even card does not encourage that suit.</strong></li>
-</ul>
-
-<p>So if you discard the 3 of spades, that encourages spades.</p>
-
-<p>Most pairs who play Odds and Evens also use the even card as McKenney (suit preference):</p>
-<ul>
-  <li>A <strong>high even</strong> card asks for the higher side suit.</li>
-  <li>A <strong>low even</strong> card asks for the lower side suit.</li>
-</ul>
-
-<p>Using the same example, where clubs are trumps (three rounds of trumps are played and you can't follow to the third round, so you can discard). If you are discarding a spade:</p>
-<ul>
-  <li>8 of spades (high even) might ask for hearts (the higher side suit).</li>
-  <li>2 of spades (low even) might ask for diamonds (the lower side suit).</li>
-</ul>
-
-<p>Not clubs, because clubs are trumps and you already ran out.</p>
-
-<h2>Main advantage: often very clear</h2>
-<p>One real advantage of Odds and Evens is clarity. Odd and even are unambiguous categories most of the time. Compared to methods like high-encourage/low-discourage, it can feel cleaner in many practical positions.</p>
-
-<p>With high/low attitude methods, whether a card is “high” can depend heavily on context and what cards you have left. Sometimes the 5 is high, sometimes it is not. Odds and Evens can feel more explicit.</p>
-
-<h2>Main disadvantage: sometimes you cannot give the right signal</h2>
-<p>The biggest weakness is card availability. Sometimes you simply do not hold any odd cards in a suit, so can't encourage! Other times you don't hold even cards, so can't McKenney (suit preference signal).</p>
-
-<p>For example, say your suit is A-K-8-4-2 and you want to encourage that suit. You have no odd card to do it. If your partnership agreement is odd = encourage, you cannot give the perfect signal in that suit.</p>
-
-<p>That is where real bridge happens. Maybe you do not want to discard another suit. Maybe another suit must be protected. So there are definitely times where you are put in a position where you cannot signal accurately. We always go back to rule #1 of signalling: do not throw a trick in order to signal. If useful, this is covered in more detail in <a href="/beginner/articles/defence/WGud4zXveWZW5VhNNBnA">Bridge Signals for Beginners: Attitude, Count, and Suit Preference</a>.</p>
-
-<p>This is why partner should not treat any signaling method as perfect information. Good partnerships stay sympathetic to practical carding constraints.</p>
-
-<h2>Practical recommendation</h2>
-<p>If you want to try Odds and Evens, do it with clear agreements:</p>
-<ol>
-  <li>Define the exact trigger (for example: first discard only).</li>
-  <li>Define whether even cards are suit preference (McKenney) and how.</li>
-  <li>Accept that carding constraints will sometimes block the “ideal” message.</li>
-  <li>Review hands with partner and adjust if needed.</li>
-</ol>
-
-<p>You do not have to play what experts play to enjoy bridge and improve. What matters is partnership clarity, consistency, and being realistic about what your cards let you signal. Try to keep it comfortable and enjoyable, that's when you will play your best bridge.</p>
-
-<h2>Final takeaway</h2>
-<p>Odds and Evens is a playable, practical system when both partners define it clearly and use it in a disciplined way. It can provide clear signals, but it also has unavoidable limits. If your partnership enjoys it and understands the trade-offs, it is absolutely worth trying.</p>`,
   },
   {
     id: "BCF-07",
