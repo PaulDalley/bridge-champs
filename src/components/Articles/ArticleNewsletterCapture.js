@@ -10,6 +10,7 @@ const ArticleNewsletterCapture = ({
   articleType,
   articleTitle,
 }) => {
+  const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -25,7 +26,14 @@ const ArticleNewsletterCapture = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const cleanFirstName = String(firstName || "")
+      .trim()
+      .split(/\s+/)[0];
     const clean = String(email || "").trim().toLowerCase();
+    if (cleanFirstName.length < 2) {
+      setError("Please enter your first name.");
+      return;
+    }
     if (!isLikelyEmail(clean)) {
       setError("Please enter a valid email address.");
       return;
@@ -35,6 +43,8 @@ const ArticleNewsletterCapture = ({
     setError("");
     try {
       await firebase.firestore().collection("newsletterLeads").add({
+        firstName: cleanFirstName,
+        name: cleanFirstName,
         email: clean,
         source: "article-top-capture",
         sourcePath,
@@ -46,6 +56,7 @@ const ArticleNewsletterCapture = ({
         userAgent: navigator.userAgent || "",
       });
       setSubmitted(true);
+      setFirstName("");
       setEmail("");
     } catch (err) {
       setError(err?.message || "Could not save email. Please try again.");
@@ -71,6 +82,20 @@ const ArticleNewsletterCapture = ({
         Latest convention ideas, practical table tips, and the strongest new article or trainer updates each month.
       </p>
       <form className="ArticleNewsletterCapture-form" onSubmit={onSubmit}>
+        <label className="ArticleNewsletterCapture-label" htmlFor={`newsletter-firstname-${articleId || "article"}`}>
+          First name
+        </label>
+        <input
+          id={`newsletter-firstname-${articleId || "article"}`}
+          type="text"
+          autoComplete="given-name"
+          placeholder="First name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          className="ArticleNewsletterCapture-input"
+          disabled={isSubmitting}
+          required
+        />
         <label className="ArticleNewsletterCapture-label" htmlFor={`newsletter-email-${articleId || "article"}`}>
           Email
         </label>
@@ -85,6 +110,7 @@ const ArticleNewsletterCapture = ({
             onChange={(e) => setEmail(e.target.value)}
             className="ArticleNewsletterCapture-input"
             disabled={isSubmitting}
+            required
           />
           <button
             type="submit"
