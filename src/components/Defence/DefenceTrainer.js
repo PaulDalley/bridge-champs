@@ -374,7 +374,7 @@ const DEFENCE_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "E",
     visibleFullHandSeats: ["RHO", "DUMMY"],
-    auction: "1♥ P 2♥ P 4♥ P P P",
+    auction: "1♥ P 1NT P 4♥ P P P",
     promptOptions: {
       promptPlacement: "left",
       contractLabel: "Contract is 4♥ by West",
@@ -1366,10 +1366,10 @@ const DEFENCE_PUZZLES = [
     trumpSuit: "S",
     contract: "4♠",
     auction: "1♠ P 2♠ P 3♦ P 4♠ P P P",
-    dealerCompass: "W",
-    declarerCompass: "W",
+    dealerCompass: "E",
+    declarerCompass: "E",
     viewerCompass: "S",
-    visibleFullHandSeats: ["S", "E"],
+    visibleFullHandSeats: ["S"],
     visibleFullHandSeats: ["south", "east"],
     revealFullHandsAtEnd: ["north", "west"],
     promptOptions: {
@@ -2781,6 +2781,397 @@ const DEFENCE_PUZZLES = [
           { seat: "N", card: { rank: "4", suit: "D" } },
           { seat: "E", card: { rank: "K", suit: "D" } },
         ],
+      },
+    ],
+  },
+  {
+    id: "df1-23",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♥: opening lead fundamentals",
+    trumpSuit: "H",
+    contract: "4♥",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S"],
+    auction: "1♥ P 1NT P 4♥ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "openingLead",
+      themeLabel: "Theme: Opening Leads",
+      customPrompts: [
+        {
+          id: "df1-23-lead",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please click the card you would lead",
+          playCardResponderSeat: "S",
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          expectedSuit: "S",
+          correctRevealText: "Great choice.",
+          wrongRevealText: "Great try.",
+          playCardShowNextCustomPromptOnContinue: true,
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "This may come as a big shock to many people, but the doubleton lead will be one of your absolute strongest leads, consistently.\n\nBefore looking at why, a quick word on leads in general.\n\nOpening leads are not luck - a \"good\" lead can work out badly from time to time, but overall good players get a very big edge from leading well.\n\nLeads are also the starting point for your partnership discussions - understanding what your partner would lead and why helps you get on the same page, align your goals, and anticipate and read your partner's lead more effectively.",
+          videoUrl: "",
+        },
+        {
+          id: "df1-23-rules",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">Let's set in stone two rules</p>
+                  <p className="ct-revealRichBody">
+                    1. Leading from random a single honor is in general a bad idea (We'll look at the exceptions). So
+                    leads from K1084, or Q76 for example, are bad leads.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    2. Small doubleton leads are excellent leads against suit contracts. Honor doubleton, such as Kx
+                    score very badly, they are high volatility leads that won't work out well in the long run.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    I've given you a concise but reliable summary there, but if you want further information on this
+                    topic, the book "WInning leads against suit contracts" has done extensive computer analysis on
+                    leads and has found doubletons to consistently come out far ahead, against a very large range of
+                    suit contracts.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: "df1-23-why-doubletons",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Finish",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">The reason they are so effective is</p>
+                  <p className="ct-revealRichBody">
+                    1. They do not give away a trick, whereas leading from a King, Queen or Jack will often give
+                    trick(s) away.
+                  </p>
+                  <p className="ct-revealRichBody">2. You often get ruffs if you lead your doubleton.</p>
+                  <p className="ct-revealRichBody">3. You set up partner's tricks - (this is a big reason).</p>
+                  <p className="ct-revealRichBody">
+                    4. Opponent's are not likely to have shortage in this suit, so may be a source of winners for
+                    you. Think about it like this - if you lead a long suit, often declarer or dummy is short in that
+                    suit, and you don't end up making tricks there.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "53", H: "Q83", D: "KT84", C: "A943" },
+    },
+    rounds: [
+      {
+        label: "Opening lead",
+        plays: [],
+      },
+    ],
+  },
+  {
+    id: "df1-24",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: opening lead fundamentals",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S"],
+    auction: "1♠ P 2♠ P 4♠ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "openingLead",
+      themeLabel: "Theme: Opening Leads",
+      customPrompts: [
+        {
+          id: "df1-24-lead",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please click the card you would lead",
+          playCardResponderSeat: "S",
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          expectedSuit: "D",
+          correctRevealText: "Correct — the singleton is best.",
+          wrongRevealText: "Not quite — the singleton is best.",
+          noContinue: true,
+          revealText:
+            "The singleton lead against a trump contract should almost always be the #1 choice.\n\nA heart is an attractive option when you have a triple honor sequence like that, but the singleton lead is still too powerful. The only lead that beats a singleton is if you have say AKx(x). The Ace lead there comes out ahead (you can often switch to your singleton anyway after leading the A from AK).\n\nA very unnatractive option is the club.\n\nLong suits are not good in such situations, and leading away from a single honor like that is a quick and simple way to lose lots of tricks! (don't do it!)",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "873", H: "KQJ2", D: "5", C: "Q9643" },
+    },
+    rounds: [
+      {
+        label: "Opening lead",
+        plays: [],
+      },
+    ],
+  },
+  {
+    id: "df1-25",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "3NT: opening lead — longest and strongest",
+    trumpSuit: null,
+    contract: "3NT",
+    dealerCompass: "E",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S"],
+    auction: "1NT P 3NT P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "openingLead",
+      themeLabel: "Theme: Opening Leads",
+      customPrompts: [
+        {
+          id: "df1-25-lead",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please click the card you would lead",
+          playCardResponderSeat: "S",
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          expectedSuit: ["S", "H"],
+          correctRevealText: "Correct.",
+          wrongRevealText: "Not quite.",
+          noContinue: true,
+          revealText:
+            "A Spade or even heart is your best lead here.\n\nIn this auction, where responder has not investigatged a major (has 3 at most in either major), the major lead comes out far ahead. It should be automatic unless you have an attractive 5 card minor, and even then the major is still a consideration (see \"winning leads against No Trump\" by David Bird for the computer analysis on this if you are a skepetic).\n\nRule: When responder has not shown the majors, that will often be the enemy's weakness and your partner's strength. Lead a major.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "854", H: "72", D: "K963", C: "Q1063" },
+    },
+    rounds: [
+      {
+        label: "Opening lead",
+        plays: [],
+      },
+    ],
+  },
+  {
+    id: "df1-26",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: opening lead — forcing declarer exception",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S"],
+    auction: "1♠ 2♣ 2♠ P 4♠ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "openingLead",
+      themeLabel: "Theme: Opening Leads",
+      customPrompts: [
+        {
+          id: "df1-26-lead",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please click the card you would lead",
+          playCardResponderSeat: "S",
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          expectedSuit: "C",
+          expectedRank: "K",
+          correctRevealText: "Correct.",
+          wrongRevealText: "Not quite.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    We break the previously set rules by leading the King of clubs, why?
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Bridge is a dynamic game, and this is an exception that comes up occasionally, a minority of
+                    times, but is worth understanding.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    The theme was looked at in problems 13-17 in Defence "Forcing Declarer". We have long trumps, and
+                    strength. There is a good chance we can force declarer to lose control of the hand by playing
+                    clubs, forcing declarer and/or dummy to ruff. Check out problems 13-17 for more on this theme.
+                  </p>
+                  <p className="ct-revealRichBody">The characteristics of this hand are</p>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ width: "42px", verticalAlign: "top", padding: "8px 8px 8px 0" }}>1.</td>
+                        <td style={{ verticalAlign: "top", padding: "8px 0" }}>
+                          Strength, we have Outside Aces, and a strong suit
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={{ width: "42px", verticalAlign: "top", padding: "8px 8px 8px 0" }}>2.</td>
+                        <td style={{ verticalAlign: "top", padding: "8px 0" }}>A good solid suit</td>
+                      </tr>
+                      <tr>
+                        <td style={{ width: "42px", verticalAlign: "top", padding: "8px 8px 8px 0" }}>3.</td>
+                        <td style={{ verticalAlign: "top", padding: "8px 0" }}>
+                          Good trumps, with length, at least 3 cards but typically 4. Kxxx or Axxx are strong signs
+                          this defense is correct.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "AT72", H: "A", D: "64", C: "KQJ942" },
+    },
+    rounds: [
+      {
+        label: "Opening lead",
+        plays: [],
+      },
+    ],
+  },
+  {
+    id: "df1-27",
+    difficulty: 1,
+    playEngine: "compassClockwise",
+    seatMode: "compass",
+    title: "4♠: opening lead — attack with a heart",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "E",
+    declarerCompass: "E",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["S"],
+    auction: "1♠ P 2♦ P 2♠ P 4♠ P P P",
+    promptOptions: {
+      promptPlacement: "left",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      promptThemeTint: "openingLead",
+      themeLabel: "Theme: Opening Leads",
+      customPrompts: [
+        {
+          id: "df1-27-lead",
+          type: "PLAY_CARD",
+          atRoundIdx: 0,
+          promptText: "Please click the card you would lead",
+          playCardResponderSeat: "S",
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          playCardShowNextCustomPromptOnContinue: true,
+          expectedSuit: "H",
+          correctRevealText: "Correct — lead a heart.",
+          wrongRevealText: "Best lead here is a heart.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">A heart lead is best here, even though it is from the King.</p>
+                  <p className="ct-revealRichBody">
+                    1. Dummy has a long diamond suit. Declarer can set that suit up and throw losers. You need to
+                    attack quickly: time is ticking.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    2. Dummy&apos;s likely shortage is in clubs (the suit you are longest in). Dummy might be 3=3=6=1,
+                    for example. You are often not making many club tricks because dummy can ruff, but you may have
+                    heart tricks to set up. <strong>Leading your 5+ card suit here is often a bad choice.</strong>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    3. This is usually not the time for a trump lead. The threat of dummy&apos;s long diamond suit is
+                    serious and puts you under time pressure, so you cannot just sit back and lead a trump. You need
+                    to develop your tricks quickly.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "df1-27-key",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Finish",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichHeading">
+                    So what is the key on this hand that indicates leading aggressively, from a King?
+                  </p>
+                  <p className="ct-revealRichBody">
+                    1. Shorter suits are typically better to lead than long suits when opponents have a trump fit and
+                    side sources of tricks.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    2. You can take risks when the opponent&apos;s have a lingering source of tricks like this auction
+                    suggests.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "65", H: "K103", D: "K52", C: "J8643" },
+    },
+    rounds: [
+      {
+        label: "Opening lead",
+        plays: [],
       },
     ],
   },

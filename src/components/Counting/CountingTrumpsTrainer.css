@@ -1611,6 +1611,39 @@ button.ct-categoryTab {
   color: #92400e;
 }
 
+/* Theme: Opening Leads (defence d1 problems 23-27) — deep teal, clearly distinct from deadly-duck amber */
+.ct-problemTab--themeOpeningLead {
+  background: linear-gradient(180deg, #ccfbf1 0%, #99f6e4 100%);
+  border-color: rgba(13, 148, 136, 0.42);
+}
+.ct-problemTab--themeOpeningLead:hover:not(:disabled) {
+  background: linear-gradient(180deg, #99f6e4 0%, #5eead4 100%);
+}
+.ct-problemTab--themeOpeningLead.ct-problemTab--active {
+  border: 2px solid #0f766e;
+  background: linear-gradient(180deg, #5eead4 0%, #2dd4bf 100%);
+  color: #134e4a;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.3);
+}
+.ct-sidePrompt--themeOpeningLead {
+  background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%);
+  border-left: 3px solid rgba(13, 148, 136, 0.5);
+}
+.ct-sidePrompt--themeOpeningLead .ct-revealContent .ct-revealParagraph:first-child {
+  color: #0f766e;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeOpeningLead .ct-revealList {
+  background: rgba(13, 148, 136, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+.ct-sidePrompt--themeOpeningLead .ct-revealList .ct-revealListItem {
+  color: #115e59;
+}
+
 /* Theme: 2-level overcalls (bidding difficulty 1) */
 .ct-problemTab--themeTwoLevel {
   background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
@@ -1937,6 +1970,13 @@ button.ct-categoryTab {
   color: #92400e;
   border: 2px solid #b45309;
   box-shadow: 0 2px 6px rgba(180, 83, 9, 0.2);
+}
+
+.ct-themeLabel--themeOpeningLead {
+  background: linear-gradient(180deg, #ccfbf1 0%, #99f6e4 100%);
+  color: #115e59;
+  border: 2px solid #0f766e;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.2);
 }
 
 .ct-newBadge {

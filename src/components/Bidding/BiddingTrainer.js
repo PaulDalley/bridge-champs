@@ -7640,6 +7640,485 @@ const BIDDING_PUZZLES = [
     },
     rounds: [],
   },
+  {
+    id: "bid3-16",
+    difficulty: 3,
+    title: "4th suit forcing (1): choose the forcing call",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ P 2♣ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are responder",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: 4th suit forcing",
+      promptThemeTint: "preempt",
+      customPrompts: [
+        {
+          id: "bid3-16-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is your best call?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    The correct answer is to bid 4th suit forcing, <TextWithColoredSuits text="2♥" />.
+                  </p>
+                  <p className="ct-revealRichBody">Firstly what does 4th suit forcing mean.</p>
+                  <p className="ct-revealRichBody">
+                    - My recommendation is to play it as game forcing. It is clear and simple, and very effective -
+                    neither player is allowed to pass before game. So the real name of the convention should be - 4th
+                    suit game forcing!
+                  </p>
+                  <p className="ct-revealRichBody">
+                    -It is an artificial bid that asks partner to describe their hand. Partner has already shown
+                    diamonds and clubs, which is a good start - we know at least 9 of partners cards. The rest of
+                    partner&apos;s hand makes a very big difference as to what the most appropriate contract would be.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-16-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hideAuction: true,
+          promptText:
+            "If partner's shape is 1354 (so has a singelton spade and 3 hearts along with 5 diamonds and 4 clubs), what is the most likely suitable contract?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3nt",
+          expectedChoiceDisplay: "3NT",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    3NT would very likely be the best contract if your partner had a singleton spade. Why? The reason
+                    is because your KQ of spades is opposite a singleton which means you are misfitting.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    <strong>Misfitting happens when your points are opposite partner&apos;s shortage.</strong>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    <span className="ct-revealGold">
+                      <strong>Rule: When you are misfitting, No trump is likely the correct spot.</strong>
+                    </span>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    You might say, we have a club fit. But with misfitting points, 3NT is likely better than 5 of a
+                    minor.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-16-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "What if partner's shape is 3154, so has 3 spades and a singleton heart - now where is your likely best spot?",
+          options: [
+            { id: "3nt", label: "3NT" },
+            { id: "suit", label: "Suit contract" },
+          ],
+          expectedChoice: "suit",
+          expectedChoiceDisplay: "Suit contract",
+          wrongTryText: "Not quite - try again.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    If your partner has a singelton heart, Your Ax of hearts oppossite a singleton points toward
+                    avoiding 3NT and suggests playing in a suit. Just a bare ace opposite a singleton is not great for
+                    No Trump if you have better options (here you have a club and diamond fit). If one hand has a
+                    singleton, the other hand should generally have at least 2 honors in the suit for No trump to be
+                    sensible.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    <span className="ct-revealGold">
+                      <strong>
+                        Rule: You are &quot;fitting&quot; with partner if you have no points opposite their singleton,
+                        but an Ace opposite a singleton is still fine and still a fit.
+                      </strong>
+                    </span>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    We saw before, if you have lots of points (other than an Ace) opposite a singleton, you are
+                    misfitting and typically belong in 3NT.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "KQ84", H: "A5", D: "QJ4", C: "A742" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-17",
+    difficulty: 3,
+    title: "4th suit forcing (2): choose the forcing call",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ P 2♣ P 2♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      auctionResolvedTextByPromptId: {
+        "bid3-17-msg-2nt": "1♦ P 1♠ P 2♣ P 2♥ P 2NT",
+        "bid3-17-q-spades": "1♦ P 1♠ P 2♣ P 2♥ P 2♠",
+        "bid3-17-q-spades--reveal": "1♦ P 1♠ P 2♣ P 2♥ P 2♠",
+        "bid3-17-q-3s--reveal": "1♦ P 1♠ P 2♣ P 2♥ P 3♠",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are responder",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: 4th suit forcing",
+      promptThemeTint: "preempt",
+      customPrompts: [
+        {
+          id: "bid3-17-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Let's look at partner's responses to 4th suit forcing, and what they all mean.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-17-msg-2nt",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "This is a very common reseponse, partner bids 2NT, lots of us are familiar with it. It shows a heart stopper.\n\nBut the other responses are less clear to most people.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-17-q-spades",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "I find this is a bid that the vast majority of players get wrong - how many spades should 2♠ show?",
+          options: [
+            { id: "1", label: "1" },
+            { id: "2", label: "2" },
+            { id: "3", label: "3" },
+          ],
+          expectedChoice: "2",
+          expectedChoiceDisplay: "2",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "The correct answer is 2, but usually an honor. With two low spades and two good hearts, opener could've chosen to bid 2NT to more accurately describe her hand. A lot of players think 2♠ shows 3 cards, which is wrong.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-17-q-3s",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "So what does responder do with 3 card spade suit?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3s",
+          expectedChoiceDisplay: "3♠",
+          noContinue: true,
+          revealText:
+            "Spot on!\n\nThe bid to show 3 card spade suit is 3♠. This is worth remembering because it comes up frequently.\n\nRule: If opener simply bids responder's suit after 4th suit forcing, it should show 2 cards. However, a Jump in responder's suit shows 3 cards.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "KQ84", H: "A5", D: "QJ4", C: "A742" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-18",
+    difficulty: 3,
+    title: "4th suit forcing (3): when 3NT is more descriptive",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ P 2♣ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are responder",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: 4th suit forcing",
+      promptThemeTint: "preempt",
+      customPrompts: [
+        {
+          id: "bid3-18-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3nt",
+          expectedChoiceDisplay: "3NT",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    It&apos;s not always necessary to bid 4th suit forcing, here you can just bid{" "}
+                    <TextWithColoredSuits text="3NT" />.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Let&apos;s rewind for a second - Despite it not being correct here, 4th suit forcing often is a
+                    good bid, let&apos;s look at why. It keeps the auction low and you can get free information about
+                    your partner&apos;s hand. However, the most descriptive bid in this instance is{" "}
+                    <TextWithColoredSuits text="3NT" />, it sends a strong message to your partner - I think we are
+                    badly misfitting, and naturally I have lots of stuff in hearts since you could easily have a
+                    singleton or even void there (partner has not promised anything in hearts), I have a double stopper
+                    at least in both spades and hearts.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    <span className="ct-revealGold">
+                      In summary: I don&apos;t have a fit, and I have lots of stuff in the majors - I think we are
+                      misfitting.
+                    </span>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    That is going to be particularly useful to your partner who might have a very good hand, you are
+                    helping them make a sensible decision to pass <TextWithColoredSuits text="3NT" />, as your points
+                    are not well placed to help their minor suits thrive (which would be a problem if you reached the
+                    heights of <TextWithColoredSuits text="5 of a minor" /> or slam in a minor).
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-18-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Finish",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    The key takeaway - we don&apos;t automatically have to bid 4th suit, sometimes there are more
+                    descriptive bids, but often 4th suit will be useful and keep the auction low - giving both sides
+                    space to explore. However, sometimes it&apos;s better to just describe your hand and try discourage
+                    partner by jumping to <TextWithColoredSuits text="3NT" /> sending a strong signal &quot;we are
+                    misfitting&quot;.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "KQ1094", H: "KQJ9", D: "42", C: "Q5" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-19",
+    difficulty: 3,
+    title: "4th suit forcing (4): continuation auction",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♦ P 1♠ P 2♣ P 2♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-19-q--reveal": "1♦ P 1♠ P 2♣ P 2♥ P 3♥",
+        "bid3-19-wrap": "1♦ P 1♠ P 2♣ P 2♥ P 3♥",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: 4th suit forcing",
+      promptThemeTint: "preempt",
+      customPrompts: [
+        {
+          id: "bid3-19-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3h",
+          expectedChoiceDisplay: "3♥",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Explanation: The correct answer is 3♥. A few important points on respond to 4th suit.\n\nRule: Raising 4th suit is natural it shows 3-4 cards in the suit.\n\nThink of it like this, in this auction the bid of 2♥ was unnatural, it was just an artificial bid aksing you to describe your hand. You have described your hand, by showing hearts. Its really quite simple.\n\nWhat about 2NT as an alternative? You have 3 cards in the suit but you don't have a stopper, so bidding 2NT isn't a good idea. If the opponent's make the first 5 heart tricks, what will you say to your partner?\n\nIt's typically a good idea to just bid 2NT if you had a robust stopper. 3♥ is natural, showing some cards in the suit, but not a robust stopper.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-19-wrap",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Finish",
+          promptText:
+            "I've found it is commonly a source of confusion to \"raise 4th suit\" like in this hand, there are some misconceptions or confusion around it, but this is the most common and natural meaning of the bid.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "8", H: "1073", D: "AKJ84", C: "KQJ7" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-20",
+    difficulty: 3,
+    title: "4th suit forcing (5): recap",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1♥ P 1♠ P 2♣ P 2♦ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-20-q1--reveal": "1♥ P 1♠ P 2♣ P 2♦ P 2♠",
+        "bid3-20-q2--reveal": "1♥ P 1♠ P 2♣ P 2♦ P 3♣",
+        "bid3-20-q3--reveal": "1♥ P 1♠ P 2♣ P 2♦ P 2NT",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: 4th suit forcing",
+      promptThemeTint: "preempt",
+      customPrompts: [
+        {
+          id: "bid3-20-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2s",
+          expectedChoiceDisplay: "2♠",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Remember - after a 4th suit auction, bidding partner's suit shows 2 cards in the suit. A jump in partner's suit shows 3 cards.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-20-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: "The hand is going to change slightly, with the same original auction, press continue to move on.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-20-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "4", H: "AKJ42", D: "43", C: "KJ932" },
+          },
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: "a nice natural bid of 3C. Let's change the hand one more time on the next page",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-20-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "83", H: "AKJ42", D: "AQ", C: "KJ93" },
+          },
+          promptText: "what do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          noContinue: true,
+          revealText:
+            "Get in the habit of bidding 2NT with a decent stopper.. Very often 3NT will be the contract you want to gravitate towards without a major fit, so it's a good idea to let partner know, as soon as possible, that its a feasible spot.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "Q4", H: "AKJ42", D: "43", C: "KJ93" },
+    },
+    rounds: [],
+  },
 ];
 
 export { BIDDING_PUZZLES };
