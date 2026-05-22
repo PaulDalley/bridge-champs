@@ -7726,7 +7726,7 @@ const BIDDING_PUZZLES = [
                   </p>
                   <p className="ct-revealRichBody">
                     <span className="ct-revealGold">
-                      <strong>Rule: When you are misfitting, No trump is likely the correct spot.</strong>
+                      <strong>Rule: When you are misfitting, firstly keep the contract low, your hands are not working well together. 3 No trump is likely to be the best game, and slam is very unlikely.</strong>
                     </span>
                   </p>
                   <p className="ct-revealRichBody">
