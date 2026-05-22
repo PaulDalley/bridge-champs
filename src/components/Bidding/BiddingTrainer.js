@@ -7647,7 +7647,7 @@ const BIDDING_PUZZLES = [
     newUntil: "2026-12-31",
     trumpSuit: "S",
     contract: "—",
-    dealerCompass: "S",
+    dealerCompass: "N",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
