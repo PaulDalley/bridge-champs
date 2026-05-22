@@ -153,9 +153,7 @@ class About extends React.Component {
                       </li>
                       <li>
                         <strong>Explain the why, not just the what.</strong>{" "}
-                        Rules without reasons are forgotten by Tuesday. We show
-                        what the players know, what they&rsquo;re trying to do,
-                        and where the trap is.
+                        Rules without reasons are forgotten quickly.
                       </li>
                       <li>
                         <strong>Then practise.</strong> Each article links to

@@ -4,24 +4,33 @@ This week on Bridge Champions
 BridgeChampions.com
 
 ---
-Deadly Duck
+Paul's rule
 
-This will change your identity as a defender. It is the type of thing that will leave a lasting impact on your opponents - it is a lesser known secret of defence that even most experts get wrong.
-
-Click here for Deadly Duck:
-https://bridgechampions.com/defence/practice?difficulty=1&problem=df1-18
-
-Reverses
-
-Comes up a lot, important to get right. They should be simple and easy to understand.
-
-Click here for Reverses:
-https://bridgechampions.com/bidding/practice?difficulty=3
+Points are misfitting when you have values, say 5+ points, opposite partner's singleton or void.
+Your hands are misfitting, so slam is much less likely and 3NT is probably your best spot (or 4 of a major).
 
 ---
-Just released today: Treadmill - Card Rush
+4th suit forcing
 
-This is a brand new feature - a new version of Treadmill.
+This can be a bit of a challenging topic. Basically the bids are natural and have a plain meaning, so try to keep the though process simple - the basis of good bridge.
+
+Click here for 4th suit forcing:
+https://bridgechampions.com/bidding/practice?difficulty=3&problem=bid3-16
+
+Opening leads
+
+Opening leads hand 23, auction 1♥ P 1NT P 4♥ P P P - what would you lead?
+Are doubletons good leads or not? What about low from a King?
+Let me give you conclusive answers on these questions and more.
+
+Click here for Opening leads:
+https://bridgechampions.com/defence/practice?difficulty=1&problem=df1-23
+
+---
+In the spotlight: Treadmill - Card Rush
+
+Still relatively new, and worth another mention.
+This is a new version of Treadmill.
 It is a quick and effective way to practice bridge.
 Click on Practical Learning, then Treadmill, then choose Card Rush.
 You can do it for 2 minutes while you wait in line.

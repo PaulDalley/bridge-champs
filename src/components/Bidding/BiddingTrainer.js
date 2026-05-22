@@ -7656,6 +7656,7 @@ const BIDDING_PUZZLES = [
       promptPlacement: "right",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/cifXUA8T9QI?si=hadeyD5q4dddPk-Z",
       questionNumbers: [],
       contractLabel: "You are responder",
       contractLabelBeforeStartOnly: true,
@@ -7797,7 +7798,7 @@ const BIDDING_PUZZLES = [
     newUntil: "2026-12-31",
     trumpSuit: "S",
     contract: "—",
-    dealerCompass: "S",
+    dealerCompass: "N",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
@@ -7812,6 +7813,7 @@ const BIDDING_PUZZLES = [
         "bid3-17-q-3s--reveal": "1♦ P 1♠ P 2♣ P 2♥ P 3♠",
       },
       disableWarmupTrumpGuess: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/5t8oehDvneo?si=8Vd8WojibLDKKPRh",
       questionNumbers: [],
       contractLabel: "You are responder",
       contractLabelBeforeStartOnly: true,
@@ -7823,8 +7825,12 @@ const BIDDING_PUZZLES = [
           type: "INFO",
           atRoundIdx: -1,
           continueButtonLabel: "Continue",
-          promptText:
-            "Let's look at partner's responses to 4th suit forcing, and what they all mean.",
+          promptText: (
+            <>
+              You have just bid <TextWithColoredSuits text="2♥" />, 4th suit game forcing. It is your partner&apos;s
+              turn to bid. Let&apos;s look at partner&apos;s responses to 4th suit forcing, and what they all mean.
+            </>
+          ),
           videoUrl: "",
         },
         {
@@ -7840,8 +7846,13 @@ const BIDDING_PUZZLES = [
           id: "bid3-17-q-spades",
           type: "PLAY_DECISION",
           atRoundIdx: -1,
-          promptText:
-            "I find this is a bid that the vast majority of players get wrong - how many spades should 2♠ show?",
+          promptText: (
+            <>
+              Have another look at the auction because its changed, partner has bid{" "}
+              <TextWithColoredSuits text="2♠" />. I find this is a bid that the vast majority of players get wrong -
+              how many spades should <TextWithColoredSuits text="2♠" /> show?
+            </>
+          ),
           options: [
             { id: "1", label: "1" },
             { id: "2", label: "2" },
@@ -7859,7 +7870,8 @@ const BIDDING_PUZZLES = [
           id: "bid3-17-q-3s",
           type: "PLAY_DECISION",
           atRoundIdx: -1,
-          promptText: "So what does responder do with 3 card spade suit?",
+          promptText:
+            "So what does opener do in the same auction (shown above, its partner's turn to bid) if opener/partner has a 3 card spade suit?",
           playDecisionInput: "biddingBox",
           expectedChoice: "3s",
           expectedChoiceDisplay: "3♠",
@@ -7891,6 +7903,7 @@ const BIDDING_PUZZLES = [
       promptPlacement: "right",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/04GU4Dsz4Jg?si=ECvcJOH64czW7L1_",
       questionNumbers: [],
       contractLabel: "You are responder",
       contractLabelBeforeStartOnly: true,
@@ -7994,6 +8007,7 @@ const BIDDING_PUZZLES = [
         "bid3-19-wrap": "1♦ P 1♠ P 2♣ P 2♥ P 3♥",
       },
       disableWarmupTrumpGuess: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/VJ29-nk5c6k?si=8zFIDYFPHe4YMv-E",
       questionNumbers: [],
       contractLabel: "You are South",
       contractLabelBeforeStartOnly: true,
@@ -8052,6 +8066,7 @@ const BIDDING_PUZZLES = [
         "bid3-20-q3--reveal": "1♥ P 1♠ P 2♣ P 2♦ P 2NT",
       },
       disableWarmupTrumpGuess: true,
+      videoUrlBeforeStart: "https://youtube.com/shorts/YCwnIRe8jE8?si=nQRo8GAEuwM2s0Nb",
       questionNumbers: [],
       contractLabel: "You are South",
       contractLabelBeforeStartOnly: true,

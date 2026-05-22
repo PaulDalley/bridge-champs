@@ -112,43 +112,43 @@ const SideDrawer = ({
                         </li>
                         <li className="SideDrawer-SectionLabel">COMING SOON</li>
                         <li className="waves-effect waves-light SideDrawer-NavLink-Li">
-                            <NavLink onClick={(e) => e.preventDefault()}
-                                     activeClassName="SideDrawer-NavLink-Active"
-                                     className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
-                                     to="/questions">
+                            <span
+                                className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
+                                aria-disabled="true"
+                            >
                                 <i className="SideDrawer-link_icon far fa-comments"></i>
                                 Submit a Question
-                            </NavLink>
+                            </span>
                         </li>
                         <li className="waves-effect waves-light SideDrawer-NavLink-Li">
-                            <NavLink onClick={(e) => e.preventDefault()}
-                                     activeClassName="SideDrawer-NavLink-Active"
-                                     className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
-                                     to="/play">
+                            <span
+                                className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
+                                aria-disabled="true"
+                            >
                                 {/*<i className="SideDrawer-link_icon material-icons">play_circle_filled</i>*/}
                                 <i className="SideDrawer-link_icon fas fa-play-circle"></i>
                                 &nbsp;Play Bridge
-                            </NavLink>
+                            </span>
                         </li>
                         <li className="waves-effect waves-light SideDrawer-NavLink-Li">
-                            <NavLink onClick={(e) => e.preventDefault()}
-                                     activeClassName="SideDrawer-NavLink-Active"
-                                     className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
-                                     to="/chat">
+                            <span
+                                className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
+                                aria-disabled="true"
+                            >
                                 <i className="SideDrawer-link_icon material-icons">chat</i>
                                 Live Chat
-                            </NavLink>
+                            </span>
                         </li>
                         <li className="waves-effect waves-light SideDrawer-NavLink-Li">
-                            <NavLink onClick={(e) => e.preventDefault()}
-                                     activeClassName="SideDrawer-NavLink-Active"
-                                     className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
-                                     to="/bidding">
+                            <span
+                                className="SideDrawer-NavLink SideDrawer-NavLink-Disabled"
+                                aria-disabled="true"
+                            >
                                 {/*<i className="SideDrawer-link_icon fas fa-home"></i>*/}
                                 {/*<i className="SideDrawer-link_icon fas fa-hands-helping"></i>*/}
                                 <i className="SideDrawer-link_icon fas fa-exchange-alt"></i>
                                 &nbsp;Bid with a Pro
-                            </NavLink>
+                            </span>
                         </li>
 
 

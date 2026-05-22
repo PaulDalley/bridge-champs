@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"; 
+React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"; 
  import { connect } from "react-redux"; 
  import { Link } from "react-router-dom"; 
  import { savePracticeCompletion } from "../../store/actions/usersActions"; 
@@ -5626,12 +5626,11 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  
  const REVEAL_GOOD_TRY = "Good try! "; 
  
-const revealAfterTwoWrong = (kind, promptId) => {
+ const revealAfterTwoWrong = (kind, promptId) => { 
  const key = promptId ? `${kind}_${promptId}` : kind; 
  const next = (wrongAttempts?.[key] || 0) + 1; 
  setWrongAttempts((prev) => ({ ...prev, [key]: next })); 
-  // Global policy: reveal on first wrong attempt (no retry loop).
-  return next >= 1;
+ return next >= 2; 
  }; 
  
  const submitDefendersStarted = () => { 
@@ -6204,11 +6203,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  : ( 
  <> 
  <p className="ct-revealParagraph"> 
-                    {REVEAL_GOOD_TRY}The correct answer is{" "}
-                    <strong>
-                      <TextWithColoredSuits text={correctAnswerText} />
-                    </strong>
-                    .
+ {REVEAL_GOOD_TRY}The correct answer is <strong>{correctAnswerText}</strong>. 
  </p> 
  <div className="ct-revealRichRoot">{reveal}</div> 
  </> 
@@ -6419,15 +6414,12 @@ const revealAfterTwoWrong = (kind, promptId) => {
  return; 
  } 
  setPromptStep(null); 
-  // Question-only / no-scripted-play hands: optional skip DONE + Replay and move straight to next hand.
-  const hasScriptedRoundPlays =
-    Array.isArray(puzzle?.rounds) &&
-    puzzle.rounds.some((round) => Array.isArray(round?.plays) && round.plays.length > 0);
-  if (
-    puzzle?.promptOptions?.infoContinueSkipsDoneScreen &&
-    !hasScriptedRoundPlays &&
-    !getNextCustomPrompt(completedRoundIdx)
-  ) {
+ // Question-only hands with no tricks: optional skip the DONE / "Next hand · Replay" panel and go straight on. 
+ if ( 
+ puzzle?.promptOptions?.infoContinueSkipsDoneScreen && 
+ lastRoundIdx < 0 && 
+ !getNextCustomPrompt(-1) 
+ ) { 
  setCompletedProblemIds((prev) => { 
  if (!puzzle?.id || prev[puzzle.id]) return prev; 
  sendPracticeEvent("practice_problem_complete", { 
@@ -6454,20 +6446,10 @@ const revealAfterTwoWrong = (kind, promptId) => {
  if (!isDummyLead && !isDummyFollow) return; 
  
  if (isDummyFollow && activeCustomPrompt.playCardRequireCorrect) { 
-    const expectedSuit = activeCustomPrompt.expectedSuit;
-    const expectedRank = activeCustomPrompt.expectedRank;
-    const suitOk =
-      expectedSuit == null ||
-      expectedSuit === "" ||
-      (Array.isArray(expectedSuit)
-        ? expectedSuit.map((s) => String(s)).includes(String(card.suit))
-        : card.suit === expectedSuit);
-    const rankOk =
-      expectedRank == null ||
-      expectedRank === "" ||
-      (Array.isArray(expectedRank)
-        ? expectedRank.map((r) => String(r)).includes(String(card.rank))
-        : String(card.rank) === String(expectedRank));
+ const expectedSuit = activeCustomPrompt.expectedSuit; 
+ const expectedRank = activeCustomPrompt.expectedRank; 
+ const suitOk = expectedSuit == null || expectedSuit === "" || card.suit === expectedSuit; 
+ const rankOk = expectedRank == null || expectedRank === "" || String(card.rank) === String(expectedRank); 
  if (!suitOk || !rankOk) { 
  setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." }); 
  return; 
@@ -6638,20 +6620,10 @@ const revealAfterTwoWrong = (kind, promptId) => {
  setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." }); 
  return; 
  } 
-  const expectedSuit = activeCustomPrompt.expectedSuit;
-  const expectedRank = activeCustomPrompt.expectedRank;
-  const suitOk =
-    expectedSuit == null ||
-    expectedSuit === "" ||
-    (Array.isArray(expectedSuit)
-      ? expectedSuit.map((s) => String(s)).includes(String(card.suit))
-      : card.suit === expectedSuit);
-  const rankOk =
-    expectedRank == null ||
-    expectedRank === "" ||
-    (Array.isArray(expectedRank)
-      ? expectedRank.map((r) => String(r)).includes(String(card.rank))
-      : String(card.rank) === String(expectedRank));
+ const expectedSuit = activeCustomPrompt.expectedSuit; 
+ const expectedRank = activeCustomPrompt.expectedRank; 
+ const suitOk = expectedSuit == null || expectedSuit === "" || card.suit === expectedSuit; 
+ const rankOk = expectedRank == null || expectedRank === "" || String(card.rank) === String(expectedRank); 
  const correct = suitOk && rankOk; 
  if (!correct && activeCustomPrompt?.playCardRequireCorrect) { 
  setFeedback({ type: "error", text: activeCustomPrompt?.wrongTryText || "Not quite — try again." }); 
@@ -7585,7 +7557,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  <> 
  {!!effectiveThemeLabel && ( 
  <div 
- className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-themeLabel--themeOpeningLead" : ""}`} 
+ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""}`} 
  > 
  {effectiveThemeLabel} 
  </div> 
@@ -8939,7 +8911,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  return ( 
  <button 
  key={p.id} 
- className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""}`} 
+ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""}`} 
  onClick={() => setPuzzleIdxInDifficulty(idx)} 
  type="button" 
  role="tab" 
@@ -9033,7 +9005,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  !useBottomRowLayout && 
  (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) && 
  (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && ( 
- <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""}`} aria-label="Bidding and prompts"> 
+ <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""}`} aria-label="Bidding and prompts"> 
  {promptNode} 
  </div> 
  )} 

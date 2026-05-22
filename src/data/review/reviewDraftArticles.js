@@ -286,4 +286,130 @@ Note: differentiated from existing live article "Count the Unseen Hand: Read Dis
 - A simple defensive checklist.
 - Final takeaway.`,
   },
+  {
+    id: "BCB-11",
+    title: "Vulnerability in Bridge: A Beginner's Guide",
+    articleType: "beginnerBidding",
+    subcategory: "Bidding Fundamentals",
+    keyword: "vulnerability in bridge beginner",
+    metaDescription:
+      "Learn what vulnerability means in bridge: how it changes scoring, when to bid more cautiously, and how it shapes preempts, sacrifices and overcalls.",
+    teaser: "Vulnerability quietly changes almost every close decision in bridge. Here's how to read it.",
+    body: `Planned outline (Paul to expand). High-value SEO gap: vulnerability is a fundamental concept with no dedicated beginner article on the site.
+
+- What vulnerability is in plain English: a scoring multiplier that makes both bonuses (for making) and penalties (for going down) larger.
+- The four vulnerability states in duplicate: None, NS, EW, Both. How the indicator on the screen / board tells you which one is in play.
+- Why vulnerability matters in bidding (not just scoring):
+  - Vulnerable preempts need a better suit.
+  - Vulnerable overcalls demand more shape and quality.
+  - Sacrifices look very different vulnerable vs non-vulnerable.
+- The "favourable" vs "unfavourable" mental shortcut: when you are non-vul and they are vul (favourable), you can stretch. When you are vul and they are non-vul (unfavourable), pull back.
+- Worked examples:
+  - A 6-card suit you'd preempt non-vul but pass vulnerable.
+  - A sacrifice that costs 500 vs 800 — and why one is good and the other is terrible.
+- Common beginner mistakes: ignoring vulnerability entirely, bidding the same way regardless of colour, mis-reading the vulnerability shown on screen.
+- A simple "check vulnerability first" habit before every borderline auction.
+- Final takeaway.`,
+  },
+  {
+    id: "BCB-12",
+    title: "Bridge Conventions for Beginners: What to Learn First (and What to Skip)",
+    articleType: "beginnerBidding",
+    subcategory: "Conventions",
+    keyword: "bridge conventions for beginners",
+    metaDescription:
+      "A beginner-friendly orientation to bridge conventions: which ones to learn first, which to skip until later, and how to add them safely with partner.",
+    teaser: "There are hundreds of bridge conventions. You only need 4 to start.",
+    body: `Planned outline (Paul to expand). Orientation article — links out to specific convention pages already live on the site.
+
+- What a "convention" actually is: an artificial agreement with partner about what a bid means.
+- The "you don't need conventions to play bridge well" reassurance — natural bidding works.
+- The starter four (in order):
+  1. Stayman (link to BCB-09 once published).
+  2. Jacoby Transfers (link to BCB-10 once published).
+  3. Blackwood (link to existing live article if available).
+  4. Takeout Doubles (link to BCB-07 once published).
+- The "wait to learn" group: Smolen, Puppet, Lebensohl, splinters, Bergen raises — what they do briefly, but why beginners don't need them yet.
+- Common mistakes when adding conventions: adding too many at once, not agreeing follow-ups with partner, forgetting alerts.
+- A practical rule: don't add a new convention until the previous one is automatic with partner in real play.
+- Final takeaway.`,
+  },
+  {
+    id: "BCD-07",
+    title: "Counting Trumps for Beginners: How to Track What's Out",
+    articleType: "beginnerCardPlay",
+    subcategory: "Declarer Planning",
+    keyword: "counting trumps bridge beginner",
+    metaDescription:
+      "Learn how to count trumps in bridge as a beginner declarer: simple subtraction methods, the patterns that matter, and how to avoid the classic 'who has the last trump?' mistake.",
+    teaser: "If you can't tell who has the last trump, you can't safely play the rest of the hand. Here's the simplest way to track them.",
+    body: `Planned outline (Paul to expand). Distinct from any existing article — the intermediate "Count Trumps Accurately" page is a redirect and there's no beginner-tier counterpart.
+
+- Why counting trumps is the most important counting habit: every plan changes when you know how many trumps the opponents have left.
+- The simplest method: subtract from what you started with. "We have 8, opponents have 5. Round 1: 2 each side played, 3 still out. Round 2: 1 still out."
+- The shortcut: "How many rounds are left until trumps are all in?"
+- Worked examples:
+  - 8-card trump fit, normal 3-2 break, 2 rounds clears all but one — that last trump becomes the question.
+  - 9-card fit, normal 2-2 or 3-1 — when to stop drawing.
+  - 7-card fit, when to delay drawing entirely.
+- How counting trumps interacts with drawing trumps decisions (link to "When Not to Draw Trumps").
+- Reading the bidding to estimate trump breaks before play begins.
+- Common counting mistakes: losing count after the third round, forgetting which opponent shortened first, not noticing a discard early.
+- A simple at-the-table habit: say the count silently after every round of trumps.
+- Final takeaway.`,
+  },
+  {
+    id: "BCD-08",
+    title: "Safety Plays in Bridge for Beginners: Guarantee Your Contract",
+    articleType: "beginnerCardPlay",
+    subcategory: "Declarer Planning",
+    keyword: "safety play bridge beginner",
+    metaDescription:
+      "Learn bridge safety plays: how to give up an overtrick to guarantee your contract, the classic safety positions, and when safety is the right play.",
+    teaser: "Sometimes the best play is one that gives up an overtrick — to guarantee the contract.",
+    body: `Planned outline (Paul to expand). Clear gap topic at beginner tier — no current article on safety plays at any tier.
+
+- What a safety play is: a line that protects against a bad break, at the cost of an overtrick or two.
+- Why safety plays exist: in many contracts (especially game and slam), the contract is worth far more than the overtrick. Trading overtrick for safety is great value.
+- The mindset shift: stop trying to maximise tricks; start trying to guarantee the contract.
+- The simplest safety play patterns every beginner should know:
+  - AKJ10x opposite xxx — duck the first round to guard against Qxxx on either side.
+  - AK10xx opposite xxxx — cash the king first, watching for the queen drop.
+  - AQJxx opposite xx — when to take the finesse and when to play for the drop.
+- The "what's at stake" question: how to decide whether safety is worth the overtrick.
+- IMPs vs Pairs: a quick note that pairs scoring sometimes argues against safety (because overtricks matter more) — but beginners playing rubber bridge or social bridge should almost always prefer safety.
+- Common safety-play mistakes: over-finessing for the overtrick, ignoring the trump count, taking a percentage line that risks the contract.
+- A simple "is this a safety play moment?" checklist.
+- Final takeaway.`,
+  },
+  {
+    id: "BCF-09",
+    title: "Returning Partner's Suit (and When to Switch Instead)",
+    articleType: "beginnerDefence",
+    subcategory: "Defence Planning",
+    keyword: "returning partners suit bridge",
+    metaDescription:
+      "Learn when to return partner's opening lead in bridge and when to switch suits — the decision that decides most defences.",
+    teaser: "Defence isn't just about leads — it's about what you return. Here's the framework.",
+    body: `Planned outline (Paul to expand). High-intent beginner search; pairs naturally with the existing opening-leads articles.
+
+- Why this decision matters: partner's lead set the defensive plan. Returning the suit usually continues that plan — switching abandons it.
+- The default: return partner's suit.
+- The 4 main reasons to switch:
+  1. Dummy is now strong in partner's suit (continuing helps declarer).
+  2. You can see a better source of tricks in another suit.
+  3. Partner's signal asked for a switch (link to BCF-05 Signals article).
+  4. The auction tells you the suit can't deliver enough tricks.
+- Which card to return when you DO continue:
+  - With 3 cards originally, return the higher of remaining two (= original middle, gives count).
+  - With 4 cards, return the original 4th-best.
+  - With a doubleton, return the higher card.
+- Worked examples:
+  - Continuing a 4th-best lead through declarer to set up partner's tricks.
+  - Switching to attack a side suit when dummy threatens.
+  - Reading partner's signal and switching to the right suit.
+- Common mistakes: switching out of fear instead of analysis, returning the wrong card and confusing partner, ignoring dummy's threats.
+- A simple "continue or switch" checklist.
+- Final takeaway.`,
+  },
 ];

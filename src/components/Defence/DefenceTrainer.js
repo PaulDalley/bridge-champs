@@ -2801,7 +2801,9 @@ const DEFENCE_PUZZLES = [
       promptPlacement: "left",
       hideAuction: false,
       disableWarmupTrumpGuess: true,
+      infoContinueSkipsDoneScreen: true,
       questionNumbers: [],
+      videoUrlBeforeStart: "https://youtube.com/shorts/IXuSsxHaj2o?si=vvdTtaIG3HFbHzI3",
       promptThemeTint: "openingLead",
       themeLabel: "Theme: Opening Leads",
       customPrompts: [
@@ -2908,6 +2910,7 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
+      videoUrlBeforeStart: "https://youtube.com/shorts/LG2TivW7OUE?si=AnKfJ-PB-zGqRpfA",
       promptThemeTint: "openingLead",
       themeLabel: "Theme: Opening Leads",
       customPrompts: [
@@ -2957,6 +2960,7 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
+      videoUrlBeforeStart: "https://youtube.com/shorts/3_xPeJzX7Cw?si=DuCXbNia_xUzxqOr",
       promptThemeTint: "openingLead",
       themeLabel: "Theme: Opening Leads",
       customPrompts: [
@@ -3006,6 +3010,7 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
+      videoUrlBeforeStart: "https://youtube.com/shorts/Pqbk1UcSIAU?si=kHfiXzCoQQw-w8c1",
       promptThemeTint: "openingLead",
       themeLabel: "Theme: Opening Leads",
       customPrompts: [
@@ -3096,6 +3101,7 @@ const DEFENCE_PUZZLES = [
       hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
+      videoUrlBeforeStart: "https://youtube.com/shorts/qFsxl9HMfsk?si=xqhORjpZi9UW2ujN",
       promptThemeTint: "openingLead",
       themeLabel: "Theme: Opening Leads",
       customPrompts: [
