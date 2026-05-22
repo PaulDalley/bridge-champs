@@ -7,7 +7,7 @@ BridgeChampions.com
 Paul's rule
 
 Points are misfitting when you have values, say 5+ points, opposite partner's singleton or void.
-Your hands are misfitting, so slam is much less likely and 3NT is probably your best spot (or 4 of a major).
+This is a warning sign ⚠️ - KEEP THE AUCTION LOW - Your hands are misfitting. Slam is MUCH less likely and 3NT is probably your best spot (or 4 of a major).
 
 ---
 4th suit forcing
@@ -19,7 +19,6 @@ https://bridgechampions.com/bidding/practice?difficulty=3&problem=bid3-16
 
 Opening leads
 
-Opening leads hand 23, auction 1♥ P 1NT P 4♥ P P P - what would you lead?
 Are doubletons good leads or not? What about low from a King?
 Let me give you conclusive answers on these questions and more.
 
