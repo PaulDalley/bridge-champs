@@ -38,7 +38,14 @@ service cloud.firestore {
 
     match /members/{memberId} {
         allow read;
-        allow create, update, delete: if isAdmin();
+        allow create, delete: if isAdmin();
+        allow update: if isAdmin()
+            || (
+                request.auth != null
+                && request.auth.uid == memberId
+                && request.resource.data.diff(resource.data).affectedKeys()
+                    .hasOnly(['referralCode', 'referralCodeCreatedAt'])
+            );
     }
 
     match /membersData/{userId} {

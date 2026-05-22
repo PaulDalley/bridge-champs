@@ -57,12 +57,21 @@ class ReferPage extends Component {
     const { uid } = this.props;
     if (!uid) return;
     this.setState({ loading: true });
+    const generatedCode = this.buildReferralCode(uid);
     try {
       const ref = firebase.firestore().collection("members").doc(uid);
-      const snap = await ref.get();
-      const memberData = snap.exists ? snap.data() || {} : {};
-      const existing = typeof memberData.referralCode === "string" ? memberData.referralCode.trim() : "";
-      const referralCode = existing || this.buildReferralCode(uid);
+      let existing = "";
+      try {
+        const snap = await ref.get();
+        const memberData = snap.exists ? snap.data() || {} : {};
+        existing = typeof memberData.referralCode === "string" ? memberData.referralCode.trim() : "";
+      } catch (readErr) {
+        console.warn("Referral code read failed; falling back to generated code", readErr);
+      }
+
+      const referralCode = existing || generatedCode;
+      // Always show a link if we have a UID, even if Firestore read/write has a transient issue.
+      this.setState({ referralCode, loading: false });
 
       if (!existing) {
         await ref.set(
@@ -73,12 +82,11 @@ class ReferPage extends Component {
           { merge: true }
         );
       }
-
-      this.setState({ referralCode, loading: false });
     } catch (err) {
       console.error("Failed to prepare referral code", err);
-      toastr.error("Could not load your referral link right now.");
-      this.setState({ loading: false });
+      // Non-blocking fallback: still provide a deterministic referral link.
+      this.setState({ referralCode: generatedCode, loading: false });
+      toastr.warning("Referral link loaded, but we could not sync it right now. Please try again later.");
     }
   };
 
