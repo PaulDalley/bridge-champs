@@ -4,7 +4,8 @@
 User-agent: *
 Allow: /
 
-# Public content layer
+# Public content layer (explicit allows are redundant after Allow: /,
+# but kept for clarity).
 Allow: /learn
 Allow: /declarer
 Allow: /defence
@@ -12,37 +13,45 @@ Allow: /bidding
 Allow: /beginner
 Allow: /counting
 
-# Member / interactive surfaces (logged-in or transactional UI). These render
-# meaningful content only for authenticated users, so we keep them out of
-# search results to avoid thin/duplicate indexing.
+# Admin / editor routes. No public HTML here, safe to fully block from
+# crawling.
 Disallow: /create/
 Disallow: /edit/
 Disallow: /edit-article-v2/
-Disallow: /profile
-Disallow: /membership
-Disallow: /subscribe
-Disallow: /login
-Disallow: /signup
+Disallow: /create-article-v2/
+Disallow: /create-practice-questions/
+Disallow: /edit-practice-questions/
 Disallow: /admin
-Disallow: /settings
-Disallow: /refer
 
 # Admin-only drafting area for in-progress long-form pillar articles.
 # These URLs return a "not found" page to anyone who isn't an admin and
 # are intentionally excluded from the sitemap.
 Disallow: /pillars
 
-# Interactive trainers (gated practice product, not reference content).
-Disallow: /declarer/practice
-Disallow: /defence/practice
-Disallow: /bidding/practice
-Disallow: /counting/practice
-Disallow: /counting-trumps
+# IMPORTANT - do NOT add Disallow entries for routes that already render
+# <meta name="robots" content="noindex"> in the SPA (see NoIndexTag in
+# src/App.js). Blocking them in robots.txt prevents Google from ever
+# reading the noindex tag, which causes the Search Console warning
+# "Indexed, though blocked by robots.txt".
+#
+# Routes currently relying on the in-page noindex tag and intentionally
+# NOT blocked here:
+#   /refer
+#   /membership
+#   /subscribe
+#   /settings
+#   /login
+#   /signup
+#   /complete-profile
+#   /profile
+#   /declarer/practice
+#   /defence/practice
+#   /bidding/practice
+#   /counting/practice
+#   /treadmill/practice
+#   /treadmill/practice/card-rush
+#   /treadmill/practice/opponent-shape
+#   /treadmill/practice/building-blocks
 
 # Sitemap location
 Sitemap: https://bridgechampions.com/sitemap.xml
-
-
-
-
-
