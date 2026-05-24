@@ -87,16 +87,6 @@ const SideDrawer = ({
                         <li className="waves-effect waves-light SideDrawer-NavLink-Li">
                             <NavLink activeClassName="SideDrawer-NavLink-Active"
                                      className="SideDrawer-NavLink"
-                                     to="/conventions"
-                                     onClick={() => toggleSideDrawer()}
-                            >
-                                <i style={{paddingLeft: '.3rem'}} className="SideDrawer-link_icon fas fa-book"></i>
-                                <span style={{paddingLeft: '.3rem'}} className="SideDrawer-link_icon_quiz_label">Conventions & System</span>
-                            </NavLink>
-                        </li>
-                        <li className="waves-effect waves-light SideDrawer-NavLink-Li">
-                            <NavLink activeClassName="SideDrawer-NavLink-Active"
-                                     className="SideDrawer-NavLink"
                                      to="/tournaments"
                                      onClick={() => toggleSideDrawer()}
                             >

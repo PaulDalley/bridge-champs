@@ -31,14 +31,12 @@ import CategoryArticles from "./containers/CategoryArticles";
 import DisplayArticle from "./components/Articles/DisplayArticle";
 import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle";
 import SpecificArticles from "./components/Articles/SpecificArticles";
-import ArticlesByCategory from "./components/Articles/ArticlesByCategory";
 import PracticeQuestionViewer from "./components/PracticeQuestions/PracticeQuestionViewer";
 import CreatePracticeQuestionBundle from "./components/PracticeQuestions/CreatePracticeQuestionBundle";
 import Quizzes from "./containers/Quizzes";
 import DisplayQuiz from "./components/Quizzes/DisplayQuiz";
 import PremiumMembership from "./components/Auth/PremiumMembership";
 import CurrentTournaments from "./containers/CurrentTournaments";
-import Questions from "./containers/Questions";
 import Layout from "./components/Layout";
 import AuthComponent from "./containers/AuthComponent";
 import CompleteProfile from "./components/Auth/CompleteProfile";
@@ -836,8 +834,12 @@ const routes = (
     />
     <Route path="/tournaments" component={CurrentTournaments} />
     <Route path="/tournament/:tournamentName" component={SpecificArticles} />
-    <Route path="/conventions" component={ArticlesByCategory} />
-    <Route path="/questions" component={Questions} />
+    {/* Legacy hubs: conventions now live under /bidding/advanced; /questions
+        and /chat were never properly built out. Redirect old indexed URLs
+        to surfaces that still have value. */}
+    <Route path="/conventions" exact render={() => <Redirect to="/bidding/advanced" />} />
+    <Route path="/questions" exact render={() => <Redirect to="/learn" />} />
+    <Route path="/chat" exact render={() => <Redirect to="/learn" />} />
 
     <Route path="/contact" component={Contact} />
     <Route path="/privacy" component={PrivacyPolicy} />

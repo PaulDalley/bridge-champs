@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { TRAINER_CATEGORY_TABS } from "./trainerCategoryTabs";
 import BeginnerJustPlayHands from "../Beginner/BeginnerJustPlayHands";
@@ -13,6 +14,14 @@ function PracticalJustPlayPage() {
 
   return (
     <div className="ct-page ct-page--fullhands ct-page--beginnerPractice">
+      <Helmet>
+        <title>Just Play — Bridge Champions</title>
+        <meta
+          name="description"
+          content="Play full bridge hands from declarer and defender seats. Practical practice with realistic hands, no quiz pressure."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/just-play/practice" />
+      </Helmet>
       <div className="ct-layout ct-layout--fullhands">
         <div className="ct-stage">
           <div className="ct-topNavWrap">

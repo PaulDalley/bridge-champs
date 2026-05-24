@@ -379,14 +379,6 @@ class Nav extends Component {
               }
             >
               <li
-                onClick={() => this.goTo("/conventions")}
-                className="tab col"
-                style={{ width: "25rem", height: "6rem", overflow: "visible" }}
-              >
-                <a className="/conventions">Conventions & System</a>
-                <div className="nav-tabs_underline"></div>
-              </li>
-              <li
                 onClick={() => this.goTo("/articles")}
                 className="tab col"
                 style={{ width: "25rem", height: "6rem", overflow: "visible" }}
