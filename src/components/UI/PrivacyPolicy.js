@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import "./PrivacyPolicy.css";
 import $ from "jquery";
 
@@ -10,6 +11,14 @@ class PrivacyPolicy extends React.Component {
   render() {
     return (
       <div className="PrivacyPolicy-container">
+        <Helmet>
+          <title>Privacy Policy — Bridge Champions</title>
+          <meta
+            name="description"
+            content="How Bridge Champions collects, uses, and protects your personally identifiable information."
+          />
+          <link rel="canonical" href="https://bridgechampions.com/privacy" />
+        </Helmet>
         <h3>Privacy Policy</h3>
         <br />
         <br />

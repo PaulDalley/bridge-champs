@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Helmet } from "react-helmet-async";
 import Add from "./Add";
 import QuizListItem from "../components/Quizzes/QuizListItem";
 import QuizCategoryHeader from "../components/Quizzes/QuizCategoryHeader";
@@ -179,6 +180,14 @@ const Quizzes = ({ history }) => {
 
   return (
     <div className="Articles-outer_div">
+      <Helmet>
+        <title>Quizzes — Bridge Champions</title>
+        <meta
+          name="description"
+          content="Practice and test your bridge knowledge with quizzes across bidding, declarer play, defence, and counting."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/quizzes" />
+      </Helmet>
       <div className="CategoryArticles-header">
         <div className="container">
           <h1 className="CategoryArticles-title">Quizzes</h1>
