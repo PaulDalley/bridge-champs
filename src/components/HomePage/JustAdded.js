@@ -1,46 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./JustAdded.css";
+import {
+  HOME_PAGE_RECOMMENDED_ARTICLES,
+  HOME_PAGE_RECOMMENDED_ARTICLES_TITLE,
+} from "../../data/homePageRecommendedArticles";
 
 function JustAdded() {
+  const items = HOME_PAGE_RECOMMENDED_ARTICLES.filter(
+    (item) => item?.path && item?.label
+  );
+
+  if (!items.length) return null;
+
   return (
-    <section className="JustAdded" aria-label="What's new">
+    <section
+      className="JustAdded"
+      aria-label={HOME_PAGE_RECOMMENDED_ARTICLES_TITLE}
+    >
       <div className="JustAdded-labelWrap">
         <span className="JustAdded-pin" aria-hidden>
           <i className="material-icons">push_pin</i>
         </span>
-        <h2 className="JustAdded-label">Just added</h2>
+        <h2 className="JustAdded-label">{HOME_PAGE_RECOMMENDED_ARTICLES_TITLE}</h2>
       </div>
-      <div className="JustAdded-groups">
+      <div className="JustAdded-groups JustAdded-groups--single">
         <div className="JustAdded-group">
-          <p className="JustAdded-groupTitle">This week</p>
           <ul className="JustAdded-list">
-            <li>
-              <Link to="/bidding/practice?difficulty=3&problem=bid3-16" className="JustAdded-link">
-                4th suit forcing →
-              </Link>
-            </li>
-            <li>
-              <Link to="/defence/practice?difficulty=1&problem=df1-23" className="JustAdded-link">
-                Opening Leads →
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="JustAdded-group">
-          <p className="JustAdded-groupTitle">Last week</p>
-          <ul className="JustAdded-list">
-            <li>
-              <Link to="/bidding/practice?difficulty=3&problem=bid3-11" className="JustAdded-link">
-                Reverses →
-              </Link>
-            </li>
-            <li>
-              <Link to="/defence/practice?difficulty=1&problem=df1-18" className="JustAdded-link">
-                Deadly Duck →
-              </Link>
-            </li>
+            {items.map((item) => (
+              <li key={item.path}>
+                <Link to={item.path} className="JustAdded-link">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
