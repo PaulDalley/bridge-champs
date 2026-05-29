@@ -9,7 +9,9 @@ function RecentlyAdded({ uid, subscriptionActive, a, completedPractice }) {
   const completed = completedPractice || {};
   const sourcePacks = THEME_PACKS;
   const packs = sourcePacks.map((pack) => {
-    const done = uid ? pack.handIds.filter((id) => !!completed[id]).length : 0;
+    const categoryCompleted = completed[pack.categoryKey];
+    const completedSet = Array.isArray(categoryCompleted) ? new Set(categoryCompleted) : null;
+    const done = uid && completedSet ? pack.handIds.filter((id) => completedSet.has(id)).length : 0;
     const total = pack.handIds.length;
     const pct = total ? Math.round((done / total) * 100) : 0;
     return { ...pack, done, total, pct };
