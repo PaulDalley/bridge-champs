@@ -11,7 +11,23 @@
 // draft that overlaps with an already-live article is removed too — the
 // queue should always represent the *next* batch of work, not history.
 
+import { TAKEOUT_DOUBLES_GUIDE_DRAFT_BODY } from "./takeoutDoublesGuideDraftBody";
+
 export const REVIEW_DRAFT_ARTICLES = [
+  {
+    id: "BID-TAKEOUT-GUIDE-01",
+    seedRevision: 2,
+    title:
+      "Takeout Doubles in Bridge: Complete Guide (When to Double, How to Respond, Tips)",
+    articleType: "bidding",
+    subcategory: "Competitive Bidding and Doubles",
+    keyword: "takeout double bridge",
+    metaDescription:
+      "Complete takeout double guide: when to double, hand requirements, how partner responds, jumps, tips, and common mistakes.",
+    teaser:
+      "Combined draft: your beginner takeout double article plus responding to takeout doubles (Parts 1–2). Part 3 is outline headings only.",
+    body: TAKEOUT_DOUBLES_GUIDE_DRAFT_BODY,
+  },
   {
     id: "BCB-08",
     title: "Bridge Overcalls for Beginners: When to Bid Over an Opponent's Opening",

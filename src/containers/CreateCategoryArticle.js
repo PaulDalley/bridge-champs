@@ -15,6 +15,7 @@ import {
   startDeleteArticle,
   getArticleBackups,
   restoreArticleFromBackup,
+  resolveBodyRefForSummary,
 } from "../store/actions/categoryArticlesActions";
 import {
   Row,
@@ -89,6 +90,7 @@ const CreateCategoryArticle = ({
   const _article = useSelector((state) => state.categoryArticles?.article);
   const currentArticle = useSelector((state) => state.categoryArticles?.currentArticle);
   const dispatch = useDispatch();
+  const effectiveBodyRef = resolveBodyRefForSummary(currentArticle, bodyRef);
 
   const [article, setArticle] = useState(RichTextEditor.createEmptyValue());
   const [articleId, setArticleId] = useState(match?.params?.id); // This is the body document ID from URL
@@ -471,6 +473,9 @@ const CreateCategoryArticle = ({
     if (subcategory !== "") {
       _article["subcategory"] = subcategory;
     }
+    if (currentArticle?.bodyCollection) {
+      _article.bodyCollection = currentArticle.bodyCollection;
+    }
 
     // Convert RichTextEditor value to HTML string
     let rawHtml = typeof article === 'string' 
@@ -636,7 +641,7 @@ const CreateCategoryArticle = ({
     if (!body || !bodyRef) return;
     setLoadingBackups(true);
     try {
-      const backupsList = await dispatch(getArticleBackups(body, bodyRef));
+      const backupsList = await dispatch(getArticleBackups(body, effectiveBodyRef));
       setBackups(backupsList);
       setShowBackups(true);
       // Open the modal programmatically
@@ -666,7 +671,7 @@ const CreateCategoryArticle = ({
     }
     
     try {
-      await dispatch(restoreArticleFromBackup(backupId, bodyRef));
+      await dispatch(restoreArticleFromBackup(backupId, effectiveBodyRef));
       Toast({
         html: "Article restored from backup successfully! Reloading...",
         classes: "green",

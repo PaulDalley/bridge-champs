@@ -27,9 +27,15 @@
   margin: 0;
 }
 
+.ArticleNewsletterCapture-nameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
 .ArticleNewsletterCapture-label {
   display: block;
-  margin: 0 0 0.35rem;
+  margin: 0.55rem 0 0.35rem;
   color: #14382f;
   font-size: var(--text-xs);
   font-weight: 700;
@@ -103,6 +109,10 @@
 }
 
 @media (max-width: 700px) {
+  .ArticleNewsletterCapture-nameRow {
+    grid-template-columns: 1fr;
+  }
+
   .ArticleNewsletterCapture-row {
     grid-template-columns: 1fr;
   }

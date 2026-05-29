@@ -214,6 +214,17 @@
   list-style-type: disc;
 }
 
+/* Materialize strips markers from ul:not(.browser-default); restore in articles */
+.interweave ul:not(.browser-default),
+.interweave ul:not(.browser-default) > li {
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+}
+
+.interweave ul:not(.browser-default) > li {
+  display: list-item !important;
+}
+
 .interweave h1,
 .interweave h2,
 .interweave h3,
@@ -595,6 +606,16 @@
 .ArticleCallout--checklist .ArticleCallout-badge {
   background: #e2eaf5;
   color: #394b64;
+}
+
+.ArticleCallout--expert {
+  border-color: #e8d4a8;
+  background: linear-gradient(135deg, #fff8e8 0%, #fffdf5 100%);
+}
+
+.ArticleCallout--expert .ArticleCallout-badge {
+  background: #f3e4bc;
+  color: #6b4e12;
 }
 
 /* Code/Pre styling */

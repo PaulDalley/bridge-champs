@@ -815,7 +815,10 @@ export const parseDocumentIntoJSX = (
     console.error('parseDocumentIntoJSX: documentString is not a string:', typeof documentString, documentString);
     documentString = String(documentString || '');
   }
-  
+
+  // Hearts/diamonds in stored HTML (including script-written bodies) must render red.
+  documentString = prepareArticleString(documentString);
+
   // First, split by video tags/patterns, then by MakeBoard tags
   // Support both <Video url="..." /> and <Video>...</Video> formats
   // Also support YouTube URLs directly in text
@@ -905,7 +908,7 @@ export const parseDocumentIntoJSX = (
   // Process each segment
   const articleDataArray = [];
   let globalIdx = 0;
-  const calloutRegex = /<Callout\s+type=["'](rule|example|mistake|checklist)["']\s*>([\s\S]*?)<\/Callout>/gi;
+  const calloutRegex = /<Callout\s+type=["'](rule|example|mistake|checklist|expert)["']\s*>([\s\S]*?)<\/Callout>/gi;
   const renderSegmentWithCallouts = (segment, keyBase) => {
     const items = [];
     if (!segment || !segment.trim()) return items;
@@ -930,6 +933,7 @@ export const parseDocumentIntoJSX = (
         example: "Example",
         mistake: "Common mistake",
         checklist: "Checklist",
+        expert: "Expert rule",
       };
 
       items.push(

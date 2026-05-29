@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { REVIEW_DRAFT_ARTICLES } from "../../data/review/reviewDraftArticles";
 import "./ReviewDraftsPage.css";
 
-const STORAGE_KEY = "reviewDraftArticles.v4";
+const STORAGE_KEY = "reviewDraftArticles.v6";
 
 function loadLocalDrafts() {
   if (typeof window === "undefined") return REVIEW_DRAFT_ARTICLES;
@@ -12,15 +12,20 @@ function loadLocalDrafts() {
     if (!raw) return REVIEW_DRAFT_ARTICLES;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return REVIEW_DRAFT_ARTICLES;
-    // Merge: keep the user's in-progress edits exactly as cached, and
-    // append any seed drafts whose id is not yet present locally. This
-    // lets us add new drafts to the seed file without wiping any work
-    // already underway in the browser.
-    const localIds = new Set(parsed.map((item) => item && item.id).filter(Boolean));
+    // Merge: keep the user's in-progress edits, append new seed ids, and
+    // replace a cached seed when seedRevision in this file is newer (e.g. full body shipped).
     const merged = [...parsed];
     for (const seedDraft of REVIEW_DRAFT_ARTICLES) {
-      if (seedDraft && seedDraft.id && !localIds.has(seedDraft.id)) {
+      if (!seedDraft?.id) continue;
+      const idx = merged.findIndex((item) => item?.id === seedDraft.id);
+      if (idx === -1) {
         merged.push(seedDraft);
+        continue;
+      }
+      const localRev = Number(merged[idx].seedRevision) || 0;
+      const seedRev = Number(seedDraft.seedRevision) || 0;
+      if (seedRev > localRev) {
+        merged[idx] = { ...seedDraft };
       }
     }
     return merged;
@@ -169,7 +174,7 @@ function ReviewDraftsPage() {
               />
             </label>
             <label className="ReviewDrafts-field">
-              <span>Body</span>
+              <span>Body (HTML)</span>
               <textarea
                 className="ReviewDrafts-bodyTextarea"
                 rows={18}
@@ -177,6 +182,18 @@ function ReviewDraftsPage() {
                 onChange={(e) => updateDraft(activeDraft.id, "body", e.target.value)}
               />
             </label>
+            {activeDraft.body ? (
+              <div className="ReviewDrafts-previewWrap">
+                <h2 className="ReviewDrafts-previewTitle">Preview</h2>
+                <p className="ReviewDrafts-previewNote">
+                  Rough preview (boards and callouts may not render here; they will on the live article page).
+                </p>
+                <div
+                  className="ReviewDrafts-preview DisplayArticle-body"
+                  dangerouslySetInnerHTML={{ __html: activeDraft.body }}
+                />
+              </div>
+            ) : null}
           </section>
         )}
       </div>

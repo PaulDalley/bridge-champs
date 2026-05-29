@@ -93,6 +93,15 @@ const getRouteTypeFromBodyRef = (bodyRef) =>
     ? bodyRef.replace("Body", "")
     : "article";
 
+/** Summary may store body in another collection (shared Learn + Beginner article). */
+export const resolveBodyRefForSummary = (summary, routeBodyRef) => {
+  const key = summary?.bodyCollection;
+  if (typeof key === "string" && key.trim() && matchTypeToRef[key.trim()]) {
+    return key.trim();
+  }
+  return routeBodyRef;
+};
+
 const getArticlePathFromBodyRef = (bodyRef, bodyId) => {
   const routeType = getRouteTypeFromBodyRef(bodyRef);
   if (routeType === "counting") return `/counting/articles/${bodyId}`;
@@ -222,11 +231,9 @@ export const addArticle = (article, articleBody, id, summaryRef, bodyRef) => ({
 
 export const getArticle = (id, router, bodyRef) => {
   return (dispatch) => {
-    const useBodyRef = matchTypeToRef[bodyRef];
-    const useSummaryRef = matchBodyRefToSummaryRef[bodyRef];
-    // console.log(`--- in getArticle with id: ${id} and bodyRef: ${bodyRef} ---`);
-    // console.log("attempting to use");
-    // console.log(useBodyRef);
+    const routeBodyRef = bodyRef;
+    const routeUseBodyRef = matchTypeToRef[bodyRef];
+    const routeUseSummaryRef = matchBodyRefToSummaryRef[bodyRef];
 
     const dispatchBodySnapshot = (snapshot) => {
       const article = snapshot.data();
@@ -236,10 +243,36 @@ export const getArticle = (id, router, bodyRef) => {
       return true;
     };
 
-    const resolveSummaryIdToBody = () => {
-      if (!useSummaryRef) return Promise.resolve(false);
+    const fetchBodyDoc = (collectionKey, bodyId) => {
+      const ref = matchTypeToRef[collectionKey];
+      if (!ref || !bodyId) return Promise.resolve(false);
+      return ref.doc(bodyId).get().then((bodySnapshot) => {
+        if (!bodySnapshot.exists) return false;
+        return dispatchBodySnapshot(bodySnapshot);
+      });
+    };
 
-      return useSummaryRef
+    const loadViaSummaryForBodyId = (bodyId) => {
+      if (!routeUseSummaryRef) return Promise.resolve(false);
+
+      return routeUseSummaryRef
+        .where("body", "==", bodyId)
+        .limit(1)
+        .get()
+        .then((snap) => {
+          if (snap.empty) return Promise.resolve(false);
+          const summary = snap.docs[0].data() || {};
+          const collectionKey = resolveBodyRefForSummary(summary, routeBodyRef);
+          const canonicalBodyId = summary.body || bodyId;
+          if (collectionKey === routeBodyRef) return Promise.resolve(false);
+          return fetchBodyDoc(collectionKey, canonicalBodyId);
+        });
+    };
+
+    const resolveSummaryIdToBody = () => {
+      if (!routeUseSummaryRef) return Promise.resolve(false);
+
+      return routeUseSummaryRef
         .doc(id)
         .get()
         .then((summarySnapshot) => {
@@ -249,16 +282,14 @@ export const getArticle = (id, router, bodyRef) => {
           const bodyId = summary.body;
           if (!bodyId || typeof bodyId !== "string") return false;
 
-          return useBodyRef
-            .doc(bodyId)
-            .get()
-            .then((bodySnapshot) => {
-              if (!dispatchBodySnapshot(bodySnapshot)) return false;
-              const nextPath = getArticlePathFromBodyRef(bodyRef, bodyId);
-              if (router?.replace) router.replace(nextPath);
-              else if (router?.push) router.push(nextPath);
-              return true;
-            });
+          const collectionKey = resolveBodyRefForSummary(summary, routeBodyRef);
+          return fetchBodyDoc(collectionKey, bodyId).then((loaded) => {
+            if (!loaded) return false;
+            const nextPath = getArticlePathFromBodyRef(bodyRef, bodyId);
+            if (router?.replace) router.replace(nextPath);
+            else if (router?.push) router.push(nextPath);
+            return true;
+          });
         });
     };
 
@@ -269,23 +300,26 @@ export const getArticle = (id, router, bodyRef) => {
       router.push("/membership");
     };
 
-    return useBodyRef
+    return routeUseBodyRef
       .doc(id)
       .get()
       .then((snapshot) => {
         if (dispatchBodySnapshot(snapshot)) return undefined;
 
-        return resolveSummaryIdToBody().then((resolved) => {
-          if (resolved) return undefined;
-          return { body: { text: "<p>Article body text was blank</p>" } };
+        return loadViaSummaryForBodyId(id).then((viaSummary) => {
+          if (viaSummary) return undefined;
+          return resolveSummaryIdToBody().then((resolved) => {
+            if (resolved) return undefined;
+            return { body: { text: "<p>Article body text was blank</p>" } };
+          });
         });
       })
       .catch((err) => {
-        // console.log(
-        //   `--- There was an error fetching Category Article with ${bodyRef} ---`
-        // );
-        // console.log(err);
-        return resolveSummaryIdToBody()
+        return loadViaSummaryForBodyId(id)
+          .then((viaSummary) => {
+            if (viaSummary) return undefined;
+            return resolveSummaryIdToBody();
+          })
           .then((resolved) => {
             if (!resolved) redirectToMembership();
           })
@@ -428,9 +462,10 @@ export const startEditArticle = (article, articleBody, summaryRef, bodyRef) => {
     // console.log("article body", article.body);
     // console.log("ABOUT TO EDIT THEM: ", article.title);
     
+    const resolvedBodyRef = resolveBodyRefForSummary(article, bodyRef);
     const useSummaryRef = matchTypeToRef[summaryRef];
-    const useBodyRef = matchTypeToRef[bodyRef];
-    const useBackupRef = matchBodyRefToBackupRef[bodyRef];
+    const useBodyRef = matchTypeToRef[resolvedBodyRef];
+    const useBackupRef = matchBodyRefToBackupRef[resolvedBodyRef];
     const articleBodyRef = useBodyRef.doc(article.body);
     const articlesMetadataRef = useSummaryRef.doc(article.id);
     

@@ -2765,7 +2765,8 @@ const BIDDING_PUZZLES = [
     visibleFullHandSeats: ["DECLARER"],
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: true,
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Do you open the bidding?",
@@ -3041,6 +3042,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-29-q2--reveal": "1♠ X 4♠ X P Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
@@ -3116,6 +3121,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-30-q1--reveal": "4♥ Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
@@ -3190,6 +3199,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-32-q1--reveal": "5♦ X P Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
@@ -3225,7 +3238,7 @@ const BIDDING_PUZZLES = [
     id: "bid1-10",
     difficulty: 1,
     title: "Responding (10): 1♣ 1♥",
-    trumpSuit: "C",
+    trumpSuit: "D",
     contract: "—",
     dealerCompass: "N",
     declarerCompass: "S",
@@ -3235,6 +3248,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-29-q2--reveal": "1♠ X 4♠ X P Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "You are responder, what will you do?",
@@ -3278,7 +3295,11 @@ const BIDDING_PUZZLES = [
     visibleFullHandSeats: ["DECLARER"],
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: true,
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-33-q2--reveal": "1♠ 3♣ 4♠ 5♣ 6♠ X",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "The modern 1NT opening",
@@ -3582,6 +3603,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-30-q1--reveal": "4♥ Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       themeLabel: "1-level overcalls",
@@ -3661,6 +3686,10 @@ const BIDDING_PUZZLES = [
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-32-q1--reveal": "5♦ X P Pass",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       themeLabel: "1-level overcalls",
@@ -6231,10 +6260,14 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
-    auction: "",
+    auction: "5♦ X P ?",
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: true,
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-33-q2--reveal": "1♠ 3♣ 4♠ 5♣ 6♠ X",
+      },
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Slam judgment",
@@ -6714,10 +6747,10 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER", "DUMMY"],
-    auction: "",
+    auction: "5♦ X P ?",
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: true,
+      hideAuction: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Shape and wastage",
@@ -8135,6 +8168,438 @@ const BIDDING_PUZZLES = [
     },
     shownHands: {
       DECLARER: { S: "Q4", H: "AKJ42", D: "43", C: "KJ93" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-29",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "High level doubles (1)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ X 4♠ X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-29-q2--reveal": "1♠ X 4♠ X P Pass",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "High level doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: High level doubles",
+      promptThemeTint: "respondToDouble",
+      customPrompts: [
+        {
+          id: "bid2-29-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Is partner's double takeout or penalty?",
+          options: [
+            { id: "takeout", label: "Takeout" },
+            { id: "penalty", label: "Penalty" },
+          ],
+          expectedChoice: "takeout",
+          expectedChoiceDisplay: "Takeout",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Takeout, but the word itself is misleading, because often we leave takeout doubles in when they are
+                    made at the 4 level or higher. However, partner will not have a stack of spades.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">📘 Rule</p>
+                  <p className="ct-revealRichBody">
+                    Rule: Whenever the opponents bid and raise, showing at least 8+ card fit, our doubles show "good
+                    hands", but they do not show a heavy holding in the opponent's trump suit.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Think about it, here the opponent's will likely have a 9-10 card fit, how many trumps can partner
+                    really have?
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Modern bridge has deemed it more important to allocate the meaning of "I have a good hand" to X,
+                    rather than "I have a lot of their suit". The main reason for this is because when they have big
+                    fits, we never have a big stack of their suit.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-29-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "So what do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Pass. Even though the X is not penalty in the strict sense, and it is actually \"takeout\" (although that word is misleading). We normally do not go on the 5 level to make a contract (and try make 11 tricks), we rather defend on the 4 level. The times we go on the 5 level are with extreme shape, usually a spade void.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "2", H: "KQ104", D: "A1032", C: "A942" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-30",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "High level doubles (2)",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "4♥ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-30-q1--reveal": "4♥ Pass",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "High level doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: High level doubles",
+      promptThemeTint: "respondToDouble",
+      customPrompts: [
+        {
+          id: "bid2-30-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "The auction has started at the 4 level, how do you handle it?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Pass. Double here is takeout, it is almost always done with a shortage in hearts. Unfortunatley, despite having a strong hand, we cannot bid here. We have to hope partner comes in with a takeout double, in which case you will teach your opponent a painful lesson..\n\nRule: Don't make a takeout double if you would much prefer to defend.\n\nRather make a certain positive score by defending. How would you feel if you doubled, partner bid 4♠, and that got doubled? You have turned a plus score into a potentially significant minus. And as mentioned, partner may come in with a double, in which case you'll be smiling for days.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "A43", H: "KQ104", D: "AJ92", C: "K10" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-31",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "High level doubles (3)",
+    trumpSuit: "H",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "3♥ X 4♥ X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-31-q1--reveal": "3♥ X 4♥ X P 4♠",
+        "bid2-31-q2--reveal": "3♥ X 4♥ X P Pass",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "High level doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: High level doubles",
+      promptThemeTint: "respondToDouble",
+      customPrompts: [
+        {
+          id: "bid2-31-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "You decided to go with double since your spade suit quality is very poor. What now?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Let's change the hand slightly",
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">4♠</span>
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  4♠ is a good bid. Partner&apos;s double does not insist on penalty, it just shows a good hand and asks
+                  you to do something sensible.
+                </p>
+                <ul
+                  className="ct-revealRichPoints"
+                  style={{ listStyleType: "disc", listStylePosition: "inside", paddingLeft: "0.25em" }}
+                >
+                  <li>You have a 5th spade.</li>
+                  <li>You have a singleton heart with no wasted values.</li>
+                </ul>
+                <p className="ct-revealRichBody">
+                  Your hand is actually excellent, you may make 6. But we prefer to go by the idea of:
+                </p>
+                <p className="ct-revealRichBody">
+                  &quot;When the opponent&apos;s preempt, don&apos;t try bid thin slams. Things aren&apos;t breaking well, the
+                  hand is distributional, and also we don&apos;t have enough room to bid it confidently, don&apos;t gamble
+                  and get -50.&quot;
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-31-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            south: { S: "KQ10", H: "K10", D: "A1043", C: "Q1092" },
+          },
+          promptText:
+            "What about on this hand - we have the same auction as before, but your hand has changed?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">Pass</span>
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  In this context we definitely want to pass. We have defensive values in hearts, a balanced hand.
+                </p>
+                <p className="ct-revealRichBody">
+                  Try to see how this hand is vastly different to the previous hand, which is why partner&apos;s double
+                  sends the message &quot;Look at your hand and do something intelligent based on whether your hand is good
+                  for declaring (often this will mean short heart, no points in hearts) or good for defending.&quot;
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "J7642", H: "2", D: "AK104", C: "AK4" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-32",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "High level doubles (4)",
+    trumpSuit: "C",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "5♦ X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-32-q1--reveal": "5♦ X P Pass",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "High level doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: High level doubles",
+      promptThemeTint: "respondToDouble",
+      customPrompts: [
+        {
+          id: "bid2-32-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is the flavour of a 5 level double and what do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          noContinue: true,
+          revealText:
+            "Almost 100% of the time we pass 5 level doubles.\n\nIt is the combination of the opponent's already being high, and the impossibility of us having a sensible constructive auction. Double is not tightly defined, just a good hand, say 14 or 15+ points. If double was always takeout, we have to regularly pass with very strong hands, it would be too restrictive.\n\nRule: If you always pass 5 level doubles you will be fine, don't worry about the rare occasions where it might be correct to bid.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "AJ9432", H: "KJ54", D: "2", C: "82" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-33",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "High level doubles (5)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ P 3♠ P 4NT P 5♦ P 6♠ P P X P P P",
+    vulnerability: "EW Vul",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-33-q2--reveal": "1♠ 3♣ 4♠ 5♣ 6♠ X",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "High level doubles",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: High level doubles",
+      promptThemeTint: "respondToDouble",
+      customPrompts: [
+        {
+          id: "bid2-33-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <PracticeAuctionMiniTable auctionText="1♠ P 3♠ P 4NT P 5♦ P 6♠ P P X P P P" dealerCompass="E" />
+              <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">
+                THe opponents bid slam, nothing fancy, 4NT just asked for keycards. What is partner&apos;s
+                double?
+              </p>
+            </div>
+          ),
+          options: [
+            { id: "penalty", label: "Penalty" },
+            { id: "takeout", label: "Takeout" },
+            { id: "somethingElse", label: "Something else" },
+          ],
+          expectedChoice: "somethingElse",
+          expectedChoiceDisplay: "Something else",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "lets change things around a little bit",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  It is what is called a &quot;lightner double&quot;. That is a double that communicates the following
+                  message.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">
+                  I have a void, I want you to try find it and lead it, so we can beat the contract.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  It is not a double for the sake of getting significant penalties, it is basically just a type of lead
+                  directing double.
+                </p>
+                <p className="ct-revealRichBody">
+                  If you think you will beat the opponent&apos;s slam on any lead, feel free to double anyway. But
+                  usually against good opponent&apos;s they don&apos;t freely bid slams like this that are going down
+                  (It&apos;s clearly not a sacrifice). That is why we use the double to convey that messager.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-33-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            south: { S: "4", H: "105432", D: "53", C: "KQ1094" },
+          },
+          promptText: (
+            <div className="ct-revealRich">
+              <PracticeAuctionMiniTable auctionText="1♠ 3♣ 4♠ 5♣ 6♠ X" dealerCompass="W" />
+              <p className="ct-revealRichBody ct-revealRichBody--belowMiniTable">What will you lead here?</p>
+            </div>
+          ),
+          options: [
+            { id: "trump", label: "Trump" },
+            { id: "heart", label: "heart" },
+            { id: "diamond", label: "diamond" },
+            { id: "club", label: "Club" },
+          ],
+          expectedChoice: "heart",
+          expectedChoiceDisplay: "Heart",
+          wrongTryText: "Not quite — try again.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">Heart</span>
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">Make an unusual lead, I have a void.</p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  So, we certainly do not lead clubs, we lead our longest suit outside of clubs.
+                </p>
+                <p className="ct-revealRichBody">
+                  Why lead our longest suit? The chances are that partner&apos;s void is opposite our longst suit.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "43", H: "J98432", D: "5", C: "J1053" },
     },
     rounds: [],
   },

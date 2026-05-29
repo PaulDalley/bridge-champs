@@ -321,6 +321,57 @@ button.ct-categoryTab {
   color: #0f172a;
 }
 
+/* Suit-by-suit loser breakdown (e.g. counting problem 22) — spaced blocks, not headings glued to prior text. */
+.ct-revealRichSuitBlocks {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+.ct-revealRichSuitBlocks + .ct-revealRichBody {
+  margin-top: 1.5em;
+}
+
+.ct-revealRichSuitBlock {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(15, 23, 42, 0.14);
+}
+
+.ct-revealRichSuitBlock:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.ct-revealRichSuitLabel {
+  margin: 0 0 6px;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+}
+
+.ct-revealRichSuitBlock .ct-revealRichBody--belowHeadingTight {
+  margin-top: 0;
+}
+
+.ct-revealRichFinishCard {
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 2px;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
 /* Principle / rule framing inside reveal rich cards (bordered callout). */
 .ct-revealRichRuleBox {
   margin-top: 16px;
@@ -379,6 +430,87 @@ button.ct-categoryTab {
 
 .ct-revealRichPlusMinusTable td.ct-revealRichPlusMinusTable-plusCell {
   border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.ct-revealRichLoserTable {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid rgba(30, 41, 59, 0.22);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.ct-revealRichLoserTable th,
+.ct-revealRichLoserTable td {
+  padding: 10px 12px;
+  vertical-align: top;
+  border-top: 1px solid rgba(30, 41, 59, 0.12);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.ct-revealRichLoserTable tr:first-child th,
+.ct-revealRichLoserTable tr:first-child td {
+  border-top: 0;
+}
+
+.ct-revealRichLoserTable th {
+  width: clamp(92px, 24%, 126px);
+  text-align: left;
+  font-weight: 800;
+  color: #0f172a;
+  background: rgba(226, 232, 240, 0.7);
+  border-right: 1px solid rgba(30, 41, 59, 0.12);
+}
+
+.ct-revealRichLoserTable td {
+  font-weight: 600;
+  color: #1e293b;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 540px) {
+  .ct-revealRichLoserTable th,
+  .ct-revealRichLoserTable td {
+    padding: 8px 9px;
+  }
+
+  .ct-revealRichLoserTable th {
+    width: 86px;
+  }
+}
+
+/* Extra-compact variant for dense analysis tables (problem 22). */
+.ct-revealRichLoserTable.ct-revealRichLoserTable--compact th,
+.ct-revealRichLoserTable.ct-revealRichLoserTable--compact td {
+  padding: 8px 8px;
+}
+
+.ct-revealRichLoserTable.ct-revealRichLoserTable--compact th {
+  width: clamp(90px, 25%, 110px) !important;
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ct-revealRichLoserTable.ct-revealRichLoserTable--compact td {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .ct-revealRichLoserTable.ct-revealRichLoserTable--compact th {
+    width: 88px !important;
+  }
+
+  .ct-revealRichLoserTable.ct-revealRichLoserTable--compact td {
+    font-size: var(--text-xs);
+  }
 }
 
 .ct-revealRichBody {
@@ -679,6 +811,10 @@ button.ct-categoryTab {
   margin: 0;
   padding-left: 1.25em;
   list-style: disc;
+}
+
+ol.ct-revealRichPoints {
+  list-style: decimal;
 }
 
 .ct-revealRichPoints li {
@@ -1423,6 +1559,37 @@ button.ct-categoryTab {
   margin: 14px 0;
 }
 
+/* Theme: Takeout or Penalty? (bidding level 3) — emerald/teal for strong contrast */
+.ct-problemTab--themeTakeoutPenalty {
+  background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+  border-color: rgba(5, 150, 105, 0.3);
+}
+.ct-problemTab--themeTakeoutPenalty:hover:not(:disabled) {
+  background: linear-gradient(180deg, #a7f3d0 0%, #6ee7b7 100%);
+}
+.ct-problemTab--themeTakeoutPenalty.ct-problemTab--active {
+  border: 2px solid #047857;
+  background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
+  color: #064e3b;
+  font-weight: 900;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.5);
+}
+.ct-sidePrompt--themeTakeoutPenalty {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  border-left: 3px solid rgba(5, 150, 105, 0.48);
+}
+.ct-sidePrompt--themeTakeoutPenalty .ct-revealContent .ct-revealParagraph:first-child {
+  font-size: 1.1em;
+  color: #065f46;
+  font-weight: 700;
+}
+.ct-sidePrompt--themeTakeoutPenalty .ct-revealList {
+  background: rgba(5, 150, 105, 0.1);
+  border-radius: 8px;
+  padding: 12px 12px 12px 1.5em;
+  margin: 14px 0;
+}
+
 /* Theme: Responding to a double (bidding d2) — violet / indigo, higher contrast */
 .ct-problemTab--themeRespondToDouble {
   background: linear-gradient(180deg, #e9d5ff 0%, #d8b4fe 100%);
@@ -1904,6 +2071,12 @@ button.ct-categoryTab {
 .ct-themeLabel--themeDoubles {
   background: linear-gradient(180deg, #d8e2ec 0%, #c5d3e3 100%);
   color: #0f172a;
+}
+.ct-themeLabel--themeTakeoutPenalty {
+  background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+  border: 2px solid #10b981;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
 }
 .ct-themeLabel--themeRespondToDouble {
   background: linear-gradient(180deg, #ddd6fe 0%, #c4b5fd 100%);
@@ -3792,6 +3965,72 @@ button.ct-categoryTab {
 .ct-handWrap {
   margin-top: 2px;
 }
+
+.ct-handWrap--spotlight {
+  position: relative;
+  border-radius: 18px;
+}
+
+.ct-handWrap--spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 3px solid #f59e0b;
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 4px rgba(245, 158, 11, 0.18),
+    0 0 16px rgba(245, 158, 11, 0.35),
+    0 0 28px rgba(245, 158, 11, 0.24);
+  pointer-events: none;
+}
+
+.ct-handWrap--spotlight::after {
+  content: "⬇";
+  position: absolute;
+  top: -220px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(1.35);
+  z-index: 2;
+  background: transparent;
+  color: #ffffff;
+  border: 0;
+  padding: 0;
+  font-size: 128px;
+  font-weight: 800;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.55),
+    0 0 12px rgba(255, 255, 255, 0.35),
+    0 0 24px rgba(245, 158, 11, 0.45),
+    0 0 42px rgba(245, 158, 11, 0.32);
+  pointer-events: none;
+}
+
+/* When spotlighting North/top hand, place arrow in table area pointing upward. */
+.ct-seat--top .ct-handWrap--spotlight::after {
+  content: "⬆";
+  top: calc(100% + 22px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ct-seatLabel--hiddenDuringSpotlight {
+  opacity: 0;
+}
+
+.ct-miniCard--spotlightCircle {
+  position: relative;
+  z-index: 2;
+  border: 2px solid #d97706 !important;
+  background: #fef08a !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ct-miniCard--spotlightCircle .ct-fanRank,
+.ct-miniCard--spotlightCircle .ct-fanSuit {
+  text-shadow: none;
+}
+
+
 
 .ct-handLine {
   display: flex;

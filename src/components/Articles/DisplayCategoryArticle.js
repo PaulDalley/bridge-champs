@@ -757,10 +757,15 @@ const DisplayCategoryArticle = ({
   // redirectTo, bounce visitors there immediately. The primary URL holds
   // the canonical and the prerendered content; this URL is excluded from
   // sitemap + RelatedArticles so Google should drop it from the index.
+  const bodyDocForRoute = article?.[articleId];
+  const bodyRedirectTarget =
+    typeof bodyDocForRoute?.redirectTo === "string" && bodyDocForRoute.redirectTo.startsWith("/")
+      ? bodyDocForRoute.redirectTo
+      : null;
   const redirectTarget =
     typeof useMetaData?.redirectTo === "string" && useMetaData.redirectTo.startsWith("/")
       ? useMetaData.redirectTo
-      : null;
+      : bodyRedirectTarget;
   if (redirectTarget) {
     return <Redirect to={redirectTarget} />;
   }
@@ -1067,6 +1072,9 @@ const DisplayCategoryArticle = ({
                         const snap = await summaryRef.where("body", "==", bodyId).limit(1).get();
                         if (snap.empty) throw new Error("Could not find summary doc for this article");
 
+                        const summaryData = snap.docs[0].data() || {};
+                        const canonicalBodyId = summaryData.body || bodyId;
+
                         await snap.docs[0].ref.set(
                           {
                             isFree: nextVal,
@@ -1075,7 +1083,18 @@ const DisplayCategoryArticle = ({
                           { merge: true }
                         );
 
-                        await bodyRef.doc(bodyId).set(
+                        const bodyRefByCollection = {
+                          biddingBody: biddingBodyRef,
+                          beginnerBiddingBody: beginnerBiddingBodyRef,
+                          cardPlayBody: cardPlayBodyRef,
+                          defenceBody: defenceBodyRef,
+                          beginnerCardPlayBody: beginnerCardPlayBodyRef,
+                          beginnerDefenceBody: beginnerDefenceBodyRef,
+                        };
+                        const targetBodyRef =
+                          bodyRefByCollection[summaryData.bodyCollection] || bodyRef;
+
+                        await targetBodyRef.doc(canonicalBodyId).set(
                           {
                             isFree: nextVal,
                             freeUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(),

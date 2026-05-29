@@ -2859,6 +2859,1321 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  }, 
  ], 
  }, 
+  {
+    id: "p1-24",
+    difficulty: 1,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Counting Losers (24)",
+    trumpSuit: "H",
+    contract: "4♥",
+    auction: "1♦ P 1♥ P 2♥ P 4♥ P P P",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    promptOptions: {
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Counting Losers",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Counting losers",
+      promptThemeTint: "handEval",
+      spotlightSeat: "south",
+      customPrompts: [
+        {
+          id: "p1-24-before-lead-4",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["5S", "6S", "2H", "4H", "3D", "8C"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Let's count our losers. This is how we should think about the hand.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    &quot;The heart losers are certain, nothing I can do about that (Ace and King of trumps). The club
+                    loser is easy to get rid of, just ruff it eventually. Time to think about the spades and diamonds.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-24-before-lead-4b",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["5S", "6S", "2H", "4H", "3D", "8C"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">Can I do something good with the diamond suit?</p>
+                  <p className="ct-revealRichBody">
+                    If the diamond suit goes really well, I can make 4 tricks and pitch a spade on the 4th trick. If it
+                    goes badly, I&apos;m down straight away - the finesse loses, combine that with my certain spade loser
+                    and 2 heart losers = 4 losers.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    If the spade suit goes well, I will only lose 1 spade, and I will make all the spade tricks but 1, so
+                    I can pitch my diamond on the 4th spade (for example spades 3-3 with the K or J onside).
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-24-before-lead-5",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "let's watch how the play goes",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["5S", "6S", "2H", "4H", "3D", "8C"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    There is a guiding principle that makes that easier without having to think about it too much.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Guiding principle</p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Here, there was at least 1 certain spade loser, no matter what happened. Whereas there is not a
+                    certain diamond loser, because if things go well with the spade suit, the diamond finesse may not
+                    have to be taken at all.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichHeading">Three big ones</p>
+                  <p className="ct-revealRichBody">
+                    The main point is - circle losers, start looking at them and thinking along the lines of &quot;what can
+                    I do about them&quot;. Let guiding principles help you
+                  </p>
+                  <ul className="ct-revealRichPoints">
+                    <li>Lose sure losers early</li>
+                    <li>Find tricks in your long suits 5+ cards, and 4-3 fits.</li>
+                    <li>
+                      look for your trick sources, for example QJ10 is a trick source when you knock out the AK! (see
+                      declarer stage 1, problems 3-6)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-24-trump-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 1,
+          fixed: { N: 4, S: 5 },
+          expectedDistribution: { N: 4, S: 5, W: 3, E: 1 },
+          promptText:
+            "What was the original trump distribution? Prefill 4 for dummy, 5 for you.",
+          successText: "Well done. West started with 3, East with 1.",
+        },
+        {
+          id: "p1-24-go-spades",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue",
+          promptText:
+            "let's go after the spade suit. It looks sensible enough to play low to the Queen.",
+        },
+        {
+          id: "p1-24-spade-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 5,
+          fixed: { N: 4, S: 3 },
+          expectedDistribution: { N: 4, S: 3, W: 3, E: 3 },
+          promptText: "What was the original spade distribution?",
+        },
+        {
+          id: "p1-24-spades-33-msg",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "Continue",
+          promptText: "the spades have broken 3-3, our remaining spade is a trick!",
+        },
+        {
+          id: "p1-24-after-ten-spades",
+          type: "INFO",
+          atRoundIdx: 8,
+          continueButtonLabel: "show me the full starting position",
+          promptText:
+            "The rest of the tricks are ours, we just ruff our club, all the trumps are drawn.",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "A1074", H: "Q1093", D: "A976", C: "4" },
+      east: { S: "K98", H: "8", D: "T54", C: "KJT932" },
+      south: { S: "Q65", H: "J6542", D: "KJ3", C: "A8" },
+      west: { S: "J32", H: "AK7", D: "Q82", C: "Q765" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "W", card: { rank: "A", suit: "H" } },
+          { seat: "N", card: { rank: "3", suit: "H" } },
+          { seat: "E", card: { rank: "8", suit: "H" } },
+          { seat: "S", card: { rank: "2", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "W", card: { rank: "K", suit: "H" } },
+          { seat: "N", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "C" } },
+          { seat: "S", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "W", card: { rank: "7", suit: "H" } },
+          { seat: "N", card: { rank: "T", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "C" } },
+          { seat: "S", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "Q", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5",
+        plays: [
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "3", suit: "S" } },
+          { seat: "N", card: { rank: "A", suit: "S" } },
+          { seat: "E", card: { rank: "9", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6",
+        plays: [
+          { seat: "N", card: { rank: "7", suit: "S" } },
+          { seat: "E", card: { rank: "K", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+          { seat: "W", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 7",
+        plays: [
+          { seat: "E", card: { rank: "5", suit: "C" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "7", suit: "C" } },
+          { seat: "N", card: { rank: "4", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 8",
+        plays: [
+          { seat: "S", card: { rank: "3", suit: "D" } },
+          { seat: "W", card: { rank: "2", suit: "D" } },
+          { seat: "N", card: { rank: "A", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 9",
+        plays: [
+          { seat: "N", card: { rank: "T", suit: "S" } },
+          { seat: "E", card: { rank: "T", suit: "C" } },
+          { seat: "S", card: { rank: "J", suit: "D" } },
+          { seat: "W", card: { rank: "7", suit: "C" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-21",
+    difficulty: 1,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Counting Losers (21)",
+    trumpSuit: "S",
+    contract: "4S",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    promptOptions: {
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Counting Losers",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Counting losers",
+      promptThemeTint: "handEval",
+      customPrompts: [
+        {
+          id: "p1-21-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "This was played in the final of the US national team selection. West had opened 1NT, and north south reached the contract of 4S.\n\nOn the previous hand we looked at counting losers, and said step 1 was to focus on the long trump hand. When there are two 4-card suits, and no long trump hand, the best strategy is to focus on one of the hands that you plan to \"make good\".",
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-before-lead-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["3S", "7S", "4H", "JC", "7C", "6C", "2D"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">Lets look at both of the hands to see which is the better candidate.</p>
+                  <p className="ct-revealRichBody">Lets look at the highlighted losers.</p>
+                  <table className="ct-revealRichLoserTable" aria-label="South hand loser plan">
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♠ Spades" />
+                        </th>
+                        <td>2 top spade tricks, okay not much we can do about that.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♥ Hearts" />
+                        </th>
+                        <td>1 heart loser, we can take the likely finesse.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♣ Clubs" />
+                        </th>
+                        <td>
+                          3 club losers, we can try ruff those, it might be difficult or impossible to ruff three times
+                          though, we don&apos;t have the entries.
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♦ Diamonds" />
+                        </th>
+                        <td>1 diamond loser - we will just take a finesse for that.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-before-lead-3",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "north",
+          spotlightCards: {
+            north: ["4S", "5S", "2H", "QD", "7D"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">Looking now at the north hand,</p>
+                  <table className="ct-revealRichLoserTable" aria-label="North hand loser plan">
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♠ Spades" />
+                        </th>
+                        <td>2 top spade losers again, nothing we can do about that.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♥ Hearts" />
+                        </th>
+                        <td>
+                          1 heart loser, we can try to take a finesse. There might also be an additional heart loser if the
+                          suit doesn&apos;t break.
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♣ Clubs" />
+                        </th>
+                        <td>No clubs - remember dummy has the Ace</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♦ Diamonds" />
+                        </th>
+                        <td>2 diamonds, we can take a finesse for one of them, and perhaps ruff the third one.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-main-hand-choice",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "So which hand should we choose as our main hand that we want to set up?",
+          options: [
+            { id: "north", label: "north" },
+            { id: "south", label: "south" },
+          ],
+          expectedChoice: "north",
+          continueButtonLabel: "Watch and follow the play",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    We want to set up the north hand, how do we know that? I repeatedly stress throughout this site,
+                    that one of the guiding principles of declarer play is to setup your long suits, which is exactly
+                    what you should do here. That heart suit will be a very big source of tricks, probably 4-5 tricks.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    guiding principle of declarer play - set up your long suits - when in doubt go for your long suits
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    On this hand, declarer did not see a reason to delay drawing trumps - declarer's reasoning was - I
+                    probably only need to ruff 1 diamond, and otherwise the north hand is good after a heart finesse.
+                    So, since I only need to ruff once, there is no reason to delay drawing trumps. A big risk of
+                    delaying is that they will ruff my heart winners!
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-track-trumps-start",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText:
+            "We want to draw trumps, let's keep track - how many trumps do the opponents have?",
+          expectedAnswer: 5,
+        },
+        {
+          id: "p1-21-track-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 1,
+          promptText:
+            "Make sure you're tracking trumps the right way - how many do the opponents have left?",
+          expectedAnswer: 3,
+          successText:
+            "3 left, make sure you keep track of that number so you confidently know when they have been fully drawn.",
+        },
+        {
+          id: "p1-21-spade-distribution",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 3,
+          fixed: { N: 4, S: 4 },
+          expectedDistribution: { W: 3, E: 2, N: 4, S: 4 },
+          promptText: "What was the trump (spade) distribution?",
+        },
+        {
+          id: "p1-21-entries-intro",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    The hand is mostly over, but there is one more excellent idea being showcased here - use entries
+                    productively.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">use entries productively</p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Some people might just cash the King of hearts, and play a low heart. But try to see why that is a
+                    bad use of entries.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    If all goes well in hearts, which it did in this hand, you will enjoy your 5 heart tricks but then
+                    be stuck in dummy with only diamonds and trumps - you want to play diamonds towards to the Queen.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-entries-plan",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "Show how to use the entries productively",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    A better use of entries is to play diamond towards the Queen now, while you are in the south hand,
+                    then come back with the King of hearts and play the hearts.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Or continue diamonds, ruffing the third, then play hearts.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Either way, don&apos;t get stuck in the wrong hand by following this basic principle -
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">Always use your entries productively.</p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-reveal-full-hand-btn",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "reveal the full hand.",
+          promptText: "reveal the full hand.",
+          videoUrl: "",
+        },
+        {
+          id: "p1-21-entries-summary",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText:
+            "Declarer kept it simple, looked at what needed to be done from the south hand, and did it - while he was in the south hand, while using entries productively.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "QT54", H: "AJ752", D: "AQ7", C: "4" },
+      east: { S: "96", H: "T3", D: "953", C: "KQT953" },
+      south: { S: "J873", H: "K64", D: "82", C: "AJ76" },
+      west: { S: "AK2", H: "Q98", D: "KJT64", C: "82" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "W", card: { rank: "8", suit: "C" } },
+          { seat: "N", card: { rank: "4", suit: "C" } },
+          { seat: "E", card: { rank: "Q", suit: "C" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "S" } },
+          { seat: "W", card: { rank: "K", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "W", card: { rank: "A", suit: "S" } },
+          { seat: "N", card: { rank: "5", suit: "S" } },
+          { seat: "E", card: { rank: "9", suit: "S" } },
+          { seat: "S", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "T", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "C" }, showOut: true },
+          { seat: "S", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 5",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "D" } },
+          { seat: "W", card: { rank: "4", suit: "D" } },
+          { seat: "N", card: { rank: "Q", suit: "D" } },
+          { seat: "E", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "8", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7",
+        plays: [
+          { seat: "S", card: { rank: "4", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+          { seat: "N", card: { rank: "J", suit: "H" } },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-22",
+    difficulty: 1,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Counting Losers (22)",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    promptOptions: {
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "4S by South",
+      contractLabelBeforeStartOnly: false,
+      themeLabel: "Theme: Counting losers",
+      promptThemeTint: "handEval",
+      customPrompts: [
+        {
+          id: "p1-22-after-lead-plan",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "show me the play",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["4S", "5S", "4H", "7D"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">Another hand from the US Team selection final</p>
+                  <p className="ct-revealRichBody">
+                    A very good way to think about losers is "IF I draw trumps, how many losers do I have?" - and this
+                    also will answer the question - Can I just draw trumps?
+                  </p>
+                  <p className="ct-revealRichBody">So let's do it, IF I draw trumps I will have</p>
+                  <div className="ct-revealRichSuitBlocks">
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">
+                        <TextWithColoredSuits text="♠ Spades" />
+                      </p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        2 Spade losers - The Ace and Queen, we will draw the rest if they break normally.
+                      </p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">
+                        <TextWithColoredSuits text="♥ Hearts" />
+                      </p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        1 Heart Loser - We can conveniently throw this on the King of clubs.
+                      </p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">
+                        <TextWithColoredSuits text="♦ Diamonds" />
+                      </p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        1 Diamond loser - we have every card other than the Queen.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="ct-revealRichBody">
+                    So, after we throw our heart loser on the <TextWithColoredSuits text="K♣" />, we will only lose 1
+                    diamond and 2 trumps. So, drawing trumps seems like a very viable strategy. That is why, at trick
+                    2, declarer looked no further and decided to play a trump.
+                  </p>
+                  <p className="ct-revealRichBody">Something interesting happened though, and plans shortly changed.</p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-22-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 1,
+          promptText: "How many trumps do the opponents have left?",
+          expectedAnswer: 3,
+          successText:
+            "The opponents have 3 trumps left.",
+        },
+        {
+          id: "p1-22-recount-tool",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    High level declarer play can involve counting and recounting tricks. At the start of the hand we
+                    looked at the useful tool - what if I draw trumps, how many losers would I have?
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">There is a similar tool, what if I don't touch trumps, how many losers would I have?</p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">If I don't draw trumps, I have the following losers</p>
+                  <div className="ct-revealRichSuitBlocks">
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">Trumps/Spades</p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        3 losers (there are three out, we assume all of them will score if we don't draw them) - this is
+                        the key to analysing whether we can leave the trumps out, account for all of them being losers.
+                      </p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">
+                        <TextWithColoredSuits text="♥ Hearts" />
+                      </p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        none - pitch my heart loser on the King of clubs
+                      </p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">
+                        <TextWithColoredSuits text="♦ Diamonds" />
+                      </p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        If I ruff two of them, no diamond losers.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="ct-revealRichBody">
+                    Conclusion: Declarer decided, I can now just ruff my diamond losers, I don't need to continue
+                    drawing trumps, I've drawn enough. I can afford to lose all three remaining out. I can use my
+                    trumps now for ruffing instead of drawing.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-22-line-finish",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    Declarer just cashed the{" "}
+                    <span className="ct-revealRichFinishCard">
+                      <TextWithColoredSuits text="K♣" />
+                    </span>{" "}
+                    and{" "}
+                    <span className="ct-revealRichFinishCard">
+                      <TextWithColoredSuits text="A♥" />
+                    </span>
+                    <span className="ct-revealRichFinishCard">
+                      <TextWithColoredSuits text="K♥" />
+                    </span>{" "}
+                    now.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    After they all held up, declarer lost only 2 spade tricks the{" "}
+                    <span className="ct-revealRichFinishCard">
+                      <TextWithColoredSuits text="A♠" />
+                    </span>
+                    <span className="ct-revealRichFinishCard">
+                      <TextWithColoredSuits text="Q♠" />
+                    </span>
+                    , making 11 tricks.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "KJT", H: "AK7", D: "KT", C: "K8542" },
+      east: { S: "32", H: "Q6532", D: "432", C: "QJ9" },
+      south: { S: "87654", H: "984", D: "AJ87", C: "A" },
+      west: { S: "AQ9", H: "JT", D: "Q965", C: "T763" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "W", card: { rank: "3", suit: "C" } },
+          { seat: "N", card: { rank: "2", suit: "C" } },
+          { seat: "E", card: { rank: "J", suit: "C" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "S", card: { rank: "4", suit: "S" } },
+          { seat: "W", card: { rank: "9", suit: "S" } },
+          { seat: "N", card: { rank: "T", suit: "S" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "N", card: { rank: "K", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "7", suit: "D" } },
+          { seat: "W", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "N", card: { rank: "T", suit: "D" } },
+          { seat: "E", card: { rank: "3", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "6", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "D" } },
+          { seat: "W", card: { rank: "9", suit: "D" } },
+          { seat: "N", card: { rank: "J", suit: "S" }, showOut: true },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6",
+        plays: [
+          { seat: "N", card: { rank: "4", suit: "C" } },
+          { seat: "E", card: { rank: "Q", suit: "C" } },
+          { seat: "S", card: { rank: "5", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "7", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7",
+        plays: [
+          { seat: "S", card: { rank: "J", suit: "D" } },
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+          { seat: "N", card: { rank: "K", suit: "S" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-23",
+    difficulty: 1,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Counting Losers (23)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    promptOptions: {
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Counting Losers",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Counting losers",
+      promptThemeTint: "handEval",
+      customPrompts: [
+        {
+          id: "p1-23-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["5S", "6S", "3H", "2C"],
+          },
+          promptText:
+            "You are playing in 4S, despite the 5-2 fit it's actually a very good contract since 3NT might go down after a diamond lead.\n\nA lot of people have trouble with counting losers in the trump suit, especially when they do not have an 8-card trump fit.\n\nThe best way to approach it is to consider drawing trumps or partially drawing trumps.",
+          videoUrl: "",
+        },
+        {
+          id: "p1-23-before-lead-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "follow the play",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["5S", "6S", "3H", "2C"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    A simple and predictable approach: What if I cash AK of spades and both follow - how many losers do
+                    I have?
+                  </p>
+                  <div className="ct-revealRichSuitBlocks">
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">Trumps</p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        Trumps: The opponents started with 6 trumps, if I cash AK and both follow, they will have 2
+                        left.
+                      </p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">Clubs</p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">Clubs: 1 loser, the Ace.</p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">Diamonds</p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">Diamonds: none.</p>
+                    </div>
+                    <div className="ct-revealRichSuitBlock">
+                      <p className="ct-revealRichSuitLabel">Hearts</p>
+                      <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
+                        Hearts: 1 loser - can throw it on the 5th club.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    In summary: If I cash two trumps, I can leave the rest where they are, and just play clubs.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    As you can see, the plan is not difficult, but it&apos;s important to be able to
+                  </p>
+                  <ol className="ct-revealRichPoints">
+                    <li>Come up with a simple line</li>
+                    <li>Count the losers</li>
+                    <li>Be 100% sure that your simple line will make the contract</li>
+                  </ol>
+                  <p className="ct-revealRichBody">Bridge should get easier and easier, not more complicated.</p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-23-make-contract",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "Will you make this contract?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "maybe", label: "Maybe, not certain" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          continueButtonLabel: "Continue",
+          revealText:
+            "Yes, it is certain now that both opponent's followed to the trumps. Based on our earlier loser count, we can be sure we are limited to 3 losers, 2 trumps, 1 club.",
+          videoUrl: "",
+        },
+        {
+          id: "p1-23-safe-to-play-another-trump",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "Is it safe to play another trump?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          continueButtonLabel: "show me how declarer went wrong",
+          revealText:
+            "No\n\nIt is not safe. We planned to just leave those trumps with our opponent, we accounted for losing them both, we don't need to draw them, we can just setup our clubs and play our winners. Let's see how declarer went wrong by playing another trump",
+          videoUrl: "",
+        },
+        {
+          id: "p1-23-losing-trump-control",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "show me the starting layout",
+          promptText:
+            "Now when declarer tries to set up clubs, the opponent's win and cash diamond winners, beating the contract. We have run out of trumps and now the opponent's suit is unstoppable (also known as \"losing trump control\").",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "92", H: "AJ4", D: "A95", C: "KQJ108" },
+      east: { S: "73", H: "QT75", D: "T832", C: "A63" },
+      south: { S: "AK865", H: "K93", D: "7", C: "9724" },
+      west: { S: "QJ104", H: "862", D: "KQJ64", C: "5" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "W", card: { rank: "K", suit: "D" } },
+          { seat: "N", card: { rank: "A", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "4", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "T", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "7", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "J", suit: "S" } },
+          { seat: "N", card: { rank: "5", suit: "D" }, showOut: true },
+          { seat: "E", card: { rank: "3", suit: "C" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 5",
+        plays: [
+          { seat: "W", card: { rank: "Q", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "D" }, showOut: true },
+          { seat: "E", card: { rank: "5", suit: "H" }, showOut: true },
+          { seat: "S", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6",
+        plays: [
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "H" }, showOut: true },
+          { seat: "E", card: { rank: "8", suit: "D" } },
+          { seat: "S", card: { rank: "8", suit: "S" }, showOut: true },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-20",
+    difficulty: 1,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Counting Losers (20)",
+    trumpSuit: "S",
+    contract: "6♠",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    promptOptions: {
+      hideAuction: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Counting Losers",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Counting losers",
+      promptThemeTint: "handEval",
+      customPrompts: [
+        {
+          id: "p1-20-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Let's count winners and losers.\n\nWe have 11 top winners, 5 spades, 3 hearts, 2 clubs, 1 diamond.\n\nLet's now count losers, how do we do that?",
+          videoUrl: "",
+        },
+        {
+          id: "p1-20-before-lead-2",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "south",
+          promptText:
+            "Start by setting your focus on the hand with long trumps.\n\nFor this hand, focus on South (you).",
+          videoUrl: "",
+        },
+        {
+          id: "p1-20-before-lead-3",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["4D", "7D"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Step 1 identify the losers in each suit. When you are training this skill at home, it's best to
+                    get pen and paper and physically circle the losers in a hand that you are looking at.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Get the hand records from a session you played, and do that for one or two hands you declared.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    When you do this, you need to also glance at dummy. I have no spade losers in my hand (because of
+                    the Queen in dummy).
+                  </p>
+                  <table className="ct-revealRichLoserTable" aria-label="South loser summary">
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♠ Spades" />
+                        </th>
+                        <td>I have no spade losers in my hand (because of the Queen in dummy).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♥ Hearts" />
+                        </th>
+                        <td>I have no heart losers in my hand (because of the Ace in dummy).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♣ Clubs" />
+                        </th>
+                        <td>I have no club losers in my hand (because of the Ace in dummy).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <TextWithColoredSuits text="♦ Diamonds" />
+                        </th>
+                        <td>I have 2 potential diamond losers.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-20-before-lead-4",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "watch the play",
+          spotlightSeat: "south",
+          spotlightCards: {
+            south: ["4D", "7D"],
+          },
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Now the question becomes, what can I do about those losers, and we look at both things we can do in
+                    that suit, and in the other suits.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    In diamonds there is nothing to do, no way to play that suit for more winners. What else can we do?
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Most of the time we use simple techniques that we talk about in other problems, here the two
+                    techniques we use are
+                  </p>
+                  <ol className="ct-revealRichPoints">
+                    <li>
+                      The power of the 4-3 fit - maybe the heart suit will produce more tricks. (check "see the 4-3"
+                      declarer stage 1, problems 12-16).
+                    </li>
+                    <li>
+                      The simple finesse, we can play a club finesse to produce an extra trick, to discard a diamond.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-20-trump-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 2,
+          fixed: { S: 5, N: 3 },
+          expectedDistribution: { S: 5, N: 3, W: 3, E: 2 },
+          promptText: "what was the trump distribution? Prefill 5 for south, 3 for dummy, ? and ? for east and west",
+        },
+        {
+          id: "p1-20-heart-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 5,
+          fixed: { S: 3, N: 4 },
+          expectedDistribution: { S: 3, N: 4, W: 3, E: 3 },
+          promptText: "what was the original heart distribution?",
+        },
+        {
+          id: "p1-20-heart-33-msg",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "Continue",
+          promptText: "the suit broke 3-3, we will now pitch a diamond loser on our set-up heart winner.",
+        },
+        {
+          id: "p1-20-post-trick-7-summary",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText:
+            "We have now made 12 tricks. In actual fact we can make an overtrick now by going for the club finesse. If the club finesse happened to lose, we would later pitch our diamond loser on the Ace of clubs.\n\nBy focusing on our losers, we came up with a plan for how to get rid of them - our play was purposeful.",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "Q83", H: "A764", D: "A85", C: "AJ3" },
+      east: { S: "T4", H: "T53", D: "QJT3", C: "T764" },
+      south: { S: "AKJ97", H: "KQ2", D: "974", C: "K5" },
+      west: { S: "652", H: "J98", D: "K62", C: "Q982" },
+    },
+    rounds: [
+      {
+        label: "Trick 1",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "3", suit: "S" } },
+          { seat: "E", card: { rank: "T", suit: "S" } },
+          { seat: "S", card: { rank: "J", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2",
+        plays: [
+          { seat: "S", card: { rank: "7", suit: "S" } },
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3",
+        plays: [
+          { seat: "N", card: { rank: "8", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "C" }, showOut: true },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "8", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+          { seat: "N", card: { rank: "6", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "H" } },
+          { seat: "W", card: { rank: "J", suit: "H" } },
+          { seat: "N", card: { rank: "A", suit: "H" } },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7",
+        plays: [
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "D" }, showOut: true },
+          { seat: "S", card: { rank: "4", suit: "D" }, showOut: true },
+          { seat: "W", card: { rank: "2", suit: "C" }, showOut: true },
+        ],
+      },
+    ],
+  },
  { 
  id: "d2-2", 
  difficulty: 2, 
@@ -3818,10 +5133,21 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  } 
  return byDiff; 
  }, [puzzlesAll]); 
- const puzzlesForDifficultyAll = useMemo(() => { 
- if (hideDifficultyTabs) return puzzlesAll; 
- return puzzlesAll.filter((p) => (p.difficulty || 1) === selectedDifficulty); 
- }, [puzzlesAll, selectedDifficulty, hideDifficultyTabs]); 
+const puzzlesForDifficultyAll = useMemo(() => { 
+if (hideDifficultyTabs) return puzzlesAll; 
+const filtered = puzzlesAll.filter((p) => (p.difficulty || 1) === selectedDifficulty); 
+if (categoryKey !== "counting") return filtered; 
+const getCountingStageOneNumber = (id) => { 
+const m = /^p1-(\d+)$/.exec(String(id || "")); 
+return m ? Number(m[1]) : null; 
+}; 
+return [...filtered].sort((a, b) => { 
+const aNum = getCountingStageOneNumber(a?.id); 
+const bNum = getCountingStageOneNumber(b?.id); 
+if (aNum == null || bNum == null) return 0; 
+return aNum - bNum; 
+}); 
+}, [puzzlesAll, selectedDifficulty, hideDifficultyTabs, categoryKey]); 
  const [puzzleIdxInDifficulty, setPuzzleIdxInDifficulty] = useState(0); 
  
  /** Phones only — iPads are wider; we support tablet layout (see hand CSS max-width 1024px). */ 
@@ -3944,6 +5270,11 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  effectiveTier === "premium" || isAdmin || isFreeProblem(currentProblemId); 
  const showBasicUpgradeVideoCta = !isAdmin && isMember && effectiveTier === "basic"; 
  const showPaywallOverlay = !isMember && !currentPuzzleIsFree && !currentPuzzleIsPreview && !isBlankDifficulty; 
+const getDisplayedProblemNumber = (puzzle, fallbackIdx) => {
+const m = /-(\d+)$/.exec(String(puzzle?.id || ""));
+if (m) return Number(m[1]);
+return fallbackIdx + 1;
+};
  
  // Always provide a puzzle object to keep hook order stable; 
  // when a difficulty is blank we render a placeholder instead of the table. 
@@ -5287,6 +6618,46 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  }, [puzzle.rounds, roundIdx, playIdx]); 
  
  const animSeat = currentPlay?.seat || null; 
+  const mapSpotlightSeatToken = (token) => {
+    const raw = String(token || "").trim().toLowerCase();
+    if (!raw) return null;
+    const map = {
+      south: "DECLARER",
+      s: "DECLARER",
+      declarer: "DECLARER",
+      north: "DUMMY",
+      n: "DUMMY",
+      dummy: "DUMMY",
+      east: "RHO",
+      e: "RHO",
+      rho: "RHO",
+      west: "LHO",
+      w: "LHO",
+      lho: "LHO",
+    };
+    const mapped = map[raw];
+    if (mapped) return mapped;
+    const upper = raw.toUpperCase();
+    return ["LHO", "DUMMY", "RHO", "DECLARER"].includes(upper) ? upper : null;
+  };
+
+  const spotlightSeat = useMemo(
+    () => mapSpotlightSeatToken(activeCustomPrompt?.spotlightSeat),
+    [activeCustomPrompt?.spotlightSeat]
+  );
+  const spotlightCardsBySeat = useMemo(() => {
+    const raw = activeCustomPrompt?.spotlightCards;
+    const out = {};
+    if (!raw || typeof raw !== "object") return out;
+    for (const [seatToken, cards] of Object.entries(raw)) {
+      const mappedSeat = mapSpotlightSeatToken(seatToken);
+      if (!mappedSeat || !Array.isArray(cards)) continue;
+      out[mappedSeat] = new Set(
+        cards.map((c) => String(c || "").trim().toUpperCase()).filter(Boolean)
+      );
+    }
+    return out;
+  }, [activeCustomPrompt?.spotlightCards]);
  
  // Animate full-hand card shifts (FLIP) so cards "slide in" when one is played. 
  useLayoutEffect(() => { 
@@ -5525,7 +6896,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  } 
  : undefined 
  } 
- className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)} ${playCardClickableSide ? "ct-miniCard--playable" : ""}`} 
+              className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)} ${spotlightCardsBySeat?.[seat]?.has(key) ? "ct-miniCard--spotlightCircle" : ""} ${playCardClickableSide ? "ct-miniCard--playable" : ""}`}
  > 
  <div className="ct-fanFace" aria-hidden="true"> 
  <div className="ct-fanRank">{displayRank(c.rank)}</div> 
@@ -5578,7 +6949,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  } 
  : undefined 
  } 
- className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)} ${playCardClickableWide ? "ct-miniCard--playable" : ""}`} 
+              className={`ct-miniCard ct-miniCard--fan ${cardColorClass(c)} ${spotlightCardsBySeat?.[seat]?.has(key) ? "ct-miniCard--spotlightCircle" : ""} ${playCardClickableWide ? "ct-miniCard--playable" : ""}`}
  > 
  <div className="ct-fanFace" aria-hidden="true"> 
  <div className="ct-fanRank">{displayRank(c.rank)}</div> 
@@ -7585,7 +8956,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  <> 
  {!!effectiveThemeLabel && ( 
  <div 
- className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-themeLabel--themeOpeningLead" : ""}`} 
+className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-themeLabel--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-themeLabel--themeTakeoutPenalty" : ""}`} 
  > 
  {effectiveThemeLabel} 
  </div> 
@@ -8939,7 +10310,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  return ( 
  <button 
  key={p.id} 
- className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""}`} 
+className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""} ${p?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-problemTab--themeTakeoutPenalty" : ""}`} 
  onClick={() => setPuzzleIdxInDifficulty(idx)} 
  type="button" 
  role="tab" 
@@ -8947,7 +10318,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  title={p.title} 
  > 
  {isCompleted && <span className="ct-problemTabTick" aria-hidden="true">✓</span>} 
- {idx + 1} 
+ {getDisplayedProblemNumber(p, idx)} 
  {isPuzzleNew(p) && <span className="ct-newBadge" aria-label="New">New</span>} 
  {showFreeBadge && <span className="ct-freeBadge" aria-label="Free starter">Free</span>} 
  </button> 
@@ -9021,9 +10392,9 @@ const revealAfterTwoWrong = (kind, promptId) => {
  )} 
  </div> 
  )} 
- <div className="ct-seatLabel">{roleLabelForSeat(seatTop)}</div> 
- {(!showFullHands || visibleFullHandSeats.includes(seatTop)) && ( 
- <div className="ct-handWrap">{renderSeatHand(seatTop)}</div> 
+                <div className={`ct-seatLabel ${spotlightSeat === seatTop ? "ct-seatLabel--hiddenDuringSpotlight" : ""}`.trim()}>{roleLabelForSeat(seatTop)}</div> 
+                {(!showFullHands || visibleFullHandSeats.includes(seatTop)) && ( 
+                <div className={`ct-handWrap ${spotlightSeat === seatTop ? "ct-handWrap--spotlight" : ""}`.trim()}>{renderSeatHand(seatTop)}</div> 
  )} 
  </div> 
  
@@ -9033,16 +10404,16 @@ const revealAfterTwoWrong = (kind, promptId) => {
  !useBottomRowLayout && 
  (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) && 
  (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && ( 
- <div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""}`} aria-label="Bidding and prompts"> 
+<div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""}`} aria-label="Bidding and prompts"> 
  {promptNode} 
  </div> 
  )} 
- {showFullHands && visibleFullHandSeats.includes(seatLeft) && <div className="ct-handWrap">{renderSeatHand(seatLeft)}</div>} 
+                {showFullHands && visibleFullHandSeats.includes(seatLeft) && <div className={`ct-handWrap ${spotlightSeat === seatLeft ? "ct-handWrap--spotlight" : ""}`.trim()}>{renderSeatHand(seatLeft)}</div>} 
  {!showFullHands && 
  (((remainingHands[seatLeft] || []).length > 0) || 
  (promptStep === "DONE" && puzzle.endRevealTrumpHands && Array.isArray(puzzle.endRevealTrumpHands[seatLeft]))) && ( 
  <> 
- <div className="ct-seatLabel">{roleLabelForSeat(seatLeft)}</div> 
+ <div className={`ct-seatLabel ${spotlightSeat === seatLeft ? "ct-seatLabel--hiddenDuringSpotlight" : ""}`.trim()}>{roleLabelForSeat(seatLeft)}</div> 
  <div className="ct-handWrap">{renderSeatHand(seatLeft)}</div> 
  </> 
  )} 
@@ -9241,7 +10612,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  {showFullHands && 
  !useBottomRowLayout && 
  (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && ( 
- <div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""}`} aria-label="Counting prompt"> 
+<div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""}`} aria-label="Counting prompt"> 
  {promptNode} 
  </div> 
  )} 
@@ -9296,12 +10667,12 @@ const revealAfterTwoWrong = (kind, promptId) => {
  </div> 
  
  <div className="ct-seat ct-seat--right"> 
- {showFullHands && visibleFullHandSeats.includes(seatRight) && <div className="ct-handWrap">{renderSeatHand(seatRight)}</div>} 
+                {showFullHands && visibleFullHandSeats.includes(seatRight) && <div className={`ct-handWrap ${spotlightSeat === seatRight ? "ct-handWrap--spotlight" : ""}`.trim()}>{renderSeatHand(seatRight)}</div>} 
  {!showFullHands && 
  (((remainingHands[seatRight] || []).length > 0) || 
  (promptStep === "DONE" && puzzle.endRevealTrumpHands && Array.isArray(puzzle.endRevealTrumpHands[seatRight]))) && ( 
  <> 
- <div className="ct-seatLabel">{roleLabelForSeat(seatRight)}</div> 
+ <div className={`ct-seatLabel ${spotlightSeat === seatRight ? "ct-seatLabel--hiddenDuringSpotlight" : ""}`.trim()}>{roleLabelForSeat(seatRight)}</div> 
  <div className="ct-handWrap">{renderSeatHand(seatRight)}</div> 
  </> 
  )} 
@@ -9309,9 +10680,9 @@ const revealAfterTwoWrong = (kind, promptId) => {
  
  {/* Declarer: South centered under table */} 
  <div className={`ct-seat ct-seat--bottom ${showFullHands && visibleFullHandSeats.includes(seatBottom) ? "ct-seat--span" : ""}`}> 
- <div className="ct-seatLabel">{roleLabelForSeat(seatBottom)}</div> 
- {(!showFullHands || visibleFullHandSeats.includes(seatBottom)) && ( 
- <div className="ct-handWrap">{renderSeatHand(seatBottom)}</div> 
+ <div className={`ct-seatLabel ${spotlightSeat === seatBottom ? "ct-seatLabel--hiddenDuringSpotlight" : ""}`.trim()}>{roleLabelForSeat(seatBottom)}</div> 
+                {(!showFullHands || visibleFullHandSeats.includes(seatBottom)) && ( 
+                <div className={`ct-handWrap ${spotlightSeat === seatBottom ? "ct-handWrap--spotlight" : ""}`.trim()}>{renderSeatHand(seatBottom)}</div> 
  )} 
  </div> 
  </div> 
