@@ -56,13 +56,13 @@ export const TRIAL_STARTER_IDS_BY_CATEGORY = THEME_PACKS.reduce((acc, pack) => {
  * If a category is omitted, legacy rules apply (trial starter + first problem per difficulty as preview).
  */
 export const FREE_PROBLEM_IDS_BY_CATEGORY = {
-  /** Bidding: includes 4th-suit-forcing sample hand (bid3-16) for newsletter promos. */
-  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5", "bid3-1", "bid3-16"],
+  /** Bidding: includes 4th-suit-forcing sample hand (bid3-16) and high-level-doubles sample hand (bid2-29) for newsletter promos. */
+  bidding: ["bid1-1", "bid1-6", "bid2-1", "bid2-2", "bid2-3", "bid2-4", "bid2-5", "bid2-29", "bid3-1", "bid3-16"],
   /** Declarer: difficulty 2 problem 6 — first free hand in the “entries” series (videos unlocked for everyone on this id). */
   declarer: ["cp2-6"],
   /** Defence: includes opening-leads sample hand (df1-23) for newsletter promos. */
   defence: ["df1-23"],
-  counting: ["p1-15"],
+  counting: ["p1-15", "p1-24"],
 };
 
 /** Problem rail “theme pack” intro video metadata. The trainer uses this only when a puzzle sets `promptOptions.useThemePackIntro: true` and a matching `promptOptions.promptThemeTint`. */
