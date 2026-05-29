@@ -5179,14 +5179,26 @@ return aNum - bNum;
  if (!problemId || !puzzlesAll.length) return; 
  const puzzle = puzzlesAll.find((p) => p.id === problemId); 
  if (!puzzle) return; 
- const diff = Number(puzzle.difficulty || 1); 
- const inDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === diff); 
+const diff = Number(puzzle.difficulty || 1); 
+let inDiff = puzzlesAll.filter((p) => (p.difficulty || 1) === diff); 
+if (categoryKey === "counting" && !hideDifficultyTabs) { 
+const getCountingStageOneNumber = (id) => { 
+const m = /^p1-(\d+)$/.exec(String(id || "")); 
+return m ? Number(m[1]) : null; 
+}; 
+inDiff = [...inDiff].sort((a, b) => { 
+const aNum = getCountingStageOneNumber(a?.id); 
+const bNum = getCountingStageOneNumber(b?.id); 
+if (aNum == null || bNum == null) return 0; 
+return aNum - bNum; 
+}); 
+} 
  const idx = inDiff.findIndex((p) => p.id === problemId); 
  if (idx >= 0) { 
  setSelectedDifficulty(diff); 
  setPuzzleIdxInDifficulty(idx); 
  } 
- }, [location?.search, puzzlesAll]); 
+}, [location?.search, puzzlesAll, categoryKey, hideDifficultyTabs]); 
  
  // GA4: fire once per trainer view (when user lands on this practice section) 
  const practiceViewSentRef = useRef(false); 
