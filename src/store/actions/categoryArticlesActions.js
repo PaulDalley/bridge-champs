@@ -126,16 +126,34 @@ export const setCurrentArticle = (article) => ({
 export const getArticleMetadata = (id, summaryRef = "articles") => {
   const useSummaryRef = matchTypeToRef[summaryRef];
   return (dispatch) => {
+    const handle = (snapshot) => {
+      if (snapshot && snapshot.docs[0]) {
+        dispatch(setCurrentArticle(snapshot.docs[0].data()));
+        return true;
+      }
+      return false;
+    };
+    // `id` may be a slug (new canonical URL) or a body doc id (legacy URL).
     useSummaryRef
-      .where("body", "==", id)
+      .where("slug", "==", id)
+      .limit(1)
       .get()
-      .then((snapshot) => {
-        // console.log(snapshot.docs);
-        // snapshot.forEach(doc => console.log(doc.data()));
-        if (snapshot && snapshot.docs[0]) {
-          const articleMetadata = snapshot.docs[0].data();
-          dispatch(setCurrentArticle(articleMetadata));
-        }
+      .then((bySlug) => {
+        if (handle(bySlug)) return;
+        useSummaryRef
+          .where("body", "==", id)
+          .limit(1)
+          .get()
+          .then(handle)
+          .catch(() => {});
+      })
+      .catch(() => {
+        useSummaryRef
+          .where("body", "==", id)
+          .limit(1)
+          .get()
+          .then(handle)
+          .catch(() => {});
       });
   };
 };
@@ -235,11 +253,14 @@ export const getArticle = (id, router, bodyRef) => {
     const routeUseBodyRef = matchTypeToRef[bodyRef];
     const routeUseSummaryRef = matchBodyRefToSummaryRef[bodyRef];
 
+    // Store the body keyed by the current route param (`id`). This is what the
+    // page reads (`article[articleId]`). For legacy body-ID URLs `id` equals
+    // the body doc id; for slug URLs `id` is the slug — either way the page
+    // finds its content.
     const dispatchBodySnapshot = (snapshot) => {
       const article = snapshot.data();
-      const bodyId = snapshot.id;
       if (article === undefined) return false;
-      dispatch(setArticle(article, bodyId));
+      dispatch(setArticle(article, id));
       return true;
     };
 
@@ -250,6 +271,50 @@ export const getArticle = (id, router, bodyRef) => {
         if (!bodySnapshot.exists) return false;
         return dispatchBodySnapshot(bodySnapshot);
       });
+    };
+
+    const replaceToPath = (nextPath) => {
+      if (!nextPath) return;
+      if (router?.replace) router.replace(nextPath);
+      else if (router?.push) router.push(nextPath);
+    };
+
+    // NEW canonical path: `:id` is a human-readable slug. Look the summary up by
+    // slug, then load its body. We're already on the canonical URL, so no
+    // redirect is needed. Never rejects — falls through to legacy resolution.
+    const resolveSlugToBody = () => {
+      if (!routeUseSummaryRef) return Promise.resolve(false);
+      return routeUseSummaryRef
+        .where("slug", "==", id)
+        .limit(1)
+        .get()
+        .then((snap) => {
+          if (snap.empty) return false;
+          const summary = snap.docs[0].data() || {};
+          const bodyId = summary.body;
+          if (!bodyId || typeof bodyId !== "string") return false;
+          const collectionKey = resolveBodyRefForSummary(summary, routeBodyRef);
+          return fetchBodyDoc(collectionKey, bodyId);
+        })
+        .catch(() => false);
+    };
+
+    // Legacy body-ID URL hit: soft-redirect to the slug URL when one exists so
+    // old links keep working but resolve to the readable canonical URL.
+    const maybeReplaceBodyIdToSlug = (bodyId) => {
+      if (!routeUseSummaryRef) return;
+      routeUseSummaryRef
+        .where("body", "==", bodyId)
+        .limit(1)
+        .get()
+        .then((snap) => {
+          if (snap.empty) return;
+          const slug = snap.docs[0].data()?.slug;
+          if (slug && slug !== id) {
+            replaceToPath(getArticlePathFromBodyRef(bodyRef, slug));
+          }
+        })
+        .catch(() => {});
     };
 
     const loadViaSummaryForBodyId = (bodyId) => {
@@ -285,9 +350,9 @@ export const getArticle = (id, router, bodyRef) => {
           const collectionKey = resolveBodyRefForSummary(summary, routeBodyRef);
           return fetchBodyDoc(collectionKey, bodyId).then((loaded) => {
             if (!loaded) return false;
-            const nextPath = getArticlePathFromBodyRef(bodyRef, bodyId);
-            if (router?.replace) router.replace(nextPath);
-            else if (router?.push) router.push(nextPath);
+            // Prefer the readable slug URL; fall back to the body id.
+            const nextPath = getArticlePathFromBodyRef(bodyRef, summary.slug || bodyId);
+            replaceToPath(nextPath);
             return true;
           });
         });
@@ -300,33 +365,40 @@ export const getArticle = (id, router, bodyRef) => {
       router.push("/membership");
     };
 
-    return routeUseBodyRef
-      .doc(id)
-      .get()
-      .then((snapshot) => {
-        if (dispatchBodySnapshot(snapshot)) return undefined;
+    return resolveSlugToBody().then((viaSlug) => {
+      if (viaSlug) return undefined;
 
-        return loadViaSummaryForBodyId(id).then((viaSummary) => {
-          if (viaSummary) return undefined;
-          return resolveSummaryIdToBody().then((resolved) => {
-            if (resolved) return undefined;
-            return { body: { text: "<p>Article body text was blank</p>" } };
-          });
-        });
-      })
-      .catch((err) => {
-        return loadViaSummaryForBodyId(id)
-          .then((viaSummary) => {
+      return routeUseBodyRef
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          if (dispatchBodySnapshot(snapshot)) {
+            maybeReplaceBodyIdToSlug(id);
+            return undefined;
+          }
+
+          return loadViaSummaryForBodyId(id).then((viaSummary) => {
             if (viaSummary) return undefined;
-            return resolveSummaryIdToBody();
-          })
-          .then((resolved) => {
-            if (!resolved) redirectToMembership();
-          })
-          .catch(() => {
-            redirectToMembership();
+            return resolveSummaryIdToBody().then((resolved) => {
+              if (resolved) return undefined;
+              return { body: { text: "<p>Article body text was blank</p>" } };
+            });
           });
-      });
+        })
+        .catch((err) => {
+          return loadViaSummaryForBodyId(id)
+            .then((viaSummary) => {
+              if (viaSummary) return undefined;
+              return resolveSummaryIdToBody();
+            })
+            .then((resolved) => {
+              if (!resolved) redirectToMembership();
+            })
+            .catch(() => {
+              redirectToMembership();
+            });
+        });
+    });
   };
 };
 export const setArticle = (article, id) => ({

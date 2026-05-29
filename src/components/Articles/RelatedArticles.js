@@ -201,7 +201,8 @@ const RelatedArticles = ({
       <ul className="DisplayArticle-relatedList">
         {related.map((a) => {
           const bodyId = a.body || a.id;
-          const href = `${listPath}/${bodyId}`;
+          // Prefer the readable slug; old body-id links still resolve.
+          const href = `${listPath}/${a.slug || bodyId}`;
           const title = a.title || "Untitled article";
           const teaser = a.teaser ? String(a.teaser).trim() : "";
           return (

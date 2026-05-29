@@ -221,8 +221,12 @@ async function getDynamicUrls() {
         toDateValue(bodyData.createdAt) ||
         toDateValue(data.createdAt) ||
         new Date();
+      // Prefer the readable slug for the canonical sitemap URL; fall back to
+      // the body doc id (which still resolves) when no slug is present.
+      const slugOrId =
+        typeof data.slug === "string" && data.slug.trim() ? data.slug.trim() : bodyId;
       out.push({
-        loc: `${cfg.pathPrefix}/${bodyId}`,
+        loc: `${cfg.pathPrefix}/${slugOrId}`,
         lastmod: toYmd(date),
         changefreq: "monthly",
         priority: cfg.priority,

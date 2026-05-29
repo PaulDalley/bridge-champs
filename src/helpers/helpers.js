@@ -632,8 +632,9 @@ export const makeBoardObjectFromString = (boardString, showVuln = false) => {
 
 export const findArticleById = (data, id) => {
   // IMPORTANT: return `undefined` when we don't have data yet, so callers can trigger metadata fetches.
+  // `id` may be a readable slug (new canonical URL) or a body doc id (legacy URL).
   if (!Array.isArray(data)) return undefined;
-  return data.find((el) => el.body === id);
+  return data.find((el) => el.slug === id || el.body === id);
 };
 
 export const findQuizById = (data, id) => {

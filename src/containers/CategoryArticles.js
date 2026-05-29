@@ -215,7 +215,9 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       return;
     }
     dispatch(setCurrentArticle(article));
-    const nextPath = getArticlePathByType(articleType, id);
+    // Prefer the readable slug for the URL; fall back to the body id.
+    const seg = article?.slug || id;
+    const nextPath = getArticlePathByType(articleType, seg);
     history.push(nextPath);
   };
 

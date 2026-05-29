@@ -494,7 +494,8 @@ const DisplayCategoryArticle = ({
   // IMPORTANT: `categoryArticles.currentArticle` is global and can be stale when navigating between articles.
   // Only use it if it matches the current article body id, otherwise fall back to list lookup/fetch.
   const currentMetaMatchesThisArticle =
-    articleMetadata && articleMetadata.body === articleId;
+    articleMetadata &&
+    (articleMetadata.body === articleId || articleMetadata.slug === articleId);
 
   let useMetaData = currentMetaMatchesThisArticle
     ? articleMetadata
@@ -609,23 +610,29 @@ const DisplayCategoryArticle = ({
 
   const getOgImageUrl = () => {
     const baseUrl = "https://bridgechampions.com";
-    return articleId ? `${baseUrl}/og/${articleId}.png` : `${baseUrl}/og/default.png`;
+    // OG images are generated per body-doc id, so keep this keyed by body id
+    // even when the page URL uses a slug.
+    const ogId = useMetaData?.body || articleId;
+    return ogId ? `${baseUrl}/og/${ogId}.png` : `${baseUrl}/og/default.png`;
   };
 
   const getArticleUrl = () => {
     const baseUrl = "https://bridgechampions.com";
-    if (articleType === "cardPlay") return `${baseUrl}/declarer/articles/${articleId}`;
-    if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${articleId}`;
-    if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${articleId}`;
-    if (articleType === "biddingAdvanced") return `${baseUrl}/bidding/advanced/${articleId}`;
-    if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/articles/${articleId}`;
-    if (articleType === "defence") return `${baseUrl}/defence/articles/${articleId}`;
-    if (articleType === "defenceBasics") return `${baseUrl}/defence/articles/${articleId}`;
-    if (articleType === "counting") return `${baseUrl}/declarer/articles/${articleId}`;
-    if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${articleId}`;
-    if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${articleId}`;
-    if (articleType === "beginnerBidding") return `${baseUrl}/beginner/articles/bidding/${articleId}`;
-    return `${baseUrl}/${articleType}/${articleId}`;
+    // Canonical URL prefers the readable slug; falls back to whatever is in the
+    // route (body id) when no slug is available yet.
+    const seg = useMetaData?.slug || articleId;
+    if (articleType === "cardPlay") return `${baseUrl}/declarer/articles/${seg}`;
+    if (articleType === "biddingBasics") return `${baseUrl}/bidding/basics/${seg}`;
+    if (articleType === "bidding") return `${baseUrl}/bidding/advanced/${seg}`;
+    if (articleType === "biddingAdvanced") return `${baseUrl}/bidding/advanced/${seg}`;
+    if (articleType === "cardPlayBasics") return `${baseUrl}/declarer/articles/${seg}`;
+    if (articleType === "defence") return `${baseUrl}/defence/articles/${seg}`;
+    if (articleType === "defenceBasics") return `${baseUrl}/defence/articles/${seg}`;
+    if (articleType === "counting") return `${baseUrl}/declarer/articles/${seg}`;
+    if (articleType === "beginnerCardPlay") return `${baseUrl}/beginner/articles/declarer/${seg}`;
+    if (articleType === "beginnerDefence") return `${baseUrl}/beginner/articles/defence/${seg}`;
+    if (articleType === "beginnerBidding") return `${baseUrl}/beginner/articles/bidding/${seg}`;
+    return `${baseUrl}/${articleType}/${seg}`;
   };
 
   const getCategoryName = () => {
@@ -742,8 +749,11 @@ const DisplayCategoryArticle = ({
       )
     : [];
   const beginnerSeriesCurrentIdx = beginnerSeriesArticles.findIndex(
-    (item) => item?.id === articleId || item?.body === articleId
+    (item) =>
+      item?.slug === articleId || item?.id === articleId || item?.body === articleId
   );
+  // Prefer the readable slug for in-series navigation links; fall back to body id.
+  const beginnerSeg = (item) => item?.slug || item?.body || item?.id;
   const beginnerPrev = beginnerSeriesCurrentIdx > 0 ? beginnerSeriesArticles[beginnerSeriesCurrentIdx - 1] : null;
   const beginnerNext =
     beginnerSeriesCurrentIdx >= 0 && beginnerSeriesCurrentIdx < beginnerSeriesArticles.length - 1
@@ -1141,11 +1151,14 @@ const DisplayCategoryArticle = ({
                 Open hub: {beginnerHubTitle}
               </button>
             )}
-            {beginnerStart && beginnerStart.id !== articleId && (
+            {beginnerStart &&
+              beginnerStart.slug !== articleId &&
+              beginnerStart.id !== articleId &&
+              beginnerStart.body !== articleId && (
               <button
                 type="button"
                 className="DisplayArticle-ctaButton DisplayArticle-ctaButton--subtle"
-                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerStart.id}`)}
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerSeg(beginnerStart)}`)}
               >
                 Start at lesson 1
               </button>
@@ -1154,7 +1167,7 @@ const DisplayCategoryArticle = ({
               <button
                 type="button"
                 className="DisplayArticle-ctaButton DisplayArticle-ctaButton--subtle"
-                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerPrev.id}`)}
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerSeg(beginnerPrev)}`)}
               >
                 Previous lesson: {beginnerPrev.title}
               </button>
@@ -1163,7 +1176,7 @@ const DisplayCategoryArticle = ({
               <button
                 type="button"
                 className="DisplayArticle-ctaButton"
-                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerNext.id}`)}
+                onClick={() => history.push(`${getListPathForArticleType(articleType)}/${beginnerSeg(beginnerNext)}`)}
               >
                 Next lesson: {beginnerNext.title}
               </button>
