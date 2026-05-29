@@ -8197,6 +8197,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: High level doubles",
       promptThemeTint: "respondToDouble",
+      videoUrlBeforeStart: "https://youtube.com/shorts/7ebCPrUNGBc",
       customPrompts: [
         {
           id: "bid2-29-q1",
@@ -8292,6 +8293,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: High level doubles",
       promptThemeTint: "respondToDouble",
+      videoUrlBeforeStart: "https://youtube.com/shorts/v3k-dh25iew",
       customPrompts: [
         {
           id: "bid2-30-q1",
@@ -8342,6 +8344,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: High level doubles",
       promptThemeTint: "respondToDouble",
+      videoUrlBeforeStart: "https://youtube.com/shorts/agHE-l5L16I",
       customPrompts: [
         {
           id: "bid2-31-q1",
@@ -8451,6 +8454,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: High level doubles",
       promptThemeTint: "respondToDouble",
+      videoUrlBeforeStart: "https://youtube.com/shorts/bRKDdt08zjM",
       customPrompts: [
         {
           id: "bid2-32-q1",
@@ -8499,6 +8503,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: High level doubles",
       promptThemeTint: "respondToDouble",
+      videoUrlBeforeStart: "https://youtube.com/shorts/0-ZbA-gUXaU",
       customPrompts: [
         {
           id: "bid2-33-q1",

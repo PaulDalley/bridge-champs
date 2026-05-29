@@ -2881,6 +2881,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       themeLabel: "Theme: Counting losers",
       promptThemeTint: "handEval",
       spotlightSeat: "south",
+      videoUrlBeforeStart: "https://youtube.com/shorts/VIIuKcDIr2M",
       customPrompts: [
         {
           id: "p1-24-before-lead-4",
@@ -3139,6 +3140,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Counting losers",
       promptThemeTint: "handEval",
+      videoUrlBeforeStart: "https://youtube.com/shorts/xoK2r4HbGd0",
       customPrompts: [
         {
           id: "p1-21-before-lead-1",
@@ -3491,6 +3493,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       contractLabelBeforeStartOnly: false,
       themeLabel: "Theme: Counting losers",
       promptThemeTint: "handEval",
+      videoUrlBeforeStart: "https://youtube.com/shorts/fdD5wlbmoxY",
       customPrompts: [
         {
           id: "p1-22-after-lead-plan",
@@ -3746,6 +3749,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Counting losers",
       promptThemeTint: "handEval",
+      videoUrlBeforeStart: "https://youtube.com/shorts/mAPyFRvwfzA",
       customPrompts: [
         {
           id: "p1-23-before-lead-1",
@@ -3947,6 +3951,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Counting losers",
       promptThemeTint: "handEval",
+      videoUrlBeforeStart: "https://youtube.com/shorts/EF_9gzZLJpQ",
       customPrompts: [
         {
           id: "p1-20-before-lead-1",
