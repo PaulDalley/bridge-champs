@@ -230,6 +230,29 @@ async function snapshotRoute(browser, routePath) {
       }
     }
 
+    // Wait (best-effort) for react-helmet-async to flush the per-page <head>.
+    // Hub/category pages resolve the content wait almost instantly (breadcrumbs
+    // + title render synchronously), which can snapshot BEFORE Helmet writes the
+    // page's own canonical/title — leaving the default index.html head. Waiting
+    // for a canonical link (or a non-default <title>) guarantees we capture the
+    // route's real head. Article routes already satisfy this immediately.
+    try {
+      await page.waitForFunction(
+        () => {
+          const canonical = document.querySelector("link[rel='canonical']");
+          if (canonical && canonical.getAttribute("href")) return true;
+          const title = document.title || "";
+          const isDefault =
+            title.includes("Bridge Champions \u2014 Bridge lessons") ||
+            title.trim() === "Bridge Champions";
+          return !!title && !isDefault;
+        },
+        { timeout: 8000, polling: 250 }
+      );
+    } catch (_) {
+      console.warn(`NOTE ${routePath} :: per-page <head> (canonical/title) not applied before snapshot`);
+    }
+
     await page.evaluate(async () => {
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       await sleep(500);
