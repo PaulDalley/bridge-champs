@@ -65,6 +65,19 @@ function normalisePath(p) {
   return p.endsWith("/") ? p.slice(0, -1) : p;
 }
 
+const ARTICLE_ROUTE_PATTERNS = [
+  /^\/declarer\/articles\/[A-Za-z0-9_-]+$/,
+  /^\/defence\/articles\/[A-Za-z0-9_-]+$/,
+  /^\/bidding\/advanced\/[A-Za-z0-9_-]+$/,
+  /^\/bidding\/basics\/[A-Za-z0-9_-]+$/,
+  /^\/counting\/articles\/[A-Za-z0-9_-]+$/,
+  /^\/beginner\/articles\/(declarer|defence|bidding)\/[A-Za-z0-9_-]+$/,
+];
+
+function isArticleRoutePath(p) {
+  return ARTICLE_ROUTE_PATTERNS.some((re) => re.test(p));
+}
+
 function fileForRoute(routePath) {
   const clean = normalisePath(routePath);
   const segments = clean === "/" ? [] : clean.replace(/^\/+/, "").split("/");
@@ -342,6 +355,55 @@ async function run() {
 
   console.log("---");
   console.log(`Done. ok=${results.ok} fail=${results.fail} base=${PROD_BASE}`);
+
+  // Coverage guard: surface article prerender gaps LOUDLY. A bare SPA shell
+  // (no prerendered HTML) is the most common reason individual articles don't
+  // get indexed, so make any shortfall obvious in the CI log/annotations and
+  // in a machine-readable file — without failing the deploy (the site already
+  // shipped via fast-deploy).
+  const articleRoutes = routes.filter(isArticleRoutePath);
+  const failedArticleRoutes = results.failed.filter((f) => isArticleRoutePath(normalisePath(f.path)));
+  const articleOk = articleRoutes.length - failedArticleRoutes.length;
+  const articleCoverage = articleRoutes.length
+    ? articleOk / articleRoutes.length
+    : 1;
+  console.log(
+    `Article coverage: ${articleOk}/${articleRoutes.length} prerendered ` +
+      `(${Math.round(articleCoverage * 100)}%).`
+  );
+
+  const coveragePath = path.join(BUILD_DIR, "prerender-coverage.json");
+  fs.writeFileSync(
+    coveragePath,
+    JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        totalRoutes: routes.length,
+        okRoutes: results.ok,
+        failedRoutes: results.fail,
+        articleRoutes: articleRoutes.length,
+        articleOk,
+        articleFailed: failedArticleRoutes.length,
+        articleCoveragePct: Math.round(articleCoverage * 100),
+        failedArticlePaths: failedArticleRoutes.map((f) => f.path),
+      },
+      null,
+      2
+    )
+  );
+
+  if (failedArticleRoutes.length > 0) {
+    // GitHub Actions annotation — shows up prominently on the run summary.
+    console.warn(
+      `::warning title=Prerender coverage::${failedArticleRoutes.length} of ` +
+        `${articleRoutes.length} article pages did NOT prerender and shipped as ` +
+        `bare SPA shells (won't index well). See build/prerender-coverage.json.`
+    );
+    failedArticleRoutes.forEach((f) =>
+      console.warn(`  unprerendered article: ${f.path} :: ${f.error}`)
+    );
+  }
+
   if (results.failed.length) {
     const summaryPath = path.join(BUILD_DIR, "prerender-failures.json");
     fs.writeFileSync(summaryPath, JSON.stringify(results.failed, null, 2));

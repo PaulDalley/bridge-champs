@@ -5,7 +5,11 @@
   },
   "hosting": {
     "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "**",
@@ -57,6 +61,578 @@
             "value": "no-cache, no-store, must-revalidate, max-age=0"
           }
         ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/beginner/articles/bidding/0gF8pSxK8GB2bhguAqD3",
+        "destination": "/beginner/articles/bidding/1nt-opening-beginners-bid-promises",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/5fUXLlFamO5mJ3toLQIu",
+        "destination": "/beginner/articles/bidding/openers-rebid-beginners-choosing-suit",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/8tPnx6X67knTuKSzu3Dz",
+        "destination": "/beginner/articles/bidding/preemptive-raises-bridge-big-trump",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/AjV6y8EGwcSvjv0y0YZS",
+        "destination": "/beginner/articles/bidding/bridge-bidding-responding-partners-opening",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/CP4GjQyfwNbuvq2tNpl8",
+        "destination": "/beginner/articles/bidding/responders-first-bid-beginners-raise-2",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/f4BeQ2lU5niFCt0ecmnv",
+        "destination": "/beginner/articles/bidding/opening-1nt-beginners-open-not",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/go3GF9ek5LqYpVIG5lUj",
+        "destination": "/beginner/articles/bidding/openers-rebid-beginners-rebid-1nt",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/GXSCdpM63SxnAz9mUL6f",
+        "destination": "/beginner/articles/bidding/counting-combined-points-bridge-bid",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/kykzHcLlTxz4f3ZEGYyY",
+        "destination": "/beginner/articles/bidding/play-contract-bridge-step-step",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/LDff5emBJdRETTyHMH7h",
+        "destination": "/beginner/articles/bidding/bridge-bidding-basics-opening-bids",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/LGe2nLZP7N7kjOW5TCL3",
+        "destination": "/beginner/articles/bidding/opening-bids-beginners-5-card",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/pXof0jf8ccK53WzzGlS4",
+        "destination": "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/rdpqzrboMvy6WBYmkUFT",
+        "destination": "/beginner/articles/bidding/responders-first-bid-beginners-raise",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/SJvxFsZZuGfvm4p2TkPh",
+        "destination": "/beginner/articles/bidding/bridge-scoring-actually-matters-table",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/tRq9HH7X05xnHb8Xk5vM",
+        "destination": "/beginner/articles/bidding/opening-bids-beginners-balanced-hands",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/yt6au7gwYwPahTxQ4kd5",
+        "destination": "/beginner/articles/bidding/work-progress-takeout-doubles-bridge",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/3u1r8dH5sFpYnELlOM5l",
+        "destination": "/beginner/articles/declarer/finesse-double-finesse-create-extra",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/7nKvD5E5BYBrkAX1lmFS",
+        "destination": "/beginner/articles/declarer/finesses-beginners-single-double-leading",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/cFpCtTplziRkoE2C0bv8",
+        "destination": "/beginner/articles/declarer/cash-trumps-without-blocking-keep",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/CHceqeWpWsRcHIFnGA1N",
+        "destination": "/beginner/articles/declarer/drawing-trumps-simple-habit-saves",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/JLLt4OxDmCw7AqwH7y6H",
+        "destination": "/beginner/articles/declarer/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/L8dUu9YDyIUVmdH3FPPt",
+        "destination": "/beginner/articles/declarer/declarer-play-make-simple-plan",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/nWtFr0FNRU0XbHDCFwBF",
+        "destination": "/beginner/articles/declarer/no-trump-basics-build-long",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/pchVEKAanUjUGJMnSy9Y",
+        "destination": "/beginner/articles/declarer/establishing-side-suit-winners-honor",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/scRLDZcTTmboZFDVRTq5",
+        "destination": "/beginner/articles/declarer/ruff-dummy-win-extra-tricks",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/UDGfk6FFHSfzKVvWgjD9",
+        "destination": "/beginner/articles/declarer/not-draw-trumps-3-situations",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/v5mZyAQXeBBWpgDD2PUj",
+        "destination": "/beginner/articles/declarer/playing-long-suits-build-extra",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/ymbAwafHdqPvLJaIlaJk",
+        "destination": "/beginner/articles/declarer/hold-up-play-no-trump",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/AjesFBfz7ew7gIXm0DLT",
+        "destination": "/beginner/articles/defence/opening-leads-beginners-top-sequence",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/Aqr7mZBvcZqR0plKtB3Y",
+        "destination": "/beginner/articles/defence/third-hand-high-beginners-win",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/cAhJ5PNUpTTRFCp2y9gP",
+        "destination": "/beginner/articles/defence/odds-evens-discarding-bridge-should",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/cz1pE4MdKTEAGpY7jPwf",
+        "destination": "/beginner/articles/defence/suit-switch-play-towards-weakness",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/icK5fldwl4EBZbqRV5Sm",
+        "destination": "/beginner/articles/defence/second-hand-low-beginners-exceptions",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/NjEmZETCrS6FtvJyRp4O",
+        "destination": "/beginner/articles/defence/second-hand-low-beginners-default",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/RLX0PHnm8aAxyoNXJwEp",
+        "destination": "/beginner/articles/defence/lead-towards-weakness-beginners-target",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/TiXM47rVH87RqmyCzQaU",
+        "destination": "/beginner/articles/defence/opening-leads-beginners-start-top",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/Y5xcpnE2hne3WbJph2JX",
+        "destination": "/beginner/articles/defence/third-hand-high-beginners-play",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/zCh1GIp2rDXpcgWRHCAz",
+        "destination": "/beginner/articles/defence/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/zyO3geQFXJFxklBaF0Cr",
+        "destination": "/beginner/articles/defence/bridge-signals-beginners-attitude-count",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/0COk2JlNnbKzBGJHAmpO",
+        "destination": "/bidding/advanced/preempting-first-seat-bold",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/0ibIBrNdi7sf4XOykyuX",
+        "destination": "/bidding/advanced/kiss-4-do-not-save",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/1yC3RB3AiPZvc0HeI1XK",
+        "destination": "/bidding/advanced/bid-third-suit-naturally-keep",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/5Qfpe6aZR56KKA6ECAw1",
+        "destination": "/bidding/advanced/kiss-1-do-not-double",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/9Yz35mbg93rpzNfTc1Op",
+        "destination": "/bidding/advanced/just-bid-3nt-recognize-right",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/AbPr2z4sByvVgT1U5Ehc",
+        "destination": "/bidding/advanced/puppet-stayman-check-5-card",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/B4nPwmcsPuwmprAcU32E",
+        "destination": "/bidding/advanced/should-invite-11-practical-guide",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/bAld6xJ0zVd2NRekKXND",
+        "destination": "/bidding/advanced/responding-takeout-double-keep-practical",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/Czs8FCV33GJN6Jtchw8o",
+        "destination": "/bidding/advanced/find-major-fit-after-1nt",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/DbK4Q0MfX55QFdjEDuOO",
+        "destination": "/bidding/advanced/preempting-vulnerability-risk-reward-across",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/DcqQjNCQDyNMWk2fOvIO",
+        "destination": "/bidding/advanced/smolen-convention-show-5-4",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/dfCl8Oz7REuPxBSvWi0S",
+        "destination": "/bidding/advanced/four-level-doubles-do-next",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/e0ibArOtZwt5CWmzZVIv",
+        "destination": "/bidding/advanced/non-vulnerable-preempting-apply-maximum",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/FRAw0KXmf3fRDt6I8Aey",
+        "destination": "/bidding/advanced/kiss-2-consider-passing-more",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/i2CIdysS7cErPJYWBUDO",
+        "destination": "/bidding/advanced/1nt-transfers-stayman-use-each",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/imr5fXsuVBeMFItvoGY3",
+        "destination": "/bidding/advanced/texas-transfers-transfer-directly-game",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/JRedeLU4KnYI01b1shA8",
+        "destination": "/bidding/advanced/kiss-3-support-partner-priority",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/JRfBfhpEImvkkf8kFEgw",
+        "destination": "/bidding/advanced/1nt-six-card-suit-still",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/kjsnezFNbXA1WsfvFEl4",
+        "destination": "/bidding/advanced/fourth-suit-forcing-checkback-core",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/KTH7BWkLEPoaI0X4V3t6",
+        "destination": "/bidding/advanced/vulnerable-auctions-too-careful-can",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/nM9k7gILMqYkUT7eqbZb",
+        "destination": "/bidding/advanced/5nt-pick-slam-practical-partnership",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/OadUH19g96u6Qx5zmMrY",
+        "destination": "/bidding/advanced/third-seat-openings-practical-aggression",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/OlNjmSZ3MfA8ZUGh6xF5",
+        "destination": "/bidding/advanced/hand-evaluation-2-re-evaluate",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/pclpFd42oS8tKnrofv3A",
+        "destination": "/bidding/advanced/hand-evaluation-3-do-more",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/PSIgQcbARccHtx2K0x6R",
+        "destination": "/bidding/advanced/second-suit-competition-compete-purpose",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/QmadBtW2QFMGu3o51NNi",
+        "destination": "/bidding/advanced/1nt-responder-methods-practical-overview",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/rE7jJGIaKM2Jdu2mkb91",
+        "destination": "/bidding/advanced/hand-evaluation-1-card-texture",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/ShmC7JaVqJPSCDapjdnE",
+        "destination": "/bidding/advanced/misfit-auctions-put-brakes-early",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/U2h4h8kDjcgPT9k4YLq0",
+        "destination": "/bidding/advanced/stayman-convention-find-4-4",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/U7XPYnHrxkT9n2mYmGZ8",
+        "destination": "/bidding/advanced/responding-1nt-balanced-hands-pass",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/uiRZXtZ2zjxVxq7e1lAb",
+        "destination": "/bidding/advanced/transfers-must-have-tool-nt",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/upI5TKRWWkXQ2lXlUQjE",
+        "destination": "/bidding/advanced/weak-stayman-know-helps",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/UqzicrX1JPrffdoZ89dJ",
+        "destination": "/bidding/advanced/bidding-basics-build-clear-auction",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/VEozAfwc0bWBurZ6Bg7p",
+        "destination": "/bidding/advanced/loser-count-bidding-judge-contracts",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/Wac8vjXveDhjyi7x7RRu",
+        "destination": "/bidding/advanced/hand-evaluation-4-do-less",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/wsCt4ouPgZU1cB86fj2A",
+        "destination": "/bidding/advanced/lebensohl-compete-smart-without-guessing",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/yt6au7gwYwPahTxQ4kd5",
+        "destination": "/bidding/advanced/work-progress-takeout-doubles-bridge",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/ZStj8Bg4UJkUxlCFI3lt",
+        "destination": "/bidding/advanced/bidding-conversation-share-information-efficiently",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/zVE5Qhi9ZVcBlztH1gZ5",
+        "destination": "/bidding/advanced/after-partner-opens-1nt-pass",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/3V3x21Bxdo3kJYZ9OBQd",
+        "destination": "/declarer/articles/have-backup-plan-recover-plan",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/4UHiTPvZW10thLt2lm8x",
+        "destination": "/declarer/articles/take-every-chance-create-extra",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/596acvZI8xbQE5NBLx9k",
+        "destination": "/declarer/articles/drawing-trumps-make-right-plan",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/7tl2KmOH5MrX3aVENk7S",
+        "destination": "/declarer/articles/declarer-play-basics-build-plan",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/aQcEPGFWdvVnDt2hn5oo",
+        "destination": "/declarer/articles/bridge-shapes-fundamentals-read-distribution",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/Cl42E9ZnS9fcyTMXxpSK",
+        "destination": "/declarer/articles/cash-side-suit-winners-trumps",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/dQSdx8ZGEwfCcoJAQXjk",
+        "destination": "/declarer/articles/count-winners-no-trump-build",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/F7d2Mbv0cctuildsnFKK",
+        "destination": "/declarer/articles/pattern-recognition-4-avoid-creating",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/g4cdPlWES6Yy21ERvk8C",
+        "destination": "/declarer/articles/counting-losers-plan-hand-spot",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/HXOT2mivlfu9L0Simy6K",
+        "destination": "/declarer/articles/practice-hand-2-timing-entries",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/IpwW7AMlQdRWoF8YlsKp",
+        "destination": "/declarer/articles/count-winners-trumps-avoid-missed",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/j7zM1utho0hMsmXl4e8V",
+        "destination": "/declarer/articles/count-trumps-accurately-control-contract",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/KGnXx6vQDP5SZ0jvQPx7",
+        "destination": "/declarer/articles/duck-preserve-communication-set-up",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/KLGbVxlHSR2vSGdPYkip",
+        "destination": "/declarer/articles/draw-trumps-purpose-avoid-autopilot",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/PFr2ryFggdD5INr7n7Lj",
+        "destination": "/declarer/articles/pattern-recognition-1-ruffing-strategy",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/S7FMVP4zj12Yp2zbVJxm",
+        "destination": "/declarer/articles/pattern-recognition-2-set-up",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/Xb7LwT1kWSeqFjfNvsNF",
+        "destination": "/declarer/articles/use-entries-well-reach-right",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/xnYj6sWvdRXFMPup5hP3",
+        "destination": "/declarer/articles/practice-hand-1-plan-before",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/XOCkGbD6q6WRCy1ZLMAS",
+        "destination": "/declarer/articles/pattern-recognition-3-find-build",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/YLW3xY7yanLHJluTBzQ6",
+        "destination": "/declarer/articles/understand-fourth-highest-leads-read",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/ZI3KbhQTQh4ZQKlnOn8d",
+        "destination": "/declarer/articles/count-potential-losers-spot-hidden",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/3e7pg3ZF7gBCQeVgMu4V",
+        "destination": "/defence/articles/ruffing-defence-turn-shortness-tricks",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/3qWyxmtHjM4FXfOCXBww",
+        "destination": "/defence/articles/dummy-type-2-strong-trick",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/3R10e13E6N3uCnQ9yGUD",
+        "destination": "/defence/articles/forcing-defence-drain-declarers-trumps",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/8Ui2MW9hcUbQMJPh6wyW",
+        "destination": "/defence/articles/trump-lead-kills-ruffing-plans",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/G1nh7yRCcjGK7vywIk97",
+        "destination": "/defence/articles/count-unseen-hand-read-distribution",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/h3lfxXhTOfRa5KP8XuyE",
+        "destination": "/defence/articles/taking-tricks-defence-timing-purpose",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/mMr7w3Alb8ORS8CPMWnE",
+        "destination": "/defence/articles/danger-hand-awareness-keep-dangerous",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/QbsVGH5V0YvfxPBavmdw",
+        "destination": "/defence/articles/hammer-defence-take-tricks-before",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/UkaQmXONFWeEQINsrj1U",
+        "destination": "/defence/articles/dummy-type-4-passive-dummy",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/UllBj5b4k5mGd3xgkN9d",
+        "destination": "/defence/articles/lead-positioning-dummy-right-small",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/W2gABxMyXaajmpi71BNh",
+        "destination": "/defence/articles/duck-winner-defence-timing-hold",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/WDLoYpVimberYvKMA7iN",
+        "destination": "/defence/articles/count-trumps-defence-prevent-surprise",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/yeEqhsXrHlYaQVYFrZLl",
+        "destination": "/defence/articles/dummy-type-3-ruffing-dummy",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/zkmANNefpSxfPFjBaflN",
+        "destination": "/defence/articles/defence-basics-build-plan-trick",
+        "type": 301
+      },
+      {
+        "source": "/defence/articles/zkWYwNSDTcVqPCQqQ88e",
+        "destination": "/defence/articles/dummy-type-1-limited-entries",
+        "type": 301
       }
     ]
   }
