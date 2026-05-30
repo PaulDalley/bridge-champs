@@ -33,6 +33,6 @@ export const HOME_PAGE_RECOMMENDED_ARTICLES = [
   },
   {
     label: "Recent article: Takeout doubles — complete guide →",
-    path: "/bidding/advanced/yt6au7gwYwPahTxQ4kd5",
+    path: "/bidding/advanced/takeout-doubles-complete-guide",
   },
 ];

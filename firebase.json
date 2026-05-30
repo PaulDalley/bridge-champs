@@ -142,7 +142,12 @@
       },
       {
         "source": "/beginner/articles/bidding/yt6au7gwYwPahTxQ4kd5",
-        "destination": "/beginner/articles/bidding/work-progress-takeout-doubles-bridge",
+        "destination": "/bidding/advanced/takeout-doubles-complete-guide",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/work-progress-takeout-doubles-bridge",
+        "destination": "/bidding/advanced/takeout-doubles-complete-guide",
         "type": 301
       },
       {
@@ -442,7 +447,12 @@
       },
       {
         "source": "/bidding/advanced/yt6au7gwYwPahTxQ4kd5",
-        "destination": "/bidding/advanced/work-progress-takeout-doubles-bridge",
+        "destination": "/bidding/advanced/takeout-doubles-complete-guide",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/work-progress-takeout-doubles-bridge",
+        "destination": "/bidding/advanced/takeout-doubles-complete-guide",
         "type": 301
       },
       {
