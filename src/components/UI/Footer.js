@@ -11,9 +11,6 @@ const footer = (props) => {
             <Footer
                     copyrights="&copy; 2018-2026 All rights reserved"
                     className="Footer"
-                    moreLinks={
-                        <a className="grey-text text-lighten-4 right" href="#!"></a>
-                    }
                     links={
                         <ul>
                             <li>
