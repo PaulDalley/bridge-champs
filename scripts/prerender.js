@@ -78,6 +78,24 @@ function isArticleRoutePath(p) {
   return ARTICLE_ROUTE_PATTERNS.some((re) => re.test(p));
 }
 
+// Category-list ("hub") routes that render <CategoryArticles>. These must wait
+// for `.CategoryArticles` specifically — during prerender the app can briefly
+// render the HomePage (auth/bootstrap gate) before the route component mounts,
+// and snapshotting that transient state ships the homepage head (canonical "/",
+// "Welcome to Bridge Champions" title) on a hub URL.
+const HUB_ROUTE_PATTERNS = [
+  /^\/declarer\/articles$/,
+  /^\/defence\/articles$/,
+  /^\/bidding\/advanced$/,
+  /^\/bidding\/basics$/,
+  /^\/counting\/articles$/,
+  /^\/beginner\/articles\/(declarer|defence|bidding)$/,
+];
+
+function isHubRoutePath(p) {
+  return HUB_ROUTE_PATTERNS.some((re) => re.test(p));
+}
+
 function fileForRoute(routePath) {
   const clean = normalisePath(routePath);
   const segments = clean === "/" ? [] : clean.replace(/^\/+/, "").split("/");
@@ -139,25 +157,33 @@ async function snapshotRoute(browser, routePath) {
       /^\/beginner\/articles\/(declarer|defence|bidding)\/[A-Za-z0-9_-]+$/,
     ];
     const isArticleRoute = articleRoutePatterns.some((re) => re.test(routePath));
+    const isHubRoute = isHubRoutePath(routePath);
+    const routeKind = isArticleRoute ? "article" : isHubRoute ? "hub" : "other";
 
     try {
       await page.waitForFunction(
-        (expectArticle) => {
+        (kind) => {
           const root = document.getElementById("root");
           if (!root) return false;
-          if (expectArticle) {
+          if (kind === "article") {
             const article = document.querySelector(".DisplayArticle-content");
             if (!article) return false;
             return article.textContent.trim().length > 300;
           }
-          const hub = document.querySelector(
+          if (kind === "hub") {
+            // Require the category list itself — never accept a transient
+            // HomePage render for a hub URL.
+            const hub = document.querySelector(".CategoryArticles");
+            return !!hub && hub.textContent.trim().length > 400;
+          }
+          const generic = document.querySelector(
             ".CategoryArticles, .HomePage, main, .BeginnerLanding, .LandingPage"
           );
-          if (hub && hub.textContent.trim().length > 200) return true;
+          if (generic && generic.textContent.trim().length > 200) return true;
           return root.textContent.trim().length > 300;
         },
         { timeout: 20000, polling: 400 },
-        isArticleRoute
+        routeKind
       );
     } catch (waitErr) {
       let snapshotDiag = null;
@@ -195,8 +221,9 @@ async function snapshotRoute(browser, routePath) {
         (snapshotDiag.title || "").includes(t)
       );
       const articleOk = isArticleRoute && snapshotDiag.hasArticle && snapshotDiag.articleSize > 300;
-      const hubOk = !isArticleRoute && !titleIsDefault && snapshotDiag.rootSize > 800;
-      if (articleOk || hubOk) {
+      const hubOk = isHubRoute && snapshotDiag.hasCategoryArticles && snapshotDiag.rootSize > 800;
+      const otherOk = !isArticleRoute && !isHubRoute && !titleIsDefault && snapshotDiag.rootSize > 800;
+      if (articleOk || hubOk || otherOk) {
         console.warn(
           `SOFT ${routePath} :: wait timed out but page is filled (title="${(snapshotDiag.title || "").slice(
             0,
@@ -275,8 +302,15 @@ async function snapshotRoute(browser, routePath) {
         t.trim() === "Bridge Champions" ||
         DEFAULT_TITLE_FRAGMENTS.some((frag) => t.includes(frag));
 
+      const isHome = selfUrl === "https://bridgechampions.com/";
+      const pointsHome = (href) =>
+        href === "https://bridgechampions.com/" || href === "https://bridgechampions.com";
+
       let canonical = document.head.querySelector("link[rel='canonical']");
-      if (!canonical || !canonical.getAttribute("href")) {
+      const curHref = canonical && canonical.getAttribute("href");
+      // Set a self-referential canonical when missing, or when a non-home route
+      // wrongly inherited the homepage canonical (transient HomePage render).
+      if (!canonical || !curHref || (!isHome && pointsHome(curHref))) {
         if (!canonical) {
           canonical = document.createElement("link");
           canonical.setAttribute("rel", "canonical");
@@ -305,7 +339,9 @@ async function snapshotRoute(browser, routePath) {
           document.querySelector("h1.CategoryArticles-title") ||
           document.querySelector("h1");
         const h1Text = h1 ? h1.textContent.trim() : "";
-        if (h1Text) {
+        // Never derive a title from the homepage hero ("Welcome to Bridge
+        // Champions") — that means we caught a transient homepage render.
+        if (h1Text && !/^welcome to/i.test(h1Text)) {
           const derived = `${h1Text} - Bridge Champions`;
           document.title = derived;
           const ogTitle = document.head.querySelector("meta[property='og:title']");
