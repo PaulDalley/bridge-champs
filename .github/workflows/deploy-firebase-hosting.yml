@@ -123,7 +123,7 @@ jobs:
     name: Refresh SEO assets (sitemap + prerender + og)
     needs: fast-deploy
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     # Never fails the workflow as a whole; the live site already shipped.
     continue-on-error: true
     env:
@@ -179,8 +179,26 @@ jobs:
           fi
           exit 0
 
+      # Ship the prerendered HTML + fresh sitemap IMMEDIATELY, before the flaky
+      # OG-image step. Previously a failing/timed-out OG step (default
+      # `if: success()`) caused the single redeploy to be SKIPPED, so the
+      # prerendered content never reached production and every article served a
+      # bare SPA shell. This deploy must run regardless of earlier best-effort
+      # step outcomes — it's the step that actually makes articles indexable.
+      - name: Deploy Hosting with prerendered content (critical)
+        if: ${{ !cancelled() }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
+
       - name: Generate per-article OG images (best effort, hard timeout)
-        timeout-minutes: 15
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        timeout-minutes: 12
         run: |
           set +e
           npm run og:images -- --concurrency 6
@@ -190,7 +208,12 @@ jobs:
           fi
           exit 0
 
-      - name: Redeploy Hosting with refreshed SEO assets
+      # Non-critical second deploy to ship any OG images that were generated.
+      # Pages are already live + prerendered from the step above, so this can
+      # fail without affecting indexing.
+      - name: Redeploy Hosting with OG images (best effort)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
         uses: FirebaseExtended/action-hosting-deploy@v0
         timeout-minutes: 5
         with:
