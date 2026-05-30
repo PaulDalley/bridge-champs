@@ -16,7 +16,7 @@ class Coupons extends Component {
     /** Keep KLINGER/EASTS usable by routing to the active BLUE token. */
     tokenForApi = (token) => {
         const normalized = String(token || "").trim().toLowerCase();
-        if (normalized === "klinger" || normalized === "easts" || normalized === "milne") return "blue";
+        if (normalized === "klinger" || normalized === "easts" || normalized === "milne" || normalized === "harbourview") return "blue";
         return normalized;
     };
 
@@ -26,8 +26,8 @@ class Coupons extends Component {
         return $.ajax({
             url,
             method: "POST",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify({ token: this.tokenForApi(this.state.token) }),
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: `token=${encodeURIComponent(this.tokenForApi(this.state.token))}`,
             dataType: "json",
         }).then(
             (data) => {

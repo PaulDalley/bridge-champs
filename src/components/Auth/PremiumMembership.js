@@ -238,22 +238,41 @@ class PremiumMembership extends Component {
     // Keep KLINGER/EASTS working immediately by mapping to the active BLUE token.
     // Once userTokens/klinger and userTokens/easts exist in Firestore, remove this alias.
     if (this.isPremiumOnlyFreeMonthPromo(normalized)) return "blue";
-    // PETE26, WELCOME2026, and MILNE should behave exactly like BLUE.
-    if (normalized === "pete26" || normalized === "welcome2026" || normalized === "milne") return "blue";
+    // PETE26, WELCOME2026, MILNE, and HARBOURVIEW should behave exactly like BLUE.
+    if (
+      normalized === "pete26" ||
+      normalized === "welcome2026" ||
+      normalized === "milne" ||
+      normalized === "harbourview"
+    ) {
+      return "blue";
+    }
     // Firestore document ids are normalized lowercase promo codes.
-    // "harbourview" is no longer accepted.
     return normalized;
   };
 
   isOneMonthFreeAnyTierCode = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "pete26" || normalized === "welcome2026" || normalized === "milne";
+    return (
+      normalized === "blue" ||
+      normalized === "pete26" ||
+      normalized === "welcome2026" ||
+      normalized === "milne" ||
+      normalized === "harbourview"
+    );
   };
 
   /** Trial-extension promos — standard monthly price unchanged (unlike ausyouth price override). */
   isExtendedTrialStandardPricePromo = (code) => {
     const normalized = this.normalizePromoCode(code);
-    return normalized === "blue" || normalized === "pete26" || normalized === "welcome2026" || normalized === "milne" || normalized === "goldy";
+    return (
+      normalized === "blue" ||
+      normalized === "pete26" ||
+      normalized === "welcome2026" ||
+      normalized === "milne" ||
+      normalized === "harbourview" ||
+      normalized === "goldy"
+    );
   };
 
   getAppliedPromoToken = () => {
@@ -311,8 +330,8 @@ class PremiumMembership extends Component {
     $.ajax({
       url,
       method: "POST",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({ token: codeForValidation }),
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+      data: `token=${encodeURIComponent(codeForValidation)}`,
       dataType: "json",
     })
       .then((raw) => {
