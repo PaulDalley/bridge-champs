@@ -258,7 +258,61 @@ async function snapshotRoute(browser, routePath) {
       await sleep(500);
     });
 
-    await page.evaluate(() => {
+    const canonicalUrl = `${PROD_BASE}${normalisePath(routePath)}`;
+    await page.evaluate((selfUrl) => {
+      // Deterministic head backfill. react-helmet-async usually applies the
+      // per-page <head>, but on content-heavy hub pages (many articles + live
+      // Firestore listeners) it can re-render past the snapshot window and ship
+      // the default index.html head. A page's canonical is always its own URL,
+      // so inject a self-referential canonical when one is missing, and replace
+      // the homepage-default og:url/title with route-specific values. This makes
+      // canonical/title timing-proof (the signal Google uses to de-duplicate).
+      const DEFAULT_TITLE_FRAGMENTS = [
+        "Bridge Champions \u2014 Bridge lessons",
+      ];
+      const titleIsDefault = (t) =>
+        !t ||
+        t.trim() === "Bridge Champions" ||
+        DEFAULT_TITLE_FRAGMENTS.some((frag) => t.includes(frag));
+
+      let canonical = document.head.querySelector("link[rel='canonical']");
+      if (!canonical || !canonical.getAttribute("href")) {
+        if (!canonical) {
+          canonical = document.createElement("link");
+          canonical.setAttribute("rel", "canonical");
+          document.head.appendChild(canonical);
+        }
+        canonical.setAttribute("href", selfUrl);
+      }
+
+      // og:url / twitter:url: if still pointing at the homepage, retarget to self.
+      ["og:url", "twitter:url"].forEach((key) => {
+        const attr = key.startsWith("og:") ? "property" : "name";
+        const el = document.head.querySelector(`meta[${attr}='${key}']`);
+        if (el) {
+          const val = el.getAttribute("content") || "";
+          if (val === "https://bridgechampions.com/" || val === "https://bridgechampions.com") {
+            el.setAttribute("content", selfUrl);
+          }
+        }
+      });
+
+      // Title: when still the homepage default, derive one from the page's H1
+      // (hub pages render <h1 class="CategoryArticles-title">). Article pages
+      // already get their real title from Helmet, so this only touches hubs.
+      if (titleIsDefault(document.title)) {
+        const h1 =
+          document.querySelector("h1.CategoryArticles-title") ||
+          document.querySelector("h1");
+        const h1Text = h1 ? h1.textContent.trim() : "";
+        if (h1Text) {
+          const derived = `${h1Text} - Bridge Champions`;
+          document.title = derived;
+          const ogTitle = document.head.querySelector("meta[property='og:title']");
+          if (ogTitle) ogTitle.setAttribute("content", derived);
+        }
+      }
+
       const dedupeBy = (selector, keyFn) => {
         const seen = new Map();
         document.head.querySelectorAll(selector).forEach((el) => {
@@ -285,7 +339,7 @@ async function snapshotRoute(browser, routePath) {
       marker.setAttribute("name", "x-prerendered");
       marker.setAttribute("content", new Date().toISOString());
       document.head.appendChild(marker);
-    });
+    }, canonicalUrl);
 
     html = await page.content();
   } finally {
