@@ -1,13 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "react-materialize";
+import { Helmet } from "react-helmet-async";
 import "./DefenceHub.css";
 
 function DefenceHub() {
   return (
     <div className="ch-page" aria-label="Defence home">
+      <Helmet>
+        <title>Bridge Defence: Lessons & Practice | Bridge Champions</title>
+        <meta
+          name="description"
+          content="Sharpen your bridge defence: opening leads, signals, second hand low, third hand high, and counting the hand — interactive practice plus clear articles."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/defence" />
+        <meta property="og:url" content="https://bridgechampions.com/defence" />
+        <meta property="og:title" content="Bridge Defence: Lessons & Practice | Bridge Champions" />
+        <meta
+          property="og:description"
+          content="Sharpen your bridge defence: opening leads, signals, second hand low, third hand high, and counting the hand — interactive practice plus clear articles."
+        />
+      </Helmet>
       <div className="ch-hero">
-        <div className="ch-heroTitle">Defence</div>
+        <h1 className="ch-heroTitle">Defence</h1>
         <p className="ch-heroSub">
           Interactive deals and explanatory articles — two paths below.
         </p>

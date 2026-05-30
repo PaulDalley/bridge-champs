@@ -1,13 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "react-materialize";
+import { Helmet } from "react-helmet-async";
 import "./BiddingHub.css";
 
 function BiddingHub() {
   return (
     <div className="ch-page" aria-label="Bidding home">
+      <Helmet>
+        <title>Bridge Bidding: Lessons & Practice | Bridge Champions</title>
+        <meta
+          name="description"
+          content="Learn bridge bidding the practical way: openings, responses, opener rebids, conventions, and competitive auctions — interactive practice plus in-depth articles."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/bidding" />
+        <meta property="og:url" content="https://bridgechampions.com/bidding" />
+        <meta property="og:title" content="Bridge Bidding: Lessons & Practice | Bridge Champions" />
+        <meta
+          property="og:description"
+          content="Learn bridge bidding the practical way: openings, responses, opener rebids, conventions, and competitive auctions — interactive practice plus in-depth articles."
+        />
+      </Helmet>
       <div className="ch-hero">
-        <div className="ch-heroTitle">Bidding</div>
+        <h1 className="ch-heroTitle">Bidding</h1>
         <p className="ch-heroSub">
           Interactive deals and explanatory articles — two paths below.
         </p>

@@ -1,14 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "react-materialize";
+import { Helmet } from "react-helmet-async";
 import { DECLARER_HAS_NEW } from "./DeclarerTrainer";
 import "./DeclarerHub.css";
 
 function DeclarerHub() {
   return (
     <div className="ch-page" aria-label="Declarer play home">
+      <Helmet>
+        <title>Declarer Play: Lessons & Practice | Bridge Champions</title>
+        <meta
+          name="description"
+          content="Improve declarer play in bridge: trump management, finesses, hand planning, and counting tricks — interactive practice plus clear, worked-example articles."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/declarer" />
+        <meta property="og:url" content="https://bridgechampions.com/declarer" />
+        <meta property="og:title" content="Declarer Play: Lessons & Practice | Bridge Champions" />
+        <meta
+          property="og:description"
+          content="Improve declarer play in bridge: trump management, finesses, hand planning, and counting tricks — interactive practice plus clear, worked-example articles."
+        />
+      </Helmet>
       <div className="ch-hero">
-        <div className="ch-heroTitle">Declarer Play</div>
+        <h1 className="ch-heroTitle">Declarer Play</h1>
         <p className="ch-heroSub">
           Interactive deals and explanatory articles - two paths below.
         </p>
