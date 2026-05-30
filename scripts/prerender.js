@@ -257,6 +257,24 @@ async function snapshotRoute(browser, routePath) {
       }
     }
 
+    // Nudge requestAnimationFrame: react-helmet-async flushes the <head> inside
+    // a rAF callback, and in headless Chrome rAF can stall on a static page that
+    // isn't painting new frames — so Helmet never writes its title/description/
+    // canonical. A tiny scroll + a couple of forced rAF ticks wakes the frame
+    // loop so Helmet commits before we snapshot. (Article pages flush anyway
+    // because their async data loads keep triggering frames.)
+    try {
+      await page.evaluate(
+        () =>
+          new Promise((resolve) => {
+            try { window.scrollTo(0, 1); window.scrollTo(0, 0); } catch (_) {}
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => setTimeout(resolve, 0))
+            );
+          })
+      );
+    } catch (_) {}
+
     // Wait (best-effort) for react-helmet-async to flush the per-page <head>.
     // Hub/category pages resolve the content wait almost instantly (breadcrumbs
     // + title render synchronously), which can snapshot BEFORE Helmet writes the
