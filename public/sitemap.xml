@@ -2,31 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bridgechampions.com/</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/about</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/bidding</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -50,7 +50,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/bidding/openers-rebid-beginners-choosing-suit</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -86,7 +86,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -97,20 +97,14 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bridgechampions.com/beginner/articles/declarer/declarer-play-make-simple-plan</loc>
-    <lastmod>2026-05-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/drawing-trumps-simple-habit-saves</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/establishing-side-suit-winners-honor</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -128,31 +122,31 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/no-trump-basics-build-long</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/not-draw-trumps-3-situations</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/playing-long-suits-build-extra</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/declarer/ruff-dummy-win-extra-tricks</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/defence</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -176,43 +170,43 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/defence/second-hand-low-beginners-default</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/defence/suit-switch-play-towards-weakness</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/beginner/articles/defence/third-hand-high-beginners-play</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/1nt-responder-methods-practical-overview</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/1nt-six-card-suit-still</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -224,19 +218,19 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/5nt-pick-slam-practical-partnership</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/bid-third-suit-naturally-keep</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/bidding-basics-build-clear-auction</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -266,49 +260,49 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/hand-evaluation-2-re-evaluate</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/hand-evaluation-3-do-more</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/hand-evaluation-4-do-less</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/just-bid-3nt-recognize-right</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/kiss-1-do-not-double</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/kiss-2-consider-passing-more</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/kiss-3-support-partner-priority</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/kiss-4-do-not-save</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -332,13 +326,13 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/preempting-first-seat-bold</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/preempting-vulnerability-risk-reward-across</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -350,13 +344,13 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/responding-1nt-balanced-hands-pass</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/second-suit-competition-compete-purpose</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -373,6 +367,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bridgechampions.com/bidding/advanced/takeout-doubles-complete-guide</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://bridgechampions.com/bidding/advanced/texas-transfers-transfer-directly-game</loc>
     <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
@@ -380,7 +380,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/third-seat-openings-practical-aggression</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -392,37 +392,31 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/advanced/weak-stayman-know-helps</loc>
-    <lastmod>2026-05-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://bridgechampions.com/bidding/advanced/work-progress-takeout-doubles-bridge</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/bidding/basics</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/counting/articles</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -434,31 +428,31 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/cash-side-suit-winners-trumps</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/count-winners-no-trump-build</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/count-winners-trumps-avoid-missed</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/counting-losers-plan-hand-spot</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/declarer-play-basics-build-plan</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -470,7 +464,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/duck-preserve-communication-set-up</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -482,19 +476,19 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/pattern-recognition-1-ruffing-strategy</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/pattern-recognition-2-set-up</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/pattern-recognition-3-find-build</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -506,13 +500,13 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/practice-hand-1-plan-before</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/declarer/articles/practice-hand-2-timing-entries</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -530,67 +524,67 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/defence</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/count-unseen-hand-read-distribution</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/defence-basics-build-plan-trick</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/duck-winner-defence-timing-hold</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/dummy-type-1-limited-entries</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/dummy-type-2-strong-trick</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/dummy-type-3-ruffing-dummy</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/dummy-type-4-passive-dummy</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/forcing-defence-drain-declarers-trumps</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/hammer-defence-take-tricks-before</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -602,13 +596,13 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/ruffing-defence-turn-shortness-tricks</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/defence/articles/taking-tricks-defence-timing-purpose</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -620,25 +614,25 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/learn</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/learn/beginner</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/treadmill</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bridgechampions.com/treadmill/card-rush</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

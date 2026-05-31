@@ -1294,10 +1294,10 @@
   line-height: 1.72 !important;
 }
 
-/* Inline text wrappers inside the article body inherit the dark color
-   (without these, Interweave's <span class="interweave"> wrapper sometimes
-   shows lighter text). */
-.DisplayArticle-content :where(p, li, td, th, blockquote, dd, dt) :where(span, em, i, u) {
+/* Inline wrappers inside article body inherit dark copy color, but only when
+   they have no semantic class. This prevents utility spans (e.g. red-suit)
+   from being clobbered by this global normalization rule. */
+.DisplayArticle-content :where(p, li, td, th, blockquote, dd, dt) :where(span:not([class]), em:not([class]), i:not([class]), u:not([class])) {
   color: inherit !important;
   opacity: 1 !important;
 }

@@ -84,6 +84,7 @@ async function lookupSiblingPaths(collectionName) {
   const snap = await db.collection(collectionName).get();
   let drawingTrumpsPath = null;
   let ruffInDummyPath = null;
+  let sideSuitPath = null;
 
   snap.forEach((doc) => {
     const d = doc.data() || {};
@@ -101,20 +102,27 @@ async function lookupSiblingPaths(collectionName) {
     ) {
       ruffInDummyPath = pathForDoc;
     }
+    if (
+      !sideSuitPath &&
+      (title.includes("playing long suits") ||
+        subcategory.includes("playing long suits") ||
+        title.includes("build extra winners early"))
+    ) {
+      sideSuitPath = pathForDoc;
+    }
   });
 
-  return { drawingTrumpsPath, ruffInDummyPath };
+  return { drawingTrumpsPath, ruffInDummyPath, sideSuitPath };
 }
 
 function buildBodyHtml(links) {
   const drawingTrumpsHref = esc(links.drawingTrumps || "/beginner/articles/declarer");
   const ruffInDummyHref = esc(links.ruffInDummy || "/beginner/articles/declarer");
+  const sideSuitHref = esc(links.sideSuit || "/beginner/articles/declarer");
 
   return `
 <h2>When Not to Draw Trumps (Beginner Guide)</h2>
-<p>Most beginner declarers are taught an important rule: draw trumps. As we improve at bridge we start to see that it is not always correct.</p>
-<p>Sometimes you must delay drawing trumps to keep control of the hand, create extra winners, or avoid losing communication between your hand and dummy.</p>
-<p>This article gives you a simple way to know when to draw trumps now and when to wait.</p>
+<p>A guiding principle will be - rebid 1NT with a balanced hand. With an unbalanced hand, rebid a suit. (A sure sign that the hand is unbalanced is having a singleton, but also with 5422 shape it is often good to rebid a suit. Also, if you have a 6+ card suit, that is not balanced and it is worth rebidding the suit rather than NT. </p>
 
 <h3>The default rule</h3>
 <p>In suit contracts, when we learn bridge, the default plan is:</p>
@@ -123,7 +131,7 @@ function buildBodyHtml(links) {
   <li>Draw opponents' trumps</li>
   <li>Then cash winners or set up side suits</li>
 </ul>
-<p>Why this works: if defenders still hold trumps, they can ruff your winners. Drawing trumps removes that danger.</p>
+<p>Often this works because the declaring side has more trumps than the defenders and can afford to play 2 or 3 rounds of the suit, and still have extra left for later. Lots of the time we don't actually have that luxury, and have to delay drawing trumps. We don't necessarily need to delay for long, maybe a trick or two.</p>
 <p>So "draw trumps first" is a good starting point. But we need to develop some instincts around it, rather than just an inflexible rule.</p>
 
 <h3>When you should delay drawing trumps</h3>
@@ -132,13 +140,15 @@ function buildBodyHtml(links) {
 <h3>1) Ruff losers in dummy</h3>
 <p>One of my favourite rules - when dummy has a short suit (0, 1 or 2 cards in a suit), often you get ruffs by playing that suit, until dummy runs out, then ruff! Simple hey? And very effective. One of the cornerstone strategies in bridge.</p>
 <p>If you draw trumps too early, dummy may run out of trumps and you lose the chance to ruff.</p>
+<p>Read more: <a href="${ruffInDummyHref}">Ruff in dummy</a>.</p>
 
 <h3>2) You must establish a side suit first</h3>
 <p>Very often, probably 75% of the time if I have to give it a number, we want to set up our side suits BEFORE drawing trumps. Our side suits are often the most lucrative source of tricks.</p>
 <p>The key concern: Trumps often act as entries, or they stop the enemy from cashing all their winners - because we can trump them. If we deplete dummy of trumps, sometimes we can't stop the enemy's attack.</p>
+<p>Read more: <a href="${sideSuitHref}">Playing long suits</a>.</p>
 
 <h3>3) You need to preserve entries and communication</h3>
-<p>Some contracts fail because declarer draws trumps too fast and then cannot reach the right hand at the right time.</p>
+<p>Some contracts fail because declarer draws trumps too fast and then cannot reach the right hand at the right time. Communication is just a fancy word for being able to get to a hand - for example, an Ace is a trick, but it is also a ticket to getting to the hand with the Ace in it. Think about taking a finesse, we need to be in the correct hand to do it, how do we get to the correct hand - perhaps the trump Ace? As perhaps you can start to imagine, trumnps are also good for moving from one hand to another at a critical moment.</p>
 <p>Hot tip: It can take a while for a bridge player to start seeing trumps as "entries". One of the biggest resources in bridge is entries, we need to use them wisely.</p>
 <p>If we don't have entries, we can't move between hands when we need to.</p>
 
@@ -194,15 +204,17 @@ async function upsertArticle() {
   const summaryRef = db.collection(summaryCol);
   const bodyRef = db.collection(bodyCol);
 
-  const { drawingTrumpsPath, ruffInDummyPath } = await lookupSiblingPaths(summaryCol);
+  const { drawingTrumpsPath, ruffInDummyPath, sideSuitPath } = await lookupSiblingPaths(summaryCol);
 
   const relatedLinksList = ["/beginner/articles/declarer"];
   if (drawingTrumpsPath) relatedLinksList.push(drawingTrumpsPath);
   if (ruffInDummyPath) relatedLinksList.push(ruffInDummyPath);
+  if (sideSuitPath) relatedLinksList.push(sideSuitPath);
 
   const bodyHtml = buildBodyHtml({
     drawingTrumps: drawingTrumpsPath,
     ruffInDummy: ruffInDummyPath,
+    sideSuit: sideSuitPath,
   });
 
   const existing = await summaryRef.where("title", "==", TITLE).limit(1).get();

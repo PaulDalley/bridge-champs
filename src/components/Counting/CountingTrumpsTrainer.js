@@ -9128,20 +9128,24 @@ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThe
  
  const renderRailWatchPlayNote = () => ( 
  <> 
- <div className="ct-watchNote"> 
- {completedRoundIdx >= lastRoundIdx 
- ? "Hand complete." 
- : (() => { 
- const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound; 
- const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal; 
- const showNote = 
- (onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) && 
- (onlyAfterRound == null || completedRoundIdx >= onlyAfterRound); 
- const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : ""; 
- const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : ""; 
- return noteText ? noteText + suffix : (suffix ? suffix.trim() : ""); 
- })()} 
- </div> 
+<div className="ct-watchNote"> 
+{completedRoundIdx >= lastRoundIdx ? ( 
+"Hand complete." 
+) : ( 
+<FormattedRevealText 
+text={(() => { 
+const onlyAfterRound = puzzle?.promptOptions?.watchNoteOnlyAfterRound; 
+const onlyAfterPlayCardReveal = puzzle?.promptOptions?.watchNoteOnlyAfterPlayCardReveal; 
+const showNote = 
+(onlyAfterPlayCardReveal ? continuedFromPlayCardRevealRef.current : true) && 
+(onlyAfterRound == null || completedRoundIdx >= onlyAfterRound); 
+const noteText = showNote ? (puzzle?.promptOptions?.watchNote || "Watch the play, then answer.") : ""; 
+const suffix = manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx ? " Click Next →" : ""; 
+return noteText ? noteText + suffix : (suffix ? suffix.trim() : ""); 
+})()} 
+/> 
+)} 
+</div> 
  {manualTrickMode && lastRoundIdx >= 0 && completedRoundIdx < lastRoundIdx && ( 
  <div className="ct-railActions" style={{ marginTop: 8 }}> 
  <button 
@@ -9549,7 +9553,7 @@ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThe
  </div> 
  {!!puzzle?.promptOptions?.persistentPlayCardHint && ( 
  <p className="ct-playDecisionBlock-hint" style={{ marginTop: 10, opacity: 0.95 }}> 
- {puzzle.promptOptions.persistentPlayCardHint} 
+<FormattedRevealText text={puzzle.promptOptions.persistentPlayCardHint} /> 
  </p> 
  )} 
  </div> 

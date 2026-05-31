@@ -173,8 +173,11 @@ a:hover {
 }
 
 /* === CARD SUITS === */
+/* `!important` is required: article body rules (e.g. the beginner
+   `.DisplayArticle-content--beginner` color overrides) otherwise win over a
+   plain `.red-suit` rule and force hearts/diamonds back to dark text. */
 .red-suit {
-  color: var(--color-accent);
+  color: var(--color-accent) !important;
   font-weight: 700;
 }
 

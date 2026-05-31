@@ -509,6 +509,8 @@ const DisplayCategoryArticle = ({
   }, [articleId, articleType, useMetaData, dispatch]);
 
   let articleDataArray = [];
+  const currentBodyDoc = article?.[articleId];
+  const isBodyDocLoading = Boolean(article && articleId && !currentBodyDoc);
   const hasVideos = articleText ? hasVideosInContent(articleText) : false;
   const isPremium = tier === 'premium';
   const isAdmin = a === true;
@@ -1132,10 +1134,10 @@ const DisplayCategoryArticle = ({
       {renderVideoSection(useMetaData?.videoUrl, canWatchVideo, history)}
       
       <div className={articleContentClassName} role="article">
-        {articleDataArray}
+        {isBodyDocLoading ? <SkeletonLoader type="article" /> : articleDataArray}
       </div>
 
-      {isBeginnerArticleType && (beginnerHubPath || beginnerPrev || beginnerNext || beginnerStart) && (
+      {!isBodyDocLoading && isBeginnerArticleType && (beginnerHubPath || beginnerPrev || beginnerNext || beginnerStart) && (
         <section className="DisplayArticle-ctaCard" aria-label="Beginner article navigation">
           <h3 className="DisplayArticle-ctaHeading">Beginner learning path</h3>
           <p className="DisplayArticle-ctaBody">
@@ -1185,7 +1187,7 @@ const DisplayCategoryArticle = ({
         </section>
       )}
 
-      {isLebensohlArticle ? (
+      {!isBodyDocLoading && (isLebensohlArticle ? (
         <section className="DisplayArticle-ctaCard" aria-label="Lebensohl trainer call to action">
           <h3 className="DisplayArticle-ctaHeading">Try the Lebensohl problem questions</h3>
           <p className="DisplayArticle-ctaBody">
@@ -1263,17 +1265,17 @@ const DisplayCategoryArticle = ({
             </p>
           )}
         </section>
-      )}
+      ))}
 
-      <RelatedArticles
+      {!isBodyDocLoading && <RelatedArticles
         articleType={articleType}
         currentArticleId={articleId}
         currentBodyId={useMetaData?.body || articleId}
         currentTitle={useMetaData?.title}
         currentDifficulty={useMetaData?.difficulty}
-      />
+      />}
 
-      <div className="DisplayArticle-backNavWrap DisplayArticle-backNavWrap--bottom">
+      {!isBodyDocLoading && <div className="DisplayArticle-backNavWrap DisplayArticle-backNavWrap--bottom">
         <button
           type="button"
           className="DisplayArticle-backNavBtn"
@@ -1282,9 +1284,9 @@ const DisplayCategoryArticle = ({
         >
           <span aria-hidden="true">←</span> {backToListLabel}
         </button>
-      </div>
+      </div>}
 
-      {article && (
+      {!isBodyDocLoading && article && (
         <section aria-label="Comments section">
           <Comments
             uid={uid}
@@ -1297,11 +1299,11 @@ const DisplayCategoryArticle = ({
       )}
 
       {/* Feedback Form */}
-      <FeedbackForm
+      {!isBodyDocLoading && <FeedbackForm
         articleId={articleId}
         articleType={articleType}
         articleTitle={useMetaData?.title}
-      />
+      />}
     </article>
     </>
   );

@@ -25,6 +25,34 @@ service cloud.firestore {
               get(/databases/$(database)/documents/membersData/$(request.auth.uid)).data.lastQuestion < request.time;
     }
 
+    function isArticleTopCapturePayload() {
+      return request.resource.data.signupSource == "article-top-capture"
+        && request.resource.data.firstName is string
+        && request.resource.data.firstName.size() >= 2
+        && request.resource.data.firstName.size() <= 40
+        && request.resource.data.surname is string
+        && request.resource.data.surname.size() >= 2
+        && request.resource.data.surname.size() <= 40
+        && request.resource.data.email is string
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.sourcePath is string
+        && request.resource.data.articleId is string
+        && request.resource.data.articleType is string
+        && request.resource.data.articleTitle is string
+        && request.resource.data.userAgent is string
+        && !request.resource.data.userAgent.matches("(?i).*(bot|crawler|spider|headless|phantom|puppeteer|selenium|chrome/1).*");
+    }
+
+    function validMembersDataWrite(userId) {
+      return request.auth != null
+        && request.auth.uid == userId
+        && (
+          !("signupSource" in request.resource.data)
+          || request.resource.data.signupSource != "article-top-capture"
+          || isArticleTopCapturePayload()
+        );
+    }
+
     match /freeDaily/{contentType} {
       allow read;
       allow update: if isAdmin();
@@ -49,7 +77,7 @@ service cloud.firestore {
     }
 
     match /membersData/{userId} {
-        allow read, create, update: if request.auth.uid == userId;
+        allow read, create, update: if validMembersDataWrite(userId);
     }
 
     // User system card — each user can read/write their own

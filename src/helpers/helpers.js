@@ -179,8 +179,21 @@ export const canDoubleChecker = (bidding) => {
 // 1) Cant redouble your partner
 // 2) Can only redouble if last bid was a double and made by your opponents.
 
+const normalizeRedSuitSpanOpenTag = (string) => {
+  return string
+    .replace(
+      /<span\s+className=['"]red-suit['"]\s*>/g,
+      `<span class="red-suit">`
+    )
+    .replace(
+      /<span\s+class=['"]red-suit['"]\s*>/g,
+      `<span class="red-suit">`
+    );
+};
+
 export const prepareArticleString = (article) => {
-  return article
+  return normalizeRedSuitSpanOpenTag(
+    article
     .split("&gt;")
     .join(">")
     .split("&lt;")
@@ -190,7 +203,8 @@ export const prepareArticleString = (article) => {
     .join("")
     .split(/(<MakeBoard .* \/>)/)
     .map((substr) => replaceDiamondsAndHearts(substr))
-    .join("");
+    .join("")
+  );
 };
 
 const iterativelyReplace = (string, suit) => {
@@ -210,7 +224,7 @@ const iterativelyReplace = (string, suit) => {
       oldString[0] !== "/" &&
       oldString[0] !== '"'
     ) {
-      newString += `<span className='red-suit'>${suit}</span>`;
+      newString += `<span class="red-suit">${suit}</span>`;
     } else {
       newString += suit;
     }

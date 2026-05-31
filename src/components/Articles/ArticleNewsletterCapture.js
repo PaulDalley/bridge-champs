@@ -5,6 +5,20 @@ import "./ArticleNewsletterCapture.css";
 const isLikelyEmail = (value = "") =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 
+const isLikelyHumanName = (value = "") => {
+  const trimmed = String(value || "").trim();
+  if (trimmed.length < 2 || trimmed.length > 40) return false;
+  if (!/^[A-Za-z][A-Za-z' -]*$/.test(trimmed)) return false;
+  if (!/[aeiouy]/i.test(trimmed)) return false;
+  if (/[bcdfghjklmnpqrstvwxyz]{5,}/i.test(trimmed)) return false;
+  return true;
+};
+
+const suspiciousUserAgent = (ua = "") =>
+  /bot|crawler|spider|headless|phantom|puppeteer|selenium|chrome\/1(\D|$)/i.test(
+    String(ua || "")
+  );
+
 const ArticleNewsletterCapture = ({
   articleId,
   articleType,
@@ -14,10 +28,12 @@ const ArticleNewsletterCapture = ({
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [website, setWebsite] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!firebase.auth().currentUser);
+  const [formStartedAt] = useState(() => Date.now());
 
   const sourcePath = useMemo(() => {
     try {
@@ -43,12 +59,25 @@ const ArticleNewsletterCapture = ({
       .trim()
       .split(/\s+/)[0];
     const clean = String(email || "").trim().toLowerCase();
+    const userAgent = navigator.userAgent || "";
+    const submitDurationMs = Date.now() - formStartedAt;
+
+    // Basic anti-bot checks to cut obvious junk signups from article capture.
+    if (website.trim() !== "" || submitDurationMs < 3500 || suspiciousUserAgent(userAgent)) {
+      setError("Could not create account. Please try again.");
+      return;
+    }
+
     if (cleanFirstName.length < 2) {
       setError("Please enter your first name.");
       return;
     }
     if (cleanSurname.length < 2) {
       setError("Please enter your surname.");
+      return;
+    }
+    if (!isLikelyHumanName(cleanFirstName) || !isLikelyHumanName(cleanSurname)) {
+      setError("Please enter your first name and surname.");
       return;
     }
     if (!isLikelyEmail(clean)) {
@@ -93,7 +122,7 @@ const ArticleNewsletterCapture = ({
             articleType: articleType || "unknown",
             articleTitle: articleTitle || "Unknown article",
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            userAgent: navigator.userAgent || "",
+            userAgent,
           },
           { merge: true }
         );
@@ -131,6 +160,22 @@ const ArticleNewsletterCapture = ({
         Create an account in seconds to receive updated convention ideas, practical table tips, and new training content.
       </p>
       <form className="ArticleNewsletterCapture-form" onSubmit={onSubmit}>
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            width: "1px",
+            height: "1px",
+            opacity: 0,
+            pointerEvents: "none",
+          }}
+        />
         <div className="ArticleNewsletterCapture-nameRow">
           <div>
             <label className="ArticleNewsletterCapture-label" htmlFor={`newsletter-firstname-${articleId || "article"}`}>
