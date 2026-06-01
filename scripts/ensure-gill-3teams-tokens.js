@@ -1,13 +1,15 @@
 /**
- * Create or update Firestore userTokens for two NEW standalone promo codes:
+ * Create or update Firestore userTokens for NEW standalone promo codes:
  *
  *   GILL    — 1 month (30 days) free on Basic OR Premium.
  *   3TEAMS  — 1 month (30 days) free on Basic OR Premium.
+ *   JESS26  — 1 month (30 days) free on Basic OR Premium.
  *
- * These are deliberately their OWN tokens (document ids `gill` and `3teams`),
- * NOT aliased to `blue`. They do the same thing as BLUE (free first month, any
- * tier) but are tracked separately for record keeping. `tier` is intentionally
- * omitted so the free month applies whether the member picks Basic or Premium.
+ * These are deliberately their OWN tokens (document ids `gill`, `3teams`,
+ * `jess26`), NOT aliased to `blue`. They do the same thing as BLUE (free first
+ * month, any tier) but are tracked separately for record keeping. `tier` is
+ * intentionally omitted so the free month applies whether the member picks
+ * Basic or Premium.
  *
  * Service account JSON (first match wins):
  *   --key <path> | env FIREBASE_SERVICE_ACCOUNT | ~/Downloads/firebase key.json |
@@ -71,6 +73,10 @@ const tokens = {
     reusable: true,
   },
   "3teams": {
+    daysFree: 30,
+    reusable: true,
+  },
+  jess26: {
     daysFree: 30,
     reusable: true,
   },
