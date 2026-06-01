@@ -125,6 +125,8 @@ const hasProblemDeepLink = (path = "") =>
 
 const makeBiddingProblemPath = (difficulty, problemId) =>
   `/bidding/practice?difficulty=${encodeURIComponent(String(difficulty))}&problem=${encodeURIComponent(problemId)}`;
+const makeDefenceProblemPath = (difficulty, problemId) =>
+  `/defence/practice?difficulty=${encodeURIComponent(String(difficulty))}&problem=${encodeURIComponent(problemId)}`;
 
 const BIDDING_ARTICLE_PRACTICE_TARGETS = [
   {
@@ -189,21 +191,86 @@ const BIDDING_ARTICLE_PRACTICE_TARGETS = [
   },
 ];
 
+const DEFENCE_ARTICLE_PRACTICE_TARGETS = [
+  {
+    patterns: [/forcing defence/i, /drain declarer'?s trumps/i, /forcing declarer/i],
+    path: makeDefenceProblemPath(1, "df1-13"),
+    themeLabel: "Theme: Forcing declarer",
+  },
+  {
+    patterns: [/duck a winner/i, /timing the hold up/i, /deadly duck/i],
+    path: makeDefenceProblemPath(1, "df1-18"),
+    themeLabel: "Theme: Deadly Duck",
+  },
+  {
+    patterns: [/trump lead/i, /opening lead/i],
+    path: makeDefenceProblemPath(1, "df1-28"),
+    themeLabel: "Theme: Opening Leads",
+  },
+  {
+    patterns: [/dummy type/i, /passive dummy/i, /limited entries/i],
+    path: makeDefenceProblemPath(1, "df1-1"),
+    themeLabel: "Theme: Recognising dummy types",
+  },
+  {
+    patterns: [/ruffing in defence/i, /turn shortness into tricks/i],
+    path: makeDefenceProblemPath(1, "df1-13"),
+    themeLabel: "Theme: Forcing declarer",
+  },
+];
+
 const getExactPracticePathForArticle = ({ articleType, title, articleText }) => {
-  if (!(articleType === "bidding" || articleType === "biddingAdvanced" || articleType === "biddingBasics")) {
-    return "";
-  }
-
-  if (/lebensohl/i.test(`${title || ""}\n${articleText || ""}`)) {
-    return makeBiddingProblemPath(3, "bid3-6");
-  }
-
   const titleText = String(title || "");
-  const target = BIDDING_ARTICLE_PRACTICE_TARGETS.find(({ patterns }) =>
-    patterns.some((pattern) => pattern.test(titleText))
-  );
+  if (articleType === "bidding" || articleType === "biddingAdvanced" || articleType === "biddingBasics") {
+    if (/lebensohl/i.test(`${title || ""}\n${articleText || ""}`)) {
+      return makeBiddingProblemPath(3, "bid3-6");
+    }
+    const target = BIDDING_ARTICLE_PRACTICE_TARGETS.find(({ patterns }) =>
+      patterns.some((pattern) => pattern.test(titleText))
+    );
+    return target?.path || "";
+  }
 
-  return target?.path || "";
+  if (articleType === "defence" || articleType === "defenceBasics") {
+    const target = DEFENCE_ARTICLE_PRACTICE_TARGETS.find(({ patterns }) =>
+      patterns.some((pattern) => pattern.test(titleText))
+    );
+    return target?.path || "";
+  }
+
+  return "";
+};
+
+const getExactPracticeThemeLabelForArticle = ({ articleType, title }) => {
+  const titleText = String(title || "");
+  if (articleType === "defence" || articleType === "defenceBasics") {
+    const target = DEFENCE_ARTICLE_PRACTICE_TARGETS.find(({ patterns }) =>
+      patterns.some((pattern) => pattern.test(titleText))
+    );
+    return target?.themeLabel || "";
+  }
+  return "";
+};
+
+const getCtaPreviewMetaForArticle = ({ themeLabel, ctaImageUrl }) => {
+  return {
+    themeLabel: themeLabel || "Theme: Forcing declarer",
+    contractLabel: "Contract is 4♠ by East",
+    deckLabel: "Live trainer problem",
+    auctionRows: [
+      ["W", "N", "E", "S"],
+      ["1♠", "2♦", "3♥", "P"],
+      ["4♠", "P", "P", "P"],
+    ],
+    southHand: {
+      S: "A 8 3",
+      H: "K 10 9 6 2",
+      D: "7 4",
+      C: "A J 2",
+    },
+    note: "Train this exact idea in guided problems.",
+    imageUrl: ctaImageUrl || "",
+  };
 };
 
 const ARTICLE_TOPIC_TABS = [
@@ -529,9 +596,18 @@ const DisplayCategoryArticle = ({
     title: useMetaData?.title,
     articleText,
   });
+  const exactPracticeThemeLabel = getExactPracticeThemeLabelForArticle({
+    articleType,
+    title: useMetaData?.title,
+  });
   const preferredPracticePath = hasProblemDeepLink(metadataPracticePath)
     ? metadataPracticePath
     : exactPracticePath || metadataPracticePath || getPracticePathForArticleType(articleType);
+  const ctaThemeLabel = useMetaData?.ctaThemeLabel || exactPracticeThemeLabel;
+  const ctaPreviewMeta = getCtaPreviewMetaForArticle({
+    themeLabel: ctaThemeLabel,
+    ctaImageUrl: useMetaData?.ctaImageUrl,
+  });
   const subscribeThenPracticePath = `/subscribe?redirectTo=${encodeURIComponent(preferredPracticePath)}`;
   const isLebensohlArticle =
     articleId === "fI7DC63YopLtZy9fIobM" ||
@@ -545,8 +621,71 @@ const DisplayCategoryArticle = ({
   const ctaButtonLabel = isPremium || isAdmin
     ? "Train this theme now"
     : isLoggedIn
-      ? "Start your 7-day free trial"
+      ? "Subscribe to unlock trainer problems"
       : "Create your account and start a 7-day free trial";
+  const ctaPreviewBlock = (
+    <div className="DisplayArticle-ctaPreviewWrap">
+      {ctaPreviewMeta.imageUrl ? (
+        <button
+          type="button"
+          className="DisplayArticle-ctaPreviewImageBtn"
+          onClick={() => history.push(ctaPath)}
+          aria-label="Open trainer from preview image"
+        >
+          <img
+            src={ctaPreviewMeta.imageUrl}
+            alt={`${ctaPreviewMeta.themeLabel} trainer preview`}
+            className="DisplayArticle-ctaPreviewImage"
+            loading="lazy"
+          />
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="DisplayArticle-ctaPreviewMock"
+          onClick={() => history.push(ctaPath)}
+          aria-label="Open trainer from preview panel"
+        >
+          <div className="DisplayArticle-ctaPreviewMockDeckLabel">
+            {ctaPreviewMeta.deckLabel}
+          </div>
+          <div className="DisplayArticle-ctaPreviewMockContract">
+            {ctaPreviewMeta.contractLabel}
+          </div>
+          <div className="DisplayArticle-ctaPreviewMockTheme">
+            {ctaPreviewMeta.themeLabel}
+          </div>
+          <div className="DisplayArticle-ctaPreviewMockAuction">
+            {ctaPreviewMeta.auctionRows.map((row, idx) => (
+              <div key={`${row.join("-")}-${idx}`} className="DisplayArticle-ctaPreviewMockAuctionRow">
+                {row.map((cell, cellIdx) => (
+                  <span key={`${cell}-${cellIdx}`}>{cell}</span>
+                ))}
+              </div>
+            ))}
+          </div>
+          {ctaPreviewMeta.southHand && (
+            <div className="DisplayArticle-ctaPreviewMockHand" aria-label="You south hand preview">
+              <div className="DisplayArticle-ctaPreviewMockHandHeading">You (South)</div>
+              <div className="DisplayArticle-ctaPreviewMockSuitRow">
+                <span className="black-suit">♠</span> {ctaPreviewMeta.southHand.S}
+              </div>
+              <div className="DisplayArticle-ctaPreviewMockSuitRow">
+                <span className="red-suit">♥</span> {ctaPreviewMeta.southHand.H}
+              </div>
+              <div className="DisplayArticle-ctaPreviewMockSuitRow">
+                <span className="red-suit">♦</span> {ctaPreviewMeta.southHand.D}
+              </div>
+              <div className="DisplayArticle-ctaPreviewMockSuitRow">
+                <span className="black-suit">♣</span> {ctaPreviewMeta.southHand.C}
+              </div>
+            </div>
+          )}
+          <div className="DisplayArticle-ctaPreviewMockNote">{ctaPreviewMeta.note}</div>
+        </button>
+      )}
+    </div>
+  );
   const [freeUpdating, setFreeUpdating] = useState(false);
   const [freeError, setFreeError] = useState("");
 
@@ -1193,6 +1332,7 @@ const DisplayCategoryArticle = ({
           <p className="DisplayArticle-ctaBody">
             This topic has guided problem questions so you can practice the exact decisions, not just read about them.
           </p>
+          {ctaPreviewBlock}
 
           {isPremium || isAdmin ? (
             <>
@@ -1214,10 +1354,10 @@ const DisplayCategoryArticle = ({
                 className="DisplayArticle-ctaButton"
                 onClick={() => history.push(subscribeThenPracticePath)}
               >
-                Start 7-day free trial to unlock questions
+                Subscribe to unlock questions
               </button>
               <p className="DisplayArticle-ctaHint">
-                You are signed in. Start trial, then jump straight into the problem set.
+                You are signed in. Subscribe, then jump straight into the problem set.
               </p>
             </>
           ) : (
@@ -1246,12 +1386,17 @@ const DisplayCategoryArticle = ({
           )}
         </section>
       ) : (
-        <section className="DisplayArticle-ctaCard" aria-label="Practice call to action">
+        <section
+          className={`DisplayArticle-ctaCard ${ctaPreviewMeta ? "DisplayArticle-ctaCard--problem" : ""}`}
+          aria-label="Practice call to action"
+        >
           <h3 className="DisplayArticle-ctaHeading">Build the habit with guided practice</h3>
           <p className="DisplayArticle-ctaBody">
             Reading helps, but trainer reps are what make bidding decisions automatic under pressure.
             Use the trainer to train your mind and lock this theme in.
+            {ctaThemeLabel ? ` Start with ${ctaThemeLabel}.` : ""}
           </p>
+          {ctaPreviewBlock}
           <button
             type="button"
             className="DisplayArticle-ctaButton"
@@ -1261,6 +1406,7 @@ const DisplayCategoryArticle = ({
           </button>
           {!isPremium && !isAdmin && (
             <p className="DisplayArticle-ctaHint">
+              Members unlock the full trainer library, themed problem sets, and progress tracking.
               Sign up first, then choose your subscription plan. Includes a 7-day free trial.
             </p>
           )}
