@@ -855,7 +855,7 @@ function Bid222IntroRich() {
   return (
     <div className="ct-revealRich">
       <section className="ct-revealRichCard ct-revealRichCard--amber">
-        <p className="ct-revealRichBody">For this pair, 2D was game forcing. Showing at least opening strength.</p>
+        <p className="ct-revealRichBody">For this pair, 2♦ was game forcing. Showing at least opening strength.</p>
       </section>
     </div>
   );
@@ -5648,7 +5648,7 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
-    auction: "1♣ X P ?",
+    auction: "1♦ X P ?",
     vulnerability: "Nil Vul",
     promptOptions: {
       promptPlacement: "right",
@@ -6360,7 +6360,7 @@ const BIDDING_PUZZLES = [
           promptText: "What would you do?",
           options: [
             { id: "pass", label: "Pass" },
-            { id: "compete5s", label: "Compete to 5S" },
+            { id: "compete5s", label: "Compete to 5♠" },
             { id: "bidSlam", label: "Bid slam!" },
           ],
           expectedChoice: "bidSlam",
@@ -6425,11 +6425,11 @@ const BIDDING_PUZZLES = [
           hidePlayDecisionHeading: true,
           promptText: <Bid227SlamVsGameRich />,
           options: [
-            { id: "bid5d", label: "Just bid 5D" },
+            { id: "bid5d", label: "Just bid 5♦" },
             { id: "slamTry", label: "Look more for slam" },
           ],
           expectedChoice: "bid5d",
-          expectedChoiceDisplay: "Just bid 5D",
+          expectedChoiceDisplay: "Just bid 5♦",
           wrongTryText: "Not quite — try again.",
           noContinue: false,
           continueButtonLabel: "Reveal full hand",
@@ -8145,7 +8145,7 @@ const BIDDING_PUZZLES = [
           expectedChoiceDisplay: "3♣",
           noContinue: false,
           continueButtonLabel: "Continue",
-          revealText: "a nice natural bid of 3C. Let's change the hand one more time on the next page",
+          revealText: "a nice natural bid of 3♣. Let's change the hand one more time on the next page",
           videoUrl: "",
         },
         {
@@ -8608,6 +8608,830 @@ const BIDDING_PUZZLES = [
     },
     rounds: [],
   },
+  {
+    id: "bid2-34",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Loser count in bidding (1)",
+    trumpSuit: "D",
+    contract: "?",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♦ X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Loser count in bidding",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Loser count in bidding",
+      promptThemeTint: "loserCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/wPC-yLS_5IM?si=F9_JxUNWy_f_PEOz",
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-34-q1--reveal": "1♦ X P 4♠",
+        "bid2-34-info2": "1♦ X P 4♠",
+        "bid2-34-info3": "1♦ X P 4♠",
+        "bid2-34-info4": "1♦ X P 4♠",
+        "bid2-34-show-full-hand": "1♦ X P 4♠",
+      },
+      customPrompts: [
+        {
+          id: "bid2-34-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Loser count in bidding is actually a very powerful tool. It is often much more accurate than point
+                  count. Lets begin by looking at how to do it, and how to apply it.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-34-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "Lets assume partner just has a normal takeout double, our likely combined strength is good enough for ..?",
+          options: [
+            { id: "partscore", label: "competing for the partscore" },
+            { id: "invite", label: "inviting game" },
+            { id: "game", label: "bidding game" },
+          ],
+          expectedChoice: "game",
+          expectedChoiceDisplay: "bidding game",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">Bid game</span>
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  According to Losing Trick Count: You have a &quot;7 loser hand&quot; which is enough opposite an
+                  opening hand to bid game, if you have a fit. (a takeout double should be approximately opening hand
+                  strength).
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-34-info2",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">The losing trick count works like this.</p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <div style={{ display: "flex", gap: "0.65em", alignItems: "flex-start", marginBottom: "0.85em" }}>
+                  <span
+                    style={{
+                      flex: "0 0 auto",
+                      width: "1.7em",
+                      height: "1.7em",
+                      borderRadius: "50%",
+                      background: "#0f5132",
+                      color: "#fff",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 800,
+                    }}
+                  >
+                    1
+                  </span>
+                  <p className="ct-revealRichKey" style={{ margin: 0 }}>
+                    Very simply - Count 1 loser for every A, K and Q you are missing in a suit
+                  </p>
+                </div>
+                <div style={{ display: "flex", gap: "0.65em", alignItems: "flex-start" }}>
+                  <span
+                    style={{
+                      flex: "0 0 auto",
+                      width: "1.7em",
+                      height: "1.7em",
+                      borderRadius: "50%",
+                      background: "#0f5132",
+                      color: "#fff",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 800,
+                    }}
+                  >
+                    2
+                  </span>
+                  <p className="ct-revealRichBody" style={{ margin: 0 }}>
+                    However, if you only have 0 cards in the suit, count 0 losers. If you have 1 card, the most you can
+                    have is 1 loser. Not surprisingly, with 2 cards in a suit (a doubleton) the most you can have is 2
+                    losers.
+                  </p>
+                </div>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  If you have a singelton, it is 1 loser unless you have the Ace in which case it is no losers. But a singleton K is still one loser. Similarly for a doubleton, it is 2 losers unless you have the Ace and/or King. The queen is not worth anything. So, Kx or Ax is one loser in that suit, AK doubleton is no losers.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Lets look at this hand, suit by suit. (When you do this a lot its easier than counting points).
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <ul className="ct-revealRichPoints">
+                  <li>Spade suit: 2 losers. You are missing the Ace and King. Only two because you have the Queen!</li>
+                  <li>Heart Suit: 2 losers, you are missing the K and Q but have the Ace.</li>
+                  <li>Diamond suit: 1 loser, you only have 1 card</li>
+                  <li>Club suit: two losers.. can you see why?</li>
+                </ul>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Overall you have 7 losers, what do we do with the number 7 - what now?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-34-info3",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The losing trick count formula has been explained in many ways. I want to explain it in a very simple
+                  way.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>Key point #1:</strong> Remember the number 7, lucky 7. An opening hand is approximately 7
+                  losers
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>Key point #2:</strong> Two opening hands should equal game! (many people already have a sense
+                  of that)
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  HOWEVER, this ONLY applies when we have a fit. The losing trick count does not really apply before we
+                  have a fit, point count is much more accurate at that stage.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-34-info4",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Lets see the full hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  A quick note about slams: Quite logically slam needs 2 less losers than game. So if you have 5 losers
+                  opposite an opening hand, you may very well have slam on (although in slam you also need some other
+                  ingredients, like enough aces etc). It is a good guide, that should get your mind valuing your hand in
+                  its approximate correct category.
+                </p>
+                <p className="ct-revealRichBody">
+                  Its often a rough guide, but actually a very good guide. Its regularly a better guide than point count.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Paul&apos;s verdict</h4>
+                <p className="ct-revealRichBody">
+                  I like to use both, when I have a fit I like to think about my point count and my loser count. There
+                  will be times where game seems correct with loser count, but seems a bit ridiculous with point count,
+                  as your hand is quite weak in terms of points. I like to moderate my decisions with both, but loser
+                  count is something I put a lot of weight into.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-34-show-full-hand",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["north"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Partner only had 11 points for the double, your combined point count is 19. So despite finding
+                  partner with a total minimum, game made on a finesse!
+                </p>
+                <p className="ct-revealRichBody">
+                  We lost 1 spade, 1 heart, 1 diamond only. (Focus on the south hand, the long trump hand, when looking
+                  at losers for the hand. Check out last weeks problems Theme: Counting losers, for more on that topic)
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "K732", H: "K1043", D: "62", C: "AJ4" },
+      south: { S: "Q10854", H: "A43", D: "3", C: "Q1042" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-35",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Loser count in bidding (2)",
+    trumpSuit: "S",
+    contract: "?",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Loser count in bidding",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Loser count in bidding",
+      promptThemeTint: "loserCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/HoQChGMXl3I?si=Hnm8jzqr0aojhT1w",
+      customPrompts: [
+        {
+          id: "bid2-35-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  We saw on the previous hand that the possibility of bidding low high card point games is there if we
+                  go by loser count. But, I think players with the best judgment use both ideas to moderate each other.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-35-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "In terms of high card points, do you have enough for game opposite your partner's 1♠ opening?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          expectedChoiceDisplay: "Yes",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText:
+            "I think most people would agree that this hand is strong enough for game. It is 13 high card points, and a bunch of 10s.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-35-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "How many losers does the hand have?",
+          options: [
+            { id: "6", label: "6" },
+            { id: "7", label: "7" },
+            { id: "8", label: "8" },
+            { id: "9", label: "9" },
+          ],
+          expectedChoice: "9",
+          expectedChoiceDisplay: "9",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  It is an 9 loser hand.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <ul className="ct-revealRichPoints">
+                  <li>2 in spades</li>
+                  <li>2 in hearts</li>
+                  <li>2 in diamonds</li>
+                  <li>3 in clubs</li>
+                </ul>
+                <p className="ct-revealRichBody">totaling 9 losers.</p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  According to losing trick count,, this would just be a 2♠ Bid. (remember you need two 7 loser hands for game opposite an opening hand)
+                </p>
+                <p className="ct-revealRichBody">
+                  With 9 losers, that is 2 more losers than game, so we drop down to 2♠ as the appropriate contract.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-35-conclusion",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Conclusion: Don't get carried away too far with loser count. It is a good guide, but when point count
+                  strongly indicates one direction, it is a good idea to consider that.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Useful summary</h4>
+                <p className="ct-revealRichBody">
+                  Use both loser count and point count, don't get too carried away with any single idea.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "A103", H: "A1043", D: "A82", C: "J105" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-36",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Loser count in bidding (3)",
+    trumpSuit: "S",
+    contract: "?",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♦ P 1♠ P 2♦ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Loser count in bidding",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Loser count in bidding",
+      promptThemeTint: "loserCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/DUCMtkyhtY4?si=eXBBxIZGQc7RGjqB",
+      auctionShowResolvedDuringInfoPromptId: "bid2-36-info-continue-auction",
+      auctionResolvedText: "1♦ P 1♠ P 2♦ P 2♠ P 3♠ P ?",
+      auctionResolvedTextByPromptId: {
+        "bid2-36-q3-rebid--reveal": "1♦ P 1♠ P 2♦ P 2♠",
+        "bid2-36-info-continue-auction": "1♦ P 1♠ P 2♦ P 2♠ P 3♠ P ?",
+        "bid2-36-q4-now-what": "1♦ P 1♠ P 2♦ P 2♠ P 3♠ P ?",
+        "bid2-36-q4-now-what--reveal": "1♦ P 1♠ P 2♦ P 2♠ P 3♠ P 4♠",
+      },
+      customPrompts: [
+        {
+          id: "bid2-36-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Lets figure out what to do in this auction.
+                </p>
+                <p className="ct-revealRichBody">
+                  For starters, since it is on theme, lets look at our losing trick count -how many losers does this hand have?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-q1-losers",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "For starters, since it is on theme, lets look at our losing trick count -how many losers does this hand have?",
+          options: [
+            { id: "6", label: "6" },
+            { id: "7", label: "7" },
+            { id: "8", label: "8" },
+          ],
+          expectedChoice: "7",
+          expectedChoiceDisplay: "7",
+          wrongTryText: "Good try! Have another count.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: "It has 7 losers.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-q2-fit-check",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "It has 7 losers. The losing trick count states that a 7 loser hand opposite an opening hand is enough for game, does that apply here?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          expectedChoiceDisplay: "No",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText:
+            "No, it only applies when we have a fit, without a fit it is not a particularly relevant measure.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-info-point-count",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Without a fit, point count is a much more reliable measure, don&apos;t bid too much with the justification of losing trick count when you don&apos;t have a fit.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-q3-rebid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          playDecisionInput: "biddingBox",
+          promptText: "So, what is the appropriate rebid here?",
+          expectedChoice: "2s",
+          expectedChoiceDisplay: "2♠",
+          wrongTryText: "Good try! Have another look at the hand value.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <ul className="ct-revealRichPoints">
+                  <li>A simple 2♠ is a good idea. There are a couple good and bad features of this hand.</li>
+                  <li>Your suit is nice, and your high cards are nice (the outside Ace).</li>
+                  <li>Your shape is quite decent.</li>
+                  <li>
+                    Your singleton in partner&apos;s suit can actually be a bad thing, the hand would be much better if the singleton was elsewhere. I would not see that singleton as an asset particularly.
+                  </li>
+                </ul>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">
+                  Shortages in partner&apos;s long suits are typically not a good thing.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The alarm bells should be on that you are misfitting. It is quite plausible that partner could have shortage in your spade suit, and you have shortage in partner&apos;s diamond suit.
+                </p>
+                <p className="ct-revealRichBody">
+                  This is the type of auction we want to use a lot of caution with, no justification should push you to over-value this hand beyond its 9 points.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-info-continue-auction",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  You rebid 2♠ but that does not end the auction.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-36-q4-now-what",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          playDecisionInput: "biddingBox",
+          promptText: "What do you bid now?",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          wrongTryText: "Good try! Have another look at partner's 3♠ rebid.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText:
+            "It is a good idea to bid 4♠ here, partner has shown probably 2 card spade suit but a useful hand for you. You can definitely consider losing trick count now - perhaps you already had it in the back of your mind, that your hand was a 7 loser hand - which is useful if partner has support!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "KQ10943", H: "A97", D: "5", C: "432" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-37",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Loser count in bidding (4)",
+    trumpSuit: "H",
+    contract: "?",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1NT P 2♣ P 2♥ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Loser count in bidding",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Loser count in bidding",
+      promptThemeTint: "loserCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/TyV50o2W5ic?si=3uEL7vK9al-bQVSs",
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-37-q2-involve--reveal": "1NT P 2♣ P 2♥ P 4♣",
+        "bid2-37-info2-partner": "1NT P 2♣ P 2♥ P 4♣ P 4♥ P P P",
+        "bid2-37-info3-full-hand": "1NT P 2♣ P 2♥ P 4♣ P 4♥ P P P",
+      },
+      customPrompts: [
+        {
+          id: "bid2-37-q1-losers",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: -1,
+          promptText:
+            "Partner opens 1NT, you bid 2♣ simple stayman, and partner shows 4 card hearts - how are you feeling about the hand - Firstly how many losers does the hand have?",
+          expectedAnswer: 6,
+          successText: "Spot on!",
+          autoContinueOnCorrect: false,
+          continueButtonLabel: "continue",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-37-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichLead">
+                  <span className="ct-revealRichBadge ct-revealRichBadge--violet">Explanation: 6 losers.</span>
+                </p>
+                <ul className="ct-revealRichPoints">
+                  <li>There are 2 spade losers, 2 hearts, 1 diamond and 1 club.</li>
+                  <li>We have said that 7 losers opposite 7 losers is often game.</li>
+                  <li>If you drop that loser count by 2, you are thinking about slam.</li>
+                  <li>When partner opens a normal 1 level bid, we can assume they have around 7 losers.</li>
+                  <li>However, a 1NT opening is normally around 5-6 losers.</li>
+                </ul>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Is that math getting a bit complicated?</h4>
+                <ul className="ct-revealRichPoints">
+                  <li>Lets recap 7 +7 losers = 14, which is game.</li>
+                  <li>If we drop that by two, we can get to slam (slam is two less losers than game).</li>
+                  <li>So, we need a combined total of 12.</li>
+                  <li>We have 6, and a 1NT opening is 5-6, that definitely puts us in range</li>
+                </ul>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-37-info-partnership",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  But, bridge is a partnership discussion, it cannot simply be solved by one player with a cool equation.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">
+                  There is no substitute for partnership bidding, always involve your partner if you can
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Especially when it comes to slam bidding, you won&apos;t do well if you try to do it all yourself.
+                  Games can be &quot;bashed&quot; without being precise, but slams are about being precise, and it is
+                  costly to forget that.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-37-q2-involve",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          playDecisionInput: "biddingBox",
+          promptText: "How can we involve partner here?",
+          expectedChoice: "4c",
+          expectedChoiceDisplay: "4♣",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Explanation: <TextWithColoredSuits text="4♣" /> is a splinter here, it agrees hearts and lets partner
+                  know you have a shortage in clubs. Partner, who is also a member of this website, knows that points
+                  opposite your shortage means slow down/stop. So, partner can look at their hand and let you know
+                  whether slam seems like a good idea or not. (check bidding level 3, problems 1-5 on splinters for
+                  more on this).
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-37-info2-partner",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "show the full hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Partner bid <TextWithColoredSuits text="4♥" />, saying I don't like the sounds of this. We respected
+                  partner's decision. Hand evaluation techniques are just a guide, there is no substitute for
+                  partnership involvement.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-37-info3-full-hand",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["north"],
+          promptText:
+            "We are very glad to have stopped in game. Not suprisignly partner has heavy club values (which is why partner signed off), which is a bad mis-fit of points.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "Q84", H: "AJ53", D: "J2", C: "AKJ8" },
+      south: { S: "K92", H: "Q1042", D: "KQ1043", C: "3" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-38",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Loser count in bidding (5)",
+    trumpSuit: "H",
+    contract: "?",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    vulnerability: "NS Vul",
+    visibleFullHandSeats: ["south"],
+    auction: "1♥ 2♦ ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Loser count in bidding",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Loser count in bidding",
+      promptThemeTint: "loserCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/KDp6ZWm2-1Q?si=jyganyMAggbdpue6",
+      auctionResolvedTextByPromptId: {
+        "bid2-38-q2-bid--reveal": "1♥ 2♦ 4♥",
+      },
+      customPrompts: [
+        {
+          id: "bid2-38-q1-losers",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: -1,
+          promptText:
+            "We have a fit so we can consult losing trick count to help judge how good our hand is - what is the loser count for our hand?",
+          expectedAnswer: 7,
+          successText: "Spot on!",
+          autoContinueOnCorrect: false,
+          continueButtonLabel: "continue",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-38-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText:
+            "Explanation: We have 7 losers, so according to losing trick count, we have enough for game (7 losers opposite 7 losers is enough for game, as discussed in previous problems).",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-38-q2-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          playDecisionInput: "biddingBox",
+          promptText: "So what do you bid here?",
+          expectedChoice: "4h",
+          expectedChoiceDisplay: "4♥",
+          wrongTryText: "Not quite - try again.",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Answer: <TextWithColoredSuits text="4♥" />
+                </p>
+                <p className="ct-revealRichBody">
+                  Explanation: <TextWithColoredSuits text="4♥" /> is a bold bid, but a good bid. Just a note worth discussing - it would be far too
+                  much to splinter. When it comes to splinters and suggesting to partner we might have slam on, it
+                  should be done sparingly, on good hands. We need proper high card points, keycards, Aces and Kings.
+                  Just because we have low losing trick count, does not mean we want to exaggerate the assets of our
+                  hand.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">
+                  It is a good idea to bid boldly to game with 9+ trump fits and distributional hands, but slam is a
+                  totally different story. Slow to slam - don't make shaky bids when it comes to slam bidding, be
+                  sound and serious
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "K108532", H: "Q964", D: "3", C: "72" },
+    },
+    rounds: [],
+  },
 ];
 
 export { BIDDING_PUZZLES };
@@ -8624,3 +9448,4 @@ function BiddingTrainer(routeProps) {
 }
 
 export default BiddingTrainer;
+
