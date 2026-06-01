@@ -258,7 +258,9 @@ class PremiumMembership extends Component {
       normalized === "pete26" ||
       normalized === "welcome2026" ||
       normalized === "milne" ||
-      normalized === "harbourview"
+      normalized === "harbourview" ||
+      normalized === "gill" ||
+      normalized === "3teams"
     );
   };
 
@@ -271,7 +273,9 @@ class PremiumMembership extends Component {
       normalized === "welcome2026" ||
       normalized === "milne" ||
       normalized === "harbourview" ||
-      normalized === "goldy"
+      normalized === "goldy" ||
+      normalized === "gill" ||
+      normalized === "3teams"
     );
   };
 
