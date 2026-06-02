@@ -18,10 +18,12 @@ class Signup extends Component {
     passwordConfirm: "",
     bridgeJourney: "",
     err: "",
+    submitting: false,
   };
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.submitting) return;
     const { email, password, passwordConfirm, firstName, lastName, bridgeJourney } = this.state;
     const firstNameTrim = (firstName || "").trim();
     const lastNameTrim = (lastName || "").trim();
@@ -37,7 +39,7 @@ class Signup extends Component {
       this.setState({ err: "Your passwords do not match." });
       return;
     }
-    this.setState({ err: "" });
+    this.setState({ err: "", submitting: true });
     this.props
       .emailLogin(email, password)
       .then((res) => {
@@ -75,7 +77,7 @@ class Signup extends Component {
           });
       })
       .catch((err) => {
-        this.setState({ err: err.message });
+        this.setState({ err: err.message, submitting: false });
       });
   };
 
@@ -90,11 +92,12 @@ class Signup extends Component {
   };
 
   facebookLogin = () => {
+    if (this.state.submitting) return;
     if (!isValidBridgeJourney(this.state.bridgeJourney)) {
       this.setState({ err: "Please tap Yes or No for New to bridge." });
       return;
     }
-    this.setState({ err: "" });
+    this.setState({ err: "", submitting: true });
     this.props
       .facebookLogin()
       .then((res) =>
@@ -105,16 +108,17 @@ class Signup extends Component {
         })
       )
       .catch((err) => {
-        this.setState({ err: err.message });
+        this.setState({ err: err.message, submitting: false });
       });
   };
 
   googleLogin = () => {
+    if (this.state.submitting) return;
     if (!isValidBridgeJourney(this.state.bridgeJourney)) {
       this.setState({ err: "Please tap Yes or No for New to bridge." });
       return;
     }
-    this.setState({ err: "" });
+    this.setState({ err: "", submitting: true });
     this.props
       .googleLogin()
       .then((res) =>
@@ -125,7 +129,7 @@ class Signup extends Component {
         })
       )
       .catch((err) => {
-        this.setState({ err: err.message });
+        this.setState({ err: err.message, submitting: false });
       });
   };
 
@@ -263,8 +267,13 @@ class Signup extends Component {
               />
             </div>
 
-            <button type="submit" className="Signup-submit-button">
-              Create Account
+            <button
+              type="submit"
+              className="Signup-submit-button"
+              disabled={this.state.submitting}
+              aria-busy={this.state.submitting}
+            >
+              {this.state.submitting ? "Creating your account…" : "Create Account"}
             </button>
           </form>
 

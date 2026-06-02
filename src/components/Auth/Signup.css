@@ -202,10 +202,17 @@
   margin-top: 1rem;
 }
 
-.Signup-submit-button:hover {
+.Signup-submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(15, 76, 58, 0.4);
   background: linear-gradient(135deg, #1B6B52 0%, #0F4C3A 100%);
+}
+
+.Signup-submit-button:disabled {
+  cursor: progress;
+  opacity: 0.75;
+  transform: none;
+  box-shadow: none;
 }
 
 .Signup-error {
