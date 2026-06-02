@@ -147,9 +147,12 @@ class Nav extends Component {
       "/counting",
       "/just-play",
       "/treadmill",
+      "/beginner/practice",
     ];
     const articlePaths = [
       "/learn",
+      "/learn/beginner",
+      "/beginner/articles",
       "/articles",
       "/article/",
       "/cardPlay/articles",
@@ -163,8 +166,9 @@ class Nav extends Component {
       "/counting/articles",
     ];
     const trainerActive = trainerPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-    const articlesActive = articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-    const beginnerScratchActive = pathname.startsWith("/beginner");
+    const articlesActive =
+      pathname === "/beginner" ||
+      articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -298,26 +302,6 @@ class Nav extends Component {
                   <i className="fas fa-newspaper" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Learn</div>
-              </div>
-
-              <div
-                className={`Nav-tab-card Nav-tab-card--beginner ${beginnerScratchActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/beginner")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/beginner")}
-                aria-label="Beginner section"
-              >
-                <span className="Nav-tab-badge" aria-hidden="true">
-                  NEW
-                </span>
-                <div className="Nav-tab-icon Nav-tab-icon-beginner">
-                  {/* FA 5.0.8 (index.html) is too old for many `fas fa-*` names — use Material Icons instead */}
-                  <i className="material-icons Nav-tab-icon-beginner-glyph" aria-hidden="true">
-                    menu_book
-                  </i>
-                </div>
-                <div className="Nav-tab-label Nav-tab-label--beginner">Beginner</div>
               </div>
             </div>
           </div>

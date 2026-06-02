@@ -27,6 +27,12 @@ const TOPICS = [
     practicePath: "/counting/practice",
     legacyPath: "/counting",
   },
+  {
+    id: "beginner",
+    label: "Beginner",
+    practicePath: "/beginner/practice",
+    legacyPath: "/beginner",
+  },
 ];
 
 function PracticeTrainerHub({ history, location }) {

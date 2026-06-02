@@ -942,7 +942,10 @@ export const parseDocumentIntoJSX = (
       }
 
       const type = (match[1] || "rule").toLowerCase();
-      const body = (match[2] || "").trim();
+      const body = (match[2] || "")
+        .trim()
+        .replace(/<ul>/gi, '<ul class="browser-default">')
+        .replace(/<ol>/gi, '<ol class="browser-default">');
       const badgeMap = {
         rule: "Rule",
         example: "Example",

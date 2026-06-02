@@ -458,11 +458,11 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
   const standardTopicTabs = isLocalhostBuild()
     ? [...ARTICLE_TOPIC_TABS, REVIEW_TOPIC_TAB]
     : ARTICLE_TOPIC_TABS;
-  const topicTabs = isBeginnerArticleType
-    ? BEGINNER_ARTICLE_TOPIC_TABS
-    : standardTopicTabs;
-  const activeTopicId =
-    topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+  const showDualLearnTopicNav = true;
+  const activeAdvancedTopicId =
+    standardTopicTabs.find((tab) => tab.types.includes(articleType))?.id || "";
+  const activeBeginnerTopicId =
+    BEGINNER_ARTICLE_TOPIC_TABS.find((tab) => tab.types.includes(articleType))?.id || "";
   const beginnerStarterArticles = isBeginnerArticleType ? sortedArticles.slice(0, 3) : [];
   const beginnerRoadmap = BEGINNER_CATEGORY_SEO[articleType]?.roadmap || [];
 
@@ -785,22 +785,46 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
       <div className="CategoryArticles-topicNavWrap">
         <div className="container">
           <div className="CategoryArticles-topicNavRow">
-          <div className="CategoryArticles-topicNav" role="tablist" aria-label="Article topics">
-            {topicTabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={activeTopicId === tab.id}
-                className={`CategoryArticles-topicPill ${
-                  activeTopicId === tab.id ? "CategoryArticles-topicPill--active" : ""
-                }`}
-                onClick={() => history.push(tab.path)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+            <div className="CategoryArticles-topicNavStack">
+              <div className="CategoryArticles-topicNavGroup">
+                <div className="CategoryArticles-topicNavLabel">Advanced</div>
+                <div className="CategoryArticles-topicNav" role="tablist" aria-label="Advanced article topics">
+                  {standardTopicTabs.map((tab) => (
+                    <button
+                      key={`advanced-${tab.id}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeAdvancedTopicId === tab.id}
+                      className={`CategoryArticles-topicPill ${
+                        activeAdvancedTopicId === tab.id ? "CategoryArticles-topicPill--active" : ""
+                      }`}
+                      onClick={() => history.push(tab.path)}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="CategoryArticles-topicNavGroup">
+                <div className="CategoryArticles-topicNavLabel">Beginner</div>
+                <div className="CategoryArticles-topicNav" role="tablist" aria-label="Beginner article topics">
+                  {BEGINNER_ARTICLE_TOPIC_TABS.map((tab) => (
+                    <button
+                      key={`beginner-${tab.id}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeBeginnerTopicId === tab.id}
+                      className={`CategoryArticles-topicPill ${
+                        activeBeginnerTopicId === tab.id ? "CategoryArticles-topicPill--active" : ""
+                      }`}
+                      onClick={() => history.push(tab.path)}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
