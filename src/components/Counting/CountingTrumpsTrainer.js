@@ -4179,8 +4179,337 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
       },
     ],
   },
- { 
- id: "d2-2", 
+  {
+    id: "p1-25",
+    difficulty: 1,
+    newUntil: "2026-06-16",
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Quickly Counting Trumps in Defence (25)",
+    trumpSuit: "S",
+    contract: "2♠",
+    auction: "1♣ P 1♠ P 2♠ P P P",
+    dealerCompass: "E",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "east", "south", "west"],
+    promptOptions: {
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      startAutoPlayThroughRoundIdx: 0,
+      contractLabel: "Quickly Counting Trumps in Defence",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Quickly Counting Trumps in Defence",
+      promptThemeTint: "defenceTrumpCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/jxQSymmzwe0",
+      customPrompts: [
+        {
+          id: "p1-25-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Show me the play",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    For this problem and the next 2 problems, we are only looking at the trump suit.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Sometimes we can almost know the layout of the suit from the very beginning. These problems are here to help you tap into that.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-25-declarer-trumps",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many trumps does declarer have?",
+          expectedAnswer: 4,
+        },
+        {
+          id: "p1-25-trump-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          expectedDistribution: { E: 3, S: 5, W: 4, N: 1 },
+          promptText: "What was the layout of the suit?",
+        },
+        {
+          id: "p1-25-wrapup",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    Declarer has 4 trumps only. The skill should be built like this - we should be eagerly awaiting to see if partner had 0 or 1 trumps.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    The moment we see that trump, it should click for us how many declarer had. We would not have been suprised if partner had 0, giving declarer 5.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      east: { suit: "S", cards: ["K", "5", "3"] },
+      south: { suit: "S", cards: ["Q", "T", "9", "4", "2"] },
+    },
+    endRevealTrumpHands: {
+      north: ["6"],
+      east: ["K", "5", "3"],
+      south: ["Q", "T", "9", "4", "2"],
+      west: ["A", "J", "8", "7"],
+    },
+    expectedInitialLengths: { N: 1, E: 3, S: 5, W: 4 },
+    rounds: [
+      {
+        label: "Trick 1 (East leads ♠K)",
+        plays: [
+          { seat: "E", card: { rank: "K", suit: "S" } },
+          { seat: "S", card: { rank: "2", suit: "S" } },
+          { seat: "W", card: { rank: "7", suit: "S" } },
+          { seat: "N", card: { rank: "6", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-26",
+    difficulty: 1,
+    newUntil: "2026-06-16",
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Quickly Counting Trumps in Defence (26)",
+    trumpSuit: "S",
+    contract: "2♠",
+    auction: "1♣ P 1♠ P 2♠ P P P",
+    dealerCompass: "E",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "east", "south", "west"],
+    promptOptions: {
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      startAutoPlayThroughRoundIdx: 0,
+      contractLabel: "Quickly Counting Trumps in Defence",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Quickly Counting Trumps in Defence",
+      promptThemeTint: "defenceTrumpCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/97lCnZnwNEc",
+      customPrompts: [
+        {
+          id: "p1-26-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Show me the play",
+          promptText: "",
+          videoUrl: "",
+        },
+        {
+          id: "p1-26-declarer-trumps",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 1,
+          promptText: "How many trumps did declarer start with?",
+          expectedAnswer: 4,
+        },
+        {
+          id: "p1-26-trump-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 1,
+          fixed: { S: 4 },
+          expectedDistribution: { S: 4, W: 4, E: 3, N: 2 },
+          promptText: "What was the original distribution?",
+        },
+      ],
+    },
+    shownHands: {
+      east: { suit: "S", cards: ["A", "T", "8"] },
+      south: { suit: "S", cards: ["Q", "J", "9", "4"] },
+    },
+    endRevealTrumpHands: {
+      north: ["5", "3"],
+      east: ["A", "T", "8"],
+      south: ["Q", "J", "9", "4"],
+      west: ["K", "7", "6", "2"],
+    },
+    expectedInitialLengths: { N: 2, E: 3, S: 4, W: 4 },
+    rounds: [
+      {
+        label: "Trick 1 (East leads ♠A)",
+        plays: [
+          { seat: "E", card: { rank: "A", suit: "S" } },
+          { seat: "S", card: { rank: "4", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "3", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (East leads ♠8)",
+        plays: [
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "9", suit: "S" } },
+          { seat: "W", card: { rank: "K", suit: "S" } },
+          { seat: "N", card: { rank: "5", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p1-27",
+    difficulty: 1,
+    newUntil: "2026-06-16",
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Quickly Counting Trumps in Defence (27)",
+    trumpSuit: "S",
+    contract: "4♠",
+    auction: "2♠ P 4♠ P P P",
+    dealerCompass: "W",
+    declarerCompass: "W",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "east", "south", "west"],
+    promptOptions: {
+      hideAuction: false,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      manualTrickAdvance: true,
+      startAutoPlayThroughRoundIdx: 0,
+      contractLabel: "Quickly Counting Trumps in Defence",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Quickly Counting Trumps in Defence",
+      promptThemeTint: "defenceTrumpCount",
+      videoUrlBeforeStart: "https://youtube.com/shorts/7RrLlw7HPfg",
+      customPrompts: [
+        {
+          id: "p1-27-before-lead-1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Show me the play",
+          promptText: "",
+          videoUrl: "",
+        },
+        {
+          id: "p1-27-another-trump",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "Are you expecting partner to have another trump?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          revealText: "",
+        },
+        {
+          id: "p1-27-expected-shape",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          expectedDistribution: { S: 3, W: 6, E: 3, N: 1 },
+          promptText: "What are you expecting the shape of the suit to be?",
+        },
+        {
+          id: "p1-27-expected-shape-explain",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue the play",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    We are expecting 6 trumps for the preempt, so the spade suit is likely to be 6-3-3-1, with partner having 1. That should be locked in as an expectation.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Expectations should be a good scaffold for your thinking, but they need to be flexible - we check them with reality.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "p1-27-declarer-trumps",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 1,
+          promptText: "So, how many trumps did declarer start with?",
+          expectedAnswer: 5,
+        },
+        {
+          id: "p1-27-surprise-msg",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    Partner&apos;s second trump should suprise us, as we were expecting declarer to have 6, and the distribution to be 6-3-3-1 with partner having 1.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    But that&apos;s fine, stay flexible at the table, and keep your eyes on whats happening.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      east: { suit: "S", cards: ["A", "8", "5"] },
+      south: { suit: "S", cards: ["J", "T", "4"] },
+    },
+    endRevealTrumpHands: {
+      north: ["7", "2"],
+      east: ["A", "8", "5"],
+      south: ["J", "T", "4"],
+      west: ["K", "Q", "9", "6", "3"],
+    },
+    expectedInitialLengths: { N: 2, E: 3, S: 3, W: 5 },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♠3)",
+        plays: [
+          { seat: "W", card: { rank: "3", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "A", suit: "S" } },
+          { seat: "S", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (East leads ♠8)",
+        plays: [
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "T", suit: "S" } },
+          { seat: "W", card: { rank: "K", suit: "S" } },
+          { seat: "N", card: { rank: "7", suit: "S" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "d2-2",
  difficulty: 2, 
  title: "Defending 3♥: count declarer’s shape (and duck the spade)", 
  trumpSuit: "H", 
@@ -8981,7 +9310,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  <> 
  {!!effectiveThemeLabel && ( 
  <div 
-className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-themeLabel--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-themeLabel--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-themeLabel--themeTakeoutPenalty" : ""}`} 
+className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-themeLabel--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-themeLabel--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-themeLabel--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-themeLabel--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-themeLabel--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-themeLabel--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-themeLabel--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-themeLabel--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-themeLabel--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-themeLabel--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-themeLabel--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-themeLabel--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-themeLabel--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-themeLabel--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-themeLabel--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-themeLabel--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-themeLabel--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-themeLabel--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-themeLabel--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-themeLabel--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-themeLabel--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-themeLabel--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-themeLabel--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-themeLabel--themeDefenceTrumpCount" : ""}`} 
  > 
  {effectiveThemeLabel} 
  </div> 
@@ -10339,7 +10668,7 @@ aria-selected={c.key === activeCategoryTabKey}
  return ( 
  <button 
  key={p.id} 
-className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""} ${p?.promptOptions?.promptThemeTint === "loserCount" ? "ct-problemTab--themeLoserCount" : ""} ${p?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-problemTab--themeTakeoutPenalty" : ""}`} 
+className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""} ${p?.promptOptions?.promptThemeTint === "loserCount" ? "ct-problemTab--themeLoserCount" : ""} ${p?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-problemTab--themeTakeoutPenalty" : ""} ${p?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-problemTab--themeDefenceTrumpCount" : ""}`} 
  onClick={() => setPuzzleIdxInDifficulty(idx)} 
  type="button" 
  role="tab" 
@@ -10433,7 +10762,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  !useBottomRowLayout && 
  (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) && 
  (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && ( 
-<div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""}`} aria-label="Bidding and prompts"> 
+<div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""}`} aria-label="Bidding and prompts"> 
  {promptNode} 
  </div> 
  )} 
@@ -10641,7 +10970,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  {showFullHands && 
  !useBottomRowLayout && 
  (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && ( 
-<div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""}`} aria-label="Counting prompt"> 
+<div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""}`} aria-label="Counting prompt"> 
  {promptNode} 
  </div> 
  )} 
