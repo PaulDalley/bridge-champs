@@ -123,7 +123,7 @@ export const FREE_PROBLEM_IDS_BY_CATEGORY = {
   declarer: ["cp2-6"],
   /** Defence: includes opening-leads sample hand (df1-23) for newsletter promos. */
   defence: ["df1-23"],
-  counting: ["p1-15", "p1-24"],
+  counting: ["p1-15", "p1-24", "p1-25", "p1-26", "p1-27"],
 };
 
 /** Problem rail “theme pack” intro video metadata. The trainer uses this only when a puzzle sets `promptOptions.useThemePackIntro: true` and a matching `promptOptions.promptThemeTint`. */
@@ -134,6 +134,11 @@ export const THEME_INTRO_BY_TINT = (() => {
       url: "",
       version: 1,
       title: "Theme: Drawing and not drawing trumps",
+    },
+    defenceTrumpCount: {
+      url: "",
+      version: 1,
+      title: "Theme: Quickly Counting Trumps in Defence",
     },
   };
   THEME_PACKS.forEach((pack) => {
