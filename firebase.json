@@ -91,6 +91,26 @@
     ],
     "redirects": [
       {
+        "source": "/play",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/chat",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/questions",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/conventions",
+        "destination": "/bidding/advanced",
+        "type": 301
+      },
+      {
         "source": "/beginner/articles/bidding/0gF8pSxK8GB2bhguAqD3",
         "destination": "/beginner/articles/bidding/1nt-opening-beginners-bid-promises",
         "type": 301

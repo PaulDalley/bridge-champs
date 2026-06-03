@@ -104,6 +104,36 @@ const NoIndexTag = () => (
   </Helmet>
 );
 
+/**
+ * Catch-all for unknown URLs. A static SPA can't return a real HTTP 404, so we
+ * mark the page noindex (stops Google indexing soft-404s / deleted URLs) and
+ * show a minimal "page not found" with a route home.
+ */
+const NotFoundPage = () => (
+  <>
+    <Helmet>
+      <title>Page not found - Bridge Champions</title>
+      <meta name="robots" content="noindex,follow" />
+    </Helmet>
+    <div
+      style={{
+        maxWidth: 600,
+        margin: "0 auto",
+        padding: "80px 24px",
+        textAlign: "center",
+      }}
+    >
+      <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Page not found</h1>
+      <p style={{ marginBottom: 24, color: "#555" }}>
+        Sorry, we couldn't find that page. It may have moved or no longer exists.
+      </p>
+      <a href="/" style={{ color: "#0F4C3A", fontWeight: 600 }}>
+        ← Back to Bridge Champions home
+      </a>
+    </div>
+  </>
+);
+
 const routes = (
   <Switch>
     <Route
@@ -811,14 +841,45 @@ const routes = (
         </>
       )}
     />
+    {/* Legacy generic articles — de-indexed for now (may be revived later). */}
     <Route
       path="/articles"
-      render={(routeProps) => <Articles {...routeProps} />}
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <Articles {...routeProps} />
+        </>
+      )}
       exact
     />
-    <Route path="/article/:id" component={DisplayArticle} />
-    <Route path="/quizzes" component={Quizzes} />
-    <Route path="/quiz/:id" component={DisplayQuiz} />
+    <Route
+      path="/article/:id"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <DisplayArticle {...routeProps} />
+        </>
+      )}
+    />
+    {/* Legacy quizzes (built years ago) — kept functional but de-indexed. */}
+    <Route
+      path="/quizzes"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <Quizzes {...routeProps} />
+        </>
+      )}
+    />
+    <Route
+      path="/quiz/:id"
+      render={(routeProps) => (
+        <>
+          <NoIndexTag />
+          <DisplayQuiz {...routeProps} />
+        </>
+      )}
+    />
     <Route path="/practice-questions/:bundleId" component={PracticeQuestionViewer} />
     <Route
       path="/create-practice-questions/:category"
@@ -897,7 +958,8 @@ const routes = (
       component={HomePage}
       // element={<HomePage />}
     />
-    {/*<Redirect to="/"/>*/}
+    {/* Must stay LAST: anything unmatched is a 404 (noindex). */}
+    <Route render={() => <NotFoundPage />} />
   </Switch>
 );
 

@@ -740,11 +740,34 @@ const DisplayCategoryArticle = ({
   };
 
   const getArticleDescription = () => {
-    if (useMetaData?.teaser) {
-      return useMetaData.teaser;
-    }
+    // Build a search-friendly meta description (~155 chars). Source priority:
+    // a substantial hand-written teaser > the real article body text > a
+    // category template > a sitewide fallback. Purely a <meta>/JSON-LD value —
+    // not shown to on-page readers.
+    const clean = (s) =>
+      String(s || "")
+        .replace(/<[^>]+>/g, " ") // strip any HTML tags
+        .replace(/&[a-z]+;/gi, " ") // strip HTML entities
+        .replace(/\s+/g, " ")
+        .trim();
+    const truncate = (s, max = 158) => {
+      if (!s || s.length <= max) return s;
+      const cut = s.slice(0, max);
+      const lastSpace = cut.lastIndexOf(" ");
+      return (lastSpace > 80 ? cut.slice(0, lastSpace) : cut).trim() + "…";
+    };
+    const teaser = clean(useMetaData?.teaser);
+    // A teaser only makes a good description if it's long enough to be useful.
+    if (teaser.length >= 110) return truncate(teaser);
+    // Otherwise lead with the real opening of the article body.
+    const body = clean(articleText);
+    if (body.length >= 80) return truncate(body);
+    // Short teaser but nothing richer available.
+    if (teaser) return truncate(teaser);
     if (useMetaData?.title) {
-      return `Learn about ${useMetaData.title} from expert Bridge Champions. Improve your game with world-class insights and strategies.`;
+      return truncate(
+        `${useMetaData.title}: a clear, practical ${getCategoryName()} lesson from Bridge Champions to help you improve your game.`
+      );
     }
     return "Learn Bridge or improve your mastery with daily access into the minds, insights and recent play of some of the most knowledgeable Bridge Champions and expert players around.";
   };
