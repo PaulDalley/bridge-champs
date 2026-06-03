@@ -313,7 +313,7 @@ class HomePage extends Component {
     return (
       <div className="HomePage">
         <Helmet>
-          <title>Bridge Champions — Bridge lessons and practice for every level</title>
+          <title>Bridge Champions — Bridge Lessons & Practice</title>
           <meta
             name="description"
             content="Clear lessons, hands-on practice, and quizzes for beginners and experienced players—whether you're learning the basics or sharpening play at the table."
@@ -321,7 +321,7 @@ class HomePage extends Component {
           <link rel="canonical" href="https://bridgechampions.com/" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://bridgechampions.com/" />
-          <meta property="og:title" content="Bridge Champions — Bridge lessons and practice for every level" />
+          <meta property="og:title" content="Bridge Champions — Bridge Lessons & Practice" />
           <meta
             property="og:description"
             content="Clear lessons, hands-on practice, and quizzes for beginners and experienced players—whether you're learning the basics or sharpening play at the table."
@@ -335,7 +335,7 @@ class HomePage extends Component {
           <meta property="og:site_name" content="Bridge Champions" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:url" content="https://bridgechampions.com/" />
-          <meta name="twitter:title" content="Bridge Champions — Bridge lessons and practice for every level" />
+          <meta name="twitter:title" content="Bridge Champions — Bridge Lessons & Practice" />
           <meta
             name="twitter:description"
             content="Lessons and practice for new and advanced players—learn the basics or sharpen your game."
