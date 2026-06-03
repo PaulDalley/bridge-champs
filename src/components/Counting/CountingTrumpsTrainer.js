@@ -155,13 +155,20 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  </span> 
  ); 
  } 
- if (part === "♠" || part === "♣") { 
- return ( 
- <span key={i} className="ct-suitSym--black"> 
- {part} 
- </span> 
- ); 
- } 
+ if (part === "♣") {
+ return (
+ <span key={i} className="ct-suitSym--black ct-suitSym--club">
+ {part}
+ </span>
+ );
+ }
+ if (part === "♠") {
+ return (
+ <span key={i} className="ct-suitSym--black">
+ {part}
+ </span>
+ );
+ }
  return part ? <React.Fragment key={i}>{part}</React.Fragment> : null; 
  }); 
  } 
@@ -294,7 +301,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  
  function cardColorClass(card) { 
  if (!card) return ""; 
- return card.suit === "H" || card.suit === "D" ? "ct-card--red" : "ct-card--black"; 
+ return card.suit === "H" || card.suit === "D" ? "ct-card--red" : "ct-card--black";
  } 
  
  /** Trick table: same pip markup as hands (unified sizing on phone via CSS). */ 
@@ -499,7 +506,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  : strainRaw; 
  const sym = SUIT_SYMBOL[strain] || strainRaw; 
  const isRed = strain === "H" || strain === "D"; 
- return { text: lvl, suitSym: sym, kind: "suit", isRed }; 
+ return { text: lvl, suitSym: sym, kind: "suit", isRed, isClub: strain === "C" };
  } 
  
  return { text: raw, kind: "other" }; 
@@ -936,7 +943,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  <span className={`ct-auctionCall ct-auctionCall--${c.kind}`.trim()}> 
  <span className="ct-auctionCallText">{c.text}</span> 
  {c.suitSym ? ( 
- <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : "ct-auctionSuit--black"}`}> 
+ <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : c.isClub ? "ct-auctionSuit--club" : "ct-auctionSuit--black"}`}>
  {c.suitSym} 
  </span> 
  ) : null} 
@@ -9344,8 +9351,16 @@ const revealAfterTwoWrong = (kind, promptId) => {
  return "right"; 
  }, [puzzle.promptOptions?.promptPlacement, showFullHands, seatRight, seatLeft, visibleFullHandSeats]); 
  
- // When full hands, put prompt in left column so South stays visible (no prompt below table pushing it off). 
- const useBottomRowLayout = !!showFullHands; 
+ // When full hands, put prompt in left column so South stays visible (no prompt below table pushing it off).
+ const useBottomRowLayout = !!showFullHands;
+
+ // One-suit (trump-only) view where a hand sits on a *side* seat (e.g. dummy across the
+ // table in a defence problem). On phones the single-column collapse would otherwise drop
+ // the trick right under partner, leaving dummy + you stranded below it. When a side seat
+ // shows trumps, frame the play between the dummy (above) and you (below) like a real table.
+ const framePlayBetweenSides =
+ !showFullHands &&
+ (initialTrumpVisibleSeats.includes(seatLeft) || initialTrumpVisibleSeats.includes(seatRight));
  
  const showHeaderRail = promptStep !== "DONE"; 
  const hideTableCardsForEndReveal = 
@@ -9518,7 +9533,7 @@ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThe
  > 
  <span className="ct-auctionCallText">{c.text}</span> 
  {c.suitSym ? ( 
- <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : "ct-auctionSuit--black"}`}> 
+ <span className={`ct-auctionSuit ${c.isRed ? "ct-auctionSuit--red" : c.isClub ? "ct-auctionSuit--club" : "ct-auctionSuit--black"}`}>
  {c.suitSym} 
  </span> 
  ) : null} 
@@ -10912,7 +10927,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  </div> 
  )} 
  <div 
- className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`} 
+ className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${framePlayBetweenSides ? "ct-table--framePlaySides" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
  > 
  {/* Top */} 
  <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}> 

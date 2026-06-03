@@ -2352,6 +2352,18 @@ ol.ct-revealRichPoints {
   color: #111827;
 }
 
+/* Clubs rendered green (4-colour style) — overrides the black base in every context */
+.ct-suitSym--club,
+.ct-contractTop .ct-suitSym--club,
+.ct-contractLine .ct-suitSym--club,
+.ct-auctionTop .ct-suitSym--club,
+.ct-auctionInline .ct-suitSym--club,
+.ct-revealContent .ct-suitSym--club,
+.ct-revealRich .ct-suitSym--club,
+.ct-playDecisionBlock .ct-btn .ct-suitSym--club {
+  color: #047857;
+}
+
 .ct-suitCards {
   color: #111827;
   font-weight: 800;
@@ -5240,6 +5252,9 @@ ol.ct-revealRichPoints {
 .ct-auctionSuit--black {
   color: #111827;
 }
+.ct-auctionSuit--club {
+  color: #047857;
+}
 
 .ct-auctionCall--pass {
   opacity: 0.7;
@@ -5751,9 +5766,12 @@ ol.ct-revealRichPoints {
   text-align: center;
 }
 
-.ct-distLabel--trickCountSuitS,
-.ct-distLabel--trickCountSuitC {
+.ct-distLabel--trickCountSuitS {
   color: #111827;
+}
+
+.ct-distLabel--trickCountSuitC {
+  color: #047857;
 }
 
 .ct-distLabel--trickCountSuitH,
@@ -5984,6 +6002,44 @@ ol.ct-revealRichPoints {
     grid-column: 1;
     grid-row: 5;
   }
+
+  /*
+   * Keep the compass table on phones for one-suit play where a side seat (E/W) has cards.
+   * The default single-column collapse stacks every seat vertically, which throws East off the
+   * right and West off the left. Instead hold the fixed orientation — North top, East right,
+   * West left, You (South) bottom — with a compact 3-column grid so the small trump strips and
+   * the trick fit a narrow viewport. Whichever seat is dummy stays in its true compass spot.
+   */
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) {
+    grid-template-columns: minmax(40px, max-content) minmax(0, 1fr) minmax(40px, max-content);
+    grid-template-rows: auto auto auto;
+    column-gap: 4px;
+  }
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--dummy,
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--top {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-trickWrap {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--declarer,
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--bottom {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--lho,
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--rho,
+  .ct-table--framePlaySides:not(.ct-table--bottomRowLayout) .ct-seat--right {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
   .ct-distRow {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
   }
