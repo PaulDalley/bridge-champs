@@ -84,8 +84,9 @@ const NOW_YMD = toYmd(new Date());
 const STATIC_URLS = [
   { loc: "/", changefreq: "daily", priority: "1.0" },
   { loc: "/about", changefreq: "monthly", priority: "0.7" },
-  { loc: "/learn", changefreq: "daily", priority: "0.9" },
-  { loc: "/learn/beginner", changefreq: "weekly", priority: "0.8" },
+  // NOTE: /learn and /learn/beginner are redirect routes (-> /declarer/articles
+  // and /beginner) so they are intentionally NOT listed here — a sitemap should
+  // only advertise final destination URLs, not redirects.
   { loc: "/declarer", changefreq: "daily", priority: "0.9" },
   { loc: "/defence", changefreq: "daily", priority: "0.9" },
   { loc: "/bidding", changefreq: "daily", priority: "0.9" },
@@ -94,8 +95,9 @@ const STATIC_URLS = [
   { loc: "/defence/articles", changefreq: "weekly", priority: "0.8" },
   { loc: "/bidding/advanced", changefreq: "weekly", priority: "0.8" },
   { loc: "/bidding/basics", changefreq: "weekly", priority: "0.8" },
-  { loc: "/counting/articles", changefreq: "weekly", priority: "0.7" },
-  { loc: "/beginner/articles", changefreq: "weekly", priority: "0.8" },
+  // NOTE: /counting/articles (-> /declarer/articles) and /beginner/articles
+  // (-> /beginner/articles/declarer) are redirect routes — kept out of the
+  // sitemap so Google isn't pointed at URLs that just redirect.
   { loc: "/beginner/articles/declarer", changefreq: "weekly", priority: "0.8" },
   { loc: "/beginner/articles/defence", changefreq: "weekly", priority: "0.7" },
   { loc: "/beginner/articles/bidding", changefreq: "weekly", priority: "0.7" },
