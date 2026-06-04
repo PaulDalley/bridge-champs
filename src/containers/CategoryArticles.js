@@ -647,7 +647,7 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
     if (isBeginnerArticleType) {
       return [
         { name: "Home", path: "/" },
-        { name: "Beginner", path: "/beginner" },
+        { name: "Fundamentals", path: "/beginner" },
         { name: `${categoryInfo.name} Articles`, path: categoryPathMap[articleType] || "/" },
       ];
     }
@@ -806,8 +806,8 @@ const CategoryArticles = ({ articleType, history, dontNavigate, location }) => {
                 </div>
               </div>
               <div className="CategoryArticles-topicNavGroup">
-                <div className="CategoryArticles-topicNavLabel">Beginner</div>
-                <div className="CategoryArticles-topicNav" role="tablist" aria-label="Beginner article topics">
+                <div className="CategoryArticles-topicNavLabel">Fundamentals</div>
+                <div className="CategoryArticles-topicNav" role="tablist" aria-label="Fundamentals article topics">
                   {BEGINNER_ARTICLE_TOPIC_TABS.map((tab) => (
                     <button
                       key={`beginner-${tab.id}`}

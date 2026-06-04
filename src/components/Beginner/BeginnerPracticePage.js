@@ -47,7 +47,7 @@ function BeginnerPracticePage({ match }) {
   return (
     <Fragment>
       <CountingTrumpsTrainer
-        trainerLabel="Beginner"
+        trainerLabel="Fundamentals"
         categoryKey={categoryKey}
         activeCategoryKeyOverride="beginner"
         beginnerModeOverride={false}

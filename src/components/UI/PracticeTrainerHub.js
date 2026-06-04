@@ -29,7 +29,7 @@ const TOPICS = [
   },
   {
     id: "beginner",
-    label: "Beginner",
+    label: "Fundamentals",
     practicePath: "/beginner/practice",
     legacyPath: "/beginner",
   },
