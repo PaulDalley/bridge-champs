@@ -62,6 +62,20 @@
     font-size: 100%;
 }
 
+/* Hearts/diamonds in the auction must always render red, even inside article
+   containers that recolor descendant text. */
+.Bidding-entry .red-suit,
+.Bidding-entry-suit.red-suit,
+.red-suit-bidding {
+    color: var(--color-accent, #C41E3A) !important;
+}
+
+.Bidding-entry .black-suit,
+.Bidding-entry-suit.black-suit,
+.black-suit-bidding {
+    color: var(--color-dark, #1A1D23);
+}
+
 
 @media screen and (max-width: 500px) {
     .Bidding-entry-next {

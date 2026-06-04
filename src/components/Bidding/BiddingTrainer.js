@@ -9432,6 +9432,685 @@ const BIDDING_PUZZLES = [
     },
     rounds: [],
   },
+  {
+    id: "bid2-39",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Better Rebid Fundamentals (1)",
+    trumpSuit: "H",
+    contract: "?",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♥ P 1♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Better Rebid Fundamentals",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Better Rebid Fundamentals",
+      promptThemeTint: "rebidFundamentals",
+      videoUrlBeforeStart: "https://youtube.com/shorts/b-8PPp5fZII?si=-0zmn7VeCytbZeiw",
+      auctionResolvedTextByPromptId: {
+        "bid2-39-2c": "1♥ P 1♠ P 2♣ P 2♥ P ?",
+        "bid2-39-bid": "1♥ P 1♠ P 2♣ P 2♥ P ?",
+        "bid2-39-bid--reveal": "1♥ P 1♠ P 2♣ P 2♥ P 2♠",
+        "bid2-39-summary": "1♥ P 1♠ P 2♣ P 2♥ P 2♠",
+        "bid2-39-balanced-answer": "1♣ P 1♠ P 1NT",
+      },
+      customPrompts: [
+        {
+          id: "bid2-39-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                What do you rebid here? Let&apos;s think about three ideas that
+                should be on your mind, hopefully we can confidently answer them
+                by the end.
+              </p>
+              <ol className="ct-revealRichPoints">
+                <li>
+                  Should I raise responder&apos;s suit (like in this auction)
+                  with 3 card support?
+                </li>
+                <li>
+                  Is <TextWithColoredSuits text="2♣" /> forcing — do I want to
+                  force?
+                </li>
+                <li>
+                  Is <TextWithColoredSuits text="3♣" /> a possibility and a good
+                  idea? (Let&apos;s assume the standard treatment of playing it
+                  as natural.)
+                </li>
+              </ol>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-raise3",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                Let&apos;s start with — is it okay to raise partner on 3?
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Partner has only shown 4 cards, and as a starting point you
+                  normally want 4 cards to raise. However, with an unbalanced
+                  hand and 3 cards it is fine to raise.
+                </p>
+                <p className="ct-revealRichBody">
+                  HOWEVER, a simple raise like that shows a hand in the 11-14
+                  type range — just a basic opening. When you are stronger than
+                  that, a simple raise is not correct. Doing a stronger raise,
+                  such as <TextWithColoredSuits text="3♠" />, is definitely
+                  wrong — all the stronger raises need to show 4 card support.
+                </p>
+                <p className="ct-revealRichBody">
+                  So with a stronger hand, we wait for a moment. We don&apos;t
+                  show our 3 card support; instead we bid our hand naturally,
+                  showing our second suit (here that is clubs). So a simple{" "}
+                  <TextWithColoredSuits text="2♣" /> bid looks good — but are we
+                  too strong for that?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-2c",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="2♣" /> can be up to about 17
+                  points. We are right on the maximum, but that is okay.
+                  Don&apos;t be nervous that partner will pass — just trust it.
+                  Partner needs to know that you can have up to 17 points, and
+                  should not be passing with about 9+ points. Even with 8
+                  points, partner should try to find a bid if possible.
+                </p>
+                <p className="ct-revealRichBody">
+                  In other words, <TextWithColoredSuits text="2♣" /> is not
+                  forcing, but partner should not pass with about 8 or 9+
+                  points.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichBody">
+                After your <TextWithColoredSuits text="2♣" /> bid, partner has
+                given preference to <TextWithColoredSuits text="2♥" />. What do
+                you do now?
+              </p>
+            </div>
+          ),
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2s",
+          expectedChoiceDisplay: "2♠",
+          noContinue: false,
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+                  <TextWithColoredSuits text="2♠" />
+                </span>
+              </p>
+              <p className="ct-revealRichBody">
+                <TextWithColoredSuits text="2♠" /> is the correct bid. It shows 3
+                spades, but it also shows a strong hand. Why? Because with 11-14
+                you would have directly bid <TextWithColoredSuits text="2♠" /> (and
+                not bid <TextWithColoredSuits text="2♣" />), so bidding it this
+                way shows about 15-17.
+              </p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-summary",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <h4 className="ct-revealRichHeading">In summary</h4>
+                <p className="ct-revealRichBody">
+                  With an <strong>unbalanced 11-14</strong> hand and 3 card
+                  support, just support partner immediately. With a stronger
+                  hand, first bid your second suit, then support later.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-balanced",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                What about if you had a balanced 11-14 and 3 card support?
+              </p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-39-balanced-answer",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          shownHandsOverride: {
+            south: { S: "A103", H: "KQ5", D: "J108", C: "Q1032" },
+          },
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichBody--muted">
+                (Take a look at the new hand and new auction, make sure you agree
+                with that rebid.)
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  With a balanced hand and 3 card support, it is routine to rebid
+                  1NT rather than to support partner&apos;s potential 4 card suit.
+                  Decades ago it was in fashion to support with such hands, but
+                  now it is extinct at expert level bridge.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "K103", H: "AKJ94", D: "4", C: "AQ43" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-40",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Better Rebid Fundamentals (2)",
+    trumpSuit: "D",
+    contract: "?",
+    dealerCompass: "N",
+    declarerCompass: "N",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♥ P 1NT P 2♦ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Better Rebid Fundamentals",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Better Rebid Fundamentals",
+      promptThemeTint: "rebidFundamentals",
+      videoUrlBeforeStart: "https://youtube.com/shorts/vK4K-6MgRvI?si=ACgDh5M6vBt8OCQr",
+      customPrompts: [
+        {
+          id: "bid2-40-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                Let&apos;s look at this from responder&apos;s point of view.
+              </p>
+              <p className="ct-revealRichBody--muted">
+                You are South. Partner opened{" "}
+                <TextWithColoredSuits text="1♥" />, you responded{" "}
+                <TextWithColoredSuits text="1NT" />, and partner has now shown a
+                second suit with <TextWithColoredSuits text="2♦" />. It is your
+                call.
+              </p>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-40-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichBody">
+                In the auction above, what do you bid?
+              </p>
+            </div>
+          ),
+          playDecisionInput: "biddingBox",
+          expectedChoice: ["2s", "3c", "3h"],
+          expectedChoiceDisplay: "2♠, 3♣ or 3♥",
+          noContinue: false,
+          revealText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                There are a few possibilities here — my preferences are{" "}
+                <TextWithColoredSuits text="2♠" />,{" "}
+                <TextWithColoredSuits text="3♥" />, or the simple{" "}
+                <TextWithColoredSuits text="3♣" />. Let&apos;s go through them.
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Firstly, is pass a good idea? It is not. Partner may have 17
+                  points, so passing with 11 looks like a bad idea — we may have
+                  more than enough for game. It also defies my golden rule of
+                  bidding: always support partner (for more, see the bidding
+                  theme &quot;Responding to partner&quot; — problems 6–10 of
+                  Bidding Stage 1).
+                </p>
+                <p className="ct-revealRichBody">
+                  The other problem with pass: you actually have an excellent
+                  hand. You have good four-card support, and you hold{" "}
+                  <TextWithColoredSuits text="♥Kx" /> of partner&apos;s long
+                  suit — those are magical points. Those hearts are worth a lot
+                  more than 3 points (honours opposite partner&apos;s length are
+                  very good).
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-40-3c2s",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <h4 className="ct-revealRichHeading">
+                  <TextWithColoredSuits text="3♣" /> — a decent bid
+                </h4>
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="3♣" /> shows four-card support
+                  (Partner&apos;s bid only promises 4 to begin with, so you
+                  can&apos;t support with only 3 cards — being at the 3 level on
+                  a 7-card fit would not be good).
+                </p>
+                <p className="ct-revealRichBody">
+                  The main problem with <TextWithColoredSuits text="3♣" /> is
+                  that your hand is basically a maximum, and that is not
+                  conveyed by the bid.
+                </p>
+              </section>
+              <p className="ct-revealRichLead">
+                <span className="ct-revealRichBadge ct-revealRichBadge--violet">
+                  <TextWithColoredSuits text="2♠" />
+                </span>
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="2♠" /> is a quirky bid that applies
+                  to exactly this situation. Partner opened, you responded{" "}
+                  <TextWithColoredSuits text="1NT" /> (denying spades). Now all
+                  of a sudden you have bid spades — what does it show?
+                </p>
+                <p className="ct-revealRichBody">
+                  For starters, it says nothing about spades, since you already
+                  denied spades by bidding <TextWithColoredSuits text="1NT" />{" "}
+                  (you did not bid <TextWithColoredSuits text="1♠" />). So in
+                  this context <TextWithColoredSuits text="2♠" /> shows a maximum
+                  raise of partner&apos;s second suit — here that is diamonds. It
+                  is an artificial bid that has become fairly standard in expert
+                  circles, since previously <TextWithColoredSuits text="2♠" />{" "}
+                  was not used for any purpose.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-40-3h",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichLead">
+                What about <TextWithColoredSuits text="3♥" />?
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Make sure to first discuss with partner! One good use of the
+                  bid is to play it as four-card support with{" "}
+                  <TextWithColoredSuits text="♥Hx" /> (so{" "}
+                  <TextWithColoredSuits text="♥Ax, ♥Kx or ♥Qx" /> — you cannot
+                  hold three hearts, having bid{" "}
+                  <TextWithColoredSuits text="1NT" /> over{" "}
+                  <TextWithColoredSuits text="1♥" />). That is a specific idea
+                  that is somewhat common, but don&apos;t treat it as standard —
+                  agree it with partner before you use it.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-40-summary",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <h4 className="ct-revealRichHeading">In summary</h4>
+                <ul className="ct-revealRichPoints">
+                  <li>
+                    Pass should be out of the question — with 9+ points we
+                    normally can&apos;t pass, since partner can have 17+.
+                  </li>
+                  <li>
+                    <TextWithColoredSuits text="2♠" /> here, where you have
+                    responded <TextWithColoredSuits text="1NT" /> denying spades,
+                    shows a maximum hand with support for partner&apos;s second
+                    suit. (It comes up reasonably frequently.)
+                  </li>
+                  <li>
+                    <TextWithColoredSuits text="3♥" /> is something to think
+                    about and discuss with partner — it works well when it comes
+                    up. (If partner had opened{" "}
+                    <TextWithColoredSuits text="1♠" /> instead,{" "}
+                    <TextWithColoredSuits text="3♠" /> would convey the same
+                    meaning.)
+                  </li>
+                </ul>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      south: { S: "Q42", H: "K9", D: "K964", C: "K643" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-41",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Better Rebid Fundamentals (3)",
+    trumpSuit: "H",
+    contract: "?",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ P 1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Better Rebid Fundamentals",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Better Rebid Fundamentals",
+      promptThemeTint: "rebidFundamentals",
+      videoUrlBeforeStart: "https://youtube.com/shorts/2WfS5j0Q4n8?si=KpQ76YxmPUg53GCe",
+      auctionResolvedTextByPromptId: {
+        "bid2-41-bid--reveal": "1♠ P 1NT P 2♥",
+        "bid2-41-summary": "1♠ P 1NT P 2♥",
+        "bid2-41-reveal": "1♠ P 1NT P 2♥",
+      },
+      customPrompts: [
+        {
+          id: "bid2-41-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Your turn..",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          noContinue: false,
+          revealText:
+            "Bidding 2♥ is always a good idea. Partner can have lots of hearts and still have to respond 1NT. I've seen people say they didn't rebid 2♥ because their suit was bad. Rather think of it this way, opposite partner's 5 card heart suit, your hearts are support. When looked like that, it becomes move obvious why you don't need great hearts to rebid 2♥.\n\nOften partner will bid 2♠ and you will play there or pass 2♥ will often be fine.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-41-summary",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "reveal the full hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <strong>
+                    Always rebid your hearts, don&apos;t come up with excuses
+                    not to.
+                  </strong>
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-41-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "south"],
+          promptText: "4♥ is cold,",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "5", H: "KQ10765", D: "875", C: "A85" },
+      south: { S: "A8764", H: "J842", D: "A2", C: "K3" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-42",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Better Rebid Fundamentals (4)",
+    trumpSuit: "D",
+    contract: "?",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ P 1NT P 2♣ P 2♦ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Better Rebid Fundamentals",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Better Rebid Fundamentals",
+      promptThemeTint: "rebidFundamentals",
+      videoUrlBeforeStart: "https://youtube.com/shorts/rB6q4oMnlzA?si=aBD5j1OZYY4UQxCQ",
+      auctionResolvedTextByPromptId: {
+        "bid2-42-bid--reveal": "1♠ P 1NT P 2♣ P 2♦ P P",
+        "bid2-42-keyidea": "1♠ P 1NT P 2♣ P 2♦ P P",
+        "bid2-42-length": "1♠ P 1NT P 2♣ P 2♦ P P",
+        "bid2-42-reveal": "1♠ P 1NT P 2♣ P 2♦ P P",
+      },
+      customPrompts: [
+        {
+          id: "bid2-42-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText:
+            "It's good to be clear on the auction where responder bids 1N and then rebids their own suit, what does that show in terms of strength and length?",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-42-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Your turn..",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          noContinue: false,
+          revealText:
+            "Pass looks like a good idea despite having a fairly strong hand. The main reason is that you're misfiring. Imagine partner with say 6-9 points and diamonds and 6-7 diamodns. 2♦ might be a sensible contract and any further bidding by you may end you in 3♦ which might not make.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-42-keyidea",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Key idea</h4>
+                <p className="ct-revealRichBody">
+                  <strong>always be conservative with a misfit</strong>
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-42-length",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "reveal the full hand",
+          promptText:
+            "Partner should not expect more than a singleton most of the time, you've already shown 9 cards at least in spades and clubs. So a bid of a new suit is typically 6 cards or more. It does not show any extra points, a minimum hand is still very possible.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-42-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "south"],
+          promptText: "The full hand:",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "3", H: "Q92", D: "QJ109653", C: "Q8" },
+      south: { S: "AK1052", H: "K103", D: "4", C: "AJ52" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-43",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Better Rebid Fundamentals (5)",
+    trumpSuit: "NT",
+    contract: "?",
+    dealerCompass: "S",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["south"],
+    auction: "1♠ P 1NT P 2♣ P 2NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Better Rebid Fundamentals",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Better Rebid Fundamentals",
+      promptThemeTint: "rebidFundamentals",
+      videoUrlBeforeStart: "https://youtube.com/shorts/PE5ecVdDb14?si=5CRHcp8MsWxa31dQ",
+      auctionResolvedTextByPromptId: {
+        "bid2-43-bid--reveal": "1♠ P 1NT P 2♣ P 2NT P 3NT",
+        "bid2-43-reveal": "1♠ P 1NT P 2♣ P 2NT P 3NT",
+      },
+      customPrompts: [
+        {
+          id: "bid2-43-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText:
+            "The 2NT rebid is a very important one, it frames the whole structure. It's important to be quite exact with it.\n\nLet's take a similar hand to what we had on the previous problem,",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-43-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Your turn..",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3nt",
+          expectedChoiceDisplay: "3NT",
+          noContinue: false,
+          continueButtonLabel: "show me partner's hand",
+          revealText:
+            "It's a pretty good idea to bid game, 3NT. 2NT should be about 11-12 points. It conveys the message, \"with the upper range of a normal opening 11-14 hand, let's look for game\". Also let's think about it logically -- in order to Make 2NT we surely need at least 22-23 points. If opener can can have about 11-12, surely responder also needs about 1-12 to offer 2NT?",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-43-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "south"],
+          promptText:
+            "Some people might say \"I would bid 3NT with that hand rather than 2NT\". The reality of modern bridge needs to be highlighted from time to time  - you can't have it all ways - unless your openings are always solid 12-13 points, bidding 3NT would be unsound. What I mean is, you do not want to end up in bad 23 point 3NT contracts, because one player opened 11 and the other game forced with 12. Especially when there is a bid to show your hand. That bid is 2NT, which shows 11-12 points.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "53", H: "AJ84", D: "KQ108", C: "Q43" },
+      south: { S: "AK1042", H: "Q103", D: "4", C: "A1092" },
+    },
+    rounds: [],
+  },
 ];
 
 export { BIDDING_PUZZLES };
