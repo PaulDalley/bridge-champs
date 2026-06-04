@@ -26,7 +26,7 @@ const OLD_VARIANTS = [
   `<h2>A typical takeout double hand</h2><p>Imagine the auction starts with 1 heart on your right, and you hold:</p><ul><li>4 spades</li><li>1 heart (shortage in their suit)</li><li>4 diamonds</li><li>4 clubs</li><li>12 points</li></ul><p>Singleton heart, four cards in each of the three unbid suits, decent points, no clear suit to bid on your own. This is a textbook takeout double.</p>`,
 ];
 
-const NEW_SECTION = `<h2>A typical takeout double hand</h2><p>Imagine the auction starts with 1 heart on your right, and you hold:</p><p><MakeBoard boardType="single" position="South" North="*S-*H-*D-*C-" East="*S-*H-*D-*C-" South="*S-KQ102*H-4*D-A1084*C-K932" West="*S-*H-*D-*C-" vuln="Nil Vul" dealer="West" bidding="1♥/P/P/?" /></p><p>Singleton heart, four cards in each of the three unbid suits, decent points, no clear suit to bid on your own. This is a textbook takeout double.</p>`;
+const NEW_SECTION = `<h2>A typical takeout double hand</h2><p>Imagine the auction starts with 1 heart on your right, and you hold:</p><p><MakeBoard boardType="single" position="South" North="*S-*H-*D-*C-" East="*S-*H-*D-*C-" South="*S-KQ102*H-4*D-A1084*C-K932" West="*S-*H-*D-*C-" vuln="Nil Vul" dealer="East" bidding="_/_/1♥/P/P/?" /></p><p>Singleton heart, four cards in each of the three unbid suits, decent points, no clear suit to bid on your own. This is a textbook takeout double.</p>`;
 
 function replaceInHtml(html) {
   let out = html;
