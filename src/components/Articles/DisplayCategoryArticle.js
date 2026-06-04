@@ -757,13 +757,17 @@ const DisplayCategoryArticle = ({
       return (lastSpace > 80 ? cut.slice(0, lastSpace) : cut).trim() + "…";
     };
     const teaser = clean(useMetaData?.teaser);
-    // A teaser only makes a good description if it's long enough to be useful.
-    if (teaser.length >= 110) return truncate(teaser);
-    // Otherwise lead with the real opening of the article body.
     const body = clean(articleText);
-    if (body.length >= 80) return truncate(body);
-    // Short teaser but nothing richer available.
-    if (teaser) return truncate(teaser);
+    // Prefer a substantial teaser, else the real article opening, else whatever
+    // teaser exists.
+    let base = truncate(teaser.length >= 110 ? teaser : body.length >= 80 ? body : teaser);
+    // If the best available text is still too short to be a useful meta
+    // description, keep the real lead-in but pad it to a sensible length.
+    if (base && base.length < 70) {
+      const lead = base.replace(/[\s.]+$/, "") + ". ";
+      base = truncate(clean(lead + "A practical Bridge lesson from Bridge Champions to help you improve your game."));
+    }
+    if (base) return base;
     if (useMetaData?.title) {
       return truncate(
         `${useMetaData.title}: a clear, practical ${getCategoryName()} lesson from Bridge Champions to help you improve your game.`

@@ -148,7 +148,14 @@ class Signup extends Component {
       <div className={embedded ? "Signup-container Signup-container--embedded" : "Signup-container"}>
         <div className="Signup-card">
           <div className="Signup-header">
-            <h1 className="Signup-title">{title}</h1>
+            {/* Embedded signups (e.g. the Treadmill leaderboard prompt) are a
+                secondary element on a page that already has its own <h1>, so use
+                <h2> there to avoid two <h1>s. Standalone auth pages keep <h1>. */}
+            {embedded ? (
+              <h2 className="Signup-title">{title}</h2>
+            ) : (
+              <h1 className="Signup-title">{title}</h1>
+            )}
             <p className="Signup-subtitle">{subtitle}</p>
           </div>
 
