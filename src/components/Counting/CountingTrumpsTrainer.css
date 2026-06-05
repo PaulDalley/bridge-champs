@@ -2531,13 +2531,14 @@ ol.ct-revealRichPoints {
   min-width: 0;
 }
 
-/* LAYOUT CONTRACT: Do not change without explicit user request. Questions must stay
-   right of table; gap >= 56px; sidebar margin-left >= 32px; table width auto;
-   stacking only in @media (max-width: 860px). See block above .ct-tableWithSidebar. */
+/* LAYOUT CONTRACT: questions stay to the RIGHT of the table whenever they fit; gap >= 56px;
+   sidebar margin-left >= 32px; table width auto. The row WRAPS the sidebar below the table when
+   board + rail won't fit the viewport (wide full-deal boards on laptop widths, e.g. MacBook Pro),
+   so the explanation can never be clipped off-screen. Side-by-side is preserved when there's room. */
 /* PROBLEM LAYOUT: questions to the RIGHT of table. Large gap so panel never overlaps East hand. */
 .ct-tableWithSidebar-inner {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 56px;
   width: 100%;
