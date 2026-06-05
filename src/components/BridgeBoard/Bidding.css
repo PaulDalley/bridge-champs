@@ -76,6 +76,13 @@
     color: var(--color-dark, #1A1D23);
 }
 
+/* Four-colour deck: clubs render green in the auction, matching the card faces. */
+.Bidding-entry .club-suit-bidding,
+.Bidding-entry-suit.club-suit-bidding,
+.club-suit-bidding {
+    color: #047857 !important;
+}
+
 
 @media screen and (max-width: 500px) {
     .Bidding-entry-next {

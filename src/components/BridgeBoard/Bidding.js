@@ -190,6 +190,8 @@ class Bidding extends Component {
           styles = "red-suit red-suit-bidding";
           break;
         case "♣":
+          styles = "black-suit black-suit-bidding club-suit-bidding";
+          break;
         case "♠":
         case "N":
         case "P":
