@@ -35,6 +35,11 @@ class Settings extends Component {
     // Upgrade to Premium
     upgradeLoading: false,
     upgradeError: null,
+    // Downgrade to Standard (Basic)
+    downgradeConfirm: false,
+    downgradeLoading: false,
+    downgradeError: null,
+    downgraded: false,
     // Email all / subscribers
     emailAllSubject: "",
     emailAllBody: "",
@@ -111,6 +116,34 @@ class Settings extends Component {
       .fail((jqXHR) => {
         const err = jqXHR.responseJSON?.error || jqXHR.responseText || "Upgrade failed.";
         this.setState({ upgradeLoading: false, upgradeError: err });
+        toastr.error(err);
+      });
+  };
+
+  stripeDowngradeUrl = "https://us-central1-bridgechampions.cloudfunctions.net/stripeDowngradeSubscription";
+
+  handleDowngradeToStandard = () => {
+    const { uid, paymentMethod } = this.props;
+    if (!uid) return;
+    // PayPal plan changes aren't self-serve via this flow.
+    if (paymentMethod === "paypal") {
+      toastr.info("To change your PayPal plan, please contact support.");
+      return;
+    }
+    this.setState({ downgradeLoading: true, downgradeError: null });
+    $.post(this.stripeDowngradeUrl, { uid })
+      .done((data) => {
+        this.setState({ downgradeLoading: false, downgradeError: null, downgradeConfirm: false, downgraded: true });
+        sendSubscriptionEvent("subscription_downgraded", { from_tier: "premium", to_tier: "basic", downgrade_source: "settings" });
+        // Tier stays "premium" until the period ends; the Firestore listener updates it then. No reload.
+        toastr.success(
+          data.message ||
+            "You'll move to the Standard plan at the end of your billing period. You keep Premium access until then."
+        );
+      })
+      .fail((jqXHR) => {
+        const err = jqXHR.responseJSON?.error || jqXHR.responseText || "Downgrade failed.";
+        this.setState({ downgradeLoading: false, downgradeError: err });
         toastr.error(err);
       });
   };
@@ -651,6 +684,85 @@ class Settings extends Component {
                         >
                           Get access to exclusive videos and more.
                         </p>
+                      </div>
+                    )}
+
+                    {tier === "premium" && !this.state.cancelPending && !this.state.cancelled && (
+                      <div className="Settings-downgrade-row" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                        {this.state.downgraded ? (
+                          <p
+                            className="Settings-downgrade-note"
+                            style={{ fontSize: "var(--text-sm)", color: "#0F4C3A", margin: 0 }}
+                          >
+                            You&apos;ll move to the Standard plan at the end of your current billing period. You keep
+                            Premium access until then.
+                          </p>
+                        ) : !this.state.downgradeConfirm ? (
+                          <>
+                            <button
+                              className="Settings-downgrade-btn"
+                              onClick={() => this.setState({ downgradeConfirm: true, downgradeError: null })}
+                              style={{
+                                padding: "0.6rem 1.2rem",
+                                fontSize: "1rem",
+                                fontWeight: 600,
+                                color: "#0F4C3A",
+                                backgroundColor: "transparent",
+                                border: "1px solid #0F4C3A",
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {`Downgrade to Standard (A$25/mo, ~US$${membershipUsdApproxWhole(25)}/mo)`}
+                            </button>
+                            <p
+                              className="Settings-downgrade-note"
+                              style={{ marginTop: "0.5rem", fontSize: "var(--text-sm)", color: "#666" }}
+                            >
+                              You&apos;ll keep Premium until your billing period ends, then move to Standard.
+                            </p>
+                          </>
+                        ) : (
+                          <div className="Settings-downgrade-confirm">
+                            <p style={{ fontSize: "var(--text-sm)", color: "#333", marginBottom: "0.6rem" }}>
+                              Switch to Standard at the end of your billing period? You keep full Premium access until
+                              then.
+                            </p>
+                            <button
+                              onClick={this.handleDowngradeToStandard}
+                              disabled={this.state.downgradeLoading}
+                              style={{
+                                padding: "0.5rem 1rem",
+                                fontSize: "0.95rem",
+                                fontWeight: 600,
+                                color: "#fff",
+                                backgroundColor: "#0F4C3A",
+                                border: "none",
+                                borderRadius: "8px",
+                                cursor: this.state.downgradeLoading ? "wait" : "pointer",
+                                marginRight: "0.6rem",
+                              }}
+                            >
+                              {this.state.downgradeLoading ? "Processing…" : "Yes, downgrade to Standard"}
+                            </button>
+                            <button
+                              onClick={() => this.setState({ downgradeConfirm: false })}
+                              disabled={this.state.downgradeLoading}
+                              style={{
+                                padding: "0.5rem 1rem",
+                                fontSize: "0.95rem",
+                                fontWeight: 600,
+                                color: "#0F4C3A",
+                                backgroundColor: "transparent",
+                                border: "1px solid #ccc",
+                                borderRadius: "8px",
+                                cursor: this.state.downgradeLoading ? "wait" : "pointer",
+                              }}
+                            >
+                              Keep Premium
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
 
