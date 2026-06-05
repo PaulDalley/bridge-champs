@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import AuctionDiagram from "./AuctionDiagram";
 import "./JacobyConventionArticle.css";
 
 const red = (symbol) => <span className="jca-suit jca-suit--red">{symbol}</span>;
@@ -56,13 +57,13 @@ function ReversesArticle() {
               <tbody>
                 <tr>
                   <td className="jca-bidCell">
-                    1{black("♣")} P 1{black("♠")} P 2{red("♥")}
+                    <AuctionDiagram bidding="1♣ P 1♠ P 2♥" />
                   </td>
-                  <td>Reverse: returning to clubs now needs 3♣.</td>
+                  <td>Reverse: returning to clubs now needs 3{black("♣")}.</td>
                 </tr>
                 <tr>
                   <td className="jca-bidCell">
-                    1{red("♥")} P 1{black("♠")} P 2{black("♣")}
+                    <AuctionDiagram bidding="1♥ P 1♠ P 2♣" />
                   </td>
                   <td>Not a reverse: partner can still return to hearts at 2{red("♥")}.</td>
                 </tr>
@@ -104,13 +105,13 @@ function ReversesArticle() {
               <tbody>
                 <tr>
                   <td className="jca-bidCell">
-                    1{red("♦")} P 1{black("♠")} P 2{red("♥")} P ?
+                    <AuctionDiagram bidding="1♦ P 1♠ P 2♥ P ?" />
                   </td>
                   <td>Bid 2NT with weak/limited values.</td>
                 </tr>
                 <tr>
                   <td className="jca-bidCell">
-                    1{red("♦")} P 1{black("♠")} P 2{red("♥")} P 2NT P 3{red("♦")} P ?
+                    <AuctionDiagram bidding="1♦ P 1♠ P 2♥ P 2NT P 3♦ P ?" />
                   </td>
                   <td>Usually pass - opener has retreated to first 5+ suit.</td>
                 </tr>
