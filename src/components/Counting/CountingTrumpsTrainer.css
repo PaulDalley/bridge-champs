@@ -2665,7 +2665,9 @@ ol.ct-revealRichPoints {
   width: auto;
   min-width: 0;
   overflow: visible;
-  max-width: 920px;
+  /* Wide enough to contain the side-hand columns (now sized to their cards) so cards never
+     spill past the felt. The row wraps the rail below when this gets wide (see -inner). */
+  max-width: 1320px;
   margin-right: 32px;
   row-gap: 14px;
 }
@@ -2679,7 +2681,7 @@ ol.ct-revealRichPoints {
   margin-top: 4px;
 }
 .ct-tableWithSidebar .ct-table.ct-table--westVisible {
-  max-width: 840px;
+  max-width: 1320px;
 }
 
 /* Prevent table stretching to 100% so questions stay next to table (not far right). */
@@ -2914,7 +2916,7 @@ ol.ct-revealRichPoints {
 }
 
 .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout {
-  grid-template-columns: 220px minmax(580px, 1fr) minmax(110px, 150px);
+  grid-template-columns: minmax(220px, max-content) minmax(580px, 1fr) minmax(110px, max-content);
   width: 100%;
   max-width: 1060px;
   justify-items: start;
@@ -2933,7 +2935,7 @@ ol.ct-revealRichPoints {
 /* When prompt is on right: sidebar has its own space so table isn’t encroached; center fits trick + N/S hands. */
 /* Was clamp(..., 420px) max — too narrow on desktop (tiny 13-card rows). Wider cap + vw so cards stay readable. */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight {
-  grid-template-columns: 0 clamp(360px, 54vw, 620px) minmax(110px, 150px);
+  grid-template-columns: 0 clamp(360px, 54vw, 620px) minmax(110px, max-content);
   width: 100%;
   max-width: none;
   justify-items: start;
@@ -2943,7 +2945,7 @@ ol.ct-revealRichPoints {
 
 /* When West visible (reveal): wider left column so West’s long suits (e.g. 6 spades) fit without squashing */
 .ct-layout--fullhands .ct-table.ct-table--promptOnRight.ct-table--westVisible {
-  grid-template-columns: 260px clamp(340px, 48vw, 560px) minmax(110px, 150px);
+  grid-template-columns: minmax(260px, max-content) clamp(340px, 48vw, 560px) minmax(110px, max-content);
   width: 100%;
   max-width: none;
   justify-items: start;
@@ -2955,7 +2957,7 @@ ol.ct-revealRichPoints {
    at normal card size (existing .ct-table--westVisible rule caps card width at 42px → ~7×42 + gaps).
    Card sizes are intentionally NOT changed here; the existing west-visible sizing remains. */
 .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask15 {
-  grid-template-columns: minmax(320px, 340px) clamp(340px, 48vw, 560px) minmax(110px, 150px);
+  grid-template-columns: minmax(320px, max-content) clamp(340px, 48vw, 560px) minmax(110px, max-content);
 }
 
 /*
