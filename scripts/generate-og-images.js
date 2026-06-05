@@ -94,6 +94,17 @@ function extractTitle(html) {
   return title || null;
 }
 
+// The page's og:image meta is the source of truth for the filename the live
+// HTML references (keyed by body-doc id, e.g. "/og/<bodyId>.png"). Name the
+// generated file to match it exactly, so meta and file never drift apart even
+// when the page URL uses a slug. Returns e.g. "fTyD8kBfzLpBmkc8uGsl.png".
+function extractOgImageName(html) {
+  const m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+  if (!m) return null;
+  const base = m[1].split("/").pop().split(/[?#]/)[0];
+  return base && /\.png$/i.test(base) ? base : null;
+}
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -279,15 +290,22 @@ async function run() {
     const html = fs.readFileSync(snap.file, "utf8");
     const title = extractTitle(html);
     if (!title) continue;
+    // Match the live meta exactly; fall back to the route id only if the
+    // snapshot somehow lacks an og:image (or points at default.png).
+    const ogName = extractOgImageName(html);
+    const outName =
+      ogName && ogName.toLowerCase() !== "default.png" ? ogName : `${cls.articleId}.png`;
     articles.push({
       articleId: cls.articleId,
+      outName,
       title,
       category: categoryLabelForRoute(snap.routePath),
     });
   }
+  // Dedupe by output filename so each referenced /og/<id>.png is rendered once.
   const unique = new Map();
   for (const a of articles) {
-    if (!unique.has(a.articleId)) unique.set(a.articleId, a);
+    if (!unique.has(a.outName)) unique.set(a.outName, a);
   }
   let list = [...unique.values()];
   if (LIMIT) list = list.slice(0, LIMIT);
@@ -307,7 +325,7 @@ async function run() {
     let pageIdx = 0;
     results = await runQueue(list, async (item) => {
       const myPage = pages[pageIdx++ % CONCURRENCY];
-      const outFile = path.join(OG_DIR, `${item.articleId}.png`);
+      const outFile = path.join(OG_DIR, item.outName);
       await renderOgImage(myPage, outFile, item.title, item.category);
     });
 
