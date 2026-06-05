@@ -299,10 +299,14 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  return card.suit === trumpSuit; 
  } 
  
- function cardColorClass(card) { 
- if (!card) return ""; 
- return card.suit === "H" || card.suit === "D" ? "ct-card--red" : "ct-card--black";
- } 
+ function cardColorClass(card) {
+ if (!card) return "";
+ // Four-colour deck: spades black, hearts red, diamonds orange, clubs green.
+ if (card.suit === "H") return "ct-card--red";
+ if (card.suit === "D") return "ct-card--red ct-card--diamond";
+ if (card.suit === "C") return "ct-card--black ct-card--club";
+ return "ct-card--black";
+ }
  
  /** Trick table: same pip markup as hands (unified sizing on phone via CSS). */ 
  function TrickPipCard({ card, entered }) { 

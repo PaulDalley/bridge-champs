@@ -5540,6 +5540,28 @@ ol.ct-revealRichPoints {
   color: #b91c1c;
 }
 
+/* Four-colour deck: diamonds orange (overrides the red above). */
+.ct-card--diamond {
+  color: #ea580c;
+}
+.ct-miniCard.ct-card--diamond .ct-fanRank,
+.ct-miniCard.ct-card--diamond .ct-fanSuit,
+.ct-miniCard.ct-card--diamond .ct-miniCardCorner,
+.ct-miniCard.ct-card--diamond .ct-miniCardCenter {
+  color: #ea580c;
+}
+
+/* Four-colour deck: clubs green (overrides the black base). */
+.ct-card--club {
+  color: #047857;
+}
+.ct-miniCard.ct-card--club .ct-fanRank,
+.ct-miniCard.ct-card--club .ct-fanSuit,
+.ct-miniCard.ct-card--club .ct-miniCardCorner,
+.ct-miniCard.ct-card--club .ct-miniCardCenter {
+  color: #047857;
+}
+
 @keyframes ctEnter {
   from {
     opacity: 0;

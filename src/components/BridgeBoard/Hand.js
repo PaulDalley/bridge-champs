@@ -39,7 +39,7 @@ class Hand extends Component {
                             <span className="Hand-row_cardstext Hand-text">{diamonds}</span>
                         </Row>
                         <Row className="Hand-row">
-                            <span className="Hand-row_cardstext Hand-suit black-suit">♣&nbsp;</span>
+                            <span className="Hand-row_cardstext Hand-suit black-suit club-suit">♣&nbsp;</span>
                             <span className="Hand-row_cardstext Hand-text">{clubs}</span>
                         </Row>
                     </Card>
@@ -95,7 +95,7 @@ class Hand extends Component {
                             {/*<span className="Hand-row_cardstext Hand-text">{diamonds}</span>*/}
                         </Row>
                         <Row className="Hand-row">
-                            <span className="Hand-row_cardstext Hand-suit black-suit">♣&nbsp;</span>
+                            <span className="Hand-row_cardstext Hand-suit black-suit club-suit">♣&nbsp;</span>
                             {/*<span className="Hand-row_cardstext Hand-text">{clubs}</span>*/}
                             <input
                                 className="GenerateBridgeBoardClient-single_input"
