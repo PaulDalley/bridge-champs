@@ -5716,15 +5716,25 @@ return fallbackIdx + 1;
  * Top = partner (compass opposite). Left/right = the two lateral seats: rho(viewer) on left, 
  * lho(viewer) on right — matches a clockwise compass read (N→E→S→W) with you at bottom. 
  */ 
- const { seatTop, seatRight, seatBottom, seatLeft } = useMemo(() => { 
- const v = viewerCompass; 
- return { 
- seatBottom: seatAtCompass[v], 
- seatTop: seatAtCompass[partnerCompass(v)], 
- seatLeft: seatAtCompass[rhoCompass(v)], 
- seatRight: seatAtCompass[lhoCompass(v)], 
- }; 
- }, [seatAtCompass, viewerCompass]); 
+ const { seatTop, seatRight, seatBottom, seatLeft } = useMemo(() => {
+ const v = viewerCompass;
+ const base = {
+ seatBottom: seatAtCompass[v],
+ seatTop: seatAtCompass[partnerCompass(v)],
+ seatLeft: seatAtCompass[rhoCompass(v)],
+ seatRight: seatAtCompass[lhoCompass(v)],
+ };
+ // Display-only (defence): a few problems are authored with the viewer on declarer's
+ // LHO side, which drops DUMMY into the LEFT cell (and a CSS workaround then lifts it
+ // up into the top-centre slot). When `promptOptions.dummyOnRight` is set, mirror the
+ // two lateral cells so DUMMY always renders on the RIGHT, matching the rest of the set.
+ // Pure screen-cell swap: viewerCompass/declarerCompass, the play engine, lead order and
+ // answers are untouched; trick cards + distribution inputs follow the same seat map.
+ if (puzzle?.promptOptions?.dummyOnRight && base.seatLeft === "DUMMY") {
+ return { ...base, seatLeft: base.seatRight, seatRight: base.seatLeft };
+ }
+ return base;
+ }, [seatAtCompass, viewerCompass, puzzle?.promptOptions?.dummyOnRight]);
  
  const viewerSeat = seatAtCompass[viewerCompass] || "DECLARER"; // internal seat key: LHO/DUMMY/RHO/DECLARER 
  // Clockwise typing order (left -> top -> right -> bottom) from the viewer’s perspective. 

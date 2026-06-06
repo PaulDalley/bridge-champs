@@ -617,7 +617,7 @@ const DEFENCE_PUZZLES = [
     trumpSuit: "S",
     contract: "4♠",
     dealerCompass: "N",
-    declarerCompass: "W",
+    declarerCompass: "E",
     viewerCompass: "S",
     visibleFullHandSeats: ["RHO", "DUMMY"],
     revealFullHandsAtEnd: ["RHO", "DECLARER"],
@@ -631,6 +631,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "enemyFive",
       themeLabel: "The enemy's 5 card suit",
+      dummyOnRight: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/VO9Empu4-oA",
       customPrompts: [
         {
@@ -726,6 +727,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "enemyFive",
       themeLabel: "The enemy's 5 card suit",
+      dummyOnRight: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/Vva7oLnQOrI",
       customPrompts: [
         {
@@ -892,6 +894,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "enemyFive",
       themeLabel: "The enemy's 5 card suit",
+      dummyOnRight: true,
       videoUrlBeforeStart: "https://youtube.com/shorts/cqB_4doDsLc",
       customPrompts: [
         {
@@ -991,6 +994,7 @@ const DEFENCE_PUZZLES = [
       questionNumbers: [],
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      dummyOnRight: true,
       videoUrlBeforeStart: "https://www.youtube.com/shorts/StIWzoOoqBA?si=DixgCgApKwMCsR2K",
       auctionHighlightCall: { row: 0, seat: "W" },
       auctionHighlightNote: "3♥ was an 11+ point spade raise.",
@@ -1153,6 +1157,7 @@ const DEFENCE_PUZZLES = [
       playThroughRoundAfterPreInclusive: 0,
       promptThemeTint: "drawTrumps",
       themeLabel: "Theme: Forcing declarer",
+      dummyOnRight: true,
       videoUrlBeforeStart: "https://www.youtube.com/shorts/lsw1baqGu1U",
       auctionHighlightCall: { row: 1, seat: "W" },
       auctionHighlightNote: "2♠ showed 4 spades.",
