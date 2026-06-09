@@ -1024,6 +1024,7 @@ function Bid225IntroRich() {
           This was a hand, where the players had an artificial auction, not worth repeating here.
         </p>
         <p className="ct-revealRichBody">But you are in the driver&apos;s seat.</p>
+        <h4 className="ct-revealRichHeading">Summary of the auction</h4>
         <p className="ct-revealRichBody">
           You have found out that your partner has 11–13 points with 3 hearts.
         </p>
@@ -6260,14 +6261,11 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER"],
-    auction: "5♦ X P ?",
+    auction: "",
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: false,
-      showAuctionDuringPlayDecisionReveal: true,
-      auctionResolvedTextByPromptId: {
-        "bid2-33-q2--reveal": "1♠ 3♣ 4♠ 5♣ 6♠ X",
-      },
+      hideAuction: true,
+      showAuctionDuringPlayDecisionReveal: false,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Slam judgment",
