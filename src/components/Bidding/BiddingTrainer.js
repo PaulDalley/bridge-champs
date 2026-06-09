@@ -10119,11 +10119,11 @@ const BIDDING_PUZZLES = [
     title: "Over the shoulder #1 (1)",
     trumpSuit: "S",
     contract: "?",
-    dealerCompass: "N",
+    dealerCompass: "W",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["south"],
-    auction: "",
+    auction: "P 1NT P ?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -10135,18 +10135,231 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
       videoUrlBeforeStart: "",
+      auctionResolvedTextByPromptId: {
+        "bid2-44-ltc": "P 1NT P 2♥ P 2♠ P ?",
+        "bid2-44-summary": "P 1NT P 2♥ P 2♠ P ?",
+        "bid2-44-bid": "P 1NT P 2♥ P 2♠ P ?",
+        "bid2-44-bid--reveal": "P 1NT P 2♥ P 2♠ P 4♥",
+        "bid2-44-reveal": "P 1NT P 2♥ P 2♠ P 4♥ P 4NT P 5♠ P 5NT P 6♠",
+      },
       customPrompts: [
         {
           id: "bid2-44-info1",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "",
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  What is your plan here, how good is your hand?
+                </p>
+                <p className="ct-revealRichBody">
+                  We need to first be able to look at our hand and decide whether we think slam is
+                  plausible or not.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-44-opinion",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is your opinion of this hand?",
+          options: [
+            { id: "game", label: "This is just a game hand, slam is unlikely." },
+            { id: "slam", label: "I want to bid slam" },
+            { id: "investigate", label: "I want to investigate slam." },
+          ],
+          expectedChoice: "investigate",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">I want to investigate slam.</p>
+                <p className="ct-revealRichBody">
+                  There are some bridge hands where you do not need partner&apos;s involvement, and
+                  you can just bid slam or even grand slam. Those hands are rare.
+                </p>
+                <p className="ct-revealRichBody">
+                  Most good slam bidding is a discussion, you try to show your hand as accurately as
+                  possible, and partner can then gauge what to do.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  But firstly, how do we judge that this hand might be suitable for slam?
+                </p>
+                <p className="ct-revealRichBody">
+                  Point count only gives 12, opposite 15-17, which isn&apos;t enough for our 33 point
+                  slams.
+                </p>
+                <p className="ct-revealRichBody">
+                  But, point count is not your best measure for distributional hands. A better
+                  measure is Losing Trick Count on hands like this, (see problems 34-38 of bidding
+                  Stage 2). It is highly accurate, and is definitely worth learning.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-44-ltc",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  You have a 7 loser hand, partner for their 1NT is expected to have about a 5-6
+                  loser hand.
+                </p>
+                <p className="ct-revealRichBody">
+                  If you add your losers together, 7+5, you get 12. That makes slam (the traditional
+                  way to calculate it is to subtract from 24, so your total loser count is 12,
+                  subtracted from 24 also equals 12. That is the number of expected tricks, I
+                  personally find this to be a hassle).
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-44-summary",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The key things I would remember about the losing trick count for bidding is
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  1. Two 7 loser hands is game, which totals 14 losers if you add it together. (An
+                  opening hand is approximately 7 losers often)
+                </p>
+                <p className="ct-revealRichBody">
+                  2. If the combined loser count is 12 (same as the number of tricks you need for
+                  slam), you may have enough for slam IF you have a fit. So, two 6 loser hands, or a
+                  5 loser and a 7 loser.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  However, that is a guide, its not a law. We use it to determine that we are in the
+                  &quot;slam zone&quot;. Once we decide we are in the slam zone, the task becomes to
+                  get partner&apos;s opinion on the matter. What is the best way to do that? You have
+                  transferred to spades, now what?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-44-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4h",
+          expectedChoiceDisplay: "4♥",
+          noContinue: false,
+          continueButtonLabel: "Reveal the full hand",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  After transferring to spades, bidding <TextWithColoredSuits text="4♥" /> is a
+                  splinter - showing a short heart and slam interest.
+                </p>
+                <p className="ct-revealRichBody">
+                  Partner needs to look at their hand and judge it like this -
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  1. Points in hearts are bad, sign off with lots of points in hearts, bid on
+                  without much in hearts. A good guide is to sign off with 3+ points in hearts (they
+                  are effectively &quot;wasted points&quot;.) However, an Ace is the one card that is
+                  &quot;okay&quot;, not wasted but not an ideal holding.
+                </p>
+                <p className="ct-revealRichBody">
+                  2. The ideal holding is no high cards in hearts
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  A Quick note - why is <TextWithColoredSuits text="4♥" /> a splinter? If you wanted
+                  to bid hearts naturally, you can just bid <TextWithColoredSuits text="3♥" />. Since
+                  you have a natural <TextWithColoredSuits text="3♥" /> available, a jump is a
+                  splinter (and not another natural bid).
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-44-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["north", "south"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  12 top tricks, so <TextWithColoredSuits text="6♠" /> is an excellent contract
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Partner should look particularly closely at their heart holding.
+                </p>
+                <p className="ct-revealRichBody">
+                  An Ace is good, without any other wasted cards.
+                </p>
+                <p className="ct-revealRichBody">
+                  Partner should not worry about their spade length, you have shown 6+ spades.
+                </p>
+                <p className="ct-revealRichBody">
+                  The hand is about whether partner&apos;s high cards are well placed or not, here
+                  they are.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  If, for example, just the King of clubs was in hearts, you would be on a finesse
+                  for 12 tricks instead of having 12 top tricks like you do now
+                </p>
+                <p className="ct-revealRichBody">
+                  If, for example, the King and Queen of clubs was in hearts instead, you would only
+                  have 11 tricks and no real chance for a 12th.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  You can hopefully see that every extra card in hearts makes the contract worse.
+                </p>
+              </section>
+            </div>
+          ),
           videoUrl: "",
         },
       ],
     },
     shownHands: {
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "K5", H: "A932", D: "A104", C: "KQ75" },
+      south: { S: "AQJ642", H: "8", D: "832", C: "AJ10" },
     },
     rounds: [],
   },
@@ -10161,7 +10374,7 @@ const BIDDING_PUZZLES = [
     dealerCompass: "N",
     declarerCompass: "S",
     viewerCompass: "S",
-    visibleFullHandSeats: ["south"],
+    visibleFullHandSeats: ["north", "south"],
     auction: "",
     promptOptions: {
       promptPlacement: "right",
@@ -10185,7 +10398,8 @@ const BIDDING_PUZZLES = [
       ],
     },
     shownHands: {
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "K", H: "94", D: "Q942", C: "AJ8742" },
+      south: { S: "AQ108743", H: "KQ632", D: "A", C: "" },
     },
     rounds: [],
   },
