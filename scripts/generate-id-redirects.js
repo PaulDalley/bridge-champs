@@ -77,20 +77,25 @@ function extractBodyId(data) {
 async function buildRedirects(db) {
   const redirects = [];
   const seenSources = new Set();
+  const addRedirect = (pathPrefix, id, slug) => {
+    if (!id || !slug || id === slug) return;
+    const source = `${pathPrefix}/${id}`;
+    if (seenSources.has(source)) return;
+    seenSources.add(source);
+    redirects.push({ source, destination: `${pathPrefix}/${slug}`, type: 301 });
+  };
   for (const cfg of COLLECTIONS) {
     const snap = await db.collection(cfg.summary).get();
     for (const doc of snap.docs) {
       const data = doc.data() || {};
       const slug = typeof data.slug === "string" ? data.slug.trim() : "";
-      const bodyId = extractBodyId(data);
-      if (!slug || !bodyId || slug === bodyId) continue;
-
-      // Old indexed URL -> new readable slug URL.
-      const source = `${cfg.pathPrefix}/${bodyId}`;
-      const destination = `${cfg.pathPrefix}/${slug}`;
-      if (seenSources.has(source)) continue;
-      seenSources.add(source);
-      redirects.push({ source, destination, type: 301 });
+      if (!slug) continue;
+      // Both legacy id forms 301 to the readable slug: the SUMMARY doc id
+      // (doc.id) and the BODY doc id (data.body). Google has indexed both over
+      // time, and the SPA router only resolves slug/body — so an un-redirected
+      // summary-id URL serves the homepage shell and reads as a duplicate.
+      addRedirect(cfg.pathPrefix, doc.id, slug);
+      addRedirect(cfg.pathPrefix, extractBodyId(data), slug);
     }
   }
   // Stable order for clean diffs.
@@ -122,9 +127,19 @@ async function run() {
   const firebaseJsonPath = path.join(__dirname, "..", "firebase.json");
   const config = JSON.parse(fs.readFileSync(firebaseJsonPath, "utf8"));
   if (!config.hosting) throw new Error("firebase.json has no hosting block.");
-  config.hosting.redirects = redirects;
+  // MERGE, never overwrite. Only the doc-id -> slug redirects are regenerated
+  // from Firestore; every OTHER existing redirect (manual path redirects like
+  // /play, /chat, /questions, /conventions, plus slug -> slug merge redirects)
+  // is preserved by keeping any entry whose `source` this run does not emit.
+  const generatedSources = new Set(redirects.map((r) => r.source));
+  const existing = Array.isArray(config.hosting.redirects) ? config.hosting.redirects : [];
+  const preserved = existing.filter((r) => r && !generatedSources.has(r.source));
+  config.hosting.redirects = [...preserved, ...redirects];
   fs.writeFileSync(firebaseJsonPath, JSON.stringify(config, null, 2) + "\n", "utf8");
-  console.log(`\nWrote ${redirects.length} redirects to firebase.json (hosting.redirects).`);
+  console.log(
+    `\nWrote ${preserved.length} preserved + ${redirects.length} id->slug = ` +
+      `${preserved.length + redirects.length} redirects to firebase.json (hosting.redirects).`
+  );
   process.exit(0);
 }
 
