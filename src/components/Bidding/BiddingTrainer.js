@@ -9713,8 +9713,8 @@ const BIDDING_PUZZLES = [
             </div>
           ),
           playDecisionInput: "biddingBox",
-          expectedChoice: ["2s", "3c", "3h"],
-          expectedChoiceDisplay: "2♠, 3♣ or 3♥",
+          expectedChoice: ["2s", "3d", "3h"],
+          expectedChoiceDisplay: "2♠, 3♦ or 3♥",
           noContinue: false,
           revealText: (
             <div className="ct-revealRich">
@@ -9722,7 +9722,7 @@ const BIDDING_PUZZLES = [
                 There are a few possibilities here — my preferences are{" "}
                 <TextWithColoredSuits text="2♠" />,{" "}
                 <TextWithColoredSuits text="3♥" />, or the simple{" "}
-                <TextWithColoredSuits text="3♣" />. Let&apos;s go through them.
+                <TextWithColoredSuits text="3♦" />. Let&apos;s go through them.
               </p>
               <section className="ct-revealRichCard ct-revealRichCard--slate">
                 <p className="ct-revealRichBody">
@@ -9755,16 +9755,16 @@ const BIDDING_PUZZLES = [
             <div className="ct-revealRich">
               <section className="ct-revealRichCard ct-revealRichCard--slate">
                 <h4 className="ct-revealRichHeading">
-                  <TextWithColoredSuits text="3♣" /> — a decent bid
+                  <TextWithColoredSuits text="3♦" /> — a decent bid
                 </h4>
                 <p className="ct-revealRichBody">
-                  <TextWithColoredSuits text="3♣" /> shows four-card support
+                  <TextWithColoredSuits text="3♦" /> shows four-card support
                   (Partner&apos;s bid only promises 4 to begin with, so you
                   can&apos;t support with only 3 cards — being at the 3 level on
                   a 7-card fit would not be good).
                 </p>
                 <p className="ct-revealRichBody">
-                  The main problem with <TextWithColoredSuits text="3♣" /> is
+                  The main problem with <TextWithColoredSuits text="3♦" /> is
                   that your hand is basically a maximum, and that is not
                   conveyed by the bid.
                 </p>
