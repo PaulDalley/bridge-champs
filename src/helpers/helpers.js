@@ -207,7 +207,7 @@ export const prepareArticleString = (article) => {
   );
 };
 
-const iterativelyReplace = (string, suit) => {
+const iterativelyReplace = (string, suit, className = "red-suit") => {
   let oldString = string;
   let newString = "";
   let indexOf = oldString.indexOf(suit);
@@ -224,7 +224,7 @@ const iterativelyReplace = (string, suit) => {
       oldString[0] !== "/" &&
       oldString[0] !== '"'
     ) {
-      newString += `<span class="red-suit">${suit}</span>`;
+      newString += `<span class="${className}">${suit}</span>`;
     } else {
       newString += suit;
     }
@@ -240,6 +240,8 @@ const replaceDiamondsAndHearts = (substr) => {
     // console.log(newStr);
     newStr = iterativelyReplace(newStr, "♦");
     // console.log(newStr);
+    // Clubs render green site-wide (four-colour-deck convention, matching board hands).
+    newStr = iterativelyReplace(newStr, "♣", "club-suit");
     return newStr;
   } else {
     return substr;

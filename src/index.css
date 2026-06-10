@@ -181,6 +181,14 @@ a:hover {
   font-weight: 700;
 }
 
+/* Clubs render green (four-colour-deck convention), matching board hands
+   (.Hand-suit.club-suit in Hand.css). `!important` for the same reason as
+   .red-suit — to beat the beginner-article descendant color overrides. */
+.club-suit {
+  color: #047857 !important;
+  font-weight: 700;
+}
+
 .black-suit {
   color: var(--color-dark);
   font-weight: 700;

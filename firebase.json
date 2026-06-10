@@ -91,6 +91,11 @@
     ],
     "redirects": [
       {
+        "source": "/article/KuGcYGJmIm6Ei02VOGVo",
+        "destination": "/bidding/advanced/opening-2c-avoid-whenever-possible",
+        "type": 301
+      },
+      {
         "source": "/play",
         "destination": "/",
         "type": 301

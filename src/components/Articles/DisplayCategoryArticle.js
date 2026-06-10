@@ -733,6 +733,11 @@ const DisplayCategoryArticle = ({
 
   // Generate SEO meta tags
   const getArticleTitle = () => {
+    // Prefer an explicit SEO <title> when set, so the visible H1 can be longer
+    // and more descriptive than the ~60-char title tag.
+    if (useMetaData?.metaTitle) {
+      return useMetaData.metaTitle;
+    }
     if (useMetaData?.title) {
       return `${useMetaData.title} - Bridge Champions`;
     }
