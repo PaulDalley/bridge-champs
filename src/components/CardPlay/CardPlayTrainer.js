@@ -3663,7 +3663,11 @@ const CARDPLAY_PUZZLES_ALL = [
   },
 ];
 
-export const CARDPLAY_PUZZLES = CARDPLAY_PUZZLES_ALL;
+// Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.
+const BC_HIDDEN_DECLARER_IDS = new Set(["cp2-11", "cp2-12", "cp2-13", "cp2-14", "cp2-15"]);
+export const CARDPLAY_PUZZLES = CARDPLAY_PUZZLES_ALL.filter(
+  (p) => !(p && BC_HIDDEN_DECLARER_IDS.has(p.id))
+);
 
 function isPuzzleNew(puzzle) {
   return !!(puzzle && puzzle.newUntil && new Date() < new Date(puzzle.newUntil));

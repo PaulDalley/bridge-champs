@@ -10520,6 +10520,13 @@ const BIDDING_PUZZLES = [
   },
 ];
 
+// Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.
+const BC_HIDDEN_BIDDING_IDS = new Set(["bid2-44", "bid2-45", "bid2-46", "bid2-47", "bid2-48"]);
+for (let bcI = BIDDING_PUZZLES.length - 1; bcI >= 0; bcI--) {
+  if (BIDDING_PUZZLES[bcI] && BC_HIDDEN_BIDDING_IDS.has(BIDDING_PUZZLES[bcI].id)) {
+    BIDDING_PUZZLES.splice(bcI, 1);
+  }
+}
 export { BIDDING_PUZZLES };
 
 function BiddingTrainer(routeProps) {
