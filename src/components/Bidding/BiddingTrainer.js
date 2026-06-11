@@ -10375,7 +10375,7 @@ const BIDDING_PUZZLES = [
     dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
-    visibleFullHandSeats: ["north", "south"],
+    visibleFullHandSeats: ["south"],
     auction: "?",
     promptOptions: {
       promptPlacement: "right",
