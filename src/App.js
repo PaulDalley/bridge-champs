@@ -30,6 +30,7 @@ import Articles from "./containers/Articles";
 import CategoryArticles from "./containers/CategoryArticles";
 import DisplayArticle from "./components/Articles/DisplayArticle";
 import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle";
+import AllArticlesIndex from "./components/Articles/AllArticlesIndex";
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import PracticeQuestionViewer from "./components/PracticeQuestions/PracticeQuestionViewer";
 import CreatePracticeQuestionBundle from "./components/PracticeQuestions/CreatePracticeQuestionBundle";
@@ -905,6 +906,10 @@ const routes = (
     <Route path="/contact" component={Contact} />
     <Route path="/privacy" component={PrivacyPolicy} />
     <Route path="/flyer" component={Flyer} />
+
+    {/* Flat, crawlable index of all articles — linked from the footer; helps
+        Google discover/crawl the full library. Indexable (self-canonical). */}
+    <Route path="/all-articles" component={AllArticlesIndex} exact />
 
     <Route
       path="/about"

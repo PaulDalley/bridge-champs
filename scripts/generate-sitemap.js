@@ -84,6 +84,7 @@ const NOW_YMD = toYmd(new Date());
 const STATIC_URLS = [
   { loc: "/", changefreq: "daily", priority: "1.0" },
   { loc: "/about", changefreq: "monthly", priority: "0.7" },
+  { loc: "/all-articles", changefreq: "weekly", priority: "0.6" },
   // NOTE: /learn and /learn/beginner are redirect routes (-> /declarer/articles
   // and /beginner) so they are intentionally NOT listed here — a sitemap should
   // only advertise final destination URLs, not redirects.

@@ -14,6 +14,9 @@ const footer = (props) => {
                     links={
                         <ul>
                             <li>
+                                <Link to="/all-articles" className="grey-text text-lighten-3">All lessons</Link>
+                            </li>
+                            <li>
                                 <Link to="/about" className="grey-text text-lighten-3">About</Link>
                             </li>
                             <li>
