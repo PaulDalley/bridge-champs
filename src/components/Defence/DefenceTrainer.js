@@ -2932,7 +2932,7 @@ const DEFENCE_PUZZLES = [
           wrongRevealText: "Not quite — the singleton is best.",
           noContinue: true,
           revealText:
-            "The singleton lead against a trump contract should almost always be the #1 choice.\n\nA heart is an attractive option when you have a triple honor sequence like that, but the singleton lead is still too powerful. The only lead that beats a singleton is if you have say AKx(x). The Ace lead there comes out ahead (you can often switch to your singleton anyway after leading the A from AK).\n\nA very unnatractive option is the club.\n\nLong suits are not good in such situations, and leading away from a single honor like that is a quick and simple way to lose lots of tricks! (don't do it!)",
+            "The singleton lead against a trump contract should almost always be the #1 choice.\n\nA heart is an attractive option when you have a triple honor sequence like that, but the singleton lead is still too powerful. The only lead that beats a singleton is if you have say AKx(x). The Ace lead there comes out ahead (you can often switch to your singleton anyway after leading the A from AK).\n\nA very unattractive option is the club.\n\nLong suits are not good in such situations, and leading away from a single honor like that is a quick and simple way to lose lots of tricks! (don't do it!)",
           videoUrl: "",
         },
       ],
@@ -2982,7 +2982,7 @@ const DEFENCE_PUZZLES = [
           wrongRevealText: "Not quite.",
           noContinue: true,
           revealText:
-            "A Spade or even heart is your best lead here.\n\nIn this auction, where responder has not investigatged a major (has 3 at most in either major), the major lead comes out far ahead. It should be automatic unless you have an attractive 5 card minor, and even then the major is still a consideration (see \"winning leads against No Trump\" by David Bird for the computer analysis on this if you are a skepetic).\n\nRule: When responder has not shown the majors, that will often be the enemy's weakness and your partner's strength. Lead a major.",
+            "A Spade or even heart is your best lead here.\n\nIn this auction, where responder has not investigated a major (has 3 at most in either major), the major lead comes out far ahead. It should be automatic unless you have an attractive 5 card minor, and even then the major is still a consideration (see \"winning leads against No Trump\" by David Bird for the computer analysis on this if you are a skeptic).\n\nRule: When responder has not shown the majors, that will often be the enemy's weakness and your partner's strength. Lead a major.",
           videoUrl: "",
         },
       ],

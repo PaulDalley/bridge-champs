@@ -428,12 +428,19 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  let defenderSide = 0;
  const rounds = puzzle?.rounds || [];
  const trumpSuit = puzzle?.trumpSuit;
+ // Accumulate plays across rounds so split tricks (a lead-only round followed by a
+ // keepExistingTrickCards completion round) are scored as one 4-card trick.
+ let acc = [];
  for (let r = 0; r <= throughRoundIdx; r++) {
- const plays = rounds[r]?.plays || [];
- if (plays.length < 4) continue;
- const ledSuit = plays[0]?.card?.suit;
- let winning = plays[0];
- for (const p of plays) {
+ const round = rounds[r] || {};
+ const plays = round.plays || [];
+ if (round.keepExistingTrickCards) acc = acc.concat(plays);
+ else acc = plays.slice();
+ if (acc.length < 4) continue;
+ const trick = acc.slice(0, 4);
+ const ledSuit = trick[0]?.card?.suit;
+ let winning = trick[0];
+ for (const p of trick) {
  const c = p.card;
  if (!c) continue;
  const w = winning.card;
@@ -447,6 +454,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  const ws = winning.seat;
  if (ws === "DECLARER" || ws === "DUMMY") declarerSide += 1;
  else if (ws === "LHO" || ws === "RHO") defenderSide += 1;
+ acc = [];
  }
  return { declarerSide, defenderSide };
  }
@@ -4269,7 +4277,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
           id: "p1-25-declarer-trumps",
           type: "SINGLE_NUMBER",
           atRoundIdx: 0,
-          promptText: "How many trumps does declarer have?",
+          promptText: "How many trumps did declarer start with?",
           expectedAnswer: 4,
           autoContinueOnCorrect: true,
         },
@@ -5786,7 +5794,8 @@ return fallbackIdx + 1;
  puzzle.rounds.some((r) => (r?.plays?.length || 0) >= 1);
  const trickTally = useMemo(() => {
  if (!showTrickTally) return null;
- const lastCompleted = playIdx >= 3 ? roundIdx : roundIdx - 1;
+ const curRoundPlays = puzzle?.rounds?.[roundIdx]?.plays?.length || 0;
+ const lastCompleted = curRoundPlays > 0 && playIdx >= curRoundPlays - 1 ? roundIdx : roundIdx - 1;
  if (lastCompleted < 0) return { ns: 0, ew: 0 };
  const { declarerSide, defenderSide } = computeTrickTallyThroughRound(puzzle, lastCompleted);
  const decIsNS = puzzle?.declarerCompass !== "E" && puzzle?.declarerCompass !== "W";
@@ -10978,6 +10987,8 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  )} 
  </div> 
  )} 
+ <div className="ct-tableWithSidebar-inner">
+ <div className="ct-tableWithSidebar-main">
  {showTrickTally && trickTally && (
  <div className="ct-trickTally" aria-label="Contract and tricks">
  <div className="ct-trickTally-box ct-trickTally-box--contract">
@@ -10994,8 +11005,6 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  </div>
  </div>
  )}
- <div className="ct-tableWithSidebar-inner">
- <div className="ct-tableWithSidebar-main"> 
  {!hasStarted && !isBlankDifficulty && !showPaywallOverlay && ( 
  <div className="ct-practiceStartBar"> 
  <button type="button" className="ct-btn ct-btn--practiceStart" onClick={startPuzzle}> 

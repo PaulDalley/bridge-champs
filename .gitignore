@@ -27,6 +27,9 @@ serviceAccount.json
 user-emails-comma.txt
 user-emails-list.txt
 
+# Local data backups / deleted-member dumps (may contain PII — never commit)
+scripts/backup-*.json
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

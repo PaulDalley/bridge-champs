@@ -2610,9 +2610,9 @@ ol.ct-revealRichPoints {
 /* PROBLEM LAYOUT: questions to the RIGHT of table. Large gap so panel never overlaps East hand. */
 .ct-tableWithSidebar-inner {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: flex-start;
-  gap: 56px;
+  gap: clamp(12px, 2.5vw, 28px);
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -2620,7 +2620,7 @@ ol.ct-revealRichPoints {
 
 /* Table + optional pre-table controls (e.g. Start); keeps sidebar as sibling for row layout. */
 .ct-tableWithSidebar-main {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -2763,9 +2763,10 @@ ol.ct-revealRichPoints {
 
 /* Right sidebar: must not overlap East hand — margin keeps panel clear of cards. */
 .ct-explanationSidebar {
-  flex: 0 0 380px;
-  width: 380px;
-  max-width: 100%;
+  flex: 1 1 300px;
+  width: auto;
+  min-width: 248px;
+  max-width: 380px;
   position: sticky;
   top: calc(5rem + 6px);
   /* Tall reveals + bidding box + auction grid can exceed the viewport; scroll inside the rail instead of clipping. */
@@ -2819,9 +2820,10 @@ ol.ct-revealRichPoints {
 
 /* When prompt is in rail (non–full-hands), margin so panel never overlaps cards. */
 .ct-tableWithSidebar .ct-rail.ct-rail--inSidebar {
-  flex: 0 0 380px;
-  width: 380px;
-  max-width: 100%;
+  flex: 1 1 300px;
+  width: auto;
+  min-width: 248px;
+  max-width: 380px;
   position: sticky;
   top: calc(5rem + 6px);
   max-height: calc(100vh - 5rem - 12px - env(safe-area-inset-bottom, 0px));
@@ -3122,15 +3124,15 @@ ol.ct-revealRichPoints {
 /* Fullhands: on common laptop widths, stack sidebar below table to avoid reveal clipping/off-screen hands. */
 @media (max-width: 1400px) {
   .ct-layout--fullhands .ct-tableWithSidebar-inner {
-    flex-wrap: wrap;
-    gap: 14px;
+    flex-wrap: nowrap;
+    gap: clamp(10px, 2vw, 20px);
   }
 
-  /* Force the felt to take the whole row so the sidebar wraps BELOW it (not squeezed beside,
-     which clipped the side hand off-screen at ~1024px). Felt scrolls if still too narrow. */
+  /* Keep the felt shrink-to-fit so the questions panel stays BESIDE it (not below). The felt
+     scrolls internally if a wide 4-hand reveal is still too wide for the row. */
   .ct-layout--fullhands .ct-tableWithSidebar-main {
-    width: 100%;
-    flex: 1 1 100%;
+    width: auto;
+    flex: 0 1 auto;
     max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -3147,7 +3149,7 @@ ol.ct-revealRichPoints {
    */
   .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight,
   .ct-layout--fullhands .ct-tableWithSidebar .ct-table.ct-table--promptOnRight.ct-table--westVisible {
-    width: 100%;
+    width: auto;
     min-width: 0;
   }
 
@@ -3156,11 +3158,10 @@ ol.ct-revealRichPoints {
   }
 
   .ct-layout--fullhands .ct-explanationSidebar {
-    position: static;
-    top: auto;
-    margin-left: 0;
-    flex: 1 1 520px;
-    width: min(520px, 100%);
+    flex: 1 1 300px;
+    min-width: 248px;
+    max-width: 380px;
+    width: auto;
   }
 }
 
@@ -3236,14 +3237,13 @@ ol.ct-revealRichPoints {
   padding: 1.5rem;
 }
 
-/* Trick tally on the felt (NS / EW) — opt-in via promptOptions.showTrickTally */
+/* Trick tally on the felt (NS / EW) — opt-in via promptOptions.showTrickTally.
+   Rendered as a header row at the top of the felt (above the dummy) so it never covers cards. */
 .ct-trickTally {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 6;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
+  margin: 0 0 10px;
   pointer-events: none;
 }
 .ct-trickTally-box {

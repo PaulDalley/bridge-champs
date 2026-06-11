@@ -620,7 +620,7 @@ function Bid219PassRevealRich() {
       </p>
       <section className="ct-revealRichCard ct-revealRichCard--slate">
         <p className="ct-revealRichBody">
-          Pass. Partner can expect 11-14, thats what you&apos;ve got, approximately balanced.
+          Pass. Partner can expect 11-14, that&apos;s what you&apos;ve got, approximately balanced.
         </p>
         <p className="ct-revealRichBody">
           There are some exceptions which I will cover in future weeks on competing - when you are short in the
@@ -7563,7 +7563,7 @@ const BIDDING_PUZZLES = [
                   <p className="ct-revealRichHeading">2♣</p>
                   <p className="ct-revealRichBody">
                     We don't have enough to reverse; unfortunately we can't bid 2
-                    <span className="ct-suitSym ct-suitSym--red">♥</span>. We have to be content just bidding 2♣.
+                    <span className="ct-suitSym ct-suitSym--red">♦</span>. We have to be content just bidding 2♣.
                   </p>
                   <p className="ct-revealRichBody">
                     This shows 5+ clubs, and an unbalanced hand. Some people rebid 1NT in such situations, but it is
@@ -7877,7 +7877,7 @@ const BIDDING_PUZZLES = [
           atRoundIdx: -1,
           continueButtonLabel: "Continue",
           promptText:
-            "This is a very common reseponse, partner bids 2NT, lots of us are familiar with it. It shows a heart stopper.\n\nBut the other responses are less clear to most people.",
+            "This is a very common response, partner bids 2NT, lots of us are familiar with it. It shows a heart stopper.\n\nBut the other responses are less clear to most people.",
           videoUrl: "",
         },
         {
@@ -8063,7 +8063,7 @@ const BIDDING_PUZZLES = [
           noContinue: false,
           continueButtonLabel: "Continue",
           revealText:
-            "Explanation: The correct answer is 3♥. A few important points on respond to 4th suit.\n\nRule: Raising 4th suit is natural it shows 3-4 cards in the suit.\n\nThink of it like this, in this auction the bid of 2♥ was unnatural, it was just an artificial bid aksing you to describe your hand. You have described your hand, by showing hearts. Its really quite simple.\n\nWhat about 2NT as an alternative? You have 3 cards in the suit but you don't have a stopper, so bidding 2NT isn't a good idea. If the opponent's make the first 5 heart tricks, what will you say to your partner?\n\nIt's typically a good idea to just bid 2NT if you had a robust stopper. 3♥ is natural, showing some cards in the suit, but not a robust stopper.",
+            "Explanation: The correct answer is 3♥. A few important points on respond to 4th suit.\n\nRule: Raising 4th suit is natural it shows 3-4 cards in the suit.\n\nThink of it like this, in this auction the bid of 2♥ was unnatural, it was just an artificial bid asking you to describe your hand. You have described your hand, by showing hearts. Its really quite simple.\n\nWhat about 2NT as an alternative? You have 3 cards in the suit but you don't have a stopper, so bidding 2NT isn't a good idea. If the opponent's make the first 5 heart tricks, what will you say to your partner?\n\nIt's typically a good idea to just bid 2NT if you had a robust stopper. 3♥ is natural, showing some cards in the suit, but not a robust stopper.",
           videoUrl: "",
         },
         {
@@ -8308,7 +8308,7 @@ const BIDDING_PUZZLES = [
           noContinue: false,
           continueButtonLabel: "Continue",
           revealText:
-            "Pass. Double here is takeout, it is almost always done with a shortage in hearts. Unfortunatley, despite having a strong hand, we cannot bid here. We have to hope partner comes in with a takeout double, in which case you will teach your opponent a painful lesson..\n\nRule: Don't make a takeout double if you would much prefer to defend.\n\nRather make a certain positive score by defending. How would you feel if you doubled, partner bid 4♠, and that got doubled? You have turned a plus score into a potentially significant minus. And as mentioned, partner may come in with a double, in which case you'll be smiling for days.",
+            "Pass. Double here is takeout, it is almost always done with a shortage in hearts. Unfortunately, despite having a strong hand, we cannot bid here. We have to hope partner comes in with a takeout double, in which case you will teach your opponent a painful lesson..\n\nRule: Don't make a takeout double if you would much prefer to defend.\n\nRather make a certain positive score by defending. How would you feel if you doubled, partner bid 4♠, and that got doubled? You have turned a plus score into a potentially significant minus. And as mentioned, partner may come in with a double, in which case you'll be smiling for days.",
           videoUrl: "",
         },
       ],
@@ -11001,7 +11001,7 @@ const BIDDING_PUZZLES = [
 ];
 
 // Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.
-const BC_HIDDEN_BIDDING_IDS = new Set(["bid2-44", "bid2-45", "bid2-46", "bid2-47", "bid2-48"]);
+const BC_HIDDEN_BIDDING_IDS = new Set([]);
 if (process.env.NODE_ENV === "production") {
   for (let bcI = BIDDING_PUZZLES.length - 1; bcI >= 0; bcI--) {
     if (BIDDING_PUZZLES[bcI] && BC_HIDDEN_BIDDING_IDS.has(BIDDING_PUZZLES[bcI].id)) {

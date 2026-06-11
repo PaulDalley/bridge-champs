@@ -3496,12 +3496,13 @@ const CARDPLAY_PUZZLES_ALL = [
     playEngine: "compassClockwise",
     title: "Over the Shoulder #1 (1)",
     trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
+    contract: "4♠",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
-    auction: "",
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "1♣ P 1♥ P 1♠ P 2♠ 3♥ 4♠ P P P",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -3512,18 +3513,237 @@ const CARDPLAY_PUZZLES_ALL = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the Shoulder #1",
       promptThemeTint: "overShoulderDeclarer",
+      showTrickTally: true,
+      revealOriginalOnDone: true,
       videoUrlBeforeStart: "",
       customPrompts: [
-        { id: "cp2-11-info1", type: "INFO", atRoundIdx: -1, promptText: "", videoUrl: "" },
+        {
+          id: "cp2-11-knockout",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText:
+            'There are a lot of possibilities, what should you do? This expert declarer was guided by by the typical and very good idea - "Knock out the Ace". (See declarer theme: knocking out the ace, for more).',
+          videoUrl: "",
+        },
+        {
+          id: "cp2-11-queen-ruff",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  East has just ruffed with the <TextWithColoredSuits text="Q♠" />.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>Rule: Always assume a card is the players lowest card.</strong>
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This applies for discards and ruffs, there is no reason to think that east is doing
+                  the unnatural thing of using a higher card than necessary. A logical conclusion is
+                  that east has a singleton <TextWithColoredSuits text="Q♠" />.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-11-take-stock",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "continue",
+          continueButtonLabel: "Lets watch the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Lets take stock. So far you have won 1 diamond trick and 2 ruffs. That is 3 tricks.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This looks like a hand that you will have to try to cash winners and get as many
+                  ruffs as possible. An alternative idea of setting up club tricks and drawing trumps
+                  is not plausible, your trump position is too fragile.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Let us assume that east started with a singleton <TextWithColoredSuits text="Q♠" />.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  We can potentially score 4 ruffs in dummy, the <TextWithColoredSuits text="A♣" />,{" "}
+                  <TextWithColoredSuits text="K♦" />. That is another 6 tricks, bringing the total to
+                  9.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  We can then ruff 1 heart in hand with the <TextWithColoredSuits text="K♠" />, that
+                  will be the 10th trick - we ruff high because we expected east to have 6 hearts,
+                  that would give west 2.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-11-exit",
+          type: "INFO",
+          atRoundIdx: 9,
+          continueButtonLabel: "Show me the current position",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  North will now just exit, and then ruff with the{" "}
+                  <TextWithColoredSuits text="9♠" />, which is sitting over the{" "}
+                  <TextWithColoredSuits text="J♠" />.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-11-summary-decisions",
+          type: "INFO",
+          atRoundIdx: 9,
+          continueButtonLabel: "Reveal the original starting position",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This hand was made by a series of sensible decisions
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">1. Knock out the Ace, a good principle</p>
+                <p className="ct-revealRichBody">
+                  2. Count tricks - apart from top tricks, visualise making 4 of dummy&apos;s trumps
+                  - that was the key to seeing 10 tricks. Especially once you realised East had a
+                  singleton trump and couldn&apos;t overruff
+                </p>
+                <p className="ct-revealRichBody">
+                  3. Making sure to ruff high with the <TextWithColoredSuits text="K♠" />, simply
+                  remembering that east would have 6 hearts for the bidding.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
       ],
     },
     shownHands: {
-      north: { S: "A943", H: "97542", D: "J85", C: "10" },
+      north: { S: "A973", H: "97542", D: "J85", C: "10" },
       east: { S: "Q", H: "AKQ1086", D: "93", C: "J732" },
       south: { S: "K1062", H: "", D: "KQ76", C: "AQ986" },
-      west: { S: "J875", H: "J3", D: "A1042", C: "K54" },
+      west: { S: "J854", H: "J3", D: "A1042", C: "K54" },
     },
-    rounds: [],
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♥J; South ruffs ♠2)",
+        plays: [
+          { seat: "W", card: { rank: "J", suit: "H" } },
+          { seat: "N", card: { rank: "2", suit: "H" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+          { seat: "S", card: { rank: "2", suit: "S" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 2 (South leads ♦Q — knocking out the Ace; South wins)",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "D" } },
+          { seat: "W", card: { rank: "2", suit: "D" } },
+          { seat: "N", card: { rank: "5", suit: "D" } },
+          { seat: "E", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 3 (South leads ♦6; West takes the ♦A)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "D" } },
+          { seat: "W", card: { rank: "A", suit: "D" } },
+          { seat: "N", card: { rank: "8", suit: "D" } },
+          { seat: "E", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4 (West leads ♦4; East ruffs ♠Q)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "D" } },
+          { seat: "N", card: { rank: "J", suit: "D" } },
+          { seat: "E", card: { rank: "Q", suit: "S" }, showOut: true },
+          { seat: "S", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (East cashes ♥A; South ruffs ♠6)",
+        plays: [
+          { seat: "E", card: { rank: "A", suit: "H" } },
+          { seat: "S", card: { rank: "6", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South cashes ♦K)",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "D" } },
+          { seat: "W", card: { rank: "T", suit: "D" } },
+          { seat: "N", card: { rank: "5", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (South cashes ♣A)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "4", suit: "C" } },
+          { seat: "N", card: { rank: "T", suit: "C" } },
+          { seat: "E", card: { rank: "3", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 8 (South leads ♣6; North ruffs ♠3)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "C" } },
+          { seat: "W", card: { rank: "5", suit: "C" } },
+          { seat: "N", card: { rank: "3", suit: "S" }, showOut: true },
+          { seat: "E", card: { rank: "7", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 9 (North leads ♥9; South ruffs ♠K)",
+        plays: [
+          { seat: "N", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "Q", suit: "H" } },
+          { seat: "S", card: { rank: "K", suit: "S" }, showOut: true },
+          { seat: "W", card: { rank: "K", suit: "C" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 10 (South leads ♣8; West ruffs ♠4, North over-ruffs ♠7)",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "C" } },
+          { seat: "W", card: { rank: "4", suit: "S" }, showOut: true },
+          { seat: "N", card: { rank: "7", suit: "S" }, showOut: true },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+        ],
+      },
+    ],
   },
   {
     id: "cp2-12",
@@ -3531,13 +3751,14 @@ const CARDPLAY_PUZZLES_ALL = [
     seatMode: "compass",
     playEngine: "compassClockwise",
     title: "Over the Shoulder #1 (2)",
-    trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
+    trumpSuit: "H",
+    contract: "2♥",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
-    auction: "",
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "1♥ X 2♥ P P P",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -3550,14 +3771,250 @@ const CARDPLAY_PUZZLES_ALL = [
       promptThemeTint: "overShoulderDeclarer",
       videoUrlBeforeStart: "",
       customPrompts: [
-        { id: "cp2-12-info1", type: "INFO", atRoundIdx: -1, promptText: "", videoUrl: "" },
+        {
+          id: "cp2-12-strategy",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "We are in 2♥. Is this the type of dummy we should go for setting up our long suit or for ruffs in dummy?",
+          options: [
+            { id: "ruffs", label: "Ruffs in dummy" },
+            { id: "setup", label: "Set up Spade suit" },
+          ],
+          expectedChoice: "ruffs",
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Dummy needs to typically have opening values to be able to successfully set up a
+                  side suit. With a weak dummy (say 10 or less points as a good guide), normally we
+                  want to go for ruffs. See article{" "}
+                  <a
+                    href="https://bridgechampions.com/declarer/articles/pattern-recognition-1-ruffing-strategy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Pattern recognition 1: ruffing strategy
+                  </a>
+                  .
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  There is no reason to duck, so don&apos;t duck. Lets win the{" "}
+                  <TextWithColoredSuits text="A♦" /> and play a club immediately. We are rushing to
+                  do this because otherwise the opponents will play trumps.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-12-count",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "Watch the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">What do we do here? Lets count tricks.</p>
+                <p className="ct-revealRichBody">
+                  The best way to do this is think about what happens if we win the{" "}
+                  <TextWithColoredSuits text="A♥" /> (the Ace of trumps).
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  &quot;If I win the <TextWithColoredSuits text="A♥" />, I can ruff a club, return to
+                  hand with the <TextWithColoredSuits text="A♠" /> and ruff another club. Total trick
+                  count would be <TextWithColoredSuits text="A♠" />, <TextWithColoredSuits text="A♦" />
+                  , 2 club ruffs which is 4. I then expect/hope to make 4 trumps (I will try draw them
+                  by playing the <TextWithColoredSuits text="Q♥" /> and{" "}
+                  <TextWithColoredSuits text="J♥" /> when I get a chance).&quot;
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  If, however, I try take the heart finesse now and it loses, another heart back will
+                  limit me to 1 club ruff. It will be the same tricks as before but 1 less ruff, which
+                  totals 7, and 1 off.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Overall - lets win the <TextWithColoredSuits text="A♥" /> and go for ruffs.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-12-skills",
+          type: "INFO",
+          atRoundIdx: 12,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">Lets just check our skills for following trumps.</p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-12-trumps-start",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 12,
+          promptText:
+            "How many trumps did the opponents start with at the beginning of the hand?",
+          expectedAnswer: 5,
+        },
+        {
+          id: "cp2-12-trumps-left",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 12,
+          promptText: "How many do they have left?",
+          expectedAnswer: 1,
+        },
+        {
+          id: "cp2-12-trumps-explain",
+          type: "INFO",
+          atRoundIdx: 12,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  We have drawn 2 rounds, with the <TextWithColoredSuits text="A♥" /> and the{" "}
+                  <TextWithColoredSuits text="Q♥" />, both opponents followed, so that is 4 trumps of
+                  theirs gone. Leaving 1 left. The last two tricks will be ours.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
       ],
     },
     shownHands: {
-      north: { S: "", H: "", D: "", C: "" },
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "Q10942", H: "1073", D: "A972", C: "8" },
+      east: { S: "J83", H: "865", D: "KQ10", C: "K532" },
+      south: { S: "A5", H: "AQJ42", D: "83", C: "10974" },
+      west: { S: "K76", H: "K9", D: "J654", C: "AQJ6" },
     },
-    rounds: [],
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♦4)",
+        plays: [{ seat: "W", card: { rank: "4", suit: "D" } }],
+      },
+      {
+        label: "Trick 1 completed (dummy wins the ♦A)",
+        keepExistingTrickCards: true,
+        plays: [
+          { seat: "N", card: { rank: "A", suit: "D" } },
+          { seat: "E", card: { rank: "T", suit: "D" } },
+          { seat: "S", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (dummy leads ♣8; East wins the ♣K)",
+        plays: [
+          { seat: "N", card: { rank: "8", suit: "C" } },
+          { seat: "E", card: { rank: "K", suit: "C" } },
+          { seat: "S", card: { rank: "4", suit: "C" } },
+          { seat: "W", card: { rank: "6", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (East leads a trump ♥5)",
+        plays: [{ seat: "E", card: { rank: "5", suit: "H" } }],
+      },
+      {
+        label: "Trick 3 completed (South wins the ♥A)",
+        keepExistingTrickCards: true,
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+          { seat: "N", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (South leads ♣7; dummy ruffs with ♥7)",
+        plays: [
+          { seat: "S", card: { rank: "7", suit: "C" } },
+          { seat: "W", card: { rank: "J", suit: "C" } },
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 5 (dummy leads ♠2; South wins the ♠A — back to hand)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South leads ♣9; dummy ruffs with ♥10)",
+        plays: [
+          { seat: "S", card: { rank: "9", suit: "C" } },
+          { seat: "W", card: { rank: "Q", suit: "C" } },
+          { seat: "N", card: { rank: "T", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 7 (dummy leads ♠Q; West wins the ♠K)",
+        plays: [
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "5", suit: "S" } },
+          { seat: "W", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 8 (West cashes ♣A)",
+        plays: [
+          { seat: "W", card: { rank: "A", suit: "C" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "C" } },
+          { seat: "S", card: { rank: "T", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 9 (West leads ♦6; East wins the ♦Q)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "D" } },
+          { seat: "N", card: { rank: "7", suit: "D" } },
+          { seat: "E", card: { rank: "Q", suit: "D" } },
+          { seat: "S", card: { rank: "8", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 10 (East leads ♦K; South ruffs with ♥2)",
+        plays: [
+          { seat: "E", card: { rank: "K", suit: "D" } },
+          { seat: "S", card: { rank: "2", suit: "H" } },
+          { seat: "W", card: { rank: "5", suit: "D" } },
+          { seat: "N", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 11 (South leads ♥Q; West wins the ♥K)",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "H" } },
+          { seat: "W", card: { rank: "K", suit: "H" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+        ],
+      },
+    ],
   },
   {
     id: "cp2-13",
@@ -3565,13 +4022,14 @@ const CARDPLAY_PUZZLES_ALL = [
     seatMode: "compass",
     playEngine: "compassClockwise",
     title: "Over the Shoulder #1 (3)",
-    trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
+    trumpSuit: "NT",
+    contract: "1NT",
+    dealerCompass: "E",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
-    auction: "",
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "1♦ 1NT P P P",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -3584,14 +4042,206 @@ const CARDPLAY_PUZZLES_ALL = [
       promptThemeTint: "overShoulderDeclarer",
       videoUrlBeforeStart: "",
       customPrompts: [
-        { id: "cp2-13-info1", type: "INFO", atRoundIdx: -1, promptText: "", videoUrl: "" },
+        {
+          id: "cp2-13-duck",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  One indication that ducking might be a good idea - you are happy if the opponents
+                  switch to any of the other suits. If, however, you really didn&apos;t want the
+                  opponents to switch (you had a weaker suit somewhere else), you should take the
+                  trick immediately before they can switch.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-13-count",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Surprising to see a switch, but we are okay with that, it has setup another spade
+                  trick at least. Lets count our tricks, assuming the{" "}
+                  <TextWithColoredSuits text="K♦" /> is onside.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="Our absolute top tricks are: 1♠, 2♥, 2♦ - that totals 5. There are lots of possibilities for more tricks - the club suit, the spade suit (could break 3-3 for example. The heart suit could break or you can actually play for west to just hold one of the honors (Can you see how to do that? - You'll see soon)." />
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">Declarer decided to go after spades to begin with.</p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-13-dist",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 4,
+          fixed: { S: 4, N: 3 },
+          expectedDistribution: { S: 4, N: 3, W: 2, E: 4 },
+          promptText: "The original spade distribution was?",
+        },
+        {
+          id: "cp2-13-dist-explain",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="The spades have not broken, so you only have 2♠ tricks, 2♥, 2♦ which totals 6." />
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="IF we try make a club trick, maybe the opponents can setup 3♦ tricks before we can setup our club - that would give them 2♣, 3♦, 2♠, which is 7 tricks for them, and 1 down for us." />
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="However, IF we try setup hearts and it works, the opponents only have 2♠ tricks, 1♥, 2♣ - which only totals 5 tricks at the point we have 2♠, 3♥, 2♦ = 7. In other words, we will make 7 tricks in time!" />
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Note: It is not always so easy to do but this is how counting winners and losers
+                  works, exposure to the process will help you get there.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-13-done",
+          type: "INFO",
+          atRoundIdx: 9,
+          continueButtonLabel: "Reveal the full hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">You have made 7 tricks well done</p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
       ],
     },
     shownHands: {
-      north: { S: "", H: "", D: "", C: "" },
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "872", H: "K1095", D: "973", C: "QJ9" },
+      east: { S: "KQ94", H: "J3", D: "K842", C: "A85" },
+      south: { S: "AJ103", H: "A74", D: "AQ6", C: "1076" },
+      west: { S: "65", H: "Q862", D: "J105", C: "K432" },
     },
-    rounds: [],
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♦J; South ducks)",
+        plays: [
+          { seat: "W", card: { rank: "J", suit: "D" } },
+          { seat: "N", card: { rank: "3", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "6", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (West switches ♠6; South wins the ♠A)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "8", suit: "S" } },
+          { seat: "E", card: { rank: "Q", suit: "S" } },
+          { seat: "S", card: { rank: "A", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (South leads ♠J; East wins the ♠K)",
+        plays: [
+          { seat: "S", card: { rank: "J", suit: "S" } },
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "S" } },
+          { seat: "E", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (East leads ♦4; South wins the ♦Q — King onside)",
+        plays: [
+          { seat: "E", card: { rank: "4", suit: "D" } },
+          { seat: "S", card: { rank: "Q", suit: "D" } },
+          { seat: "W", card: { rank: "5", suit: "D" } },
+          { seat: "N", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (South cashes ♠10; West shows out)",
+        plays: [
+          { seat: "S", card: { rank: "T", suit: "S" } },
+          { seat: "W", card: { rank: "2", suit: "C" } },
+          { seat: "N", card: { rank: "7", suit: "S" } },
+          { seat: "E", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South leads ♥4; dummy's ♥10 loses to East's ♥J)",
+        plays: [
+          { seat: "S", card: { rank: "4", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "T", suit: "H" } },
+          { seat: "E", card: { rank: "J", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (East cashes ♦K; South wins the ♦A)",
+        plays: [
+          { seat: "E", card: { rank: "K", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "T", suit: "D" } },
+          { seat: "N", card: { rank: "9", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 8 (South cashes ♥A)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "6", suit: "H" } },
+          { seat: "N", card: { rank: "5", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 9 (South leads ♥7; dummy's ♥9 wins, West keeps the ♥Q)",
+        plays: [
+          { seat: "S", card: { rank: "7", suit: "H" } },
+          { seat: "W", card: { rank: "8", suit: "H" } },
+          { seat: "N", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "8", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 10 (dummy's ♥K captures West's ♥Q)",
+        plays: [
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "C" } },
+          { seat: "S", card: { rank: "6", suit: "C" } },
+          { seat: "W", card: { rank: "Q", suit: "H" } },
+        ],
+      },
+    ],
   },
   {
     id: "cp2-14",
@@ -3599,9 +4249,9 @@ const CARDPLAY_PUZZLES_ALL = [
     seatMode: "compass",
     playEngine: "compassClockwise",
     title: "Over the Shoulder #1 (4)",
-    trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
+    trumpSuit: "H",
+    contract: "6♥",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
@@ -3618,14 +4268,265 @@ const CARDPLAY_PUZZLES_ALL = [
       promptThemeTint: "overShoulderDeclarer",
       videoUrlBeforeStart: "",
       customPrompts: [
-        { id: "cp2-14-info1", type: "INFO", atRoundIdx: -1, promptText: "", videoUrl: "" },
+        {
+          id: "cp2-14-count",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          spotlightSeat: "south",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  In suit contracts it is a good idea to look at the long trump hand and count losers
+                  (see counting problems Theme: counting Losers).
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="We potentially have 1♠ loser, no ♥ losers, no ♣, and 2♦. That totals 3." />
+                </p>
+                <p className="ct-revealRichBody">
+                  We can easily ruff one of diamond losers, bringing the total loser count down to 2.
+                  We also have the
+                  simple spade finesse as an option, anything else?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-plan",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "Continue with the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  As mentioned in previous problems on &quot;see the 4-3&quot;, the 4-3 fit is often a
+                  source of extra tricks. Here the diamonds are a 4-3, if they setup, we can pitch
+                  dummy&apos;s spade on the 4th diamond, which will take care of our spade loser.
+                </p>
+                <p className="ct-revealRichBody">
+                  There is one more small but significant thing to the hand, that could make the
+                  difference between making the slam or not.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>
+                    Rule: It is good technique to eliminate suits if you can, before losing the lead.
+                    Sometimes you can afford to do that when you have lots of trumps
+                  </strong>
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Our card sense should be telling us to eliminate clubs, it is the type of thing
+                  that might be good, and won&apos;t be bad.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-entries",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This declarer used her entries productively and immediately played a club - always
+                  do from one hand what you cant do from the other hand - here it was convenient to
+                  ruff a club.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-trumps",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 2,
+          fixed: { S: 6, N: 5 },
+          expectedDistribution: { S: 6, N: 5, W: 1, E: 1 },
+          promptText: "What was the original trump distribution?",
+        },
+        {
+          id: "cp2-14-trumps-msg",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Well counted — the trumps were 1-1, so both opponents are now out of trumps.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-diamonds",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Declarer is now about to try diamonds, but notice a great play coming up - can you
+                  spot what might happen?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-duck",
+          type: "PLAY_DECISION",
+          atRoundIdx: 5,
+          promptText: "Do you win the Ace or duck?",
+          options: [
+            { id: "win", label: "Win the Ace" },
+            { id: "duck", label: "Duck it" },
+          ],
+          expectedChoice: "duck",
+          continueButtonLabel: "Reveal the current position",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Duck!! what is the rush to see if the diamonds break? If they don&apos;t you will
+                  take the spade finesse. But what if west has no more diamonds to return? Forced to
+                  return a spade, or a club - but remember you eliminated clubs!
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-endplay",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  West is stuck on lead now, and even though diamonds didn&apos;t break, and spade
+                  finesse was offside, you managed to find an endplay.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-14-summary",
+          type: "INFO",
+          atRoundIdx: 6,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichHeading">Summary</p>
+                <p className="ct-revealRichBody">
+                  You don&apos;t need great foresight to plan this play, just a bit of good technique -
+                  eliminating clubs because it can&apos;t hurt, and often is &quot;just a good
+                  idea&quot;.
+                </p>
+                <p className="ct-revealRichBody">
+                  In this position, whatever west returns, will either give you a spade trick or a
+                  ruff and discard to throw your spade away.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
       ],
     },
     shownHands: {
-      north: { S: "", H: "", D: "", C: "" },
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "72", H: "KJ764", D: "A84", C: "A53" },
+      east: { S: "1054", H: "9", D: "10965", C: "KQ1087" },
+      south: { S: "AQ", H: "AQ10853", D: "K732", C: "2" },
+      west: { S: "KJ9863", H: "2", D: "QJ", C: "J964" },
     },
-    rounds: [],
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♣4; dummy wins the ♣A)",
+        plays: [
+          { seat: "W", card: { rank: "4", suit: "C" } },
+          { seat: "N", card: { rank: "A", suit: "C" } },
+          { seat: "E", card: { rank: "7", suit: "C" } },
+          { seat: "S", card: { rank: "2", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (dummy leads ♣3; South ruffs ♥10)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "C" } },
+          { seat: "E", card: { rank: "8", suit: "C" } },
+          { seat: "S", card: { rank: "T", suit: "H" } },
+          { seat: "W", card: { rank: "6", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (South draws trumps ♥3; dummy's ♥K wins — both opponents show out)",
+        plays: [
+          { seat: "S", card: { rank: "3", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "9", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (dummy leads ♣5; South ruffs ♥8 — clubs eliminated)",
+        plays: [
+          { seat: "N", card: { rank: "5", suit: "C" } },
+          { seat: "E", card: { rank: "K", suit: "C" } },
+          { seat: "S", card: { rank: "8", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 5 (South leads ♦K)",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "D" } },
+          { seat: "W", card: { rank: "J", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "D" } },
+          { seat: "E", card: { rank: "5", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South leads ♦2; West plays ♦Q)",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "D" } },
+          { seat: "W", card: { rank: "Q", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 completed (dummy ducks ♦8; West wins ♦Q — endplayed)",
+        keepExistingTrickCards: true,
+        plays: [
+          { seat: "N", card: { rank: "8", suit: "D" } },
+          { seat: "E", card: { rank: "6", suit: "D" } },
+        ],
+      },
+    ],
   },
   {
     id: "cp2-15",
@@ -3634,8 +4535,8 @@ const CARDPLAY_PUZZLES_ALL = [
     playEngine: "compassClockwise",
     title: "Over the Shoulder #1 (5)",
     trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
+    contract: "6♠",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
@@ -3652,19 +4553,216 @@ const CARDPLAY_PUZZLES_ALL = [
       promptThemeTint: "overShoulderDeclarer",
       videoUrlBeforeStart: "",
       customPrompts: [
-        { id: "cp2-15-info1", type: "INFO", atRoundIdx: -1, promptText: "", videoUrl: "" },
+        {
+          id: "cp2-15-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Watch the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This is an amazing hand where the expert declarer found an almost certain way to
+                  make this contract, focused on the idea of &quot;set up long suits&quot;. He was
+                  aware that the quality 6 card club suit was his reliable ticket to making this
+                  contract.
+                </p>
+                <p className="ct-revealRichBody">
+                  Lets watch what he did and follow the play, keeping track of the suits.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-15-duck",
+          type: "INFO",
+          atRoundIdx: 1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  A stunning strategy, ducking a club trick despite the suit looking so good.
+                  Declarer&apos;s basic logic - &quot;I have <TextWithColoredSuits text="5♠ tricks, 1♥, and 2♦" /> which
+                  totals 8. I want to make a humble 4 tricks in clubs. I&apos;ll duck one and then ruff
+                  one&quot;.
+                </p>
+                <p className="ct-revealRichBody">
+                  Do you see what that will do? At the expense of a single ruff, the suit will be
+                  setup despite a 4-2 break.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-15-clubbreak",
+          type: "DISTRIBUTION_GUESS",
+          suit: "C",
+          atRoundIdx: 3,
+          fixed: { N: 6, S: 1, W: 2 },
+          expectedDistribution: { N: 6, S: 1, W: 2, E: 4 },
+          promptText:
+            "What is the most extreme break the clubs can be now that both players have followed twice?",
+        },
+        {
+          id: "cp2-15-clubbreak-msg",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The clubs are 4-2 at worst. Try visualise that the{" "}
+                  <TextWithColoredSuits text="A♣" /> and <TextWithColoredSuits text="K♣" /> will take
+                  care of the remaining 2 clubs, all we need to do is now draw trumps and cross to
+                  dummy in diamonds.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-15-spadebreak",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 4,
+          fixed: { S: 5, N: 2 },
+          expectedDistribution: { S: 5, N: 2, W: 4, E: 2 },
+          promptText: "What was the spade break?",
+        },
+        {
+          id: "cp2-15-spadebreak-msg",
+          type: "INFO",
+          atRoundIdx: 4,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  West started with 4, east started with 2. You&apos;ve drawn 3 rounds, lets draw
+                  wests final trump.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-15-trumpsdrawn",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "Reveal the hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Trumps are drawn, you&apos;ve got 12 tricks with the hand being fully in control
+                  despite each black suit breaking 4-2.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-15-final",
+          type: "INFO",
+          atRoundIdx: 5,
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Ducking a club is a nice touch, but the key point is
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>
+                    Rule: When we are focused on setting up long suits, creative possibilities will
+                    come up.
+                  </strong>
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
       ],
     },
     shownHands: {
-      north: { S: "", H: "", D: "", C: "" },
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "K5", H: "92", D: "K43", C: "AK8432" },
+      east: { S: "83", H: "J765", D: "876", C: "QJ109" },
+      south: { S: "AQJ42", H: "AQ43", D: "AJ5", C: "6" },
+      west: { S: "10976", H: "K108", D: "Q1092", C: "75" },
     },
-    rounds: [],
+    rounds: [
+      {
+        label: "Trick 1 (West leads a trump ♠6; South wins ♠Q)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "5", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "Q", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (South leads ♣6; dummy DUCKS ♣2; East wins ♣9)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "C" } },
+          { seat: "W", card: { rank: "5", suit: "C" } },
+          { seat: "N", card: { rank: "2", suit: "C" } },
+          { seat: "E", card: { rank: "9", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 3 (East leads ♠8; dummy's ♠K wins)",
+        plays: [
+          { seat: "E", card: { rank: "8", suit: "S" } },
+          { seat: "S", card: { rank: "2", suit: "S" } },
+          { seat: "W", card: { rank: "7", suit: "S" } },
+          { seat: "N", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 4 (dummy leads ♣3; South ruffs ♠4 — clubs set up)",
+        plays: [
+          { seat: "N", card: { rank: "3", suit: "C" } },
+          { seat: "E", card: { rank: "T", suit: "C" } },
+          { seat: "S", card: { rank: "4", suit: "S" } },
+          { seat: "W", card: { rank: "7", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 5 (South cashes ♠A; both opponents show out — 4-2)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "S" } },
+          { seat: "W", card: { rank: "9", suit: "S" } },
+          { seat: "N", card: { rank: "3", suit: "D" } },
+          { seat: "E", card: { rank: "6", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (South draws West's last trump ♠J)",
+        plays: [
+          { seat: "S", card: { rank: "J", suit: "S" } },
+          { seat: "W", card: { rank: "T", suit: "S" } },
+          { seat: "N", card: { rank: "2", suit: "H" } },
+          { seat: "E", card: { rank: "7", suit: "D" } },
+        ],
+      },
+    ],
   },
 ];
 
 // Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.
-const BC_HIDDEN_DECLARER_IDS = new Set(["cp2-11", "cp2-12", "cp2-13", "cp2-14", "cp2-15"]);
+const BC_HIDDEN_DECLARER_IDS = new Set([]);
 export const CARDPLAY_PUZZLES =
   process.env.NODE_ENV === "production"
     ? CARDPLAY_PUZZLES_ALL.filter((p) => !(p && BC_HIDDEN_DECLARER_IDS.has(p.id)))
