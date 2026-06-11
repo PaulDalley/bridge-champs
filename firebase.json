@@ -91,6 +91,116 @@
     ],
     "redirects": [
       {
+        "source": "/beginner/articles/bidding/1nt-opening-beginners-bid-promises",
+        "destination": "/beginner/articles/bidding/opening-1nt-beginners-open-not",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/bridge-bidding-basics-opening-bids",
+        "destination": "/beginner/articles/bidding/opening-bids-beginners-balanced-hands",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/bridge-bidding-responding-partners-opening",
+        "destination": "/beginner/articles/bidding/responders-first-bid-beginners-raise-2",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/openers-rebid-beginners-rebid-1nt",
+        "destination": "/beginner/articles/bidding/openers-rebid-beginners-choosing-suit",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/opening-bids-beginners-5-card",
+        "destination": "/beginner/articles/bidding/opening-bids-beginners-balanced-hands",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding/responders-first-bid-beginners-raise",
+        "destination": "/beginner/articles/bidding/responders-first-bid-beginners-raise-2",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/finesse-double-finesse-create-extra",
+        "destination": "/beginner/articles/declarer/finesses-beginners-single-double-leading",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer/improve-bridge-practical-roadmap-actually",
+        "destination": "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/improve-bridge-practical-roadmap-actually",
+        "destination": "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/lead-towards-weakness-beginners-target",
+        "destination": "/beginner/articles/defence/suit-switch-play-towards-weakness",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/opening-leads-beginners-start-top",
+        "destination": "/beginner/articles/defence/opening-leads-beginners-top-sequence",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/second-hand-low-beginners-exceptions",
+        "destination": "/beginner/articles/defence/second-hand-low-beginners-default",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence/third-hand-high-beginners-win",
+        "destination": "/beginner/articles/defence/third-hand-high-beginners-play",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/after-partner-opens-1nt-pass",
+        "destination": "/bidding/advanced/responding-1nt-balanced-hands-pass",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/bidding-conversation-share-information-efficiently",
+        "destination": "/bidding/advanced/bidding-basics-build-clear-auction",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/non-vulnerable-preempting-apply-maximum",
+        "destination": "/bidding/advanced/preempting-vulnerability-risk-reward-across",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/responding-takeout-double-keep-practical",
+        "destination": "/bidding/advanced/takeout-doubles-bridge-complete-guide",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/stayman-convention-find-4-4",
+        "destination": "/bidding/advanced/find-major-fit-after-1nt",
+        "type": 301
+      },
+      {
+        "source": "/bidding/advanced/transfers-must-have-tool-nt",
+        "destination": "/bidding/advanced/1nt-transfers-stayman-use-each",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/count-potential-losers-spot-hidden",
+        "destination": "/declarer/articles/counting-losers-plan-hand-spot",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/count-trumps-accurately-control-contract",
+        "destination": "/declarer/articles/count-winners-trumps-avoid-missed",
+        "type": 301
+      },
+      {
+        "source": "/declarer/articles/draw-trumps-purpose-avoid-autopilot",
+        "destination": "/declarer/articles/drawing-trumps-make-right-plan",
+        "type": 301
+      },
+      {
         "source": "/article/KuGcYGJmIm6Ei02VOGVo",
         "destination": "/bidding/advanced/opening-2c-avoid-whenever-possible",
         "type": 301
