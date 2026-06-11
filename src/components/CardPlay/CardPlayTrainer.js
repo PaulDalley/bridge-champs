@@ -683,7 +683,7 @@ const CARDPLAY_PUZZLES_ALL = [
           expectedChoice: "clubs",
           noContinue: true,
           revealText:
-            "It is correct to play Clubs. Bridge is a game that changes from hand to hand. The diamond suit is an excellent candidate for setting up tricks without creating extra losers.\n\nUnfortunately we do not have the luxury of \"time\". If we lose the lead, the opponents will cash 4 hearts (as well as the Ace of diamonds) and we will go 1 down.\n\nSo cash the ♣ King and then take the club finesse — hope it works. If it doesn't, at least you gave yourself a chance!\n\nYou plan to make 3 spade tricks, 1 heart, 5 clubs for a total of 9 tricks.",
+            "It is correct to play Clubs. Bridge is a game that changes from hand to hand. The diamond suit is an excellent candidate for setting up tricks without creating extra losers.\n\nUnfortunately we do not have the luxury of \"time\". If we lose the lead, the opponents will cash 4 hearts (as well as the A♦) and we will go 1 down.\n\nSo cash the ♣ King and then take the club finesse — hope it works. If it doesn't, at least you gave yourself a chance!\n\nYou plan to make 3 spade tricks, 1 heart, 5 clubs for a total of 9 tricks.",
           videoUrl: "",
         },
       ],
@@ -2358,7 +2358,7 @@ const CARDPLAY_PUZZLES_ALL = [
           id: "cp2-3-trick2",
           type: "PLAY_DECISION",
           atRoundIdx: 0,
-          promptText: "Lead is queen of diamonds, won by the ace. What do you play at trick 2?",
+          promptText: "Lead is Q♦, won by the ace. What do you play at trick 2?",
           options: [
             { id: "spade", label: "Spade" },
             { id: "heart", label: "Heart" },
@@ -2553,7 +2553,7 @@ const CARDPLAY_PUZZLES_ALL = [
           id: "cp2-6-trick2",
           type: "PLAY_DECISION",
           atRoundIdx: 0,
-          promptText: "We have just won the Ace of diamonds. What should we do now?",
+          promptText: "We have just won the A♦. What should we do now?",
           options: [
             { id: "draw_trump_or_two", label: "1. Draw a trump or 2" },
             { id: "play_hearts", label: "2. Play hearts" },
@@ -2837,7 +2837,7 @@ const CARDPLAY_PUZZLES_ALL = [
           ],
           expectedChoice: "play_hearts",
           revealText:
-            "We keep the focus from the start of the hand till the end of the hand. We want to set up the long suit.\n\nAs for trumps, that is our entry suit. We are in the correct hand. We may want to use our queen of spades later to jump back to our hand.",
+            "We keep the focus from the start of the hand till the end of the hand. We want to set up the long suit.\n\nAs for trumps, that is our entry suit. We are in the correct hand. We may want to use our Q♠ later to jump back to our hand.",
         },
         {
           id: "cp2-7-ruffing-choice",
@@ -2860,14 +2860,14 @@ const CARDPLAY_PUZZLES_ALL = [
           type: "INFO",
           atRoundIdx: 6,
           promptText:
-            "As you can see, the Queen of spades is once again our entry suit. We want to get back to our hand and enjoy our heart winners.",
+            "As you can see, the Q♠ is once again our entry suit. We want to get back to our hand and enjoy our heart winners.",
         },
         {
           id: "cp2-7-final-message",
           type: "INFO",
           atRoundIdx: 7,
           promptText:
-            "We will make 10 tricks now.\n\nWe will just play our heart and club winners.\n\nWe will lose a diamond, and the J of spades. That, along with the Ace of clubs will be 3 losers in total.",
+            "We will make 10 tricks now.\n\nWe will just play our heart and club winners.\n\nWe will lose a diamond, and the J♠. That, along with the A♣ will be 3 losers in total.",
         },
       ],
     },

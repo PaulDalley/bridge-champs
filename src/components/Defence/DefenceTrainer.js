@@ -1,5 +1,5 @@
 import React from "react";
-import CountingTrumpsTrainer from "../Counting/CountingTrumpsTrainer";
+import CountingTrumpsTrainer, { TextWithColoredSuits } from "../Counting/CountingTrumpsTrainer";
 
 const DEFENCE_PUZZLES = [
   {
@@ -1441,11 +1441,11 @@ const DEFENCE_PUZZLES = [
             <div className="ct-df14-note ct-df14-note--victory">
               <p className="ct-df14-noteTitle">Diamond</p>
               <p className="ct-df14-noteBody">
-                A diamond is a great return. Cashing the Queen of diamonds and playing another diamond forces declarer
+                A diamond is a great return. Cashing the <TextWithColoredSuits text="Q♦" /> and playing another diamond forces declarer
                 to ruff (or lose 4 tricks).
               </p>
               <p className="ct-df14-noteBody">
-                Declarer will be forced to ruff again soon. When North wins the King of spades, North plays the fatal
+                Declarer will be forced to ruff again soon. When North wins the <TextWithColoredSuits text="K♠" />, North plays the fatal
                 4th diamond for a second ruff, leaving declarer with fewer trumps than North.
               </p>
             </div>
@@ -2429,7 +2429,7 @@ const DEFENCE_PUZZLES = [
           type: "INFO",
           atRoundIdx: 8,
           promptText:
-            "Declarer took a finesse into the Jack, which was the setting trick. If, however, you had won the Ace, declarer would've had no choice but to just bang down the King of diamonds when he got in, as there was no entry to dummy to take the losing finesse! (declarer of course cannot see all the cards, and was hoping it was a winning finesse, which is more likely than hoping the Jack will fall).",
+            "Declarer took a finesse into the Jack, which was the setting trick. If, however, you had won the Ace, declarer would've had no choice but to just bang down the K♦ when he got in, as there was no entry to dummy to take the losing finesse! (declarer of course cannot see all the cards, and was hoping it was a winning finesse, which is more likely than hoping the Jack will fall).",
         },
       ],
     },
@@ -2590,7 +2590,7 @@ const DEFENCE_PUZZLES = [
                   <p className="ct-revealRichBody ct-deadlyDuckRuleBody">This applies to the trump suit as well.</p>
                   <p className="ct-revealRichBody ct-deadlyDuckRuleBody">
                     Declarer now in dummy may try a low spade, losing to partner's Jack. It really is a guess for
-                    declarer: they could try the King of spades, but that would lose if you ducked with Ax (a
+                    declarer: they could try the <TextWithColoredSuits text="K♠" />, but that would lose if you ducked with Ax (a
                     doubleton), which is equally as reasonable.
                   </p>
                 </div>
@@ -3037,7 +3037,7 @@ const DEFENCE_PUZZLES = [
               <div className="ct-revealRich">
                 <div className="ct-revealRichCard ct-revealRichCard--amber">
                   <p className="ct-revealRichBody">
-                    We break the previously set rules by leading the King of clubs, why?
+                    We break the previously set rules by leading the <TextWithColoredSuits text="K♣" />, why?
                   </p>
                   <p className="ct-revealRichBody">
                     Bridge is a dynamic game, and this is an exception that comes up occasionally, a minority of
@@ -3189,7 +3189,7 @@ const DEFENCE_PUZZLES = [
   {
     id: "df3-1",
     difficulty: 3,
-    title: "4♥: you win the King of hearts — which suit now?",
+    title: "4♥: you win the K♥ — which suit now?",
     trumpSuit: "H",
     contract: "4♥",
     dealerCompass: "W",
@@ -3208,7 +3208,7 @@ const DEFENCE_PUZZLES = [
           id: "df3-1-whatSuit",
           type: "PLAY_DECISION",
           atRoundIdx: 2,
-          promptText: "You win the King of hearts. What suit should you play now?",
+          promptText: "You win the K♥. What suit should you play now?",
           options: [
             { id: "spades", label: "Spades" },
             { id: "hearts", label: "Hearts" },

@@ -1140,7 +1140,7 @@ function Bid226SlamRevealRich() {
           <li>
             <p className="ct-revealRichFactorsList-body">
               <span aria-hidden="true">✓ </span>
-              Sharp side suit cards (Ace of clubs).
+              Sharp side suit cards (<TextWithColoredSuits text="A♣" />).
             </p>
           </li>
           <li>
@@ -1166,7 +1166,7 @@ function Bid226ClosingRich() {
     <div className="ct-revealRich">
       <section className="ct-revealRichCard ct-revealRichCard--amber">
         <p className="ct-revealRichBody">
-          Declarer was able to draw trumps and make 6 heart tricks, along with 6 trump tricks, and the Ace of clubs, for
+          Declarer was able to draw trumps and make 6 heart tricks, along with 6 trump tricks, and the <TextWithColoredSuits text="A♣" />, for
           13!
         </p>
         <p className="ct-revealRichBody">
@@ -9993,7 +9993,7 @@ const BIDDING_PUZZLES = [
           expectedChoiceDisplay: "Pass",
           noContinue: false,
           revealText:
-            "Pass looks like a good idea despite having a fairly strong hand. The main reason is that you're misfiring. Imagine partner with say 6-9 points and diamonds and 6-7 diamodns. 2♦ might be a sensible contract and any further bidding by you may end you in 3♦ which might not make.",
+            "Pass looks like a good idea despite having a fairly strong hand. The main reason is that you're misfiring. Imagine partner with say 6-9 points and diamonds and 6-7 diamonds. 2♦ might be a sensible contract and any further bidding by you may end you in 3♦ which might not make.",
           videoUrl: "",
         },
         {
@@ -10336,11 +10336,11 @@ const BIDDING_PUZZLES = [
               </section>
               <section className="ct-revealRichCard ct-revealRichCard--slate">
                 <p className="ct-revealRichBody">
-                  If, for example, just the King of clubs was in hearts, you would be on a finesse
+                  If, for example, just the <TextWithColoredSuits text="K♣" /> was in hearts, you would be on a finesse
                   for 12 tricks instead of having 12 top tricks like you do now
                 </p>
                 <p className="ct-revealRichBody">
-                  If, for example, the King and Queen of clubs was in hearts instead, you would only
+                  If, for example, the <TextWithColoredSuits text="K♣" /> and <TextWithColoredSuits text="Q♣" /> was in hearts instead, you would only
                   have 11 tricks and no real chance for a 12th.
                 </p>
               </section>
@@ -10369,11 +10369,11 @@ const BIDDING_PUZZLES = [
     title: "Over the shoulder #1 (2)",
     trumpSuit: "S",
     contract: "?",
-    dealerCompass: "N",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["north", "south"],
-    auction: "",
+    auction: "?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -10385,12 +10385,159 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
       videoUrlBeforeStart: "",
+      auctionResolvedTextByPromptId: {
+        "bid2-45-open": "?",
+        "bid2-45-open--reveal": "1♠ P 1NT P ?",
+        "bid2-45-fourspades": "1♠ P 1NT P ?",
+        "bid2-45-rebid": "1♠ P 1NT P ?",
+        "bid2-45-rebid--reveal": "1♠ P 1NT P 3♥ P 3NT P ?",
+        "bid2-45-next": "1♠ P 1NT P 3♥ P 3NT P ?",
+        "bid2-45-next--reveal": "1♠ P 1NT P 3♥ P 3NT P 4♠ P P P",
+        "bid2-45-reveal": "1♠ P 1NT P 3♥ P 3NT P 4♠ P P P",
+      },
       customPrompts: [
         {
-          id: "bid2-45-info1",
+          id: "bid2-45-open",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "You pick up this very nice looking hand. What do you open playing fairly standard methods?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "1s",
+          expectedChoiceDisplay: "1♠",
+          hidePlayDecisionHeading: true,
+          playCardRevealHideSuccessBanner: true,
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  A simple <TextWithColoredSuits text="1♠" /> opening is best. Let&apos;s look at the common alternatives and explain why they are wrong.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="2♣" /> — It is not a good idea to open <TextWithColoredSuits text="2♣" /> unless you have say 22+ points. When you get so many points, you run a real risk that if you open on the 1 level, everyone will pass and that will end the auction — that is why we have <TextWithColoredSuits text="2♣" /> available.
+                </p>
+                <p className="ct-revealRichBody">
+                  I have a lot to say on the topic of <TextWithColoredSuits text="2♣" />. People see it as an achievement to open it, when really it is a tool that should be reserved for very rare circumstances when you have a lot of points.
+                </p>
+                <p className="ct-revealRichBody">
+                  One big source of confusion — people confuse high card point strength with general playing strength. It is true that you don&apos;t need high card points to have a strong hand, the current hand may make grand slam opposite the <TextWithColoredSuits text="K♠" /> and <TextWithColoredSuits text="A♥" />, yet it is not a high card point strong hand.
+                </p>
+                <p className="ct-revealRichBody">
+                  <a href="https://bridgechampions.com/bidding/advanced/opening-2c-avoid-whenever-possible" target="_blank" rel="noopener noreferrer">More on this: Opening 2♣ — avoid whenever possible</a>
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  We can acknowledge that you can have a very &quot;strong&quot; hand without having that many high card points, but reserve the <TextWithColoredSuits text="2♣" /> opening for hands with lots of high card points — avoid it otherwise.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-45-fourspades",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "",
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="4♠" /> — Openings of <TextWithColoredSuits text="4♠" /> should be reserved for a specific type of hand: a distributional hand that does not have opening values. So, say 10 or less points, with typically 8 spades. Or perhaps 7 good spades and 7-4-1-1 shape, or better. It is important that partner knows what to do after you open <TextWithColoredSuits text="4♠" />, so they should be able to accurately predict the nature of your hand.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Don&apos;t open <TextWithColoredSuits text="4♠" /> with opening values. Open on the 1 level with 11+ points and a long major.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-45-rebid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "The bidding has progressed, what is your next bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3h",
+          expectedChoiceDisplay: "3♥",
+          hidePlayDecisionHeading: true,
+          playCardRevealHideSuccessBanner: true,
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  In standard bidding, a jump to <TextWithColoredSuits text="3♥" /> is natural and game forcing, showing typically 5+ in each suit. Partner has bid 3NT, suggesting no fit and likely points in the minors. Partner likely does not even have 2 card spades, or else might have bid <TextWithColoredSuits text="3♠" /> over <TextWithColoredSuits text="3♥" />.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-45-next",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What next?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "4s",
+          expectedChoiceDisplay: "4♠",
+          hidePlayDecisionHeading: true,
+          playCardRevealHideSuccessBanner: true,
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "south"],
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="4♠" /> is a simple and good bid here. You have communicated to partner that you probably have 7 spades or at least 6 good ones. You have also said you have a very nice game forcing hand with spades and hearts.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Some optimists will tell you how powerful this hand is and how little you need for slam. If you are playing opposite a thoughtful partner, they should be aware of how good their hand could be with the right cards. You are saying you can make game opposite the wrong cards — imagine what you can do opposite good cards!
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Distributional hands can be very powerful if partner has a fit and/or the right cards. Without that, don&apos;t overestimate their power.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody"><TextWithColoredSuits text="4♠" /> is high enough, you do not make more.</p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-45-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  A side note — if you open <TextWithColoredSuits text="2♣" />, partner with this hand should almost certainly insist on slam; combined you should have about 33+ high card points. With 33+ high card points, typically slam will be sensible even without a fit. On this hand, you only make 10 tricks.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  In summary — high card points can sometimes be irrelevant, but not always. In your partnership, reserve <TextWithColoredSuits text="2♣" /> as a hand with lots of high card points, while also appreciating that even if partner opens on the 1 level, they can have a hand that can take lots of tricks even if they don&apos;t have a lot of high card strength.
+                </p>
+              </section>
+            </div>
+          ),
           videoUrl: "",
         },
       ],
@@ -10408,12 +10555,13 @@ const BIDDING_PUZZLES = [
     playEngine: "compassClockwise",
     title: "Over the shoulder #1 (3)",
     trumpSuit: "S",
-    contract: "?",
-    dealerCompass: "N",
-    declarerCompass: "S",
+    contract: "6♠X",
+    dealerCompass: "E",
+    declarerCompass: "E",
     viewerCompass: "S",
+    vulnerability: "NS Vul",
     visibleFullHandSeats: ["south"],
-    auction: "",
+    auction: "1♦ ?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -10425,18 +10573,144 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
       videoUrlBeforeStart: "",
+      auctionPartnersRed: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-46-overcall": "1♦ ?",
+        "bid2-46-overcall--reveal": "1♦ 1♥",
+        "bid2-46-auction-explain": "1♦ 1♥ 2♠ 4♦ 4♠ ?",
+        "bid2-46-fivehearts": "1♦ 1♥ 2♠ 4♦ 4♠ ?",
+        "bid2-46-fivehearts--reveal": "1♦ 1♥ 2♠ 4♦ 4♠ 5♥",
+        "bid2-46-double-meaning": "1♦ 1♥ 2♠ 4♦ 4♠ 5♥ 5NT P 6♠ P P X",
+        "bid2-46-double-meaning--reveal": "1♦ 1♥ 2♠ 4♦ 4♠ 5♥ 5NT P 6♠ P P X",
+      },
       customPrompts: [
         {
-          id: "bid2-46-info1",
+          id: "bid2-46-overcall",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What, if anything, do you do with this hand?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "1h",
+          expectedChoiceDisplay: "1♥",
+          hidePlayDecisionHeading: true,
+          playCardRevealHideSuccessBanner: true,
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Just bid <TextWithColoredSuits text="1♥" />. When vulnerable the winning style is to have a very good quality suit when you preempt. This suit is not good enough, at least one more top honor is needed. (see bidding: Preempts for more on this).
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  A lot of people are not used to this as a possibility, but the expert rule goes:
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  When you are vulnerable, if your suit is not good enough for preempting — you can simply bid it on the 1 level.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  As we are in the year 2026, passing is out of fashion with such hands. In summary, a simple <TextWithColoredSuits text="1♥" /> bid is okay.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-46-auction-explain",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "",
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="2♠" /> is game forcing with 6+ spades.
+                </p>
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="4♦" /> is a splinter = 4+ hearts with 0 or 1 diamonds.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-46-fivehearts",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "The auction has heated up quickly, partner has shown a good fit hearts and the opponents have found a spade bid. Your turn to bid.",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "5h",
+          expectedChoiceDisplay: "5♥",
+          hidePlayDecisionHeading: true,
+          playCardRevealHideSuccessBanner: true,
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  The preferred bid is <TextWithColoredSuits text="5♥" />. It is true you are vulnerable and should be careful in such situations, but why is this hand worth venturing off onto the 5 level for?
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  1. Key feature - big trump fit with two singletons (one in each hand). This is a central reason for when the 5 level becomes profitable. Partner has a singleton in one of the suits, and you have a singleton in the other - and you have a big trump fit.
+                </p>
+                <p className="ct-revealRichBody">
+                  2. You have 2 extra hearts for your initial bid of <TextWithColoredSuits text="1♥" />, so your hand has really come to life. Having found a big trump fit, your hand suddenly is very useful despite its very minimal point count.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-46-double-meaning",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "5NT is \"pick a slam\" — West has both diamonds and spades. The bidding hasn't stopped with its excitement though, the opponents are now launched into slam and partner has doubled — what is going on?",
+          options: [
+            { id: "penalty", label: "Partner is doubling to take a big penalty" },
+            { id: "different_reason", label: "Partner is doubling for a different reason" },
+          ],
+          expectedChoice: "different_reason",
+          noContinue: false,
+          continueButtonLabel: "continue",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Quality opponents don&apos;t freely bid slam to go several off, so we don&apos;t use the double for the sake of racking up a big penalty. Instead it is a &quot;Lightner double&quot;. (see bidding stage 2, problem 33 for more on that).
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The double says &quot;I have a void, please lead it&quot;. It is easy this time to know where the void is, as partner has already told you in the bidding. You lead a diamond.
+                </p>
+                <p className="ct-revealRichBody">
+                  Partner doesn&apos;t risk underleading the club to get back to your hand for a second ruff, partner just sensibly cashes the <TextWithColoredSuits text="A♣" /> for 1 off.
+                </p>
+              </section>
+            </div>
+          ),
           videoUrl: "",
         },
       ],
     },
     shownHands: {
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "102", H: "KJ952", D: "", C: "A109872" },
+      east: { S: "KQ63", H: "", D: "AQ10875", C: "643" },
+      south: { S: "5", H: "Q1087643", D: "32", C: "KQ5" },
+      west: { S: "AJ9874", H: "A", D: "KJ964", C: "J" },
     },
     rounds: [],
   },
@@ -10446,13 +10720,14 @@ const BIDDING_PUZZLES = [
     seatMode: "compass",
     playEngine: "compassClockwise",
     title: "Over the shoulder #1 (4)",
-    trumpSuit: "S",
+    trumpSuit: "C",
     contract: "?",
-    dealerCompass: "N",
+    dealerCompass: "W",
     declarerCompass: "S",
     viewerCompass: "S",
+    vulnerability: "None Vul",
     visibleFullHandSeats: ["south"],
-    auction: "",
+    auction: "1♥ 1NT 2♥ ?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -10464,18 +10739,98 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
       videoUrlBeforeStart: "",
+      auctionResolvedTextByPromptId: {
+        "bid2-47-bid": "1♥ 1NT 2♥ ?",
+        "bid2-47-bid--reveal": "1♥ 1NT 2♥ 2NT P 3♣ P P P",
+        "bid2-47-reveal": "1♥ 1NT 2♥ 2NT P 3♣ P P P",
+      },
       customPrompts: [
         {
-          id: "bid2-47-info1",
+          id: "bid2-47-bid",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Your turn, pass looks like an obvious possibility, is there anything else?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          noContinue: false,
+          continueButtonLabel: "Reveal the full hand",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  The correct bid is 2NT - see the problems on Theme: Lebensohl if this was not on
+                  your radar.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  How it works - it tells partner you want to compete, partner is forced to bid{" "}
+                  <TextWithColoredSuits text="3♣" />, and you either pass{" "}
+                  <TextWithColoredSuits text="3♣" /> or bid something else. Why not just bid it
+                  directly - this helps us distinguish between bad hands that just want to compete,
+                  and game forcing hands.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Why do we want to compete? Competing for the partscore is the core of bridge. There
+                  are a couple key reasons to do so.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  1. The points are approximately half-half with both sides. We have around 19/20
+                  points likely.
+                </p>
+                <p className="ct-revealRichBody">
+                  2. The opponents are in an 8 card fit on the 2 level - that&apos;s a comfortable and good
+                  spot for them to be, we don&apos;t want to allow that normally.
+                </p>
+                <p className="ct-revealRichBody">
+                  3. We are not vulnerable - an excellent time to compete, even 2 off can be a good
+                  score.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-47-reveal",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "",
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Once we decide to compete, we simply just bid our long suit. We don&apos;t have the
+                  right shape for a takeout double since partner could bid diamonds if we did that!
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  Don&apos;t be concerned about finding partner with 2 clubs only. Firstly partner is
+                  expected to be short in hearts (they have a heart fit!), and{" "}
+                  <em className="ct-revealRichKey">
+                    the necessity of competing for the part score and removing the opponents from a
+                    comfortable 2 level contract outweighs any other consideration
+                  </em>
+                  , especially when we are Not Vul.
+                </p>
+              </section>
+            </div>
+          ),
           videoUrl: "",
         },
       ],
     },
     shownHands: {
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "AJ", H: "A2", D: "AJ643", C: "Q954" },
+      east: { S: "Q102", H: "J65", D: "K875", C: "J76" },
+      south: { S: "8743", H: "1074", D: "10", C: "K10832" },
+      west: { S: "K965", H: "KQ983", D: "Q92", C: "A" },
     },
     rounds: [],
   },
@@ -10487,11 +10842,11 @@ const BIDDING_PUZZLES = [
     title: "Over the shoulder #1 (5)",
     trumpSuit: "S",
     contract: "?",
-    dealerCompass: "N",
+    dealerCompass: "S",
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["south"],
-    auction: "",
+    auction: "1♣ P 1♠ P ?",
     promptOptions: {
       promptPlacement: "right",
       hideAuction: false,
@@ -10503,18 +10858,140 @@ const BIDDING_PUZZLES = [
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
       videoUrlBeforeStart: "",
+      auctionResolvedTextByPromptId: {
+        "bid2-48-bid1": "1♣ P 1♠ P ?",
+        "bid2-48-bid1--reveal": "1♣ P 1♠ P 2♥ P 2NT P ?",
+        "bid2-48-bid2": "1♣ P 1♠ P 2♥ P 2NT P ?",
+        "bid2-48-bid2--reveal": "1♣ P 1♠ P 2♥ P 2NT P 3♣ P 3NT P ?",
+        "bid2-48-bid3": "1♣ P 1♠ P 2♥ P 2NT P 3♣ P 3NT P ?",
+        "bid2-48-bid3--reveal": "1♣ P 1♠ P 2♥ P 2NT P 3♣ P 3NT P P P",
+        "bid2-48-summary": "1♣ P 1♠ P 2♥ P 2NT P 3♣ P 3NT P P P",
+        "bid2-48-reveal": "1♣ P 1♠ P 2♥ P 2NT P 3♣ P 3NT P P P",
+      },
       customPrompts: [
         {
-          id: "bid2-48-info1",
+          id: "bid2-48-bid1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "You pick up a nice distributional hand, how do you handle this?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2h",
+          expectedChoiceDisplay: "2♥",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="2♥" /> is the correct bid. It is a reverse which shows
+                  5+ clubs, 4+ hearts, and 17+ points. An excellent start. See bidding Theme:
+                  Reverses for more on this.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-48-bid2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Partner now bids 2NT, what is your next bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <TextWithColoredSuits text="3♣" />, simple and natural bidding, you&apos;re now
+                  showing longer clubs, you likely have at least 6 good clubs, but probably 7 for this
+                  bid. Partner bids 3NT. You have a very distributional hand, with a void. Is 3NT
+                  where it ends or not?
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-48-bid3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">Pass</p>
+                <p className="ct-revealRichBody">
+                  You have already shown most of the features of your hand. You have shown 7 clubs
+                  typically, 4 hearts and 17+ points. It is true partner doesn&apos;t know about your
+                  void, but partner has rebid 3NT expecting very little or no help in diamonds. If
+                  partner wanted to know more, a <TextWithColoredSuits text="3♦" /> bid (4th suit)
+                  over <TextWithColoredSuits text="3♣" />, might have been bid.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-48-summary",
           type: "INFO",
           atRoundIdx: -1,
-          promptText: "",
+          continueButtonLabel: "Reveal the full hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichHeading">In summary</p>
+                <p className="ct-revealRichBody">
+                  You have told partner almost everything about your hand, and partner has said that
+                  3NT is the contract, trust partner.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-48-reveal",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["north", "east", "south", "west"],
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  As you can see the hands are badly misfitting and 3NT is your best bet. Partner
+                  gets a diamond lead, and you make the contract, anything else is doomed.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  <em className="ct-revealRichKey">
+                    Don&apos;t get carried away with distributional hands when you are misfitting - if
+                    you&apos;ve already shown your hand it is time to trust partner.
+                  </em>
+                </p>
+              </section>
+            </div>
+          ),
           videoUrl: "",
         },
       ],
     },
     shownHands: {
-      south: { S: "", H: "", D: "", C: "" },
+      north: { S: "10953", H: "J106", D: "AKJ763", C: "" },
+      east: { S: "764", H: "A9753", D: "1084", C: "74" },
+      south: { S: "KQ", H: "KQ82", D: "", C: "AK98653" },
+      west: { S: "AJ82", H: "4", D: "Q952", C: "QJ102" },
     },
     rounds: [],
   },

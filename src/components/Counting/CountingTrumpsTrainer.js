@@ -423,7 +423,35 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  return out; 
  } 
  
- const QUESTION = { 
+ function computeTrickTallyThroughRound(puzzle, throughRoundIdx) {
+ let declarerSide = 0;
+ let defenderSide = 0;
+ const rounds = puzzle?.rounds || [];
+ const trumpSuit = puzzle?.trumpSuit;
+ for (let r = 0; r <= throughRoundIdx; r++) {
+ const plays = rounds[r]?.plays || [];
+ if (plays.length < 4) continue;
+ const ledSuit = plays[0]?.card?.suit;
+ let winning = plays[0];
+ for (const p of plays) {
+ const c = p.card;
+ if (!c) continue;
+ const w = winning.card;
+ const pIsTrump = trumpSuit && c.suit === trumpSuit;
+ const wIsTrump = trumpSuit && w.suit === trumpSuit;
+ if (pIsTrump && !wIsTrump) { winning = p; continue; }
+ if (pIsTrump && wIsTrump) { if (rankValue(c.rank) > rankValue(w.rank)) winning = p; continue; }
+ if (!wIsTrump && c.suit === ledSuit && w.suit === ledSuit) { if (rankValue(c.rank) > rankValue(w.rank)) winning = p; }
+ if (!wIsTrump && w.suit !== ledSuit && c.suit === ledSuit) { winning = p; }
+ }
+ const ws = winning.seat;
+ if (ws === "DECLARER" || ws === "DUMMY") declarerSide += 1;
+ else if (ws === "LHO" || ws === "RHO") defenderSide += 1;
+ }
+ return { declarerSide, defenderSide };
+ }
+
+ const QUESTION = {
  // Numbers you can reference when you send me a new puzzle 
  DEFENDERS_TRUMPS_AT_START: 1, 
  TRUMPS_STILL_OUT_AFTER_EVENT: 2, 
@@ -3350,7 +3378,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
                 </div>
                 <div className="ct-revealRichCard ct-revealRichCard--slate">
                   <p className="ct-revealRichBody">
-                    Some people might just cash the King of hearts, and play a low heart. But try to see why that is a
+                    Some people might just cash the <TextWithColoredSuits text="K♥" />, and play a low heart. But try to see why that is a
                     bad use of entries.
                   </p>
                   <p className="ct-revealRichBody">
@@ -3374,7 +3402,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
                 <div className="ct-revealRichCard ct-revealRichCard--slate">
                   <p className="ct-revealRichBody">
                     A better use of entries is to play diamond towards the Queen now, while you are in the south hand,
-                    then come back with the King of hearts and play the hearts.
+                    then come back with the <TextWithColoredSuits text="K♥" /> and play the hearts.
                   </p>
                   <p className="ct-revealRichBody">
                     Or continue diamonds, ruffing the third, then play hearts.
@@ -3539,7 +3567,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
                         <TextWithColoredSuits text="♥ Hearts" />
                       </p>
                       <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
-                        1 Heart Loser - We can conveniently throw this on the King of clubs.
+                        1 Heart Loser - We can conveniently throw this on the <TextWithColoredSuits text="K♣" />.
                       </p>
                     </div>
                     <div className="ct-revealRichSuitBlock">
@@ -3604,7 +3632,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
                         <TextWithColoredSuits text="♥ Hearts" />
                       </p>
                       <p className="ct-revealRichBody ct-revealRichBody--belowHeadingTight">
-                        none - pitch my heart loser on the King of clubs
+                        none - pitch my heart loser on the <TextWithColoredSuits text="K♣" />
                       </p>
                     </div>
                     <div className="ct-revealRichSuitBlock">
@@ -4114,7 +4142,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
           continueButtonLabel: "Continue",
           revealFullHandSeats: ["north", "east", "south", "west"],
           promptText:
-            "We have now made 12 tricks. In actual fact we can make an overtrick now by going for the club finesse. If the club finesse happened to lose, we would later pitch our diamond loser on the Ace of clubs.\n\nBy focusing on our losers, we came up with a plan for how to get rid of them - our play was purposeful.",
+            "We have now made 12 tricks. In actual fact we can make an overtrick now by going for the club finesse. If the club finesse happened to lose, we would later pitch our diamond loser on the A♣.\n\nBy focusing on our losers, we came up with a plan for how to get rid of them - our play was purposeful.",
         },
       ],
     },
@@ -5744,7 +5772,26 @@ return fallbackIdx + 1;
  const [roundIdx, setRoundIdx] = useState(0); 
  const [playIdx, setPlayIdx] = useState(-1); // -1 means none played in current round yet 
  const [isPlaying, setIsPlaying] = useState(false); 
- const [completedRoundIdx, setCompletedRoundIdx] = useState(-1); // last fully completed trick/round (manual mode) 
+ const [completedRoundIdx, setCompletedRoundIdx] = useState(-1); // last fully completed trick/round (manual mode)
+ const explicitTrickTally = puzzle?.promptOptions?.showTrickTally ?? puzzle?.showTrickTally;
+ const showTrickTally =
+ explicitTrickTally === false
+ ? false
+ : explicitTrickTally === true
+ ? true
+ : (categoryKey === "declarer" || categoryKey === "defence") &&
+ !!contractToText(puzzle) &&
+ contractToText(puzzle) !== "?" &&
+ Array.isArray(puzzle?.rounds) &&
+ puzzle.rounds.some((r) => (r?.plays?.length || 0) >= 1);
+ const trickTally = useMemo(() => {
+ if (!showTrickTally) return null;
+ const lastCompleted = playIdx >= 3 ? roundIdx : roundIdx - 1;
+ if (lastCompleted < 0) return { ns: 0, ew: 0 };
+ const { declarerSide, defenderSide } = computeTrickTallyThroughRound(puzzle, lastCompleted);
+ const decIsNS = puzzle?.declarerCompass !== "E" && puzzle?.declarerCompass !== "W";
+ return decIsNS ? { ns: declarerSide, ew: defenderSide } : { ns: defenderSide, ew: declarerSide };
+ }, [showTrickTally, puzzle, roundIdx, playIdx]);
  
  // Trick area shows up to one card per seat for the current trick. 
  const [trickCards, setTrickCards] = useState({ LHO: null, DUMMY: null, RHO: null, DECLARER: null }); 
@@ -10872,7 +10919,7 @@ aria-selected={c.key === activeCategoryTabKey}
  return ( 
  <button 
  key={p.id} 
-className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""} ${p?.promptOptions?.promptThemeTint === "loserCount" ? "ct-problemTab--themeLoserCount" : ""} ${p?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-problemTab--themeRebidFundamentals" : ""} ${p?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-problemTab--themeTakeoutPenalty" : ""} ${p?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-problemTab--themeDefenceTrumpCount" : ""} ${p?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-problemTab--themeOverShoulder" : ""}`} 
+className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--active" : ""} ${!isUnlocked ? "ct-problemTab--locked" : ""} ${isCompleted ? "ct-problemTab--completed" : ""} ${p?.promptOptions?.promptThemeTint === "points" ? "ct-problemTab--themePoints" : ""} ${p?.promptOptions?.promptThemeTint === "active" ? "ct-problemTab--themeActive" : ""} ${p?.promptOptions?.promptThemeTint === "respond" ? "ct-problemTab--themeRespond" : ""} ${p?.promptOptions?.promptThemeTint === "1nt" ? "ct-problemTab--theme1nt" : ""} ${p?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-problemTab--themeMatchpoints" : ""} ${p?.promptOptions?.promptThemeTint === "handEval" ? "ct-problemTab--themeHandEval" : ""} ${p?.promptOptions?.promptThemeTint === "doubles" ? "ct-problemTab--themeDoubles" : ""} ${p?.promptOptions?.promptThemeTint === "knockAce" ? "ct-problemTab--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(p?.promptOptions?.promptThemeTint) ? "ct-problemTab--themeDrawTrumps" : ""} ${p?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-problemTab--themeRuffingLot" : ""} ${p?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-problemTab--themeEnemyFive" : ""} ${p?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-problemTab--themeTwoLevel" : ""} ${p?.promptOptions?.promptThemeTint === "preempt" ? "ct-problemTab--themePreempt" : ""} ${p?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-problemTab--themeRespondToDouble" : ""} ${p?.promptOptions?.promptThemeTint === "splinters" ? "ct-problemTab--themeSplinters" : ""} ${p?.promptOptions?.promptThemeTint === "reverses" ? "ct-problemTab--themeReverses" : ""} ${p?.promptOptions?.promptThemeTint === "showHand" ? "ct-problemTab--themeShowHand" : ""} ${p?.promptOptions?.promptThemeTint === "see43" ? "ct-problemTab--themeSee43" : ""} ${p?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-problemTab--themeSlamJudgment" : ""} ${p?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-problemTab--themeDeadlyDuck" : ""} ${p?.promptOptions?.promptThemeTint === "openingLead" ? "ct-problemTab--themeOpeningLead" : ""} ${p?.promptOptions?.promptThemeTint === "loserCount" ? "ct-problemTab--themeLoserCount" : ""} ${p?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-problemTab--themeRebidFundamentals" : ""} ${p?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-problemTab--themeTakeoutPenalty" : ""} ${p?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-problemTab--themeDefenceTrumpCount" : ""} ${p?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-problemTab--themeOverShoulder" : ""} ${p?.promptOptions?.promptThemeTint === "overShoulderDeclarer" ? "ct-problemTab--themeOverShoulderDeclarer" : ""}`} 
  onClick={() => setPuzzleIdxInDifficulty(idx)} 
  type="button" 
  role="tab" 
@@ -10931,7 +10978,23 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  )} 
  </div> 
  )} 
- <div className="ct-tableWithSidebar-inner"> 
+ {showTrickTally && trickTally && (
+ <div className="ct-trickTally" aria-label="Contract and tricks">
+ <div className="ct-trickTally-box ct-trickTally-box--contract">
+ <span className="ct-trickTally-cap">{({ N: "North", E: "East", S: "South", W: "West" }[puzzle?.declarerCompass] || "Declarer")}</span>
+ <span className="ct-trickTally-val"><TextWithColoredSuits text={contractToText(puzzle) || "?"} /></span>
+ </div>
+ <div className="ct-trickTally-box">
+ <span className="ct-trickTally-cap">Tricks NS</span>
+ <span className="ct-trickTally-val">{trickTally.ns}</span>
+ </div>
+ <div className="ct-trickTally-box">
+ <span className="ct-trickTally-cap">Tricks EW</span>
+ <span className="ct-trickTally-val">{trickTally.ew}</span>
+ </div>
+ </div>
+ )}
+ <div className="ct-tableWithSidebar-inner">
  <div className="ct-tableWithSidebar-main"> 
  {!hasStarted && !isBlankDifficulty && !showPaywallOverlay && ( 
  <div className="ct-practiceStartBar"> 
@@ -10966,7 +11029,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  !useBottomRowLayout && 
  (promptStep === "PLAY_DECISION_REVEAL" || !visibleFullHandSeats.includes(seatLeft)) && 
  (useBottomRowLayout || (!hasStarted || (hasStarted && promptPlacement === "left"))) && ( 
-<div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-sidePrompt--themeRebidFundamentals" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-sidePrompt--themeOverShoulder" : ""}`} aria-label="Bidding and prompts"> 
+<div className={`ct-sidePrompt ct-sidePrompt--seatLeft ${useBottomRowLayout ? "ct-sidePrompt--leftOfTable" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "openingLead" ? "ct-sidePrompt--themeOpeningLead" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-sidePrompt--themeRebidFundamentals" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-sidePrompt--themeOverShoulder" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulderDeclarer" ? "ct-sidePrompt--themeOverShoulderDeclarer" : ""}`} aria-label="Bidding and prompts"> 
  {promptNode} 
  </div> 
  )} 
@@ -11174,7 +11237,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  {showFullHands && 
  !useBottomRowLayout && 
  (promptPlacement === "right" || (promptPlacement === "left" && visibleFullHandSeats.includes(seatLeft))) && ( 
-<div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-sidePrompt--themeRebidFundamentals" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-sidePrompt--themeOverShoulder" : ""}`} aria-label="Counting prompt"> 
+<div className={`ct-sidePrompt ${promptPlacement === "left" ? "ct-sidePrompt--left" : ""} ${puzzle?.promptOptions?.promptThemeTint === "points" ? "ct-sidePrompt--themePoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "active" ? "ct-sidePrompt--themeActive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respond" ? "ct-sidePrompt--themeRespond" : ""} ${puzzle?.promptOptions?.promptThemeTint === "1nt" ? "ct-sidePrompt--theme1nt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "matchpoints" ? "ct-sidePrompt--themeMatchpoints" : ""} ${puzzle?.promptOptions?.promptThemeTint === "handEval" ? "ct-sidePrompt--themeHandEval" : ""} ${puzzle?.promptOptions?.promptThemeTint === "doubles" ? "ct-sidePrompt--themeDoubles" : ""} ${puzzle?.promptOptions?.promptThemeTint === "knockAce" ? "ct-sidePrompt--themeKnockAce" : ""} ${isCyanDeclarerThemeTint(puzzle?.promptOptions?.promptThemeTint) ? "ct-sidePrompt--themeDrawTrumps" : ""} ${puzzle?.promptOptions?.promptThemeTint === "ruffingLot" ? "ct-sidePrompt--themeRuffingLot" : ""} ${puzzle?.promptOptions?.promptThemeTint === "enemyFive" ? "ct-sidePrompt--themeEnemyFive" : ""} ${puzzle?.promptOptions?.promptThemeTint === "twoLevel" ? "ct-sidePrompt--themeTwoLevel" : ""} ${puzzle?.promptOptions?.promptThemeTint === "preempt" ? "ct-sidePrompt--themePreempt" : ""} ${puzzle?.promptOptions?.promptThemeTint === "respondToDouble" ? "ct-sidePrompt--themeRespondToDouble" : ""} ${puzzle?.promptOptions?.promptThemeTint === "splinters" ? "ct-sidePrompt--themeSplinters" : ""} ${puzzle?.promptOptions?.promptThemeTint === "reverses" ? "ct-sidePrompt--themeReverses" : ""} ${puzzle?.promptOptions?.promptThemeTint === "showHand" ? "ct-sidePrompt--themeShowHand" : ""} ${puzzle?.promptOptions?.promptThemeTint === "see43" ? "ct-sidePrompt--themeSee43" : ""} ${puzzle?.promptOptions?.promptThemeTint === "slamJudgment" ? "ct-sidePrompt--themeSlamJudgment" : ""} ${puzzle?.promptOptions?.promptThemeTint === "deadlyDuck" ? "ct-sidePrompt--themeDeadlyDuck" : ""} ${puzzle?.promptOptions?.promptThemeTint === "loserCount" ? "ct-sidePrompt--themeLoserCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "rebidFundamentals" ? "ct-sidePrompt--themeRebidFundamentals" : ""} ${puzzle?.promptOptions?.promptThemeTint === "takeoutPenalty" ? "ct-sidePrompt--themeTakeoutPenalty" : ""} ${puzzle?.promptOptions?.promptThemeTint === "defenceTrumpCount" ? "ct-sidePrompt--themeDefenceTrumpCount" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulder" ? "ct-sidePrompt--themeOverShoulder" : ""} ${puzzle?.promptOptions?.promptThemeTint === "overShoulderDeclarer" ? "ct-sidePrompt--themeOverShoulderDeclarer" : ""}`} aria-label="Counting prompt"> 
  {promptNode} 
  </div> 
  )} 
