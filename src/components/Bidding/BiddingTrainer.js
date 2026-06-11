@@ -1578,6 +1578,9 @@ function Bid35QuestionRich() {
   return (
     <div className="ct-revealRich">
       <p className="ct-revealRichBody">
+        There is no auction given for this problem, just imagine you know your partner&apos;s exact shape (Look at partner&apos;s hand which is face up)
+      </p>
+      <p className="ct-revealRichBody">
         Imagine you know your partner&apos;s exact shape. You have agreed spades, how do you feel about your hand?
       </p>
       <p className="ct-revealRichBody ct-revealRichBody--muted">
@@ -6745,10 +6748,10 @@ const BIDDING_PUZZLES = [
     declarerCompass: "S",
     viewerCompass: "S",
     visibleFullHandSeats: ["DECLARER", "DUMMY"],
-    auction: "5♦ X P ?",
+    auction: "",
     promptOptions: {
       promptPlacement: "right",
-      hideAuction: false,
+      hideAuction: true,
       disableWarmupTrumpGuess: true,
       questionNumbers: [],
       contractLabel: "Shape and wastage",
