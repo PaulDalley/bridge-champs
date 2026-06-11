@@ -292,6 +292,28 @@ class HomePage extends Component {
     </section>
   );
 
+  renderTestimonials = () => (
+    <section className="HomePage-testimonials">
+      <div className="container">
+        <h2 className="HomePage-testimonials-title">What members say</h2>
+        <div className="HomePage-testimonials-grid">
+          <figure className="HomePage-testimonial">
+            <blockquote className="HomePage-testimonial-quote">
+              Bridge Champions is different (and better!) than your average internet based learning tool. It is both practical and insightful, regularly delivering novel ways to understand bidding and card play in an easy-to-follow format. Any specific areas of interest can be looked up and revised in a perfect &ldquo;hands on&rdquo; format. Paul Dalley&apos;s proactive and multi dimensional initiative has increased my &ldquo;bridge awareness&rdquo; significantly.
+            </blockquote>
+            <figcaption className="HomePage-testimonial-author">David Bavin, Sydney</figcaption>
+          </figure>
+          <figure className="HomePage-testimonial">
+            <blockquote className="HomePage-testimonial-quote">
+              I am absolutely loving your work! I have very much the calculating, mathematical approach to bridge (comes from 35 years as a Professor of Medicine) so I like the design of your site and your approach to teaching. It allows me to test myself with immediate feedback from an expert&mdash;all done with compact, specific, and engaging comments. You do a great job of making it appear you were here looking over my shoulder. You are also clearly committed to making the website the best it can be.
+            </blockquote>
+            <figcaption className="HomePage-testimonial-author">Ian Whyte, Canberra</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  );
+
   render() {
     let whenSubExpiresMinus2Days = undefined;
     if (this.props.subscriptionExpires) {
@@ -347,10 +369,12 @@ class HomePage extends Component {
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
-        {/* Guests: welcome hero first (above theme strip). Members: theme strip then hero below. */}
+        {/* Guests: welcome hero, then testimonials directly under it, then theme strip.
+            Members: theme strip first; their hero + testimonials render lower (conditional below). */}
         {isLoggedOut ? (
           <>
             {this.renderHeroSection(whenSubExpiresMinus2Days)}
+            {this.renderTestimonials()}
             <div className="HomePage-themeStrip">
               <div className="HomePage-themeAndPlan">
                 <RecentlyAdded />
@@ -538,12 +562,14 @@ class HomePage extends Component {
           </Modal>
         )}
 
-        {/* Category cards: after hero + theme strip for everyone */}
+        {/* Category cards. Guests already saw testimonials under the hero above;
+            members get their hero + testimonials here (below the theme strip). */}
         {isLoggedOut ? (
           this.renderCategorySection()
         ) : (
           <>
             {this.renderHeroSection(whenSubExpiresMinus2Days)}
+            {this.renderTestimonials()}
             {this.renderCategorySection()}
           </>
         )}

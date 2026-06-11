@@ -518,6 +518,71 @@
   }
 }
 
+/* Testimonials Section */
+.HomePage-testimonials {
+  background: linear-gradient(135deg, #0F4C3A 0%, #083426 100%);
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--color-light-gray);
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.HomePage-testimonials-title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.HomePage-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.HomePage-testimonial {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: var(--space-xl);
+  border-left: 5px solid #D4AF37;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.HomePage-testimonial-quote {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--color-dark);
+  font-style: italic;
+  margin: 0 0 var(--space-xl);
+}
+
+.HomePage-testimonial-author {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: var(--text-md);
+  margin-top: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .HomePage-testimonials {
+    padding: var(--space-2xl) var(--space-md);
+  }
+  .HomePage-testimonials-title {
+    font-size: var(--text-3xl);
+  }
+  .HomePage-testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
 /* About Paul Section */
 .HomePage-about {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
