@@ -257,6 +257,38 @@ async function snapshotRoute(browser, routePath) {
       }
     }
 
+    // On hub/category routes, wait (best-effort) for the article grid to
+    // populate. The cards are real <a class="ArticleCard"> links, so this is
+    // what gives crawlers the link graph into individual articles. The list is
+    // Firestore-backed and can lag the (synchronous) hub header/intro, so the
+    // generic content wait above may resolve before any card exists. Snapshot
+    // anyway if the grid is slow — better a header-only hub than a hang.
+    if (isHubRoute) {
+      try {
+        await page.waitForFunction(
+          () => document.querySelectorAll(".ArticleCard").length > 0,
+          { timeout: 8000, polling: 300 }
+        );
+      } catch (_) {
+        console.warn(`NOTE ${routePath} :: article cards did not populate before snapshot`);
+      }
+    }
+
+    // The flat /all-articles index is a pure internal-link hub — it lists every
+    // published article as an <a>. Its sections are Firestore-backed, so wait
+    // (best-effort) for a meaningful number of links before snapshotting, or it
+    // ships with just the heading + intro and none of the link graph.
+    if (routePath === "/all-articles") {
+      try {
+        await page.waitForFunction(
+          () => document.querySelectorAll("main a[href^='/']").length > 20,
+          { timeout: 12000, polling: 400 }
+        );
+      } catch (_) {
+        console.warn(`NOTE ${routePath} :: /all-articles links did not fully populate before snapshot`);
+      }
+    }
+
     // Nudge requestAnimationFrame: react-helmet-async flushes the <head> inside
     // a rAF callback, and in headless Chrome rAF can stall on a static page that
     // isn't painting new frames — so Helmet never writes its title/description/

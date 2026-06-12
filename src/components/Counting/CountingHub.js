@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Icon } from "react-materialize";
+import { Helmet } from "react-helmet-async";
 import { COUNTING_HAS_NEW } from "./CountingTrumpsTrainer";
 import "./CountingHub.css";
 
@@ -10,8 +11,22 @@ function CountingHub({ subscriptionActive }) {
 
   return (
     <div className="ch-page" aria-label="Counting home">
+      <Helmet>
+        <title>Counting at Bridge: Lessons &amp; Practice | Bridge Champions</title>
+        <meta
+          name="description"
+          content="Learn to count at bridge: counting trumps, suits, winners and losers, and reading the opponents' distribution — interactive practice hands plus clear, worked-example articles."
+        />
+        <link rel="canonical" href="https://bridgechampions.com/counting" />
+        <meta property="og:url" content="https://bridgechampions.com/counting" />
+        <meta property="og:title" content="Counting at Bridge: Lessons &amp; Practice | Bridge Champions" />
+        <meta
+          property="og:description"
+          content="Learn to count at bridge: counting trumps, suits, winners and losers, and reading the opponents' distribution — interactive practice hands plus clear, worked-example articles."
+        />
+      </Helmet>
       <div className="ch-hero">
-        <div className="ch-heroTitle">Counting</div>
+        <h1 className="ch-heroTitle">Counting</h1>
         <p className="ch-heroSub">
           Interactive hands and explanatory articles — two paths below.
         </p>

@@ -624,6 +624,16 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  /* Rendered as real <a> links (crawlable) — strip default link styling */
+  text-decoration: none;
+  color: inherit;
+}
+
+.Nav-tab-card:hover,
+.Nav-tab-card:focus,
+.Nav-tab-card:visited {
+  text-decoration: none;
+  color: inherit;
 }
 
 .Nav-tab-card::before {

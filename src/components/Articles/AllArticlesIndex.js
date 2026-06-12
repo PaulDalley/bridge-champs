@@ -14,6 +14,9 @@ const SECTIONS = [
   { type: "bidding", label: "Bidding — Advanced", path: "/bidding/advanced" },
   { type: "cardPlay", label: "Declarer Play", path: "/declarer/articles" },
   { type: "defence", label: "Defence", path: "/defence/articles" },
+  // NOTE: no "counting" section — counting articles were merged into the
+  // declarer (cardPlay) collection and /counting/articles 301-redirects to
+  // /declarer/articles. The `counting` summary collection is empty.
 ];
 
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);

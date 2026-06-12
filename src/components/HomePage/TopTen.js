@@ -217,6 +217,7 @@ class TopTen extends Component {
             difficulty={article.difficulty}
             articleNumber={article.articleNumber}
             id={article.id}
+            slug={article.slug}
             teaser={article.teaser}
             teaser_board={article.teaser_board}
             title={article.title}

@@ -5,6 +5,25 @@ import {
   getLevelStr,
 } from '../../helpers/helpers';
 
+// Build the canonical, crawlable article URL. Mirrors getArticlePathByType in
+// containers/CategoryArticles.js — keep the two in sync. `seg` is the readable
+// slug when available, otherwise the body/id hash (which redirects to the slug).
+const buildArticleHref = (type, seg) => {
+  if (!seg || !type) return null;
+  if (type === "counting") return `/counting/articles/${seg}`;
+  if (type === "cardPlay") return `/declarer/articles/${seg}`;
+  if (type === "beginnerCardPlay") return `/beginner/articles/declarer/${seg}`;
+  if (type === "beginnerDefence") return `/beginner/articles/defence/${seg}`;
+  if (type === "beginnerBidding") return `/beginner/articles/bidding/${seg}`;
+  if (type === "defence") return `/defence/articles/${seg}`;
+  if (type === "biddingBasics") return `/bidding/basics/${seg}`;
+  if (type === "biddingAdvanced") return `/bidding/advanced/${seg}`;
+  if (type === "cardPlayBasics") return `/declarer/basics/${seg}`;
+  if (type === "defenceBasics") return `/defence/basics/${seg}`;
+  if (type === "bidding") return `/bidding/advanced/${seg}`;
+  return `/${type}/${seg}`;
+};
+
 const CategoryArticleListItem = ({
   createdAt,
   body,
@@ -12,6 +31,7 @@ const CategoryArticleListItem = ({
   difficulty,
   articleNumber,
   id,
+  slug,
   teaser,
   teaser_board,
   title,
@@ -27,6 +47,10 @@ const CategoryArticleListItem = ({
   const isAdmin = a === true;
   const isLocked = !isAdmin && !subscriptionActive && !isFree;
 
+  // Canonical href so the card is a real, crawlable <a> link (prefer the slug;
+  // the body/id hash redirects to the slug if that's all we have).
+  const href = buildArticleHref(articleType, slug || body || id);
+
   const handleClick = () => {
     if (clickHandler) {
       const articleObj = {
@@ -36,12 +60,30 @@ const CategoryArticleListItem = ({
         difficulty,
         articleNumber,
         id,
+        slug,
         teaser,
         teaser_board,
         title,
       };
       clickHandler(articleObj, body, articleType);
     }
+  };
+
+  // Plain left-click → SPA navigation (no full reload). Let the browser handle
+  // modifier/middle clicks so "open in new tab" still works off the real href.
+  const handleAnchorClick = (e) => {
+    if (
+      e.defaultPrevented ||
+      e.button !== 0 ||
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.altKey
+    ) {
+      return;
+    }
+    e.preventDefault();
+    handleClick();
   };
 
   const isNewArticle = (createdAt) => {
@@ -56,9 +98,10 @@ const CategoryArticleListItem = ({
   const diffString = getLevelStr(difficulty);
 
   return (
-    <div
+    <a
       className={`ArticleCard ${isLocked ? 'ArticleCard--locked' : ''} ${isFree ? 'ArticleCard--free' : ''}`}
-      onClick={handleClick}
+      href={href || undefined}
+      onClick={handleAnchorClick}
     >
       {/* Lock Icon for Premium Content */}
       {isLocked && (
@@ -107,14 +150,14 @@ const CategoryArticleListItem = ({
         {isLocked && (
           <div className="ArticleCard-locked-overlay">
             <div className="ArticleCard-locked-cta">
-              <button className="btn btn-secondary btn-small">
+              <span className="btn btn-secondary btn-small">
                 Start 7-day free trial
-              </button>
+              </span>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </a>
   );
 };
 

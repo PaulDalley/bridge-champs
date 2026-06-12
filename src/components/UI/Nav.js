@@ -58,6 +58,23 @@ class Nav extends Component {
     // this.props.navigate(route);
   };
 
+  // For nav cards rendered as real <a> links: plain left-click → SPA nav (no
+  // reload); let modifier/middle clicks fall through so "open in new tab" works.
+  navCardClick = (e, route) => {
+    if (
+      e.defaultPrevented ||
+      e.button !== 0 ||
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.altKey
+    ) {
+      return;
+    }
+    e.preventDefault();
+    this.goTo(route);
+  };
+
   constructor(props) {
     super(props);
     this.state = { sideDrawerOpen: false };
@@ -276,33 +293,29 @@ class Nav extends Component {
         {!hideModernTabs && (
           <div className="Nav-tabs-modern">
             <div className="Nav-tabs-container">
-              <div
+              <a
                 className={`Nav-tab-card ${trainerActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/practice")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/practice")}
+                href="/practice"
+                onClick={(e) => this.navCardClick(e, "/practice")}
                 aria-label="Practical learning section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-trainer">
                   <i className="fas fa-graduation-cap" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Practical Learning</div>
-              </div>
+              </a>
 
-              <div
+              <a
                 className={`Nav-tab-card ${articlesActive ? "Nav-tab-active" : ""}`}
-                onClick={() => this.goTo("/learn")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && this.goTo("/learn")}
+                href="/learn"
+                onClick={(e) => this.navCardClick(e, "/learn")}
                 aria-label="Learn section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-articles">
                   <i className="fas fa-newspaper" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Learn</div>
-              </div>
+              </a>
             </div>
           </div>
         )}
