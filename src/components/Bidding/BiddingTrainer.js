@@ -10135,7 +10135,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/0famFmQM0ao?si=6UPaIqUviNOzFS_m",
       auctionResolvedTextByPromptId: {
         "bid2-44-ltc": "P 1NT P 2♥ P 2♠ P ?",
         "bid2-44-summary": "P 1NT P 2♥ P 2♠ P ?",
@@ -10387,7 +10387,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/1Mr0ggjM0_c?si=yf6eUpSVwLKw5kZq",
       auctionResolvedTextByPromptId: {
         "bid2-45-open": "?",
         "bid2-45-open--reveal": "1♠ P 1NT P ?",
@@ -10575,7 +10575,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/JvdKoby6VtM?si=aa4z-RlbnnXsgO2l",
       auctionPartnersRed: true,
       auctionResolvedTextByPromptId: {
         "bid2-46-overcall": "1♦ ?",
@@ -10741,7 +10741,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/UHHVn9QrZvs?si=3uxqoKSauaKSlHoX",
       auctionResolvedTextByPromptId: {
         "bid2-47-bid": "1♥ 1NT 2♥ ?",
         "bid2-47-bid--reveal": "1♥ 1NT 2♥ 2NT P 3♣ P P P",
@@ -10860,7 +10860,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the shoulder #1",
       promptThemeTint: "overShoulder",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/I2Yr8JZn9LY?si=7AHrn1Qpz6ST53Xc",
       auctionResolvedTextByPromptId: {
         "bid2-48-bid1": "1♣ P 1♠ P ?",
         "bid2-48-bid1--reveal": "1♣ P 1♠ P 2♥ P 2NT P ?",

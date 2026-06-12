@@ -3515,7 +3515,7 @@ const CARDPLAY_PUZZLES_ALL = [
       promptThemeTint: "overShoulderDeclarer",
       showTrickTally: true,
       revealOriginalOnDone: true,
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/Lnr1t7pSA6Q?si=0OsUMGKCmahLLsBS",
       customPrompts: [
         {
           id: "cp2-11-knockout",
@@ -3769,7 +3769,7 @@ const CARDPLAY_PUZZLES_ALL = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the Shoulder #1",
       promptThemeTint: "overShoulderDeclarer",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/mCfT5FoFnnM?si=5UKSihaNYdfQfzBS",
       customPrompts: [
         {
           id: "cp2-12-strategy",
@@ -4040,7 +4040,7 @@ const CARDPLAY_PUZZLES_ALL = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the Shoulder #1",
       promptThemeTint: "overShoulderDeclarer",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/EpXc0h8iHdc?si=oOhbNl8SKqR-F29S",
       customPrompts: [
         {
           id: "cp2-13-duck",
@@ -4266,7 +4266,7 @@ const CARDPLAY_PUZZLES_ALL = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the Shoulder #1",
       promptThemeTint: "overShoulderDeclarer",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/uGvE0Pzz1R4?si=Y9y3wdDyOrn0g07D",
       customPrompts: [
         {
           id: "cp2-14-count",
@@ -4551,7 +4551,7 @@ const CARDPLAY_PUZZLES_ALL = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Over the Shoulder #1",
       promptThemeTint: "overShoulderDeclarer",
-      videoUrlBeforeStart: "",
+      videoUrlBeforeStart: "https://youtube.com/shorts/JLoHRjVILZA?si=GZuLyZe0COmVhd-s",
       customPrompts: [
         {
           id: "cp2-15-intro",
