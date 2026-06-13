@@ -213,13 +213,18 @@ async function snapshotRoute(browser, routePath) {
           throw waitErr;
         }
       }
-      const DEFAULT_TITLE_FRAGMENTS = [
-        "Bridge Champions \u2014 Bridge lessons",
-        "Bridge Champions \u2014",
-      ];
-      const titleIsDefault = DEFAULT_TITLE_FRAGMENTS.some((t) =>
-        (snapshotDiag.title || "").includes(t)
-      );
+      // The static index.html default <title> is "Bridge Champions \u2014 Bridge
+      // Lessons & Practice" (og:title matches). Detect it case-insensitively \u2014
+      // an earlier case-sensitive "Bridge lessons" check silently missed the
+      // real "Bridge Lessons" and treated the default as a real per-page title.
+      const titleIsDefault = (() => {
+        const s = (snapshotDiag.title || "").trim().toLowerCase();
+        return (
+          !s ||
+          s === "bridge champions" ||
+          s.includes("bridge champions \u2014 bridge lessons")
+        );
+      })();
       const articleOk = isArticleRoute && snapshotDiag.hasArticle && snapshotDiag.articleSize > 300;
       const hubOk = isHubRoute && snapshotDiag.hasCategoryArticles && snapshotDiag.rootSize > 800;
       const otherOk = !isArticleRoute && !isHubRoute && !titleIsDefault && snapshotDiag.rootSize > 800;
@@ -316,18 +321,28 @@ async function snapshotRoute(browser, routePath) {
     try {
       await page.waitForFunction(
         () => {
-          const canonical = document.querySelector("link[rel='canonical']");
-          if (canonical && canonical.getAttribute("href")) return true;
-          const title = document.title || "";
+          // Wait until react-helmet-async has replaced index.html's default
+          // <title> with the route's own. Helmet commits title + description +
+          // canonical together, so the title swap is the signal that the
+          // per-page <head> has flushed \u2014 snapshot then and we capture the real
+          // metadata, not index.html's generic defaults. Case-insensitive: the
+          // old check compared "Bridge lessons" against the real title "Bridge
+          // Lessons & Practice" and never matched, so this wait passed instantly
+          // and shipped the generic title on hub/landing pages. (The previous
+          // canonical short-circuit had the same effect once the backfill or a
+          // stray tag added any canonical.) Helmet-less routes time out at 8s
+          // and fall through to the h1-derived backfill below.
+          const title = (document.title || "").trim().toLowerCase();
+          if (!title) return false;
           const isDefault =
-            title.includes("Bridge Champions \u2014 Bridge lessons") ||
-            title.trim() === "Bridge Champions";
-          return !!title && !isDefault;
+            title === "bridge champions" ||
+            title.includes("bridge champions \u2014 bridge lessons");
+          return !isDefault;
         },
         { timeout: 8000, polling: 250 }
       );
     } catch (_) {
-      console.warn(`NOTE ${routePath} :: per-page <head> (canonical/title) not applied before snapshot`);
+      console.warn(`NOTE ${routePath} :: per-page <title> (Helmet) not applied before snapshot`);
     }
 
     await page.evaluate(async () => {
@@ -344,13 +359,18 @@ async function snapshotRoute(browser, routePath) {
       // so inject a self-referential canonical when one is missing, and replace
       // the homepage-default og:url/title with route-specific values. This makes
       // canonical/title timing-proof (the signal Google uses to de-duplicate).
-      const DEFAULT_TITLE_FRAGMENTS = [
-        "Bridge Champions \u2014 Bridge lessons",
-      ];
-      const titleIsDefault = (t) =>
-        !t ||
-        t.trim() === "Bridge Champions" ||
-        DEFAULT_TITLE_FRAGMENTS.some((frag) => t.includes(frag));
+      // Case-insensitive default detection \u2014 must match the real index.html
+      // title "Bridge Champions \u2014 Bridge Lessons & Practice". A case-sensitive
+      // check here previously skipped the h1 fallback, so a page whose Helmet
+      // title never flushed shipped the generic title unchanged.
+      const titleIsDefault = (t) => {
+        const s = (t || "").trim().toLowerCase();
+        return (
+          !s ||
+          s === "bridge champions" ||
+          s.includes("bridge champions \u2014 bridge lessons")
+        );
+      };
 
       const isHome = selfUrl === "https://bridgechampions.com/";
       const pointsHome = (href) =>
