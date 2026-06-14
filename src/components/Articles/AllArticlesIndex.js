@@ -89,7 +89,7 @@ const AllArticlesIndex = () => {
         sec.articles.length > 0 ? (
           <section key={sec.type} style={{ marginBottom: "2rem" }}>
             <h2 style={{ fontSize: "var(--text-xl, 1.35rem)", fontWeight: 700, marginBottom: "0.6rem" }}>
-              <a href={sec.path} style={{ color: "#0F4C3A" }}>
+              <a href={sec.type.startsWith("beginner") ? sec.path : "/learn"} style={{ color: "#0F4C3A" }}>
                 {sec.label}
               </a>
             </h2>

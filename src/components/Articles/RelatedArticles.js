@@ -222,7 +222,7 @@ const RelatedArticles = ({
       <div className="DisplayArticle-relatedFooter">
         <a
           className="DisplayArticle-relatedSecondary"
-          href={listPath}
+          href={String(articleType).startsWith("beginner") ? listPath : "/learn"}
         >
           See all {categoryLabel} →
         </a>

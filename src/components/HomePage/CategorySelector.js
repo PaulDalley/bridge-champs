@@ -6,21 +6,21 @@ const CategorySelector = () => {
   const categories = [
     {
       name: 'Defence',
-      path: '/defence',
+      path: '/learn',
       icon: '♠♥',
       description: 'Master defensive strategies',
       color: 'primary',
     },
     {
       name: 'Declarer Play',
-      path: '/declarer',
+      path: '/learn',
       icon: '♦♣',
       description: 'Skilled declarer play comes from simple counting and basic pattern recognition',
       color: 'secondary',
     },
     {
       name: 'Bidding',
-      path: '/bidding',
+      path: '/learn',
       icon: '♠♦',
       description: 'Improve your bidding judgment',
       color: 'accent',

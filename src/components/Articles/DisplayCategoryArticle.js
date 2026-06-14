@@ -8,6 +8,7 @@ import {
 import "./DisplayArticle.css";
 import "./ArticleListItem.css";
 import logger from "../../utils/logger";
+import { getTopicForSlug } from "../../data/topicHubs";
 import {
   firebase,
   articlesRef,
@@ -90,19 +91,13 @@ function formatLastUpdated(date) {
   }
 }
 
-// List path for redirect after delete
+// Browse path for an article type. Beginner keeps its own listings; every other
+// category now lives under the unified /learn topic-hub layout.
 const getListPathForArticleType = (type) => {
-  if (type === "biddingBasics") return "/bidding/basics";
-  if (type === "bidding" || type === "biddingAdvanced") return "/bidding/advanced";
-  if (type === "cardPlayBasics") return "/declarer/basics";
-  if (type === "cardPlay") return "/declarer/articles";
   if (type === "beginnerCardPlay") return "/beginner/articles/declarer";
   if (type === "beginnerDefence") return "/beginner/articles/defence";
   if (type === "beginnerBidding") return "/beginner/articles/bidding";
-  if (type === "defenceBasics") return "/defence/basics";
-  if (type === "defence") return "/defence/articles";
-  if (type === "counting") return "/counting/articles";
-  return "/";
+  return "/learn";
 };
 
 const getPracticePathForArticleType = (type) => {
@@ -829,11 +824,14 @@ const DisplayCategoryArticle = ({
     : ARTICLE_TOPIC_TABS;
   const activeTopicId =
     topicTabs.find((tab) => tab.types.includes(articleType))?.id || "declarer";
+  const topicCrumb = getTopicForSlug(useMetaData?.slug || articleId);
   const backToListDestination = {
-    pathname: getListPathForArticleType(articleType),
+    pathname: topicCrumb ? topicCrumb.hubPath : getListPathForArticleType(articleType),
     search: location?.search || "",
   };
-  const backToListLabel = `Back to ${getCategoryName()} articles`;
+  const backToListLabel = topicCrumb
+    ? `Back to ${topicCrumb.topicName}`
+    : `Back to ${getCategoryName()} articles`;
   const createdDate = toSafeDate(useMetaData?.createdAt);
   const updatedDate = toSafeDate(useMetaData?.updatedAt) || createdDate;
   const customAuthorName = useMetaData?.authorName;
@@ -859,11 +857,22 @@ const DisplayCategoryArticle = ({
       };
   const visibleAuthorName = looksLikePerson ? customAuthorName : DEFAULT_AUTHOR.name;
   const siteBaseUrl = SITE_PUBLISHER.url;
-  const breadcrumbItems = [
-    { name: "Home", path: "/" },
-    { name: `${getCategoryName()} Articles`, path: getListPathForArticleType(articleType) },
-    { name: useMetaData?.title || "Article", path: null },
-  ];
+  // Place the article under its topic hub when we can identify it, so the
+  // breadcrumb (and its schema) asserts Learn > Category > Topic > Article and
+  // links back up to the hub. Falls back to the old category-listing crumb.
+  const breadcrumbItems = topicCrumb
+    ? [
+        { name: "Home", path: "/" },
+        { name: "Learn", path: "/learn" },
+        { name: topicCrumb.categoryLabel, path: "/learn" },
+        { name: topicCrumb.topicName, path: topicCrumb.hubPath },
+        { name: useMetaData?.title || "Article", path: null },
+      ]
+    : [
+        { name: "Home", path: "/" },
+        { name: `${getCategoryName()} Articles`, path: getListPathForArticleType(articleType) },
+        { name: useMetaData?.title || "Article", path: null },
+      ];
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "Article",

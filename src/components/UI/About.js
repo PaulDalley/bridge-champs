@@ -187,9 +187,9 @@ class About extends React.Component {
                       <a href="/beginner">beginner&nbsp;lessons</a>, browse the
                       full <a href="/learn">learn&nbsp;library</a>, or jump
                       straight into the practice trainers under{" "}
-                      <a href="/bidding">bidding</a>,{" "}
-                      <a href="/declarer">declarer</a>, and{" "}
-                      <a href="/defence">defence</a>.
+                      <a href="/bidding/practice">bidding</a>,{" "}
+                      <a href="/declarer/practice">declarer</a>, and{" "}
+                      <a href="/defence/practice">defence</a>.
                     </p>
                   </div>
                 </div>

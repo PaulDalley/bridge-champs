@@ -44,8 +44,13 @@ Claude Code reads this file. Keep the two in sync when conventions change.)
 - Hand notation: ten = `10` or `T`; e.g. `S: "K103"`, `H: "AKJ94"`.
 
 ## Conventions (see `.cursor/rules/*.mdc` for the full set) — the critical ones:
-- **NEVER edit / reword / "improve" / add to the user's bridge teaching content unless they explicitly
-  agree.** Insert their wording verbatim. Flag possible typos as a note; don't silently fix them.
+- **NEVER write bridge content. Full stop.** Claude does NOT author bridge teaching or explanatory prose
+  anywhere — not in articles, not on hub/landing/pillar pages, not in headings, intros, summaries, blurbs,
+  or card descriptions — even when building a feature and even if it seems helpful. The user writes ALL
+  bridge content. Claude builds structure/code only and inserts the user's wording **verbatim**; if a new
+  page needs copy, leave it blank (or a neutral, non-bridge structural label) and ask the user for the
+  words. Likewise NEVER edit / reword / "improve" existing bridge content. Flag possible typos as a note;
+  don't silently fix them.
 - **Bid shorthand → colored suit symbols:** when the user types a bid like `2C`/`3S`/`1NT`, render it with
   the proper symbol (`2♣`, `3♠`, `1NT`) via `TextWithColoredSuits` (or raw `♣♦♥♠` in strings, which
   auto-color). ♥/♦ red, ♠ black, ♣ green.

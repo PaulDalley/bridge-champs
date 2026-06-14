@@ -85,17 +85,34 @@ const STATIC_URLS = [
   { loc: "/", changefreq: "daily", priority: "1.0" },
   { loc: "/about", changefreq: "monthly", priority: "0.7" },
   { loc: "/all-articles", changefreq: "weekly", priority: "0.6" },
-  // NOTE: /learn and /learn/beginner are redirect routes (-> /declarer/articles
-  // and /beginner) so they are intentionally NOT listed here — a sitemap should
-  // only advertise final destination URLs, not redirects.
-  { loc: "/declarer", changefreq: "daily", priority: "0.9" },
-  { loc: "/defence", changefreq: "daily", priority: "0.9" },
-  { loc: "/bidding", changefreq: "daily", priority: "0.9" },
+  // Topic-hub browse. /learn is the landing; each topic is its own hub page.
+  // (The old category hubs /declarer, /defence, /bidding now 301-redirect to
+  // /learn and are intentionally omitted. /learn/beginner is still a redirect.)
+  // Keep these topic slugs in sync with src/data/topicHubs.js.
+  { loc: "/learn", changefreq: "daily", priority: "0.9" },
+  { loc: "/learn/declarer/trumps", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer/counting", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer/planning", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer/hand-types", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer/setting-up-suits", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer/finesses", changefreq: "weekly", priority: "0.7" },
+  { loc: "/learn/declarer/entries", changefreq: "weekly", priority: "0.7" },
+  { loc: "/learn/declarer/hold-up", changefreq: "weekly", priority: "0.7" },
+  { loc: "/learn/defence/hand-types", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/defence/counting", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/defence/leads", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/defence/signals", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/defence/second-third-hand", changefreq: "weekly", priority: "0.7" },
+  { loc: "/learn/defence/technique", changefreq: "weekly", priority: "0.7" },
+  { loc: "/learn/bidding/constructive", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/bidding/competitive", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/bidding/conventions", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/bidding/hand-evaluation", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/bidding/vulnerability", changefreq: "weekly", priority: "0.8" },
   { loc: "/beginner", changefreq: "weekly", priority: "0.8" },
-  { loc: "/declarer/articles", changefreq: "weekly", priority: "0.8" },
-  { loc: "/defence/articles", changefreq: "weekly", priority: "0.8" },
-  { loc: "/bidding/advanced", changefreq: "weekly", priority: "0.8" },
-  { loc: "/bidding/basics", changefreq: "weekly", priority: "0.8" },
+  // Old article-listing pages (/declarer/articles, /defence/articles,
+  // /bidding/advanced, /bidding/basics) now 301-redirect to /learn — omitted.
+  // (Article DETAIL pages under those prefixes are still emitted dynamically.)
   // NOTE: /counting/articles (-> /declarer/articles) and /beginner/articles
   // (-> /beginner/articles/declarer) are redirect routes — kept out of the
   // sitemap so Google isn't pointed at URLs that just redirect.

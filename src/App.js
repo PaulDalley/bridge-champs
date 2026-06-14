@@ -49,11 +49,9 @@ import Flyer from "./components/Promotional/Flyer";
 import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage";
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
 import CountingTrumpsTrainer from "./components/Counting/CountingTrumpsTrainer";
-import CountingHub from "./components/Counting/CountingHub";
-import DeclarerHub from "./components/Declarer/DeclarerHub";
+import LearnHub from "./components/Learn/LearnHub";
+import TopicHub from "./components/Learn/TopicHub";
 import DeclarerTrainer from "./components/Declarer/DeclarerTrainer";
-import DefenceHub from "./components/Defence/DefenceHub";
-import BiddingHub from "./components/Bidding/BiddingHub";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import JacobyConventionArticle from "./components/Bidding/JacobyConventionArticle";
 import ReversesArticle from "./components/Bidding/ReversesArticle";
@@ -62,7 +60,6 @@ import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage"
 import TreadmillLandingPage from "./components/Treadmill/TreadmillLandingPage";
 import TreadmillCardRushLandingPage from "./components/Treadmill/TreadmillCardRushLandingPage";
 import PracticalJustPlayPage from "./components/Trainers/PracticalJustPlayPage";
-import OtherHub from "./components/UI/OtherHub";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
 import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
@@ -90,7 +87,7 @@ import {
   authReady,
 } from "./store/actions/authActions";
 import { setUserQuizScores, setUserCompletedPractice } from "./store/actions/usersActions";
-import { getArticlesRootPath, getPracticeRootPath, isLocalhostBuild } from "./utils/beginnerMode";
+import { getPracticeRootPath, isLocalhostBuild } from "./utils/beginnerMode";
 
 // Configure redux store:
 import configureStore from "./store/configureStore";
@@ -316,18 +313,8 @@ const routes = (
         )
       }
     />
-    <Route
-      path="/learn"
-      exact
-      render={(routeProps) => (
-        <Redirect
-          to={{
-            pathname: getArticlesRootPath(false),
-            search: routeProps.location.search,
-          }}
-        />
-      )}
-    />
+    <Route path="/learn" exact component={LearnHub} />
+    <Route path="/learn/:category/:topic" exact component={TopicHub} />
     <Route
       path="/learn/beginner"
       exact
@@ -341,7 +328,7 @@ const routes = (
       )}
     />
     <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
-    <Route path="/other" component={OtherHub} exact />
+    <Route path="/other" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/system" component={SystemCardEditor} exact />
     <Route
       path="/system/card"
@@ -362,14 +349,15 @@ const routes = (
         </>
       )}
     />
-    <Route path="/declarer/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} exact />
+    <Route path="/declarer/articles" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/declarer/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="cardPlay" bodyRef="cardPlayBody" />} />
-    <Route path="/declarer" component={DeclarerHub} exact />
+    <Route path="/declarer/trumps" exact render={(routeProps) => <Redirect to={{ pathname: "/learn/declarer/trumps", search: routeProps.location.search }} />} />
+    <Route path="/declarer" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
 
     <Route path="/cardPlay/practice" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/practice", search: routeProps.location.search }} />} />
     <Route path="/cardPlay/articles/:id" render={(routeProps) => <Redirect to={{ pathname: `/declarer/articles/${routeProps.match.params.id}`, search: routeProps.location.search }} />} />
     <Route path="/cardPlay/articles" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer/articles", search: routeProps.location.search }} />} />
-    <Route path="/cardPlay" exact render={(routeProps) => <Redirect to={{ pathname: "/declarer", search: routeProps.location.search }} />} />
+    <Route path="/cardPlay" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
 
     <Route
       path="/defence/practice"
@@ -381,9 +369,9 @@ const routes = (
         </>
       )}
     />
-    <Route path="/defence/articles" render={(routeProps) => <CategoryArticles {...routeProps} articleType="defence" bodyRef="defenceBody" />} exact />
+    <Route path="/defence/articles" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/defence/articles/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="defence" bodyRef="defenceBody" />} />
-    <Route path="/defence" component={DefenceHub} exact />
+    <Route path="/defence" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
 
     <Route
       path="/counting/articles"
@@ -418,7 +406,7 @@ const routes = (
         </>
       )}
     />
-    <Route path="/counting" component={CountingHub} exact />
+    <Route path="/counting" exact render={(routeProps) => <Redirect to={{ pathname: "/learn/declarer/counting", search: routeProps.location.search }} />} />
     <Route
       path="/treadmill/practice/opponent-shape"
       exact
@@ -759,12 +747,12 @@ const routes = (
         </>
       )}
     />
-    <Route path="/bidding" component={BiddingHub} exact />
+    <Route path="/bidding" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/bidding/worthwhile-conventions/jacoby-2nt" component={JacobyConventionArticle} exact />
     <Route path="/bidding/advanced/reverses" component={ReversesArticle} exact />
-    <Route path="/bidding/advanced" render={(routeProps) => <CategoryArticles {...routeProps} articleType="bidding" bodyRef="biddingBody" />} exact />
+    <Route path="/bidding/advanced" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/bidding/advanced/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="bidding" bodyRef="biddingBody" />} />
-    <Route path="/bidding/basics" render={(routeProps) => <CategoryArticles {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} exact />
+    <Route path="/bidding/basics" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/bidding/basics/:id" render={(routeProps) => <DisplayCategoryArticle {...routeProps} articleType="biddingBasics" bodyRef="biddingBasicsBody" />} />
     {/* END CHANGES TO ADD NEW ROUTES FOR 3 TYPES OF ARTICLE */}
 

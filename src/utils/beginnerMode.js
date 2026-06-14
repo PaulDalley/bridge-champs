@@ -32,7 +32,7 @@ export const getPracticeRootPath = (beginnerModeEnabled) =>
   beginnerModeEnabled ? "/beginner/practice" : "/bidding/practice";
 
 export const getArticlesRootPath = (beginnerModeEnabled) =>
-  beginnerModeEnabled ? "/beginner/articles" : "/declarer/articles";
+  beginnerModeEnabled ? "/beginner/articles" : "/learn";
 
 export const getRouteAfterToggle = (pathname = "", beginnerModeEnabled) => {
   const inArticleContext =
