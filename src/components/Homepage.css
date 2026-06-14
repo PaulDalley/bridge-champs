@@ -536,11 +536,35 @@
 }
 
 .HomePage-testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: var(--space-xl);
   max-width: 80rem;
   margin: 0 auto;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-md);
+  scrollbar-width: thin;
+  scrollbar-color: #D4AF37 rgba(255, 255, 255, 0.2);
+  cursor: grab;
+}
+
+.HomePage-testimonials-grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.HomePage-testimonials-grid::-webkit-scrollbar {
+  height: 8px;
+}
+.HomePage-testimonials-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+.HomePage-testimonials-grid::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
 }
 
 .HomePage-testimonial {
@@ -552,6 +576,8 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  flex: 0 0 clamp(18rem, 46%, 30rem);
+  scroll-snap-align: start;
 }
 
 .HomePage-testimonial-quote {
@@ -578,8 +604,10 @@
     font-size: var(--text-3xl);
   }
   .HomePage-testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
+  }
+  .HomePage-testimonial {
+    flex-basis: 85%;
   }
 }
 

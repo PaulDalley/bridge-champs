@@ -292,11 +292,43 @@ class HomePage extends Component {
     </section>
   );
 
+  // Click-and-drag to scroll the testimonials row horizontally (desktop).
+  // Touch devices already get native swipe via overflow-x: auto.
+  attachTestimonialsDrag = (node) => {
+    if (!node || node.__dragAttached) return;
+    node.__dragAttached = true;
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    const onDown = (e) => {
+      isDown = true;
+      startX = e.pageX;
+      startScroll = node.scrollLeft;
+      node.classList.add("is-dragging");
+    };
+    const onMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      node.scrollLeft = startScroll - (e.pageX - startX);
+    };
+    const onUp = () => {
+      if (!isDown) return;
+      isDown = false;
+      node.classList.remove("is-dragging");
+    };
+    node.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  };
+
   renderTestimonials = () => (
     <section className="HomePage-testimonials">
       <div className="container">
         <h2 className="HomePage-testimonials-title">What members say</h2>
-        <div className="HomePage-testimonials-grid">
+        <div
+          className="HomePage-testimonials-grid"
+          ref={this.attachTestimonialsDrag}
+        >
           <figure className="HomePage-testimonial">
             <blockquote className="HomePage-testimonial-quote">
               Bridge Champions is different (and better!) than your average internet based learning tool. It is both practical and insightful, regularly delivering novel ways to understand bidding and card play in an easy-to-follow format. Any specific areas of interest can be looked up and revised in a perfect &ldquo;hands on&rdquo; format. Paul Dalley&apos;s proactive and multi dimensional initiative has increased my &ldquo;bridge awareness&rdquo; significantly.
@@ -307,7 +339,13 @@ class HomePage extends Component {
             <blockquote className="HomePage-testimonial-quote">
               I am absolutely loving your work! I have very much the calculating, mathematical approach to bridge (comes from 35 years as a Professor of Medicine) so I like the design of your site and your approach to teaching. It allows me to test myself with immediate feedback from an expert&mdash;all done with compact, specific, and engaging comments. You do a great job of making it appear you were here looking over my shoulder. You are also clearly committed to making the website the best it can be.
             </blockquote>
-            <figcaption className="HomePage-testimonial-author">Ian Whyte, Canberra</figcaption>
+            <figcaption className="HomePage-testimonial-author">Ian Whyte, Newcastle</figcaption>
+          </figure>
+          <figure className="HomePage-testimonial">
+            <blockquote className="HomePage-testimonial-quote">
+              Bridge Champions has transformed my game with its clear lessons on fundamentals, bidding, counting, defence and declarer play, all reinforced by simple, practical exercises that are easy to follow. I especially enjoy using the memory exercises on the treadmill, making it a fun and effective way to sharpen my bridge skills every day.
+            </blockquote>
+            <figcaption className="HomePage-testimonial-author">Terry Simmons, President, Easts Bridge Club</figcaption>
           </figure>
         </div>
       </div>
