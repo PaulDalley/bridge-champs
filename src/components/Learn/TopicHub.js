@@ -184,10 +184,19 @@ function TopicHub({ match }) {
       )}
 
       {articles.length > 0 && (
-        <a className="th-cta" href={TRAINER_PATH[cat.key] || "/"}>
+        <a className="th-cta" href={t.trainerHref || TRAINER_PATH[cat.key] || "/"}>
           <div>
             <div className="th-ctaText">Practise {t.name.toLowerCase()} in the trainer</div>
             <div className="th-ctaSub">Interactive practice hands</div>
+          </div>
+          <span className="th-ctaArrow" aria-hidden="true">&rarr;</span>
+        </a>
+      )}
+      {articles.length > 0 && t.treadmillHref && (
+        <a className="th-cta th-cta--treadmill" href={t.treadmillHref}>
+          <div>
+            <div className="th-ctaText">Practise {t.name.toLowerCase()} on the treadmill</div>
+            <div className="th-ctaSub">Treadmill trainer</div>
           </div>
           <span className="th-ctaArrow" aria-hidden="true">&rarr;</span>
         </a>

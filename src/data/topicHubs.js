@@ -25,6 +25,7 @@ export const CATEGORIES = [
       {
         slug: "trumps",
         name: "Trumps",
+        trainerHref: "/declarer/practice?difficulty=1&problem=cp1-7",
         intro: `The first question we're often faced with - should I draw trumps? In reality its probably about 50% of the time correct to draw them immediately, and 50% of the time correct to wait. There is no perfect rule, but there are a few good guidelines that will help you find the right approach
 
 * Ruff losers in dummy before drawing trumps
@@ -44,6 +45,8 @@ export const CATEGORIES = [
       {
         slug: "counting",
         name: "Counting",
+        trainerHref: "/counting/practice?difficulty=1&problem=p1-20",
+        treadmillHref: "/treadmill/practice",
         intro: `Counting as declarer is a critical skill. We have often heard about counting winners or losers but most players aren't in the habit of doing it, and doing it multiple times in a hand as the hand develops. If applied correctly it is a very powerful skill, and the basis for any good declarer planning.
 
 Counting is typically very simple, its usually about looking at simple suit holdings and counting very simply, for example up to 7 or 10. Or, when you're counting losers, often its about making sure there aren't 4 losers when you're in 4♠. It sounds basic and pointless, but as you do it, an amazing skill will be unlocked, you'll be in the top 1-5% of declarers!`,
@@ -103,6 +106,7 @@ Counting is typically very simple, its usually about looking at simple suit hold
         slug: "entries",
         name: "Entries",
         intro: "",
+        trainerHref: "/declarer/practice?difficulty=2&problem=cp2-6",
         suggested: true,
         articles: [
           { title: "Use Entries Well: Reach the Right Hand at the Right Time", to: "/declarer/articles/use-entries-well-reach-right", level: A },
@@ -127,6 +131,7 @@ Counting is typically very simple, its usually about looking at simple suit hold
       {
         slug: "hand-types",
         name: "Hand & dummy types",
+        trainerHref: "/defence/practice?difficulty=1&problem=df1-1",
         intro: `When a skilled defender looks at dummy, often they are able to tell the key points of the hand. They will often know declarer's main plan and as a result, will be focused on ways of defending.
 
 A typical example is when you spot a very weak dummy with a singleton and 3 trumps. Declarer will often go for ruffs in dummy, and it will be the role of the defenders to play trumps. When the defenders are clued into that, they will be focused on, for example, getting the lead from the correct side in order to play a trump through.
@@ -144,6 +149,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "counting",
         name: "Counting",
         intro: "",
+        treadmillHref: "/treadmill/practice",
         articles: [
           { title: "Count the Unseen Hand: Read Distribution in Defence", to: "/defence/articles/count-unseen-hand-read-distribution", level: A },
           { title: "Count Trumps in Defence: Prevent Surprise Ruffing", to: "/defence/articles/count-trumps-defence-prevent-surprise", level: A },
@@ -153,6 +159,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "leads",
         name: "Leads",
         intro: "",
+        trainerHref: "/defence/practice?difficulty=1&problem=df1-23",
         articles: [
           { title: "Opening Leads: Top of a Sequence and Longest Suit in No-Trump", to: "/beginner/articles/defence/opening-leads-beginners-top-sequence", level: F },
           { title: "What suit to switch to: Play Towards Weakness or Through Strength", to: "/beginner/articles/defence/suit-switch-play-towards-weakness", level: F },
@@ -261,6 +268,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "hand-evaluation",
         name: "Hand evaluation",
         intro: "",
+        trainerHref: "/bidding/practice?difficulty=2&problem=bid2-6",
         articles: [
           { title: "Hand Evaluation 1: Card Texture Matters", to: "/bidding/advanced/hand-evaluation-1-card-texture", level: A },
           { title: "Hand Evaluation 2: Re-Evaluate as the Auction Develops", to: "/bidding/advanced/hand-evaluation-2-re-evaluate", level: A },
