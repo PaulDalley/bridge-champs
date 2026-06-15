@@ -4297,10 +4297,16 @@ ol.ct-revealRichPoints {
   }
   .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask3.ct-table--dummyLeft .ct-seat--left {
     grid-column: 1;
-    grid-row: 1 / -1;
+    grid-row: 1 / 3;
     justify-self: start;
     align-self: center;
     align-items: flex-start;
+  }
+  /* Your hand spans the full felt width on the bottom row, so the dummy's left
+     column doesn't squeeze it and can't overlap it. */
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask3.ct-table--dummyLeft .ct-seat--bottom {
+    grid-column: 1 / -1;
+    grid-row: 3;
   }
 }
 
