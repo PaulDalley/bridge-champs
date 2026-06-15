@@ -59,7 +59,9 @@ Counting is typically very simple, its usually about looking at simple suit hold
       {
         slug: "planning",
         name: "Planning",
-        intro: "",
+        intro: `Just start by practicing "stop and think" when dummy comes down. Always give yourself at least 30 seconds to just think about how the play might go, which suits you plan to play and why. Through experience we learn to spot dangers and opportunities before its too late, but the key skill is learned through routine - develop a habit of planning and an awareness that playing too quickly without a plan, particularly at trick 1, may be very costly.
+
+"Take your time at trick 1, make a plan - even a mediocre plan is a good start".`,
         articles: [
           { title: "Declarer Play Basics: Build a Plan at Trick One", to: "/declarer/articles/declarer-play-basics-build-plan", level: A },
           { title: "Counting Losers: Plan the Hand and Spot Hidden Dangers Early", to: "/declarer/articles/counting-losers-plan-hand-spot", level: A },
@@ -83,7 +85,9 @@ Counting is typically very simple, its usually about looking at simple suit hold
       {
         slug: "setting-up-suits",
         name: "Setting up suits",
-        intro: "",
+        intro: `Long suits are often the most fruitful way to set up tricks. Your eyes should be trained to look immediately at 5+ card suits, and think - can I set that suit up? Even 4 card suits (4-3 fits) can create extra winners if the suit breaks 4-3-3-3.
+
+Being aware of these long suits is the first step to making a lot more tricks. We then develop strategies to best handle long suits. The guiding principle is often "Set up long suits as a priority, before drawing trumps".`,
         articles: [
           { title: "Playing Long Suits: Build Extra Winners Early", to: "/beginner/articles/declarer/playing-long-suits-build-extra", level: F },
           { title: "Establishing Side-Suit Winners: Honor Sequences Like KQJ10", to: "/beginner/articles/declarer/establishing-side-suit-winners-honor", level: F },
