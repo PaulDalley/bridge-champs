@@ -44,7 +44,9 @@ export const CATEGORIES = [
       {
         slug: "counting",
         name: "Counting",
-        intro: "",
+        intro: `Counting as declarer is a critical skill. We have often heard about counting winners or losers but most players aren't in the habit of doing it, and doing it multiple times in a hand as the hand develops. If applied correctly it is a very powerful skill, and the basis for any good declarer planning.
+
+Counting is typically very simple, its usually about looking at simple suit holdings and counting very simply, for example up to 7 or 10. Or, when you're counting losers, often its about making sure there aren't 4 losers when you're in 4♠. It sounds basic and pointless, but as you do it, an amazing skill will be unlocked, you'll be in the top 1-5% of declarers!`,
         articles: [
           { title: "Counting Losers: Plan the Hand and Spot Hidden Dangers Early", to: "/declarer/articles/counting-losers-plan-hand-spot", level: A },
           { title: "Count Winners in No-Trump: Build a Trick Plan", to: "/declarer/articles/count-winners-no-trump-build", level: A },
