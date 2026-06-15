@@ -174,7 +174,7 @@
   font-size: 1.7rem; line-height: 1.7; color: #334155;
   max-width: none; margin: 0; padding-left: 2.1rem;
 }
-.th-introBox .th-introList li { margin: 0.4rem 0; padding-left: 0.2rem; }
+.th-introBox .th-introList li { list-style-type: disc; margin: 0.4rem 0; padding-left: 0.2rem; }
 .th-introBox .th-introList li::marker { color: #e8943a; }
 
 .th-cta {
