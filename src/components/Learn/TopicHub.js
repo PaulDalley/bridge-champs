@@ -102,6 +102,7 @@ function TopicHub({ match }) {
   // Author writes the intro; the meta description is derived from its first
   // paragraph (an explicit `description` on the topic overrides it).
   const metaDescription = clip((t.description && t.description.trim()) || introToDescription(t.intro));
+  const intro = renderIntro(t.intro);
 
   // Assert this page as the hub for the topic: a CollectionPage that lists its
   // articles, plus a breadcrumb trail. Names come from the topic + article
@@ -172,12 +173,15 @@ function TopicHub({ match }) {
         )}
       </div>
 
-      {renderIntro(t.intro) ||
-        (isDev && (
+      {intro ? (
+        <div className="th-introBox">{intro}</div>
+      ) : (
+        isDev && (
           <p className="th-intro th-intro--empty">
             Intro goes here — your words (set <code>intro</code> on this topic in topicHubs.js).
           </p>
-        ))}
+        )
+      )}
 
       {articles.length > 0 && (
         <a className="th-cta" href={TRAINER_PATH[cat.key] || "/"}>
