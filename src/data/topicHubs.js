@@ -125,7 +125,11 @@ export const CATEGORIES = [
       {
         slug: "hand-types",
         name: "Hand & dummy types",
-        intro: "",
+        intro: `When a skilled defender looks at dummy, often they are able to tell the key points of the hand. They will often know declarer's main plan and as a result, will be focused on ways of defending.
+
+A typical example is when you spot a very weak dummy with a singleton and 3 trumps. Declarer will often go for ruffs in dummy, and it will be the role of the defenders to play trumps. When the defenders are clued into that, they will be focused on, for example, getting the lead from the correct side in order to play a trump through.
+
+There are main categories of dummy that we will work through in this section which will help you come up with plans in defence and have a better idea of which suit to play and when.`,
         articles: [
           { title: "Dummy Type 1: Limited Entries and How to Pressure It", to: "/defence/articles/dummy-type-1-limited-entries", level: A },
           { title: "Dummy Type 2: Strong Trick Source and How to Disrupt It", to: "/defence/articles/dummy-type-2-strong-trick", level: A },
