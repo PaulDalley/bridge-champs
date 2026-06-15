@@ -5760,17 +5760,14 @@ return fallbackIdx + 1;
  seatLeft: seatAtCompass[rhoCompass(v)],
  seatRight: seatAtCompass[lhoCompass(v)],
  };
- // Display-only (defence): a few problems are authored with the viewer on declarer's
- // LHO side, which drops DUMMY into the LEFT cell (and a CSS workaround then lifts it
- // up into the top-centre slot). When `promptOptions.dummyOnRight` is set, mirror the
- // two lateral cells so DUMMY always renders on the RIGHT, matching the rest of the set.
- // Pure screen-cell swap: viewerCompass/declarerCompass, the play engine, lead order and
- // answers are untouched; trick cards + distribution inputs follow the same seat map.
- if (puzzle?.promptOptions?.dummyOnRight && base.seatLeft === "DUMMY") {
- return { ...base, seatLeft: base.seatRight, seatRight: base.seatLeft };
- }
+ // NOTE: `promptOptions.dummyOnRight` used to swap the two lateral cells so DUMMY
+ // rendered on the right. That swap is a left<->right REFLECTION, which reverses the
+ // visual play direction (cards appeared to go anti-clockwise). The base map is a pure
+ // rotation (bottom=viewer, left=viewer+1, top=viewer+2, right=viewer+3) and always
+ // reads clockwise, so we keep it. For viewer-on-declarer's-LHO deals the dummy sits on
+ // the left — that is correct; you cannot move it right without reversing the rotation.
  return base;
- }, [seatAtCompass, viewerCompass, puzzle?.promptOptions?.dummyOnRight]);
+ }, [seatAtCompass, viewerCompass]);
  
  const viewerSeat = seatAtCompass[viewerCompass] || "DECLARER"; // internal seat key: LHO/DUMMY/RHO/DECLARER 
  // Clockwise typing order (left -> top -> right -> bottom) from the viewer’s perspective. 
