@@ -242,7 +242,18 @@ There are main categories of dummy that we will work through in this section whi
       {
         slug: "competitive",
         name: "Competitive bidding",
-        intro: "",
+        intro: `Most of the scoring happens in the competitive bidding. Pairs are getting a significant edge from competing under the correct conditions, and knowing also when it is correct to defend.
+
+The modern takeout double has evolved a lot and is one of the most important tools we have in competitive auctions. Once we have found a fit, a flood of questions often come to us including
+
+* How high should I raise?
+* Should I investigate a major fit as well or just raise a minor?
+* Should I bid 3 over 3 or 5 over 5?
+* Is there a way to show a good 4 card raise and a bad 4 card raise?
+
+Competitive bidding at its core is finding our fits early, and bidding as high as possible as soon as possible - leaving little room for our opponents and forcing them to guess. They are often guessing in the dark whether to bid, pass or double.
+
+Another key feature is to not let the opponents play in comfortable contracts when possible - this especially applies to playing in fits on the two level - its often going to be correct to compete, especially when we aren't vulnerable. Vulnerability is a big factor we have to consider at all times when it comes to competitive bidding.`,
         trainerHref: "/bidding/practice?difficulty=2&problem=bid2-9",
         articles: [
           { title: "KISS 1: Do Not Double Automatically", to: "/bidding/advanced/kiss-1-do-not-double", level: A },
