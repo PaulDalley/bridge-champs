@@ -25,7 +25,12 @@ export const CATEGORIES = [
       {
         slug: "trumps",
         name: "Trumps",
-        intro: "",
+        intro: `The first question we're often faced with - should I draw trumps? In reality its probably about 50% of the time correct to draw them immediately, and 50% of the time correct to wait. There is no perfect rule, but there are a few good guidelines that will help you find the right approach
+
+* Ruff losers in dummy before drawing trumps
+* Typically set up long side suits before drawing trumps
+* If you can "Just draw trumps", do so, don't delay unless its for a concrete reason
+* Remember that trumps often double up as entries. Try to draw a trump when you also need an entry to the hand.`,
         articles: [
           { title: "Drawing Trumps: A Simple Habit That Saves Tricks", to: "/beginner/articles/declarer/drawing-trumps-simple-habit-saves", level: F },
           { title: "When Not to Draw Trumps: 3 Situations to Delay", to: "/beginner/articles/declarer/not-draw-trumps-3-situations", level: F },

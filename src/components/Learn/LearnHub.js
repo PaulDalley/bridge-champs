@@ -6,6 +6,8 @@ import { getReadSet } from "../../utils/readArticles";
 import "./TopicHubs.css";
 
 const SITE = "https://bridgechampions.com";
+const LEARN_DESC = "Declarer play, defence, and bidding — by topic.";
+const OG_IMAGE = `${SITE}/og/default.png`;
 
 // Flatten every allocated article for the search box (dedupe by URL).
 const ALL_ARTICLES = (() => {
@@ -54,14 +56,46 @@ function LearnHub() {
     return ALL_ARTICLES.filter((a) => a.title.toLowerCase().includes(s)).slice(0, 12);
   }, [q]);
 
+  // ItemList of every topic hub, so search engines see the site's topic map.
+  const learnItems = [];
+  CATEGORIES.forEach((c) =>
+    c.topics.forEach((tp) =>
+      learnItems.push({ key: c.key, slug: tp.slug, name: `${tp.name} — ${c.label}` })
+    )
+  );
+  const learnSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Learn Bridge by Topic",
+    url: `${SITE}/learn`,
+    isPartOf: { "@type": "WebSite", name: "Bridge Champions", url: SITE },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: learnItems.map((it, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE}/learn/${it.key}/${it.slug}`,
+        name: it.name,
+      })),
+    },
+  };
+
   return (
     <div className="lh-page">
       <Helmet>
         <title>Learn Bridge by Topic | Bridge Champions</title>
+        <meta name="description" content={LEARN_DESC} />
         <link rel="canonical" href={`${SITE}/learn`} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${SITE}/learn`} />
         <meta property="og:title" content="Learn Bridge by Topic | Bridge Champions" />
+        <meta property="og:description" content={LEARN_DESC} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Learn Bridge by Topic | Bridge Champions" />
+        <meta name="twitter:description" content={LEARN_DESC} />
+        <meta name="twitter:image" content={OG_IMAGE} />
+        <script type="application/ld+json">{JSON.stringify(learnSchema)}</script>
       </Helmet>
 
       <div className="lh-hero">

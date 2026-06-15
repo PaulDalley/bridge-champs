@@ -15,6 +15,60 @@ function Suits() {
   );
 }
 
+// Render a topic intro string into paragraphs + bullet lists. Lines starting
+// with "* " or "- " become list items; blank lines separate blocks. The intro
+// text is the author's words — this only handles layout.
+function renderIntro(intro) {
+  if (!intro || !intro.trim()) return null;
+  const nodes = [];
+  let para = [];
+  let bullets = [];
+  const flushPara = () => {
+    if (para.length) {
+      nodes.push(<p key={`ip${nodes.length}`} className="th-intro">{para.join(" ")}</p>);
+      para = [];
+    }
+  };
+  const flushBullets = () => {
+    if (bullets.length) {
+      nodes.push(
+        <ul key={`iu${nodes.length}`} className="th-introList">
+          {bullets.map((b, i) => <li key={i}>{b}</li>)}
+        </ul>
+      );
+      bullets = [];
+    }
+  };
+  intro.replace(/\r/g, "").split("\n").forEach((raw) => {
+    const line = raw.trim();
+    if (!line) { flushPara(); flushBullets(); return; }
+    const m = line.match(/^[*-]\s*(.*)$/);
+    if (m) { flushPara(); bullets.push(m[1]); }
+    else { flushBullets(); para.push(line); }
+  });
+  flushPara();
+  flushBullets();
+  return nodes.length ? nodes : null;
+}
+
+// First paragraph of an intro as plain text — feeds the meta description, so the
+// author writes ONE thing per topic and the SERP snippet comes from it.
+function introToDescription(intro) {
+  if (!intro || !intro.trim()) return "";
+  const para = [];
+  for (const raw of intro.replace(/\r/g, "").split("\n")) {
+    const line = raw.trim();
+    if (!line || /^[*-]\s*/.test(line)) { if (para.length) break; else continue; }
+    para.push(line);
+  }
+  return para.join(" ");
+}
+
+function clip(s, n = 160) {
+  if (!s || s.length <= n) return s || "";
+  return s.slice(0, n).replace(/\s+\S*$/, "") + "…";
+}
+
 function TopicHub({ match }) {
   const category = match && match.params ? match.params.category : undefined;
   const topic = match && match.params ? match.params.topic : undefined;
@@ -44,6 +98,10 @@ function TopicHub({ match }) {
   const siblings = cat.topics.filter((x) => x.slug !== t.slug);
   const canonical = `${SITE}/learn/${cat.key}/${t.slug}`;
   const isDev = process.env.NODE_ENV !== "production";
+  const OG_IMAGE = `${SITE}/og/default.png`;
+  // Author writes the intro; the meta description is derived from its first
+  // paragraph (an explicit `description` on the topic overrides it).
+  const metaDescription = clip((t.description && t.description.trim()) || introToDescription(t.intro));
 
   // Assert this page as the hub for the topic: a CollectionPage that lists its
   // articles, plus a breadcrumb trail. Names come from the topic + article
@@ -78,10 +136,17 @@ function TopicHub({ match }) {
     <div className={`th-page th-page--${cat.key}`}>
       <Helmet>
         <title>{`${t.name} — ${cat.label} | Bridge Champions`}</title>
+        {metaDescription && <meta name="description" content={metaDescription} />}
         <link rel="canonical" href={canonical} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonical} />
         <meta property="og:title" content={`${t.name} — ${cat.label} | Bridge Champions`} />
+        {metaDescription && <meta property="og:description" content={metaDescription} />}
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${t.name} — ${cat.label} | Bridge Champions`} />
+        {metaDescription && <meta name="twitter:description" content={metaDescription} />}
+        <meta name="twitter:image" content={OG_IMAGE} />
         <script type="application/ld+json">{JSON.stringify(collectionSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
@@ -107,15 +172,12 @@ function TopicHub({ match }) {
         )}
       </div>
 
-      {t.intro ? (
-        <p className="th-intro">{t.intro}</p>
-      ) : (
-        isDev && (
+      {renderIntro(t.intro) ||
+        (isDev && (
           <p className="th-intro th-intro--empty">
             Intro goes here — your words (set <code>intro</code> on this topic in topicHubs.js).
           </p>
-        )
-      )}
+        ))}
 
       {articles.length > 0 && (
         <a className="th-cta" href={TRAINER_PATH[cat.key] || "/"}>

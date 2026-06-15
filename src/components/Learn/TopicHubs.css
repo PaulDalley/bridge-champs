@@ -157,6 +157,11 @@
   border: 1px dashed #c8cfcb; border-radius: 10px; padding: 1rem 1.2rem;
   color: #94a3b8; font-size: 1.45rem; font-style: italic;
 }
+.th-introList {
+  font-size: 1.7rem; line-height: 1.7; color: #334155;
+  max-width: 62rem; margin: 0.9rem 0 0; padding-left: 1.8rem;
+}
+.th-introList li { margin: 0.35rem 0; }
 
 .th-cta {
   display: flex; align-items: center; gap: 1.2rem; justify-content: space-between;
