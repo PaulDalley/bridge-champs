@@ -175,6 +175,7 @@
   max-width: none; margin: 0; padding-left: 2.1rem;
 }
 .th-introBox .th-introList li { list-style-type: disc; margin: 0.4rem 0; padding-left: 0.2rem; }
+.th-introBox ol.th-introList li { list-style-type: decimal; }
 .th-introBox .th-introList li::marker { color: #e8943a; }
 
 .th-cta {

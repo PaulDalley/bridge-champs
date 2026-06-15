@@ -177,7 +177,13 @@ There are main categories of dummy that we will work through in this section whi
       {
         slug: "signals",
         name: "Signals",
-        intro: "",
+        intro: `Signals are often the difference between beating a contract or not, they are invaluable when used correctly. There are a few important decisions to make with signals
+
+1. Which signals will your partnership use?
+2. When do they apply? A big source of confusion for partnerships is the players being on a different page about which signal is being given. For example, one player might be giving count while the other thinks the signal is attitude about a suit. Having crystal clear and consistent rules around that is essential.
+3. Keep it simple, don't overdo it. One or two simple but reliable signals will often achieve the goal.
+
+Modern partnerships are adding in a lot of suit preference into their signaling, the play of irrelevant pips in defence can be done in a way that carries rich information. But as always, keep it simple, and don't overdo it especially at the intermediate stage - 1 or 2 signals per hand will be sufficient.`,
         articles: [
           { title: "Bridge Signals: Attitude, Count, and Suit Preference", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
           { title: "Odds and Evens Discarding in Bridge: Should You Play It?", to: "/beginner/articles/defence/odds-evens-discarding-bridge-should", level: F },

@@ -15,14 +15,16 @@ function Suits() {
   );
 }
 
-// Render a topic intro string into paragraphs + bullet lists. Lines starting
-// with "* " or "- " become list items; blank lines separate blocks. The intro
-// text is the author's words — this only handles layout.
+// Render a topic intro string into paragraphs + lists. Lines starting with "* "
+// or "- " become a bullet list; lines starting with "1." / "2)" etc. become an
+// ordered list; blank lines separate blocks. The intro text is the author's
+// words — this only handles layout.
 function renderIntro(intro) {
   if (!intro || !intro.trim()) return null;
   const nodes = [];
   let para = [];
   let bullets = [];
+  let numbers = [];
   const flushPara = () => {
     if (para.length) {
       nodes.push(<p key={`ip${nodes.length}`} className="th-intro">{para.join(" ")}</p>);
@@ -39,15 +41,28 @@ function renderIntro(intro) {
       bullets = [];
     }
   };
+  const flushNumbers = () => {
+    if (numbers.length) {
+      nodes.push(
+        <ol key={`io${nodes.length}`} className="th-introList">
+          {numbers.map((b, i) => <li key={i}>{b}</li>)}
+        </ol>
+      );
+      numbers = [];
+    }
+  };
   intro.replace(/\r/g, "").split("\n").forEach((raw) => {
     const line = raw.trim();
-    if (!line) { flushPara(); flushBullets(); return; }
-    const m = line.match(/^[*-]\s*(.*)$/);
-    if (m) { flushPara(); bullets.push(m[1]); }
-    else { flushBullets(); para.push(line); }
+    if (!line) { flushPara(); flushBullets(); flushNumbers(); return; }
+    const ub = line.match(/^[*-]\s*(.*)$/);
+    const ob = line.match(/^\d+[.)]\s+(.*)$/);
+    if (ub) { flushPara(); flushNumbers(); bullets.push(ub[1]); }
+    else if (ob) { flushPara(); flushBullets(); numbers.push(ob[1]); }
+    else { flushBullets(); flushNumbers(); para.push(line); }
   });
   flushPara();
   flushBullets();
+  flushNumbers();
   return nodes.length ? nodes : null;
 }
 
@@ -58,7 +73,7 @@ function introToDescription(intro) {
   const para = [];
   for (const raw of intro.replace(/\r/g, "").split("\n")) {
     const line = raw.trim();
-    if (!line || /^[*-]\s*/.test(line)) { if (para.length) break; else continue; }
+    if (!line || /^[*-]\s*/.test(line) || /^\d+[.)]\s+/.test(line)) { if (para.length) break; else continue; }
     para.push(line);
   }
   return para.join(" ");
