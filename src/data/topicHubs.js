@@ -157,6 +157,7 @@ export const CATEGORIES = [
         articles: [
           { title: "Bridge Signals: Attitude, Count, and Suit Preference", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
           { title: "Odds and Evens Discarding in Bridge: Should You Play It?", to: "/beginner/articles/defence/odds-evens-discarding-bridge-should", level: F },
+          { title: "Suit preference signals (McKenney, Lavinthal)", to: "/defence/articles/suit-preference-signals-mckenney-lavinthal", level: A },
         ],
       },
       {
@@ -222,6 +223,7 @@ export const CATEGORIES = [
           { title: "KISS 3: Support Partner as a Priority", to: "/bidding/advanced/kiss-3-support-partner-priority", level: A },
           { title: "KISS 4: Do Not Sacrifice by Default", to: "/bidding/advanced/kiss-4-do-not-save", level: A },
           { title: "Four-Level Doubles: What to Do Next", to: "/bidding/advanced/four-level-doubles-do-next", level: A },
+          { title: "Takeout Doubles in Bridge: The Complete Guide", to: "/bidding/advanced/takeout-doubles-bridge-complete-guide", level: A },
           { title: "Second Suit in Competition: Compete with Purpose", to: "/bidding/advanced/second-suit-competition-compete-purpose", level: A },
           { title: "Lebensohl: Compete Smart Without Guessing", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
           { title: "Preempting in First Seat: When to Be Bold", to: "/bidding/advanced/preempting-first-seat-bold", level: A },
@@ -242,7 +244,6 @@ export const CATEGORIES = [
           { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
           { title: "Fourth Suit Forcing and Checkback: Core Structures", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
           { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
-          { title: "Takeout Doubles in Bridge: The Complete Guide", to: "/bidding/advanced/takeout-doubles-bridge-complete-guide", level: A },
         ],
       },
       {
