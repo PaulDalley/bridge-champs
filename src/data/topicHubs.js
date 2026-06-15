@@ -75,6 +75,7 @@ Counting is typically very simple, its usually about looking at simple suit hold
         slug: "hand-types",
         name: "Hand & dummy types",
         intro: "",
+        trainerHref: "/declarer/practice?difficulty=1&problem=cp1-12",
         articles: [
           { title: "Bridge Shapes Fundamentals: Read Distribution Quickly", to: "/declarer/articles/bridge-shapes-fundamentals-read-distribution", level: A },
           { title: "Pattern Recognition 1: Ruffing Strategy in Dummy", to: "/declarer/articles/pattern-recognition-1-ruffing-strategy", level: A },
@@ -120,6 +121,7 @@ Being aware of these long suits is the first step to making a lot more tricks. W
         slug: "hold-up",
         name: "Hold-up & ducking",
         intro: "",
+        trainerHref: "/declarer/practice?difficulty=1&problem=cp1-3",
         suggested: true,
         articles: [
           { title: "Hold Up Play in No-Trump: When to Duck the First Trick", to: "/beginner/articles/declarer/hold-up-play-no-trump", level: F },
@@ -196,6 +198,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "technique",
         name: "Technique & timing",
         intro: "",
+        trainerHref: "/defence/practice?difficulty=1&problem=df1-5",
         suggested: true,
         articles: [
           { title: "Defence Basics: Build a Plan at Trick One", to: "/defence/articles/defence-basics-build-plan-trick", level: A },
@@ -215,6 +218,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "constructive",
         name: "Partnership & constructive bidding",
         intro: "",
+        trainerHref: "/bidding/practice?difficulty=1&problem=bid1-6",
         articles: [
           { title: "Bidding Basics: Build a Clear Auction Plan", to: "/bidding/advanced/bidding-basics-build-clear-auction", level: A },
           { title: "Opening Bids: Balanced Hands and the 5-Card Major Rule", to: "/beginner/articles/bidding/opening-bids-beginners-balanced-hands", level: F },
@@ -239,6 +243,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "competitive",
         name: "Competitive bidding",
         intro: "",
+        trainerHref: "/bidding/practice?difficulty=2&problem=bid2-9",
         articles: [
           { title: "KISS 1: Do Not Double Automatically", to: "/bidding/advanced/kiss-1-do-not-double", level: A },
           { title: "KISS 2: Consider Passing More Often", to: "/bidding/advanced/kiss-2-consider-passing-more", level: A },
@@ -256,6 +261,7 @@ There are main categories of dummy that we will work through in this section whi
         slug: "conventions",
         name: "Conventions",
         intro: "",
+        trainerHref: "/bidding/practice?difficulty=3&problem=bid3-16",
         articles: [
           { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
           { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
