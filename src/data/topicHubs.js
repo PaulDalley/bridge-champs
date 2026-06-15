@@ -294,7 +294,9 @@ Another key feature is to not let the opponents play in comfortable contracts wh
       {
         slug: "hand-evaluation",
         name: "Hand evaluation",
-        intro: "",
+        intro: `Hand evaluation is at the heart of every bidding decision. Point count is a useful starting point, but it only tells part of the story. Tools like Losing Trick Count give you a more nuanced picture, and experienced players learn to read their hands in the context of the auction as a whole.
+
+Key factors include fits and misfits — a trump fit transforms a hand, while a misfit can make even high-card-rich holdings dangerous. The position of your points matters too: values sitting opposite partner's long suits are powerful, while points opposite a shortage often signal trouble. Getting this right is what separates good bidding from great bidding, whether you're deciding to compete, push to game, or explore slam.`,
         trainerHref: "/bidding/practice?difficulty=2&problem=bid2-6",
         articles: [
           { title: "Hand Evaluation 1: Card Texture Matters", to: "/bidding/advanced/hand-evaluation-1-card-texture", level: A },
