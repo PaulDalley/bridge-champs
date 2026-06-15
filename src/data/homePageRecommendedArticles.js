@@ -28,6 +28,10 @@ export const HOME_PAGE_RECOMMENDED_ARTICLES = [
     path: "/bidding/practice?difficulty=2&problem=bid2-39",
   },
   {
+    label: "Recent article: Suit preference signals (McKenney, Lavinthal) →",
+    path: "/defence/articles/suit-preference-signals-mckenney-lavinthal",
+  },
+  {
     label: "Recent article: Opening 2C — avoid whenever possible →",
     path: "/bidding/advanced/opening-2c-avoid-whenever-possible",
   },
