@@ -11010,7 +11010,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  </div> 
  )} 
  <div 
- className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${framePlayBetweenSides ? "ct-table--framePlaySides" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""}`}
+ className={`ct-table ${useBottomRowLayout ? "ct-table--bottomRowLayout ct-table--promptOnRight" : ""} ${framePlayBetweenSides ? "ct-table--framePlaySides" : ""} ${useBottomRowLayout && showFullHands && visibleFullHandSeats.includes(seatLeft) ? "ct-table--westVisible" : ""} ${useBottomRowLayout && showFullHands && fullHandsCornerMask ? `ct-table--handsMask${fullHandsCornerMask}` : ""} ${seatLeft === "DUMMY" ? "ct-table--dummyLeft" : ""}`}
  > 
  {/* Top */} 
  <div className={`ct-seat ct-seat--top ${showFullHands && visibleFullHandSeats.includes(seatTop) ? "ct-seat--span" : ""}`}> 

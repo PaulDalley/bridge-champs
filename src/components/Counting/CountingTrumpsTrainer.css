@@ -4284,6 +4284,26 @@ ol.ct-revealRichPoints {
   grid-row: 2;
 }
 
+/* Dummy-on-left deals (df1-9/10/12/13/14) use the handsMask3 single-hand layout,
+   which on wide screens lifts the dummy into the top-CENTRE slot stacked above your
+   hand — that reads as North. On WIDE screens only, give it a real LEFT column and
+   sit it at mid-height on the west side so it reads as West (your hand below, as
+   South). Phones (<=860px) keep their own mask3 layout untouched — applying this
+   wide grid there overflowed the screen. Scoped to .ct-table--dummyLeft so the
+   common dummy-on-right deals are untouched. */
+@media (min-width: 861px) {
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask3.ct-table--dummyLeft {
+    grid-template-columns: minmax(180px, max-content) minmax(300px, 1fr) 0;
+  }
+  .ct-layout--fullhands .ct-table.ct-table--bottomRowLayout.ct-table--promptOnRight.ct-table--handsMask3.ct-table--dummyLeft .ct-seat--left {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    justify-self: start;
+    align-self: center;
+    align-items: flex-start;
+  }
+}
+
 .ct-seat--rho,
 .ct-seat--right {
   grid-column: 3;
