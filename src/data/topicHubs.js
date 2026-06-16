@@ -281,7 +281,11 @@ Another key idea is not letting the opponents play in comfortable contracts when
       {
         slug: "conventions",
         name: "Conventions",
-        intro: "",
+        intro: `In modern bridge there is a vast range of conventions for all types of auctions. A lot of them are very useful, but there are often trade-offs, and of course we need to be sure we'll remember what our conventions are under pressure — so the advice is to keep it minimal and only consider adding more with a regular partner.
+
+A test for a good convention is that it's easy to remember, likely to come up frequently, and adds a lot of value. Although it can be fun to add gadgets to our bidding, if it doesn't pass that test, it is ill-advised.
+
+Overall, we want to pick our conventions carefully and not overcrowd our system to the point that we cannot bid our hands naturally and confidently under pressure.`,
         trainerHref: "/bidding/practice?difficulty=3&problem=bid3-16",
         articles: [
           { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
@@ -315,7 +319,18 @@ Key factors include fits and misfits — a trump fit transforms a hand, while a 
       {
         slug: "vulnerability",
         name: "Vulnerability",
-        intro: "",
+        intro: `Vulnerability is the starting point for every bidding decision. The crux of being vulnerable is that the bonus for games and slams increases, but the penalty for going down also increases, particularly if the opponents double.
+
+There is a misconception that dictates being cautious when vulnerable, but if players are too cautious they can miss out on their game bonus. So a mixture of appropriate aggression and caution is the key.
+
+Part-score battles are also dictated by vulnerability. Being non-vulnerable is the best time to compete aggressively, especially against vulnerable opponents, who should take part-score decisions, particularly on the three level, with some caution and care.
+
+From opening bids to preempts, and everything that follows, vulnerability will change the nature of the game. Understanding the nuanced differences between the four vulnerabilities will give you a big edge.
+
+* All vulnerable
+* No one vulnerable (also called Nil vul)
+* Only opponents vulnerable (also called favourable vulnerability)
+* Only us vulnerable (unfavourable)`,
         articles: [
           { title: "Preempting by Vulnerability: Risk and Reward Across the Colours", to: "/bidding/advanced/preempting-vulnerability-risk-reward-across", level: A },
           { title: "Vulnerable Auctions: Why Too Careful Can Be Costly", to: "/bidding/advanced/vulnerable-auctions-too-careful-can", level: A },
