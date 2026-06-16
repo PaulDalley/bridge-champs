@@ -26,11 +26,11 @@ export const CATEGORIES = [
         slug: "trumps",
         name: "Trumps",
         trainerHref: "/declarer/practice?difficulty=1&problem=cp1-7",
-        intro: `The first question we're often faced with - should I draw trumps? In reality its probably about 50% of the time correct to draw them immediately, and 50% of the time correct to wait. There is no perfect rule, but there are a few good guidelines that will help you find the right approach
+        intro: `The first question we're often faced with: should I draw trumps? In reality it's probably correct to draw them immediately about 50% of the time, and to wait the other 50%. There's no perfect rule, but a few good guidelines will help you find the right approach:
 
 * Ruff losers in dummy before drawing trumps
 * Typically set up long side suits before drawing trumps
-* If you can "Just draw trumps", do so, don't delay unless its for a concrete reason
+* If you can "Just draw trumps", do so — don't delay unless it's for a concrete reason
 * Remember that trumps often double up as entries. Try to draw a trump when you also need an entry to the hand.`,
         articles: [
           { title: "Drawing Trumps: A Simple Habit That Saves Tricks", to: "/beginner/articles/declarer/drawing-trumps-simple-habit-saves", level: F },
@@ -47,9 +47,9 @@ export const CATEGORIES = [
         name: "Counting",
         trainerHref: "/counting/practice?difficulty=1&problem=p1-20",
         treadmillHref: "/treadmill/practice",
-        intro: `Counting as declarer is a critical skill. We have often heard about counting winners or losers but most players aren't in the habit of doing it, and doing it multiple times in a hand as the hand develops. If applied correctly it is a very powerful skill, and the basis for any good declarer planning.
+        intro: `Counting as declarer is a critical skill. We've often heard about counting winners or losers, but most players aren't in the habit of doing it — and doing it repeatedly as the hand develops. Applied correctly, it's a very powerful skill and the basis for any good declarer planning.
 
-Counting is typically very simple, its usually about looking at simple suit holdings and counting very simply, for example up to 7 or 10. Or, when you're counting losers, often its about making sure there aren't 4 losers when you're in 4♠. It sounds basic and pointless, but as you do it, an amazing skill will be unlocked, you'll be in the top 1-5% of declarers!`,
+Counting is usually very simple — it's about looking at basic suit holdings and counting to small numbers, for example up to 7 or 10. Or, when counting losers, it's often just making sure there aren't 4 losers when you're in 4♠. It sounds basic and pointless, but as you do it, an amazing skill gets unlocked — you'll be in the top 1–5% of declarers!`,
         articles: [
           { title: "Counting Losers: Plan the Hand and Spot Hidden Dangers Early", to: "/declarer/articles/counting-losers-plan-hand-spot", level: A },
           { title: "Count Winners in No-Trump: Build a Trick Plan", to: "/declarer/articles/count-winners-no-trump-build", level: A },
@@ -59,9 +59,9 @@ Counting is typically very simple, its usually about looking at simple suit hold
       {
         slug: "planning",
         name: "Planning",
-        intro: `Just start by practicing "stop and think" when dummy comes down. Always give yourself at least 30 seconds to just think about how the play might go, which suits you plan to play and why. Through experience we learn to spot dangers and opportunities before its too late, but the key skill is learned through routine - develop a habit of planning and an awareness that playing too quickly without a plan, particularly at trick 1, may be very costly.
+        intro: `Start by practising "stop and think" when dummy comes down. Always give yourself at least 30 seconds to think about how the play might go — which suits you plan to play, and why. Through experience we learn to spot dangers and opportunities before it's too late, but the key skill is built through routine: develop a habit of planning, and an awareness that playing too quickly without a plan — particularly at trick 1 — can be very costly.
 
-"Take your time at trick 1, make a plan - even a mediocre plan is a good start".`,
+"Take your time at trick 1 and make a plan — even a mediocre plan is a good start."`,
         articles: [
           { title: "Declarer Play Basics: Build a Plan at Trick One", to: "/declarer/articles/declarer-play-basics-build-plan", level: A },
           { title: "Counting Losers: Plan the Hand and Spot Hidden Dangers Early", to: "/declarer/articles/counting-losers-plan-hand-spot", level: A },
@@ -74,7 +74,7 @@ Counting is typically very simple, its usually about looking at simple suit hold
       {
         slug: "hand-types",
         name: "Hand & dummy types",
-        intro: "",
+        intro: `When dummy comes down, a good declarer will have one or two ideas for the hand straight away. These ideas are based on the type of dummy and the opportunities available. This is pattern recognition that takes seconds — it isn't a deep-thinking skill. It's the basis for more detailed planning and calculation.`,
         trainerHref: "/declarer/practice?difficulty=1&problem=cp1-12",
         articles: [
           { title: "Bridge Shapes Fundamentals: Read Distribution Quickly", to: "/declarer/articles/bridge-shapes-fundamentals-read-distribution", level: A },
@@ -85,32 +85,26 @@ Counting is typically very simple, its usually about looking at simple suit hold
       },
       {
         slug: "setting-up-suits",
-        name: "Setting up suits",
-        intro: `Long suits are often the most fruitful way to set up tricks. Your eyes should be trained to look immediately at 5+ card suits, and think - can I set that suit up? Even 4 card suits (4-3 fits) can create extra winners if the suit breaks 4-3-3-3.
+        name: "Setting up tricks",
+        intro: `Long suits are often the most fruitful way to set up tricks. Train your eyes to go straight to the 5+ card suits and think: can I set that suit up? Even 4-card suits (4-3 fits) can create extra winners if the suit breaks 4-3-3-3.
 
-Being aware of these long suits is the first step to making a lot more tricks. We then develop strategies to best handle long suits. The guiding principle is often "Set up long suits as a priority, before drawing trumps".`,
+Being aware of these long suits is the first step to making a lot more tricks. From there we develop strategies to handle them well. The guiding principle is often "set up long suits as a priority, before drawing trumps."`,
         articles: [
           { title: "Playing Long Suits: Build Extra Winners Early", to: "/beginner/articles/declarer/playing-long-suits-build-extra", level: F },
           { title: "Establishing Side-Suit Winners: Honor Sequences Like KQJ10", to: "/beginner/articles/declarer/establishing-side-suit-winners-honor", level: F },
           { title: "No-Trump Basics: Build Your Long Suit and Cash Winners", to: "/beginner/articles/declarer/no-trump-basics-build-long", level: F },
+          { title: "Finesses: Single, Double, and Leading Low Toward Honors", to: "/beginner/articles/declarer/finesses-beginners-single-double-leading", level: F },
           { title: "Duck to Preserve Communication: Set Up Your Long Suit", to: "/declarer/articles/duck-preserve-communication-set-up", level: A },
           { title: "Pattern Recognition 2: Set Up Side Suits", to: "/declarer/articles/pattern-recognition-2-set-up", level: A },
           { title: "Pattern Recognition 3: Find and Build Trick Sources", to: "/declarer/articles/pattern-recognition-3-find-build", level: A },
         ],
       },
       {
-        slug: "finesses",
-        name: "Finesses",
-        intro: "",
-        suggested: true,
-        articles: [
-          { title: "Finesses: Single, Double, and Leading Low Toward Honors", to: "/beginner/articles/declarer/finesses-beginners-single-double-leading", level: F },
-        ],
-      },
-      {
         slug: "entries",
         name: "Entries",
-        intro: "",
+        intro: `Entries have been described as "the lifeblood of bridge". When we truly appreciate the value of an entry, we start asking what its best use is every time we're in a hand. It helps to see high cards not just as tricks but also as entries — that's what lets you time questions like "when do I draw trumps?" If you think of the Ace of trumps as an entry, you'll often know when you need to play it.
+
+Topics like setting up long suits and ruffing in dummy — and countless others — all require entries to execute. Every plan should consider entries closely; one of the most common reasons plans fail is entry mismanagement.`,
         trainerHref: "/declarer/practice?difficulty=2&problem=cp2-6",
         suggested: true,
         articles: [
@@ -138,11 +132,11 @@ Being aware of these long suits is the first step to making a lot more tricks. W
         slug: "hand-types",
         name: "Hand & dummy types",
         trainerHref: "/defence/practice?difficulty=1&problem=df1-1",
-        intro: `When a skilled defender looks at dummy, often they are able to tell the key points of the hand. They will often know declarer's main plan and as a result, will be focused on ways of defending.
+        intro: `When a skilled defender looks at dummy, they can often read the key points of the hand. They'll usually know declarer's main plan and, as a result, be focused on how to defend.
 
-A typical example is when you spot a very weak dummy with a singleton and 3 trumps. Declarer will often go for ruffs in dummy, and it will be the role of the defenders to play trumps. When the defenders are clued into that, they will be focused on, for example, getting the lead from the correct side in order to play a trump through.
+A typical example is when you spot a very weak dummy with a singleton and 3 trumps. Declarer will often go for ruffs in dummy, so it falls to the defenders to play trumps. A defender who is clued into that will focus on, for example, getting the lead from the correct side in order to play a trump through.
 
-There are main categories of dummy that we will work through in this section which will help you come up with plans in defence and have a better idea of which suit to play and when.`,
+In this section we'll work through the main categories of dummy. Knowing them helps you form plans in defence and get a better idea of which suit to play, and when.`,
         articles: [
           { title: "Dummy Type 1: Limited Entries and How to Pressure It", to: "/defence/articles/dummy-type-1-limited-entries", level: A },
           { title: "Dummy Type 2: Strong Trick Source and How to Disrupt It", to: "/defence/articles/dummy-type-2-strong-trick", level: A },
@@ -164,7 +158,17 @@ There are main categories of dummy that we will work through in this section whi
       {
         slug: "leads",
         name: "Leads",
-        intro: "",
+        intro: `A lot of newer players mistakenly think leads are luck-based. It's true that on a single hand there's a lot of luck involved. But in the long run, an expert player gets a very big edge from good leads. Opening leads are all about:
+
+* Is there a need to take risks and lead aggressively? If not, what are your best passive leads?
+* Is a trump lead indicated?
+* What is our goal for the hand — are we trying to force declarer?
+
+Leads during the hand are often about:
+
+* What holding does dummy have? Lead through strength and towards weakness.
+* What are my goals for the hand — setting up partner's suit?
+* Is there a need for me to open up the suit, or can I play passively?`,
         trainerHref: "/defence/practice?difficulty=1&problem=df1-23",
         articles: [
           { title: "Opening Leads: Top of a Sequence and Longest Suit in No-Trump", to: "/beginner/articles/defence/opening-leads-beginners-top-sequence", level: F },
@@ -177,13 +181,13 @@ There are main categories of dummy that we will work through in this section whi
       {
         slug: "signals",
         name: "Signals",
-        intro: `Signals are often the difference between beating a contract or not, they are invaluable when used correctly. There are a few important decisions to make with signals
+        intro: `Signals are often the difference between beating a contract and not; used correctly, they're invaluable. There are a few important decisions to make with them:
 
 1. Which signals will your partnership use?
-2. When do they apply? A big source of confusion for partnerships is the players being on a different page about which signal is being given. For example, one player might be giving count while the other thinks the signal is attitude about a suit. Having crystal clear and consistent rules around that is essential.
-3. Keep it simple, don't overdo it. One or two simple but reliable signals will often achieve the goal.
+2. When do they apply? A big source of confusion is the two players being on a different page about which signal is being given — one might be giving count while the other reads it as attitude about a suit. Having crystal-clear, consistent rules around this is essential.
+3. Keep it simple; don't overdo it. One or two simple but reliable signals will often achieve the goal.
 
-Modern partnerships are adding in a lot of suit preference into their signaling, the play of irrelevant pips in defence can be done in a way that carries rich information. But as always, keep it simple, and don't overdo it especially at the intermediate stage - 1 or 2 signals per hand will be sufficient.`,
+Modern partnerships are building a lot of suit preference into their signalling — the play of irrelevant pips can be made to carry rich information. But, as always, keep it simple and don't overdo it, especially at the intermediate stage: one or two signals per hand will be sufficient.`,
         articles: [
           { title: "Bridge Signals: Attitude, Count, and Suit Preference", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
           { title: "Odds and Evens Discarding in Bridge: Should You Play It?", to: "/beginner/articles/defence/odds-evens-discarding-bridge-should", level: F },
@@ -248,18 +252,18 @@ Modern partnerships are adding in a lot of suit preference into their signaling,
       {
         slug: "competitive",
         name: "Competitive bidding",
-        intro: `Most of the scoring happens in the competitive bidding. Pairs are getting a significant edge from competing under the correct conditions, and knowing also when it is correct to defend.
+        intro: `Most of the scoring happens in the competitive bidding. Pairs gain a significant edge from competing under the right conditions — and from knowing when it's correct to defend instead.
 
-The modern takeout double has evolved a lot and is one of the most important tools we have in competitive auctions. Once we have found a fit, a flood of questions often come to us including
+The modern takeout double has evolved a lot and is one of the most important tools we have in competitive auctions. Once we've found a fit, a flood of questions often comes up, including:
 
 * How high should I raise?
-* Should I investigate a major fit as well or just raise a minor?
-* Should I bid 3 over 3 or 5 over 5?
-* Is there a way to show a good 4 card raise and a bad 4 card raise?
+* Should I investigate a major fit as well, or just raise a minor?
+* Should I bid 3 over 3, or 5 over 5?
+* Is there a way to show a good 4-card raise and a bad 4-card raise?
 
-Competitive bidding at its core is finding our fits early, and bidding as high as possible as soon as possible - leaving little room for our opponents and forcing them to guess. They are often guessing in the dark whether to bid, pass or double.
+At its core, competitive bidding is about finding our fits early and bidding as high as possible as soon as possible — leaving little room for our opponents and forcing them to guess. They are often guessing in the dark whether to bid, pass or double.
 
-Another key feature is to not let the opponents play in comfortable contracts when possible - this especially applies to playing in fits on the two level - its often going to be correct to compete, especially when we aren't vulnerable. Vulnerability is a big factor we have to consider at all times when it comes to competitive bidding.`,
+Another key idea is not letting the opponents play in comfortable contracts when we can avoid it — this applies especially to their fits at the two level, where it's often correct to compete, particularly when we aren't vulnerable. Vulnerability is a factor we have to weigh constantly in competitive bidding.`,
         trainerHref: "/bidding/practice?difficulty=2&problem=bid2-9",
         articles: [
           { title: "KISS 1: Do Not Double Automatically", to: "/bidding/advanced/kiss-1-do-not-double", level: A },

@@ -126,6 +126,11 @@
         "type": 301
       },
       {
+        "source": "/learn/declarer/finesses",
+        "destination": "/learn/declarer/setting-up-suits",
+        "type": 301
+      },
+      {
         "source": "/beginner/articles/declarer/improve-bridge-practical-roadmap-actually",
         "destination": "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually",
         "type": 301

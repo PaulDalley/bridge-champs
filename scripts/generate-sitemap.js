@@ -95,7 +95,6 @@ const STATIC_URLS = [
   { loc: "/learn/declarer/planning", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer/hand-types", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer/setting-up-suits", changefreq: "weekly", priority: "0.8" },
-  { loc: "/learn/declarer/finesses", changefreq: "weekly", priority: "0.7" },
   { loc: "/learn/declarer/entries", changefreq: "weekly", priority: "0.7" },
   { loc: "/learn/declarer/hold-up", changefreq: "weekly", priority: "0.7" },
   { loc: "/learn/defence/hand-types", changefreq: "weekly", priority: "0.8" },
