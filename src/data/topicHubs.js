@@ -4,6 +4,12 @@
 // titles are the articles' own wording (verbatim), and `intro` is a slot the
 // user fills in their own words (left blank here on purpose).
 //
+// Optional per-topic `video` slot (also the author's content — left unset here):
+//   video: { url, title, description, uploadDate, duration?, thumbnail? }
+//   `url` is any YouTube link (watch / youtu.be / shorts / embed). The hub then
+//   renders a lazy click-to-play embed under the intro; a VideoObject schema is
+//   emitted only when title + description + uploadDate are all present.
+//
 // Each category has topics; each topic lists existing articles (title + URL +
 // level). An article may appear under more than one topic. `suggested: true`
 // marks topics Claude proposed for leftover articles — rename/merge/remove freely.

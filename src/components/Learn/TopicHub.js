@@ -84,6 +84,61 @@ function clip(s, n = 160) {
   return s.slice(0, n).replace(/\s+\S*$/, "") + "…";
 }
 
+// Pull the 11-char video id out of any common YouTube URL shape (watch?v=,
+// youtu.be/, /shorts/, /embed/). Returns null if it isn't a YouTube link.
+function getYouTubeId(url) {
+  if (!url) return null;
+  const res = [
+    /[?&]v=([A-Za-z0-9_-]{11})/,
+    /youtu\.be\/([A-Za-z0-9_-]{11})/,
+    /\/shorts\/([A-Za-z0-9_-]{11})/,
+    /\/embed\/([A-Za-z0-9_-]{11})/,
+  ];
+  for (const re of res) {
+    const m = url.match(re);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+// Lazy "facade" embed: shows the thumbnail + play button (cheap, prerendered)
+// and only injects the YouTube iframe once the user clicks — so the video never
+// costs us page-load performance.
+function VideoBlock({ video, topicName }) {
+  const [playing, setPlaying] = useState(false);
+  const id = getYouTubeId(video.url);
+  if (!id) return null;
+  const isShort = /\/shorts\//.test(video.url);
+  const thumb = video.thumbnail || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  const embed = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  const label = video.title || `${topicName} video`;
+  return (
+    <div className={`th-video ${isShort ? "th-video--short" : "th-video--wide"}`}>
+      <div className="th-videoFrame">
+        {playing ? (
+          <iframe
+            src={embed}
+            title={label}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <button
+            type="button"
+            className="th-videoFacade"
+            onClick={() => setPlaying(true)}
+            aria-label={`Play: ${label}`}
+          >
+            <img src={thumb} alt="" loading="lazy" />
+            <span className="th-videoPlay" aria-hidden="true">&#9654;</span>
+          </button>
+        )}
+      </div>
+      {video.description && <p className="th-videoCaption">{video.description}</p>}
+    </div>
+  );
+}
+
 function TopicHub({ match }) {
   const category = match && match.params ? match.params.category : undefined;
   const topic = match && match.params ? match.params.topic : undefined;
@@ -148,6 +203,26 @@ function TopicHub({ match }) {
     ],
   };
 
+  // Optional per-topic video. Emit a VideoObject only when we have the fields
+  // Google needs for a valid video rich result (name + description + uploadDate);
+  // otherwise we still show the embed but skip the markup.
+  const vid = t.video && t.video.url ? t.video : null;
+  const vidId = vid ? getYouTubeId(vid.url) : null;
+  const videoSchema =
+    vid && vidId && vid.title && vid.description && vid.uploadDate
+      ? {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          name: vid.title,
+          description: vid.description,
+          thumbnailUrl: [vid.thumbnail || `https://i.ytimg.com/vi/${vidId}/hqdefault.jpg`],
+          uploadDate: vid.uploadDate,
+          embedUrl: `https://www.youtube.com/embed/${vidId}`,
+          contentUrl: vid.url,
+          ...(vid.duration ? { duration: vid.duration } : {}),
+        }
+      : null;
+
   return (
     <div className={`th-page th-page--${cat.key}`}>
       <Helmet>
@@ -165,6 +240,9 @@ function TopicHub({ match }) {
         <meta name="twitter:image" content={OG_IMAGE} />
         <script type="application/ld+json">{JSON.stringify(collectionSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        {videoSchema && (
+          <script type="application/ld+json">{JSON.stringify(videoSchema)}</script>
+        )}
       </Helmet>
 
       <nav className="th-breadcrumb" aria-label="Breadcrumb">
@@ -197,6 +275,8 @@ function TopicHub({ match }) {
           </p>
         )
       )}
+
+      {vid && <VideoBlock video={vid} topicName={t.name} />}
 
       {articles.length > 0 && (
         <a className="th-cta" href={t.trainerHref || TRAINER_PATH[cat.key] || "/"}>
