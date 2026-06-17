@@ -38,6 +38,7 @@ import {
 } from "./auctionEngine";
 import { getBid, getLead, getPlay, getClaim, getBids, benMode } from "./benClient";
 import BiddingBox from "./BiddingBox";
+import { BidMeaning } from "./meaningText";
 import "./PlayTable.css";
 
 const HUMAN_SEAT = "S";
@@ -52,6 +53,30 @@ function strainColorClass(strain) {
   if (strain === "C") return "pt-suit--club";
   if (strain === "N") return "pt-suit--nt";
   return "pt-suit--black";
+}
+
+/** A call -> the token BEN's /bids map is keyed by ("P","X","XX","1S",...). */
+function callToken(call) {
+  if (!call) return "";
+  if (call.kind === "pass") return "P";
+  if (call.kind === "double") return "X";
+  if (call.kind === "redouble") return "XX";
+  return `${call.level}${call.strain}`;
+}
+
+/** Look up BEN's meaning for a call in a /bids meanings map. */
+function meaningForCall(call, meanings) {
+  const t = callToken(call);
+  return meanings[t] || (t === "XX" ? meanings.R : null) || null;
+}
+
+/** Short display label for a made call, with the strain as a coloured symbol. */
+function labelForCall(call) {
+  if (!call) return "";
+  if (call.kind === "pass") return "Pass";
+  if (call.kind === "double") return "X";
+  if (call.kind === "redouble") return "XX";
+  return `${call.level}${STRAIN_LABEL[call.strain]}`;
 }
 
 /** A single auction call, with the suit symbol coloured. */
@@ -131,7 +156,10 @@ function finishDeal(state) {
     state.vul === "Both" ||
     (declarerNS && state.vul === "NS") ||
     (!declarerNS && state.vul === "EW");
-  const score = scoreContract(state.contract, declarerTricks, vulBool);
+  const declarerScore = scoreContract(state.contract, declarerTricks, vulBool);
+  // The running score is always from the human's (North/South) side: when the
+  // opponents declare, flip the sign (their −50 is our +50, their +420 is our −420).
+  const score = declarerNS ? declarerScore : -declarerScore;
   return {
     ...state,
     phase: "done",
@@ -148,7 +176,10 @@ function reducer(state, action) {
       if (state.phase !== "auction") return state;
       if (isAuctionComplete(state.auction)) return state;
       if (action.seat !== nextBidderSeat(state)) return state;
-      const auction = [...state.auction, { seat: action.seat, call: action.call }];
+      const auction = [
+        ...state.auction,
+        { seat: action.seat, call: action.call, explanation: action.explanation, alert: action.alert },
+      ];
       if (!isAuctionComplete(auction)) return { ...state, auction };
       if (isPassout(auction)) return { ...state, auction, phase: "passout" };
       const contract = contractFromAuction(auction);
@@ -387,14 +418,16 @@ function vulnerableSeats(vul) {
   return new Set();
 }
 
-function AuctionPanel({ state }) {
+function AuctionPanel({ state, onHover = () => {} }) {
   const order = ["W", "N", "E", "S"]; // column order matches the reference layout
   // Pad so the dealer's column lines up: blanks before the dealer's first call.
   const lead = order.indexOf(state.dealer);
   const cells = [];
   for (let i = 0; i < lead; i++) cells.push(null);
-  state.auction.forEach((e) => cells.push(e.call));
+  state.auction.forEach((e) => cells.push(e)); // whole entry, so each bid carries its meaning
   const vulSeats = vulnerableSeats(state.vul);
+  const show = (entry) => () => onHover(labelForCall(entry.call), { meaning: entry.explanation, alert: entry.alert });
+  const hide = () => onHover(null);
   return (
     <div className="pt-auction" aria-label="Auction">
       <div className="pt-auctionHead">
@@ -406,11 +439,23 @@ function AuctionPanel({ state }) {
         ))}
       </div>
       <div className="pt-auctionGrid">
-        {cells.map((call, i) => (
-          <div key={i} className="pt-auctionCell">
-            <BidLabel call={call} />
-          </div>
-        ))}
+        {cells.map((entry, i) =>
+          entry ? (
+            <div
+              key={i}
+              className="pt-auctionCell pt-auctionCell--bid"
+              tabIndex={0}
+              onMouseEnter={show(entry)}
+              onMouseLeave={hide}
+              onFocus={show(entry)}
+              onBlur={hide}
+            >
+              <BidLabel call={entry.call} />
+            </div>
+          ) : (
+            <div key={i} className="pt-auctionCell" />
+          )
+        )}
       </div>
     </div>
   );
@@ -428,25 +473,61 @@ function PlayTable({ embedded = false } = {}) {
   const [showClaim, setShowClaim] = useState(false);
   const [claimMsg, setClaimMsg] = useState(null);
   const [bidMeanings, setBidMeanings] = useState({});
+  const [hoverMeaning, setHoverMeaning] = useState(null); // shared bubble: { label, info } | null
+  // Opponent strength / speed: Faster (skip BEN's simulation, ~10x quicker) vs
+  // Stronger (full simulation). The choice persists across deals and sessions.
+  const [fast, setFast] = useState(() => {
+    try {
+      return localStorage.getItem("pt-fast") !== "0";
+    } catch {
+      return true;
+    }
+  });
+  const fastRef = useRef(fast);
   const busyRef = useRef(null);
   const scoredSeedRef = useRef(null);
+
+  // Keep the ref current (read inside async bot turns) and remember the choice.
+  useEffect(() => {
+    fastRef.current = fast;
+    try {
+      localStorage.setItem("pt-fast", fast ? "1" : "0");
+    } catch {
+      /* ignore storage failures (private mode, etc.) */
+    }
+  }, [fast]);
 
   const newDeal = useCallback(() => {
     busyRef.current = null;
     setNotice(null);
+    setHoverMeaning(null);
     setDealNo((n) => n + 1);
     dispatch({ type: "NEW_DEAL", seed: Date.now() >>> 0 });
   }, []);
 
+  // Capture BEN's meaning for your own bid (from the box) onto the auction entry,
+  // so the made bid explains itself on hover just like the bots' do.
   const onHumanCall = useCallback(
     (call) => {
-      dispatch({ type: "ADD_CALL", seat: HUMAN_SEAT, call });
+      const info = meaningForCall(call, bidMeanings);
+      dispatch({
+        type: "ADD_CALL",
+        seat: HUMAN_SEAT,
+        call,
+        explanation: info ? info.meaning : undefined,
+        alert: info ? info.alert : undefined,
+      });
     },
-    []
+    [bidMeanings]
   );
 
   const onHumanPlay = useCallback((seat, card) => {
     dispatch({ type: "PLAY_CARD", seat, card });
+  }, []);
+
+  // Feed the shared explanation bubble from either the box or the auction grid.
+  const onHover = useCallback((label, info) => {
+    setHoverMeaning(label ? { label, info: info || null } : null);
   }, []);
 
   // Claim flow: open a dialog to choose how many more tricks; BEN verifies it.
@@ -509,13 +590,21 @@ function PlayTable({ embedded = false } = {}) {
           dealer: state.dealer,
           vul: state.vul,
           auction: state.auction,
+          fast: fastRef.current,
         });
         if (res.error) setNotice(`BEN unavailable — using offline bot (${res.error}).`);
         await new Promise((r) => setTimeout(r, BID_PACING_MS));
         setThinking(null);
         // Safety: never let an illegal bot call stall the auction — fall back to Pass.
-        const call = isLegalCall(res.call, seat, state.auction) ? res.call : { kind: "pass" };
-        dispatch({ type: "ADD_CALL", seat, call });
+        const legalBid = isLegalCall(res.call, seat, state.auction);
+        const call = legalBid ? res.call : { kind: "pass" };
+        dispatch({
+          type: "ADD_CALL",
+          seat,
+          call,
+          explanation: legalBid ? res.explanation : undefined,
+          alert: legalBid ? res.alert : undefined,
+        });
       })();
       return;
     }
@@ -546,6 +635,7 @@ function PlayTable({ embedded = false } = {}) {
             dealer: state.dealer,
             vul: state.vul,
             auction: state.auction,
+            fast: fastRef.current,
           });
         } else {
           // BEN must be called AS THE DECLARER for any declaring-side turn (declarer
@@ -565,6 +655,7 @@ function PlayTable({ embedded = false } = {}) {
             played: state.playedCards.map((p) => p.card),
             trickPlays: state.trickPlays,
             strain: state.contract.strain,
+            fast: fastRef.current,
           });
         }
         if (res.error) setNotice(`BEN play issue — used fallback (${res.error}).`);
@@ -677,7 +768,24 @@ function PlayTable({ embedded = false } = {}) {
           </div>
         </div>
         <div className="pt-tbBtns">
-          <button type="button" className="pt-tbBtn" disabled>Settings</button>
+          <div className="pt-speedSeg" role="group" aria-label="Opponent speed and strength">
+            <button
+              type="button"
+              className={`pt-segBtn ${fast ? "pt-segBtn--on" : ""}`}
+              onClick={() => setFast(true)}
+              title="Quicker bids and play (skips the deep simulation; opponents a little weaker)"
+            >
+              Faster
+            </button>
+            <button
+              type="button"
+              className={`pt-segBtn ${!fast ? "pt-segBtn--on" : ""}`}
+              onClick={() => setFast(false)}
+              title="Full-strength bidding and play (slower)"
+            >
+              Stronger
+            </button>
+          </div>
           <button
             type="button"
             className="pt-tbBtn"
@@ -697,6 +805,10 @@ function PlayTable({ embedded = false } = {}) {
         {notice && <span className="pt-statusNotice">{notice}</span>}
       </div>
 
+      <div className="pt-wipBanner" role="status">
+        Just Play is brand-new and still being worked on over the next few days — expect a few rough edges. Thanks for trying it!
+      </div>
+
       {/* TOP: North — the dummy, or the declarer you control from the dummy seat */}
       {handVisible("N", state) && <HandRow seat="N" state={state} onPlay={onHumanPlay} />}
 
@@ -709,25 +821,31 @@ function PlayTable({ embedded = false } = {}) {
         <div className="pt-felt">
           {inBidding ? (
             <div className="pt-bidArea">
-              <AuctionPanel state={state} />
-              {state.phase === "passout" ? (
-                <div className="pt-passout">
-                  <div className="pt-passoutText">Passed out — no contract this hand.</div>
-                  <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>
-                    Deal next hand
-                  </button>
+              <div className="pt-bidLayout">
+                <div className="pt-bidColumn">
+                  <AuctionPanel state={state} onHover={onHover} />
+                  {state.phase === "passout" ? (
+                    <div className="pt-passout">
+                      <div className="pt-passoutText">Passed out — no contract this hand.</div>
+                      <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>
+                        Deal next hand
+                      </button>
+                    </div>
+                  ) : (
+                    humanToBid && (
+                      <BiddingBox
+                        auction={state.auction}
+                        seat={HUMAN_SEAT}
+                        onCall={onHumanCall}
+                        disabled={!humanToBid}
+                        meanings={bidMeanings}
+                        onHover={onHover}
+                      />
+                    )
+                  )}
                 </div>
-              ) : (
-                humanToBid && (
-                  <BiddingBox
-                    auction={state.auction}
-                    seat={HUMAN_SEAT}
-                    onCall={onHumanCall}
-                    disabled={!humanToBid}
-                    meanings={bidMeanings}
-                  />
-                )
-              )}
+                <BidMeaning hover={hoverMeaning} />
+              </div>
             </div>
           ) : (
             <div className="pt-trickArea" aria-label="Trick">

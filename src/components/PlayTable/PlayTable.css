@@ -53,6 +53,16 @@
 .pt-tbBtn:disabled { opacity: 0.45; cursor: default; }
 .pt-tbBtn--primary { background: #2563eb; color: #fff; border-color: #2563eb; }
 
+/* Faster / Stronger opponent toggle (segmented control) */
+.pt-speedSeg { display: inline-flex; border: 1px solid #b5b5b5; border-radius: 7px; overflow: hidden; }
+.pt-segBtn {
+  background: #e8e8e8; border: none; padding: 8px 12px; font-size: 14px; font-weight: 600;
+  color: #555; cursor: pointer;
+}
+.pt-segBtn + .pt-segBtn { border-left: 1px solid #b5b5b5; }
+.pt-segBtn:hover:not(.pt-segBtn--on) { background: #f2f2f2; }
+.pt-segBtn--on { background: #2563eb; color: #fff; }
+
 /* ── status line ─────────────────────────────────────────────────────────── */
 .pt-statusline {
   display: flex; align-items: center; gap: 8px;
@@ -64,6 +74,11 @@
 .pt-statusText { font-weight: 600; }
 .pt-thinkingDot { width: 8px; height: 8px; border-radius: 50%; background: #fbbf24; animation: pt-pulse 1s infinite; }
 .pt-statusNotice { color: #fca5a5; margin-left: auto; }
+/* Work-in-progress notice banner */
+.pt-wipBanner {
+  background: #fef3c7; color: #663c00; border-bottom: 1px solid #f1d27a;
+  padding: 6px 12px; font-size: 13px; font-weight: 600; text-align: center;
+}
 @keyframes pt-pulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
 
 /* ── hands: full-width row of fixed-size cards ───────────────────────────── */
@@ -174,12 +189,19 @@
 .pt-auctionYou { display: block; font-size: 0.62em; font-weight: 700; opacity: 0.8; }
 .pt-auctionGrid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px; min-height: 110px; align-content: start; }
 .pt-auctionCell { text-align: center; padding: 4px 0; min-height: 34px; }
+.pt-auctionCell--bid { cursor: help; border-radius: 6px; transition: background 0.12s; outline: none; }
+.pt-auctionCell--bid:hover,
+.pt-auctionCell--bid:focus-visible { background: rgba(255, 255, 255, 0.5); }
 .pt-acall { display: inline-flex; align-items: baseline; justify-content: center; gap: 1px; font-weight: 800; font-size: clamp(20px, 3.4cqw, 34px); line-height: 1; }
 .pt-acallLevel { color: #1f2937; }
 .pt-acall--pass { color: #475569; font-weight: 700; }
 
 /* ── bidding box (two-step) + meaning bubble ─────────────────────────────── */
 .pt-bidWrap { display: flex; gap: 14px; width: 100%; align-items: stretch; flex-wrap: wrap; justify-content: center; }
+/* Auction + box stacked on the left; the shared meaning bubble sits to the right. */
+.pt-bidLayout { display: flex; gap: 16px; width: 100%; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+.pt-bidColumn { display: flex; flex-direction: column; align-items: center; gap: 12px; flex: 1 1 600px; min-width: 0; }
+.pt-bidColumn .pt-bidbox { width: 100%; max-width: 560px; flex: 0 0 auto; }
 .pt-bidbox { display: flex; flex-direction: column; gap: 8px; flex: 1 1 540px; min-width: 0; }
 .pt-bidMeaning {
   flex: 1 1 240px;

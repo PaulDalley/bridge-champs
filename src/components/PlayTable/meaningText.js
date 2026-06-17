@@ -40,3 +40,35 @@ export function MeaningText({ text }) {
     </>
   );
 }
+
+/**
+ * The shared explanation bubble. `hover` is { label, info } | null, where info
+ * is { meaning, alert }. Shows BEN's meaning for the hovered bid — fed by both
+ * the bidding box (your available bids) and the auction grid (bids already made).
+ */
+export function BidMeaning({ hover }) {
+  const label = hover && hover.label;
+  const info = hover && hover.info;
+  if (!label) {
+    return <div className="pt-bidMeaning pt-bidMeaning--idle">Hover any bid to see what it means.</div>;
+  }
+  return (
+    <div className="pt-bidMeaning">
+      <div className="pt-bidMeaningHead">
+        <MeaningText text={label} />
+        {info && info.alert && (
+          <span className="pt-alertDot" title="Alertable">
+            !
+          </span>
+        )}
+      </div>
+      <div className="pt-bidMeaningBody">
+        {info && info.meaning ? (
+          <MeaningText text={cleanMeaning(info.meaning)} />
+        ) : (
+          <span className="pt-bidMeaningNone">No description available.</span>
+        )}
+      </div>
+    </div>
+  );
+}

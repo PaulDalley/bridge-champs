@@ -145,11 +145,13 @@ export async function getBid(ctx) {
       vul: ctx.vul || "",
       ctx: auctionToCtx(ctx.auction),
       tournament: DEFAULT_TOURNAMENT,
+      ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.bid == null) {
       return { call: mock.mockBid(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no bid in response" };
     }
-    return { call: tokenToCall(data.bid), explanation: data.explanation, alert: data.alert, raw: data, source: "ben" };
+    // BEN returns alert as the string "True"/"False"; coerce to a real boolean.
+    return { call: tokenToCall(data.bid), explanation: data.explanation, alert: /^true$/i.test(String(data.alert)), raw: data, source: "ben" };
   } catch (err) {
     return { call: mock.mockBid(ctx), source: "mock-fallback", error: String(err.message || err) };
   }
@@ -165,6 +167,7 @@ export async function getLead(ctx) {
       dealer: ctx.dealer,
       vul: ctx.vul || "",
       ctx: auctionToCtx(ctx.auction),
+      ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.card == null) {
       return { card: mock.mockLead(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no card in response" };
@@ -190,6 +193,7 @@ export async function getPlay(ctx) {
       vul: ctx.vul || "",
       ctx: auctionToCtx(ctx.auction),
       played: playedToParam(ctx.played || []),
+      ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.card == null) {
       return { card: mock.mockPlay(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no card in response" };
