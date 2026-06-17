@@ -12,6 +12,10 @@ export const HOME_PAGE_RECOMMENDED_ARTICLES_TITLE =
 /** @type {{ label: string, path: string }[]} */
 export const HOME_PAGE_RECOMMENDED_ARTICLES = [
   {
+    label: "This week: System Over 1NT — transfer responses and conventions →",
+    path: "/bidding/advanced/system-over-1nt-conventions",
+  },
+  {
     label: "This week: Over the Shoulder — bidding (5 new) →",
     path: "/bidding/practice?difficulty=2&problem=bid2-44",
   },
