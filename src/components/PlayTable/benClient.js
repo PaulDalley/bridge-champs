@@ -241,7 +241,7 @@ export async function getClaim(ctx) {
 export async function getBids(ctx) {
   if (!isBenConfigured()) return {};
   try {
-    const data = await getJson("/bids", { ctx: auctionToBidsCtx(ctx.auction) });
+    const data = await getJson("/bids", { ctx: auctionToBidsCtx(ctx.auction), dealer: ctx.dealer || "" });
     if (!Array.isArray(data)) return {};
     const map = {};
     for (const b of data) {

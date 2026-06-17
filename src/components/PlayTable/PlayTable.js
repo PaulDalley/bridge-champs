@@ -46,7 +46,38 @@ const BOT_PACING_MS = 600; // small delay so bot card-plays are followable
 const BID_PACING_MS = 120; // bids are slower to compute, so barely pause between them
 const FORCED_PLAY_MS = 350; // forced (only-legal) card: quick visible play, no engine call
 const TRICK_ACK_MS = 1300;
-const SUIT_DISPLAY_ORDER = ["S", "H", "C", "D"]; // ♠♥♣♦ — alternating colours
+const SUIT_DISPLAY_ORDER = ["S", "H", "C", "D"]; // ♠♥♣♦ — alternating colours (no trump / auction)
+
+// Hand layout per contract: the trump suit goes on the left, then the remaining
+// suits so the colours alternate (the two reds never sit next to each other).
+const SUIT_ORDER_BY_TRUMP = {
+  S: ["S", "H", "C", "D"],
+  H: ["H", "S", "D", "C"],
+  D: ["D", "S", "H", "C"],
+  C: ["C", "H", "S", "D"],
+  N: ["S", "H", "C", "D"],
+};
+
+/** Suit display order for the current contract (trump first), else the default. */
+function suitOrderForContract(contract) {
+  return (contract && SUIT_ORDER_BY_TRUMP[contract.strain]) || SUIT_DISPLAY_ORDER;
+}
+
+/** Re-sort a hand by a suit order; a stable sort keeps ranks high→low within a suit. */
+function orderHand(hand, order) {
+  return [...hand].sort((a, b) => order.indexOf(a.suit) - order.indexOf(b.suit));
+}
+
+// Vulnerability rotates each deal: none → all → N-S → E-W.
+const VUL_CYCLE = ["", "Both", "NS", "EW"];
+
+/** Short vulnerability tag for the toolbar ("" = none vulnerable). */
+function vulShort(vul) {
+  if (vul === "Both") return "All";
+  if (vul === "NS") return "NS";
+  if (vul === "EW") return "EW";
+  return "NV";
+}
 
 function strainColorClass(strain) {
   if (strain === "H" || strain === "D") return "pt-suit--red";
@@ -105,12 +136,13 @@ function seatToPlay(state) {
   return nextClockwise(state.trickPlays[state.trickPlays.length - 1].seat);
 }
 
-function freshDeal(seed, dealer) {
+function freshDeal(seed, dealer, dealCount = 1) {
   return {
     phase: "auction",
     seed,
     dealer,
-    vul: "", // none vulnerable for now (configurable later)
+    dealCount,
+    vul: VUL_CYCLE[(dealCount - 1) % VUL_CYCLE.length], // rotates none → all → NS → EW
     hands: dealHands(seed),
     auction: [],
     contract: null,
@@ -170,7 +202,7 @@ function finishDeal(state) {
 function reducer(state, action) {
   switch (action.type) {
     case "NEW_DEAL":
-      return freshDeal(action.seed, nextClockwise(state.dealer));
+      return freshDeal(action.seed, nextClockwise(state.dealer), (state.dealCount || 1) + 1);
 
     case "ADD_CALL": {
       if (state.phase !== "auction") return state;
@@ -295,7 +327,7 @@ function BigCard({ card, playable, onPlay }) {
 /** Full-width row of fixed-size cards (no overlap). Cards keep their size as
  * the hand shrinks — width is locked to 1/13 of the row. Used for South + dummy. */
 function HandRow({ seat, state, onPlay }) {
-  const hand = state.hands[seat];
+  const hand = orderHand(state.hands[seat], suitOrderForContract(state.contract));
   const toPlay = seatToPlay(state);
   const led = ledSuitOf(state.trickPlays);
   const canControl = state.phase === "play" && toPlay === seat && controllerIsHuman(seat, state);
@@ -323,7 +355,8 @@ function SideCard({ card }) {
 /** A dummy shown on the LEFT (West) or RIGHT (East) edge: suits in rows, stacked. */
 function SideHand({ seat, state, side }) {
   const hand = state.hands[seat];
-  const groups = SUIT_DISPLAY_ORDER.map((suit) => ({ suit, cards: hand.filter((c) => c.suit === suit) })).filter(
+  const order = suitOrderForContract(state.contract);
+  const groups = order.map((suit) => ({ suit, cards: hand.filter((c) => c.suit === suit) })).filter(
     (g) => g.cards.length
   );
   return (
@@ -468,7 +501,6 @@ function PlayTable({ embedded = false } = {}) {
   const [thinking, setThinking] = useState(null);
   const [notice, setNotice] = useState(null);
   const [score, setScore] = useState(0);
-  const [dealNo, setDealNo] = useState(1);
   const [claiming, setClaiming] = useState(false);
   const [showClaim, setShowClaim] = useState(false);
   const [claimMsg, setClaimMsg] = useState(null);
@@ -501,7 +533,6 @@ function PlayTable({ embedded = false } = {}) {
     busyRef.current = null;
     setNotice(null);
     setHoverMeaning(null);
-    setDealNo((n) => n + 1);
     dispatch({ type: "NEW_DEAL", seed: Date.now() >>> 0 });
   }, []);
 
@@ -694,7 +725,7 @@ function PlayTable({ embedded = false } = {}) {
       return undefined;
     }
     let cancelled = false;
-    getBids({ auction: state.auction }).then((m) => {
+    getBids({ auction: state.auction, dealer: state.dealer }).then((m) => {
       if (!cancelled) setBidMeanings(m);
     });
     return () => {
@@ -747,9 +778,9 @@ function PlayTable({ embedded = false } = {}) {
           <div className="pt-tbScoreLabel">Score</div>
           <div className="pt-tbScoreVal">{score}</div>
         </div>
-        <div className="pt-tbDealer" title={`Dealer ${SEAT_NAME[state.dealer]}`}>
-          <div className="pt-tbDealerNum">{dealNo}</div>
-          <div className="pt-tbDealerTag">D:{state.dealer}</div>
+        <div className="pt-tbDealer" title={`Dealer ${SEAT_NAME[state.dealer]} · Vul ${vulShort(state.vul)}`}>
+          <div className="pt-tbDealerNum">{state.dealCount}</div>
+          <div className="pt-tbDealerTag">D:{state.dealer} · {vulShort(state.vul)}</div>
         </div>
         <div className="pt-tbContract">
           <div className="pt-tbContractLabel">
