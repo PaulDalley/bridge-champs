@@ -31,6 +31,7 @@ import CategoryArticles from "./containers/CategoryArticles";
 import DisplayArticle from "./components/Articles/DisplayArticle";
 import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle";
 import AllArticlesIndex from "./components/Articles/AllArticlesIndex";
+import PlayTable from "./components/PlayTable/PlayTable";
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import PracticeQuestionViewer from "./components/PracticeQuestions/PracticeQuestionViewer";
 import CreatePracticeQuestionBundle from "./components/PracticeQuestions/CreatePracticeQuestionBundle";
@@ -328,6 +329,8 @@ const routes = (
       )}
     />
     <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
+    {/* Hidden dev route: BEN-powered play table. Not linked in nav or sitemap; noindex. */}
+    <Route path="/play-ben" exact component={PlayTable} />
     <Route path="/other" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/system" component={SystemCardEditor} exact />
     <Route
@@ -1187,7 +1190,14 @@ firebase.auth().onAuthStateChanged((user) => {
         const data = snapshot.exists ? snapshot.data() : null;
         const exp = data?.["subscriptionExpires"];
         const expiresAt = exp ? (typeof exp.toMillis === "function" ? exp.toMillis() : (typeof exp.toDate === "function" ? exp.toDate().getTime() : new Date(exp).getTime())) : 0;
-        const hasValidExpiry = expiresAt > Date.now();
+        // Renewal grace buffer: keep access alive briefly past the stored expiry
+        // so a paying subscriber doesn't lose access during the renewal window.
+        // Stripe charges the next invoice at period end, but the webhook that
+        // extends subscriptionExpires can lag by minutes–hours; without this
+        // buffer a renewing member sees "no access" until the webhook catches up.
+        // Trade-off: a cancelled member keeps access up to this long past expiry.
+        const RENEWAL_GRACE_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+        const hasValidExpiry = expiresAt + RENEWAL_GRACE_MS > Date.now();
         // Active if: (subscriptionActive is true AND not expired) OR (have a future expiry — handles legacy/manual docs)
         const explicitlyActive = data && data["subscriptionActive"] === true;
         const hasFutureExpiry = data && exp != null && hasValidExpiry;

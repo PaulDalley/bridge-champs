@@ -1,0 +1,304 @@
+/* BEN play table — full-width fixed-size cards, black surround, green felt.
+   All classes are pt-* scoped. Container queries size the cards so they scale
+   whether the table is standalone (/play-ben) or embedded (Just Play). */
+
+.pt-app {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 660px;
+  background: #000;
+  color: #1f2937;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+/* suit colours (♥/♦ red, ♣ green, ♠ black) */
+.pt-suit--red, .pt-bid--red { color: #d11f33; }
+.pt-suit--black, .pt-bid--black { color: #161616; }
+.pt-suit--club, .pt-bid--club { color: #0a8a45; }
+.pt-suit--nt, .pt-bid--nt { color: #1f3a5f; }
+
+/* ── toolbar ─────────────────────────────────────────────────────────────── */
+.pt-toolbar {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  background: #000;
+  padding: 7px 8px;
+}
+.pt-tbScore, .pt-tbDealer, .pt-tbContract {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 8px; padding: 4px 10px; text-align: center;
+}
+.pt-tbScore { background: #9fb9b9; color: #16302f; min-width: 70px; }
+.pt-tbScoreLabel { font-size: 13px; font-weight: 600; }
+.pt-tbScoreVal { font-size: 21px; font-weight: 800; background: #7fa0a0; border-radius: 5px; width: 100%; }
+.pt-tbDealer { background: #cfe0e0; color: #16302f; min-width: 56px; position: relative; }
+.pt-tbDealerNum { font-size: 24px; font-weight: 800; line-height: 1; }
+.pt-tbDealerTag { font-size: 11px; font-weight: 700; }
+.pt-tbContract { background: #0f5132; color: #fff; min-width: 86px; }
+.pt-tbContractLabel { font-size: 16px; font-weight: 800; }
+.pt-tbTricks { display: flex; gap: 4px; margin-top: 2px; }
+.pt-tbTrickChip { background: #0b3d24; color: #fff; border-radius: 3px; padding: 0 7px; font-size: 13px; font-weight: 700; }
+.pt-tbBtns { display: flex; gap: 6px; margin-left: auto; align-items: center; }
+.pt-tbBtn {
+  background: #e8e8e8; border: 1px solid #b5b5b5; border-radius: 7px;
+  padding: 8px 16px; font-size: 15px; font-weight: 600; color: #222; cursor: pointer;
+}
+.pt-tbBtn:hover:not(:disabled) { background: #f2f2f2; }
+.pt-tbBtn:disabled { opacity: 0.45; cursor: default; }
+.pt-tbBtn--primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+/* ── status line ─────────────────────────────────────────────────────────── */
+.pt-statusline {
+  display: flex; align-items: center; gap: 8px;
+  background: #141414; color: #d1d5db; padding: 3px 10px; font-size: 13px; min-height: 24px;
+}
+.pt-mode { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; }
+.pt-mode--live { background: #14532d; color: #bbf7d0; }
+.pt-mode--mock { background: #78350f; color: #fde68a; }
+.pt-statusText { font-weight: 600; }
+.pt-thinkingDot { width: 8px; height: 8px; border-radius: 50%; background: #fbbf24; animation: pt-pulse 1s infinite; }
+.pt-statusNotice { color: #fca5a5; margin-left: auto; }
+@keyframes pt-pulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+/* ── hands: full-width row of fixed-size cards ───────────────────────────── */
+.pt-handRow {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 5px 3px;
+  background: #000;
+}
+.pt-bigcard {
+  flex: 0 0 calc((100% - 26px) / 13); /* locked to 1/13 — size stays put as the hand shrinks */
+  max-width: 92px;
+  aspect-ratio: 5 / 7;
+  background: #fff;
+  border: 1px solid #1f2937;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 3px 0 0 5px;
+  font-weight: 800;
+  line-height: 0.9;
+  cursor: default;
+  overflow: hidden;
+}
+.pt-bigRank { font-size: 4.1cqw; }
+.pt-bigSuit { font-size: 3.7cqw; }
+.pt-bigcard--playable { cursor: pointer; }
+.pt-bigcard--playable:hover { transform: translateY(-10px); box-shadow: 0 0 0 2px #2563eb; transition: transform 0.08s; }
+
+/* ── middle row: West dummy | felt | East dummy ──────────────────────────── */
+.pt-midRow { display: flex; flex: 1 1 auto; align-items: stretch; min-height: 230px; }
+.pt-sideSlot { flex: 0 0 auto; display: flex; align-items: center; background: #000; }
+.pt-sideSlot--left { justify-content: flex-start; }
+.pt-sideSlot--right { justify-content: flex-end; }
+.pt-sideHand { display: flex; flex-direction: column; gap: 4px; padding: 6px 4px; align-items: flex-start; }
+.pt-sideSuitRow { display: flex; gap: 1px; justify-content: flex-start; }
+.pt-sideCard {
+  width: clamp(30px, 5.2cqw, 50px);
+  aspect-ratio: 5 / 7;
+  background: #fff;
+  border: 1px solid #1f2937;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1px 0 0 3px;
+  font-weight: 800;
+  line-height: 0.9;
+}
+.pt-sideRank { font-size: clamp(13px, 2.5cqw, 22px); }
+.pt-sideSuit { font-size: clamp(12px, 2.3cqw, 20px); }
+
+/* ── green felt (middle) ─────────────────────────────────────────────────── */
+.pt-felt {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 45%, #1f7a43, #14622f 80%);
+  min-height: 220px;
+  position: relative;
+}
+
+/* contract on the green toolbar box — suit colours adjusted for contrast */
+.pt-contract { display: inline-flex; align-items: baseline; }
+.pt-tbContract .pt-suit--red { color: #ff6b78; }
+.pt-tbContract .pt-suit--club { color: #5fe08a; }
+.pt-tbContract .pt-suit--black { color: #e8eaed; }
+.pt-tbContract .pt-suit--nt { color: #ffffff; }
+
+/* ── trick area ──────────────────────────────────────────────────────────── */
+.pt-trickArea { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
+.pt-trickGrid { position: relative; width: 24cqw; max-width: 260px; min-width: 170px; height: 220px; }
+.pt-trickPos { position: absolute; }
+.pt-trickPos--n { top: 0; left: 50%; transform: translateX(-50%); }
+.pt-trickPos--s { bottom: 0; left: 50%; transform: translateX(-50%); }
+.pt-trickPos--w { left: 0; top: 50%; transform: translateY(-50%); }
+.pt-trickPos--e { right: 0; top: 50%; transform: translateY(-50%); }
+.pt-trickCard {
+  width: 9cqw; max-width: 86px; min-width: 56px;
+  aspect-ratio: 5 / 7;
+  background: #fff; border: 1px solid #1f2937; border-radius: 4px;
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding: 3px 0 0 5px; font-weight: 800; line-height: 0.9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.pt-resultOverlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+  background: rgba(0, 0, 0, 0.55); color: #fff; text-align: center; padding: 16px;
+}
+.pt-resultText { font-size: 18px; font-weight: 700; max-width: 540px; }
+
+/* ── auction display ─────────────────────────────────────────────────────── */
+.pt-bidArea { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 1040px; padding: 12px; }
+.pt-passout { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 16px; color: #fff; text-align: center; }
+.pt-passoutText { font-size: 20px; font-weight: 700; }
+.pt-auction { width: 100%; max-width: 760px; margin: 0 auto; background: #9fb9b9; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
+.pt-auctionHead { display: grid; grid-template-columns: repeat(4, 1fr); }
+.pt-auctionCol { text-align: center; font-size: clamp(15px, 2.4cqw, 24px); font-weight: 700; padding: 7px 0; background: #f1f5f9; color: #1f2937; }
+.pt-auctionCol--vul { background: #b3261e; color: #fff; }
+.pt-auctionYou { display: block; font-size: 0.62em; font-weight: 700; opacity: 0.8; }
+.pt-auctionGrid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px; min-height: 110px; align-content: start; }
+.pt-auctionCell { text-align: center; padding: 4px 0; min-height: 34px; }
+.pt-acall { display: inline-flex; align-items: baseline; justify-content: center; gap: 1px; font-weight: 800; font-size: clamp(20px, 3.4cqw, 34px); line-height: 1; }
+.pt-acallLevel { color: #1f2937; }
+.pt-acall--pass { color: #475569; font-weight: 700; }
+
+/* ── bidding box (two-step) + meaning bubble ─────────────────────────────── */
+.pt-bidWrap { display: flex; gap: 14px; width: 100%; align-items: stretch; flex-wrap: wrap; justify-content: center; }
+.pt-bidbox { display: flex; flex-direction: column; gap: 8px; flex: 1 1 540px; min-width: 0; }
+.pt-bidMeaning {
+  flex: 1 1 240px;
+  min-width: 220px;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #1f2937;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+}
+.pt-bidMeaning--idle { color: #6b7280; font-style: italic; font-size: 15px; display: flex; align-items: center; }
+.pt-bidMeaningHead { font-size: 30px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; }
+.pt-bidMeaningBody { font-size: 17px; font-weight: 600; line-height: 1.4; }
+.pt-bidMeaningNone { color: #9ca3af; font-weight: 500; }
+.pt-alertDot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  background: #e11d48;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.pt-bidRow { display: flex; gap: 7px; justify-content: center; }
+.pt-bidRow--strains, .pt-bidRow--calls { justify-content: center; }
+.pt-bidBtn {
+  flex: 1 1 0; min-width: 0;
+  padding: 10px 0;
+  border: 1px solid #cbd5e1; border-radius: 10px; background: #fff;
+  font-size: clamp(30px, 6cqw, 50px); font-weight: 800; color: #1f2937; cursor: pointer;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.pt-bidBtn:hover:not(:disabled) { background: #eef4f8; }
+.pt-bidBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+.pt-bidBtn--pass { flex: 1.5 1 0; background: #d7e6c9; color: #365314; font-size: clamp(22px, 4cqw, 36px); }
+.pt-levelBtn { flex: 1 1 0; }
+.pt-bidBtn--active { background: #f5a623; color: #fff; border-color: #d98a05; }
+.pt-strainBtn { flex: 1 1 0; } /* same size as the numbers */
+.pt-strainBtn.pt-bid--nt { flex: 2.2 1 0; } /* NT is double-width */
+/* suit colour must beat .pt-bidBtn's own colour (higher specificity, later) */
+.pt-bidBtn.pt-bid--red { color: #d11f33; }
+.pt-bidBtn.pt-bid--club { color: #0a8a45; }
+.pt-bidBtn.pt-bid--black { color: #161616; }
+.pt-bidBtn.pt-bid--nt { color: #1f3a5f; }
+.pt-bidBtn--dbl { background: #fee2e2; color: #b91c1c; flex: 0 0 22%; }
+.pt-bidBtn--rdbl { background: #dbeafe; color: #1d4ed8; flex: 0 0 22%; }
+
+/* embedded inside the Just Play page: drop the rounded corners, fill width */
+.pt-app--embedded { max-width: 100%; border-radius: 0; }
+
+/* ── claim dialog ────────────────────────────────────────────────────────── */
+.pt-modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+.pt-modal {
+  background: #9aa57e;
+  border: 2px solid #6f7a55;
+  border-radius: 10px;
+  width: min(560px, 92vw);
+  overflow: hidden;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5);
+}
+.pt-modalTitle { background: #ededed; color: #111; font-size: 22px; font-weight: 800; padding: 8px 16px; }
+.pt-modalBody { padding: 14px 16px 16px; }
+.pt-modalQ { font-size: 22px; font-weight: 700; color: #16210a; margin-bottom: 14px; }
+.pt-claimNums { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 14px; }
+.pt-claimNum {
+  padding: 10px 0;
+  font-size: 24px;
+  font-weight: 800;
+  border: 1px solid #5d6b6b;
+  border-radius: 10px;
+  background: #8ba0a0;
+  color: #11261f;
+  cursor: pointer;
+}
+.pt-claimNum:hover:not(:disabled) { background: #9cb1b1; }
+.pt-claimNum--sel { background: #f5a623; color: #fff; border-color: #d98a05; }
+.pt-claimNum:disabled { opacity: 0.6; cursor: default; }
+.pt-claimMsg { background: #fff3cd; color: #8a5a00; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-size: 15px; font-weight: 600; }
+.pt-claimActions { display: flex; gap: 8px; }
+.pt-claimConfirm {
+  flex: 1;
+  padding: 14px;
+  font-size: 21px;
+  font-weight: 800;
+  background: #f1f1e6;
+  color: #111;
+  border: 1px solid #9aa;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.pt-claimConfirm:hover:not(:disabled) { background: #fff; }
+.pt-claimCancel {
+  padding: 14px 20px;
+  font-size: 21px;
+  font-weight: 700;
+  background: #e6e6e6;
+  color: #111;
+  border: 1px solid #9aa;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.pt-claimConfirm:disabled, .pt-claimCancel:disabled { opacity: 0.7; cursor: default; }
+
+@container (max-width: 560px) {
+  .pt-bigRank { font-size: 26px; }
+  .pt-bigSuit { font-size: 22px; }
+}

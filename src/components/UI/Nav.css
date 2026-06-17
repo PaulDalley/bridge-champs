@@ -732,6 +732,11 @@
   color: #083426;
 }
 
+.Nav-tab-icon-justplay {
+  background: linear-gradient(135deg, #2563eb 0%, #4f8df5 100%);
+  color: white;
+}
+
 /* Flat, static treatment — icon uses Material Icons (FA bundle in index.html is v5.0.8) */
 .Nav-tab-icon-beginner {
   background: #0d9488;

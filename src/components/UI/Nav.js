@@ -162,7 +162,6 @@ class Nav extends Component {
       "/defence",
       "/bidding",
       "/counting",
-      "/just-play",
       "/treadmill",
       "/beginner/practice",
     ];
@@ -186,6 +185,7 @@ class Nav extends Component {
     const articlesActive =
       pathname === "/beginner" ||
       articlePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    const justPlayActive = pathname === "/just-play" || pathname.startsWith("/just-play/");
     return (
       <header style={{ zIndex: 3500 }}>
         <div className="Nav-header">
@@ -303,6 +303,19 @@ class Nav extends Component {
                   <i className="fas fa-graduation-cap" aria-hidden="true" />
                 </div>
                 <div className="Nav-tab-label">Practical Learning</div>
+              </a>
+
+              <a
+                className={`Nav-tab-card ${justPlayActive ? "Nav-tab-active" : ""}`}
+                href="/just-play"
+                onClick={(e) => this.navCardClick(e, "/just-play")}
+                aria-label="Just Play section"
+              >
+                <span className="Nav-tab-badge">New</span>
+                <div className="Nav-tab-icon Nav-tab-icon-justplay">
+                  <i className="fas fa-play" aria-hidden="true" />
+                </div>
+                <div className="Nav-tab-label">Just Play</div>
               </a>
 
               <a
