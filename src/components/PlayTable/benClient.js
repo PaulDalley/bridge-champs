@@ -205,7 +205,9 @@ export async function getPlay(ctx) {
 }
 
 /**
- * Verify a declarer's claim of `tricks` TOTAL tricks for the declaring side.
+ * Verify a declarer's claim of `tricks` ADDITIONAL (remaining) tricks for the
+ * declaring side — NOT the deal total. BEN compares it to how many more tricks
+ * it computes the declaring side can take from the current position.
  * Same context as getPlay (declarer seat + full original hands + played) plus tricks.
  * Returns { accepted, tricks, result } — accepted=true means BEN agrees the claim makes.
  */

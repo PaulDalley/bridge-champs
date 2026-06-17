@@ -550,7 +550,8 @@ function PlayTable({ embedded = false } = {}) {
       setClaiming(true);
       setClaimMsg(null);
       const res = await getClaim({
-        tricks: claimTotal,
+        // BEN wants the number of ADDITIONAL tricks claimed (the rest), not the deal total.
+        tricks: more,
         hand: orig[state.declarer],
         dummy: orig[state.dummy],
         seat: state.declarer,
@@ -763,8 +764,14 @@ function PlayTable({ embedded = false } = {}) {
             )}
           </div>
           <div className="pt-tbTricks">
-            <span className="pt-tbTrickChip">{state.nsTricks}</span>
-            <span className="pt-tbTrickChip">{state.ewTricks}</span>
+            <span className="pt-trickTally" title="Your side's tricks">
+              <span className="pt-cardBack pt-cardBack--v" aria-hidden="true" />
+              <span className="pt-trickNum">{state.nsTricks}</span>
+            </span>
+            <span className="pt-trickTally" title="Opponents' tricks">
+              <span className="pt-cardBack pt-cardBack--h" aria-hidden="true" />
+              <span className="pt-trickNum">{state.ewTricks}</span>
+            </span>
           </div>
         </div>
         <div className="pt-tbBtns">
