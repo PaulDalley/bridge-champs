@@ -83,6 +83,10 @@ const BODY_HTML = `
   <li><strong>2♥</strong> = Transfer to spades</li>
   <li><strong>2♠</strong> = Transfer to clubs OR range ask</li>
   <li><strong>2NT</strong> = Transfer to diamonds</li>
+  <li><strong>3♣</strong> = Puppet Stayman</li>
+  <li><strong>3♦</strong> = Both minors, 5+</li>
+  <li><strong>3♥</strong> = Singleton heart, 3 spades — typically 31(54)</li>
+  <li><strong>3♠</strong> = Singleton spade, 3 hearts — typically 13(54)</li>
 </ul>
 <p>The only slightly tricky part of the system is the 2♠ bid. It's easy once you get used to it, but it might feel intimidating at first.</p>
 
@@ -111,14 +115,6 @@ const BODY_HTML = `
   </ul>
   <p>I recommend a similar thing after <strong>1NT – 2NT</strong>, which is a transfer to diamonds. After partner bids 3♦, bid a new suit to show shortage in that suit.</p>
 </Callout>
-
-<h2>Now let's look at the three level</h2>
-<ul>
-  <li><strong>3♣</strong> = Puppet Stayman</li>
-  <li><strong>3♦</strong> = Both minors, 5+</li>
-  <li><strong>3♥</strong> = Singleton heart, 3 spades — typically 31(54)</li>
-  <li><strong>3♠</strong> = Singleton spade, 3 hearts — typically 13(54)</li>
-</ul>
 
 <p><em>An article coming very soon will give a variety of example hands and show how this versatile system is well equipped to handle them all.</em></p>
 `.trim();
