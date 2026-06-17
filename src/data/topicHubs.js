@@ -294,6 +294,7 @@ A test for a good convention is that it's easy to remember, likely to come up fr
 Overall, we want to pick our conventions carefully and not overcrowd our system to the point that we cannot bid our hands naturally and confidently under pressure.`,
         trainerHref: "/bidding/practice?difficulty=3&problem=bid3-16",
         articles: [
+          { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
           { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
           { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
           { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
