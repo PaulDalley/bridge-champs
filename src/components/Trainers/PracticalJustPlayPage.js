@@ -104,6 +104,11 @@ function PracticalJustPlayPage({
         <title>Just Play — Bridge Champions</title>
         <meta name="robots" content="noindex" />
       </Helmet>
+      <div className="pt-jpBar">
+        <Link to="/weekly" className="pt-jpTournamentBtn">
+          <i className="fas fa-trophy" aria-hidden="true" /> Play weekly tournament
+        </Link>
+      </div>
       <PlayTable embedded />
     </div>
   );
