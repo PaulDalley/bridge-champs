@@ -32,6 +32,7 @@ import DisplayArticle from "./components/Articles/DisplayArticle";
 import DisplayCategoryArticle from "./components/Articles/DisplayCategoryArticle";
 import AllArticlesIndex from "./components/Articles/AllArticlesIndex";
 import PlayTable from "./components/PlayTable/PlayTable";
+import WeeklyTournament from "./components/Tournament/WeeklyTournament";
 import SpecificArticles from "./components/Articles/SpecificArticles";
 import PracticeQuestionViewer from "./components/PracticeQuestions/PracticeQuestionViewer";
 import CreatePracticeQuestionBundle from "./components/PracticeQuestions/CreatePracticeQuestionBundle";
@@ -331,6 +332,8 @@ const routes = (
     <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
     {/* Hidden dev route: BEN-powered play table. Not linked in nav or sitemap; noindex. */}
     <Route path="/play-ben" exact component={PlayTable} />
+    {/* Weekly Tournament — unlinked while in development (no nav card yet). */}
+    <Route path="/weekly" exact component={WeeklyTournament} />
     <Route path="/other" exact render={(routeProps) => <Redirect to={{ pathname: "/learn", search: routeProps.location.search }} />} />
     <Route path="/system" component={SystemCardEditor} exact />
     <Route

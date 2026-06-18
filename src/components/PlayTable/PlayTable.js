@@ -136,13 +136,13 @@ function seatToPlay(state) {
   return nextClockwise(state.trickPlays[state.trickPlays.length - 1].seat);
 }
 
-function freshDeal(seed, dealer, dealCount = 1) {
+function freshDeal(seed, dealer, dealCount = 1, vulOverride = null) {
   return {
     phase: "auction",
     seed,
     dealer,
     dealCount,
-    vul: VUL_CYCLE[(dealCount - 1) % VUL_CYCLE.length], // rotates none → all → NS → EW
+    vul: vulOverride != null ? vulOverride : VUL_CYCLE[(dealCount - 1) % VUL_CYCLE.length], // rotates none → all → NS → EW
     hands: dealHands(seed),
     auction: [],
     contract: null,
@@ -533,8 +533,25 @@ function DealDiagram({ hands }) {
   );
 }
 
-function PlayTable({ embedded = false, preview = false } = {}) {
-  const [state, dispatch] = useReducer(reducer, undefined, () => freshDeal(Date.now() >>> 0, "N"));
+/** Snapshot a finished board (tournament mode) into a result record for persistence. */
+function buildBoardRecord(state, passout) {
+  return {
+    passout,
+    contract: passout ? null : state.contract,
+    declarer: passout ? null : state.declarer,
+    declarerTricks: passout ? 0 : state.result ? state.result.declarerTricks : 0,
+    rawScoreNS: passout ? 0 : state.result ? state.result.score : 0,
+    auction: state.auction.map((e) => ({ seat: e.seat, call: e.call })),
+    play: state.playedCards.map((p) => ({ seat: p.seat, card: p.card })),
+  };
+}
+
+function PlayTable({ embedded = false, preview = false, dealOverride = null, singleDeal = false, onResult, onExit } = {}) {
+  const [state, dispatch] = useReducer(reducer, undefined, () =>
+    dealOverride
+      ? freshDeal(dealOverride.seed >>> 0, dealOverride.dealer || "N", 1, dealOverride.vul ?? "")
+      : freshDeal(Date.now() >>> 0, "N")
+  );
   const [thinking, setThinking] = useState(null);
   const [notice, setNotice] = useState(null);
   const [score, setScore] = useState(0);
@@ -557,6 +574,7 @@ function PlayTable({ embedded = false, preview = false } = {}) {
   const fastRef = useRef(fast);
   const busyRef = useRef(null);
   const scoredSeedRef = useRef(null);
+  const resultFiredRef = useRef(false); // tournament: report each finished board once
 
   // Keep the ref current (read inside async bot turns) and remember the choice.
   useEffect(() => {
@@ -759,6 +777,18 @@ function PlayTable({ embedded = false, preview = false } = {}) {
     }
   }, [state.phase, state.seed, state.result]);
 
+  // Tournament single-deal mode: report the finished board's result exactly once.
+  useEffect(() => {
+    if (!singleDeal || typeof onResult !== "function" || resultFiredRef.current) return;
+    if (state.phase === "done" && state.result) {
+      resultFiredRef.current = true;
+      onResult(buildBoardRecord(state, false));
+    } else if (state.phase === "passout") {
+      resultFiredRef.current = true;
+      onResult(buildBoardRecord(state, true));
+    }
+  }, [state, singleDeal, onResult]);
+
   // Fetch BEN's meanings for the legal bids whenever it's your turn to bid.
   useEffect(() => {
     const isHumanTurn = state.phase === "auction" && nextBidderSeat(state) === HUMAN_SEAT;
@@ -922,8 +952,8 @@ function PlayTable({ embedded = false, preview = false } = {}) {
                   {state.phase === "passout" ? (
                     <div className="pt-passout">
                       <div className="pt-passoutText">Passed out — no contract this hand.</div>
-                      <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>
-                        Deal next hand
+                      <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={singleDeal ? onExit : newDeal}>
+                        {singleDeal ? "Back to tournament" : "Deal next hand"}
                       </button>
                     </div>
                   ) : (
@@ -952,7 +982,9 @@ function PlayTable({ embedded = false, preview = false } = {}) {
               {state.result && (
                 <div className="pt-resultOverlay pt-resultOverlay--done">
                   <div className="pt-resultText">{statusText}</div>
-                  <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>Next deal</button>
+                  <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={singleDeal ? onExit : newDeal}>
+                    {singleDeal ? "Back to tournament" : "Next deal"}
+                  </button>
                 </div>
               )}
               <DealDiagram hands={dealHands(state.seed)} />

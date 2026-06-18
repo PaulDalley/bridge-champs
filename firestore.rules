@@ -310,5 +310,26 @@ service cloud.firestore {
         && request.resource.data.timeMs <= 300000;
       allow delete: if false;
     }
+
+    // ── Weekly Tournament ──────────────────────────────────────────────────────
+    // The week's board seed is created by the getWeeklyTournament function
+    // (Admin SDK, bypasses rules). Members read it; clients never write it.
+    match /tournaments/{weekId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // One result per member per board: create your own once (no overwrite =
+    // one scored attempt, enforced server-side). Members read all for the leaderboard.
+    match /tournamentResults/{weekId}/entries/{entryId} {
+      allow read: if request.auth != null;
+      allow create: if (hasValidSubscription() || isAdmin())
+        && request.resource.data.uid == request.auth.uid
+        && entryId == request.auth.uid + "__" + string(request.resource.data.boardNo)
+        && request.resource.data.boardNo is number
+        && request.resource.data.rawScoreNS is number
+        && request.resource.data.displayName is string;
+      allow update, delete: if false;
+    }
   }
 }
