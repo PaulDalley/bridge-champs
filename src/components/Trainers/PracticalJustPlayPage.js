@@ -75,7 +75,7 @@ function PracticalJustPlayPage({
           <div className="pt-gateSignup">
             {loggedIn ? (
               <div className="pt-gateSubscribe">
-                <Link to="/membership" className="pt-tbBtn pt-tbBtn--primary">
+                <Link to="/membership?redirectTo=/just-play/practice" className="pt-tbBtn pt-tbBtn--primary">
                   View membership
                 </Link>
               </div>
@@ -89,7 +89,7 @@ function PracticalJustPlayPage({
                 emailLogin={signupEmail}
                 setProfileName={setProfileNameFn}
                 history={history}
-                redirectPathAfterAuth="/membership"
+                redirectPathAfterAuth="/membership?redirectTo=/just-play/practice"
               />
             )}
           </div>
