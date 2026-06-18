@@ -496,6 +496,41 @@ function AuctionPanel({ state, onHover = () => {} }) {
 
 // ── main component ─────────────────────────────────────────────────────────────
 
+// Standard hand-diagram suit order (spades, hearts, diamonds, clubs).
+const DIAGRAM_SUITS = ["S", "H", "D", "C"];
+
+/** One seat's 13 cards as four suit lines — for the end-of-deal review diagram. */
+function HandBlock({ hand, label }) {
+  return (
+    <div className="pt-dealHand">
+      <div className="pt-dealSeat">{label}</div>
+      {DIAGRAM_SUITS.map((s) => {
+        const ranks = hand.filter((c) => c.suit === s).map((c) => displayRank(c.rank)).join(" ");
+        return (
+          <div className="pt-dealSuitLine" key={s}>
+            <span className={`pt-dealSuit ${suitColorClass(s)}`}>{suitSymbol(s)}</span>
+            <span className="pt-dealRanks">{ranks || "—"}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The full original deal in a compass layout (N top, W/E middle, S bottom). */
+function DealDiagram({ hands }) {
+  return (
+    <div className="pt-dealDiagram" aria-label="Full deal">
+      <HandBlock hand={hands.N} label="North" />
+      <div className="pt-dealMid">
+        <HandBlock hand={hands.W} label="West" />
+        <HandBlock hand={hands.E} label="East" />
+      </div>
+      <HandBlock hand={hands.S} label="South" />
+    </div>
+  );
+}
+
 function PlayTable({ embedded = false } = {}) {
   const [state, dispatch] = useReducer(reducer, undefined, () => freshDeal(Date.now() >>> 0, "N"));
   const [thinking, setThinking] = useState(null);
@@ -858,13 +893,14 @@ function PlayTable({ embedded = false } = {}) {
         Just Play is brand-new and still being worked on over the next few days — expect a few rough edges. Thanks for trying it!
       </div>
 
-      {/* TOP: North — the dummy, or the declarer you control from the dummy seat */}
-      {handVisible("N", state) && <HandRow seat="N" state={state} onPlay={onHumanPlay} />}
+      {/* TOP: North — the dummy, or the declarer you control from the dummy seat.
+          At end of deal the depleted hands are hidden; the full deal diagram shows instead. */}
+      {state.phase !== "done" && handVisible("N", state) && <HandRow seat="N" state={state} onPlay={onHumanPlay} />}
 
       {/* MIDDLE: West dummy (left) | felt | East dummy (right) */}
       <div className="pt-midRow">
         <div className="pt-sideSlot pt-sideSlot--left">
-          {state.dummy === "W" && handVisible("W", state) && <SideHand seat="W" state={state} side="left" />}
+          {state.phase !== "done" && state.dummy === "W" && handVisible("W", state) && <SideHand seat="W" state={state} side="left" />}
         </div>
 
         <div className="pt-felt">
@@ -901,6 +937,16 @@ function PlayTable({ embedded = false } = {}) {
                 <BidMeaning hover={hoverMeaning} />
               </div>
             </div>
+          ) : state.phase === "done" ? (
+            <div className="pt-doneArea">
+              {state.result && (
+                <div className="pt-resultOverlay pt-resultOverlay--done">
+                  <div className="pt-resultText">{statusText}</div>
+                  <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>Next deal</button>
+                </div>
+              )}
+              <DealDiagram hands={dealHands(state.seed)} />
+            </div>
           ) : (
             <div className="pt-trickArea" aria-label="Trick">
               <div className="pt-trickGrid">
@@ -909,23 +955,17 @@ function PlayTable({ embedded = false } = {}) {
                 <div className="pt-trickPos pt-trickPos--e"><TrickCard card={trickBySeat.E} /></div>
                 <div className="pt-trickPos pt-trickPos--s"><TrickCard card={trickBySeat.S} /></div>
               </div>
-              {state.phase === "done" && state.result && (
-                <div className="pt-resultOverlay">
-                  <div className="pt-resultText">{statusText}</div>
-                  <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={newDeal}>Next deal</button>
-                </div>
-              )}
             </div>
           )}
         </div>
 
         <div className="pt-sideSlot pt-sideSlot--right">
-          {state.dummy === "E" && handVisible("E", state) && <SideHand seat="E" state={state} side="right" />}
+          {state.phase !== "done" && state.dummy === "E" && handVisible("E", state) && <SideHand seat="E" state={state} side="right" />}
         </div>
       </div>
 
-      {/* BOTTOM: your hand, always */}
-      <HandRow seat="S" state={state} onPlay={onHumanPlay} />
+      {/* BOTTOM: your hand (hidden at end of deal — the full diagram shows it) */}
+      {state.phase !== "done" && <HandRow seat="S" state={state} onPlay={onHumanPlay} />}
 
       {showClaim && (
         <ClaimModal state={state} busy={claiming} message={claimMsg} onConfirm={confirmClaim} onCancel={closeClaim} />

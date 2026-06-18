@@ -220,6 +220,21 @@
 }
 .pt-resultText { font-size: 18px; font-weight: 700; max-width: 540px; }
 
+/* End-of-deal: result line + the full original deal as a compass diagram */
+.pt-doneArea { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 12px; width: 100%; }
+.pt-resultOverlay--done { position: static; inset: auto; background: transparent; color: #fff; padding: 0; }
+.pt-dealDiagram {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: rgba(255, 255, 255, 0.96); color: #161616;
+  border-radius: 12px; padding: 14px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+.pt-dealMid { display: flex; gap: 56px; }
+.pt-dealHand { min-width: 116px; }
+.pt-dealSeat { font-size: 13px; font-weight: 800; color: #4b5563; margin-bottom: 2px; }
+.pt-dealSuitLine { display: flex; align-items: baseline; gap: 7px; font-size: 18px; font-weight: 700; line-height: 1.35; }
+.pt-dealSuit { width: 16px; text-align: center; }
+.pt-dealRanks { letter-spacing: 2px; }
+
 /* ── auction display ─────────────────────────────────────────────────────── */
 .pt-bidArea { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 1040px; padding: 12px; }
 .pt-passout { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 16px; color: #fff; text-align: center; }
