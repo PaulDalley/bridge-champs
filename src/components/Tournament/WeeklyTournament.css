@@ -5,6 +5,9 @@
 .wt-title { font-size: 24px; font-weight: 800; margin: 0; }
 .wt-week { color: #6b7280; font-size: 14px; font-weight: 600; margin-left: auto; }
 .wt-playHead { text-align: center; font-weight: 800; font-size: 16px; padding: 8px 0; color: #161616; }
+/* The play view must be full-width (the table sizes to its container); only the
+   header bar stays narrow. The 760px cap on .wt-page is for the text screens. */
+.wt-page.wt-play { max-width: none; padding: 0; }
 .wt-playBar { display: flex; align-items: center; gap: 14px; padding: 10px 16px 6px; max-width: 760px; margin: 0 auto; }
 .wt-playBar .wt-title { font-size: 22px; }
 .wt-playMeta { color: #4b5563; font-weight: 600; font-size: 15px; }
