@@ -155,6 +155,7 @@ function freshDeal(seed, dealer, dealCount = 1) {
     ewTricks: 0,
     dummyRevealed: false,
     pendingTrickWinner: undefined,
+    lastTrick: null, // most recently completed trick: { plays:[{seat,card}], winner }
     result: null,
   };
 }
@@ -262,6 +263,7 @@ function reducer(state, action) {
         trickLeader: winner,
         nsTricks: state.nsTricks + (ns ? 1 : 0),
         ewTricks: state.ewTricks + (ns ? 0 : 1),
+        lastTrick: { plays: state.trickPlays, winner },
         pendingTrickWinner: undefined,
         phase: allEmpty ? "scoring" : "play",
       };
@@ -542,6 +544,7 @@ function PlayTable({ embedded = false, preview = false } = {}) {
   const [bidMeanings, setBidMeanings] = useState({});
   const [hoverMeaning, setHoverMeaning] = useState(null); // shared bubble: { label, info } | null
   const [showAuction, setShowAuction] = useState(false); // popup: review the auction during play
+  const [showLastTrick, setShowLastTrick] = useState(false); // popup: review the previous trick
   // Opponent strength / speed: Faster (skip BEN's simulation, ~10x quicker) vs
   // Stronger (full simulation). The choice persists across deals and sessions.
   const [fast, setFast] = useState(() => {
@@ -570,6 +573,7 @@ function PlayTable({ embedded = false, preview = false } = {}) {
     setNotice(null);
     setHoverMeaning(null);
     setShowAuction(false);
+    setShowLastTrick(false);
     dispatch({ type: "NEW_DEAL", seed: Date.now() >>> 0 });
   }, []);
 
@@ -774,6 +778,9 @@ function PlayTable({ embedded = false, preview = false } = {}) {
   const trickBySeat = { N: null, E: null, S: null, W: null };
   for (const p of state.trickPlays) trickBySeat[p.seat] = p.card;
 
+  const lastBySeat = { N: null, E: null, S: null, W: null };
+  if (state.lastTrick) for (const p of state.lastTrick.plays) lastBySeat[p.seat] = p.card;
+
   const humanToBid = state.phase === "auction" && nextBidderSeat(state) === HUMAN_SEAT;
   const toPlay = seatToPlay(state);
   const statusText = (() => {
@@ -951,7 +958,12 @@ function PlayTable({ embedded = false, preview = false } = {}) {
               <DealDiagram hands={dealHands(state.seed)} />
             </div>
           ) : (
-            <div className="pt-trickArea" aria-label="Trick">
+            <div
+              className={`pt-trickArea ${state.lastTrick ? "pt-trickArea--peek" : ""}`}
+              aria-label="Trick"
+              onClick={() => state.lastTrick && setShowLastTrick(true)}
+              title={state.lastTrick ? "Show previous trick" : undefined}
+            >
               <div className="pt-trickGrid">
                 <div className="pt-trickPos pt-trickPos--n"><TrickCard card={trickBySeat.N} /></div>
                 <div className="pt-trickPos pt-trickPos--w"><TrickCard card={trickBySeat.W} /></div>
@@ -979,6 +991,26 @@ function PlayTable({ embedded = false, preview = false } = {}) {
           <div className="pt-auctionPopInner" onClick={(e) => e.stopPropagation()}>
             <AuctionPanel state={state} onHover={onHover} />
             <BidMeaning hover={hoverMeaning} />
+          </div>
+        </div>
+      )}
+
+      {showLastTrick && state.lastTrick && (
+        <div className="pt-lastTrickPop" onClick={() => setShowLastTrick(false)}>
+          <div className="pt-lastTrickBox" onClick={(e) => e.stopPropagation()}>
+            <div className="pt-lastTrickTitle">Previous trick</div>
+            <div className="pt-trickGrid pt-trickGrid--mini">
+              {SEATS.map((s) => (
+                <div
+                  key={s}
+                  className={`pt-trickPos pt-trickPos--${s.toLowerCase()} ${
+                    state.lastTrick.winner === s ? "pt-trickPos--won" : ""
+                  }`}
+                >
+                  <TrickCard card={lastBySeat[s]} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

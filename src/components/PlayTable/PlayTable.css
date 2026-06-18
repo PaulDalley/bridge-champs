@@ -226,6 +226,20 @@
 .pt-trickArea { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
 .pt-trickGrid { position: relative; width: 24cqw; max-width: 260px; min-width: 170px; height: 220px; }
 .pt-trickPos { position: absolute; }
+.pt-trickArea--peek { cursor: pointer; }
+.pt-trickPos--won .pt-trickCard { box-shadow: 0 0 0 3px #fbbf24, 0 1px 4px rgba(0, 0, 0, 0.4); }
+
+/* Previous-trick peek popup (click the trick area to open; click away to close) */
+.pt-lastTrickPop {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+  display: flex; align-items: center; justify-content: center; z-index: 4000; padding: 16px;
+}
+.pt-lastTrickBox {
+  background: #0f5132; border-radius: 14px; padding: 14px 18px 20px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+.pt-lastTrickTitle { color: #fff; font-weight: 800; font-size: 16px; text-align: center; margin-bottom: 8px; }
+.pt-trickGrid--mini { width: 240px; min-width: 240px; max-width: 240px; height: 210px; margin: 0 auto; }
 .pt-trickPos--n { top: 0; left: 50%; transform: translateX(-50%); }
 .pt-trickPos--s { bottom: 0; left: 50%; transform: translateX(-50%); }
 .pt-trickPos--w { left: 0; top: 50%; transform: translateY(-50%); }
