@@ -3,17 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PlayTable from "../PlayTable/PlayTable";
-import { weeklyBoards, boardVul, boardDealer, computeLeaderboard } from "./weeklyBoards";
+import { weeklyBoards, computeLeaderboard } from "./weeklyBoards";
 import { getWeeklyTournament, loadMyEntries, loadAllEntries, saveEntry } from "./tournamentData";
 import "./WeeklyTournament.css";
-
-const STRAIN = { S: "♠", H: "♥", D: "♦", C: "♣", N: "NT" };
-const vulLabel = (v) => (v === "Both" ? "All" : v === "NS" ? "N-S" : v === "EW" ? "E-W" : "None");
-const scoreStr = (n) => (n > 0 ? `+${n}` : `${n}`);
-function contractStr(c) {
-  if (!c) return "Passed out";
-  return `${c.level}${STRAIN[c.strain] || c.strain}${c.doubled === 2 ? " XX" : c.doubled === 1 ? " X" : ""}`;
-}
 
 function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authReady }) {
   const isLocalhost =
@@ -25,12 +17,12 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
   const [weekId, setWeekId] = useState(null);
   const [boards, setBoards] = useState(null);
   const [myEntries, setMyEntries] = useState({});
-  const [view, setView] = useState("lobby"); // "lobby" | "playing" | "leaderboard"
-  const [activeBoard, setActiveBoard] = useState(null);
+  const [idx, setIdx] = useState(0); // index of the board currently shown
+  const [view, setView] = useState("play"); // "play" | "leaderboard"
   const [leaderboard, setLeaderboard] = useState(null);
   const [error, setError] = useState(null);
 
-  // Load the week's boards + this player's progress.
+  // Load the week's boards + this player's progress; resume at the first unplayed board.
   useEffect(() => {
     if (!canView) return;
     let cancelled = false;
@@ -39,13 +31,14 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
         const t = await getWeeklyTournament();
         const bds = weeklyBoards(t.seed);
         const mine = uid ? await loadMyEntries(t.weekId, uid) : {};
-        if (!cancelled) {
-          setWeekId(t.weekId);
-          setBoards(bds);
-          setMyEntries(mine);
-        }
+        if (cancelled) return;
+        setWeekId(t.weekId);
+        setBoards(bds);
+        setMyEntries(mine);
+        const firstUndone = bds.findIndex((b) => !mine[b.boardNo]);
+        setIdx(firstUndone === -1 ? bds.length : firstUndone);
       } catch (e) {
-        if (!cancelled) setError("Couldn't load the tournament (storage rules may not be live yet).");
+        if (!cancelled) setError("Couldn't load the tournament (are you signed in as a member?).");
       }
     })();
     return () => {
@@ -53,37 +46,33 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
     };
   }, [canView, uid]);
 
-  const nextBoardNo = boards
-    ? (boards.find((b) => !myEntries[b.boardNo]) || {}).boardNo || null
-    : null;
-  const doneCount = Object.keys(myEntries).length;
-
   const onResult = useCallback(
     async (record) => {
-      if (!activeBoard || !weekId) return;
+      if (!weekId || !boards || !boards[idx]) return;
+      const b = boards[idx];
       try {
-        const saved = await saveEntry(weekId, uid, displayName, activeBoard.boardNo, record);
-        setMyEntries((m) => ({ ...m, [activeBoard.boardNo]: saved }));
+        const saved = await saveEntry(weekId, uid, displayName, b.boardNo, record);
+        setMyEntries((m) => ({ ...m, [b.boardNo]: saved }));
       } catch (e) {
-        setError("Couldn't save your result (storage rules may not be live yet).");
+        setError("Couldn't save your result (are you signed in as a member?).");
       }
     },
-    [activeBoard, weekId, uid, displayName]
+    [weekId, boards, idx, uid, displayName]
   );
+
+  const nextBoard = useCallback(() => setIdx((i) => i + 1), []);
 
   const openLeaderboard = useCallback(async () => {
     setView("leaderboard");
     setLeaderboard(null);
     try {
-      const all = await loadAllEntries(weekId);
-      setLeaderboard(computeLeaderboard(all));
+      setLeaderboard(computeLeaderboard(await loadAllEntries(weekId)));
     } catch (e) {
       setLeaderboard({ players: [], datums: new Map(), impByUidBoard: {} });
-      setError("Couldn't load the leaderboard (storage rules may not be live yet).");
     }
   }, [weekId]);
 
-  // ── gates ─────────────────────────────────────────────────────────────────────
+  // ── gates ───────────────────────────────────────────────────────────────────
   if (!authReady) return <div className="wt-page"><p className="wt-wait">Checking access…</p></div>;
   if (!canView) {
     return (
@@ -97,25 +86,7 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
     );
   }
 
-  // ── playing a board ─────────────────────────────────────────────────────────────
-  if (view === "playing" && activeBoard) {
-    return (
-      <div className="wt-page">
-        <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
-        <div className="wt-playHead">Board {activeBoard.boardNo} of {boards.length}</div>
-        <PlayTable
-          key={activeBoard.boardNo}
-          embedded
-          singleDeal
-          dealOverride={activeBoard}
-          onResult={onResult}
-          onExit={() => { setActiveBoard(null); setView("lobby"); }}
-        />
-      </div>
-    );
-  }
-
-  // ── leaderboard ─────────────────────────────────────────────────────────────────
+  // ── leaderboard ─────────────────────────────────────────────────────────────
   if (view === "leaderboard") {
     const players = leaderboard ? leaderboard.players : null;
     const myRank = players ? players.findIndex((p) => p.uid === uid) : -1;
@@ -123,8 +94,8 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
       <div className="wt-page">
         <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
         <div className="wt-bar">
-          <button className="wt-btn" onClick={() => setView("lobby")}>← Back</button>
-          <h1 className="wt-title">Leaderboard</h1>
+          <button className="wt-btn" onClick={() => setView("play")}>← Back</button>
+          <h1 className="wt-title">Weekly Tournament</h1>
           <span className="wt-week">Week {weekId || "…"}</span>
         </div>
         {!players ? (
@@ -153,49 +124,46 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
     );
   }
 
-  // ── lobby ───────────────────────────────────────────────────────────────────────
-  return (
-    <div className="wt-page">
-      <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
-      <div className="wt-bar">
-        <h1 className="wt-title">Weekly Tournament</h1>
-        <span className="wt-week">Week {weekId || "…"} · {doneCount}/{boards ? boards.length : 10} played</span>
+  if (!boards) return <div className="wt-page"><p className="wt-wait">Loading…</p></div>;
+
+  // ── all 10 played ────────────────────────────────────────────────────────────
+  if (idx >= boards.length) {
+    return (
+      <div className="wt-page">
+        <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
+        <div className="wt-bar">
+          <h1 className="wt-title">Weekly Tournament</h1>
+          <span className="wt-week">Week {weekId || "…"}</span>
+        </div>
+        <p className="wt-done">You've played all {boards.length} boards this week.</p>
+        <div className="wt-actions">
+          <button className="wt-btn wt-btn--primary" onClick={openLeaderboard}>View leaderboard</button>
+          <Link to="/just-play/practice" className="wt-btn">Back to Just Play</Link>
+        </div>
       </div>
-      {error && <div className="wt-note">{error}</div>}
-      {!boards ? (
-        <p className="wt-wait">Loading boards…</p>
-      ) : (
-        <>
-          <ul className="wt-boards">
-            {boards.map((b) => {
-              const entry = myEntries[b.boardNo];
-              const isNext = b.boardNo === nextBoardNo;
-              const locked = !entry && !isNext;
-              return (
-                <li key={b.boardNo} className={`wt-boardItem ${entry ? "is-done" : isNext ? "is-next" : "is-locked"}`}>
-                  <span className="wt-bNo">{b.boardNo}</span>
-                  <span className="wt-bMeta">{boardDealer(b.boardNo)} deals · {vulLabel(boardVul(b.boardNo))} vul</span>
-                  <span className="wt-bStatus">
-                    {entry ? (
-                      <span className="wt-result">{contractStr(entry.contract)} · {scoreStr(entry.rawScoreNS)}</span>
-                    ) : isNext ? (
-                      <button className="wt-btn wt-btn--primary" onClick={() => { setActiveBoard(b); setView("playing"); }}>
-                        Play
-                      </button>
-                    ) : (
-                      <span className="wt-locked">Locked</span>
-                    )}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-          <div className="wt-actions">
-            <button className="wt-btn" onClick={openLeaderboard}>View leaderboard</button>
-            {nextBoardNo == null && <span className="wt-done">All 10 boards played — nice!</span>}
-          </div>
-        </>
-      )}
+    );
+  }
+
+  // ── play the current board (continuous flow) ─────────────────────────────────
+  const b = boards[idx];
+  const last = idx === boards.length - 1;
+  return (
+    <div className="wt-page wt-play">
+      <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
+      <div className="wt-playBar">
+        <span className="wt-title">Weekly Tournament</span>
+        <span className="wt-playMeta">Board {b.boardNo} of {boards.length}</span>
+        <button className="wt-link" onClick={openLeaderboard}>Leaderboard</button>
+      </div>
+      <PlayTable
+        key={b.boardNo}
+        embedded
+        singleDeal
+        dealOverride={b}
+        exitLabel={last ? "Finish" : "Next board"}
+        onResult={onResult}
+        onExit={nextBoard}
+      />
     </div>
   );
 }

@@ -546,7 +546,7 @@ function buildBoardRecord(state, passout) {
   };
 }
 
-function PlayTable({ embedded = false, preview = false, dealOverride = null, singleDeal = false, onResult, onExit } = {}) {
+function PlayTable({ embedded = false, preview = false, dealOverride = null, singleDeal = false, onResult, onExit, exitLabel = "Continue" } = {}) {
   const [state, dispatch] = useReducer(reducer, undefined, () =>
     dealOverride
       ? freshDeal(dealOverride.seed >>> 0, dealOverride.dealer || "N", 1, dealOverride.vul ?? "")
@@ -953,7 +953,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
                     <div className="pt-passout">
                       <div className="pt-passoutText">Passed out — no contract this hand.</div>
                       <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={singleDeal ? onExit : newDeal}>
-                        {singleDeal ? "Back to tournament" : "Deal next hand"}
+                        {singleDeal ? exitLabel : "Deal next hand"}
                       </button>
                     </div>
                   ) : (
@@ -983,7 +983,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
                 <div className="pt-resultOverlay pt-resultOverlay--done">
                   <div className="pt-resultText">{statusText}</div>
                   <button type="button" className="pt-tbBtn pt-tbBtn--primary" onClick={singleDeal ? onExit : newDeal}>
-                    {singleDeal ? "Back to tournament" : "Next deal"}
+                    {singleDeal ? exitLabel : "Next deal"}
                   </button>
                 </div>
               )}
