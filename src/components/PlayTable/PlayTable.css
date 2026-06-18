@@ -236,7 +236,7 @@
 .pt-trickArea { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
 .pt-trickGrid { position: relative; width: 24cqw; max-width: 260px; min-width: 170px; height: 220px; }
 .pt-trickPos { position: absolute; }
-.pt-trickArea--peek { cursor: pointer; }
+.pt-tbTricks--peek { cursor: pointer; }
 .pt-trickPos--won .pt-trickCard { box-shadow: 0 0 0 3px #fbbf24, 0 1px 4px rgba(0, 0, 0, 0.4); }
 
 /* Previous-trick peek popup (click the trick area to open; click away to close) */

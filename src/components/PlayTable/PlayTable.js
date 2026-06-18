@@ -878,12 +878,16 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
               "—"
             )}
           </div>
-          <div className="pt-tbTricks">
-            <span className="pt-trickTally" title="Your side's tricks">
+          <div
+            className={`pt-tbTricks ${state.lastTrick ? "pt-tbTricks--peek" : ""}`}
+            onClick={() => state.lastTrick && setShowLastTrick(true)}
+            title={state.lastTrick ? "Show previous trick" : "Tricks won"}
+          >
+            <span className="pt-trickTally">
               <span className="pt-cardBack pt-cardBack--v" aria-hidden="true" />
               <span className="pt-trickNum">{state.nsTricks}</span>
             </span>
-            <span className="pt-trickTally" title="Opponents' tricks">
+            <span className="pt-trickTally">
               <span className="pt-cardBack pt-cardBack--h" aria-hidden="true" />
               <span className="pt-trickNum">{state.ewTricks}</span>
             </span>
@@ -990,12 +994,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
               <DealDiagram hands={dealHands(state.seed)} />
             </div>
           ) : (
-            <div
-              className={`pt-trickArea ${state.lastTrick ? "pt-trickArea--peek" : ""}`}
-              aria-label="Trick"
-              onClick={() => state.lastTrick && setShowLastTrick(true)}
-              title={state.lastTrick ? "Show previous trick" : undefined}
-            >
+            <div className="pt-trickArea" aria-label="Trick">
               <div className="pt-trickGrid">
                 <div className="pt-trickPos pt-trickPos--n"><TrickCard card={trickBySeat.N} /></div>
                 <div className="pt-trickPos pt-trickPos--w"><TrickCard card={trickBySeat.W} /></div>
