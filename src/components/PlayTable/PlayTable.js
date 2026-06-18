@@ -531,7 +531,7 @@ function DealDiagram({ hands }) {
   );
 }
 
-function PlayTable({ embedded = false } = {}) {
+function PlayTable({ embedded = false, preview = false } = {}) {
   const [state, dispatch] = useReducer(reducer, undefined, () => freshDeal(Date.now() >>> 0, "N"));
   const [thinking, setThinking] = useState(null);
   const [notice, setNotice] = useState(null);
@@ -643,6 +643,7 @@ function PlayTable({ embedded = false } = {}) {
   // duplicate dispatch is simply ignored; busyRef just avoids firing twice for
   // the same turn (e.g. StrictMode double-invoke).
   useEffect(() => {
+    if (preview) return; // static preview: no engine calls, frozen at the deal
     const sig = `${state.phase}:${state.seed}:${state.auction.length}:${state.playedCards.length}:${state.trickPlays.length}`;
     if (showClaim) return; // freeze play while the claim dialog is open
 
@@ -661,7 +662,7 @@ function PlayTable({ embedded = false } = {}) {
           auction: state.auction,
           fast: fastRef.current,
         });
-        if (res.error) setNotice(`BEN unavailable — using offline bot (${res.error}).`);
+        if (res.error) setNotice("Connection issue — using offline opponents.");
         await new Promise((r) => setTimeout(r, BID_PACING_MS));
         setThinking(null);
         // Safety: never let an illegal bot call stall the auction — fall back to Pass.
@@ -727,7 +728,7 @@ function PlayTable({ embedded = false } = {}) {
             fast: fastRef.current,
           });
         }
-        if (res.error) setNotice(`BEN play issue — used fallback (${res.error}).`);
+        if (res.error) setNotice("Connection issue — using offline play.");
         await new Promise((r) => setTimeout(r, BOT_PACING_MS));
         setThinking(null);
         // Safety: returned card must be legal for the PHYSICAL seat's current hand.
@@ -737,14 +738,14 @@ function PlayTable({ embedded = false } = {}) {
         dispatch({ type: "PLAY_CARD", seat, card });
       })();
     }
-  }, [state, showClaim]);
+  }, [state, showClaim, preview]);
 
   // Auto-acknowledge a completed trick after a short pause.
   useEffect(() => {
-    if (state.phase !== "trickAwaitAck") return undefined;
+    if (preview || state.phase !== "trickAwaitAck") return undefined;
     const t = setTimeout(() => dispatch({ type: "ACK_TRICK" }), TRICK_ACK_MS);
     return () => clearTimeout(t);
-  }, [state.phase, state.pendingTrickWinner]);
+  }, [state.phase, state.pendingTrickWinner, preview]);
 
   // Add each finished deal's score to the running total (once per deal).
   useEffect(() => {
@@ -757,7 +758,7 @@ function PlayTable({ embedded = false } = {}) {
   // Fetch BEN's meanings for the legal bids whenever it's your turn to bid.
   useEffect(() => {
     const isHumanTurn = state.phase === "auction" && nextBidderSeat(state) === HUMAN_SEAT;
-    if (!isHumanTurn) {
+    if (preview || !isHumanTurn) {
       setBidMeanings({});
       return undefined;
     }
@@ -768,7 +769,7 @@ function PlayTable({ embedded = false } = {}) {
     return () => {
       cancelled = true;
     };
-  }, [state.phase, state.auction.length, state.seed]);
+  }, [state.phase, state.auction.length, state.seed, preview]);
 
   const trickBySeat = { N: null, E: null, S: null, W: null };
   for (const p of state.trickPlays) trickBySeat[p.seat] = p.card;
@@ -804,7 +805,7 @@ function PlayTable({ embedded = false } = {}) {
     <div className={`pt-app ${embedded ? "pt-app--embedded" : ""}`}>
       {!embedded && (
         <Helmet>
-          <title>Play table (BEN) — Bridge Champions</title>
+          <title>Just Play — Bridge Champions</title>
           <meta name="robots" content="noindex" />
         </Helmet>
       )}
@@ -883,15 +884,17 @@ function PlayTable({ embedded = false } = {}) {
       </div>
 
       <div className="pt-statusline" aria-live="polite">
-        <span className={`pt-mode pt-mode--${benMode()}`}>BEN {benMode() === "live" ? "live" : "mock"}</span>
+        <span className={`pt-mode pt-mode--${benMode()}`}>{benMode() === "live" ? "Online" : "Offline"}</span>
         <span className="pt-statusText">{statusText}</span>
         {thinking && <span className="pt-thinkingDot" aria-hidden />}
         {notice && <span className="pt-statusNotice">{notice}</span>}
       </div>
 
-      <div className="pt-wipBanner" role="status">
-        Just Play is brand-new and still being worked on over the next few days — expect a few rough edges. Thanks for trying it!
-      </div>
+      {!preview && (
+        <div className="pt-wipBanner" role="status">
+          Just Play is brand-new and still being worked on over the next few days — expect a few rough edges. Thanks for trying it!
+        </div>
+      )}
 
       {/* TOP: North — the dummy, or the declarer you control from the dummy seat.
           At end of deal the depleted hands are hidden; the full deal diagram shows instead. */}

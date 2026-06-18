@@ -1,17 +1,35 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import Signup from "../Auth/Signup";
+import {
+  startFacebookLogin,
+  startGoogleLogin,
+  signupEmailAndPasswordLogin,
+  setProfileName,
+} from "../../store/actions/authActions";
 import PlayTable from "../PlayTable/PlayTable";
 import "../PlayTable/PlayTable.css";
 
 /**
- * "Just Play" — its own top-level page (promoted out of Practical Learning).
- * Members-only: gated on the same auth state the rest of the premium pages use
- * (subscriptionActive / admin), with a localhost bypass for development and a
- * ?mockUnsub=1 override to preview the locked screen locally.
+ * "Just Play" — its own top-level page. Members-only: subscribers/admins get the
+ * live table; everyone else sees a non-interactive preview of it plus, for guests,
+ * a sign-up form right on the page (logged-in non-members get a subscribe prompt).
+ * Gated on the same auth state as the other premium pages (localhost bypass for
+ * dev; ?mockUnsub=1 previews the locked screen).
  */
-function PracticalJustPlayPage({ subscriptionActive, isAdmin, authReady }) {
+function PracticalJustPlayPage({
+  history,
+  uid,
+  subscriptionActive,
+  isAdmin,
+  authReady,
+  facebookLogin,
+  googleLogin,
+  signupEmail,
+  setProfileNameFn,
+}) {
   const isLocalhost =
     typeof window !== "undefined" && /^(localhost|127\.0\.0\.1)/.test(window.location.hostname);
   const mockUnsub =
@@ -31,24 +49,49 @@ function PracticalJustPlayPage({ subscriptionActive, isAdmin, authReady }) {
   }
 
   if (!canView) {
+    const loggedIn = !!uid;
     return (
-      <div className="pt-justPlayPage pt-justPlayPage--locked">
+      <div className="pt-justPlayPage pt-gate">
         <Helmet>
           <title>Just Play — Members</title>
           <meta name="robots" content="noindex" />
         </Helmet>
-        <div className="pt-lockedCard">
-          <h1 className="pt-lockedTitle">Just Play is for members</h1>
-          <p className="pt-lockedText">
-            Playing full deals against the BEN engine is part of membership. Join or log in to start playing.
+
+        <div className="pt-gateHeader">
+          <h1 className="pt-gateTitle">Just Play is for members</h1>
+          <p className="pt-gateText">
+            Bid and play full deals against the computer. {loggedIn ? "Subscribe to start." : "Sign up to start."}
           </p>
-          <div className="pt-lockedActions">
-            <Link to="/membership" className="pt-tbBtn pt-tbBtn--primary">
-              View membership
-            </Link>
-            <Link to="/" className="pt-lockedBack">
-              ← Back to home
-            </Link>
+        </div>
+
+        <div className="pt-gateBody">
+          <div className="pt-gatePreview" aria-hidden="true">
+            <span className="pt-gatePreviewBadge">Preview</span>
+            <div className="pt-gatePreviewInner">
+              <PlayTable preview />
+            </div>
+          </div>
+
+          <div className="pt-gateSignup">
+            {loggedIn ? (
+              <div className="pt-gateSubscribe">
+                <Link to="/membership" className="pt-tbBtn pt-tbBtn--primary">
+                  View membership
+                </Link>
+              </div>
+            ) : (
+              <Signup
+                embedded
+                embeddedTitle="Create your account"
+                embeddedSubtitle="Then choose a membership to start playing."
+                facebookLogin={facebookLogin}
+                googleLogin={googleLogin}
+                emailLogin={signupEmail}
+                setProfileName={setProfileNameFn}
+                history={history}
+                redirectPathAfterAuth="/membership"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -66,8 +109,18 @@ function PracticalJustPlayPage({ subscriptionActive, isAdmin, authReady }) {
   );
 }
 
-export default connect(({ auth }) => ({
-  subscriptionActive: !!auth.subscriptionActive,
-  isAdmin: auth.a === true,
-  authReady: !!auth.authReady,
-}))(PracticalJustPlayPage);
+const mapStateToProps = (state) => ({
+  uid: state.auth?.uid,
+  subscriptionActive: state.auth?.subscriptionActive === true,
+  isAdmin: state.auth?.a === true,
+  authReady: state.auth?.authReady === true,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  facebookLogin: () => dispatch(startFacebookLogin()),
+  googleLogin: () => dispatch(startGoogleLogin()),
+  signupEmail: (email, password) => dispatch(signupEmailAndPasswordLogin(email, password)),
+  setProfileNameFn: (firstName, surname) => dispatch(setProfileName(firstName, surname)),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PracticalJustPlayPage));
