@@ -121,6 +121,19 @@
   background: #fef3c7; color: #663c00; border-bottom: 1px solid #f1d27a;
   padding: 6px 12px; font-size: 13px; font-weight: 600; text-align: center;
 }
+
+/* Members-only gate for the Just Play page */
+.pt-lockedWait { padding: 60px 24px; text-align: center; color: #6b7280; font-size: 16px; }
+.pt-justPlayPage--locked { display: flex; align-items: center; justify-content: center; min-height: 60vh; padding: 24px; }
+.pt-lockedCard {
+  max-width: 520px; text-align: center; background: #fff; border-radius: 14px;
+  padding: 32px 28px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.pt-lockedTitle { font-size: 24px; font-weight: 800; margin: 0 0 10px; color: #161616; }
+.pt-lockedText { font-size: 16px; color: #374151; line-height: 1.5; margin: 0 0 20px; }
+.pt-lockedActions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.pt-lockedActions .pt-tbBtn { display: inline-block; text-decoration: none; }
+.pt-lockedBack { color: #2563eb; text-decoration: none; font-weight: 600; }
 @keyframes pt-pulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
 
 /* ── hands: full-width row of fixed-size cards ───────────────────────────── */
