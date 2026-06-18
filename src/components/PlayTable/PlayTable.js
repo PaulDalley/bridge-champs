@@ -506,6 +506,7 @@ function PlayTable({ embedded = false } = {}) {
   const [claimMsg, setClaimMsg] = useState(null);
   const [bidMeanings, setBidMeanings] = useState({});
   const [hoverMeaning, setHoverMeaning] = useState(null); // shared bubble: { label, info } | null
+  const [showAuction, setShowAuction] = useState(false); // popup: review the auction during play
   // Opponent strength / speed: Faster (skip BEN's simulation, ~10x quicker) vs
   // Stronger (full simulation). The choice persists across deals and sessions.
   const [fast, setFast] = useState(() => {
@@ -533,6 +534,7 @@ function PlayTable({ embedded = false } = {}) {
     busyRef.current = null;
     setNotice(null);
     setHoverMeaning(null);
+    setShowAuction(false);
     dispatch({ type: "NEW_DEAL", seed: Date.now() >>> 0 });
   }, []);
 
@@ -778,16 +780,25 @@ function PlayTable({ embedded = false } = {}) {
           <div className="pt-tbScoreLabel">Score</div>
           <div className="pt-tbScoreVal">{score}</div>
         </div>
-        <div className="pt-tbDealer" title={`Dealer ${SEAT_NAME[state.dealer]} · Vul ${vulShort(state.vul)}`}>
-          <div className="pt-tbDealerNum">{state.dealCount}</div>
-          <div className="pt-tbDealerTag">D:{state.dealer} · {vulShort(state.vul)}</div>
+        <div
+          className={`pt-tbBoard ${
+            state.vul === "NS" || state.vul === "Both" ? "pt-vul-ns" : ""
+          } ${state.vul === "EW" || state.vul === "Both" ? "pt-vul-ew" : ""}`}
+          title={`Board ${state.dealCount} · Vul ${vulShort(state.vul)}`}
+        >
+          <div className="pt-boardNum">{state.dealCount}</div>
         </div>
         <div className="pt-tbContract">
           <div className="pt-tbContractLabel">
             {state.contract ? (
-              <>
+              <button
+                type="button"
+                className="pt-contractBtn"
+                onClick={() => setShowAuction(true)}
+                title="Show the auction"
+              >
                 <ContractLabel contract={state.contract} /> {state.declarer}
-              </>
+              </button>
             ) : inBidding ? (
               "Bidding"
             ) : (
@@ -871,14 +882,19 @@ function PlayTable({ embedded = false } = {}) {
                     </div>
                   ) : (
                     humanToBid && (
-                      <BiddingBox
-                        auction={state.auction}
-                        seat={HUMAN_SEAT}
-                        onCall={onHumanCall}
-                        disabled={!humanToBid}
-                        meanings={bidMeanings}
-                        onHover={onHover}
-                      />
+                      <>
+                        {state.dealer === HUMAN_SEAT && state.auction.length === 0 && (
+                          <div className="pt-dealerNote">You are the dealer</div>
+                        )}
+                        <BiddingBox
+                          auction={state.auction}
+                          seat={HUMAN_SEAT}
+                          onCall={onHumanCall}
+                          disabled={!humanToBid}
+                          meanings={bidMeanings}
+                          onHover={onHover}
+                        />
+                      </>
                     )
                   )}
                 </div>
@@ -913,6 +929,15 @@ function PlayTable({ embedded = false } = {}) {
 
       {showClaim && (
         <ClaimModal state={state} busy={claiming} message={claimMsg} onConfirm={confirmClaim} onCancel={closeClaim} />
+      )}
+
+      {showAuction && state.contract && (
+        <div className="pt-auctionPop" onClick={() => setShowAuction(false)}>
+          <div className="pt-auctionPopInner" onClick={(e) => e.stopPropagation()}>
+            <AuctionPanel state={state} onHover={onHover} />
+            <BidMeaning hover={hoverMeaning} />
+          </div>
+        </div>
       )}
     </div>
   );
