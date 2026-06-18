@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import PlayTable from "../PlayTable/PlayTable";
 import { weeklyBoards, computeLeaderboard } from "./weeklyBoards";
 import { getWeeklyTournament, loadMyEntries, loadAllEntries, saveEntry } from "./tournamentData";
+import { sendPlayEvent } from "../../utils/analytics";
 import "./WeeklyTournament.css";
 
 function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authReady }) {
@@ -53,6 +54,7 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
       try {
         const saved = await saveEntry(weekId, uid, displayName, b.boardNo, record);
         setMyEntries((m) => ({ ...m, [b.boardNo]: saved }));
+        sendPlayEvent("weekly_board_complete", { board_no: b.boardNo });
       } catch (e) {
         setError("Couldn't save your result (are you signed in as a member?).");
       }
@@ -162,7 +164,10 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
         dealOverride={b}
         exitLabel={last ? "Finish" : "Next board"}
         onResult={onResult}
-        onExit={nextBoard}
+        onExit={() => {
+          if (last) sendPlayEvent("weekly_tournament_finished");
+          nextBoard();
+        }}
       />
     </div>
   );

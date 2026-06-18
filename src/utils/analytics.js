@@ -83,6 +83,25 @@ export function sendTreadmillEvent(eventName, params = {}) {
   if (gtag) gtag("event", eventName, { ...params, send_to: GA4_MEASUREMENT_ID });
 }
 
+/**
+ * GA4 — Just Play table (/just-play) + Weekly Tournament (/weekly).
+ *
+ * Page views (and therefore per-page user/session counts AND engagement time, broken
+ * down by the subscription_active / tier user-properties) are already tracked
+ * automatically by GoogleAnaytics.js on every route change — so "how many use it" and
+ * "for how long" need nothing here. These events add action-level depth:
+ * - just_play_hand_complete   — a deal was played to the end in Just Play
+ * - weekly_board_complete     — params: { board_no } — a tournament board was finished
+ * - weekly_tournament_finished — all 10 tournament boards completed
+ *
+ * In GA4: Reports > Engagement > Events. Register `board_no` as a custom dimension if
+ * you want per-board breakdowns.
+ */
+export function sendPlayEvent(eventName, params = {}) {
+  const gtag = getGtag();
+  if (gtag) gtag("event", eventName, { ...params, send_to: GA4_MEASUREMENT_ID });
+}
+
 /** For GA4 param `auth_segment` on Treadmill events (compact segments). */
 export function treadmillAuthSegmentForGa({ uid, subscriptionActive, isAdmin }) {
   if (!uid) return "guest";

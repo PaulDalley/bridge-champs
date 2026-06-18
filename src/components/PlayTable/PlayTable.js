@@ -39,6 +39,7 @@ import {
 import { getBid, getLead, getPlay, getClaim, getBids, benMode } from "./benClient";
 import BiddingBox from "./BiddingBox";
 import { BidMeaning } from "./meaningText";
+import { sendPlayEvent } from "../../utils/analytics";
 import "./PlayTable.css";
 
 const HUMAN_SEAT = "S";
@@ -774,8 +775,9 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
     if (state.phase === "done" && state.result && scoredSeedRef.current !== state.seed) {
       scoredSeedRef.current = state.seed;
       setScore((s) => s + (state.result.score || 0));
+      if (!singleDeal && !preview) sendPlayEvent("just_play_hand_complete");
     }
-  }, [state.phase, state.seed, state.result]);
+  }, [state.phase, state.seed, state.result, singleDeal, preview]);
 
   // Tournament single-deal mode: report the finished board's result exactly once.
   useEffect(() => {
