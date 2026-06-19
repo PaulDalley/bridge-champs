@@ -10998,6 +10998,520 @@ const BIDDING_PUZZLES = [
     },
     rounds: [],
   },
+  {
+    id: "bid2-49",
+    difficulty: 2,
+    title: "Responses to 1NT (1)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responses to 1NT",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Responses to 1NT",
+      promptThemeTint: "respondToNT",
+      videoUrlBeforeStart: "https://youtube.com/shorts/sakz0K5qOGg?si=0Z18D5kDL_IYNNBV",
+      customPrompts: [
+        {
+          id: "bid2-49-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What is your best bid with this hand opposite partner's 15-17 1NT?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "pass",
+          expectedChoiceDisplay: "Pass",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    With a flat 8 points, pass needs to be your routine bid. Especially with 4-3-3-3
+                    shape.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    You can occasionally upgrade a 4-4-3-2 hand especially if it has a couple 10's and
+                    9's.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    <strong>Takeaway: Flat 8 is a pass opposite a strong NT.</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-49-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "1043", H: "AJ52", D: "KJ4", C: "853" },
+          },
+          promptText: "Your hand has now changed, to 9 points. What now?",
+          options: [
+            { id: "pass", label: "Pass" },
+            { id: "stayman", label: "Stayman" },
+            { id: "invite", label: "Invite (2NT or whatever your system bid is)" },
+            { id: "3nt", label: "3NT" },
+          ],
+          expectedChoice: "invite",
+          wrongTryText: "Not quite — try again.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    8 points balanced is a pass always, 9 is always an invite. 10 points is always
+                    game. So we have a very precise range.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    <strong>Summary:</strong>
+                    <br />8 points = pass 1NT
+                    <br />9 points = invite
+                    <br />10 points = bid game
+                  </p>
+                  <p className="ct-revealRichBody">
+                    A final note on that, why not bid Stayman?
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    <strong>
+                      Rule: With 4-3-3-3 shape, don't look for a major fit opposite a 1NT opening.
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K943", H: "Q87", D: "Q42", C: "J105" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-50",
+    difficulty: 2,
+    title: "Responses to 1NT (2)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responses to 1NT",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Responses to 1NT",
+      promptThemeTint: "respondToNT",
+      videoUrlBeforeStart: "https://youtube.com/shorts/7KAFSO4zOss?si=GSoO_ESGrgYxMhDP",
+      customPrompts: [
+        {
+          id: "bid2-50-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "With this 9 point, what is your choice?",
+          options: [
+            { id: "invite", label: "2NT invite" },
+            { id: "game", label: "3NT bid game" },
+            { id: "clubs", label: "Bid clubs" },
+          ],
+          expectedChoice: "game",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    For a decent 5 card suit, we can add +1 point to our hand. A decent/good 5 card
+                    suit simply takes more tricks. This hand also has a couple well placed 10's, it
+                    easily qualifies as a 3NT bid.
+                  </p>
+                  <p className="ct-revealRichBody">
+                    A bad 5 card suit might look like J9753 or Q8652 because it needs partner to have
+                    lucky holdings in that suit or for things to go very well. But something like
+                    AJ953 already has excellent chances of being set up opposite a single honor in
+                    partner's hand, so we don't need to pray for a miracle.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    <strong>
+                      A decent suit will have 2-3 of the top 5 honors (yes, we consider the 10 for our
+                      long suit). Having the Ace is a big bonus for 3NT.
+                    </strong>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    There is actually even a further option for this hand (puppet stayman) will look at
+                    in problem 52.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-50-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "94", H: "85", D: "AK10843", C: "742" },
+          },
+          promptText: "Your hand has changed, what do you do here?",
+          options: [
+            { id: "invite", label: "Invite" },
+            { id: "pass", label: "Pass" },
+            { id: "3nt", label: "Bid 3NT" },
+            { id: "diamonds", label: "Bid diamonds" },
+          ],
+          expectedChoice: "3nt",
+          wrongTryText: "Not quite — try again.",
+          noContinue: true,
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    This is a very good suit, you can add about 3 extra points for a very good 6 card
+                    suit like this. It is 6 tricks just waiting to be taken in 3NT, that is a lot of
+                    tricks when you only need 9, and your partner is the one that is supposed to have
+                    the strong hand!
+                  </p>
+                  <p className="ct-revealRichBody">
+                    Why not play in diamonds? 6322 with a minor is balanced, it belongs in NT. Only
+                    consider playing in a minor when your hand is very unbalanced (singletons are a
+                    must to think about avoiding 3NT).
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    <strong>Add 2-3 points for a good 6 card suit.</strong>
+                  </p>
+                  <p className="ct-revealRichBody">
+                    <strong>3NT is our friend, don't avoid it unless you have to.</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "1083", H: "52", D: "KJ10", C: "AJ1084" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-51",
+    difficulty: 2,
+    title: "Responses to 1NT (3)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responses to 1NT",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Responses to 1NT",
+      promptThemeTint: "respondToNT",
+      videoUrlBeforeStart: "https://youtube.com/shorts/W-hADdy4eck?si=xkzt0GPofOeS55V9",
+      customPrompts: [
+        {
+          id: "bid2-51-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Partner opens 1NT, what are we doing with this one?",
+          options: [
+            { id: "pass", label: "Pass 1NT" },
+            { id: "transfer", label: "Transfer to Spades and pass" },
+          ],
+          expectedChoice: "transfer",
+          noContinue: true,
+          revealText:
+            "Transfer to spades. With a weak hand and a 5 card major, always transfer to the major. I've seen a lot of people come up with reasons to pass 1NT, but in the long run it's a losing prospect, rather play in 2 of a major.\n\nOne interesting point - people sometimes say \"My major suit was really bad\". In actual fact that's sometimes a reason in favour of playing in the major. When it is bad you often get no tricks out of it in NT, it just doesn't set up in time. Yet, when it's bad, you will still often get around 3 tricks from it when it is trumps, if not more.\n\nOverall it's absolutely fine to play in a weak suit at a low level.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "T8432", H: "K94", D: "J4", C: "J52" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-52",
+    difficulty: 2,
+    title: "Responses to 1NT (4)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responses to 1NT",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Responses to 1NT",
+      promptThemeTint: "respondToNT",
+      videoUrlBeforeStart: "https://youtube.com/shorts/WjWxbv5vm3w?si=y-wlrymJKDFbPl3q",
+      customPrompts: [
+        {
+          id: "bid2-52-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          promptText: (
+            <>
+              <p className="ct-revealParagraph">
+                For this bidding problem, I am going to go with the system that I've laid out in{" "}
+                <a
+                  href="https://bridgechampions.com/bidding/advanced/system-over-1nt-conventions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  this article
+                </a>
+                . The article is also linked on the front page, in the Recently Added section.
+              </p>
+              <p className="ct-revealParagraph">Here are the bids:</p>
+              <ul className="ct-revealList">
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="2♣ = Stayman" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="2♦ = Transfer to hearts" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="2♥ = Transfer to spades" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="2♠ = Transfer to clubs OR range ask" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="2NT = Transfer to diamonds" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="3♣ = Puppet Stayman" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="3♦ = Both minors, 5+" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="3♥ = Singleton heart, 3 spades — typically 31(54)" />
+                </li>
+                <li className="ct-revealListItem">
+                  <TextWithColoredSuits text="3♠ = Singleton spade, 3 hearts — typically 13(54)" />
+                </li>
+              </ul>
+            </>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid2-52-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you do here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          noContinue: true,
+          revealText:
+            "Bid 3♣ Puppet Stayman. This hand type seems to trip up even experienced experts, they see a long minor and think about \"should I bid the minor or should I just bid No trump?\". Often they miss the possibility of playing in a 5-3 major fit.\n\nWith two small doubletons it seems like a good idea to play in a 5-3 major fit if you have one. Your hand could be excellent for the contract - decent trumps, two doubletons, an excellent side suit.\n\nIf partner bids 3♠ over 3♣, you are in business, bid 4♠. Or else, resort to 3NT which will typically be a good contract also.\n\n6322 is reasonably balanced, don't look for reasons to avoid 3NT.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "K103", H: "72", D: "54", C: "AK10943" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid2-53",
+    difficulty: 2,
+    title: "Responses to 1NT (5)",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    auction: "1NT P 2♥ P 2♠ P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid2-53-q2": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P ?",
+        "bid2-53-q2--reveal": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P 3NT",
+        "bid2-53-reveal": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P 3NT",
+        "bid2-53-reveal--reveal": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P 3NT",
+        "bid2-53-takeaway": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P 3NT",
+        "bid2-53-showme": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P ?",
+        "bid2-53-showme--reveal": "1NT P 2♥ P 2♠ P 3♣ P 3♥ P ?",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Responses to 1NT",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Responses to 1NT",
+      promptThemeTint: "respondToNT",
+      videoUrlBeforeStart: "https://youtube.com/shorts/jMCLIr8GVec?si=WQ_lWvTXBvDQxIZL",
+      customPrompts: [
+        {
+          id: "bid2-53-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "Partner has opened 1NT, you have transferred to spades. Do you bid clubs, your second suit, or not?",
+          options: [
+            { id: "yes", label: "Yes, bid clubs" },
+            { id: "no", label: "No, don't" },
+          ],
+          expectedChoice: "no",
+          expectedChoiceDisplay: "No",
+          wrongTryText: "Not quite — try again.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "No don't bid them. This ties to an earlier rule.\n\n##3NT is our friend, don't try look for a minor fit when 3NT seems perfectly reasonable.##\n\nIt is okay to play in 4 of a major with a fit, but there is no reason to play in a minor on a hand such as this.\n\nbut let's change the hand very slightly and consider what to do.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-53-info1",
+          type: "INFO",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "AJ984", H: "2", D: "Q104", C: "KQJ5" },
+          },
+          continueButtonLabel: "Continue",
+          promptText:
+            "On this hand I think it is reasonable to bid 3♣. Your suit is much more solid than the previous one where you just had Jxxx. Also, you have a small singleton heart.\n\nOn this hand\n\n1. you have a potential reasonable alternative to NT- a good quality club suit\n\n2. You have a small singleton, and if your partner has no points in hearts, you will likely be fine in 5 clubs (or even 6!).\n\nLet's see how the auction might continue",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-53-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "AJ984", H: "2", D: "Q104", C: "KQJ5" },
+          },
+          promptText: "What should you do here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3nt",
+          expectedChoiceDisplay: "3NT",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Bid 3NT.\n\nPartner is trying to show you where their points are, with the natural bid of 3♥. It is conveying the simple message - I have lots of points here, if that is your singleton we are probably best in No Trump.\n\nThey likely have a club fit, but they are trained to not go past 3NT lightly - especially if your points are misfitting!\n\nMisfitting points = partner has points across from your shortage.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-53-reveal",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          shownHandsOverride: {
+            DECLARER: { S: "AJ984", H: "2", D: "Q104", C: "KQJ5" },
+          },
+          promptText: "Reveal the full hand when you're ready.",
+          options: [{ id: "reveal", label: "Reveal the full hand" }],
+          expectedChoice: "reveal",
+          expectedChoiceDisplay: "Reveal",
+          wrongTryText: "Use the button to reveal.",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealFullHandSeats: ["DUMMY"],
+          revealText:
+            "There is no reason to go past 3NT on this hand, being in 5 clubs on an 8 card fit here could certainly be problematic, whereas 3NT plays nicely.",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-53-takeaway",
+          type: "INFO",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "AJ984", H: "2", D: "Q104", C: "KQJ5" },
+          },
+          revealFullHandSeats: ["DUMMY"],
+          continueButtonLabel: "Continue",
+          promptText:
+            "[[ALERT]]**Key Takeaway:** Make 3NT a habit, don't go past it casually. The main time to avoid it is shortage opposite little or no values.[[/ALERT]]",
+          videoUrl: "",
+        },
+        {
+          id: "bid2-53-showme",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          hidePlayDecisionHeading: true,
+          shownHandsOverride: {
+            DECLARER: { S: "AJ984", H: "Q98", D: "6", C: "KQJ5" },
+          },
+          promptText:
+            "You are now dealt a different hand, with the same auction. Consider it for a moment - What would you do?",
+          options: [{ id: "show", label: "Show me the full hand." }],
+          expectedChoice: "show",
+          expectedChoiceDisplay: "Show me the full hand",
+          wrongTryText: "Use the button.",
+          noContinue: true,
+          revealFullHandSeats: ["DUMMY"],
+          revealText:
+            "On this hand 3NT is not a great spot, a shortage opposite a bare Ace. 9 tricks are definitely not certain and you could go down. Whereas 6♣ is a pretty reasonable contract and 5♣ is a very high likelihood of making.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AJ1084", H: "K", D: "Q103", C: "J984" },
+      DUMMY: { S: "K10", H: "AKJ7", D: "A83", C: "10742" },
+    },
+    rounds: [],
+  },
 ];
 
 // Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.

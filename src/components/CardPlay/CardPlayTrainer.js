@@ -4759,6 +4759,930 @@ const CARDPLAY_PUZZLES_ALL = [
       },
     ],
   },
+  {
+    id: "cp2-16",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Over the Shoulder #2 (1)",
+    trumpSuit: "S",
+    contract: "6♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Over the Shoulder #2",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Over the Shoulder #2",
+      promptThemeTint: "overShoulderDeclarer2",
+      videoUrlBeforeStart: "https://youtube.com/shorts/TpNBLpAgr4A?si=cEJ5pFh6exSH-UZ1",
+      customPrompts: [
+        {
+          id: "cp2-16-intro",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  On this problem I want us to look at winner and loser count closely, and use it to
+                  make a logical plan.
+                </p>
+                <p className="ct-revealRichBody">
+                  Let's start with outright winners: 6 spades, 4 hearts, 1 diamond.
+                </p>
+                <p className="ct-revealRichBody">
+                  We have 11 top tricks and we are shooting for a 12th. Nothing fancy — the best shot
+                  is either going to be the diamond finesse or the King of clubs.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  If we play a club to the King and it loses, we have 2 losers in clubs straight away
+                  and we go down. Similar with diamonds — if we play a diamond to the Queen and it
+                  loses, we will also lose the club Ace, for 1 down.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-16-trumpbreak",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 0,
+          fixed: { S: 5, N: 6 },
+          expectedDistribution: { S: 5, N: 6, W: 1, E: 1 },
+          promptText: "The trump distribution was?",
+        },
+        {
+          id: "cp2-16-trumpbreak-msg",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "All the trumps are gone, they broke 1-1.",
+          videoUrl: "",
+        },
+        {
+          id: "cp2-16-what-now",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText: "What should you do now?",
+          options: [
+            { id: "diamond", label: "Take a diamond finesse" },
+            { id: "club", label: "Play a club to the King" },
+            { id: "hearts", label: "Cash the heart winners" },
+          ],
+          expectedChoice: "hearts",
+          revealText:
+            "Lets say we cash some heart winners. On the 4th heart winner we can pitch a loser, say a club or a diamond, but that still doesn't give us our 12th trick.",
+        },
+        {
+          id: "cp2-16-which-card",
+          type: "PLAY_DECISION",
+          atRoundIdx: 3,
+          promptText:
+            "On the 4th heart winner, lets say we throw a minor suit card. Does it matter which card we throw?",
+          options: [
+            { id: "club", label: "Must throw a club" },
+            { id: "diamond", label: "Must throw a diamond" },
+            { id: "doesntmatter", label: "Doesn't matter" },
+          ],
+          expectedChoice: "club",
+          continueButtonLabel: "show me the play",
+          revealText:
+            "Throw a club! It doesn't give us our 12th trick yet, we still need to try get that in one of the minors, we are still only at 11 tricks. However, by throwing a club, it allows us to play a club up to the King. IF it loses, we don't lose a second club and go down straight away (because our heart pitch allowed us to pitch down to a singleton club). The benefit of that is, IF the club to the King loses, we can try a diamond to the Queen.\n\nOverall now we have two chances to make the contract with either the club king or the diamond finesse, that is 75% chance of making, which is a lot better than randomly choosing one of the minors and hoping it works!",
+        },
+        {
+          id: "cp2-16-clubup",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "Reveal all the hands",
+          promptText:
+            "We are now ready to play a club up, if it loses we will try for a diamond finesse. It turns out that the club up worked but the diamond finesse would not have worked.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "KQ9753", H: "KQ7", D: "94", C: "84" },
+      east: { S: "2", H: "62", D: "87532", C: "AJ1032" },
+      south: { S: "AJ1084", H: "AJ85", D: "AQ", C: "K6" },
+      west: { S: "6", H: "10943", D: "KJ106", C: "Q975" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♠6; dummy wins the ♠9 — trumps are 1-1)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+          { seat: "S", card: { rank: "4", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (cash ♥K)",
+        plays: [
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+          { seat: "S", card: { rank: "8", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (cash ♥Q)",
+        plays: [
+          { seat: "N", card: { rank: "Q", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "H" } },
+          { seat: "S", card: { rank: "5", suit: "H" } },
+          { seat: "W", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♥7 to your ♥A; East shows out)",
+        plays: [
+          { seat: "N", card: { rank: "7", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "D" }, showOut: true },
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (cash the ♥J — dummy pitches a club)",
+        plays: [
+          { seat: "S", card: { rank: "J", suit: "H" } },
+          { seat: "W", card: { rank: "T", suit: "H" } },
+          { seat: "N", card: { rank: "8", suit: "C" } },
+          { seat: "E", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (♠8 to dummy's ♠K — ready to play a club up)",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "D" } },
+          { seat: "N", card: { rank: "K", suit: "S" } },
+          { seat: "E", card: { rank: "5", suit: "D" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-17",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Over the Shoulder #2 (2)",
+    trumpSuit: "H",
+    contract: "4♥",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Over the Shoulder #2",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Over the Shoulder #2",
+      promptThemeTint: "overShoulderDeclarer2",
+      videoUrlBeforeStart: "https://youtube.com/shorts/5Ea-PBy0vOk?si=1jWECJIl590XIVwT",
+      customPrompts: [
+        {
+          id: "cp2-17-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "follow the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  This is a hand that has tripped up several experts. Playing in{" "}
+                  <TextWithColoredSuits text="4♥" />, you get the <TextWithColoredSuits text="J♦" /> lead.
+                </p>
+                <p className="ct-revealRichBody">
+                  Declarer quite reasonably won the opening lead and drew trumps. Let's follow the play
+                  and decide what to do next.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-17-trumpbreak",
+          type: "DISTRIBUTION_GUESS",
+          suit: "H",
+          atRoundIdx: 2,
+          fixed: { S: 6, N: 4 },
+          expectedDistribution: { S: 6, N: 4, W: 2, E: 1 },
+          promptText: "The trump distribution was?",
+        },
+        {
+          id: "cp2-17-trumpsdrawn",
+          type: "INFO",
+          atRoundIdx: 2,
+          promptText: "The hearts have broken 2-1 and we have drawn all the trumps.",
+          videoUrl: "",
+        },
+        {
+          id: "cp2-17-diamonds",
+          type: "PLAY_DECISION",
+          atRoundIdx: 2,
+          promptText: "Do we have anything useful to do with our diamond winners?",
+          options: [
+            { id: "clubs", label: "Pitch clubs" },
+            { id: "spades", label: "Pitch spades" },
+            { id: "neither", label: "Neither helps us get to 10 tricks" },
+          ],
+          expectedChoice: "spades",
+          continueButtonLabel: "Reveal full hand",
+          revealText:
+            "Pitch spades. This seemed to be a bit of an illusion for many people because the spade King looked like a prospect of a trick. Yet, it would have maybe been easier to see if you had two small spades. Pitch both the spades, now just lose 3 clubs, and ruff your 4th club.\n\nIn total you will make 6 heart tricks, 3 diamond tricks, and 1 club ruff for 10 tricks, losing only 3 club tricks.",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "J10", H: "AK94", D: "AQ93", C: "K94" },
+      east: { S: "76432", H: "5", D: "76542", C: "AJ" },
+      south: { S: "K8", H: "QJ10863", D: "K", C: "8652" },
+      west: { S: "AQ95", H: "72", D: "J108", C: "Q1073" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♦J; declarer wins the ♦K in hand)",
+        plays: [
+          { seat: "W", card: { rank: "J", suit: "D" } },
+          { seat: "N", card: { rank: "3", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+          { seat: "S", card: { rank: "K", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♥3 to dummy's ♥A — first round of trumps)",
+        plays: [
+          { seat: "S", card: { rank: "3", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "A", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (dummy's ♥K draws the last trumps; East discards a spade)",
+        plays: [
+          { seat: "N", card: { rank: "K", suit: "H" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+          { seat: "S", card: { rank: "6", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-18",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Over the Shoulder #2 (3)",
+    trumpSuit: "C",
+    contract: "6♣",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Over the Shoulder #2",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Over the Shoulder #2",
+      promptThemeTint: "overShoulderDeclarer2",
+      videoUrlBeforeStart: "https://youtube.com/shorts/4E4Ba3T4WSA?si=G7yugRekg3U7uB7J",
+      customPrompts: [
+        {
+          id: "cp2-18-trumpcount",
+          type: "SINGLE_NUMBER",
+          atRoundIdx: 0,
+          promptText: "How many trumps did the opponents start with on this hand?",
+          expectedAnswer: 2,
+        },
+        {
+          id: "cp2-18-trumpcount-msg",
+          type: "INFO",
+          atRoundIdx: 0,
+          promptText: "The opponents started with 2 trumps, so both have been drawn.",
+          videoUrl: "",
+        },
+        {
+          id: "cp2-18-count",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText:
+            "Playing in 6♣ we, as always, try to count to 12 tricks - 7 clubs, 3 diamonds, 1 heart. That totals 11 sure tricks, where is the 12th coming from?\n\nA simple heart to the Queen or spade to the King could be the 12th trick, that's a 50/50 chance. Anything better?",
+          videoUrl: "",
+        },
+        {
+          id: "cp2-18-pitch",
+          type: "PLAY_DECISION",
+          atRoundIdx: 0,
+          promptText:
+            "We have 3 diamond winners, is there anything useful we can throw on our 3rd winner?",
+          options: [
+            { id: "spade", label: "A spade" },
+            { id: "heart", label: "A heart" },
+            { id: "nodiff", label: "No difference, doesn't help us get 12 tricks" },
+          ],
+          expectedChoice: "heart",
+          continueButtonLabel: "show me the play",
+          revealText:
+            "Pitch a heart. As a running theme of the past few problems, we can often profitably throw something with our extra winners. Here we throw a heart and we try to ruff hearts, hoping the King drops. If it doesn't we fall back on the boring 50/50.\n\nSo we have the heart chance, or the spade up for our 12th trick.\n\nThe key to seeing these type of plays is to count to the 11 tricks, and know that an extra trick in hearts will bring us over the line.",
+        },
+        {
+          id: "cp2-18-kingdropped",
+          type: "INFO",
+          atRoundIdx: 7,
+          continueButtonLabel: "reveal the hand",
+          promptText:
+            "The king has dropped! We can now just go back to dummy with a club, cash our winning Jack of hearts and pitch a spade. That gives us our 12th trick - which is good since the Ace of spades was offside!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "J8", H: "J985", D: "KQ8", C: "Q1084" },
+      east: { S: "76432", H: "K63", D: "J642", C: "2" },
+      south: { S: "K9", H: "AQ", D: "A9", C: "AKJ9753" },
+      west: { S: "AQ105", H: "10742", D: "10753", C: "6" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♣6; declarer wins ♣J — both defenders' trumps fall)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "C" } },
+          { seat: "N", card: { rank: "4", suit: "C" } },
+          { seat: "E", card: { rank: "2", suit: "C" } },
+          { seat: "S", card: { rank: "J", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 2 (cash the ♥A)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+          { seat: "N", card: { rank: "8", suit: "H" } },
+          { seat: "E", card: { rank: "3", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (cash the ♦A)",
+        plays: [
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "3", suit: "D" } },
+          { seat: "N", card: { rank: "8", suit: "D" } },
+          { seat: "E", card: { rank: "2", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 4 (♦9 over to dummy's ♦K)",
+        plays: [
+          { seat: "S", card: { rank: "9", suit: "D" } },
+          { seat: "W", card: { rank: "5", suit: "D" } },
+          { seat: "N", card: { rank: "K", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 5 (cash the ♦Q — pitch the ♥Q from hand)",
+        plays: [
+          { seat: "N", card: { rank: "Q", suit: "D" } },
+          { seat: "E", card: { rank: "6", suit: "D" } },
+          { seat: "S", card: { rank: "Q", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (lead a ♥ from dummy; ruff with the ♣A)",
+        plays: [
+          { seat: "N", card: { rank: "5", suit: "H" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "4", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (♣9 over to dummy's ♣10)",
+        plays: [
+          { seat: "S", card: { rank: "9", suit: "C" } },
+          { seat: "W", card: { rank: "5", suit: "S" } },
+          { seat: "N", card: { rank: "T", suit: "C" } },
+          { seat: "E", card: { rank: "2", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 8 (lead another ♥; ruff with the ♣K — the ♥K drops)",
+        plays: [
+          { seat: "N", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "K", suit: "H" } },
+          { seat: "S", card: { rank: "K", suit: "C" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-19",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Over the Shoulder #2 (4)",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Over the Shoulder #2",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Over the Shoulder #2",
+      promptThemeTint: "overShoulderDeclarer2",
+      videoUrlBeforeStart: "https://youtube.com/shorts/rPSBotAW6qk?si=iwqVsIYicyuMtVAg",
+      customPrompts: [
+        {
+          id: "cp2-19-count",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  As always, let's count tricks. 5 spades, 3 aces. Total is 8. Where are we
+                  getting 2 more tricks from?
+                </p>
+                <p className="ct-revealRichBody">
+                  You have prospects for more tricks from setting up clubs, and also from finesses.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-19-finesse",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Which finesses will you hope to take?",
+          options: [
+            { id: "diamond", label: "Diamond finesse" },
+            { id: "club", label: "Club finesse" },
+            { id: "neither", label: "Neither" },
+          ],
+          expectedChoice: "neither",
+          revealText:
+            "Neither finesse. A bit of a trick question, sorry! It is important to be grounded and keep things simple, so problems like these serve an important purpose.",
+        },
+        {
+          id: "cp2-19-rule",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "show me the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  <strong>Rule: Always keep it as simple as possible.</strong>
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  On this hand we have the 8 tricks mentioned (5 spades and 3 outside aces). We can
+                  take two heart ruffs in dummy, provided we reject the finesses and just take the
+                  ruffs.
+                </p>
+                <p className="ct-revealRichBody">
+                  The problem with going for a finesse is that, if it loses, the opponents will draw
+                  a second trump!
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-19-final",
+          type: "INFO",
+          atRoundIdx: 5,
+          continueButtonLabel: "reveal the hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  We have now made 6 tricks and we have 4 top trumps left, for 10.
+                </p>
+                <p className="ct-revealRichBody">
+                  The difficulty here was ignoring the finesses. This hand would've been easier to
+                  make for some people if the minor-suit queens weren't there and they didn't have
+                  that option — in such a case it might be easier to notice that you can just make it
+                  by taking 2 ruffs!
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "Q94", H: "A", D: "852", C: "976532" },
+      east: { S: "653", H: "KQJ10", D: "J1074", C: "J10" },
+      south: { S: "AKJ108", H: "9642", D: "AQ", C: "AQ" },
+      west: { S: "72", H: "8753", D: "K963", C: "K84" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♠2; declarer wins ♠8)",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "4", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "8", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (cash the ♥A in dummy)",
+        plays: [
+          { seat: "S", card: { rank: "2", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "H" } },
+          { seat: "N", card: { rank: "A", suit: "H" } },
+          { seat: "E", card: { rank: "T", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 3 (cash the ♣A)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "C" } },
+          { seat: "E", card: { rank: "T", suit: "C" } },
+          { seat: "S", card: { rank: "A", suit: "C" } },
+          { seat: "W", card: { rank: "4", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 4 (lead a ♥; ruff in dummy with the ♠9)",
+        plays: [
+          { seat: "S", card: { rank: "4", suit: "H" } },
+          { seat: "W", card: { rank: "5", suit: "H" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "J", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (cash the ♦A)",
+        plays: [
+          { seat: "N", card: { rank: "2", suit: "D" } },
+          { seat: "E", card: { rank: "4", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (lead a ♥; ruff in dummy with the ♠Q)",
+        plays: [
+          { seat: "S", card: { rank: "6", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+          { seat: "N", card: { rank: "Q", suit: "S" } },
+          { seat: "E", card: { rank: "Q", suit: "H" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cp2-20",
+    difficulty: 2,
+    seatMode: "compass",
+    playEngine: "compassClockwise",
+    title: "Over the Shoulder #2 (5)",
+    trumpSuit: "S",
+    contract: "4♠",
+    dealerCompass: "N",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["north", "south"],
+    revealFullHandsAtEnd: ["east", "west"],
+    auction: "",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "Over the Shoulder #2",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Over the Shoulder #2",
+      promptThemeTint: "overShoulderDeclarer2",
+      videoUrlBeforeStart: "https://youtube.com/shorts/I7Xb-U0VRyA?si=x34MHkIlvfFH_kIh",
+      customPrompts: [
+        {
+          id: "cp2-20-drawtrumps",
+          type: "INFO",
+          atRoundIdx: 0,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Declarer decided to draw trumps, as delaying looked like a sure heart ruff.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-trumpbreak",
+          type: "DISTRIBUTION_GUESS",
+          suit: "S",
+          atRoundIdx: 2,
+          fixed: { N: 4, S: 4 },
+          expectedDistribution: { N: 4, S: 4, W: 3, E: 2 },
+          promptText: "What was the trump break?",
+        },
+        {
+          id: "cp2-20-trumpbreak-msg",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  West started with 3, East with 2 — they broke 4342. As always, it's good to have a
+                  grasp on the trump suit.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-count",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  You have 9 top tricks after you set up hearts: 4 spades, 3 hearts, the Ace of clubs
+                  and the Ace of diamonds.
+                </p>
+                <p className="ct-revealRichBody">
+                  Have a think about where the 10th trick will come from — it looks like you have
+                  chances in both minors.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-setuphearts",
+          type: "INFO",
+          atRoundIdx: 2,
+          continueButtonLabel: "continue the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Declarer went on to set up the heart tricks, a sensible-looking choice.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-diamond",
+          type: "PLAY_CARD",
+          atRoundIdx: 3,
+          promptText: "East leads a low diamond — which card do you play?",
+          playCardResponderSeat: "S",
+          playCardAutoPlaysBefore: [{ seat: "E", card: { rank: "4", suit: "D" } }],
+          playCardRequireCorrect: false,
+          playCardRevealHideSuccessBanner: true,
+          playCardShowNextCustomPromptOnContinue: true,
+          expectedSuit: "D",
+          expectedRank: "A",
+          continueButtonLabel: "continue",
+          revealText: (
+            <div className="ct-revealRichRoot">
+              <div className="ct-revealRich">
+                <div className="ct-revealRichCard ct-revealRichCard--slate">
+                  <p className="ct-revealRichBody">
+                    The Ace of diamonds is correct. This hand, along with several of the previous
+                    ones, was difficult to spot because you have the Queen of diamonds as a tempting
+                    option — the simple finesse. However, the hand is cold if you reject the finesse.
+                  </p>
+                </div>
+                <div className="ct-revealRichCard ct-revealRichCard--amber">
+                  <p className="ct-revealRichBody">
+                    <strong>
+                      Big idea: when a finesse is available, challenge your instinct to always take
+                      it — sometimes you have to stop and think, what about if I don't take the
+                      finesse?
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-finesse-note",
+          type: "INFO",
+          atRoundIdx: 3,
+          continueButtonLabel: "show me the play",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  I am not suggesting that you stop taking all finesses as of today — they are still
+                  an excellent way to make extra tricks. I'm just encouraging you not to play
+                  reflexively, and rather let your trick counting and planning guide you.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-endplay",
+          type: "INFO",
+          atRoundIdx: 8,
+          continueButtonLabel: "continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  The opponents are forced to play clubs for you, or give you your 10th trick by way
+                  of a ruff and discard.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "cp2-20-final",
+          type: "INFO",
+          atRoundIdx: 9,
+          continueButtonLabel: "reveal the hand",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">
+                  Now perhaps you can see the end is here: East can play a club into dummy, with only
+                  the King remaining, or give you a ruff and discard.
+                </p>
+              </section>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <p className="ct-revealRichBody">
+                  If you had taken the diamond finesse you would be 1 off — the opponents would not
+                  have been on play at the critical moment. You would have been.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      north: { S: "AJ95", H: "Q1094", D: "103", C: "A108" },
+      east: { S: "73", H: "A65", D: "87642", C: "Q52" },
+      south: { S: "KQ104", H: "KJ83", D: "AQ", C: "J74" },
+      west: { S: "862", H: "72", D: "KJ95", C: "K963" },
+    },
+    rounds: [
+      {
+        label: "Trick 1 (West leads ♠2; declarer wins ♠K)",
+        plays: [
+          { seat: "W", card: { rank: "2", suit: "S" } },
+          { seat: "N", card: { rank: "5", suit: "S" } },
+          { seat: "E", card: { rank: "3", suit: "S" } },
+          { seat: "S", card: { rank: "K", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 2 (♠Q draws trumps)",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "S" } },
+          { seat: "W", card: { rank: "6", suit: "S" } },
+          { seat: "N", card: { rank: "9", suit: "S" } },
+          { seat: "E", card: { rank: "7", suit: "S" } },
+        ],
+      },
+      {
+        label: "Trick 3 (♠4 to dummy's ♠A; East shows out — trumps are 4-3-4-2)",
+        plays: [
+          { seat: "S", card: { rank: "4", suit: "S" } },
+          { seat: "W", card: { rank: "8", suit: "S" } },
+          { seat: "N", card: { rank: "A", suit: "S" } },
+          { seat: "E", card: { rank: "2", suit: "D" }, showOut: true },
+        ],
+      },
+      {
+        label: "Trick 4 (dummy leads ♥10 to drive out the ♥A)",
+        plays: [
+          { seat: "N", card: { rank: "T", suit: "H" } },
+          { seat: "E", card: { rank: "A", suit: "H" } },
+          { seat: "S", card: { rank: "3", suit: "H" } },
+          { seat: "W", card: { rank: "2", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 5 (East leads ♦4; rise with the ♦A — no finesse)",
+        plays: [
+          { seat: "E", card: { rank: "4", suit: "D" } },
+          { seat: "S", card: { rank: "A", suit: "D" } },
+          { seat: "W", card: { rank: "5", suit: "D" } },
+          { seat: "N", card: { rank: "3", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 6 (cash a heart; ♥Q wins)",
+        plays: [
+          { seat: "S", card: { rank: "8", suit: "H" } },
+          { seat: "W", card: { rank: "7", suit: "H" } },
+          { seat: "N", card: { rank: "Q", suit: "H" } },
+          { seat: "E", card: { rank: "5", suit: "H" } },
+        ],
+      },
+      {
+        label: "Trick 7 (♥9; your ♥J wins, West discards)",
+        plays: [
+          { seat: "N", card: { rank: "9", suit: "H" } },
+          { seat: "E", card: { rank: "6", suit: "H" } },
+          { seat: "S", card: { rank: "J", suit: "H" } },
+          { seat: "W", card: { rank: "3", suit: "C" } },
+        ],
+      },
+      {
+        label: "Trick 8 (cash the ♥K)",
+        plays: [
+          { seat: "S", card: { rank: "K", suit: "H" } },
+          { seat: "W", card: { rank: "9", suit: "D" } },
+          { seat: "N", card: { rank: "4", suit: "H" } },
+          { seat: "E", card: { rank: "7", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 9 (lead the ♦Q; West wins ♦K and is thrown in)",
+        plays: [
+          { seat: "S", card: { rank: "Q", suit: "D" } },
+          { seat: "W", card: { rank: "K", suit: "D" } },
+          { seat: "N", card: { rank: "T", suit: "D" } },
+          { seat: "E", card: { rank: "8", suit: "D" } },
+        ],
+      },
+      {
+        label: "Trick 10 (West must exit a club; East wins ♣Q and is endplayed)",
+        plays: [
+          { seat: "W", card: { rank: "6", suit: "C" } },
+          { seat: "N", card: { rank: "8", suit: "C" } },
+          { seat: "E", card: { rank: "Q", suit: "C" } },
+          { seat: "S", card: { rank: "4", suit: "C" } },
+        ],
+      },
+    ],
+  },
 ];
 
 // Temporarily hidden (work-in-progress, not ready for live). Remove ids below to re-enable.

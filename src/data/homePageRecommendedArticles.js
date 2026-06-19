@@ -7,40 +7,28 @@
  */
 
 export const HOME_PAGE_RECOMMENDED_ARTICLES_TITLE =
-  "This week, last week, and recent articles";
+  "This week and last week";
 
 /** @type {{ label: string, path: string }[]} */
 export const HOME_PAGE_RECOMMENDED_ARTICLES = [
   {
-    label: "This week: System Over 1NT — transfer responses and conventions →",
-    path: "/bidding/advanced/system-over-1nt-conventions",
+    label: "This week: Over the Shoulder — declarer (5 new) →",
+    path: "/declarer/practice?difficulty=2&problem=cp2-16",
   },
   {
     label: "This week: Over the Shoulder — bidding (5 new) →",
+    path: "/bidding/practice?difficulty=2&problem=bid2-49",
+  },
+  {
+    label: "Last week: System Over 1NT — transfer responses and conventions →",
+    path: "/bidding/advanced/system-over-1nt-conventions",
+  },
+  {
+    label: "Last week: Over the Shoulder — bidding (5 new) →",
     path: "/bidding/practice?difficulty=2&problem=bid2-44",
   },
   {
-    label: "This week: Over the Shoulder — declarer (5 new) →",
+    label: "Last week: Over the Shoulder — declarer (5 new) →",
     path: "/declarer/practice?difficulty=2&problem=cp2-11",
-  },
-  {
-    label: "Last week: Loser count in the bidding →",
-    path: "/bidding/practice?difficulty=2&problem=bid2-34",
-  },
-  {
-    label: "Last week: Better rebid fundamentals →",
-    path: "/bidding/practice?difficulty=2&problem=bid2-39",
-  },
-  {
-    label: "Recent article: Suit preference signals (McKenney, Lavinthal) →",
-    path: "/defence/articles/suit-preference-signals-mckenney-lavinthal",
-  },
-  {
-    label: "Recent article: Opening 2C — avoid whenever possible →",
-    path: "/bidding/advanced/opening-2c-avoid-whenever-possible",
-  },
-  {
-    label: "Recent article: Takeout doubles — complete guide →",
-    path: "/bidding/advanced/takeout-doubles-complete-guide",
   },
 ];
