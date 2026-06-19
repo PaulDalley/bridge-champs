@@ -16,7 +16,7 @@ export const HOME_PAGE_RECOMMENDED_ARTICLES = [
     path: "/declarer/practice?difficulty=2&problem=cp2-16",
   },
   {
-    label: "This week: Over the Shoulder — bidding (5 new) →",
+    label: "This week: Responses to 1NT — bidding (5 new) →",
     path: "/bidding/practice?difficulty=2&problem=bid2-49",
   },
   {
