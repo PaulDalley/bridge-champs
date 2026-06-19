@@ -8,6 +8,15 @@ import { getWeeklyTournament, loadMyEntries, loadAllEntries, saveEntry } from ".
 import { sendPlayEvent } from "../../utils/analytics";
 import "./WeeklyTournament.css";
 
+// Leaderboard privacy: show "First L" (first name + surname initial), e.g.
+// "Paul Dalley" -> "Paul D". Single-word names are left as-is.
+function shortName(name) {
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "Player";
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0].toUpperCase()}`;
+}
+
 function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authReady }) {
   const isLocalhost =
     typeof window !== "undefined" && /^(localhost|127\.0\.0\.1)/.test(window.location.hostname);
@@ -109,7 +118,7 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
             {players.slice(0, 3).map((p, i) => (
               <li key={p.uid} className={`wt-row ${p.uid === uid ? "wt-row--me" : ""}`}>
                 <span className="wt-rank">{i + 1}</span>
-                <span className="wt-name">{p.displayName}</span>
+                <span className="wt-name">{shortName(p.displayName)}</span>
                 <span className="wt-imps">{p.totalImps >= 0 ? "+" : ""}{p.totalImps} IMPs</span>
               </li>
             ))}
