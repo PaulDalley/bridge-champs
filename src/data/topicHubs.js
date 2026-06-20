@@ -311,6 +311,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
               { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
               { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
+              { title: "Landy and Multi Landy", to: "/bidding/advanced/landy-and-multi-landy", level: A },
             ],
           },
           {
@@ -318,6 +319,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             articles: [
               { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
               { title: "Worthwhile Conventions #1 — Jacoby 2NT", to: "/bidding/worthwhile-conventions/jacoby-2nt", level: A },
+              { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
             ],
           },
           {
@@ -330,7 +332,6 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             heading: "Other useful conventions",
             articles: [
               { title: "Lebensohl: Compete Smart Without Guessing", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
-              { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
               { title: "Reverses in Bridge: How to Identify, Bid, and Respond", to: "/bidding/advanced/reverses", level: A },
             ],
           },
