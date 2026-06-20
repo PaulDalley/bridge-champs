@@ -198,6 +198,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Bridge Signals: Attitude, Count, and Suit Preference", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
           { title: "Odds and Evens Discarding in Bridge: Should You Play It?", to: "/beginner/articles/defence/odds-evens-discarding-bridge-should", level: F },
           { title: "Suit preference signals (McKenney, Lavinthal)", to: "/defence/articles/suit-preference-signals-mckenney-lavinthal", level: A },
+          { title: "UDCA signals", to: "/defence/articles/udca-signals", level: A },
         ],
       },
       {
