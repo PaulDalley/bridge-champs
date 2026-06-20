@@ -91,6 +91,11 @@
     ],
     "redirects": [
       {
+        "source": "/bidding/worthwhile-conventions/jacoby-2nt",
+        "destination": "/bidding/advanced/jacoby-2nt",
+        "type": 301
+      },
+      {
         "source": "/beginner/articles/bidding/1nt-opening-beginners-bid-promises",
         "destination": "/beginner/articles/bidding/opening-1nt-beginners-open-not",
         "type": 301
