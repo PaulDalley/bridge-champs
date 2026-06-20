@@ -108,6 +108,10 @@ const STATIC_URLS = [
   { loc: "/learn/bidding/conventions", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/hand-evaluation", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/vulnerability", changefreq: "weekly", priority: "0.8" },
+  // Component-based bidding articles: hardcoded React routes, not in any Firestore
+  // collection, so they must be listed here explicitly (the dynamic pass can't see them).
+  { loc: "/bidding/worthwhile-conventions/jacoby-2nt", changefreq: "monthly", priority: "0.7" },
+  { loc: "/bidding/advanced/reverses", changefreq: "monthly", priority: "0.7" },
   { loc: "/beginner", changefreq: "weekly", priority: "0.8" },
   // Old article-listing pages (/declarer/articles, /defence/articles,
   // /bidding/advanced, /bidding/basics) now 301-redirect to /learn — omitted.
