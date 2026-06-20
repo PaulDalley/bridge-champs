@@ -316,6 +316,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
           {
             heading: "Other useful conventions",
             articles: [
+              { title: "Lebensohl: Compete Smart Without Guessing", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
             ],
           },
