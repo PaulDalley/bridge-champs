@@ -317,6 +317,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             heading: "Slam Bidding",
             articles: [
               { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
+              { title: "Worthwhile Conventions #1 — Jacoby 2NT", to: "/bidding/worthwhile-conventions/jacoby-2nt", level: A },
             ],
           },
           {
