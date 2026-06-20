@@ -293,17 +293,32 @@ A test for a good convention is that it's easy to remember, likely to come up fr
 
 Overall, we want to pick our conventions carefully and not overcrowd our system to the point that we cannot bid our hands naturally and confidently under pressure.`,
         trainerHref: "/bidding/practice?difficulty=3&problem=bid3-16",
-        articles: [
-          { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
-          { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
-          { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
-          { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
-          { title: "Weak Stayman: Know When It Helps", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
-          { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
-          { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
-          { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
-          { title: "Fourth Suit Forcing and Checkback: Core Structures", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
-          { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
+        groups: [
+          {
+            heading: "NT conventions",
+            articles: [
+              { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
+              { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
+              { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
+              { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
+              { title: "Weak Stayman: Know When It Helps", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
+              { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
+              { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
+              { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
+            ],
+          },
+          {
+            heading: "4th suit forcing",
+            articles: [
+              { title: "Fourth Suit Forcing and Checkback: Core Structures", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
+            ],
+          },
+          {
+            heading: "Other useful conventions",
+            articles: [
+              { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
+            ],
+          },
         ],
       },
       {
@@ -347,6 +362,18 @@ From opening bids to preempts, and everything that follows, vulnerability will c
     ],
   },
 ];
+
+// A topic may define labelled `groups` (sub-sections) instead of a flat
+// `articles` list. Flatten them into `articles` here so every consumer
+// (progress counts, search, schema, the slug->topic reverse map) keeps working
+// unchanged; the grouped layout itself is handled by the TopicHub component.
+CATEGORIES.forEach((c) =>
+  c.topics.forEach((t) => {
+    if (Array.isArray(t.groups) && !Array.isArray(t.articles)) {
+      t.articles = t.groups.flatMap((g) => g.articles || []);
+    }
+  })
+);
 
 export const getCategory = (key) => CATEGORIES.find((c) => c.key === key) || null;
 

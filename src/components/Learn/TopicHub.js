@@ -139,6 +139,39 @@ function VideoBlock({ video, topicName }) {
   );
 }
 
+// One article list rendered as the numbered "path" with read-ticks. Shared by
+// the flat layout and each labelled group (numbering restarts per list).
+function PathSteps({ list, readSet }) {
+  return (
+    <ol className="th-path">
+      {list.map((a, i) => {
+        const read = readSet.has(a.to);
+        const last = i === list.length - 1;
+        return (
+          <li className="th-step" key={a.to + i}>
+            <div className="th-rail">
+              <button
+                type="button"
+                className={`th-node ${read ? "th-node--read" : ""}`}
+                aria-label={read ? `Mark "${a.title}" unread` : `Mark "${a.title}" read`}
+                aria-pressed={read}
+                onClick={() => toggleRead(a.to)}
+              >
+                {read ? "✓" : i + 1}
+              </button>
+              {!last && <span className="th-railLine" />}
+            </div>
+            <Link className="th-articleCard" to={a.to} onClick={() => markRead(a.to)}>
+              <span className="th-articleTitle">{a.title}</span>
+              <span className={`th-level th-level--${a.level}`}>{a.level}</span>
+            </Link>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function TopicHub({ match }) {
   const category = match && match.params ? match.params.category : undefined;
   const topic = match && match.params ? match.params.topic : undefined;
@@ -298,35 +331,19 @@ function TopicHub({ match }) {
       )}
 
       {articles.length > 0 ? (
-        <>
-          <div className="th-sectionLabel">Work through it</div>
-          <ol className="th-path">
-            {articles.map((a, i) => {
-              const read = readSet.has(a.to);
-              const last = i === articles.length - 1;
-              return (
-                <li className="th-step" key={a.to + i}>
-                  <div className="th-rail">
-                    <button
-                      type="button"
-                      className={`th-node ${read ? "th-node--read" : ""}`}
-                      aria-label={read ? `Mark "${a.title}" unread` : `Mark "${a.title}" read`}
-                      aria-pressed={read}
-                      onClick={() => toggleRead(a.to)}
-                    >
-                      {read ? "✓" : i + 1}
-                    </button>
-                    {!last && <span className="th-railLine" />}
-                  </div>
-                  <Link className="th-articleCard" to={a.to} onClick={() => markRead(a.to)}>
-                    <span className="th-articleTitle">{a.title}</span>
-                    <span className={`th-level th-level--${a.level}`}>{a.level}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
-        </>
+        t.groups ? (
+          t.groups.map((g, gi) => (
+            <div className="th-group" key={g.heading + gi}>
+              <div className="th-sectionLabel">{g.heading}</div>
+              <PathSteps list={g.articles || []} readSet={readSet} />
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="th-sectionLabel">Work through it</div>
+            <PathSteps list={articles} readSet={readSet} />
+          </>
+        )
       ) : (
         <p className="th-empty">Articles coming soon.</p>
       )}
