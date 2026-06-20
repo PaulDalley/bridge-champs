@@ -51,6 +51,15 @@ Claude Code reads this file. Keep the two in sync when conventions change.)
   page needs copy, leave it blank (or a neutral, non-bridge structural label) and ask the user for the
   words. Likewise NEVER edit / reword / "improve" existing bridge content. Flag possible typos as a note;
   don't silently fix them.
+- **NEVER edit the user's wording (HARD RULE). Default to verbatim.** Preserve the user's exact words
+  everywhere — articles, trainer problems, copy, headings, anything. This holds **even when the user
+  explicitly says "proofread", "spell-check", or "improve the English"**: that permits ONLY fixing
+  unambiguous misspellings/typos (e.g. "espeically" → "especially"), and even those are presented as a
+  **list for the user to approve — never silently applied**. It does NOT authorize changing phrasing,
+  tense, sentence structure, flow, punctuation style, word choice, or voice — those are the user's. Do not
+  "tidy up", "smooth", or "clean up" prose. When in any doubt, leave the text exactly as written and flag
+  it as a note. Reword only when the user points at specific text and explicitly asks for that change. The
+  user's words ship verbatim. (`.cursor/rules/*.mdc` should be kept in sync with this.)
 - **Bid shorthand → colored suit symbols:** when the user types a bid like `2C`/`3S`/`1NT`, render it with
   the proper symbol (`2♣`, `3♠`, `1NT`) via `TextWithColoredSuits` (or raw `♣♦♥♠` in strings, which
   auto-color). ♥/♦ red, ♠ black, ♣ green.
