@@ -113,7 +113,7 @@ ${board("*S-Q104*H-854*D-A2*C-98743", "West", "1NT/2♣/P/2♦/P/2♥/P/P/P")}
 <p>So, for example:</p>
 ${board("*S-AQ1084*H-AK542*D-74*C-2", "East", "1NT/2♣/P/2NT/P/3♠")}
 <p>These two 5-card suits look quite reasonable, especially opposite partner's 14+ points. Show a maximum with two 5-card suits.</p>
-<p><strong>3M (a jump in a major).</strong> This shows a 4-card raise and a decent hand, inviting partner to game if they have extras — especially if you have hit a 5-card suit (so you have a 5-4 fit). For example:</p>
+<p><strong>3M.</strong> This shows a 4-card raise and a decent hand, inviting partner to game if they have extras — especially if you have hit a 5-card suit (so you have a 5-4 fit). For example:</p>
 ${board("*S-Q2*H-AQ54*D-5*C-1085432", "West", "1NT/2♣/P/3♥")}
 <p>You have a very decent hand and 4-card support. If partner has 5 hearts and a good hand, you might be in business! You might also be tempted to try to buy the hand in 2♥. Perhaps — but the opponents likely have a big diamond fit (remember, partner has length in the majors and shortage in the minors), so they will probably compete to 3♦ anyway. Get in before they can!</p>
 <p>By far the majority of hands are now taken care of. I've played the convention for decades, and against it for just as long, and I rarely (if ever) come across the need for auctions beyond that. It is worth having a chat to partner about, but as always, keep it simple.</p>
@@ -132,7 +132,7 @@ ${board("*S-Q2*H-AQ54*D-5*C-1085432", "West", "1NT/2♣/P/3♥")}
 
 <h3>Follow-up bids — after 2♦, showing a single major</h3>
 <p>2♥ / 2♠ / 3♥ / 3♠ / 4♥ — all of these are the same. They are pass-or-correct: asking partner either to pass if that is their suit, or to correct to their suit at the lowest available level.</p>
-<p>For example, after 1NT (West) – 2♦ (partner) – P – 2♠ (you), holding a hand short in spades but with good hearts: you expect partner to have spades and pass in your 6-2 fit. BUT if they have hearts, you want partner to keep bidding, to at least the 3 level. In fact, you might even raise that to game with your 10-card fit and useful cards!</p>
+<p>For example, after 1NT (West) – 2♦ (partner) – P – 2♠ (you): you expect partner to have spades and pass in your 6-2 fit. BUT if they have hearts, you want partner to keep bidding, to at least the 3 level. In fact, you might even raise that to game with your 10-card fit and useful cards!</p>
 <p>After 2♦, 2NT shows a strong enquiry — say 12+ points and a fit. On such a hand you would like to show strength, and at least a 6-2 fit. If partner has hearts you're in business; and if partner has extra length, shape, and/or strength, you might have enough for game in spades.</p>
 
 <h3>After 1NT–2♥ or 1NT–2♠ (showing a 5-card major and 4+ minor)</h3>
