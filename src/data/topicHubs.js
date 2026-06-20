@@ -295,6 +295,12 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
         trainerHref: "/bidding/practice?difficulty=3&problem=bid3-16",
         groups: [
           {
+            heading: "General",
+            articles: [
+              { title: "What is a convention, and what conventions are the best to play?", to: "/bidding/advanced/what-is-a-convention-best-to-play", level: A },
+            ],
+          },
+          {
             heading: "NT conventions",
             articles: [
               { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
@@ -305,6 +311,12 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
               { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
               { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
+            ],
+          },
+          {
+            heading: "Slam Bidding",
+            articles: [
+              { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
             ],
           },
           {
