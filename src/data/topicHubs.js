@@ -311,7 +311,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Weak Stayman: Know When It Helps", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
               { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
-              { title: "1NT Responder Methods: A Practical Overview", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
+              { title: "1 level responses and negative doubles", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
               { title: "Landy and Multi Landy", to: "/bidding/advanced/landy-and-multi-landy", level: A },
             ],
           },
