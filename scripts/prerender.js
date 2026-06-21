@@ -168,7 +168,18 @@ async function snapshotRoute(browser, routePath) {
           if (kind === "article") {
             const article = document.querySelector(".DisplayArticle-content");
             if (!article) return false;
-            return article.textContent.trim().length > 300;
+            const text = article.textContent.trim().length;
+            if (text > 300) return true;
+            // Short-prose / board-heavy articles render fully but stay under 300
+            // chars of TEXT (a MakeBoard renders as SVG/markup, not text; the body
+            // is wrapped in a single .interweave node, so counting direct children
+            // is useless). Accept once real body content has rendered (interweave
+            // output / a board / a paragraph) plus some text — which a transient
+            // empty container never has.
+            const rendered = article.querySelector(
+              ".interweave, svg, img, table, p, h3, ol, ul"
+            );
+            return text > 120 && !!rendered;
           }
           if (kind === "hub") {
             // Require the category list itself — never accept a transient
@@ -195,6 +206,8 @@ async function snapshotRoute(browser, routePath) {
           hasArticle: !!document.querySelector(".DisplayArticle-content"),
           articleSize:
             (document.querySelector(".DisplayArticle-content") || {}).textContent?.length || 0,
+          articleChildren:
+            (document.querySelector(".DisplayArticle-content") || {}).childElementCount || 0,
           hasCategoryArticles: !!document.querySelector(".CategoryArticles"),
         }));
         if (process.env.PRERENDER_DEBUG) console.warn("DIAG:", JSON.stringify(snapshotDiag));
@@ -208,6 +221,8 @@ async function snapshotRoute(browser, routePath) {
             hasArticle: !!document.querySelector(".DisplayArticle-content"),
             articleSize:
               (document.querySelector(".DisplayArticle-content") || {}).textContent?.length || 0,
+            articleChildren:
+              (document.querySelector(".DisplayArticle-content") || {}).childElementCount || 0,
           }));
         } catch (_) {
           throw waitErr;
@@ -225,7 +240,11 @@ async function snapshotRoute(browser, routePath) {
           s.includes("bridge champions \u2014 bridge lessons")
         );
       })();
-      const articleOk = isArticleRoute && snapshotDiag.hasArticle && snapshotDiag.articleSize > 300;
+      const articleOk =
+        isArticleRoute &&
+        snapshotDiag.hasArticle &&
+        (snapshotDiag.articleSize > 300 ||
+          (snapshotDiag.articleSize > 120 && snapshotDiag.articleChildren >= 1));
       const hubOk = isHubRoute && snapshotDiag.hasCategoryArticles && snapshotDiag.rootSize > 800;
       const otherOk = !isArticleRoute && !isHubRoute && !titleIsDefault && snapshotDiag.rootSize > 800;
       if (articleOk || hubOk || otherOk) {
@@ -461,7 +480,7 @@ async function writeSnapshot(routePath, html) {
   return path.relative(BUILD_DIR, file);
 }
 
-async function runQueue(items, worker) {
+async function runQueue(items, worker, concurrency = CONCURRENCY) {
   let idx = 0;
   const results = { ok: 0, fail: 0, failed: [] };
   async function next() {
@@ -480,7 +499,8 @@ async function runQueue(items, worker) {
       }
     }
   }
-  const workers = Array.from({ length: CONCURRENCY }, () => next());
+  const lanes = Math.max(1, Math.min(concurrency, items.length));
+  const workers = Array.from({ length: lanes }, () => next());
   await Promise.all(workers);
   return results;
 }
@@ -525,14 +545,45 @@ async function run() {
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
   });
 
+  const makeWorker = (b) => async (routePath) => {
+    const html = await snapshotRoute(b, routePath);
+    return writeSnapshot(routePath, html);
+  };
+
   let results;
+  let activeBrowser = browser;
   try {
-    results = await runQueue(routes, async (routePath) => {
-      const html = await snapshotRoute(browser, routePath);
-      return writeSnapshot(routePath, html);
-    });
+    results = await runQueue(routes, makeWorker(browser));
+
+    // Retry pass. A route that fails under concurrency is almost always a
+    // transient content-wait timeout caused by resource starvation on the CI
+    // runner (memory + Firestore connections pile up across pages) — the very
+    // same route prerenders fine on its own. Re-render the failures SERIALLY
+    // with a FRESH browser so accumulated memory/connections are released.
+    // This is what makes article coverage reliable: an article only ships the
+    // generic SPA shell if it fails BOTH the parallel pass and a clean solo
+    // retry, which in practice means a genuine error worth investigating.
+    if (results.failed.length) {
+      const retryPaths = results.failed.map((f) => normalisePath(f.path));
+      console.log(
+        `\nRetrying ${retryPaths.length} failed route(s) serially with a fresh browser…`
+      );
+      await browser.close();
+      activeBrowser = await puppeteer.launch({
+        headless: true,
+        args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+      });
+      const retry = await runQueue(retryPaths, makeWorker(activeBrowser), 1);
+      // Recovered routes move from fail -> ok; whatever still fails stays failed.
+      results.ok += retry.ok;
+      results.fail = retry.fail;
+      results.failed = retry.failed;
+      console.log(
+        `Retry recovered ${retry.ok}/${retryPaths.length}; still failing: ${retry.fail}.`
+      );
+    }
   } finally {
-    await browser.close();
+    await activeBrowser.close().catch(() => {});
     server.close();
   }
 

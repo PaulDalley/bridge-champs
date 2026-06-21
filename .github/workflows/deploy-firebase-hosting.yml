@@ -123,7 +123,7 @@ jobs:
     name: Refresh SEO assets (sitemap + prerender + og)
     needs: fast-deploy
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 55
     # Never fails the workflow as a whole; the live site already shipped.
     continue-on-error: true
     env:
@@ -168,11 +168,19 @@ jobs:
           fi
           exit 0
 
+      # Concurrency 3 (not 6): the ubuntu runner (~7GB / 2 cores) runs low on
+      # memory + Firestore connections partway through 130 pages at higher
+      # parallelism, so the alphabetically-later articles (/bidding, /declarer,
+      # /defence, /counting) were timing out their content-wait and shipping the
+      # bare SPA shell — 75 articles served Google a generic page. Lower
+      # parallelism keeps headroom; prerender.js then re-renders any straggler
+      # SERIALLY with a fresh browser. Timeout raised to 25m to cover the slower
+      # (but reliable) pass + retry; the critical deploy runs right after.
       - name: Prerender public routes (best effort, hard timeout)
-        timeout-minutes: 15
+        timeout-minutes: 25
         run: |
           set +e
-          npm run prerender -- --concurrency 6 --timeout 30000
+          npm run prerender -- --concurrency 3 --timeout 30000
           pr_exit=$?
           if [ "$pr_exit" -ne 0 ]; then
             echo "::warning::prerender failed/timed out (exit ${pr_exit}); continuing."
@@ -221,3 +229,18 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: bridgechampions
           channelId: live
+
+      # Post-deploy SEO guard. Fetch every article as Googlebot and surface any
+      # that still serve a generic shell / noindex / membership redirect. Best
+      # effort — never fails the deploy (the site already shipped), but prints a
+      # loud ::error:: annotation on the run summary so an indexing regression is
+      # visible immediately instead of weeks later in Search Console.
+      - name: Verify articles are indexable (best effort)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          set +e
+          sleep 30   # let the Firebase CDN edge pick up the new deploy
+          node scripts/audit-live-articles.js --concurrency 6 --retry 2
+          exit 0
