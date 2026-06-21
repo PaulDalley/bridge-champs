@@ -326,7 +326,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
           {
             heading: "4th suit forcing",
             articles: [
-              { title: "Fourth suit Forcing", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
+              { title: "Fourth suit Forcing: Introduction", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
             ],
           },
           {
