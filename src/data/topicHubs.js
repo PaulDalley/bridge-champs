@@ -253,7 +253,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "2C opening - Try not to bid it", to: "/bidding/advanced/opening-2c-avoid-whenever-possible", level: A },
           { title: "Third Seat Openings: Practical Aggression", to: "/bidding/advanced/third-seat-openings-practical-aggression", level: A },
           { title: "How to Play Contract Bridge: Step-by-Step Guide", to: "/beginner/articles/bidding/play-contract-bridge-step-step", level: F },
-          { title: "How to Improve at Bridge: A Practical Roadmap That Actually Works", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
+          { title: "How to improve in bridge: Mentality is everything", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
         ],
       },
       {
