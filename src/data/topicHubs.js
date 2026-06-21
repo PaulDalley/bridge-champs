@@ -333,7 +333,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             heading: "Other useful conventions",
             articles: [
               { title: "Lebensohl", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
-              { title: "Reverses in Bridge: How to Identify, Bid, and Respond", to: "/bidding/advanced/reverses", level: A },
+              { title: "Reverse bids in Bridge", to: "/bidding/advanced/reverses", level: A },
             ],
           },
         ],
