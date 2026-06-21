@@ -26,7 +26,7 @@ const board = (south, dealer, bidding) =>
 
 const BODY = `<h3>Introduction</h3>
 <p>Reverse bids are a natural bid of a second suit by opener, which shows extra strength. The difficulty for some people is to know what a reverse bid looks like in contrast to just a simple natural bid of a second suit. Let's look at examples and then come up with a simple rule.</p>
-${board('*S-104*H-KQ1084*D-52*C-AK1082', 'South', '_/_/_/1♥/P/1♠/P/2♣/P/2♥')}
+${board('*S-104*H-KQ1084*D-5*C-AK1082', 'South', '_/_/_/1♥/P/1♠/P/2♣/P/2♥')}
 <p>This is a simple bid of a second suit, as we all know. One key characteristic I like to point out, in contrast to a reverse (example coming in a moment): responder can take you back to your first suit on the 2 level. As you can see in the above example, responder can just bid 2♥ if they don't want to stay in 2♣.</p>
 <p>Let's contrast that with a reverse auction:</p>
 ${board('*S-104*H-AKQ8*D-6*C-AKQ943', 'South', '_/_/_/1♣/P/1♠/P/2♥/P/?')}
