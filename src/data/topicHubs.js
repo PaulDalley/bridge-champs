@@ -45,7 +45,7 @@ export const CATEGORIES = [
           { title: "Cash Trumps Without Blocking: Keep Your Winners Running", to: "/beginner/articles/declarer/cash-trumps-without-blocking-keep", level: F },
           { title: "Drawing Trumps: Make the Right Plan and Avoid Autopilot", to: "/declarer/articles/drawing-trumps-make-right-plan", level: A },
           { title: "Count Winners in Trumps: Avoid Missed Tricks and Read the Trump Layout", to: "/declarer/articles/count-winners-trumps-avoid-missed", level: A },
-          { title: "Cash Side-Suit Winners with Trumps Out: Avoid Ruff Risk", to: "/declarer/articles/cash-side-suit-winners-trumps", level: A },
+          { title: "Cash Side-Suit Winners: Before drawing trumps", to: "/declarer/articles/cash-side-suit-winners-trumps", level: A },
         ],
       },
       {
