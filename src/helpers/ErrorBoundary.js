@@ -1,26 +1,60 @@
 import React from "react";
 import logger from "../utils/logger";
 
+// A chunk-load error means the deployed bundle changed under an open tab: the
+// lazy-loaded chunk this page references was replaced (and deleted) by a newer
+// deploy. The fix is simply to reload onto the current bundle.
+function isChunkLoadError(error) {
+  if (!error) return false;
+  const name = error.name || "";
+  const msg = String(error.message || error);
+  return (
+    name === "ChunkLoadError" ||
+    /Loading chunk [\w-]+ failed/i.test(msg) ||
+    /Loading CSS chunk/i.test(msg) ||
+    /failed to (fetch|load) dynamically imported module/i.test(msg) ||
+    /importing a module script failed/i.test(msg)
+  );
+}
+
 class MyErrorBoundary extends React.Component {
   state = {
     hasError: false,
     error: null,
     errorInfo: null,
+    isChunkError: false,
   };
 
   static getDerivedStateFromError(error) {
-    return { hasError: true, error };
+    return { hasError: true, error, isChunkError: isChunkLoadError(error) };
   }
 
   componentDidCatch(error, errorInfo) {
     // Log error details
     logger.error("Error Boundary caught an error:", error, errorInfo);
-    
+
+    // Self-heal a stale-deploy chunk error by reloading once onto the current
+    // bundle. Guarded against reload loops: if a reload within the last 15s
+    // didn't fix it, fall through and show the message instead of looping.
+    if (isChunkLoadError(error)) {
+      try {
+        const KEY = "bc-chunk-reload-at";
+        const last = Number(window.sessionStorage.getItem(KEY) || 0);
+        if (!last || Date.now() - last > 15000) {
+          window.sessionStorage.setItem(KEY, String(Date.now()));
+          window.location.reload();
+          return;
+        }
+      } catch (e) {
+        /* sessionStorage unavailable — fall through to the message below */
+      }
+    }
+
     // Store error info for display
     this.setState({
       errorInfo,
     });
-    
+
     // TODO: Send to error tracking service (e.g., Sentry)
     // if (process.env.NODE_ENV === 'production') {
     //   Sentry.captureException(error, { extra: errorInfo });
@@ -41,6 +75,38 @@ class MyErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
+      if (this.state.isChunkError) {
+        return (
+          <div style={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem',
+            backgroundColor: '#f8f9fa'
+          }}>
+            <div style={{ textAlign: 'center', color: '#64748b' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>↻</div>
+              <p style={{ fontSize: '1.6rem', marginBottom: '1.5rem' }}>Loading the latest version…</p>
+              <button
+                onClick={this.handleReload}
+                style={{
+                  padding: '1.2rem 2.4rem',
+                  fontSize: '1.6rem',
+                  backgroundColor: '#0F4C3A',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                Refresh
+              </button>
+            </div>
+          </div>
+        );
+      }
       return (
         <div style={{
           minHeight: '100vh',
