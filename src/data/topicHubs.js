@@ -280,7 +280,7 @@ Another key idea is not letting the opponents play in comfortable contracts when
           { title: "Four-Level Doubles: What to Do Next", to: "/bidding/advanced/four-level-doubles-do-next", level: A },
           { title: "Takeout Doubles in Bridge: The Complete Guide", to: "/bidding/advanced/takeout-doubles-bridge-complete-guide", level: A },
           { title: "Second Suit in Competition: Compete with Purpose", to: "/bidding/advanced/second-suit-competition-compete-purpose", level: A },
-          { title: "Lebensohl: Compete Smart Without Guessing", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
+          { title: "Lebensohl", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
           { title: "Preempting in First Seat: When to Be Bold", to: "/bidding/advanced/preempting-first-seat-bold", level: A },
           { title: "Preemptive Raises in Bridge: Why Big Trump Fits Beat Big Points", to: "/beginner/articles/bidding/preemptive-raises-bridge-big-trump", level: F },
         ],
@@ -332,7 +332,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
           {
             heading: "Other useful conventions",
             articles: [
-              { title: "Lebensohl: Compete Smart Without Guessing", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
+              { title: "Lebensohl", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverses in Bridge: How to Identify, Bid, and Respond", to: "/bidding/advanced/reverses", level: A },
             ],
           },
