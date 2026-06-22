@@ -511,8 +511,32 @@ function preserveSpaShell() {
   if (!fs.existsSync(shellSource)) {
     throw new Error(`No build/index.html — did you run \`npm run build\`?`);
   }
-  fs.copyFileSync(shellSource, shellTarget);
-  console.log(`Preserved SPA shell at build/_shell.html`);
+  // Firebase rewrites EVERY unmatched URL to this shell with HTTP 200. That
+  // means typos, old/removed URLs, case/format variants of real articles
+  // (/bidding/advanced/Reverses), and any article that failed to bake all get
+  // served the SAME generic, canonical-less, homepage-titled shell. With the
+  // template's default `robots: index, follow`, Google indexes that whole pile
+  // as identical "soft 404s" / duplicates and clusters them — which is what
+  // buries the real (baked) article URLs ("indexed but not shown").
+  //
+  // So force the FALLBACK SHELL to noindex. Prerendered route files overwrite
+  // the entire document with their own `index, follow` head, so ONLY
+  // shell-served (i.e. never-baked) URLs are affected. Keep `follow` so Google
+  // still crawls onward to discover real pages.
+  let shellHtml = fs.readFileSync(shellSource, "utf8");
+  if (/<meta[^>]+name=["']robots["'][^>]*>/i.test(shellHtml)) {
+    shellHtml = shellHtml.replace(
+      /<meta[^>]+name=["']robots["'][^>]*>/i,
+      '<meta name="robots" content="noindex, follow" />'
+    );
+  } else {
+    shellHtml = shellHtml.replace(
+      /<\/head>/i,
+      '    <meta name="robots" content="noindex, follow" />\n  </head>'
+    );
+  }
+  fs.writeFileSync(shellTarget, shellHtml, "utf8");
+  console.log(`Preserved SPA shell at build/_shell.html (forced robots: noindex)`);
 }
 
 async function run() {

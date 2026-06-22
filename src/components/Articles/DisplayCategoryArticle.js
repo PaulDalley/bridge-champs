@@ -750,6 +750,16 @@ const DisplayCategoryArticle = ({
         .replace(/&[a-z]+;/gi, " ") // strip HTML entities
         .replace(/\s+/g, " ")
         .trim();
+    // Body text often opens with noise that makes a poor SERP snippet: a bare
+    // embedded video URL (articles lead with a YouTube link) or a lone section
+    // heading like "Introduction". Strip those leading tokens so the meta
+    // description starts on the real first sentence. (Only affects the generated
+    // <meta>, never the on-page article text.)
+    const stripLeadingNoise = (s) =>
+      String(s || "")
+        .replace(/^\s*(?:https?:\/\/|www\.)\S+\s*/i, "")
+        .replace(/^\s*(?:introduction|intro|overview|summary)\b[\s:–—-]*/i, "")
+        .trim();
     const truncate = (s, max = 158) => {
       if (!s || s.length <= max) return s;
       const cut = s.slice(0, max);
@@ -757,7 +767,7 @@ const DisplayCategoryArticle = ({
       return (lastSpace > 80 ? cut.slice(0, lastSpace) : cut).trim() + "…";
     };
     const teaser = clean(useMetaData?.teaser);
-    const body = clean(articleText);
+    const body = stripLeadingNoise(clean(articleText));
     // Prefer a substantial teaser, else the real article opening, else whatever
     // teaser exists.
     let base = truncate(teaser.length >= 110 ? teaser : body.length >= 80 ? body : teaser);
