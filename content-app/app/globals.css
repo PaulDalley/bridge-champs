@@ -102,6 +102,11 @@ a:hover { text-decoration: underline; }
 .bc-hub-grid li a:hover { border-color: var(--bc-green); text-decoration: none; }
 .bc-cat-list { list-style: none; padding: 0; }
 .bc-cat-list li { margin: 0.4rem 0; }
+.bc-level { color: var(--bc-muted); font-size: 0.82rem; font-weight: 500; }
+.bc-topic-intro { margin: 0 0 1.6rem; }
+.bc-topic-intro p { margin: 0 0 0.8rem; }
+.bc-topic-group { margin: 1.4rem 0; }
+.bc-topic-group h2 { font-size: 1.15rem; font-weight: 700; margin: 0 0 0.4rem; }
 
 @media (max-width: 640px) {
   .bc-board-full { grid-template-columns: 1fr; grid-template-areas: "n" "e" "s" "w" "mid"; }

@@ -1,6 +1,8 @@
 import { CATEGORIES, categoryLabel, listAllArticles } from "../../lib/articles";
 
-export const revalidate = 3600;
+// Render live from Firestore (build runs without creds, so a static snapshot
+// would show zero lesson counts).
+export const dynamic = "force-dynamic";
 
 const BASE = "https://bridgechampions.com";
 
