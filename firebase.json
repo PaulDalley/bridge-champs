@@ -119,6 +119,46 @@
     ],
     "redirects": [
       {
+        "source": "/bidding",
+        "destination": "/learn/bidding",
+        "type": 301
+      },
+      {
+        "source": "/declarer",
+        "destination": "/learn/declarer",
+        "type": 301
+      },
+      {
+        "source": "/defence",
+        "destination": "/learn/defence",
+        "type": 301
+      },
+      {
+        "source": "/beginner",
+        "destination": "/learn",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles",
+        "destination": "/learn",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/bidding",
+        "destination": "/learn/bidding",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/declarer",
+        "destination": "/learn/declarer",
+        "type": 301
+      },
+      {
+        "source": "/beginner/articles/defence",
+        "destination": "/learn/defence",
+        "type": 301
+      },
+      {
         "source": "/bidding/worthwhile-conventions/jacoby-2nt",
         "destination": "/bidding/advanced/jacoby-2nt",
         "type": 301

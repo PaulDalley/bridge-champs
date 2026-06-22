@@ -19,30 +19,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://bridgechampions.com/beginner</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bridgechampions.com/beginner/articles/bidding</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://bridgechampions.com/beginner/articles/declarer</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bridgechampions.com/beginner/articles/defence</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://bridgechampions.com/learn</loc>
     <lastmod>2026-06-22</lastmod>
     <changefreq>daily</changefreq>

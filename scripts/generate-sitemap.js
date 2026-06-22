@@ -108,16 +108,10 @@ const STATIC_URLS = [
   { loc: "/learn/bidding/conventions", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/hand-evaluation", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/vulnerability", changefreq: "weekly", priority: "0.8" },
-  { loc: "/beginner", changefreq: "weekly", priority: "0.8" },
-  // Old article-listing pages (/declarer/articles, /defence/articles,
-  // /bidding/advanced, /bidding/basics) now 301-redirect to /learn — omitted.
+  // Old hubs /beginner and /beginner/articles/{bidding,declarer,defence} (plus
+  // the bare /bidding, /declarer, /defence) now 301-redirect to /learn — omitted
+  // so Google isn't pointed at URLs that just redirect.
   // (Article DETAIL pages under those prefixes are still emitted dynamically.)
-  // NOTE: /counting/articles (-> /declarer/articles) and /beginner/articles
-  // (-> /beginner/articles/declarer) are redirect routes — kept out of the
-  // sitemap so Google isn't pointed at URLs that just redirect.
-  { loc: "/beginner/articles/declarer", changefreq: "weekly", priority: "0.8" },
-  { loc: "/beginner/articles/defence", changefreq: "weekly", priority: "0.7" },
-  { loc: "/beginner/articles/bidding", changefreq: "weekly", priority: "0.7" },
   // Treadmill hub + per-tool SEO landing pages. The /treadmill/practice/*
   // routes are intentionally noindex (interactive trainers with little crawlable
   // text) — the per-tool landing pages here carry the content and rank for the
