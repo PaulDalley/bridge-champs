@@ -543,6 +543,11 @@ async function run() {
   console.log("Reading sitemap…");
   preserveSpaShell();
   let routes = readSitemapUrls();
+  // /learn/** is owned by the Next.js content app on Cloud Run (firebase.json
+  // rewrites /learn -> that service). NEVER prerender /learn routes into static
+  // files here — a static build/learn/... file would shadow the rewrite and serve
+  // the (wrong) CRA copy instead of the live content app.
+  routes = routes.filter((p) => !/^\/learn(\/|$)/.test(p));
   const onlyFilters = ONLY.filter((s) => s && s !== "/");
   if (onlyFilters.length || ONLY.includes("/")) {
     routes = routes.filter(

@@ -126,59 +126,64 @@ const STATIC_URLS = [
   { loc: "/treadmill/card-rush", changefreq: "weekly", priority: "0.8" },
 ];
 
+// Post-cutover (2026-06-22): article detail pages live on the Next.js content app
+// at /learn/<category>/<slug>. Emit those canonical URLs here so the public
+// sitemap points Google straight at the live pages (not the legacy URLs, which
+// now 301). Keep these prefixes in sync with content-app/lib/articles.js +
+// scripts/gen-redirect-map.js. (The legacy prefixes still 301 via firebase.json.)
 const DYNAMIC_COLLECTIONS = [
   {
     summary: "cardPlay",
     body: "cardPlayBody",
-    pathPrefix: "/declarer/articles",
+    pathPrefix: "/learn/declarer",
     priority: "0.7",
   },
   {
     summary: "defence",
     body: "defenceBody",
-    pathPrefix: "/defence/articles",
+    pathPrefix: "/learn/defence",
     priority: "0.7",
   },
   {
     summary: "bidding",
     body: "biddingBody",
-    pathPrefix: "/bidding/advanced",
+    pathPrefix: "/learn/bidding",
     priority: "0.7",
   },
   {
     summary: "biddingAdvanced",
     body: "biddingAdvancedBody",
-    pathPrefix: "/bidding/advanced",
+    pathPrefix: "/learn/bidding",
     priority: "0.7",
   },
   {
     summary: "biddingBasics",
     body: "biddingBasicsBody",
-    pathPrefix: "/bidding/basics",
+    pathPrefix: "/learn/bidding",
     priority: "0.7",
   },
   {
     summary: "counting",
     body: "countingBody",
-    pathPrefix: "/counting/articles",
+    pathPrefix: "/learn/declarer",
     priority: "0.6",
   },
   {
     summary: "beginnerCardPlay",
     body: "beginnerCardPlayBody",
-    pathPrefix: "/beginner/articles/declarer",
+    pathPrefix: "/learn/beginner",
     priority: "0.7",
   },
   {
     summary: "beginnerDefence",
     body: "beginnerDefenceBody",
-    pathPrefix: "/beginner/articles/defence",
+    pathPrefix: "/learn/beginner",
     priority: "0.6",
   },
   {
     summary: "beginnerBidding",
     body: "beginnerBiddingBody",
-    pathPrefix: "/beginner/articles/bidding",
+    pathPrefix: "/learn/beginner",
     priority: "0.6",
   },
 ];
