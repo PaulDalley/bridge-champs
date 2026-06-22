@@ -17,10 +17,11 @@ const fb = JSON.parse(fs.readFileSync(fbPath, "utf8"));
 const map = JSON.parse(fs.readFileSync(path.join(root, "docs", "redirect-map.json"), "utf8"));
 
 const SVC = { serviceId: "bc-content", region: "us-central1" };
-// NOTE: /robots.txt intentionally stays on the CRA (public/robots.txt) so its
-// admin/editor/pillars Disallow rules are preserved. Only the content surface
-// + the (new-URL) sitemap move to the Next service.
-const runRewrites = ["/learn", "/learn/**", "/sitemap.xml"].map((source) => ({
+// /_next/** = the Next app's static assets (CSS/JS chunks). MUST route to the
+// content service or pages render unstyled (the CRA doesn't have /_next; its own
+// assets live under /static). /robots.txt intentionally stays on the CRA so its
+// admin/editor/pillars Disallow rules are preserved.
+const runRewrites = ["/learn", "/learn/**", "/_next/**", "/sitemap.xml"].map((source) => ({
   source,
   run: { ...SVC },
 }));

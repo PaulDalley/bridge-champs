@@ -27,6 +27,13 @@
         }
       },
       {
+        "source": "/_next/**",
+        "run": {
+          "serviceId": "bc-content",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "/sitemap.xml",
         "run": {
           "serviceId": "bc-content",
