@@ -235,7 +235,12 @@
       },
       {
         "source": "/bidding/advanced/after-partner-opens-1nt-pass",
-        "destination": "/bidding/advanced/responding-1nt-balanced-hands-pass",
+        "destination": "/learn/bidding/responding-1nt-balanced-hands-pass",
+        "type": 301
+      },
+      {
+        "source": "/learn/bidding/after-partner-opens-1nt-pass",
+        "destination": "/learn/bidding/responding-1nt-balanced-hands-pass",
         "type": 301
       },
       {
@@ -770,7 +775,7 @@
       },
       {
         "source": "/bidding/advanced/4tWDTc1AHHRB4HsCIobB",
-        "destination": "/bidding/advanced/after-partner-opens-1nt-pass",
+        "destination": "/learn/bidding/responding-1nt-balanced-hands-pass",
         "type": 301
       },
       {
@@ -1120,7 +1125,7 @@
       },
       {
         "source": "/bidding/advanced/zVE5Qhi9ZVcBlztH1gZ5",
-        "destination": "/bidding/advanced/after-partner-opens-1nt-pass",
+        "destination": "/learn/bidding/responding-1nt-balanced-hands-pass",
         "type": 301
       },
       {
