@@ -241,7 +241,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Opening Bids: Balanced Hands and the 5-Card Major Rule", to: "/beginner/articles/bidding/opening-bids-beginners-balanced-hands", level: F },
           { title: "Opening 1NT: When to Open and When Not to", to: "/beginner/articles/bidding/opening-1nt-beginners-open-not", level: F },
           { title: "1NT with a Six-Card Suit: When It Still Works", to: "/bidding/advanced/1nt-six-card-suit-still", level: A },
-          { title: "Responding to 1NT on Balanced Hands: Pass or Invite", to: "/bidding/advanced/responding-1nt-balanced-hands-pass", level: A },
+          { title: "Responding on balanced hands - how much to invite?", to: "/bidding/advanced/responding-1nt-balanced-hands-pass", level: A },
           { title: "Responder's First Bid: Raise, New Suit, or No-Trump", to: "/beginner/articles/bidding/responders-first-bid-beginners-raise-2", level: F },
           { title: "Opener's Rebid: Introduction — What to Do With a Balanced Hand", to: "/beginner/articles/bidding/openers-rebid-beginners-choosing-suit", level: F },
           { title: "Opener's Rebid: Just Bid Your Suits", to: "/beginner/articles/bidding/openers-rebid-just-bid-your-suits", level: F },
