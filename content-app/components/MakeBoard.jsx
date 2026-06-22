@@ -40,17 +40,47 @@ function Hand({ pos, hand }) {
   );
 }
 
+// Parse one call token (e.g. "1♠", "3N", "X", "XX", "P", "*2♣", "_").
+function parseCall(raw) {
+  if (!raw || raw === "_") return { empty: true };
+  let art = false;
+  let s = raw;
+  if (s[0] === "*") { art = true; s = s.slice(1); } // artificial-bid marker
+  const upper = s.toUpperCase();
+  if (upper === "P" || upper === "PASS") return { kind: "pass", art };
+  if (upper === "X" || upper === "DBL") return { kind: "call", text: "X", art };
+  if (upper === "XX" || upper === "RDBL") return { kind: "call", text: "XX", art };
+  const number = s[0];
+  let suit = s.slice(1);
+  if (suit && suit[0].toUpperCase() === "N") return { kind: "nt", number, art };
+  return { kind: "suit", number, suit, art };
+}
+
+const SUIT_CLASS = { "♥": "red-suit", "♦": "red-suit", "♣": "bc-club", "♠": "black-suit" };
+
+function Call({ raw }) {
+  const c = parseCall(raw);
+  if (c.empty) return <span className="bc-call bc-call--empty" aria-hidden="true" />;
+  let inner;
+  if (c.kind === "pass") inner = <span className="bc-call-pass">Pass</span>;
+  else if (c.kind === "call") inner = <span className="bc-call-dbl">{c.text}</span>;
+  else if (c.kind === "nt") inner = <>{c.number}<span className="bc-call-nt">NT</span></>;
+  else inner = <>{c.number}<span className={SUIT_CLASS[c.suit] || "black-suit"}>{c.suit}</span></>;
+  return <span className={`bc-call${c.art ? " bc-call--art" : ""}`}>{inner}</span>;
+}
+
 function Auction({ bidding }) {
-  const calls = String(bidding || "").split(/[\s,]+/).filter(Boolean);
+  const calls = String(bidding || "").split("/").map((s) => s.trim()).filter((s) => s !== "");
   if (!calls.length) return null;
   return (
     <div className="bc-auction" aria-label="Auction">
-      <div className="bc-auction-row bc-auction-head">
-        <span>W</span><span>N</span><span>E</span><span>S</span>
-      </div>
-      <div className="bc-auction-calls">
+      <div className="bc-auction-grid">
+        <span className="bc-auction-h">W</span>
+        <span className="bc-auction-h">N</span>
+        <span className="bc-auction-h">E</span>
+        <span className="bc-auction-h">S</span>
         {calls.map((c, i) => (
-          <span key={i} className="bc-call">{c}</span>
+          <Call key={i} raw={c} />
         ))}
       </div>
     </div>
