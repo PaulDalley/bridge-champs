@@ -749,6 +749,17 @@ const DisplayCategoryArticle = ({
   // console.log(articleMetadata?.articleNumber);
   // console.log(articleMetadata?.difficulty);
 
+  // Non-admin readers of a migrated article are bounced (full load) to the
+  // /learn page by the effect above. Render nothing instead of flashing the old
+  // CRA article layout for a frame before that redirect fires.
+  const willBounce =
+    a !== true &&
+    typeof window !== "undefined" &&
+    !/[?&]stay=1/.test(window.location.search) &&
+    !!ARTICLE_TYPE_TO_LEARN_CATEGORY[articleType] &&
+    !!articleId;
+  if (willBounce) return null;
+
   if (!article) {
     return (
       <div className="DisplayArticle-container">
