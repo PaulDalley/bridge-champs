@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getArticle, listAllArticles, categoryLabel } from "../../../../lib/articles";
 import { renderBody } from "../../../../lib/renderBody";
-import { getTopic, getTopicForSlug } from "../../../../lib/topicHubs";
+import { getTopic, getTopicForSlug, getCategory } from "../../../../lib/topicHubs";
 import TopicHub from "../../../../components/TopicHub";
 
 export const revalidate = 3600; // ISR: refresh hourly; on-demand revalidate on publish
@@ -56,28 +56,23 @@ export default async function ArticleOrTopicPage({ params }) {
   // Topic hub (e.g. /learn/bidding/conventions)
   const topic = getTopic(params.category, params.slug);
   if (topic) {
+    const cat = getCategory(params.category);
     const slugToNew = await slugToNewMap();
     const url = `${BASE}/learn/${params.category}/${params.slug}`;
     const breadcrumbLd = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${BASE}/` },
-        { "@type": "ListItem", position: 2, name: "Learn", item: `${BASE}/learn` },
-        { "@type": "ListItem", position: 3, name: categoryLabel(params.category), item: `${BASE}/learn/${params.category}` },
-        { "@type": "ListItem", position: 4, name: topic.name, item: url },
+        { "@type": "ListItem", position: 1, name: "Learn", item: `${BASE}/learn` },
+        { "@type": "ListItem", position: 2, name: cat.label, item: `${BASE}/learn` },
+        { "@type": "ListItem", position: 3, name: topic.name, item: url },
       ],
     };
     return (
-      <main className="bc-main">
-        <nav className="bc-breadcrumb" aria-label="Breadcrumb">
-          <a href="/learn">Learn</a> {" / "}
-          <a href={`/learn/${params.category}`}>{categoryLabel(params.category)}</a> {" / "}
-          <span aria-current="page">{topic.name}</span>
-        </nav>
-        <TopicHub topic={topic} slugToNew={slugToNew} />
+      <>
+        <TopicHub cat={cat} topic={topic} slugToNew={slugToNew} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      </main>
+      </>
     );
   }
 

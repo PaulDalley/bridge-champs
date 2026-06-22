@@ -1,66 +1,128 @@
-// Renders a topic hub (e.g. /learn/bidding/conventions): the user's topic intro
-// (verbatim) + curated article links remapped to their new /learn/<cat>/<slug> URLs.
-// Topic data + intros are the user's content (lib/topicHubs.js, copied verbatim).
+import { TRAINER_PATH } from "../lib/topicHubs";
 
-function formatIntro(intro) {
-  const blocks = String(intro || "").trim().split(/\n\s*\n/);
-  return blocks.map((blk, i) => {
-    const lines = blk.split(/\n/).map((l) => l.trim()).filter(Boolean);
-    if (!lines.length) return null;
-    if (lines.every((l) => l.startsWith("* "))) {
-      return (
-        <ul key={i}>
-          {lines.map((l, j) => (
-            <li key={j}>{l.slice(2)}</li>
-          ))}
-        </ul>
-      );
-    }
-    if (lines.every((l) => /^\d+\.\s/.test(l))) {
-      return (
-        <ol key={i}>
-          {lines.map((l, j) => (
-            <li key={j}>{l.replace(/^\d+\.\s/, "")}</li>
-          ))}
-        </ol>
-      );
-    }
-    return <p key={i}>{blk.replace(/\n/g, " ")}</p>;
+// Render a topic intro string into paragraphs + lists (author's words; layout only).
+function renderIntro(intro) {
+  if (!intro || !intro.trim()) return null;
+  const nodes = [];
+  let para = [], bullets = [], numbers = [];
+  const flushPara = () => { if (para.length) { nodes.push(<p key={`p${nodes.length}`} className="th-intro">{para.join(" ")}</p>); para = []; } };
+  const flushBullets = () => { if (bullets.length) { nodes.push(<ul key={`u${nodes.length}`} className="th-introList">{bullets.map((b, i) => <li key={i}>{b}</li>)}</ul>); bullets = []; } };
+  const flushNumbers = () => { if (numbers.length) { nodes.push(<ol key={`o${nodes.length}`} className="th-introList">{numbers.map((b, i) => <li key={i}>{b}</li>)}</ol>); numbers = []; } };
+  intro.replace(/\r/g, "").split("\n").forEach((raw) => {
+    const line = raw.trim();
+    if (!line) { flushPara(); flushBullets(); flushNumbers(); return; }
+    const ub = line.match(/^[*-]\s*(.*)$/);
+    const ob = line.match(/^\d+[.)]\s+(.*)$/);
+    if (ub) { flushPara(); flushNumbers(); bullets.push(ub[1]); }
+    else if (ob) { flushPara(); flushBullets(); numbers.push(ob[1]); }
+    else { flushBullets(); flushNumbers(); para.push(line); }
   });
+  flushPara(); flushBullets(); flushNumbers();
+  return nodes.length ? nodes : null;
 }
 
-export default function TopicHub({ topic, slugToNew }) {
-  const hrefFor = (a) => {
-    const slug = String(a.to || "").split("/").filter(Boolean).pop();
-    return slugToNew[slug] || a.to; // new URL when the article is live; else its old URL
-  };
-  const List = ({ articles }) => (
-    <ul className="bc-cat-list">
-      {(articles || []).map((a, i) => (
-        <li key={i}>
-          <a href={hrefFor(a)}>{a.title}</a>
-          {a.level ? <span className="bc-level"> · {a.level}</span> : null}
-        </li>
-      ))}
-    </ul>
+const lastSeg = (p) => String(p || "").split("/").filter(Boolean).pop();
+
+function PathSteps({ list, hrefFor }) {
+  return (
+    <ol className="th-path">
+      {list.map((a, i) => {
+        const last = i === list.length - 1;
+        return (
+          <li className="th-step" key={a.to + i}>
+            <div className="th-rail">
+              <span className="th-node">{i + 1}</span>
+              {!last && <span className="th-railLine" />}
+            </div>
+            <a className="th-articleCard" href={hrefFor(a)}>
+              <span className="th-articleTitle">{a.title}</span>
+              {a.level ? <span className={`th-level th-level--${a.level}`}>{a.level}</span> : null}
+            </a>
+          </li>
+        );
+      })}
+    </ol>
   );
+}
+
+export default function TopicHub({ cat, topic, slugToNew }) {
+  const articles = topic.articles || [];
+  const siblings = (cat.topics || []).filter((x) => x.slug !== topic.slug);
+  const hrefFor = (a) => slugToNew[lastSeg(a.to)] || a.to; // remap to new /learn URL
+  const intro = renderIntro(topic.intro);
 
   return (
-    <>
-      <h1 className="bc-hub-title">{topic.name}</h1>
-      {topic.intro ? (
-        <div className="bc-prose bc-topic-intro">{formatIntro(topic.intro)}</div>
-      ) : null}
-      {Array.isArray(topic.groups) ? (
-        topic.groups.map((g, i) => (
-          <section key={i} className="bc-topic-group">
-            <h2>{g.heading}</h2>
-            <List articles={g.articles} />
-          </section>
-        ))
-      ) : (
-        <List articles={topic.articles} />
+    <div className={`th-page th-page--${cat.key}`}>
+      <nav className="th-breadcrumb" aria-label="Breadcrumb">
+        <a href="/learn">Learn</a>
+        <span className="sep" aria-hidden="true">&rsaquo;</span>
+        <a href="/learn">{cat.label}</a>
+        <span className="sep" aria-hidden="true">&rsaquo;</span>
+        <span>{topic.name}</span>
+      </nav>
+
+      <div className="th-headRow">
+        <div>
+          <h1 className="th-title">{topic.name}</h1>
+          <div className="th-titleSuits">
+            <span className="th-suits" aria-hidden="true">
+              <span className="s">&spades;</span><span className="h">&hearts;</span><span className="d">&diams;</span><span className="c">&clubs;</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {intro ? <div className="th-introBox">{intro}</div> : null}
+
+      {articles.length > 0 && (
+        <a className="th-cta" href={topic.trainerHref || TRAINER_PATH[cat.key] || "/"}>
+          <div>
+            <div className="th-ctaText">Practise {topic.name.toLowerCase()} in the trainer</div>
+            <div className="th-ctaSub">Interactive practice hands</div>
+          </div>
+          <span className="th-ctaArrow" aria-hidden="true">&rarr;</span>
+        </a>
       )}
-    </>
+      {articles.length > 0 && topic.treadmillHref && (
+        <a className="th-cta th-cta--treadmill" href={topic.treadmillHref}>
+          <div>
+            <div className="th-ctaText">Practise {topic.name.toLowerCase()} on the treadmill</div>
+            <div className="th-ctaSub">Treadmill trainer</div>
+          </div>
+          <span className="th-ctaArrow" aria-hidden="true">&rarr;</span>
+        </a>
+      )}
+
+      {articles.length > 0 ? (
+        topic.groups ? (
+          topic.groups.map((g, gi) => (
+            <div className="th-group" key={g.heading + gi}>
+              <div className="th-sectionLabel">{g.heading}</div>
+              <PathSteps list={g.articles || []} hrefFor={hrefFor} />
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="th-sectionLabel">Work through it</div>
+            <PathSteps list={articles} hrefFor={hrefFor} />
+          </>
+        )
+      ) : (
+        <p className="th-empty">Articles coming soon.</p>
+      )}
+
+      {siblings.length > 0 && (
+        <div className="th-siblings">
+          <div className="th-siblingsLabel">More {cat.label.toLowerCase()} topics</div>
+          <div className="th-chips">
+            {siblings.map((s) => (
+              <a key={s.slug} className="th-chip" href={`/learn/${cat.key}/${s.slug}`}>
+                {s.name} &rarr;
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,37 +1,103 @@
-import { CATEGORIES, categoryLabel, listAllArticles } from "../../lib/articles";
+import { listAllArticles } from "../../lib/articles";
+import { CATEGORIES } from "../../lib/topicHubs";
+import LearnSearch from "../../components/LearnSearch";
 
-// Render live from Firestore (build runs without creds, so a static snapshot
-// would show zero lesson counts).
 export const dynamic = "force-dynamic";
 
-const BASE = "https://bridgechampions.com";
+const SITE = "https://bridgechampions.com";
+const CATEGORY_SUIT = { declarer: "♠", defence: "♥", bidding: "♦" };
+const lastSeg = (p) => String(p || "").split("/").filter(Boolean).pop();
 
 export const metadata = {
   title: "Learn Bridge by Topic | Bridge Champions",
-  description:
-    "Bridge lessons on bidding, declarer play, defence, and beginner fundamentals — clear, practical articles to improve your game.",
-  alternates: { canonical: `${BASE}/learn` },
+  description: "Declarer play, defence, and bidding — by topic.",
+  alternates: { canonical: `${SITE}/learn` },
+  openGraph: {
+    type: "website",
+    url: `${SITE}/learn`,
+    title: "Learn Bridge by Topic | Bridge Champions",
+    description: "Declarer play, defence, and bidding — by topic.",
+    siteName: "Bridge Champions",
+  },
 };
 
 export default async function LearnRoot() {
   const arts = await listAllArticles();
-  const counts = arts.reduce((m, a) => ((m[a.category] = (m[a.category] || 0) + 1), m), {});
+  const slugToNew = {};
+  arts.forEach((a) => {
+    slugToNew[a.slug] = `/learn/${a.category}/${a.slug}`;
+  });
+
+  // Flat search index of every allocated article, mapped to its new URL.
+  const seen = new Set();
+  const index = [];
+  CATEGORIES.forEach((c) =>
+    c.topics.forEach((t) =>
+      (t.articles || []).forEach((a) => {
+        const href = slugToNew[lastSeg(a.to)] || a.to;
+        if (!seen.has(href)) {
+          seen.add(href);
+          index.push({ title: a.title, href, catLabel: c.label, topicName: t.name });
+        }
+      })
+    )
+  );
+
+  const learnSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Learn Bridge by Topic",
+    url: `${SITE}/learn`,
+    isPartOf: { "@type": "WebSite", name: "Bridge Champions", url: SITE },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: CATEGORIES.flatMap((c) =>
+        c.topics.map((t) => ({ key: c.key, slug: t.slug, name: `${t.name} — ${c.label}` }))
+      ).map((it, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE}/learn/${it.key}/${it.slug}`,
+        name: it.name,
+      })),
+    },
+  };
+
   return (
-    <main className="bc-main">
-      <nav className="bc-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> {" / "} <span aria-current="page">Learn</span>
-      </nav>
-      <h1 className="bc-hub-title">Learn Bridge by topic</h1>
-      <ul className="bc-hub-grid">
-        {CATEGORIES.map((c) => (
-          <li key={c}>
-            <a href={`/learn/${c}`}>
-              {categoryLabel(c)}
-              {counts[c] ? ` · ${counts[c]} lessons` : ""}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="lh-page">
+      <div className="lh-hero">
+        <h1 className="lh-heroTitle">Learn</h1>
+        <div className="lh-heroSuits">
+          <span className="th-suits" aria-hidden="true">
+            <span className="s">&spades;</span><span className="h">&hearts;</span><span className="d">&diams;</span><span className="c">&clubs;</span>
+          </span>
+        </div>
+        <p className="lh-heroSub">Declarer play, defence, and bidding — by topic.</p>
+        <LearnSearch index={index} />
+      </div>
+
+      {CATEGORIES.map((c) => (
+        <section className={`lh-category lh-category--${c.key}`} key={c.key}>
+          <div className="lh-categoryHead">
+            <span className="lh-categoryBadge" aria-hidden="true">{CATEGORY_SUIT[c.key] || "♠"}</span>
+            <h2 className="lh-categoryTitle">{c.label}</h2>
+            <span className="lh-categoryCount">{c.topics.length} topics</span>
+          </div>
+          <div className="lh-grid">
+            {c.topics.map((t) => {
+              const total = (t.articles || []).length;
+              return (
+                <a className="lh-card" href={`/learn/${c.key}/${t.slug}`} key={t.slug}>
+                  <span className="lh-cardSuit" aria-hidden="true">{CATEGORY_SUIT[c.key] || "♠"}</span>
+                  <h3 className="lh-cardName">{t.name}</h3>
+                  {total === 0 ? <span className="lh-cardSoon">Articles coming soon</span> : null}
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(learnSchema) }} />
+    </div>
   );
 }
