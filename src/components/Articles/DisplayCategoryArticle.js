@@ -100,6 +100,23 @@ const getListPathForArticleType = (type) => {
   return "/learn";
 };
 
+// Post-cutover: article content is served by the Next.js content app at
+// /learn/<category>/<slug>. Map a CRA articleType to that category so a
+// client-side article view can bounce to the live page.
+const ARTICLE_TYPE_TO_LEARN_CATEGORY = {
+  cardPlay: "declarer",
+  cardPlayBasics: "declarer",
+  counting: "declarer",
+  defence: "defence",
+  defenceBasics: "defence",
+  bidding: "bidding",
+  biddingAdvanced: "bidding",
+  biddingBasics: "bidding",
+  beginnerCardPlay: "beginner",
+  beginnerDefence: "beginner",
+  beginnerBidding: "beginner",
+};
+
 const getPracticePathForArticleType = (type) => {
   if (type === "bidding" || type === "biddingAdvanced" || type === "biddingBasics") return "/bidding/practice";
   if (type === "cardPlay" || type === "cardPlayBasics") return "/declarer/practice";
@@ -503,6 +520,20 @@ const DisplayCategoryArticle = ({
   const dispatch = useDispatch();
 
   const articleId = match.params.id;
+
+  // Post-cutover: migrated articles live on the Next.js content app at
+  // /learn/<category>/<slug>. When a reader reaches this CRA component via
+  // client-side navigation from an old in-app link, bounce them (full load) to
+  // the live page so it matches a hard refresh (which 301s at the edge). Admins,
+  // or anyone with ?stay=1, keep the CRA view.
+  useEffect(() => {
+    if (a === true) return;
+    if (typeof window !== "undefined" && /[?&]stay=1/.test(window.location.search)) return;
+    const learnCat = ARTICLE_TYPE_TO_LEARN_CATEGORY[articleType];
+    if (learnCat && articleId) {
+      window.location.replace(`/learn/${learnCat}/${articleId}`);
+    }
+  }, [a, articleType, articleId]);
 
   // Fetch body doc whenever the route articleId changes (prevents stale content when navigating).
   useEffect(() => {
