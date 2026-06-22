@@ -1,0 +1,733 @@
+{
+  "generatedNote": "DRAFT old->new URL map for /learn/<category>/<slug> rebuild. Review before applying 301s.",
+  "totals": {
+    "articles": 102,
+    "byCategory": {
+      "declarer": 18,
+      "defence": 17,
+      "bidding": 40,
+      "beginner": 27
+    }
+  },
+  "collisions": [],
+  "missingSlug": [],
+  "hidden": [
+    "beginnerBidding/Mwk1n0y9LI3j82OALhEq"
+  ],
+  "redirects": [
+    {
+      "from": "/beginner/articles/bidding/bridge-scoring-actually-matters-table",
+      "to": "/learn/beginner/bridge-scoring-actually-matters-table",
+      "type": 301,
+      "category": "beginner",
+      "title": "Bridge Scoring: What Actually Matters at the Table"
+    },
+    {
+      "from": "/beginner/articles/defence/bridge-signals-beginners-attitude-count",
+      "to": "/learn/beginner/bridge-signals-beginners-attitude-count",
+      "type": 301,
+      "category": "beginner",
+      "title": "Bridge Signals: Attitude, Count, and Suit Preference"
+    },
+    {
+      "from": "/beginner/articles/declarer/cash-trumps-without-blocking-keep",
+      "to": "/learn/beginner/cash-trumps-without-blocking-keep",
+      "type": 301,
+      "category": "beginner",
+      "title": "Cash Trumps Without Blocking: Keep Your Winners Running"
+    },
+    {
+      "from": "/beginner/articles/bidding/counting-combined-points-bridge-bid",
+      "to": "/learn/beginner/counting-combined-points-bridge-bid",
+      "type": 301,
+      "category": "beginner",
+      "title": "Counting Combined Points in Bridge: When to Bid Game, Part-Score, or Pass"
+    },
+    {
+      "from": "/beginner/articles/declarer/drawing-trumps-simple-habit-saves",
+      "to": "/learn/beginner/drawing-trumps-simple-habit-saves",
+      "type": 301,
+      "category": "beginner",
+      "title": "Drawing Trumps: A Simple Habit That Saves Tricks"
+    },
+    {
+      "from": "/beginner/articles/declarer/establishing-side-suit-winners-honor",
+      "to": "/learn/beginner/establishing-side-suit-winners-honor",
+      "type": 301,
+      "category": "beginner",
+      "title": "Establishing Side-Suit Winners: Honor Sequences Like KQJ10"
+    },
+    {
+      "from": "/beginner/articles/declarer/finesses-beginners-single-double-leading",
+      "to": "/learn/beginner/finesses-beginners-single-double-leading",
+      "type": 301,
+      "category": "beginner",
+      "title": "Finesses: Single, Double, and Leading Low Toward Honors"
+    },
+    {
+      "from": "/beginner/articles/declarer/hold-up-play-no-trump",
+      "to": "/learn/beginner/hold-up-play-no-trump",
+      "type": 301,
+      "category": "beginner",
+      "title": "Hold Up Play in No-Trump: When to Duck the First Trick"
+    },
+    {
+      "from": "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually",
+      "to": "/learn/beginner/improve-bridge-practical-roadmap-actually",
+      "type": 301,
+      "category": "beginner",
+      "title": "How to improve in bridge: Mentality is everything"
+    },
+    {
+      "from": "/beginner/articles/declarer/no-trump-basics-build-long",
+      "to": "/learn/beginner/no-trump-basics-build-long",
+      "type": 301,
+      "category": "beginner",
+      "title": "No-Trump Basics: Build Your Long Suit and Cash Winners"
+    },
+    {
+      "from": "/beginner/articles/declarer/not-draw-trumps-3-situations",
+      "to": "/learn/beginner/not-draw-trumps-3-situations",
+      "type": 301,
+      "category": "beginner",
+      "title": "When Not to Draw Trumps: 3 Situations to Delay"
+    },
+    {
+      "from": "/beginner/articles/defence/odds-evens-discarding-bridge-should",
+      "to": "/learn/beginner/odds-evens-discarding-bridge-should",
+      "type": 301,
+      "category": "beginner",
+      "title": "Odds and Evens Discarding in Bridge: Should You Play It?"
+    },
+    {
+      "from": "/beginner/articles/bidding/openers-rebid-beginners-choosing-suit",
+      "to": "/learn/beginner/openers-rebid-beginners-choosing-suit",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opener's Rebid: Introduction — What to Do With a Balanced Hand"
+    },
+    {
+      "from": "/beginner/articles/bidding/openers-rebid-just-bid-your-suits",
+      "to": "/learn/beginner/openers-rebid-just-bid-your-suits",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opener's Rebid: Just Bid Your Suits"
+    },
+    {
+      "from": "/beginner/articles/bidding/openers-strong-rebids",
+      "to": "/learn/beginner/openers-strong-rebids",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opener's Rebid: Strong Rebids"
+    },
+    {
+      "from": "/beginner/articles/bidding/opening-1nt-beginners-open-not",
+      "to": "/learn/beginner/opening-1nt-beginners-open-not",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opening 1NT: When to Open and When Not to"
+    },
+    {
+      "from": "/beginner/articles/bidding/opening-bids-beginners-balanced-hands",
+      "to": "/learn/beginner/opening-bids-beginners-balanced-hands",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opening Bids: Balanced Hands and the 5-Card Major Rule"
+    },
+    {
+      "from": "/beginner/articles/defence/opening-leads-beginners-top-sequence",
+      "to": "/learn/beginner/opening-leads-beginners-top-sequence",
+      "type": 301,
+      "category": "beginner",
+      "title": "Opening Leads: Top of a Sequence and Longest Suit in No-Trump"
+    },
+    {
+      "from": "/beginner/articles/bidding/play-contract-bridge-step-step",
+      "to": "/learn/beginner/play-contract-bridge-step-step",
+      "type": 301,
+      "category": "beginner",
+      "title": "How to Play Contract Bridge: Step-by-Step Guide"
+    },
+    {
+      "from": "/beginner/articles/declarer/playing-long-suits-build-extra",
+      "to": "/learn/beginner/playing-long-suits-build-extra",
+      "type": 301,
+      "category": "beginner",
+      "title": "Playing Long Suits: Build Extra Winners Early"
+    },
+    {
+      "from": "/beginner/articles/bidding/preemptive-raises-bridge-big-trump",
+      "to": "/learn/beginner/preemptive-raises-bridge-big-trump",
+      "type": 301,
+      "category": "beginner",
+      "title": "Preemptive Raises in Bridge: Why Big Trump Fits Beat Big Points"
+    },
+    {
+      "from": "/beginner/articles/bidding/responders-first-bid-beginners-raise-2",
+      "to": "/learn/beginner/responders-first-bid-beginners-raise-2",
+      "type": 301,
+      "category": "beginner",
+      "title": "Responder's First Bid: Raise, New Suit, or No-Trump"
+    },
+    {
+      "from": "/beginner/articles/bidding/responders-rebids-bridge-beginner-guide",
+      "to": "/learn/beginner/responders-rebids-bridge-beginner-guide",
+      "type": 301,
+      "category": "beginner",
+      "title": "Responder Rebids in Bridge: A Practical Guide"
+    },
+    {
+      "from": "/beginner/articles/declarer/ruff-dummy-win-extra-tricks",
+      "to": "/learn/beginner/ruff-dummy-win-extra-tricks",
+      "type": 301,
+      "category": "beginner",
+      "title": "Ruff in Dummy: Win Extra Tricks Cheaply"
+    },
+    {
+      "from": "/beginner/articles/defence/second-hand-low-beginners-default",
+      "to": "/learn/beginner/second-hand-low-beginners-default",
+      "type": 301,
+      "category": "beginner",
+      "title": "Second Hand Low: Improving Your Defensive Fundamentals"
+    },
+    {
+      "from": "/beginner/articles/defence/suit-switch-play-towards-weakness",
+      "to": "/learn/beginner/suit-switch-play-towards-weakness",
+      "type": 301,
+      "category": "beginner",
+      "title": "What suit to switch to: Play Towards Weakness or Through Strength"
+    },
+    {
+      "from": "/beginner/articles/defence/third-hand-high-beginners-play",
+      "to": "/learn/beginner/third-hand-high-beginners-play",
+      "type": 301,
+      "category": "beginner",
+      "title": "Third Hand High: When to Play Your Best Card"
+    },
+    {
+      "from": "/bidding/advanced/1nt-responder-methods-practical-overview",
+      "to": "/learn/bidding/1nt-responder-methods-practical-overview",
+      "type": 301,
+      "category": "bidding",
+      "title": "1 level responses and negative doubles"
+    },
+    {
+      "from": "/bidding/advanced/1nt-six-card-suit-still",
+      "to": "/learn/bidding/1nt-six-card-suit-still",
+      "type": 301,
+      "category": "bidding",
+      "title": "1NT with a Six-Card Suit: When It Still Works"
+    },
+    {
+      "from": "/bidding/advanced/1nt-transfers-stayman-use-each",
+      "to": "/learn/bidding/1nt-transfers-stayman-use-each",
+      "type": 301,
+      "category": "bidding",
+      "title": "1NT Transfers vs Stayman: When to Use Each"
+    },
+    {
+      "from": "/bidding/advanced/5nt-pick-slam-practical-partnership",
+      "to": "/learn/bidding/5nt-pick-slam-practical-partnership",
+      "type": 301,
+      "category": "bidding",
+      "title": "5NT Pick a Slam: Practical Partnership Agreements"
+    },
+    {
+      "from": "/bidding/advanced/best-slam-bidding-conventions",
+      "to": "/learn/bidding/best-slam-bidding-conventions",
+      "type": 301,
+      "category": "bidding",
+      "title": "Best slam bidding conventions"
+    },
+    {
+      "from": "/bidding/advanced/bid-third-suit-naturally-keep",
+      "to": "/learn/bidding/bid-third-suit-naturally-keep",
+      "type": 301,
+      "category": "bidding",
+      "title": "Bid Your Third Suit Naturally: Keep the Auction Clear"
+    },
+    {
+      "from": "/bidding/advanced/bidding-basics-build-clear-auction",
+      "to": "/learn/bidding/bidding-basics-build-clear-auction",
+      "type": 301,
+      "category": "bidding",
+      "title": "Bidding Basics: Build a Clear Auction Plan"
+    },
+    {
+      "from": "/bidding/advanced/find-major-fit-after-1nt",
+      "to": "/learn/bidding/find-major-fit-after-1nt",
+      "type": 301,
+      "category": "bidding",
+      "title": "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas"
+    },
+    {
+      "from": "/bidding/advanced/four-level-doubles-do-next",
+      "to": "/learn/bidding/four-level-doubles-do-next",
+      "type": 301,
+      "category": "bidding",
+      "title": "Four-Level Doubles: What to Do Next"
+    },
+    {
+      "from": "/bidding/advanced/fourth-suit-forcing-checkback-core",
+      "to": "/learn/bidding/fourth-suit-forcing-checkback-core",
+      "type": 301,
+      "category": "bidding",
+      "title": "Fourth suit Forcing: Introduction"
+    },
+    {
+      "from": "/bidding/advanced/hand-evaluation-1-card-texture",
+      "to": "/learn/bidding/hand-evaluation-1-card-texture",
+      "type": 301,
+      "category": "bidding",
+      "title": "Hand Evaluation 1: Card Texture Matters"
+    },
+    {
+      "from": "/bidding/advanced/hand-evaluation-2-re-evaluate",
+      "to": "/learn/bidding/hand-evaluation-2-re-evaluate",
+      "type": 301,
+      "category": "bidding",
+      "title": "Hand Evaluation 2: Re-Evaluate as the Auction Develops"
+    },
+    {
+      "from": "/bidding/advanced/hand-evaluation-3-do-more",
+      "to": "/learn/bidding/hand-evaluation-3-do-more",
+      "type": 301,
+      "category": "bidding",
+      "title": "Hand Evaluation 3: Do More with a Good Suit"
+    },
+    {
+      "from": "/bidding/advanced/hand-evaluation-4-do-less",
+      "to": "/learn/bidding/hand-evaluation-4-do-less",
+      "type": 301,
+      "category": "bidding",
+      "title": "Hand Evaluation 4: Do Less with a Weak Trump Suit"
+    },
+    {
+      "from": "/bidding/advanced/jacoby-2nt",
+      "to": "/learn/bidding/jacoby-2nt",
+      "type": 301,
+      "category": "bidding",
+      "title": "Worthwhile Conventions #1 — Jacoby 2NT"
+    },
+    {
+      "from": "/bidding/advanced/just-bid-3nt-recognize-right",
+      "to": "/learn/bidding/just-bid-3nt-recognize-right",
+      "type": 301,
+      "category": "bidding",
+      "title": "Just Bid 3NT: Recognize the Right Auctions"
+    },
+    {
+      "from": "/bidding/advanced/kiss-1-do-not-double",
+      "to": "/learn/bidding/kiss-1-do-not-double",
+      "type": 301,
+      "category": "bidding",
+      "title": "KISS 1: Do Not Double Automatically"
+    },
+    {
+      "from": "/bidding/advanced/kiss-2-consider-passing-more",
+      "to": "/learn/bidding/kiss-2-consider-passing-more",
+      "type": 301,
+      "category": "bidding",
+      "title": "KISS 2: Consider Passing More Often"
+    },
+    {
+      "from": "/bidding/advanced/kiss-3-support-partner-priority",
+      "to": "/learn/bidding/kiss-3-support-partner-priority",
+      "type": 301,
+      "category": "bidding",
+      "title": "KISS 3: Support Partner as a Priority"
+    },
+    {
+      "from": "/bidding/advanced/kiss-4-do-not-save",
+      "to": "/learn/bidding/kiss-4-do-not-save",
+      "type": 301,
+      "category": "bidding",
+      "title": "KISS 4: Do Not Sacrifice by Default"
+    },
+    {
+      "from": "/bidding/advanced/landy-and-multi-landy",
+      "to": "/learn/bidding/landy-and-multi-landy",
+      "type": 301,
+      "category": "bidding",
+      "title": "Landy and Multi Landy"
+    },
+    {
+      "from": "/bidding/advanced/lebensohl-compete-smart-without-guessing",
+      "to": "/learn/bidding/lebensohl-compete-smart-without-guessing",
+      "type": 301,
+      "category": "bidding",
+      "title": "Lebensohl"
+    },
+    {
+      "from": "/bidding/advanced/loser-count-bidding-judge-contracts",
+      "to": "/learn/bidding/loser-count-bidding-judge-contracts",
+      "type": 301,
+      "category": "bidding",
+      "title": "Loser Count for Bidding: Judge Contracts Better"
+    },
+    {
+      "from": "/bidding/advanced/misfit-auctions-put-brakes-early",
+      "to": "/learn/bidding/misfit-auctions-put-brakes-early",
+      "type": 301,
+      "category": "bidding",
+      "title": "Misfit Auctions: Put the Brakes On Early"
+    },
+    {
+      "from": "/bidding/advanced/opening-2c-avoid-whenever-possible",
+      "to": "/learn/bidding/opening-2c-avoid-whenever-possible",
+      "type": 301,
+      "category": "bidding",
+      "title": "2C opening - Try not to bid it"
+    },
+    {
+      "from": "/bidding/advanced/preempting-first-seat-bold",
+      "to": "/learn/bidding/preempting-first-seat-bold",
+      "type": 301,
+      "category": "bidding",
+      "title": "Preempting in First Seat: When to Be Bold"
+    },
+    {
+      "from": "/bidding/advanced/preempting-vulnerability-risk-reward-across",
+      "to": "/learn/bidding/preempting-vulnerability-risk-reward-across",
+      "type": 301,
+      "category": "bidding",
+      "title": "Preempting by Vulnerability: Risk and Reward Across the Colours"
+    },
+    {
+      "from": "/bidding/advanced/puppet-stayman-check-5-card",
+      "to": "/learn/bidding/puppet-stayman-check-5-card",
+      "type": 301,
+      "category": "bidding",
+      "title": "Puppet Stayman: How to Check for 5-Card Majors"
+    },
+    {
+      "from": "/bidding/advanced/responding-1nt-balanced-hands-pass",
+      "to": "/learn/bidding/responding-1nt-balanced-hands-pass",
+      "type": 301,
+      "category": "bidding",
+      "title": "Responding to 1NT on Balanced Hands: Pass or Invite"
+    },
+    {
+      "from": "/bidding/advanced/reverses",
+      "to": "/learn/bidding/reverses",
+      "type": 301,
+      "category": "bidding",
+      "title": "Reverse bids in Bridge"
+    },
+    {
+      "from": "/bidding/advanced/second-suit-competition-compete-purpose",
+      "to": "/learn/bidding/second-suit-competition-compete-purpose",
+      "type": 301,
+      "category": "bidding",
+      "title": "Second Suit in Competition: Compete with Purpose"
+    },
+    {
+      "from": "/bidding/advanced/should-invite-11-practical-guide",
+      "to": "/learn/bidding/should-invite-11-practical-guide",
+      "type": 301,
+      "category": "bidding",
+      "title": "Should You Invite with 11? Practical Guide"
+    },
+    {
+      "from": "/bidding/advanced/smolen-convention-show-5-4",
+      "to": "/learn/bidding/smolen-convention-show-5-4",
+      "type": 301,
+      "category": "bidding",
+      "title": "Smolen Convention: Show 5-4 Majors After Stayman"
+    },
+    {
+      "from": "/bidding/advanced/system-over-1nt-conventions",
+      "to": "/learn/bidding/system-over-1nt-conventions",
+      "type": 301,
+      "category": "bidding",
+      "title": "System Over 1NT: Transfer Responses and Conventions"
+    },
+    {
+      "from": "/bidding/advanced/takeout-doubles-bridge-complete-guide",
+      "to": "/learn/bidding/takeout-doubles-bridge-complete-guide",
+      "type": 301,
+      "category": "bidding",
+      "title": "Takeout Doubles in Bridge: The Complete Guide"
+    },
+    {
+      "from": "/bidding/advanced/texas-transfers-transfer-directly-game",
+      "to": "/learn/bidding/texas-transfers-transfer-directly-game",
+      "type": 301,
+      "category": "bidding",
+      "title": "Texas Transfers: Transfer Directly to Game"
+    },
+    {
+      "from": "/bidding/advanced/third-seat-openings-practical-aggression",
+      "to": "/learn/bidding/third-seat-openings-practical-aggression",
+      "type": 301,
+      "category": "bidding",
+      "title": "Third Seat Openings: Practical Aggression"
+    },
+    {
+      "from": "/bidding/advanced/vulnerable-auctions-too-careful-can",
+      "to": "/learn/bidding/vulnerable-auctions-too-careful-can",
+      "type": 301,
+      "category": "bidding",
+      "title": "Vulnerable Auctions: Why Too Careful Can Be Costly"
+    },
+    {
+      "from": "/bidding/advanced/weak-stayman-know-helps",
+      "to": "/learn/bidding/weak-stayman-know-helps",
+      "type": 301,
+      "category": "bidding",
+      "title": "Weak Stayman: Know When It Helps"
+    },
+    {
+      "from": "/bidding/advanced/what-is-a-convention-best-to-play",
+      "to": "/learn/bidding/what-is-a-convention-best-to-play",
+      "type": 301,
+      "category": "bidding",
+      "title": "What is a convention, and what conventions are the best to play?"
+    },
+    {
+      "from": "/declarer/articles/bridge-shapes-fundamentals-read-distribution",
+      "to": "/learn/declarer/bridge-shapes-fundamentals-read-distribution",
+      "type": 301,
+      "category": "declarer",
+      "title": "Bridge Shapes Fundamentals: Read Distribution Quickly"
+    },
+    {
+      "from": "/declarer/articles/cash-side-suit-winners-trumps",
+      "to": "/learn/declarer/cash-side-suit-winners-trumps",
+      "type": 301,
+      "category": "declarer",
+      "title": "Cash Side-Suit Winners: Before drawing trumps"
+    },
+    {
+      "from": "/declarer/articles/count-winners-no-trump-build",
+      "to": "/learn/declarer/count-winners-no-trump-build",
+      "type": 301,
+      "category": "declarer",
+      "title": "Count Winners in No-Trump: Build a Trick Plan"
+    },
+    {
+      "from": "/declarer/articles/count-winners-trumps-avoid-missed",
+      "to": "/learn/declarer/count-winners-trumps-avoid-missed",
+      "type": 301,
+      "category": "declarer",
+      "title": "Count Winners in Trumps: Avoid Missed Tricks and Read the Trump Layout"
+    },
+    {
+      "from": "/declarer/articles/counting-losers-plan-hand-spot",
+      "to": "/learn/declarer/counting-losers-plan-hand-spot",
+      "type": 301,
+      "category": "declarer",
+      "title": "Counting Losers: Plan the Hand and Spot Hidden Dangers Early"
+    },
+    {
+      "from": "/declarer/articles/declarer-play-basics-build-plan",
+      "to": "/learn/declarer/declarer-play-basics-build-plan",
+      "type": 301,
+      "category": "declarer",
+      "title": "Declarer Play Basics: Build a Plan at Trick One"
+    },
+    {
+      "from": "/declarer/articles/drawing-trumps-make-right-plan",
+      "to": "/learn/declarer/drawing-trumps-make-right-plan",
+      "type": 301,
+      "category": "declarer",
+      "title": "Drawing Trumps: Make the Right Plan and Avoid Autopilot"
+    },
+    {
+      "from": "/declarer/articles/duck-preserve-communication-set-up",
+      "to": "/learn/declarer/duck-preserve-communication-set-up",
+      "type": 301,
+      "category": "declarer",
+      "title": "Duck to Preserve Communication: Set Up Your Long Suit"
+    },
+    {
+      "from": "/declarer/articles/have-backup-plan-recover-plan",
+      "to": "/learn/declarer/have-backup-plan-recover-plan",
+      "type": 301,
+      "category": "declarer",
+      "title": "Have a Backup Plan: Recover When Plan A Fails"
+    },
+    {
+      "from": "/declarer/articles/pattern-recognition-1-ruffing-strategy",
+      "to": "/learn/declarer/pattern-recognition-1-ruffing-strategy",
+      "type": 301,
+      "category": "declarer",
+      "title": "Pattern Recognition 1: Ruffing Strategy in Dummy"
+    },
+    {
+      "from": "/declarer/articles/pattern-recognition-2-set-up",
+      "to": "/learn/declarer/pattern-recognition-2-set-up",
+      "type": 301,
+      "category": "declarer",
+      "title": "Pattern Recognition 2: Set Up Side Suits"
+    },
+    {
+      "from": "/declarer/articles/pattern-recognition-3-find-build",
+      "to": "/learn/declarer/pattern-recognition-3-find-build",
+      "type": 301,
+      "category": "declarer",
+      "title": "Pattern Recognition 3: Find and Build Trick Sources"
+    },
+    {
+      "from": "/declarer/articles/pattern-recognition-4-avoid-creating",
+      "to": "/learn/declarer/pattern-recognition-4-avoid-creating",
+      "type": 301,
+      "category": "declarer",
+      "title": "Pattern Recognition 4: Avoid Creating Extra Losers"
+    },
+    {
+      "from": "/declarer/articles/practice-hand-1-plan-before",
+      "to": "/learn/declarer/practice-hand-1-plan-before",
+      "type": 301,
+      "category": "declarer",
+      "title": "Practice Hand 1: Plan Before You Play"
+    },
+    {
+      "from": "/declarer/articles/practice-hand-2-timing-entries",
+      "to": "/learn/declarer/practice-hand-2-timing-entries",
+      "type": 301,
+      "category": "declarer",
+      "title": "Practice Hand 2: Timing and Entries Under Pressure"
+    },
+    {
+      "from": "/declarer/articles/take-every-chance-create-extra",
+      "to": "/learn/declarer/take-every-chance-create-extra",
+      "type": 301,
+      "category": "declarer",
+      "title": "Take Every Chance: Create Extra Tricks Before Defence Settles"
+    },
+    {
+      "from": "/declarer/articles/understand-fourth-highest-leads-read",
+      "to": "/learn/declarer/understand-fourth-highest-leads-read",
+      "type": 301,
+      "category": "declarer",
+      "title": "Understand Fourth-Highest Leads: Read the Defensive Picture"
+    },
+    {
+      "from": "/declarer/articles/use-entries-well-reach-right",
+      "to": "/learn/declarer/use-entries-well-reach-right",
+      "type": 301,
+      "category": "declarer",
+      "title": "Use Entries Well: Reach the Right Hand at the Right Time"
+    },
+    {
+      "from": "/defence/articles/count-trumps-defence-prevent-surprise",
+      "to": "/learn/defence/count-trumps-defence-prevent-surprise",
+      "type": 301,
+      "category": "defence",
+      "title": "Count Trumps in Defence: Prevent Surprise Ruffing"
+    },
+    {
+      "from": "/defence/articles/count-unseen-hand-read-distribution",
+      "to": "/learn/defence/count-unseen-hand-read-distribution",
+      "type": 301,
+      "category": "defence",
+      "title": "Count the Unseen Hand: Read Distribution in Defence"
+    },
+    {
+      "from": "/defence/articles/danger-hand-awareness-keep-dangerous",
+      "to": "/learn/defence/danger-hand-awareness-keep-dangerous",
+      "type": 301,
+      "category": "defence",
+      "title": "Danger Hand Awareness: Keep the Dangerous Opponent Off Lead"
+    },
+    {
+      "from": "/defence/articles/defence-basics-build-plan-trick",
+      "to": "/learn/defence/defence-basics-build-plan-trick",
+      "type": 301,
+      "category": "defence",
+      "title": "Defence Basics: Build a Plan at Trick One"
+    },
+    {
+      "from": "/defence/articles/duck-winner-defence-timing-hold",
+      "to": "/learn/defence/duck-winner-defence-timing-hold",
+      "type": 301,
+      "category": "defence",
+      "title": "Duck a Winner in Defence: Timing the Hold Up"
+    },
+    {
+      "from": "/defence/articles/dummy-type-1-limited-entries",
+      "to": "/learn/defence/dummy-type-1-limited-entries",
+      "type": 301,
+      "category": "defence",
+      "title": "Dummy Type 1: Limited Entries and How to Pressure It"
+    },
+    {
+      "from": "/defence/articles/dummy-type-2-strong-trick",
+      "to": "/learn/defence/dummy-type-2-strong-trick",
+      "type": 301,
+      "category": "defence",
+      "title": "Dummy Type 2: Strong Trick Source and How to Disrupt It"
+    },
+    {
+      "from": "/defence/articles/dummy-type-3-ruffing-dummy",
+      "to": "/learn/defence/dummy-type-3-ruffing-dummy",
+      "type": 301,
+      "category": "defence",
+      "title": "Dummy Type 3: Ruffing Dummy and How to Counter It"
+    },
+    {
+      "from": "/defence/articles/dummy-type-4-passive-dummy",
+      "to": "/learn/defence/dummy-type-4-passive-dummy",
+      "type": 301,
+      "category": "defence",
+      "title": "Dummy Type 4: Passive Dummy and Active Defence"
+    },
+    {
+      "from": "/defence/articles/forcing-defence-drain-declarers-trumps",
+      "to": "/learn/defence/forcing-defence-drain-declarers-trumps",
+      "type": 301,
+      "category": "defence",
+      "title": "The Forcing Defence: Drain Declarer's Trumps"
+    },
+    {
+      "from": "/defence/articles/lead-positioning-dummy-right-small",
+      "to": "/learn/defence/lead-positioning-dummy-right-small",
+      "type": 301,
+      "category": "defence",
+      "title": "Lead Positioning: Dummy on Your Right with Small Cards"
+    },
+    {
+      "from": "/defence/articles/playing-through-strength-towards-weakness-advanced",
+      "to": "/learn/defence/playing-through-strength-towards-weakness-advanced",
+      "type": 301,
+      "category": "defence",
+      "title": "Playing through strength and towards weakness: Advanced"
+    },
+    {
+      "from": "/defence/articles/ruffing-defence-turn-shortness-tricks",
+      "to": "/learn/defence/ruffing-defence-turn-shortness-tricks",
+      "type": 301,
+      "category": "defence",
+      "title": "Ruffing in Defence: Turn Shortness into Tricks"
+    },
+    {
+      "from": "/defence/articles/suit-preference-signals-mckenney-lavinthal",
+      "to": "/learn/defence/suit-preference-signals-mckenney-lavinthal",
+      "type": 301,
+      "category": "defence",
+      "title": "Suit preference signals (McKenney, Lavinthal)"
+    },
+    {
+      "from": "/defence/articles/taking-tricks-defence-timing-purpose",
+      "to": "/learn/defence/taking-tricks-defence-timing-purpose",
+      "type": 301,
+      "category": "defence",
+      "title": "Taking Tricks in Defence: Timing and Purpose"
+    },
+    {
+      "from": "/defence/articles/trump-lead-kills-ruffing-plans",
+      "to": "/learn/defence/trump-lead-kills-ruffing-plans",
+      "type": 301,
+      "category": "defence",
+      "title": "The Trump Lead: When It Kills Ruffing Plans"
+    },
+    {
+      "from": "/defence/articles/udca-signals",
+      "to": "/learn/defence/udca-signals",
+      "type": 301,
+      "category": "defence",
+      "title": "UDCA signals"
+    }
+  ]
+}

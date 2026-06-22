@@ -1,0 +1,18 @@
+{
+  "name": "bridgechampions-content",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Next.js (App Router) SEO content layer for bridgechampions.com — /learn/** articles + hubs, server-rendered from Firestore.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
