@@ -318,6 +318,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
           {
             heading: "Slam Bidding",
             articles: [
+              { title: "Blackwood and Roman Key Card Blackwood (RKCB)", to: "/bidding/advanced/blackwood-rkcb", level: A },
               { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
               { title: "Worthwhile Conventions #1 — Jacoby 2NT", to: "/bidding/advanced/jacoby-2nt", level: A },
               { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
