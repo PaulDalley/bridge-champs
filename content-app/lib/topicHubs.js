@@ -195,10 +195,10 @@ Leads during the hand are often about:
 
 Modern partnerships are building a lot of suit preference into their signalling — the play of irrelevant pips can be made to carry rich information. But, as always, keep it simple and don't overdo it, especially at the intermediate stage: one or two signals per hand will be sufficient.`,
         articles: [
-          { title: "Bridge Signals: Attitude, Count, and Suit Preference", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
+          { title: "Bridge Signals and Discards", to: "/beginner/articles/defence/bridge-signals-beginners-attitude-count", level: F },
           { title: "Odds and Evens Discarding in Bridge: Should You Play It?", to: "/beginner/articles/defence/odds-evens-discarding-bridge-should", level: F },
-          { title: "Suit preference signals (McKenney, Lavinthal)", to: "/defence/articles/suit-preference-signals-mckenney-lavinthal", level: A },
-          { title: "UDCA signals", to: "/defence/articles/udca-signals", level: A },
+          { title: "Suit preference signals and discards", to: "/defence/articles/suit-preference-signals-mckenney-lavinthal", level: A },
+          { title: "UDCA signals and discards", to: "/defence/articles/udca-signals", level: A },
         ],
       },
       {
