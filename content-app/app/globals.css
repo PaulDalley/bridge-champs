@@ -33,9 +33,13 @@ a:hover { text-decoration: underline; }
   max-width: 78rem; margin: 0 auto; padding: 1.4rem 1.5rem;
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
 }
-.bc-logo { font-weight: 800; font-size: 2rem; color: var(--bc-green); letter-spacing: -0.01em; }
-.bc-nav a { margin-left: 1.8rem; font-weight: 600; font-size: 1.55rem; color: var(--bc-ink); }
+.bc-logo { display: inline-flex; align-items: center; gap: 0.7rem; font-weight: 800; font-size: 2rem; color: var(--bc-green); letter-spacing: -0.01em; }
+.bc-suits { font-size: 1.4rem; letter-spacing: 0.04em; }
+.green-suit { color: #2e7d32; }
+.bc-nav { display: inline-flex; align-items: center; }
+.bc-nav a { margin-left: 1.8rem; font-weight: 600; font-size: 1.55rem; color: var(--bc-ink); text-decoration: none; padding-bottom: 3px; border-bottom: 2px solid transparent; }
 .bc-nav a:hover { color: var(--bc-green); }
+.bc-nav a.bc-active { color: var(--bc-green); border-bottom-color: var(--bc-green); }
 .bc-footer { border-top: 1px solid var(--bc-line); margin-top: 4rem; background: var(--bc-card); }
 .bc-footer-inner { color: var(--bc-muted); font-size: 1.45rem; }
 

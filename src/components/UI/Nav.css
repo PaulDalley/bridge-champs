@@ -1,3 +1,45 @@
+/* ===== Polished-minimal nav — matches content-app/app/layout.jsx header ===== */
+header.bcnav { background: #fff; border-bottom: 1px solid #e5e7eb; box-shadow: none; position: relative; z-index: 20; }
+.bcnav-inner {
+  max-width: 1180px; margin: 0 auto; padding: 13px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.bcnav-logo {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-weight: 800; font-size: 20px; color: #0f4c3a !important;
+  letter-spacing: -0.01em; text-decoration: none; cursor: pointer; white-space: nowrap;
+}
+.bcnav-logo:hover { text-decoration: none; }
+.bcnav-suits { font-size: 14px; letter-spacing: 0.04em; }
+.bcnav-s-red { color: #c0392b; }
+.bcnav-s-spade { color: #1f2937; }
+.bcnav-s-club { color: #2e7d32; }
+.bcnav-links { display: flex; align-items: center; flex-wrap: wrap; }
+.bcnav-links > a:not(.bcnav-acct) {
+  margin-left: 22px; font-weight: 600; font-size: 15px; color: #1f2937 !important;
+  text-decoration: none; cursor: pointer; line-height: 1.4; white-space: nowrap;
+  padding-bottom: 3px; border-bottom: 2px solid transparent;
+}
+.bcnav-links > a:not(.bcnav-acct):hover { color: #0f4c3a !important; text-decoration: none; }
+.bcnav-active { color: #0f4c3a !important; border-bottom-color: #0f4c3a !important; }
+.bcnav-divider { width: 1px; height: 18px; background: #e5e7eb; margin-left: 22px; align-self: center; }
+.bcnav-acct {
+  margin-left: 22px; font-weight: 500; font-size: 14px; color: #64748b !important;
+  text-decoration: none; cursor: pointer; line-height: 1.4; white-space: nowrap;
+  padding: 0 0 3px 0; border: none; background: none; box-shadow: none;
+  font-family: inherit; text-transform: none; height: auto; letter-spacing: normal;
+}
+.bcnav-acct:hover { color: #0f4c3a !important; text-decoration: none; background: none; box-shadow: none; }
+.bcnav-acct i { font-size: 13px; margin-right: 4px; }
+.bcnav-acct-primary { color: #0f4c3a !important; font-weight: 600; }
+@media (max-width: 680px) {
+  .bcnav-inner { padding: 10px 14px; gap: 8px; }
+  .bcnav-logo { font-size: 17px; }
+  .bcnav-links > a:not(.bcnav-acct), .bcnav-acct, .bcnav-divider { margin-left: 14px; }
+  .bcnav-links > a:not(.bcnav-acct), .bcnav-acct { font-size: 14px; }
+}
+/* ===== end polished-minimal nav ===== */
+
 .Nav-auth {
     position: absolute;
     right: 0px;

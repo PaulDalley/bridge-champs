@@ -14,10 +14,16 @@ function Header() {
     <header className="bc-header">
       <div className="bc-header-inner">
         <a href="/" className="bc-logo" aria-label="Bridge Champions home">
+          <span className="bc-suits" aria-hidden="true">
+            <span className="black-suit">&spades;</span>
+            <span className="red-suit">&hearts;</span>
+            <span className="red-suit">&diams;</span>
+            <span className="green-suit">&clubs;</span>
+          </span>
           Bridge Champions
         </a>
         <nav className="bc-nav" aria-label="Primary">
-          <a href="/learn">Learn</a>
+          <a href="/learn" className="bc-active">Learn</a>
           <a href="/practice">Practice</a>
           <a href="/just-play">Just Play</a>
         </nav>
