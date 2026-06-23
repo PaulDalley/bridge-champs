@@ -51,8 +51,9 @@ import Flyer from "./components/Promotional/Flyer";
 import AskBridgeQuestionPage from "./components/Questions/AskBridgeQuestionPage";
 import HandSubmissionsAdmin from "./components/Admin/HandSubmissionsAdmin";
 import CountingTrumpsTrainer from "./components/Counting/CountingTrumpsTrainer";
-import LearnHub from "./components/Learn/LearnHub";
-import TopicHub from "./components/Learn/TopicHub";
+// LearnHub/TopicHub (the CRA's own copies of the /learn hub) are retired:
+// /learn is now served solely by the Next.js content app, for a single
+// consistent minimal render + nav. See the /learn route below.
 import DeclarerTrainer from "./components/Declarer/DeclarerTrainer";
 import BiddingTrainer from "./components/Bidding/BiddingTrainer";
 import DefenceTrainer from "./components/Defence/DefenceTrainer";
@@ -313,8 +314,8 @@ const routes = (
         )
       }
     />
-    <Route path="/learn" exact component={LearnHub} />
-    <Route path="/learn/:category/:topic" exact component={TopicHub} />
+    {/* /learn/beginner (bare) still redirects to the CRA beginner hub. Keep it
+        BEFORE the /learn catch-all below so it isn't swallowed by it. */}
     <Route
       path="/learn/beginner"
       exact
@@ -326,6 +327,25 @@ const routes = (
           }}
         />
       )}
+    />
+    {/* /learn is owned entirely by the Next.js content app (one minimal render +
+        one consistent nav). The CRA no longer renders its own LearnHub/TopicHub;
+        any in-app navigation that lands on a /learn URL hands off with a full
+        page load so Firebase serves the content app. (/learn/review and
+        /learn/beginner match earlier in this Switch and stay in the CRA.) */}
+    <Route
+      path="/learn"
+      render={() => {
+        // In production Firebase serves /learn from the content app, so a full
+        // page load hands off to it. In local dev the content app runs as a
+        // separate server, so skip the redirect (it would loop on :3000).
+        if (process.env.NODE_ENV === "production") {
+          window.location.replace(
+            window.location.pathname + window.location.search
+          );
+        }
+        return null;
+      }}
     />
     <Route path="/just-play" exact render={() => <Redirect to="/just-play/practice" />} />
     {/* Hidden dev route: BEN-powered play table. Not linked in nav or sitemap; noindex. */}

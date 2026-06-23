@@ -318,10 +318,12 @@ class Nav extends Component {
                 <div className="Nav-tab-label">Just Play</div>
               </a>
 
+              {/* Full navigation (no SPA intercept): /learn is served by the
+                  content app, so let the browser load it rather than rendering
+                  a CRA copy. */}
               <a
                 className={`Nav-tab-card ${articlesActive ? "Nav-tab-active" : ""}`}
                 href="/learn"
-                onClick={(e) => this.navCardClick(e, "/learn")}
                 aria-label="Learn section"
               >
                 <div className="Nav-tab-icon Nav-tab-icon-articles">
