@@ -308,7 +308,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
               { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
               { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
-              { title: "Garbage stayman: Stayman with weak hands.", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
+              { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
               { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
               { title: "1 level responses and negative doubles", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
