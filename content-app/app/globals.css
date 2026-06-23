@@ -43,6 +43,12 @@ a:hover { text-decoration: underline; }
 .bc-footer { border-top: 1px solid var(--bc-line); margin-top: 4rem; background: var(--bc-card); }
 .bc-footer-inner { color: var(--bc-muted); font-size: 1.45rem; }
 
+@media (max-width: 640px) {
+  .bc-header-inner { flex-direction: column; align-items: center; gap: 0.9rem; }
+  .bc-nav { justify-content: center; }
+  .bc-nav a { margin: 0 0.9rem; }
+}
+
 /* Article detail */
 .bc-main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
 .bc-breadcrumb { font-size: 1.4rem; color: var(--bc-muted); margin-bottom: 1.6rem; }

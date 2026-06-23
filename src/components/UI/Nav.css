@@ -14,29 +14,31 @@ header.bcnav { background: #fff; border-bottom: 1px solid #e5e7eb; box-shadow: n
 .bcnav-s-red { color: #c0392b; }
 .bcnav-s-spade { color: #1f2937; }
 .bcnav-s-club { color: #2e7d32; }
-.bcnav-links { display: flex; align-items: center; flex-wrap: wrap; }
-.bcnav-links > a:not(.bcnav-acct) {
-  margin-left: 22px; font-weight: 600; font-size: 15px; color: #1f2937 !important;
+.bcnav-links { display: flex; align-items: center; gap: 22px; }
+.bcnav-main { display: flex; align-items: center; gap: 22px; }
+.bcnav-acct-wrap { display: flex; align-items: center; gap: 18px; }
+.bcnav-main a {
+  font-weight: 600; font-size: 15px; color: #1f2937 !important;
   text-decoration: none; cursor: pointer; line-height: 1.4; white-space: nowrap;
   padding-bottom: 3px; border-bottom: 2px solid transparent;
 }
-.bcnav-links > a:not(.bcnav-acct):hover { color: #0f4c3a !important; text-decoration: none; }
+.bcnav-main a:hover { color: #0f4c3a !important; text-decoration: none; }
 .bcnav-active { color: #0f4c3a !important; border-bottom-color: #0f4c3a !important; }
-.bcnav-divider { width: 1px; height: 18px; background: #e5e7eb; margin-left: 22px; align-self: center; }
+.bcnav-divider { width: 1px; height: 18px; background: #e5e7eb; flex: none; }
 .bcnav-acct {
-  margin-left: 22px; font-weight: 500; font-size: 14px; color: #64748b !important;
+  font-weight: 500; font-size: 14px; color: #64748b !important;
   text-decoration: none; cursor: pointer; line-height: 1.4; white-space: nowrap;
-  padding: 0 0 3px 0; border: none; background: none; box-shadow: none;
+  padding: 0; border: none; background: none; box-shadow: none;
   font-family: inherit; text-transform: none; height: auto; letter-spacing: normal;
 }
 .bcnav-acct:hover { color: #0f4c3a !important; text-decoration: none; background: none; box-shadow: none; }
 .bcnav-acct i { font-size: 13px; margin-right: 4px; }
 .bcnav-acct-primary { color: #0f4c3a !important; font-weight: 600; }
-@media (max-width: 680px) {
-  .bcnav-inner { padding: 10px 14px; gap: 8px; }
-  .bcnav-logo { font-size: 17px; }
-  .bcnav-links > a:not(.bcnav-acct), .bcnav-acct, .bcnav-divider { margin-left: 14px; }
-  .bcnav-links > a:not(.bcnav-acct), .bcnav-acct { font-size: 14px; }
+@media (max-width: 640px) {
+  .bcnav-inner { flex-direction: column; align-items: center; gap: 9px; padding: 11px 14px; }
+  .bcnav-logo { font-size: 18px; }
+  .bcnav-links { flex-direction: column; gap: 8px; }
+  .bcnav-divider { display: none; }
 }
 /* ===== end polished-minimal nav ===== */
 

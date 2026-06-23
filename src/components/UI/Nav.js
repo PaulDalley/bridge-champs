@@ -8,7 +8,8 @@ import "./Nav.css";
 // Polished-minimal nav, matched to the Next.js content app's header
 // (content-app/app/layout.jsx) so the whole site shares one nav. Normal flow
 // (not fixed), like the content app. "Learn" is a full navigation so it hands
-// off to the content app rather than rendering a CRA copy.
+// off to the content app rather than rendering a CRA copy. The main links and
+// account controls are grouped so they stack into tidy rows on mobile.
 class Nav extends Component {
   logout = () => {
     // Clear post-checkout session data so it can't accidentally re-activate later.
@@ -107,68 +108,71 @@ class Nav extends Component {
           </a>
 
           <div className="bcnav-links" role="navigation" aria-label="Primary">
-            {/* Full navigation: /learn is served by the content app. */}
-            <a href="/learn" className={articlesActive ? "bcnav-active" : ""}>
-              Learn
-            </a>
-            <a
-              href="/practice"
-              onClick={(e) => this.navCardClick(e, "/practice")}
-              className={trainerActive ? "bcnav-active" : ""}
-            >
-              Practice
-            </a>
-            <a
-              href="/just-play"
-              onClick={(e) => this.navCardClick(e, "/just-play")}
-              className={justPlayActive ? "bcnav-active" : ""}
-            >
-              Just Play
-            </a>
+            <div className="bcnav-main">
+              {/* Full navigation: /learn is served by the content app. */}
+              <a href="/learn" className={articlesActive ? "bcnav-active" : ""}>
+                Learn
+              </a>
+              <a
+                href="/practice"
+                onClick={(e) => this.navCardClick(e, "/practice")}
+                className={trainerActive ? "bcnav-active" : ""}
+              >
+                Practice
+              </a>
+              <a
+                href="/just-play"
+                onClick={(e) => this.navCardClick(e, "/just-play")}
+                className={justPlayActive ? "bcnav-active" : ""}
+              >
+                Just Play
+              </a>
+            </div>
 
-            <span className="bcnav-divider" aria-hidden="true" />
-
-            {uid ? (
-              <>
-                <a
-                  href="/settings"
-                  onClick={(e) => this.navCardClick(e, "/settings")}
-                  className="bcnav-acct"
-                >
-                  <i className="fas fa-cog" aria-hidden="true" /> Settings
-                </a>
-                <button
-                  type="button"
-                  className="bcnav-acct bcnav-acct-btn"
-                  onClick={() => this.logout()}
-                >
-                  <i className="fas fa-sign-out-alt" aria-hidden="true" /> Log out
-                </button>
-              </>
-            ) : (
-              <>
-                <a
-                  href="/login"
-                  onClick={(e) => {
-                    // Avoid stale paywall redirects affecting a normal log in.
-                    localStorage.removeItem("contentRedirectId");
-                    localStorage.removeItem("contentRedirectType");
-                    localStorage.removeItem("contentRedirectAt");
-                    this.navCardClick(e, "/login");
-                  }}
-                  className="bcnav-acct"
-                >
-                  Log in
-                </a>
-                <a
-                  href="/signup"
-                  onClick={(e) => this.navCardClick(e, "/signup")}
-                  className="bcnav-acct bcnav-acct-primary"
-                >
-                  Sign up
-                </a>
-              </>
-            )}
+            <div className="bcnav-acct-wrap">
+              <span className="bcnav-divider" aria-hidden="true" />
+              {uid ? (
+                <>
+                  <a
+                    href="/settings"
+                    onClick={(e) => this.navCardClick(e, "/settings")}
+                    className="bcnav-acct"
+                  >
+                    <i className="fas fa-cog" aria-hidden="true" /> Settings
+                  </a>
+                  <button
+                    type="button"
+                    className="bcnav-acct bcnav-acct-btn"
+                    onClick={() => this.logout()}
+                  >
+                    <i className="fas fa-sign-out-alt" aria-hidden="true" /> Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a
+                    href="/login"
+                    onClick={(e) => {
+                      // Avoid stale paywall redirects affecting a normal log in.
+                      localStorage.removeItem("contentRedirectId");
+                      localStorage.removeItem("contentRedirectType");
+                      localStorage.removeItem("contentRedirectAt");
+                      this.navCardClick(e, "/login");
+                    }}
+                    className="bcnav-acct"
+                  >
+                    Log in
+                  </a>
+                  <a
+                    href="/signup"
+                    onClick={(e) => this.navCardClick(e, "/signup")}
+                    className="bcnav-acct bcnav-acct-primary"
+                  >
+                    Sign up
+                  </a>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </header>
