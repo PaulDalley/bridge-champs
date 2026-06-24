@@ -289,12 +289,16 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
         {/* Explanation + auction stay on the play screen, in a bordered card so
             they're readable and not jammed against the edges. */}
         <div className="ph-playInfo">
-          <h3 className="ph-playInfoTitle">{problem.title} Intro</h3>
-          <div className="ph-intro">
-            {problem.intro.map((para, i) => (
-              <p key={i}>{withColoredSuits(para)}</p>
-            ))}
-          </div>
+          {problem.intro && problem.intro.length > 0 && (
+            <>
+              <h3 className="ph-playInfoTitle">{problem.title} Intro</h3>
+              <div className="ph-intro">
+                {problem.intro.map((para, i) => (
+                  <p key={i}>{withColoredSuits(para)}</p>
+                ))}
+              </div>
+            </>
+          )}
           {problem.auction && problem.auction.length > 0 && (
             <AuctionGrid auction={problem.auction} dealer={deal.dealer} />
           )}
