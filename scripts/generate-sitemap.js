@@ -85,11 +85,14 @@ const STATIC_URLS = [
   { loc: "/", changefreq: "daily", priority: "1.0" },
   { loc: "/about", changefreq: "monthly", priority: "0.7" },
   { loc: "/all-articles", changefreq: "weekly", priority: "0.6" },
-  // Topic-hub browse. /learn is the landing; each topic is its own hub page.
-  // (The old category hubs /declarer, /defence, /bidding now 301-redirect to
-  // /learn and are intentionally omitted. /learn/beginner is still a redirect.)
+  // Topic-hub browse. /learn is the landing; /learn/<category> are real category
+  // landing pages served by the content app; each topic is its own hub page.
   // Keep these topic slugs in sync with src/data/topicHubs.js.
   { loc: "/learn", changefreq: "daily", priority: "0.9" },
+  { loc: "/learn/bidding", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/declarer", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/defence", changefreq: "weekly", priority: "0.8" },
+  { loc: "/learn/beginner", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer/trumps", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer/counting", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer/planning", changefreq: "weekly", priority: "0.8" },
