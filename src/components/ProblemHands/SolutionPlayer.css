@@ -3,6 +3,12 @@
   margin: 16px auto;
 }
 
+/* Global solution video sits above the board and stays put across all tricks. */
+.sp-solutionVideo {
+  margin: 0 auto 16px;
+  max-width: 520px;
+}
+
 .sp-board {
   background: #14693f;
   border-radius: 14px;
@@ -30,6 +36,23 @@
 }
 .sp-hand--turn {
   box-shadow: 0 0 0 4px #ffd34d;
+}
+/* Spotlight/focus the hand the learner is declaring from — the amber glow used
+   for the "focus" look in the trainers (CountingTrumpsTrainer .ct-handWrap--spotlight). */
+.sp-hand--focus {
+  position: relative;
+}
+.sp-hand--focus::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 3px solid #f59e0b;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 4px rgba(245, 158, 11, 0.18),
+    0 0 16px rgba(245, 158, 11, 0.35),
+    0 0 28px rgba(245, 158, 11, 0.24);
+  pointer-events: none;
 }
 .sp-handLabel {
   font-weight: 700;

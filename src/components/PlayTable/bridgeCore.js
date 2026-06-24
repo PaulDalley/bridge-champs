@@ -15,6 +15,17 @@ export const SEATS = CLOCKWISE; // ["N","E","S","W"]
 export const SUITS = ["S", "H", "D", "C"];
 export const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
+// Suit display order for a stacked hand: trump on top, then alternating colours.
+// Built by rotating the red-black-red-black wheel so the trump sits first — e.g.
+// hearts -> ["H","S","D","C"], spades -> ["S","D","C","H"]. No trump (NT / unset)
+// keeps the wheel as-is (red-black-red-black).
+const SUIT_WHEEL = ["H", "S", "D", "C"];
+export function suitOrderForTrump(strain) {
+  const i = SUIT_WHEEL.indexOf(strain);
+  if (i < 0) return [...SUIT_WHEEL];
+  return [...SUIT_WHEEL.slice(i), ...SUIT_WHEEL.slice(0, i)];
+}
+
 /** Trick strength: index in this string = strength (A highest). */
 const TRICK_RANK_ORDER = "23456789TJQKA";
 

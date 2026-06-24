@@ -105,9 +105,11 @@ export const PROBLEM_HANDS = [
       vul: "",
     },
     auction: [],
-    contract: null,
-    lead: null,
-    intro: [],
+    contract: { level: 5, strain: "H", declarer: "S", doubled: 0 },
+    lead: { seat: "W", card: { suit: "D", rank: "Q" } },
+    intro: [
+      "After a long and artificial auction where the opponents didn't bid at all, the pair that played this hand ended in 5♥. The hand looks like it might make 6, yet your goal is to safely make 5. What is the best way to try make this contract?",
+    ],
     solution: "(Solution to be added.)",
   },
 ];

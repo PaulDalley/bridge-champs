@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useRef, useCallback } from "react";
 import {
-  SUITS,
   suitSymbol,
   suitColorClass,
   displayRank,
@@ -10,7 +9,9 @@ import {
   trickWinner,
   sameCard,
   nextClockwise,
+  suitOrderForTrump,
 } from "../PlayTable/bridgeCore";
+import PracticeVideoBlock from "../Counting/PracticeVideoBlock";
 import "./SolutionPlayer.css";
 
 const removeCard = (cards, card) => cards.filter((c) => !sameCard(c, card));
@@ -61,9 +62,24 @@ function currentTrick(play, cut) {
   return play.slice(trickIndex * 4, cut);
 }
 
-function activeMessage(messages, cut) {
-  if (!messages) return "";
-  return messages[String(cut)] || "";
+// Which message to show, given how many cards have been revealed (`step`).
+// A message surfaces only once its trick has fully settled (step on a 4-card
+// boundary, or the very end) — never mid-animation — and shows the latest note
+// pinned anywhere within that just-completed trick. So a note typed mid-trick
+// (e.g. right after the opening lead, before trick 1 finishes) appears at the
+// END of that trick instead of flashing by; tricks with no note show blank, so
+// each new message appears from blank and is easy to notice.
+function activeMessage(messages, step, total) {
+  if (!messages || step <= 0) return "";
+  const atTrickEnd = step % 4 === 0 || step === total;
+  if (!atTrickEnd) return "";
+  const trickStart = Math.floor((step - 1) / 4) * 4;
+  let best = "";
+  for (const k of Object.keys(messages)) {
+    const n = Number(k);
+    if (n > trickStart && n <= step) best = messages[k];
+  }
+  return best;
 }
 
 /** Detect inline numbered list patterns (1. ... 2. ...) and return structured data. */
@@ -101,9 +117,12 @@ function formatMessage(text) {
   if (!text || !text.trim()) return null;
   const parsed = parseListText(text);
   if (parsed) {
+    const introParas = parsed.intro ? parsed.intro.split(/\n+/).filter(Boolean) : [];
     return (
       <>
-        {parsed.intro && <p className="sp-msgPara">{parsed.intro}</p>}
+        {introParas.map((p, i) => (
+          <p key={i} className="sp-msgPara">{p}</p>
+        ))}
         <ol className="sp-msgOl">
           {parsed.items.map((item, i) => (
             <li key={i} className="sp-msgLi">{item}</li>
@@ -117,12 +136,16 @@ function formatMessage(text) {
   ));
 }
 
-function HandBox({ seat, label, cards, leftToPlay }) {
+function HandBox({ seat, label, cards, leftToPlay, suits, focus }) {
   return (
-    <div className={`sp-hand sp-hand--${seat} ${leftToPlay ? "sp-hand--turn" : ""}`}>
+    <div
+      className={`sp-hand sp-hand--${seat} ${leftToPlay ? "sp-hand--turn" : ""} ${
+        focus ? "sp-hand--focus" : ""
+      }`}
+    >
       <div className="sp-handLabel">{label}</div>
       <div className="sp-handSuits">
-        {SUITS.map((s) => {
+        {suits.map((s) => {
           const ranks = cards.filter((c) => c.suit === s).map((c) => displayRank(c.rank));
           return (
             <div className="sp-suitLine" key={s}>
@@ -145,7 +168,7 @@ function TrickCard({ seat, card }) {
   );
 }
 
-export default function SolutionPlayer({ problem, play, messages }) {
+export default function SolutionPlayer({ problem, play, messages, videoUrl, isPremium, isAdmin, isBasicMember }) {
   const hands = problem?.deal?.hands;
   const total = play ? play.length : 0;
   const [step, setStep] = useState(0);
@@ -165,7 +188,7 @@ export default function SolutionPlayer({ problem, play, messages }) {
       },
       trick,
       seatToPlay,
-      message: activeMessage(messages, step),
+      message: activeMessage(messages, step, total),
     };
   }, [hands, play, messages, step, total]);
 
@@ -211,24 +234,39 @@ export default function SolutionPlayer({ problem, play, messages }) {
   }
 
   const formatted = formatMessage(view.message);
+  const suitOrder = suitOrderForTrump(problem?.contract?.strain);
+  // Focus (spotlight) the hand the learner is declaring from — South in these
+  // problems. Persistent through the walkthrough so the eye stays on it.
+  const focusSeat = (problem && problem.contract && problem.contract.declarer) || "S";
 
   return (
     <div className="sp-walkthrough">
+      {/* Global solution video — persists across all tricks, premium-gated. */}
+      {(videoUrl || isAdmin) && (
+        <PracticeVideoBlock
+          videoUrl={videoUrl}
+          isPremium={isPremium}
+          isAdmin={isAdmin}
+          isBasicMember={isBasicMember}
+          label="Solution video"
+          className="sp-solutionVideo"
+        />
+      )}
       <div className="sp-board">
         <div className="sp-row sp-row--top">
-          <HandBox seat="N" label="North" cards={view.remaining.N} leftToPlay={view.seatToPlay === "N"} />
+          <HandBox seat="N" label="North" cards={view.remaining.N} leftToPlay={view.seatToPlay === "N"} suits={suitOrder} focus={focusSeat === "N"} />
         </div>
         <div className="sp-row sp-row--mid">
-          <HandBox seat="W" label="West" cards={view.remaining.W} leftToPlay={view.seatToPlay === "W"} />
+          <HandBox seat="W" label="West" cards={view.remaining.W} leftToPlay={view.seatToPlay === "W"} suits={suitOrder} focus={focusSeat === "W"} />
           <div className="sp-trick">
             {view.trick.map((p) => (
               <TrickCard key={`${p.seat}${p.card.suit}${p.card.rank}`} seat={p.seat} card={p.card} />
             ))}
           </div>
-          <HandBox seat="E" label="East" cards={view.remaining.E} leftToPlay={view.seatToPlay === "E"} />
+          <HandBox seat="E" label="East" cards={view.remaining.E} leftToPlay={view.seatToPlay === "E"} suits={suitOrder} focus={focusSeat === "E"} />
         </div>
         <div className="sp-row sp-row--bot">
-          <HandBox seat="S" label="South" cards={view.remaining.S} leftToPlay={view.seatToPlay === "S"} />
+          <HandBox seat="S" label="South" cards={view.remaining.S} leftToPlay={view.seatToPlay === "S"} suits={suitOrder} focus={focusSeat === "S"} />
         </div>
       </div>
 

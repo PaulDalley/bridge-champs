@@ -231,7 +231,16 @@ export async function getClaim(ctx) {
     const result = String(data.result || "");
     return { accepted: /accept/i.test(result), tricks: data.tricks, result, raw: data };
   } catch (err) {
-    return { accepted: false, error: String(err.message || err) };
+    // Engine unreachable (offline). Mirror getBid/getLead/getPlay: fall back to
+    // the offline mock so claiming still works during an outage, instead of being
+    // the one action that hard-fails. Offline claims are accepted on trust (no
+    // double-dummy validation) — same behaviour as when BEN isn't configured.
+    return {
+      accepted: true,
+      tricks: ctx.tricks,
+      result: "Claim accepted (offline — engine unreachable).",
+      source: "mock-fallback",
+    };
   }
 }
 

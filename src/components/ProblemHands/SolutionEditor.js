@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  SUITS,
   suitSymbol,
   suitColorClass,
   displayRank,
@@ -9,6 +8,7 @@ import {
   trickWinner,
   sameCard,
   nextClockwise,
+  suitOrderForTrump,
 } from "../PlayTable/bridgeCore";
 import { loadSolution, saveSolution } from "./solutionStore";
 import "./SolutionPlayer.css";
@@ -43,14 +43,14 @@ function playState(play, hands, strain) {
   return { remaining, seat, ledSuit, legal, trickCards };
 }
 
-function EditorHand({ seat, label, cards, isTurn, legal, onPlay }) {
+function EditorHand({ seat, label, cards, isTurn, legal, onPlay, suits }) {
   return (
     <div className={`sp-hand ${isTurn ? "sp-hand--turn" : ""}`}>
       <div className="sp-handLabel">
         {label}
         {isTurn ? " — to play" : ""}
       </div>
-      {SUITS.map((s) => {
+      {suits.map((s) => {
         const suitCards = cards.filter((c) => c.suit === s);
         return (
           <div className="sp-suitLine" key={s}>
@@ -93,6 +93,7 @@ export default function SolutionEditor({ problem, onDone }) {
   const lead = problem.lead;
   const [play, setPlay] = useState([{ seat: lead.seat, card: lead.card }]);
   const [messages, setMessages] = useState({});
+  const [videoUrl, setVideoUrl] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
   const [note, setNote] = useState("");
@@ -105,6 +106,7 @@ export default function SolutionEditor({ problem, onDone }) {
         setPlay(sol.play);
         setMessages(sol.messages || {});
       }
+      if (sol) setVideoUrl(sol.videoUrl || "");
       setLoaded(true);
     });
     return () => {
@@ -113,6 +115,7 @@ export default function SolutionEditor({ problem, onDone }) {
   }, [problem.id]);
 
   const strain = problem.contract.strain;
+  const suitOrder = suitOrderForTrump(strain);
   const st = useMemo(
     () => playState(play, problem.deal.hands, strain),
     [play, problem.deal.hands, strain]
@@ -135,7 +138,7 @@ export default function SolutionEditor({ problem, onDone }) {
   const save = async () => {
     setSaving(true);
     try {
-      await saveSolution(problem.id, { play, messages });
+      await saveSolution(problem.id, { play, messages, videoUrl: videoUrl.trim() });
       setNote("Saved ✓");
     } catch (e) {
       setNote("Save failed: " + (e.code || e.message || "permission"));
@@ -157,19 +160,19 @@ export default function SolutionEditor({ problem, onDone }) {
       </p>
       <div className="sp-board">
         <div className="sp-row sp-row--top">
-          <EditorHand seat="N" label="North" cards={st.remaining.N} isTurn={st.seat === "N"} legal={st.legal} onPlay={playCard} />
+          <EditorHand seat="N" label="North" cards={st.remaining.N} isTurn={st.seat === "N"} legal={st.legal} onPlay={playCard} suits={suitOrder} />
         </div>
         <div className="sp-row sp-row--mid">
-          <EditorHand seat="W" label="West" cards={st.remaining.W} isTurn={st.seat === "W"} legal={st.legal} onPlay={playCard} />
+          <EditorHand seat="W" label="West" cards={st.remaining.W} isTurn={st.seat === "W"} legal={st.legal} onPlay={playCard} suits={suitOrder} />
           <div className="sp-trick">
             {st.trickCards.map((p) => (
               <TrickCard key={p.seat} seat={p.seat} card={p.card} />
             ))}
           </div>
-          <EditorHand seat="E" label="East" cards={st.remaining.E} isTurn={st.seat === "E"} legal={st.legal} onPlay={playCard} />
+          <EditorHand seat="E" label="East" cards={st.remaining.E} isTurn={st.seat === "E"} legal={st.legal} onPlay={playCard} suits={suitOrder} />
         </div>
         <div className="sp-row sp-row--bot">
-          <EditorHand seat="S" label="South" cards={st.remaining.S} isTurn={st.seat === "S"} legal={st.legal} onPlay={playCard} />
+          <EditorHand seat="S" label="South" cards={st.remaining.S} isTurn={st.seat === "S"} legal={st.legal} onPlay={playCard} suits={suitOrder} />
         </div>
       </div>
 
@@ -186,6 +189,15 @@ export default function SolutionEditor({ problem, onDone }) {
           Messages set at cards: {msgKeys.join(", ")}
         </div>
       )}
+
+      <label className="sp-msgLabel">Solution video (YouTube URL — shown throughout, premium only)</label>
+      <input
+        type="text"
+        className="sp-msgInput"
+        value={videoUrl}
+        onChange={(e) => setVideoUrl(e.target.value)}
+        placeholder="https://youtube.com/shorts/…  (leave blank for no video)"
+      />
 
       <div className="sp-controls">
         <button className="sp-btn" disabled={play.length <= 1} onClick={undo}>
