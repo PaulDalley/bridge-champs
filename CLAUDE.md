@@ -41,8 +41,12 @@ Claude Code reads this file. Keep the two in sync when conventions change.)
 - Format (matches existing bodies + `scripts/_add-read-next-links.js`):
   `<p><strong>Read next:</strong> <a href="/learn/<cat>/<slug>">Exact Article Title</a> &middot; <a ...>…</a></p>`
   then a hub link `<p><a href="/learn/<cat>/<hub-slug>">Browse all <topic> &rarr;</a></p>`. Use **2–4** related
-  links, chosen from the SAME topic hub / cluster (`src/data/topicHubs.js`, `content-app/lib/topicHubs.js`,
-  and the clusters in `scripts/_add-read-next-links.js`).
+  links, chosen from the SAME topic hub / cluster (`src/data/topicHubs.js`, `content-app/lib/topicHubs.js`).
+  The canonical bulk tool is `scripts/_rollout-read-next.js`: drives the before/after template off the
+  topicHubs ordering, dry-runs by default (prints every removed chunk so you can confirm it's nav-only),
+  backs up to `scripts/_read-next-backup.json`, and on `--apply` writes + emits revalidate paths. It was run
+  site-wide on 2026-06-24 (all ~104 articles), replacing the older mixed footer formats (`<ul>` "Related"
+  lists, `<!-- BACKFILL -->` asides) with one clean direct-`/learn` footer.
 - **Anchor text = the linked article's EXACT existing title, verbatim.** This is structural navigation, NOT
   bridge content, so it does NOT violate "never write bridge content" — you're reusing the user's own titles,
   not authoring prose. The only non-title text allowed is neutral nav labels ("Read next:", "Browse all <topic>").
