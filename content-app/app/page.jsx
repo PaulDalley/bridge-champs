@@ -1,5 +1,7 @@
 import { listAllArticles, categoryLabel } from '../lib/articles';
+import { db } from '../lib/firestoreAdmin';
 import HomeAuth from '../components/HomeAuth';
+import GuestOnly from '../components/GuestOnly';
 import './home.css';
 
 export const metadata = {
@@ -19,10 +21,65 @@ export const metadata = {
 
 export const revalidate = 3600;
 
-const TOPICS = [
-  { category: 'bidding',  suit: '♣', suitClass: 'green-suit', href: '/learn/bidding' },
-  { category: 'declarer', suit: '♠', suitClass: 'black-suit', href: '/learn/declarer' },
-  { category: 'defence',  suit: '♥', suitClass: 'red-suit',   href: '/learn/defence' },
+// YouTube watch / youtu.be / shorts / embed URL → privacy-light embed URL.
+function youTubeEmbed(url) {
+  if (!url) return '';
+  let id = '';
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('youtu.be')) {
+      id = u.pathname.slice(1).split('/')[0];
+    } else if (u.hostname.includes('youtube.com')) {
+      id = u.searchParams.get('v') || '';
+      if (!id) {
+        const m = u.pathname.match(/^\/(embed|shorts)\/([\w-]+)/);
+        if (m) id = m[2];
+      }
+    }
+  } catch (_) {}
+  return id ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1` : '';
+}
+
+// Primary product pillars. Sub-lines reuse the site's own existing wording
+// (meta description + the Just Play members gate) — no new copy authored.
+const EXPLORE = [
+  {
+    name: 'Learn',
+    sub: 'Clear lessons',
+    href: '/learn',
+    tile: 'hp-explore-tile--learn',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 4 2 9l10 5 10-5-10-5z" />
+        <path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Practice',
+    sub: 'Hands-on practice',
+    href: '/practice',
+    tile: 'hp-explore-tile--practice',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.5" />
+        <circle cx="12" cy="12" r="4.5" />
+        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Just Play',
+    sub: 'Bid and play full deals against the computer',
+    href: '/just-play',
+    tile: 'hp-explore-tile--play',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="12" height="15" rx="2" />
+        <path d="M15 8h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2" />
+      </svg>
+    ),
+  },
 ];
 
 export default async function HomePage() {
@@ -40,43 +97,90 @@ export default async function HomePage() {
       }));
   } catch (_) {}
 
+  let welcomeEmbed = '';
+  try {
+    const snap = await db().collection('siteSettings').doc('welcomeVideo').get();
+    if (snap.exists) welcomeEmbed = youTubeEmbed((snap.data() || {}).url || '');
+  } catch (_) {}
+
   return (
     <div className="hp">
       <HomeAuth recentArticles={recentArticles}>
         <section className="hp-hero">
-          <p className="hp-hero-suits" aria-hidden="true">
-            <span className="red-suit">♥</span>
-            <span className="black-suit">♠</span>
-            <span className="red-suit">♦</span>
-            <span className="green-suit">♣</span>
-          </p>
-          <h1 className="hp-hero-title">Welcome to Bridge Champions</h1>
-          <p className="hp-hero-sub">
-            For the last 15 years, studying, practising, and playing tournament bridge has been my
-            life. I&apos;m bringing what I&apos;ve learned to my members—clear, practical lessons,
-            no nonsense.
-          </p>
-          <div className="hp-hero-actions">
-            <a href="/membership" className="hp-btn-primary">Start 7-day free trial</a>
-            <a href="/learn" className="hp-btn-ghost">Browse lessons</a>
+          <div className="hp-hero-bg" aria-hidden="true" />
+          <div className="hp-hero-inner">
+            <p className="hp-hero-suits" aria-hidden="true">
+              <span className="hp-hero-suit-red">♥</span>
+              <span>♠</span>
+              <span className="hp-hero-suit-red">♦</span>
+              <span>♣</span>
+            </p>
+            <h1 className="hp-hero-title">
+              Welcome to <span className="hp-hero-accent">Bridge Champions</span>
+            </h1>
+            <p className="hp-hero-sub">
+              For the last 15 years, studying, practising, and playing tournament bridge has been my
+              life. I&apos;m bringing what I&apos;ve learned to my members—clear, practical lessons,
+              no nonsense.
+            </p>
+            <div className="hp-hero-actions">
+              <a href="/membership" className="hp-btn-primary">Start 7-day free trial</a>
+              <a href="/learn" className="hp-btn-ghost">Browse lessons</a>
+            </div>
+            {welcomeEmbed && (
+              <div className="hp-hero-video">
+                <span className="hp-hero-video-label">Welcome video</span>
+                <div className="hp-hero-video-frame">
+                  <iframe
+                    src={welcomeEmbed}
+                    title="Welcome to Bridge Champions"
+                    loading="lazy"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="hp-statbar">
+            <div className="hp-stat">
+              <span className="hp-stat-num">15 years</span>
+              <span className="hp-stat-label">studying &amp; playing tournament bridge</span>
+            </div>
+            <span className="hp-stat-div" aria-hidden="true" />
+            <div className="hp-stat">
+              <span className="hp-stat-num">Dozens</span>
+              <span className="hp-stat-label">of national championships</span>
+            </div>
+            <span className="hp-stat-div" aria-hidden="true" />
+            <div className="hp-stat">
+              <span className="hp-stat-num">Australia</span>
+              <span className="hp-stat-label">represented on the national team</span>
+            </div>
           </div>
         </section>
       </HomeAuth>
 
-      <section className="hp-topics">
-        {TOPICS.map(({ category, suit, suitClass, href }) => (
-          <a key={category} href={href} className="hp-topic-card">
-            <span className={`hp-topic-suit ${suitClass}`} aria-hidden="true">{suit}</span>
-            <span className="hp-topic-name">{categoryLabel(category)}</span>
-            <span className="hp-topic-arrow">→</span>
-          </a>
-        ))}
+      <section className="hp-explore">
+        <div className="hp-explore-grid">
+          {EXPLORE.map(({ name, sub, href, tile, icon }) => (
+            <a key={name} href={href} className="hp-explore-card">
+              <span className={`hp-explore-tile ${tile}`}>{icon}</span>
+              <span className="hp-explore-name">{name}</span>
+              <span className="hp-explore-sub">{sub}</span>
+              <span className="hp-explore-go">Open →</span>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="hp-testimonials">
         <h2 className="hp-sec-label">What members say</h2>
         <div className="hp-testimonials-grid">
           <figure className="hp-testimonial">
+            <span className="hp-testimonial-mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
               Bridge Champions is different (and better!) than your average internet based learning
               tool. It is both practical and insightful, regularly delivering novel ways to
@@ -85,9 +189,13 @@ export default async function HomePage() {
               Paul Dalley&apos;s proactive and multi dimensional initiative has increased my
               &ldquo;bridge awareness&rdquo; significantly.
             </blockquote>
-            <figcaption>David Bavin, Sydney</figcaption>
+            <figcaption>
+              <span className="hp-testimonial-avatar" aria-hidden="true">DB</span>
+              David Bavin, Sydney
+            </figcaption>
           </figure>
           <figure className="hp-testimonial">
+            <span className="hp-testimonial-mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
               I am absolutely loving your work! I have very much the calculating, mathematical
               approach to bridge (comes from 35 years as a Professor of Medicine) so I like the
@@ -96,9 +204,13 @@ export default async function HomePage() {
               comments. You do a great job of making it appear you were here looking over my
               shoulder. You are also clearly committed to making the website the best it can be.
             </blockquote>
-            <figcaption>Ian Whyte, Newcastle</figcaption>
+            <figcaption>
+              <span className="hp-testimonial-avatar" aria-hidden="true">IW</span>
+              Ian Whyte, Newcastle
+            </figcaption>
           </figure>
           <figure className="hp-testimonial">
+            <span className="hp-testimonial-mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
               Bridge Champions has transformed my game with its clear lessons on fundamentals,
               bidding, counting, defence and declarer play, all reinforced by simple, practical
@@ -106,7 +218,10 @@ export default async function HomePage() {
               the treadmill, making it a fun and effective way to sharpen my bridge skills every
               day.
             </blockquote>
-            <figcaption>Terry Simmons, President, Easts Bridge Club</figcaption>
+            <figcaption>
+              <span className="hp-testimonial-avatar" aria-hidden="true">TS</span>
+              Terry Simmons, President, Easts Bridge Club
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -126,7 +241,7 @@ export default async function HomePage() {
           </p>
           <p>
             Bridge Champions is my effort to package that journey for you.{' '}
-            <strong>If you can&apos;t explain it simply, you don&apos;t understand it</strong>
+            <strong className="hp-about-pull">If you can&apos;t explain it simply, you don&apos;t understand it</strong>
             {' '}— and I&apos;m committed to breaking down complex concepts into clear, actionable
             lessons.
           </p>
@@ -153,6 +268,19 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
+
+      <GuestOnly>
+        <section className="hp-cta">
+          <div className="hp-cta-bg" aria-hidden="true" />
+          <div className="hp-cta-inner">
+            <p className="hp-cta-suits" aria-hidden="true">
+              <span className="hp-hero-suit-red">♥</span> ♠ <span className="hp-hero-suit-red">♦</span> ♣
+            </p>
+            <p className="hp-cta-line">clear, practical lessons, no nonsense.</p>
+            <a href="/membership" className="hp-btn-primary hp-cta-btn">Start 7-day free trial</a>
+          </div>
+        </section>
+      </GuestOnly>
     </div>
   );
 }

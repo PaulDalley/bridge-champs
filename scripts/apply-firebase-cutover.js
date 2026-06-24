@@ -17,11 +17,15 @@ const fb = JSON.parse(fs.readFileSync(fbPath, "utf8"));
 const map = JSON.parse(fs.readFileSync(path.join(root, "docs", "redirect-map.json"), "utf8"));
 
 const SVC = { serviceId: "bc-content", region: "us-central1" };
+// / = the homepage now renders from the Next.js content app (fast SSR). The CI
+// hosting deploy removes build/index.html from the root so this rewrite fires —
+// a static index.html at the root would otherwise shadow it (Firebase serves
+// static files before rewrites).
 // /_next/** = the Next app's static assets (CSS/JS chunks). MUST route to the
 // content service or pages render unstyled (the CRA doesn't have /_next; its own
 // assets live under /static). /robots.txt intentionally stays on the CRA so its
 // admin/editor/pillars Disallow rules are preserved.
-const runRewrites = ["/learn", "/learn/**", "/_next/**", "/sitemap.xml"].map((source) => ({
+const runRewrites = ["/", "/learn", "/learn/**", "/_next/**", "/sitemap.xml"].map((source) => ({
   source,
   run: { ...SVC },
 }));

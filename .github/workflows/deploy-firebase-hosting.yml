@@ -85,6 +85,14 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+      # Hand "/" to the Next.js content app: remove the CRA index.html from the
+      # Hosting root so Firebase falls through to the "/" -> bc-content rewrite
+      # (a static root index.html shadows it). The artifact uploaded above still
+      # carries index.html for the prerender job's shell source; the catch-all
+      # "**" -> /_shell.html keeps every CRA route serving the SPA.
+      - name: Hand "/" to the Next.js homepage (drop root index.html)
+        run: rm -f build/index.html
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         timeout-minutes: 5
@@ -193,6 +201,11 @@ jobs:
       # prerendered content never reached production and every article served a
       # bare SPA shell. This deploy must run regardless of earlier best-effort
       # step outcomes — it's the step that actually makes articles indexable.
+      # Same as in fast-deploy: prerender has finished using index.html as its
+      # shell source, so drop it now and "/" serves the Next.js homepage.
+      - name: Hand "/" to the Next.js homepage (drop root index.html)
+        run: rm -f build/index.html
+
       - name: Deploy Hosting with prerendered content (critical)
         if: ${{ !cancelled() }}
         uses: FirebaseExtended/action-hosting-deploy@v0

@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./learn-hub.css";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
@@ -52,6 +53,18 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        {/* Google Analytics (GA4) — same property as the CRA app, so the
+            Next-served pages (homepage + /learn/**) report pageviews too. */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-VC7DZTPE7E"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VC7DZTPE7E');`}
+        </Script>
       </body>
     </html>
   );
