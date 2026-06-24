@@ -33,31 +33,39 @@ const AuthComponent = ({
   const redirectFromQuery = params.get("redirectTo");
   const effectiveRedirectPathAfterAuth = redirectPathAfterAuth || redirectFromQuery || undefined;
 
+  // Standalone /login and /signup render full-bleed (their own full-page
+  // template) — no Materialize Col/Card chrome, so there's no card-in-a-card.
+  // The embedded membership/treadmill cases below keep the card shell.
+  if (currentPath === "/login") {
+    return (
+      <Login
+        facebookLogin={startFacebookLogin}
+        googleLogin={startGoogleLogin}
+        emailLogin={startEmailAndPasswordLogin}
+        history={history}
+        redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+      />
+    );
+  }
+  if (currentPath === "/signup") {
+    return (
+      <Signup
+        facebookLogin={startFacebookLogin}
+        googleLogin={startGoogleLogin}
+        emailLogin={signupEmailAndPasswordLogin}
+        setProfileName={setProfileName}
+        history={history}
+        notMember={true}
+        redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
+      />
+    );
+  }
+
   return (
     <div>
       <Col m={12} s={12}>
         {/*<Card style={{maxWidth: '50rem'}}>*/}
         <Card className="AuthComponent-container">
-          {currentPath === "/login" && (
-            <Login
-              facebookLogin={startFacebookLogin}
-              googleLogin={startGoogleLogin}
-              emailLogin={startEmailAndPasswordLogin}
-              history={history}
-              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
-            />
-          )}
-          {currentPath === "/signup" && (
-            <Signup
-              facebookLogin={startFacebookLogin}
-              googleLogin={startGoogleLogin}
-              emailLogin={signupEmailAndPasswordLogin}
-              setProfileName={setProfileName}
-              history={history}
-              notMember={true}
-              redirectPathAfterAuth={effectiveRedirectPathAfterAuth}
-            />
-          )}
           {signup && (
             <Signup
               facebookLogin={startFacebookLogin}
