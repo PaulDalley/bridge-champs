@@ -137,6 +137,55 @@ function seatToPlay(state) {
   return nextClockwise(state.trickPlays[state.trickPlays.length - 1].seat);
 }
 
+/** Set up play state from a fully-specified problem hand (skip dealing/auction). */
+function freshProblemDeal(setup) {
+  const leadCard = setup.lead.card;
+  const leadSeat = setup.lead.seat;
+  const contract = setup.contract;
+  const declarer = contract.declarer;
+  const dummy = partnerCompass(declarer);
+
+  const originalHands = {
+    N: [...setup.hands.N],
+    E: [...setup.hands.E],
+    S: [...setup.hands.S],
+    W: [...setup.hands.W],
+  };
+
+  const hands = {
+    N: [...setup.hands.N],
+    E: [...setup.hands.E],
+    S: [...setup.hands.S],
+    W: [...setup.hands.W],
+  };
+  hands[leadSeat] = hands[leadSeat].filter(
+    (c) => !(c.suit === leadCard.suit && c.rank === leadCard.rank)
+  );
+
+  return {
+    phase: "play",
+    seed: null,
+    dealer: setup.dealer || "E",
+    dealCount: 1,
+    vul: setup.vul || "",
+    hands,
+    originalHands,
+    auction: setup.auction || [],
+    contract,
+    declarer,
+    dummy,
+    trickLeader: leadSeat,
+    trickPlays: [{ seat: leadSeat, card: leadCard }],
+    playedCards: [{ seat: leadSeat, card: leadCard }],
+    dummyRevealed: true,
+    pendingTrickWinner: undefined,
+    lastTrick: null,
+    nsTricks: 0,
+    ewTricks: 0,
+    result: null,
+  };
+}
+
 function freshDeal(seed, dealer, dealCount = 1, vulOverride = null) {
   return {
     phase: "auction",
@@ -547,11 +596,13 @@ function buildBoardRecord(state, passout) {
   };
 }
 
-function PlayTable({ embedded = false, preview = false, dealOverride = null, singleDeal = false, onResult, onExit, exitLabel = "Continue" } = {}) {
+function PlayTable({ embedded = false, preview = false, dealOverride = null, problemSetup = null, singleDeal = false, onResult, onExit, exitLabel = "Continue" } = {}) {
   const [state, dispatch] = useReducer(reducer, undefined, () =>
-    dealOverride
-      ? freshDeal(dealOverride.seed >>> 0, dealOverride.dealer || "N", 1, dealOverride.vul ?? "")
-      : freshDeal(Date.now() >>> 0, "N")
+    problemSetup
+      ? freshProblemDeal(problemSetup)
+      : dealOverride
+        ? freshDeal(dealOverride.seed >>> 0, dealOverride.dealer || "N", 1, dealOverride.vul ?? "")
+        : freshDeal(Date.now() >>> 0, "N")
   );
   const [thinking, setThinking] = useState(null);
   const [notice, setNotice] = useState(null);
@@ -993,7 +1044,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, sin
                   </button>
                 </div>
               )}
-              <DealDiagram hands={dealHands(state.seed)} />
+              <DealDiagram hands={state.seed != null ? dealHands(state.seed) : state.originalHands} />
             </div>
           ) : (
             <div className="pt-trickArea" aria-label="Trick">

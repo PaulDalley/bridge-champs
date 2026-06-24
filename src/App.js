@@ -61,6 +61,9 @@ import TreadmillPracticePage from "./components/Treadmill/TreadmillPracticePage"
 import TreadmillLandingPage from "./components/Treadmill/TreadmillLandingPage";
 import TreadmillCardRushLandingPage from "./components/Treadmill/TreadmillCardRushLandingPage";
 import PracticalJustPlayPage from "./components/Trainers/PracticalJustPlayPage";
+import ProblemHandsPage from "./components/ProblemHands/ProblemHandsPage";
+import ProblemHandPlay from "./components/ProblemHands/ProblemHandPlay";
+import { PROBLEM_HANDS } from "./components/ProblemHands/problemHandsData";
 import SystemPage from "./components/System/SystemPage";
 import SystemCardEditor from "./components/System/SystemCardEditor";
 import BeginnerPracticePage from "./components/Beginner/BeginnerPracticePage";
@@ -299,6 +302,16 @@ const routes = (
       path="/just-play/practice"
       exact
       render={() => <PracticalJustPlayPage />}
+    />
+    <Route path="/just-play/problem-hands" exact component={ProblemHandsPage} />
+    <Route
+      path="/just-play/problem-hands/:id"
+      exact
+      render={({ match }) => {
+        const problem = PROBLEM_HANDS.find((p) => p.id === match.params.id);
+        if (!problem) return <Redirect to="/just-play/problem-hands" />;
+        return <ProblemHandPlay problem={problem} />;
+      }}
     />
     <Route
       path="/learn/review"

@@ -8173,6 +8173,426 @@ const BIDDING_PUZZLES = [
     rounds: [],
   },
   {
+    id: "bid3-21",
+    difficulty: 3,
+    title: "Part-score competition (1): which hands to compete on",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    vulnerability: "None Vul",
+    auction: "1♠ P 2♠ P P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-21-q2": "1♥ P 2♥ ?",
+        "bid3-21-info2": "1♥ P 2♥ P P ?",
+        "bid3-21-q3": "1♥ P 2♥ P P ?",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Partscore competition #1",
+      promptThemeTint: "doubles",
+      customPrompts: [
+        {
+          id: "bid3-21-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "Competing for the part score is perhaps the most important topic in bridge. Over the next few problems I want to help you identify which hands to compete on, and then, provide you with the tools to do so, including a look at the 2NT gadget after a takeout double. For most people these ideas will be completely new, and you will find yourself competing on hands you never thought of doing so before.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-21-principles",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: (
+            <div className="ct-revealRich">
+              <section className="ct-revealRichCard ct-revealRichCard--slate">
+                <p className="ct-revealRichBody">There are a few guiding principles</p>
+                <ol style={{ listStyleType: "decimal", paddingLeft: "1.6em", margin: "0.4em 0", lineHeight: 1.55 }}>
+                  <li style={{ marginBottom: "0.5em" }}>
+                    Vulnerability matters a lot - Key idea is to look at your side&apos;s vulnerability, we compete
+                    aggressively when we are NV.
+                  </li>
+                  <li style={{ marginBottom: "0.5em" }}>
+                    Usually don&apos;t let the opponents play in a fit on the 2 level.
+                  </li>
+                  <li>
+                    Be ready to do more when
+                    <ol type="A" style={{ listStyleType: "upper-alpha", paddingLeft: "1.6em", margin: "0.3em 0" }}>
+                      <li style={{ marginBottom: "0.3em" }}>You have shortage in the opponents suit</li>
+                      <li>
+                        You are in the passout seat - Always think carefully before passing a 2 level partscore, it
+                        might be your responsibility to do something.
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+                <p className="ct-revealRichBody">
+                  Beyond these principles, hand evaluation is very important. The single most important idea is - how
+                  many points do I have in the opponents suit? Little or no points in the opponent&apos;s suit suggests
+                  it&apos;s a good time to compete. If you have a lot of points in their suit, it discourages defending, though
+                  doesn&apos;t rule it out.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+        {
+          id: "bid3-21-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "Do you think this is a suitable hand to compete with?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Yes it is a good hand to compete, why?\n\n1. The opponents are on the 2 level in an 8+ card fit (so partner will have 1-2 cards in spades).\n2. You do not have any points in the opponents suit - that indicates it's a good time to compete, and bad time to defend.\n3. Note - you are in the \"passout\" seat, if you pass the auction is over. Get in the habit of pausing before passing out, and being sure that it's correct to do so - think twice or three times about whether competing is a sensible idea.\n\nWe will come back to these hands shortly when we discuss \"how to compete\".",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-21-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          dealerCompassOverride: "W",
+          shownHandsOverride: {
+            DECLARER: { S: "K1084", H: "72", D: "AJ94", C: "J103" },
+          },
+          promptText: "On this hand - Would you like to compete or not?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "no",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "No, in this situation a takeout double should be fairly traditional - say 11+ points at least. This hand is too weak with its 9 high card points. Remember, there isn't an urgency to act here, partner in the passout seat will actually be well positioned to judge whether to compete or not - partner knows they have an 8 card fit, so is aware that you have 2 hearts. In other words, you don't always need to feel pressure to act with shortage.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-21-info2",
+          type: "INFO",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "K1084", H: "72", D: "AJ94", C: "J103" },
+          },
+          continueButtonLabel: "Continue",
+          promptText: "Let's change the bidding slightly, and see what difference it makes.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-21-q3",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          shownHandsOverride: {
+            DECLARER: { S: "K1084", H: "72", D: "AJ94", C: "J103" },
+          },
+          promptText: "You have the same hand, is it appropriate to bid or not?",
+          options: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+          ],
+          expectedChoice: "yes",
+          noContinue: true,
+          revealText:
+            "Yes. You are in the passout seat. You aren't vulnerable, and the opponents are in a fit on the 2 level. You do not have any points in their suit (points in their suit lean towards defending).",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "842", H: "KQ93", D: "KJ543", C: "7" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-22",
+    difficulty: 3,
+    title: "Part-score competition (2): 2NT after a takeout double",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    revealFullHandsAtEnd: ["DUMMY"],
+    vulnerability: "None Vul",
+    auction: "1♠ P 2♠ P P X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Partscore competition #1",
+      promptThemeTint: "doubles",
+      auctionResolvedTextByPromptId: {
+        "bid3-22-q--reveal": "1♠ P 2♠ P P X P 2NT",
+        "bid3-22-info": "1♠ P 2♠ P P X P 2NT P 3♣ P P P",
+      },
+      customPrompts: [
+        {
+          id: "bid3-22-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText:
+            "I want to explore a tool that has basically become standard in expert circles - 2NT as artificial after a takeout double. The message of 2NT is \"I have more than 1 place to play\". Typically this will indicate two 4 card suits.\n\nWhy is this a good idea?\n\nIt has become imperative to compete for the partscore in modern bridge, so we are making takeout doubles more frequently and liberally, not waiting for the perfect shape. Partner to the takeout double needs to do their best to help find the right fit. If partner to the double has two or more 4 card suits, or even a 5 and 4 card suit, they need to tell partner \"I have more than one place to play\" - this gives the partnership an excellent chance of finding a good fit.\n\nLet's look at an example.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-22-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          noContinue: false,
+          continueButtonLabel: "Reveal full hand",
+          revealText:
+            "This would be an excellent time to use 2NT - \"I have two 4 card suits\". Compare that with assuming partner has 4 card hearts, and just bidding 3♥. That is an inflexible approach that punishes partner if he has doubled without 4 hearts. Let's take a look at partner's hand.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-22-info",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["DUMMY"],
+          promptText: (
+            <div className="ct-revealRich">
+              <p className="ct-revealRichBody">
+                <TextWithColoredSuits text={"North was committed to NOT letting the opponents play in the comfortable 2♠ contract on the 2 level. The double was made despite the obvious flaw of only having 2 hearts. Knowing the 2NT bid would be used, and that partner would not bid 3♥ on a 4 card suit, the doubler was able to act."} />
+              </p>
+              <p className="ct-revealRichBody">
+                <TextWithColoredSuits text={"The partnership were able to nicely navigate to their 4-4 club fit. The bid of 2NT basically said \"I have 2 or 3 places to play, what about you?\". Then the 3♣ bid said \"Clubs is one of my suits, does that work for you?\"."} />
+              </p>
+              <p className="ct-revealRichBody">
+                <TextWithColoredSuits text={"What about if partner had a 4-3-3-3 you might say? Impossible. North doubled knowing his partner had only 2 hearts - since the opponents had an 8 card fit."} />
+              </p>
+              <section className="ct-revealRichCard ct-revealRichCard--amber">
+                <h4 className="ct-revealRichHeading">Rule</h4>
+                <p className="ct-revealRichBody">
+                  It&apos;s usually not a good idea to let the opponents play on the 2 level in an 8 card fit.
+                </p>
+              </section>
+            </div>
+          ),
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "84", H: "KQ94", D: "743", C: "A983" },
+      DUMMY: { S: "1072", H: "J5", D: "AK102", C: "KJ42" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-23",
+    difficulty: 3,
+    title: "Part-score competition (3): vulnerable discipline",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    vulnerability: "All Vul",
+    auction: "1♠ P 2♠ P P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Partscore competition #1",
+      promptThemeTint: "doubles",
+      auctionAllRed: true,
+      customPrompts: [
+        {
+          id: "bid3-23-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText:
+            "You don't make a takeout double because you are a bit too light - you like to have 11/12 + points for a takeout double. Do you balance now with a double?",
+          options: [
+            { id: "yes", label: "Yes I would double" },
+            { id: "no", label: "No I would not double" },
+          ],
+          expectedChoice: "no",
+          noContinue: true,
+          revealText:
+            "No. The critical factor is the vulnerability. We always would like to compete and get the opponents out of a 2 level fit, but when we are vulnerable we have to look at our hand and be a bit discerning. The most critical two questions are - how many points do we have in their suit? How good is our suit texture in the other suits?\n\nIf a lot of our points are in their suit, we generally don't want to bid. The reason is - when we land in one of our suits, we want to have robust holdings there, or else our loser count will spiral and we can often find ourselves going 2 or 3 off, vulnerable that is a very bad score. Also, by texture I mean - do we have 10's and 9's, they are great cards when we are thinking of competing.\n\nThe overall mentality when we are vulnerable is - we take a bit of care and consider those two factors. When NV, we can consider competing with a hand like this, because 2 off NV is still often a very good score!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "AK", H: "J72", D: "Q432", C: "7643" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-24",
+    difficulty: 3,
+    title: "Part-score competition (4): 2NT finds the 5-4 fit",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "W",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    revealFullHandsAtEnd: ["DUMMY"],
+    vulnerability: "All Vul",
+    auction: "1♠ P 2♠ P P X P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-24-final": "1♠ P 2♠ P P X P 2NT P 3♣ P 3♦ P 3♥",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Partscore competition #1",
+      promptThemeTint: "doubles",
+      auctionAllRed: true,
+      customPrompts: [
+        {
+          id: "bid3-24-q",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "2nt",
+          expectedChoiceDisplay: "2NT",
+          noContinue: false,
+          continueButtonLabel: "Show the full hand",
+          revealText:
+            "The correct answer is 2NT. We want to let partner know we have two suits that are 4+ cards long. Even though we have a 5 card suit, we should still do this - it increases our enormously of finding the right fit.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-24-final",
+          type: "INFO",
+          atRoundIdx: -1,
+          revealFullHandSeats: ["DUMMY"],
+          promptText:
+            "The auction has gone like this\n\n2NT - I have two or more places to play\n3♣ - I like the club suit, is that one of your suits?\n3♦ - No, clubs is not one, so it is diamonds + hearts, you choose.\n3♥ - I choose hearts!",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "1084", H: "KQ83", D: "A9432", C: "7" },
+      DUMMY: { S: "73", H: "AJ732", D: "65", C: "KQJ2" },
+    },
+    rounds: [],
+  },
+  {
+    id: "bid3-25",
+    difficulty: 3,
+    title: "Part-score competition (5): when to compete",
+    newUntil: "2026-12-31",
+    trumpSuit: "S",
+    contract: "—",
+    dealerCompass: "E",
+    declarerCompass: "S",
+    viewerCompass: "S",
+    visibleFullHandSeats: ["DECLARER"],
+    vulnerability: "None Vul",
+    auction: "1♥ P 2♥ P P ?",
+    promptOptions: {
+      promptPlacement: "right",
+      hideAuction: false,
+      showAuctionDuringPlayDecisionReveal: true,
+      auctionResolvedTextByPromptId: {
+        "bid3-25-q1--reveal": "1♥ P 2♥ P P 3♣",
+        "bid3-25-q2": "1♠ P 2♠ ?",
+        "bid3-25-q2--reveal": "1♠ P 2♠ X",
+      },
+      disableWarmupTrumpGuess: true,
+      questionNumbers: [],
+      contractLabel: "You are South",
+      contractLabelBeforeStartOnly: true,
+      themeLabel: "Theme: Partscore competition #1",
+      promptThemeTint: "doubles",
+      customPrompts: [
+        {
+          id: "bid3-25-intro",
+          type: "INFO",
+          atRoundIdx: -1,
+          continueButtonLabel: "Continue",
+          promptText: "Let's end with a couple examples.",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-25-q1",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "3c",
+          expectedChoiceDisplay: "3♣",
+          noContinue: false,
+          continueButtonLabel: "Continue",
+          revealText:
+            "Bid 3♣. Not Vulnerable we don't look for reasons to avoid competing (like having 3 hearts, or having a balanced hand), rather we look for reasons to compete! (good club texture, the opponents in a 2 level contract with a fit).",
+          videoUrl: "",
+        },
+        {
+          id: "bid3-25-q2",
+          type: "PLAY_DECISION",
+          atRoundIdx: -1,
+          dealerCompassOverride: "W",
+          vulnerabilityOverride: "All Vul",
+          auctionAllRed: true,
+          shownHandsOverride: {
+            DECLARER: { S: "8", H: "KQ104", D: "Q1083", C: "KJ94" },
+          },
+          promptText: "What do you bid here?",
+          playDecisionInput: "biddingBox",
+          expectedChoice: "double",
+          expectedChoiceDisplay: "X",
+          noContinue: true,
+          revealText:
+            "Double. Vulnerable means we look at the texture of our suits, and wastage in the opponent's suit. If we have a singleton like this and good texture and well placed points, we go for it. It's still okay to double with 11+ points vulnerable when your hand is \"pure\" in those ways.\n\nA final thing to mention - when the opponents have a fit, it's much safer to enter the auction than when they do not have a fit. It is in mis-fitting auctions that big penalties can sometimes be found. However, when the opponents have a fit, very often you will too, and the chances of both sides making contracts increases.",
+          videoUrl: "",
+        },
+      ],
+    },
+    shownHands: {
+      DECLARER: { S: "76", H: "532", D: "K104", C: "KQJ94" },
+    },
+    rounds: [],
+  },
+  {
     id: "bid2-29",
     difficulty: 2,
     seatMode: "compass",

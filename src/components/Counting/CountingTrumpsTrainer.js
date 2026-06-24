@@ -9397,7 +9397,7 @@ const revealAfterTwoWrong = (kind, promptId) => {
  
  const auctionGrid = useMemo(() => { 
  if (!displayAuctionText) return null; 
- return buildAuctionGrid({ auctionText: displayAuctionText, dealerCompass }); 
+ return buildAuctionGrid({ auctionText: displayAuctionText, dealerCompass: activeCustomPrompt?.dealerCompassOverride || dealerCompass }); 
  }, [displayAuctionText, dealerCompass]); 
  const promptPlacement = useMemo(() => { 
  const pref = puzzle.promptOptions?.promptPlacement; 
@@ -9563,14 +9563,14 @@ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThe
  {auctionGrid && !hideAuctionNow && ( 
  <div className="ct-auctionCard" aria-label="Bidding"> 
  {(puzzle?.vulnerability || puzzle?.promptOptions?.vulnerability) ? ( 
- <div className="ct-auctionVul" aria-label="Vulnerability">{puzzle.vulnerability || puzzle.promptOptions.vulnerability}</div> 
+ <div className="ct-auctionVul" aria-label="Vulnerability">{activeCustomPrompt?.vulnerabilityOverride || puzzle.vulnerability || puzzle.promptOptions.vulnerability}</div> 
  ) : null} 
  <div className="ct-auctionGrid" role="table" aria-label="Auction grid"> 
  <div className="ct-auctionHead" role="row"> 
  {auctionGrid.order.map((seat) => ( 
  <div 
  key={`h-${seat}`} 
- className={`ct-auctionCell ct-auctionCell--head ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`} 
+ className={`ct-auctionCell ct-auctionCell--head ${(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`} 
  role="columnheader" 
  > 
  {seatCompassLabel(seat)} 
@@ -9584,7 +9584,7 @@ className={`ct-themeLabel ct-themeLabel--rail ${puzzle?.promptOptions?.promptThe
  return ( 
  <div 
  key={`c-${idx}-${seat}`} 
- className={`ct-auctionCell ${puzzle?.promptOptions?.auctionAllRed ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!puzzle?.promptOptions?.auctionAllRed && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`} 
+ className={`ct-auctionCell ${(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) ? "ct-auctionCell--red" : puzzle?.promptOptions?.auctionAllWhite ? "ct-auctionCell--white" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "W" || seat === "E") ? "ct-auctionCell--red" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionOpponentsRed && (seat === "N" || seat === "S") ? (puzzle?.promptOptions?.auctionPartnersGreen ? "ct-auctionCell--green" : "ct-auctionCell--white") : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "N" || seat === "S") ? "ct-auctionCell--red" : ""} ${!(activeCustomPrompt?.auctionAllRed ?? puzzle?.promptOptions?.auctionAllRed) && !puzzle?.promptOptions?.auctionAllWhite && puzzle?.promptOptions?.auctionPartnersRed && (seat === "W" || seat === "E") ? "ct-auctionCell--white" : ""}`} 
  role="cell" 
  > 
  {c ? ( 

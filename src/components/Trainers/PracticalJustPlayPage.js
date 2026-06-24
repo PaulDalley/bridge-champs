@@ -108,6 +108,9 @@ function PracticalJustPlayPage({
         <Link to="/weekly" className="pt-jpTournamentBtn">
           <i className="fas fa-trophy" aria-hidden="true" /> Play weekly tournament
         </Link>
+        <Link to="/just-play/problem-hands" className="pt-jpTournamentBtn">
+          <i className="fas fa-puzzle-piece" aria-hidden="true" /> Problem hands
+        </Link>
       </div>
       <PlayTable embedded />
     </div>

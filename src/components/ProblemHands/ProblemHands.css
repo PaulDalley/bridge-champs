@@ -1,0 +1,289 @@
+.ph-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 20px 48px;
+  font-size: 16px;
+}
+
+.ph-page.ph-playPage {
+  max-width: none;
+  padding: 0;
+}
+
+/* Back nav */
+.ph-backBar {
+  margin-bottom: 20px;
+}
+
+.ph-back {
+  color: var(--color-accent, #4a7fcb);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.ph-back:hover {
+  text-decoration: underline;
+}
+
+/* Title */
+.ph-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+/* Contract / lead bar */
+.ph-contractBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  background: var(--color-surface-raised, #f5f5f5);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.ph-sep {
+  color: #aaa;
+}
+
+/* Suit colours */
+.ph-red { color: #cc0000; }
+.ph-club { color: #267a26; }
+.ph-black { color: inherit; }
+
+/* Hand diagram */
+.ph-diagram {
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--color-surface-raised, #fafafa);
+  margin-bottom: 22px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 320px;
+}
+
+.ph-diagRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.ph-diagRow--mid {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ph-diagVoid {
+  width: 50px;
+}
+
+.ph-handBlock {
+  min-width: 110px;
+}
+
+.ph-handSeat {
+  font-weight: 700;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.ph-handSuitRow {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.ph-suitSym {
+  width: 14px;
+  display: inline-block;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.ph-handRanks {
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+
+/* Intro text */
+.ph-intro {
+  margin-bottom: 22px;
+}
+
+.ph-intro p {
+  margin: 0 0 14px;
+  line-height: 1.65;
+  font-size: 16px;
+  color: var(--color-text, #222);
+}
+
+/* Info card under the play screen: explanation + auction, bordered and roomy. */
+.ph-playInfo {
+  max-width: 760px;
+  margin: 28px auto 48px;
+  padding: 22px 26px;
+  border: 1px solid #d6d6d6;
+  border-radius: 12px;
+  background: #fff;
+}
+.ph-playInfoTitle {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+.ph-playInfo .ph-intro {
+  margin-bottom: 18px;
+}
+.ph-playInfo .ph-intro p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Auction table */
+.ph-auction {
+  border-collapse: collapse;
+  margin-bottom: 28px;
+  font-size: 16px;
+}
+
+.ph-auction th,
+.ph-auction td {
+  padding: 5px 18px 5px 0;
+  text-align: left;
+  min-width: 52px;
+}
+
+.ph-auction th {
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-border, #ddd);
+  padding-bottom: 7px;
+}
+
+.ph-pass { color: #777; }
+.ph-dbl { color: #cc0000; font-weight: 700; }
+.ph-rdbl { color: #4a7fcb; font-weight: 700; }
+
+/* Buttons */
+.ph-btn {
+  display: inline-block;
+  padding: 11px 26px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #ccc);
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+}
+
+.ph-btn:hover {
+  background: var(--color-surface-raised, #f0f0f0);
+}
+
+.ph-btn--primary {
+  background: var(--color-accent, #4a7fcb);
+  color: #fff;
+  border-color: transparent;
+}
+
+.ph-btn--primary:hover {
+  background: #3a6ab5;
+}
+
+.ph-startBtn {
+  margin-top: 4px;
+}
+
+/* Solution */
+.ph-solution {
+  margin-bottom: 28px;
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+.ph-solutionActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Gate / locked */
+.ph-gate {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.ph-gate h1 {
+  margin-bottom: 20px;
+}
+
+/* List page */
+.ph-listPage {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 20px 48px;
+  font-size: 16px;
+}
+
+.ph-listPage h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.ph-listPage > p {
+  color: #555;
+  margin-bottom: 26px;
+  font-size: 16px;
+}
+
+.ph-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ph-listItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  background: var(--color-surface, #fff);
+  transition: background 0.12s;
+}
+
+.ph-listItem:hover {
+  background: var(--color-surface-raised, #f5f5f5);
+}
+
+.ph-listNum {
+  font-size: 14px;
+  color: #888;
+  min-width: 24px;
+}
+
+.ph-listTitle {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.ph-listArrow {
+  color: #aaa;
+  font-size: 16px;
+}
