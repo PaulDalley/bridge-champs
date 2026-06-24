@@ -13,6 +13,13 @@
     ],
     "rewrites": [
       {
+        "source": "/",
+        "run": {
+          "serviceId": "bc-content",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "/learn",
         "run": {
           "serviceId": "bc-content",

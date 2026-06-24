@@ -1,0 +1,321 @@
+/* Homepage — content-app (1rem = 10px from globals.css) */
+
+.hp {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+/* ── hero ── */
+.hp-hero {
+  padding: 5rem 0 4.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--bc-line);
+  margin-bottom: 4rem;
+}
+
+.hp-hero-suits {
+  font-size: 1.8rem;
+  letter-spacing: 0.15em;
+  margin: 0 0 1.8rem;
+}
+
+.hp-hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--bc-ink);
+  margin: 0 0 1.6rem;
+}
+
+.hp-hero-sub {
+  font-size: 1.7rem;
+  color: var(--bc-muted);
+  max-width: 52rem;
+  margin: 0 auto 2.8rem;
+  line-height: 1.65;
+}
+
+.hp-hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hp-btn-primary {
+  display: inline-block;
+  padding: 1.1rem 2.2rem;
+  background: var(--bc-green);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hp-btn-primary:hover {
+  background: var(--bc-green-dark);
+  text-decoration: none;
+}
+
+.hp-btn-ghost {
+  display: inline-block;
+  padding: 1.1rem 2.2rem;
+  background: transparent;
+  color: var(--bc-ink);
+  border: 1px solid var(--bc-line);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hp-btn-ghost:hover {
+  border-color: var(--bc-muted);
+  text-decoration: none;
+}
+
+/* ── topic cards ── */
+.hp-topics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 4.5rem;
+}
+
+.hp-topic-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.8rem 2rem;
+  border: 1px solid var(--bc-line);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--bc-ink);
+  background: var(--bc-bg);
+  transition: border-color 0.15s;
+}
+
+.hp-topic-card:hover {
+  border-color: var(--bc-green);
+  text-decoration: none;
+  color: var(--bc-ink);
+}
+
+.hp-topic-suit {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.hp-topic-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  flex: 1;
+}
+
+.hp-topic-arrow {
+  font-size: 1.5rem;
+  color: var(--bc-muted);
+}
+
+/* ── section label ── */
+.hp-sec-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bc-muted);
+  margin: 0 0 2rem;
+}
+
+/* ── testimonials ── */
+.hp-testimonials {
+  margin-bottom: 4.5rem;
+}
+
+.hp-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+
+.hp-testimonial {
+  background: var(--bc-card);
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 0;
+}
+
+.hp-testimonial blockquote {
+  margin: 0 0 1.2rem;
+  font-size: 1.5rem;
+  line-height: 1.65;
+  color: #374151;
+  font-style: italic;
+}
+
+.hp-testimonial figcaption {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--bc-muted);
+}
+
+/* ── about ── */
+.hp-about {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  border-top: 1px solid var(--bc-line);
+  padding-top: 4rem;
+}
+
+.hp-about-byline {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--bc-ink);
+  margin: 0 0 1.4rem;
+}
+
+.hp-about-mission p {
+  font-size: 1.55rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+
+.hp-about-sig {
+  font-style: italic;
+  color: var(--bc-muted) !important;
+}
+
+.hp-about-achievements h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bc-muted);
+  margin: 0 0 1.2rem;
+}
+
+.hp-about-achievements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.6rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.hp-about-achievements li {
+  font-size: 1.5rem;
+  color: #374151;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--bc-line);
+}
+
+.hp-about-achievements li:last-child {
+  border-bottom: none;
+}
+
+.hp-about-achievements p {
+  font-size: 1.45rem;
+  color: var(--bc-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── member view ── */
+.hp-member {
+  padding: 4rem 0 4.5rem;
+  border-bottom: 1px solid var(--bc-line);
+  margin-bottom: 4rem;
+}
+
+.hp-member-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--bc-ink);
+  margin: 0 0 3rem;
+}
+
+.hp-member-section {
+  margin-bottom: 3rem;
+}
+
+.hp-member-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bc-muted);
+  margin: 0 0 1.2rem;
+}
+
+.hp-member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hp-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--bc-line);
+  gap: 1.5rem;
+}
+
+.hp-member-item:last-child {
+  border-bottom: none;
+}
+
+.hp-member-article-link {
+  font-size: 1.55rem;
+  color: var(--bc-ink);
+  text-decoration: none;
+  flex: 1;
+}
+
+.hp-member-article-link:hover {
+  color: var(--bc-green);
+}
+
+.hp-member-tag {
+  font-size: 1.2rem;
+  color: var(--bc-muted);
+  flex-shrink: 0;
+}
+
+.hp-member-shortcuts {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hp-member-shortcut {
+  padding: 0.9rem 1.8rem;
+  border: 1px solid var(--bc-line);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--bc-ink);
+  text-decoration: none;
+}
+
+.hp-member-shortcut:hover {
+  border-color: var(--bc-green);
+  color: var(--bc-green);
+  text-decoration: none;
+}
+
+/* ── responsive ── */
+@media (max-width: 760px) {
+  .hp-topics { grid-template-columns: 1fr; }
+  .hp-testimonials-grid { grid-template-columns: 1fr; }
+  .hp-about { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hp-hero-title { font-size: 3rem; }
+}

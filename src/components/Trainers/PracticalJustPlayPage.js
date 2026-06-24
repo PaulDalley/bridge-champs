@@ -105,11 +105,17 @@ function PracticalJustPlayPage({
         <meta name="robots" content="noindex" />
       </Helmet>
       <div className="pt-jpBar">
-        <Link to="/weekly" className="pt-jpTournamentBtn">
-          <i className="fas fa-trophy" aria-hidden="true" /> Play weekly tournament
+        <Link to="/weekly" className="pt-jpChip">
+          <span className="pt-jpChipIcon pt-jpChipIcon--trophy">
+            <i className="fas fa-trophy" aria-hidden="true" />
+          </span>
+          Play weekly tournament
         </Link>
-        <Link to="/just-play/problem-hands" className="pt-jpTournamentBtn">
-          <i className="fas fa-puzzle-piece" aria-hidden="true" /> Problem hands
+        <Link to="/just-play/problem-hands" className="pt-jpChip">
+          <span className="pt-jpChipIcon pt-jpChipIcon--puzzle">
+            <i className="fas fa-puzzle-piece" aria-hidden="true" />
+          </span>
+          Problem hands
         </Link>
       </div>
       <PlayTable embedded />

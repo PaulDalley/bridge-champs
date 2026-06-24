@@ -122,15 +122,32 @@
   padding: 6px 12px; font-size: 13px; font-weight: 600; text-align: center;
 }
 
-/* "Play weekly tournament" entry on the Just Play screen */
-.pt-jpBar { display: flex; justify-content: center; padding: 10px 12px 4px; }
-.pt-jpTournamentBtn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: #2563eb; color: #fff; text-decoration: none;
-  font-weight: 700; font-size: 15px; padding: 9px 20px; border-radius: 9px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+/* Just Play sub-nav — refined chip buttons (icon disc + label), matched to the
+   site's section-nav palette: white surface, thin border, green hover-lift. */
+.pt-jpBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 12px 12px 6px; }
+.pt-jpChip {
+  display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
+  background: #fff; color: #1f2937; text-decoration: none;
+  font-weight: 700; font-size: 15px; padding: 9px 16px;
+  border: 1px solid #d9e2e8; border-radius: 11px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
-.pt-jpTournamentBtn:hover { background: #1d4ed8; }
+.pt-jpChip:hover {
+  transform: translateY(-2px); color: #1f2937; text-decoration: none;
+  box-shadow: 0 6px 14px rgba(15, 76, 58, 0.12); border-color: #0f4c3a;
+}
+.pt-jpChipIcon {
+  width: 30px; height: 30px; border-radius: 50%; flex: none;
+  display: inline-flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.pt-jpChipIcon--trophy { background: #fbf1d5; color: #a9810f; }
+.pt-jpChipIcon--puzzle { background: #e6f0fe; color: #2563eb; }
+@media (max-width: 560px) {
+  .pt-jpBar { gap: 8px; padding: 10px 8px 4px; }
+  .pt-jpChip { font-size: 13.5px; padding: 7px 12px; gap: 8px; }
+  .pt-jpChipIcon { width: 26px; height: 26px; font-size: 13px; }
+}
 
 /* Members-only gate: a non-interactive preview of the table + a sign-up form */
 .pt-lockedWait { padding: 60px 24px; text-align: center; color: #6b7280; font-size: 16px; }

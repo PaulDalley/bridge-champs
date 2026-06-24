@@ -407,29 +407,8 @@ class HomePage extends Component {
         </Helmet>
         <Add goto="create/db" history={this.props.history} />
 
-        {/* Guests: welcome hero, then testimonials directly under it, then theme strip.
-            Members: theme strip first; their hero + testimonials render lower (conditional below). */}
-        {isLoggedOut ? (
-          <>
-            {this.renderHeroSection(whenSubExpiresMinus2Days)}
-            {this.renderTestimonials()}
-            <div className="HomePage-themeStrip">
-              <div className="HomePage-themeAndPlan">
-                <RecentlyAdded />
-              </div>
-              <HowToUse />
-              <JustAdded />
-            </div>
-          </>
-        ) : (
-          <div className="HomePage-themeStrip">
-            <div className="HomePage-themeAndPlan">
-              <RecentlyAdded />
-            </div>
-            <HowToUse />
-            <JustAdded />
-          </div>
-        )}
+        {this.renderHeroSection(whenSubExpiresMinus2Days)}
+        {this.renderTestimonials()}
 
         {/* SUCCESS MODAL */}
         {this.props.success && (
@@ -600,17 +579,6 @@ class HomePage extends Component {
           </Modal>
         )}
 
-        {/* Category cards. Guests already saw testimonials under the hero above;
-            members get their hero + testimonials here (below the theme strip). */}
-        {isLoggedOut ? (
-          this.renderCategorySection()
-        ) : (
-          <>
-            {this.renderHeroSection(whenSubExpiresMinus2Days)}
-            {this.renderTestimonials()}
-            {this.renderCategorySection()}
-          </>
-        )}
 
         {/* MISSION SECTION */}
         <section id="mission-section" className="HomePage-mission">
