@@ -33,6 +33,26 @@ Claude Code reads this file. Keep the two in sync when conventions change.)
   Article images are static files under `public/images/` referenced as `/images/...` (must be pushed/deployed).
   `.interweave img` already makes them responsive/centered.
 
+## Internal links / "Read next" (SEO — always do this by default)
+- **Every article must end with onward internal links — never leave one a dead end.** Whenever you publish
+  OR edit an article, append a "Read next" line plus a link to the article's topic hub. Internal linking is
+  the biggest on-page SEO lever we control (crawl depth, link equity, dwell time), so do it by default on
+  every article without being asked.
+- Format (matches existing bodies + `scripts/_add-read-next-links.js`):
+  `<p><strong>Read next:</strong> <a href="/learn/<cat>/<slug>">Exact Article Title</a> &middot; <a ...>…</a></p>`
+  then a hub link `<p><a href="/learn/<cat>/<hub-slug>">Browse all <topic> &rarr;</a></p>`. Use **2–4** related
+  links, chosen from the SAME topic hub / cluster (`src/data/topicHubs.js`, `content-app/lib/topicHubs.js`,
+  and the clusters in `scripts/_add-read-next-links.js`).
+- **Anchor text = the linked article's EXACT existing title, verbatim.** This is structural navigation, NOT
+  bridge content, so it does NOT violate "never write bridge content" — you're reusing the user's own titles,
+  not authoring prose. The only non-title text allowed is neutral nav labels ("Read next:", "Browse all <topic>").
+- Links point to the live `/learn/<category>/<slug>` URL. **Verify each resolves (200) before saving** — a
+  broken internal link is worse than none.
+- Push a body edit live without a churny redeploy via on-demand ISR (the content-app re-renders that one path):
+  `curl -X POST -d '' "<bc-content origin>/api/revalidate?secret=$REVALIDATE_SECRET&path=/learn/<cat>/<slug>"`.
+  Note: the PUBLIC `/api/revalidate` is NOT routed to the content-app — hit the Cloud Run **origin** directly,
+  and POST needs a body (`-d ''`) or Cloud Run returns 411. The secret is a Cloud Run env var (not in the repo).
+
 ## Trainers (bidding / counting / defence / declarer)
 - They all share **`src/components/Counting/CountingTrumpsTrainer.js`** (+ `CountingTrumpsTrainer.css`).
   `BiddingTrainer.js`, `DefenceTrainer.js` etc. just wrap it. **A CSS change there affects every trainer.**
