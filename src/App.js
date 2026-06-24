@@ -981,11 +981,23 @@ const routes = (
 
     {/*<Route path="/logout" component={Logout} /> */}
     {/*<Route path="auth" components={authComponent} /> */}
+    {/* "/" is served by the Next.js content app in production (Firebase Hosting
+        routes it to bc-content). Any in-app SPA navigation that lands here — the
+        logo, post-login/logout, the many <Redirect to="/"> fallbacks — must do a
+        FULL page load so Hosting serves the new homepage, not the CRA's old one.
+        On localhost there is no content app, so keep rendering the CRA homepage. */}
     <Route
       path="/"
       exact={true}
-      component={HomePage}
-      // element={<HomePage />}
+      render={(routeProps) => {
+        const host = typeof window !== "undefined" ? window.location.hostname : "";
+        const isLocal = /^(localhost|127\.0\.0\.1)/.test(host);
+        if (!isLocal && typeof window !== "undefined") {
+          window.location.replace("/");
+          return null;
+        }
+        return <HomePage {...routeProps} />;
+      }}
     />
     {/* Must stay LAST: anything unmatched is a 404 (noindex). */}
     <Route render={() => <NotFoundPage />} />

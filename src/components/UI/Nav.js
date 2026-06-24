@@ -89,13 +89,12 @@ class Nav extends Component {
     return (
       <header className="bcnav">
         <div className="bcnav-inner">
+          {/* Full page load (no SPA nav): "/" is the Next.js content app in
+              production, so the CRA must hand off rather than render its own
+              old homepage. */}
           <a
             href="/"
             className="bcnav-logo"
-            onClick={(e) => {
-              e.preventDefault();
-              this.goTo("/");
-            }}
             aria-label="Home - Bridge Champions"
           >
             <span className="bcnav-suits" aria-hidden="true">
