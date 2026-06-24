@@ -38,6 +38,46 @@ function parseAttrs(tag) {
   return data;
 }
 
+function slugifyHeading(text) {
+  const base = String(text)
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z#0-9]+;/gi, " ")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 60)
+    .replace(/^-+|-+$/g, "");
+  return base || "section";
+}
+
+const decodeEntities = (s) =>
+  String(s)
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&#39;|&rsquo;|&apos;/g, "’").replace(/&quot;/g, '"')
+    .replace(/&middot;/g, "·").replace(/&rarr;/g, "→").replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ").trim();
+
+// Inject stable slug ids onto <h2>/<h3> (so sections are #-linkable, enabling
+// anchor sitelinks) and collect them for a table of contents.
+function addHeadingIds(html) {
+  const headings = [];
+  const used = {};
+  const out = html.replace(/<(h2|h3)(\b[^>]*)>([\s\S]*?)<\/\1>/gi, (m, tag, attrs, inner) => {
+    let id = (attrs.match(/\bid=["']([^"']+)["']/) || [])[1];
+    if (!id) {
+      id = slugifyHeading(inner);
+      if (used[id]) { used[id] += 1; id = `${id}-${used[id]}`; } else { used[id] = 1; }
+      attrs = `${attrs} id="${id}"`;
+    }
+    headings.push({ tag: tag.toLowerCase(), id, text: decodeEntities(inner) });
+    return `<${tag}${attrs}>${inner}</${tag}>`;
+  });
+  return { html: out, headings };
+}
+
 export function renderBody(rawHtml) {
   if (!rawHtml) return [];
   let s = String(rawHtml)
@@ -63,6 +103,9 @@ export function renderBody(rawHtml) {
     (u) => videoEmbed(u)
   );
 
+  const { html: withIds, headings } = addHeadingIds(s);
+  s = withIds;
+
   const segments = s.split(/(<MakeBoard[^>]*\/>)/);
   const nodes = [];
   segments.forEach((seg, i) => {
@@ -75,5 +118,21 @@ export function renderBody(rawHtml) {
       );
     }
   });
+
+  // Anchor-linked table of contents — only when the article has real sections.
+  if (headings.length >= 3) {
+    nodes.unshift(
+      <nav className="bc-toc" aria-label="On this page" key="bc-toc">
+        <div className="bc-tocTitle">On this page</div>
+        <ul className="bc-tocList">
+          {headings.map((h, i) => (
+            <li key={i} className={`bc-tocItem bc-tocItem--${h.tag}`}>
+              <a href={`#${h.id}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  }
   return nodes;
 }

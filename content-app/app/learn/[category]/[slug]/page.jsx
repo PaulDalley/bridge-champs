@@ -8,8 +8,19 @@ export const revalidate = 3600; // ISR: refresh hourly; on-demand revalidate on 
 export const dynamicParams = true; // unknown slugs render on first request, then cache
 
 const BASE = "https://bridgechampions.com";
+const OG_IMAGE =
+  "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95";
+const AUTHOR_SAMEAS = ["https://www.youtube.com/@BridgeChampions"];
 const clean = (s) =>
   String(s || "").replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
+// Trim to ~max chars on a word boundary; ellipsis only when actually cut.
+const smartTrim = (s, max) => {
+  const t = String(s || "");
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const at = cut.lastIndexOf(" ");
+  return (at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[\s,;:.!-]+$/, "") + "…";
+};
 
 export async function generateStaticParams() {
   const arts = await listAllArticles();
@@ -31,9 +42,12 @@ export async function generateMetadata({ params }) {
   const topic = getTopic(params.category, params.slug);
   if (topic) {
     const url = `${BASE}/learn/${params.category}/${params.slug}`;
+    const hubTitle = `${topic.name} — ${categoryLabel(params.category)} | Bridge Champions`;
     return {
-      title: `${topic.name} — ${categoryLabel(params.category)} | Bridge Champions`,
+      title: hubTitle,
       alternates: { canonical: url },
+      openGraph: { type: "website", url, title: hubTitle, siteName: "Bridge Champions", images: [{ url: OG_IMAGE, width: 1200, height: 630 }] },
+      twitter: { card: "summary_large_image", title: hubTitle, images: [OG_IMAGE] },
     };
   }
   const a = await getArticle(params.category, params.slug);
@@ -42,13 +56,14 @@ export async function generateMetadata({ params }) {
   }
   const url = `${BASE}/learn/${a.category}/${a.slug}`;
   const title = a.meta.metaTitle || `${a.meta.title} - Bridge Champions`;
-  const description = (clean(a.meta.teaser) || clean(a.bodyHtml)).slice(0, 158);
+  const description = smartTrim(clean(a.meta.teaser) || clean(a.bodyHtml), 155);
+  const images = [{ url: OG_IMAGE, width: 1200, height: 630, alt: a.meta.title }];
   return {
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { type: "article", url, title: a.meta.title, description, siteName: "Bridge Champions" },
-    twitter: { card: "summary_large_image", title: a.meta.title, description },
+    openGraph: { type: "article", url, title, description, siteName: "Bridge Champions", images },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
 }
 
@@ -64,7 +79,7 @@ export default async function ArticleOrTopicPage({ params }) {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Learn", item: `${BASE}/learn` },
-        { "@type": "ListItem", position: 2, name: cat.label, item: `${BASE}/learn` },
+        { "@type": "ListItem", position: 2, name: cat.label, item: `${BASE}/learn/${params.category}` },
         { "@type": "ListItem", position: 3, name: topic.name, item: url },
       ],
     };
@@ -86,10 +101,19 @@ export default async function ArticleOrTopicPage({ params }) {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: a.meta.title,
+    description: clean(a.meta.teaser) || undefined,
+    image: [OG_IMAGE],
+    inLanguage: "en-AU",
     datePublished: a.createdAt || undefined,
     dateModified: a.updatedAt || undefined,
-    author: { "@type": "Person", name: "Paul Dalley", url: `${BASE}/about` },
-    publisher: { "@type": "Organization", name: "Bridge Champions", url: BASE },
+    author: { "@type": "Person", name: "Paul Dalley", url: `${BASE}/about`, sameAs: AUTHOR_SAMEAS },
+    publisher: {
+      "@type": "Organization",
+      name: "Bridge Champions",
+      url: BASE,
+      logo: { "@type": "ImageObject", url: OG_IMAGE, width: 1200, height: 630 },
+      sameAs: AUTHOR_SAMEAS,
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
   const crumbs = [
@@ -122,12 +146,15 @@ export default async function ArticleOrTopicPage({ params }) {
         <span aria-current="page">{a.meta.title}</span>
       </nav>
       <h1 className="bc-title">{a.meta.title}</h1>
-      {updatedLabel ? (
-        <div className="bc-byline">
-          By <a href="/about">Paul Dalley</a> · Updated{" "}
-          <time dateTime={a.updatedAt}>{updatedLabel}</time>
-        </div>
-      ) : null}
+      <div className="bc-byline">
+        By <a href="/about">Paul Dalley</a>
+        {updatedLabel ? (
+          <>
+            {" · Updated "}
+            <time dateTime={a.updatedAt}>{updatedLabel}</time>
+          </>
+        ) : null}
+      </div>
       <article aria-label="Article content">{renderBody(a.bodyHtml)}</article>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />

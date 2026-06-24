@@ -116,3 +116,27 @@ a:hover { text-decoration: underline; }
   .bc-title { font-size: 2.7rem; }
   .bc-board-full { grid-template-columns: 1fr; grid-template-areas: "n" "e" "s" "w" "mid"; }
 }
+
+/* Table of contents — anchor-linked sections (enables anchor sitelinks) */
+.bc-prose h2, .bc-prose h3 { scroll-margin-top: 1.5rem; }
+.bc-toc {
+  background: var(--bc-card);
+  border: 1px solid var(--bc-line);
+  border-radius: 12px;
+  padding: 1.6rem 2rem;
+  margin: 0 0 2.6rem;
+}
+.bc-tocTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bc-muted);
+  margin-bottom: 1rem;
+}
+.bc-tocList { list-style: none; margin: 0; padding: 0; }
+.bc-tocItem { margin: 0.45rem 0; line-height: 1.45; }
+.bc-tocItem a { font-size: 1.55rem; color: var(--bc-green); }
+.bc-tocItem a:hover { text-decoration: underline; }
+.bc-tocItem--h3 { padding-left: 1.8rem; }
+.bc-tocItem--h3 a { font-size: 1.45rem; color: var(--bc-muted); }

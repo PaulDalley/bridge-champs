@@ -1,4 +1,4 @@
-import { listAllArticles } from "../../lib/articles";
+import { listAllArticles, categoryLabel } from "../../lib/articles";
 import { CATEGORIES } from "../../lib/topicHubs";
 import LearnSearch from "../../components/LearnSearch";
 
@@ -96,6 +96,28 @@ export default async function LearnRoot() {
           </div>
         </section>
       ))}
+
+      <section className="lh-allArticles" aria-label="All articles">
+        <h2 className="lh-allTitle">All articles</h2>
+        {["bidding", "declarer", "defence", "beginner"].map((cat) => {
+          const inCat = arts
+            .filter((a) => a.category === cat)
+            .sort((x, y) => String(x.title).localeCompare(String(y.title)));
+          if (!inCat.length) return null;
+          return (
+            <div className="lh-allGroup" key={cat}>
+              <h3 className="lh-allGroupTitle">{categoryLabel(cat)}</h3>
+              <ul className="lh-allList">
+                {inCat.map((a) => (
+                  <li key={`${a.category}/${a.slug}`}>
+                    <a href={`/learn/${a.category}/${a.slug}`}>{a.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </section>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(learnSchema) }} />
     </div>
