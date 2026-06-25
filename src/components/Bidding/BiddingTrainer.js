@@ -8200,6 +8200,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Partscore competition #1",
       promptThemeTint: "doubles",
+      videoUrlBeforeStart: "https://youtube.com/shorts/vx6e11zurGo?si=laiSdLMJbVDxXHi2",
       customPrompts: [
         {
           id: "bid3-21-intro",
@@ -8345,6 +8346,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Partscore competition #1",
       promptThemeTint: "doubles",
+      videoUrlBeforeStart: "https://youtube.com/shorts/7ngQTawyRRA?si=r0lE8doCpi0cEnXQ",
       auctionResolvedTextByPromptId: {
         "bid3-22-q--reveal": "1♠ P 2♠ P P X P 2NT",
         "bid3-22-info": "1♠ P 2♠ P P X P 2NT P 3♣ P P P",
@@ -8430,6 +8432,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Partscore competition #1",
       promptThemeTint: "doubles",
+      videoUrlBeforeStart: "https://youtube.com/shorts/2v3_WKd1Ndw?si=nadAORfXF5qQCcoG",
       auctionAllRed: true,
       customPrompts: [
         {
@@ -8482,6 +8485,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Partscore competition #1",
       promptThemeTint: "doubles",
+      videoUrlBeforeStart: "https://youtube.com/shorts/lwAhbOrtndk?si=sqS7Ro9KUzJHlb8j",
       auctionAllRed: true,
       customPrompts: [
         {
@@ -8543,6 +8547,7 @@ const BIDDING_PUZZLES = [
       contractLabelBeforeStartOnly: true,
       themeLabel: "Theme: Partscore competition #1",
       promptThemeTint: "doubles",
+      videoUrlBeforeStart: "https://youtube.com/shorts/HkH7e5UMTFI?si=GgS5sdGIALFOfOo6",
       customPrompts: [
         {
           id: "bid3-25-intro",
