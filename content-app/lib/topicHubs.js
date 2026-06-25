@@ -311,6 +311,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
               { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
+              { title: "Super accept: 1NT Transfers Jacoby", to: "/bidding/advanced/super-accept-1nt-jacoby-transfers", level: A },
               { title: "1 level responses and negative doubles", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
               { title: "Landy and Multi Landy", to: "/bidding/advanced/landy-and-multi-landy", level: A },
               { title: "DONT convention: Interfering over No Trump", to: "/bidding/advanced/dont-convention-interfering-over-1nt", level: A },
