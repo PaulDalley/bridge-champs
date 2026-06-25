@@ -140,3 +140,25 @@ a:hover { text-decoration: underline; }
 .bc-tocItem a:hover { text-decoration: underline; }
 .bc-tocItem--h3 { padding-left: 1.8rem; }
 .bc-tocItem--h3 a { font-size: 1.45rem; color: var(--bc-muted); }
+
+/* Content-app nav auth controls (login / sign up / account) */
+.bc-nav-auth {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-left: 2.2rem;
+  padding-left: 2.2rem;
+  border-left: 1px solid var(--bc-line);
+}
+.bc-nav-auth a { margin-left: 0; }
+.bc-nav-auth .bc-nav-signup {
+  padding: 0.5rem 1.35rem;
+  border-radius: 8px;
+  background: var(--bc-green);
+  color: #fff;
+  font-weight: 700;
+}
+.bc-nav-auth .bc-nav-signup:hover { background: var(--bc-green-dark); color: #fff; }
+@media screen and (max-width: 600px) {
+  .bc-nav-auth { margin-left: 1rem; padding-left: 1rem; gap: 1rem; }
+}

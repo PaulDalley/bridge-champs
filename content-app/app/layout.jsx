@@ -2,6 +2,7 @@ import "./globals.css";
 import "./learn-hub.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
+import NavAuth from "../components/NavAuth";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -27,6 +28,7 @@ function Header() {
           <a href="/learn" className="bc-active">Learn</a>
           <a href="/practice">Practice</a>
           <a href="/just-play">Just Play</a>
+          <span className="bc-nav-auth"><NavAuth /></span>
         </nav>
       </div>
     </header>
