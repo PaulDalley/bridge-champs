@@ -45,11 +45,14 @@ jobs:
     name: Build + deploy Hosting (fast)
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    # GitHub now defaults JS actions to Node 24, where firebase-tools' fetch to
-    # Google's OAuth token endpoint fails ("Premature close" on oauth2/v4/token),
-    # breaking the deploy. Pin JS actions back to Node 20, where this ran reliably
-    # for months. GitHub's documented escape hatch for the Node 20 deprecation;
-    # revisit when Node 20 is fully removed from the runners.
+    # The actual `firebase deploy` (scripts/ci-deploy-hosting.sh below) intermittently
+    # hits "Premature close" on Google's oauth2/v4/token endpoint on Node 22/24, so it
+    # is RETRIED there and firebase-tools runs on Node 20 (node-version above), where it
+    # was reliable for months. NOTE: pinning the *JS-action runtime* (this env var /
+    # FORCE_JAVASCRIPT_ACTIONS_TO_NODE24) does NOT change the Node that runs firebase
+    # deploy — that's setup-node's version — which is why the earlier Node fixes never
+    # took. This env var only keeps the remaining official JS actions (checkout/
+    # setup-node/upload-artifact) on Node 20 until GitHub removes it (~Sept 2026).
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
@@ -57,7 +60,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "20"
           cache: npm
 
       - name: Install dependencies
@@ -96,14 +99,14 @@ jobs:
       - name: Hand "/" to the Next.js homepage (drop root index.html)
         run: rm -f build/index.html
 
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+      # Deploy via firebase-tools directly (NOT action-hosting-deploy@v0) so we can
+      # retry the transient oauth2/v4/token "Premature close" flake. See
+      # scripts/ci-deploy-hosting.sh for the full root-cause writeup.
+      - name: Deploy to Firebase Hosting (retry transient auth flake)
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: bash scripts/ci-deploy-hosting.sh
 
       - name: Deploy Firestore security rules (best effort)
         timeout-minutes: 3
@@ -144,7 +147,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "20"
           cache: npm
 
       - name: Install dependencies (incl. puppeteer)
@@ -211,13 +214,10 @@ jobs:
 
       - name: Deploy Hosting with prerendered content (critical)
         if: ${{ !cancelled() }}
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: bash scripts/ci-deploy-hosting.sh
 
       - name: Generate per-article OG images (best effort, hard timeout)
         if: ${{ !cancelled() }}
@@ -238,13 +238,10 @@ jobs:
       - name: Redeploy Hosting with OG images (best effort)
         if: ${{ !cancelled() }}
         continue-on-error: true
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: bash scripts/ci-deploy-hosting.sh
 
       # Post-deploy SEO guard. Fetch every article as Googlebot and surface any
       # that still serve a generic shell / noindex / membership redirect. Best
