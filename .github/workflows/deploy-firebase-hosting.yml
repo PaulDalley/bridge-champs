@@ -45,6 +45,13 @@ jobs:
     name: Build + deploy Hosting (fast)
     runs-on: ubuntu-latest
     timeout-minutes: 12
+    # GitHub now defaults JS actions to Node 24, where firebase-tools' fetch to
+    # Google's OAuth token endpoint fails ("Premature close" on oauth2/v4/token),
+    # breaking the deploy. Pin JS actions back to Node 20, where this ran reliably
+    # for months. GitHub's documented escape hatch for the Node 20 deprecation;
+    # revisit when Node 20 is fully removed from the runners.
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - uses: actions/checkout@v4
 
@@ -130,6 +137,8 @@ jobs:
     timeout-minutes: 55
     # Never fails the workflow as a whole; the live site already shipped.
     continue-on-error: true
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - uses: actions/checkout@v4
 
