@@ -105,7 +105,13 @@ jobs:
           set -euo pipefail
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
+          for attempt in 1 2 3; do
+            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
+              echo "Hosting deployed (attempt $attempt)."; exit 0
+            fi
+            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
+          done
+          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
 
       - name: Deploy Firestore security rules (best effort)
         timeout-minutes: 3
@@ -220,7 +226,13 @@ jobs:
           set -euo pipefail
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
+          for attempt in 1 2 3; do
+            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
+              echo "Hosting deployed (attempt $attempt)."; exit 0
+            fi
+            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
+          done
+          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
 
       - name: Generate per-article OG images (best effort, hard timeout)
         if: ${{ !cancelled() }}
@@ -248,7 +260,13 @@ jobs:
           set -euo pipefail
           python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
           export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
+          for attempt in 1 2 3; do
+            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
+              echo "Hosting deployed (attempt $attempt)."; exit 0
+            fi
+            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
+          done
+          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
 
       # Post-deploy SEO guard. Fetch every article as Googlebot and surface any
       # that still serve a generic shell / noindex / membership redirect. Best

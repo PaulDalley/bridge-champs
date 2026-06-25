@@ -42,7 +42,7 @@ const B1 = `<MakeBoard boardType="single" position="South" North="${EMPTY}" East
 const B2 = `<MakeBoard boardType="single" position="South" North="${EMPTY}" East="${EMPTY}" South="*S-AQ94*H-KQ102*D-QJ3*C-J2" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1NT/P/2♦/P/3♥" />`;
 const B3 = `<MakeBoard boardType="single" position="South" North="${EMPTY}" East="${EMPTY}" South="*S-A1094*H-K1092*D-A103*C-A2" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1NT/P/2♦/P/3♥" />`;
 const B4 = `<MakeBoard boardType="single" position="South" North="${EMPTY}" East="${EMPTY}" South="*S-AK94*H-Q1092*D-A103*C-A2" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1NT/P/2♦/P/2NT" />`;
-const B5 = `<MakeBoard boardType="single" position="South" North="*S-32*H-KJ842*D-7*C-108432" East="${EMPTY}" South="*S-AK94*H-Q1092*D-A103*C-A2" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1NT/P/2♦/P/2NT" />`;
+const B5 = `<MakeBoard boardType="double" position="North/South" North="*S-32*H-KJ842*D-7*C-108432" East="${EMPTY}" South="*S-AK94*H-Q1092*D-A103*C-A2" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1NT/P/2♦/P/2NT" />`;
 
 const BODY_HTML = `
 <p>Firstly, the terminology - some people refer to a simple transfer after 1NT as a Jacoby transfer.</p>
@@ -53,7 +53,7 @@ const BODY_HTML = `
 
 ${B1}
 
-<p>On this hand for example, we have very little but it should be routine to transfer with 0+ points and a 5 card major. As you can see, it wouldn't be a good idea for the 1NT to take us any higher than necessary.</p>
+<p>On this hand for example, we have very little but it should be routine to transfer with 0+ points and a 5 card major. As you can see, it wouldn't be a good idea for the 1NT opener to take us any higher than necessary.</p>
 
 <p>In other words Transfers show 0+ points, so almost always the 1NT opener needs to simply accept the transfer, in case responder is planning to pass.</p>
 
@@ -101,7 +101,7 @@ ${B4}
 
 ${B5}
 
-<p>Overall recommendation:</p>
+<h2>Overall recommendation</h2>
 
 <p>You can experiment with super accepting all the time with 4 cards, and having various bids to show different type of super accepts. Alternatively you can aim to play on the 2 level more often when you have a minimum type hand, and put the pressure on your opponents to figure out that they need to push you to the 3 level. My recommendation is to use <a href="/learn/bidding/hand-evaluation-1-card-texture">hand evaluation</a> ideas and only super accept with genuinely useful hands (Aces and Kings, not with 4333 shape) that have solid prospects of game opposite a sub minimum partner. This, like most aspects of bidding, is a discussion you need to have with your partner and ultimately is a matter of style, don't get too concerned if your partner wants to play it differently to you, both ways are fine.</p>
 
