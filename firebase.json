@@ -230,6 +230,16 @@
         "type": 301
       },
       {
+        "source": "/learn/beginner/improve-bridge-practical-roadmap-actually-merged-cardplay",
+        "destination": "/learn/beginner/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
+        "source": "/learn/beginner/improve-bridge-practical-roadmap-actually-merged-defence",
+        "destination": "/learn/beginner/improve-bridge-practical-roadmap-actually",
+        "type": 301
+      },
+      {
         "source": "/beginner/articles/defence/lead-towards-weakness-beginners-target",
         "destination": "/beginner/articles/defence/suit-switch-play-towards-weakness",
         "type": 301
