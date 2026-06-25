@@ -8495,7 +8495,7 @@ const BIDDING_PUZZLES = [
           noContinue: false,
           continueButtonLabel: "Show the full hand",
           revealText:
-            "The correct answer is 2NT. We want to let partner know we have two suits that are 4+ cards long. Even though we have a 5 card suit, we should still do this - it increases our enormously of finding the right fit.",
+            "The correct answer is 2NT. We want to let partner know we have two suits that are 4+ cards long. Even though we have a 5 card suit, we should still do this - it increases our chances enormously of finding the right fit.",
           videoUrl: "",
         },
         {
