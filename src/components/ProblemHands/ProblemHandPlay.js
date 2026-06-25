@@ -282,6 +282,11 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
   if (phase === "playing") {
     return (
       <div className="ph-page ph-playPage">
+        <div className="ph-backBar">
+          <Link to="/just-play/problem-hands" className="ph-back">
+            ← Problem Hands
+          </Link>
+        </div>
         <PlayTable
           embedded
           singleDeal
