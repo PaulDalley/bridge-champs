@@ -45,10 +45,6 @@ jobs:
     name: Build + deploy Hosting (fast)
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    # GitHub is moving built-in actions off Node 20; this opts their JS
-    # runtime to Node 24 (see GitHub changelog).
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
 
@@ -93,25 +89,14 @@ jobs:
       - name: Hand "/" to the Next.js homepage (drop root index.html)
         run: rm -f build/index.html
 
-      # Deploy via firebase-tools directly (run-step on Node 22). The old
-      # FirebaseExtended/action-hosting-deploy@v0 is a Node-20 JS action that
-      # GitHub now force-runs on Node 24, where it fails (npx exit 1). This
-      # uses the service-account ADC pattern (same as the rules step below).
       - name: Deploy to Firebase Hosting
-        timeout-minutes: 8
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          set -euo pipefail
-          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
-          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          for attempt in 1 2 3; do
-            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
-              echo "Hosting deployed (attempt $attempt)."; exit 0
-            fi
-            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
-          done
-          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
 
       - name: Deploy Firestore security rules (best effort)
         timeout-minutes: 3
@@ -145,8 +130,6 @@ jobs:
     timeout-minutes: 55
     # Never fails the workflow as a whole; the live site already shipped.
     continue-on-error: true
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
 
@@ -219,20 +202,13 @@ jobs:
 
       - name: Deploy Hosting with prerendered content (critical)
         if: ${{ !cancelled() }}
-        timeout-minutes: 8
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          set -euo pipefail
-          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
-          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          for attempt in 1 2 3; do
-            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
-              echo "Hosting deployed (attempt $attempt)."; exit 0
-            fi
-            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
-          done
-          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
 
       - name: Generate per-article OG images (best effort, hard timeout)
         if: ${{ !cancelled() }}
@@ -253,20 +229,13 @@ jobs:
       - name: Redeploy Hosting with OG images (best effort)
         if: ${{ !cancelled() }}
         continue-on-error: true
-        timeout-minutes: 8
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          set -euo pipefail
-          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
-          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
-          for attempt in 1 2 3; do
-            if npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive; then
-              echo "Hosting deployed (attempt $attempt)."; exit 0
-            fi
-            echo "::warning::Hosting deploy attempt $attempt failed (transient auth/network); retrying..."; sleep $((attempt * 20))
-          done
-          echo "::error::Hosting deploy failed after 3 attempts."; exit 1
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        timeout-minutes: 5
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: bridgechampions
+          channelId: live
 
       # Post-deploy SEO guard. Fetch every article as Googlebot and surface any
       # that still serve a generic shell / noindex / membership redirect. Best
