@@ -93,14 +93,19 @@ jobs:
       - name: Hand "/" to the Next.js homepage (drop root index.html)
         run: rm -f build/index.html
 
+      # Deploy via firebase-tools directly (run-step on Node 22). The old
+      # FirebaseExtended/action-hosting-deploy@v0 is a Node-20 JS action that
+      # GitHub now force-runs on Node 24, where it fails (npx exit 1). This
+      # uses the service-account ADC pattern (same as the rules step below).
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set -euo pipefail
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
 
       - name: Deploy Firestore security rules (best effort)
         timeout-minutes: 3
@@ -208,13 +213,14 @@ jobs:
 
       - name: Deploy Hosting with prerendered content (critical)
         if: ${{ !cancelled() }}
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set -euo pipefail
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
 
       - name: Generate per-article OG images (best effort, hard timeout)
         if: ${{ !cancelled() }}
@@ -235,13 +241,14 @@ jobs:
       - name: Redeploy Hosting with OG images (best effort)
         if: ${{ !cancelled() }}
         continue-on-error: true
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        timeout-minutes: 5
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: bridgechampions
-          channelId: live
+        timeout-minutes: 8
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set -euo pipefail
+          python3 -c "import os, pathlib; pathlib.Path('serviceAccount.json').write_text(os.environ['FIREBASE_SERVICE_ACCOUNT'])"
+          export GOOGLE_APPLICATION_CREDENTIALS="${GITHUB_WORKSPACE}/serviceAccount.json"
+          npx --yes firebase-tools@13 deploy --only hosting --project bridgechampions --non-interactive
 
       # Post-deploy SEO guard. Fetch every article as Googlebot and surface any
       # that still serve a generic shell / noindex / membership redirect. Best
