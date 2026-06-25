@@ -287,3 +287,24 @@
   color: #aaa;
   font-size: 16px;
 }
+
+/* "Played" tick — set once the member finishes the hand and opens the solution
+   (stored in localStorage per device). */
+.ph-listTick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  background: #0f7a43;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+.ph-listItem--played .ph-listNum {
+  color: #0f7a43;
+  font-weight: 700;
+}

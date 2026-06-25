@@ -70,7 +70,10 @@ function currentTrick(play, cut) {
 // END of that trick instead of flashing by; tricks with no note show blank, so
 // each new message appears from blank and is easy to notice.
 function activeMessage(messages, step, total) {
-  if (!messages || step <= 0) return "";
+  if (!messages) return "";
+  // A message pinned at card 0 is the "start"/learning message: shown at Trick 0,
+  // before any card is played (the playback opens here and waits — no auto-start).
+  if (step <= 0) return messages[0] || "";
   const atTrickEnd = step % 4 === 0 || step === total;
   if (!atTrickEnd) return "";
   const trickStart = Math.floor((step - 1) / 4) * 4;

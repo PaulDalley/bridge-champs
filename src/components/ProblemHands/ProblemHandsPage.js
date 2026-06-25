@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { PROBLEM_HANDS } from "./problemHandsData";
+import { getPlayedMap } from "./problemProgress";
 import "./ProblemHands.css";
 
 function ProblemHandsPage({ uid, subscriptionActive, isAdmin, authReady }) {
+  const [played] = useState(() => getPlayedMap());
   const isLocalhost =
     typeof window !== "undefined" &&
     /^(localhost|127\.0\.0\.1)/.test(window.location.hostname);
@@ -56,17 +58,25 @@ function ProblemHandsPage({ uid, subscriptionActive, isAdmin, authReady }) {
       <h1>Problem Hands</h1>
       <p>Play a specific hand against the computer, then review the solution.</p>
       <div className="ph-list">
-        {PROBLEM_HANDS.map((p, i) => (
-          <Link
-            key={p.id}
-            to={`/just-play/problem-hands/${p.id}`}
-            className="ph-listItem"
-          >
-            <span className="ph-listNum">{i + 1}</span>
-            <span className="ph-listTitle">{p.title}</span>
-            <span className="ph-listArrow">→</span>
-          </Link>
-        ))}
+        {PROBLEM_HANDS.map((p, i) => {
+          const isPlayed = !!played[p.id];
+          return (
+            <Link
+              key={p.id}
+              to={`/just-play/problem-hands/${p.id}`}
+              className={`ph-listItem ${isPlayed ? "ph-listItem--played" : ""}`}
+            >
+              <span className="ph-listNum">{i + 1}</span>
+              <span className="ph-listTitle">{p.title}</span>
+              {isPlayed && (
+                <span className="ph-listTick" title="Played" aria-label="Played">
+                  ✓
+                </span>
+              )}
+              <span className="ph-listArrow">→</span>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

@@ -135,6 +135,14 @@ export default function SolutionEditor({ problem, onDone }) {
       else delete next[play.length];
       return next;
     });
+  // The "start" message (card 0) is shown at Trick 0, before any card is played.
+  const setStartMsg = (text) =>
+    setMessages((m) => {
+      const next = { ...m };
+      if (text.trim()) next[0] = text;
+      else delete next[0];
+      return next;
+    });
   const save = async () => {
     setSaving(true);
     try {
@@ -175,6 +183,15 @@ export default function SolutionEditor({ problem, onDone }) {
           <EditorHand seat="S" label="South" cards={st.remaining.S} isTurn={st.seat === "S"} legal={st.legal} onPlay={playCard} suits={suitOrder} />
         </div>
       </div>
+
+      <label className="sp-msgLabel">Start message — shown at Trick 0, before any card is played</label>
+      <textarea
+        className="sp-msgInput"
+        value={messages[0] || ""}
+        onChange={(e) => setStartMsg(e.target.value)}
+        placeholder="The learning message the solution opens with…"
+        rows={3}
+      />
 
       <label className="sp-msgLabel">Message pinned at card #{play.length}</label>
       <textarea

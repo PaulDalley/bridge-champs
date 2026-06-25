@@ -5,6 +5,7 @@ import PlayTable from "../PlayTable/PlayTable";
 import SolutionPlayer, { simulateLowestLine } from "./SolutionPlayer";
 import SolutionEditor from "./SolutionEditor";
 import { loadSolution } from "./solutionStore";
+import { markPlayed } from "./problemProgress";
 import { suitOrderForTrump } from "../PlayTable/bridgeCore";
 import "./ProblemHands.css";
 
@@ -131,6 +132,9 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
 
   const handleExit = useCallback(() => setPhase("solution"), []);
   const handlePlayAgain = useCallback(() => setPhase("playing"), []);
+  // Mark this hand "played" the moment it finishes at the table (done or passed
+  // out), independent of whether the member then opens the solution.
+  const handleHandResult = useCallback(() => markPlayed(problem.id), [problem.id]);
 
   // Recorded solution walkthrough (Firestore). Null until loaded / if none.
   // `solutionLoaded` lets us tell "still loading" apart from "loaded, none found"
@@ -156,6 +160,12 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
     });
     setPhase("solution");
   }, [problem.id]);
+
+  // Mark this hand "played" (a tick on the Problem Hands list) once the member
+  // finishes the hand and opens the solution. localStorage, per device.
+  useEffect(() => {
+    if (phase === "solution") markPlayed(problem.id);
+  }, [phase, problem.id]);
 
   const isLocalhost =
     typeof window !== "undefined" &&
@@ -285,6 +295,7 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
           }}
           exitLabel="View solution"
           onExit={handleExit}
+          onResult={handleHandResult}
         />
         {/* Explanation + auction stay on the play screen, in a bordered card so
             they're readable and not jammed against the edges. */}
