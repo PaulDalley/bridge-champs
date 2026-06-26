@@ -348,6 +348,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
         name: "Stayman",
         intro: ``,
         articles: [
+          { title: "Stayman Convention", to: "/bidding/advanced/stayman-convention", level: A },
           { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
           { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
           { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
