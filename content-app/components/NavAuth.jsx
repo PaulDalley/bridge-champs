@@ -1,20 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { detectMember } from '../lib/detectMember';
 
 // Auth-aware nav controls for the content-app header (homepage + /learn pages).
-// Detects login the same way HomeAuth does — a Firebase auth key in localStorage.
-// SSR/first paint shows the guest controls (Log in / Sign up) so they're always
-// present for guests and crawlers; switches to "Account" once hydrated if a
-// session is found. /login, /signup, /settings are CRA routes (full page load).
+// Detects login via detectMember (checks both localStorage and the Firebase v9
+// IndexedDB store). SSR/first paint shows the guest controls (Log in / Sign up)
+// so they're always present for guests and crawlers; switches to "Account" once
+// hydrated if a session is found. /login, /signup, /settings are CRA routes.
 export default function NavAuth() {
   const [member, setMember] = useState(false);
 
   useEffect(() => {
-    try {
-      setMember(
-        Object.keys(localStorage).some((k) => k.startsWith('firebase:authUser:'))
-      );
-    } catch (_) {}
+    let alive = true;
+    detectMember().then((m) => {
+      if (alive) setMember(m);
+    });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   if (member) {

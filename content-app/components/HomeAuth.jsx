@@ -1,18 +1,21 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { detectMember } from '../lib/detectMember';
 
 export default function HomeAuth({ children, recentArticles }) {
   const [isMember, setIsMember] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    try {
-      const loggedIn = Object.keys(localStorage).some((k) =>
-        k.startsWith('firebase:authUser:')
-      );
-      setIsMember(loggedIn);
-    } catch (_) {}
-    setReady(true);
+    let alive = true;
+    detectMember().then((m) => {
+      if (!alive) return;
+      setIsMember(m);
+      setReady(true);
+    });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // During SSR and first paint: show the guest hero (no layout shift)
