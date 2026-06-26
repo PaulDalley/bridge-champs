@@ -283,6 +283,7 @@ Another key idea is not letting the opponents play in comfortable contracts when
           { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
           { title: "Preempting in First Seat: When to Be Bold", to: "/bidding/advanced/preempting-first-seat-bold", level: A },
           { title: "Preemptive Raises in Bridge: Why Big Trump Fits Beat Big Points", to: "/beginner/articles/bidding/preemptive-raises-bridge-big-trump", level: F },
+          { title: "Bridge winning strategies - Top 5 to improve your results", to: "/bidding/advanced/bridge-winning-strategies-top-5", level: A },
         ],
       },
       {
@@ -337,8 +338,21 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             articles: [
               { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverse Bids in Bridge: Showing Extra Strength", to: "/bidding/advanced/reverses", level: A },
+              { title: "Multi two (2D) opening: How to play it and how to defend against it.", to: "/bidding/advanced/multi-2d-opening", level: A },
             ],
           },
+        ],
+      },
+      {
+        slug: "stayman",
+        name: "Stayman",
+        intro: ``,
+        articles: [
+          { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
+          { title: "Puppet Stayman: How to Check for 5-Card Majors", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
+          { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
+          { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
+          { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
         ],
       },
       {

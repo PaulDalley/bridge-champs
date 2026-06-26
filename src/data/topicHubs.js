@@ -283,6 +283,7 @@ Another key idea is not letting the opponents play in comfortable contracts when
           { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
           { title: "Preempting in First Seat: When to Be Bold", to: "/bidding/advanced/preempting-first-seat-bold", level: A },
           { title: "Preemptive Raises in Bridge: Why Big Trump Fits Beat Big Points", to: "/beginner/articles/bidding/preemptive-raises-bridge-big-trump", level: F },
+          { title: "Bridge winning strategies - Top 5 to improve your results", to: "/bidding/advanced/bridge-winning-strategies-top-5", level: A },
         ],
       },
       {
@@ -337,6 +338,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             articles: [
               { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverse Bids in Bridge: Showing Extra Strength", to: "/bidding/advanced/reverses", level: A },
+              { title: "Multi two (2D) opening: How to play it and how to defend against it.", to: "/bidding/advanced/multi-2d-opening", level: A },
             ],
           },
         ],
