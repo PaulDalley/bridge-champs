@@ -4,7 +4,7 @@
  * top line was garbled/ambiguous; kept the existing title). Bid shorthand -> suit
  * symbols; (ai give/make...) -> MakeBoard; section markers -> <h2>; (ai link) ->
  * garbage-stayman link. Three clear typos fixed (THe->The, DOn't->Don't, bothy->both).
- * NOTE: "when you both majors" left VERBATIM (missing word, flagged — not edited).
+ * NOTE: "when you have both majors" — author approved adding the missing "have".
  * Usage: node scripts/publish-smolen-article.js --apply
  */
 const admin = require("firebase-admin");
@@ -39,7 +39,7 @@ const B3 = mk("*S-AK104*H-K1053*D-543*C-42", "_/1NT/P/2♣/P/2♦/P/3NT");
 const B4 = mk("*S-AK104*H-K10843*D-542*C-2", "_/1NT/P/2♦/P/2♥/P/2♠/P/2NT/P/3NT");
 
 const BODY_HTML = `
-<p>The key context for when Smolen applies is when you both majors. More specifically, when you have 5-4 in the majors, or even 6-4. Lets just start with the basics</p>
+<p>The key context for when Smolen applies is when you have both majors. More specifically, when you have 5-4 in the majors, or even 6-4. Lets just start with the basics</p>
 
 <h2>So lets look at how it works</h2>
 
