@@ -311,7 +311,6 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
               { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
               { title: "Texas Transfers: Transfer Directly to Game", to: "/bidding/advanced/texas-transfers-transfer-directly-game", level: A },
-              { title: "1NT Transfers vs Stayman: When to Use Each", to: "/bidding/advanced/1nt-transfers-stayman-use-each", level: A },
               { title: "Super accept: 1NT Transfers Jacoby", to: "/bidding/advanced/super-accept-1nt-jacoby-transfers", level: A },
               { title: "Negative Doubles and One-Level Responses", to: "/bidding/advanced/1nt-responder-methods-practical-overview", level: A },
               { title: "Landy and Multi Landy", to: "/bidding/advanced/landy-and-multi-landy", level: A },

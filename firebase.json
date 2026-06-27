@@ -1666,7 +1666,12 @@
       },
       {
         "source": "/bidding/advanced/1nt-transfers-stayman-use-each",
-        "destination": "/learn/bidding/1nt-transfers-stayman-use-each",
+        "destination": "/learn/bidding/find-major-fit-after-1nt",
+        "type": 301
+      },
+      {
+        "source": "/learn/bidding/1nt-transfers-stayman-use-each",
+        "destination": "/learn/bidding/find-major-fit-after-1nt",
         "type": 301
       },
       {
