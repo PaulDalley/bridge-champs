@@ -89,7 +89,7 @@ ${B5}
 <li>3♠ = 5 card spades</li>
 </ul>
 
-<p>After 1NT 3♣ 3♦ - responder can ask about 4 card majors by bidding the major they DONT have, so for example on this hand that I gave a moment ago, responder has shown 4 spades by the bid of 4♥.</p>
+<p>After 1NT 3♣ 3♦ - responder can ask about 4 card majors by bidding the major they DONT have, so for example on this hand that I gave a moment ago, responder has shown 4 spades by the bid of 3♥.</p>
 
 ${B6}
 
