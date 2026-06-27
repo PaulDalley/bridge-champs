@@ -87,7 +87,10 @@ const STATIC_URLS = [
   { loc: "/all-articles", changefreq: "weekly", priority: "0.6" },
   // Topic-hub browse. /learn is the landing; /learn/<category> are real category
   // landing pages served by the content app; each topic is its own hub page.
-  // Keep these topic slugs in sync with src/data/topicHubs.js.
+  // Keep these topic slugs in sync with content-app/lib/topicHubs.js (the LIVE
+  // /learn hub source). Cross-check against the dynamic sitemap
+  // content-app/app/sitemap.js — any topic hub it lists that's missing here is
+  // absent from the public sitemap (that's how /learn/bidding/stayman slipped).
   { loc: "/learn", changefreq: "daily", priority: "0.9" },
   { loc: "/learn/bidding", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/declarer", changefreq: "weekly", priority: "0.8" },
