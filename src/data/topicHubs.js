@@ -345,9 +345,9 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
       {
         slug: "hand-evaluation",
         name: "Hand evaluation",
-        intro: `Hand evaluation is at the heart of every bidding decision. Point count is a useful starting point, but it only tells part of the story. Tools like Losing Trick Count give you a more nuanced picture, and experienced players learn to read their hands in the context of the auction as a whole.
+        intro: `Hand evaluation is at the heart of every bidding decision. Point count is a useful starting point but it is definitely not the whole story. It is important to understand losing trick count, and also to generally improve your judgment when you pick up a distributional hand and have a big trump fit with partner. As the auction develops, point count will become much less relevant, there will be "good points" and "bad points", in context to the auction.
 
-Key factors include fits and misfits — a trump fit transforms a hand, while a misfit can make even high-card-rich holdings dangerous. The position of your points matters too: values sitting opposite partner's long suits are powerful, while points opposite a shortage often signal trouble. Getting this right is what separates good bidding from great bidding, whether you're deciding to compete, push to game, or explore slam.`,
+Fits and misfits are important to handle correctly, generally we are misfitting when our points are opposite partner's shortage and vice versa - in such a situation we should be putting on the brakes. On the other hand, points opposite partner's long suit are "gold".`,
         trainerHref: "/bidding/practice?difficulty=2&problem=bid2-6",
         articles: [
           { title: "Hand Evaluation: Why Card Texture Matters", to: "/bidding/advanced/hand-evaluation-1-card-texture", level: A },
