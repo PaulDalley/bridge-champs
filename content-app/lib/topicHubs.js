@@ -345,7 +345,9 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
       {
         slug: "stayman",
         name: "Stayman",
-        intro: ``,
+        intro: `Stayman is the most popular bidding convention, it is simple and effective. It is used to find out whether the 1NT opener has a 4 card major. It is routine to look for a major fit if we decide to bid over 1NT, with the one exception being when we are 4-3-3-3, in which case there is no need to stray from No Trump.
+
+I suggest keeping it simple, do not use stayman for the sake of it, you should always have at least one 4 card major. With a 5 card major you would generally be using transfers, with the exception of when you have both majors, 5-4 (see Smolen).`,
         articles: [
           { title: "Stayman Convention", to: "/bidding/advanced/stayman-convention", level: A },
           { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
