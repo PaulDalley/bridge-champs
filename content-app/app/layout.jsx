@@ -3,6 +3,7 @@ import "./learn-hub.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import NavAuth from "../components/NavAuth";
+import { CATEGORIES } from "../lib/topicHubs";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -45,13 +46,30 @@ function Header() {
 }
 
 function Footer() {
+  const cats = CATEGORIES.filter((c) => Array.isArray(c.topics) && c.topics.length > 0);
   return (
     <footer className="bc-footer">
       <div className="bc-footer-inner">
-        <span>© 2018–2026 Bridge Champions</span>
-        <span>
-          <a href="/about">About</a> · <a href="/all-articles">All lessons</a>
-        </span>
+        <nav className="bc-footer-hubs" aria-label="Browse topics">
+          {cats.map((c) => (
+            <div className="bc-footer-col" key={c.key}>
+              <a className="bc-footer-head" href={`/learn/${c.key}`}>{c.label}</a>
+              <ul>
+                {c.topics.map((t) => (
+                  <li key={t.slug}>
+                    <a href={`/learn/${c.key}/${t.slug}`}>{t.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+        <div className="bc-footer-meta">
+          <span>© 2018–2026 Bridge Champions</span>
+          <span>
+            <a href="/learn">Learn</a> · <a href="/about">About</a> · <a href="/all-articles">All lessons</a>
+          </span>
+        </div>
       </div>
     </footer>
   );
