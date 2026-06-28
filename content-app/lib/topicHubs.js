@@ -103,6 +103,7 @@ Being aware of these long suits is the first step to making a lot more tricks. F
           { title: "Duck to Preserve Communication: Set Up Your Long Suit", to: "/declarer/articles/duck-preserve-communication-set-up", level: A },
           { title: "Setting Up Side Suits as Declarer", to: "/declarer/articles/pattern-recognition-2-set-up", level: A },
           { title: "Finding and Building Trick Sources", to: "/declarer/articles/pattern-recognition-3-find-build", level: A },
+          { title: "Use Entries Well: Reach the Right Hand at the Right Time", to: "/declarer/articles/use-entries-well-reach-right", level: A },
         ],
       },
       {
@@ -307,6 +308,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             articles: [
               { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
               { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
+              { title: "Stayman Convention", to: "/bidding/advanced/stayman-convention", level: A },
               { title: "Puppet Stayman - All you need to know", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
               { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
               { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
@@ -327,14 +329,10 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             ],
           },
           {
-            heading: "4th suit forcing",
-            articles: [
-              { title: "Fourth Suit Forcing: How and When to Use It", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
-            ],
-          },
-          {
             heading: "Other useful conventions",
             articles: [
+              { title: "What is a convention, and what conventions are the best to play?", to: "/bidding/advanced/what-is-a-convention-best-to-play", level: A },
+              { title: "Fourth Suit Forcing: How and When to Use It", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
               { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverse Bids in Bridge: Showing Extra Strength", to: "/bidding/advanced/reverses", level: A },
               { title: "Multi two (2D) opening: How to play it and how to defend against it.", to: "/bidding/advanced/multi-2d-opening", level: A },
