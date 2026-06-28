@@ -6,6 +6,15 @@ import NavAuth from "../components/NavAuth";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
+const OG_IMAGE = "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95";
+const SITE_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://bridgechampions.com/#organization", name: "Bridge Champions", url: "https://bridgechampions.com", logo: { "@type": "ImageObject", url: OG_IMAGE }, sameAs: ["https://www.youtube.com/@BridgeChampions"] },
+    { "@type": "WebSite", "@id": "https://bridgechampions.com/#website", name: "Bridge Champions", url: "https://bridgechampions.com", publisher: { "@id": "https://bridgechampions.com/#organization" } },
+  ],
+};
+
 export const metadata = {
   metadataBase: new URL("https://bridgechampions.com"),
   title: { default: "Bridge Champions", template: "%s" },
@@ -52,6 +61,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
         <Header />
         {children}
         <Footer />

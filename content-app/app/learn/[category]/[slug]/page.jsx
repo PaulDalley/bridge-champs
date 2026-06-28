@@ -21,6 +21,17 @@ const smartTrim = (s, max) => {
   const at = cut.lastIndexOf(" ");
   return (at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[\s,;:.!-]+$/, "") + "…";
 };
+const lastSeg = (p) => String(p || "").split("/").filter(Boolean).pop();
+// Flatten a topic hub's articles whether it uses groups or a flat list.
+const hubArticleList = (topic) => (topic.groups ? topic.groups.flatMap((g) => g.articles || []) : topic.articles || []);
+// Hub meta description: reuse the author's intro prose if present (his words,
+// already on the page); otherwise a navigational summary built from his titles.
+const hubDescription = (topic) => {
+  const intro = clean(topic.intro);
+  if (intro) return smartTrim(intro, 155);
+  const titles = hubArticleList(topic).map((a) => a.title).filter(Boolean);
+  return smartTrim(`${topic.name} guides and worked examples on Bridge Champions: ${titles.slice(0, 3).join(", ")}${titles.length > 3 ? " and more" : ""}.`, 155);
+};
 
 export async function generateStaticParams() {
   const arts = await listAllArticles();
@@ -43,11 +54,13 @@ export async function generateMetadata({ params }) {
   if (topic) {
     const url = `${BASE}/learn/${params.category}/${params.slug}`;
     const hubTitle = `${topic.name} — ${categoryLabel(params.category)} | Bridge Champions`;
+    const description = hubDescription(topic);
     return {
       title: hubTitle,
+      description,
       alternates: { canonical: url },
-      openGraph: { type: "website", url, title: hubTitle, siteName: "Bridge Champions", images: [{ url: OG_IMAGE, width: 1200, height: 630 }] },
-      twitter: { card: "summary_large_image", title: hubTitle, images: [OG_IMAGE] },
+      openGraph: { type: "website", url, title: hubTitle, description, siteName: "Bridge Champions", images: [{ url: OG_IMAGE, width: 1200, height: 630 }] },
+      twitter: { card: "summary_large_image", title: hubTitle, description, images: [OG_IMAGE] },
     };
   }
   const a = await getArticle(params.category, params.slug);
@@ -83,10 +96,23 @@ export default async function ArticleOrTopicPage({ params }) {
         { "@type": "ListItem", position: 3, name: topic.name, item: url },
       ],
     };
+    const hubArts = hubArticleList(topic);
+    const collectionLd = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: topic.name,
+      url,
+      isPartOf: { "@type": "WebSite", name: "Bridge Champions", url: BASE },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: hubArts.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.title, url: `${BASE}${slugToNew[lastSeg(a.to)] || a.to}` })),
+      },
+    };
     return (
       <>
         <TopicHub cat={cat} topic={topic} slugToNew={slugToNew} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }} />
       </>
     );
   }

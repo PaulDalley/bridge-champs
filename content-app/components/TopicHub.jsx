@@ -97,13 +97,13 @@ export default function TopicHub({ cat, topic, slugToNew }) {
         topic.groups ? (
           topic.groups.map((g, gi) => (
             <div className="th-group" key={g.heading + gi}>
-              <div className="th-sectionLabel">{g.heading}</div>
+              <h2 className="th-sectionLabel">{g.heading}</h2>
               <PathSteps list={g.articles || []} hrefFor={hrefFor} />
             </div>
           ))
         ) : (
           <>
-            <div className="th-sectionLabel">Work through it</div>
+            <h2 className="th-sectionLabel">Work through it</h2>
             <PathSteps list={articles} hrefFor={hrefFor} />
           </>
         )

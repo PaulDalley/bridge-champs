@@ -5,16 +5,26 @@ import { getCategory } from "../../../lib/topicHubs";
 export const dynamic = "force-dynamic";
 
 const SITE = "https://bridgechampions.com";
+const OG_IMAGE = "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95";
 const CATEGORY_SUIT = { declarer: "♠", defence: "♥", bidding: "♦", beginner: "♣" };
+const smartTrim = (s, max) => { const t = String(s || ""); if (t.length <= max) return t; const cut = t.slice(0, max); const at = cut.lastIndexOf(" "); return (at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[\s,;:.!-]+$/, "") + "…"; };
 
 export async function generateMetadata({ params }) {
   if (!CATEGORIES.includes(params.category)) {
     return { title: "Not found — Bridge Champions", robots: { index: false } };
   }
   const label = categoryLabel(params.category);
+  const tc = getCategory(params.category);
+  const names = tc && Array.isArray(tc.topics) ? tc.topics.map((t) => t.name) : [];
+  const title = `${label} — Learn Bridge | Bridge Champions`;
+  const description = smartTrim(`${label} lessons on Bridge Champions${names.length ? " — " + names.slice(0, 5).join(", ") : ""}.`, 155);
+  const url = `${SITE}/learn/${params.category}`;
   return {
-    title: `${label} — Learn Bridge | Bridge Champions`,
-    alternates: { canonical: `${SITE}/learn/${params.category}` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: "website", url, title, description, siteName: "Bridge Champions", images: [{ url: OG_IMAGE, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
 }
 

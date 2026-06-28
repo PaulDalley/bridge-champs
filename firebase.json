@@ -331,7 +331,7 @@
       },
       {
         "source": "/conventions",
-        "destination": "/bidding/advanced",
+        "destination": "/learn/bidding/conventions",
         "type": 301
       },
       {

@@ -5,6 +5,7 @@ import LearnSearch from "../../components/LearnSearch";
 export const dynamic = "force-dynamic";
 
 const SITE = "https://bridgechampions.com";
+const OG_IMAGE = "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95";
 const CATEGORY_SUIT = { declarer: "♠", defence: "♥", bidding: "♦" };
 const lastSeg = (p) => String(p || "").split("/").filter(Boolean).pop();
 
@@ -18,7 +19,9 @@ export const metadata = {
     title: "Learn Bridge by Topic | Bridge Champions",
     description: "Declarer play, defence, and bidding — by topic.",
     siteName: "Bridge Champions",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630 }],
   },
+  twitter: { card: "summary_large_image", title: "Learn Bridge by Topic | Bridge Champions", description: "Declarer play, defence, and bidding — by topic.", images: [OG_IMAGE] },
 };
 
 export default async function LearnRoot() {
