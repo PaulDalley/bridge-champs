@@ -2033,6 +2033,11 @@
         "source": "/defence/articles/udca-signals",
         "destination": "/learn/defence/udca-signals",
         "type": 301
+      },
+      {
+        "source": "/bidding/advanced/:slug",
+        "destination": "/learn/bidding/:slug",
+        "type": 301
       }
     ]
   }
