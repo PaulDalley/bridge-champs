@@ -8242,8 +8242,8 @@ const BIDDING_PUZZLES = [
                 <p className="ct-revealRichBody">
                   Beyond these principles, hand evaluation is very important. The single most important idea is - how
                   many points do I have in the opponents suit? Little or no points in the opponent&apos;s suit suggests
-                  it&apos;s a good time to compete. If you have a lot of points in their suit, it discourages defending, though
-                  doesn&apos;t rule it out.
+                  it&apos;s a good time to compete. If you have a lot of points in their suit, it is more sensible to defend
+                  and should discourage you from competing a bit, although shouldn&apos;t rule it out.
                 </p>
               </section>
             </div>
