@@ -736,7 +736,15 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
           auction: state.auction,
           fast: fastRef.current,
         });
-        if (res.error) setNotice("Connection issue — using offline opponents.");
+        if (res.error) {
+          // eslint-disable-next-line no-console
+          console.warn("[BEN] bot bid fell back to offline", { seat, error: res.error });
+          setNotice(
+            /timed out/i.test(res.error) ? "BEN is slow to respond — using offline opponents."
+              : /unreachable|network/i.test(res.error) ? "Connection issue — using offline opponents."
+              : "BEN couldn't bid this hand — using offline opponents."
+          );
+        }
         await new Promise((r) => setTimeout(r, BID_PACING_MS));
         setThinking(null);
         // Safety: never let an illegal bot call stall the auction — fall back to Pass.
@@ -802,7 +810,15 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
             fast: fastRef.current,
           });
         }
-        if (res.error) setNotice("Connection issue — using offline play.");
+        if (res.error) {
+          // eslint-disable-next-line no-console
+          console.warn("[BEN] bot play fell back to offline", { seat, error: res.error });
+          setNotice(
+            /timed out/i.test(res.error) ? "BEN is slow to respond — using offline play."
+              : /unreachable|network/i.test(res.error) ? "Connection issue — using offline play."
+              : "BEN couldn't play this hand — using offline play."
+          );
+        }
         await new Promise((r) => setTimeout(r, BOT_PACING_MS));
         setThinking(null);
         // Safety: returned card must be legal for the PHYSICAL seat's current hand.

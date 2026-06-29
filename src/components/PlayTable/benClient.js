@@ -116,18 +116,48 @@ export function tokenToCard(token) {
 
 // ── HTTP ────────────────────────────────────────────────────────────────────
 
+/**
+ * Surface BEN problems in the browser console with the FULL request context, so a
+ * real failing call can be inspected (status, BEN's own error body, and the exact
+ * encoded params we sent). Previously every failure was swallowed into a generic
+ * "connection issue" and silently replaced by the offline mock — which hid genuine
+ * engine rejections (bad cardplay order, etc.) behind misleading "offline" UX.
+ */
+export function logBenIssue(label, info) {
+  // eslint-disable-next-line no-console
+  console.warn(`[BEN ${label}]`, info);
+}
+
 async function getJson(path, params) {
   const qs = new URLSearchParams(params).toString();
   const url = `${BASE_URL}${path}?${qs}`;
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), REQUEST_TIMEOUT_MS);
+  let res;
   try {
-    const res = await fetch(url, { signal: ctrl.signal });
-    if (!res.ok) throw new Error(`BEN ${path} HTTP ${res.status}`);
-    return await res.json();
-  } finally {
+    res = await fetch(url, { signal: ctrl.signal });
+  } catch (e) {
     clearTimeout(timer);
+    const timedOut = e && e.name === "AbortError";
+    logBenIssue(timedOut ? "timeout" : "network error", { path, params, error: String((e && e.message) || e) });
+    const err = new Error(timedOut ? `BEN ${path} timed out after ${REQUEST_TIMEOUT_MS}ms` : `BEN ${path} unreachable: ${(e && e.message) || e}`);
+    err.timeout = timedOut;
+    err.network = !timedOut;
+    throw err;
   }
+  clearTimeout(timer);
+  if (!res.ok) {
+    // BEN puts the real reason (e.g. {"error":"Cardplay order is not correct ..."})
+    // in the body — capture it instead of throwing a bare status.
+    let body = "";
+    try { body = await res.text(); } catch (_) { /* ignore */ }
+    logBenIssue("HTTP error", { path, status: res.status, params, body: body.slice(0, 500) });
+    const err = new Error(`BEN ${path} HTTP ${res.status}: ${body.slice(0, 200)}`);
+    err.status = res.status;
+    err.body = body;
+    throw err;
+  }
+  return await res.json();
 }
 
 // ── public API ────────────────────────────────────────────────────────────────
@@ -148,7 +178,9 @@ export async function getBid(ctx) {
       ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.bid == null) {
-      return { call: mock.mockBid(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no bid in response" };
+      const error = (data && (data.message || data.error)) || "no bid in response";
+      logBenIssue("bid no-result", { seat: ctx.seat, ctx: auctionToCtx(ctx.auction), response: data, error });
+      return { call: mock.mockBid(ctx), source: "mock-fallback", error };
     }
     // BEN returns alert as the string "True"/"False"; coerce to a real boolean.
     return { call: tokenToCall(data.bid), explanation: data.explanation, alert: /^true$/i.test(String(data.alert)), raw: data, source: "ben" };
@@ -170,7 +202,9 @@ export async function getLead(ctx) {
       ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.card == null) {
-      return { card: mock.mockLead(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no card in response" };
+      const error = (data && (data.message || data.error)) || "no card in response";
+      logBenIssue("lead no-result", { seat: ctx.seat, ctx: auctionToCtx(ctx.auction), response: data, error });
+      return { card: mock.mockLead(ctx), source: "mock-fallback", error };
     }
     return { card: tokenToCard(data.card), raw: data, source: "ben" };
   } catch (err) {
@@ -196,7 +230,9 @@ export async function getPlay(ctx) {
       ...(ctx.fast ? { fast: "true" } : {}),
     });
     if (!data || data.card == null) {
-      return { card: mock.mockPlay(ctx), source: "mock-fallback", error: (data && (data.message || data.error)) || "no card in response" };
+      const error = (data && (data.message || data.error)) || "no card in response";
+      logBenIssue("play no-result", { seat: ctx.seat, played: playedToParam(ctx.played || []), ctx: auctionToCtx(ctx.auction), response: data, error });
+      return { card: mock.mockPlay(ctx), source: "mock-fallback", error };
     }
     return { card: tokenToCard(data.card), raw: data, source: "ben" };
   } catch (err) {
