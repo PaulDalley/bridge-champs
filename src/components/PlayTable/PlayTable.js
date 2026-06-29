@@ -137,6 +137,31 @@ function seatToPlay(state) {
   return nextClockwise(state.trickPlays[state.trickPlays.length - 1].seat);
 }
 
+/**
+ * Synthesize a minimal legal auction that yields `contract`: everyone passes up to
+ * the declarer, who bids the final contract, then three passes end it. Problem-hand
+ * setups often omit the auction, but BEN derives the contract (declarer + trump) from
+ * the auction it's sent — an empty `ctx` makes the engine reject every /play with a
+ * 400, silently dropping the table to the offline mock (illogical play). This gives
+ * BEN a real auction to read.
+ */
+function auctionForContract(dealer, contract) {
+  const calls = [];
+  let seat = dealer;
+  let guard = 0;
+  while (seat !== contract.declarer && guard++ < 4) {
+    calls.push({ seat, call: { kind: "pass" } });
+    seat = nextClockwise(seat);
+  }
+  calls.push({ seat, call: { kind: "bid", level: contract.level, strain: contract.strain } });
+  seat = nextClockwise(seat);
+  for (let i = 0; i < 3; i += 1) {
+    calls.push({ seat, call: { kind: "pass" } });
+    seat = nextClockwise(seat);
+  }
+  return calls;
+}
+
 /** Set up play state from a fully-specified problem hand (skip dealing/auction). */
 function freshProblemDeal(setup) {
   const leadCard = setup.lead.card;
@@ -144,6 +169,7 @@ function freshProblemDeal(setup) {
   const contract = setup.contract;
   const declarer = contract.declarer;
   const dummy = partnerCompass(declarer);
+  const dealer = setup.dealer || "E";
 
   const originalHands = {
     N: [...setup.hands.N],
@@ -165,12 +191,12 @@ function freshProblemDeal(setup) {
   return {
     phase: "play",
     seed: null,
-    dealer: setup.dealer || "E",
+    dealer,
     dealCount: 1,
     vul: setup.vul || "",
     hands,
     originalHands,
-    auction: setup.auction || [],
+    auction: setup.auction && setup.auction.length ? setup.auction : auctionForContract(dealer, contract),
     contract,
     declarer,
     dummy,
