@@ -1,4 +1,4 @@
-import { db } from '../lib/firestoreAdmin';
+import WelcomeVideo from '../components/WelcomeVideo';
 import HomeAuth from '../components/HomeAuth';
 import GuestOnly from '../components/GuestOnly';
 import './home.css';
@@ -19,25 +19,6 @@ export const metadata = {
 };
 
 export const revalidate = 3600;
-
-// YouTube watch / youtu.be / shorts / embed URL → privacy-light embed URL.
-function youTubeEmbed(url) {
-  if (!url) return '';
-  let id = '';
-  try {
-    const u = new URL(url);
-    if (u.hostname.includes('youtu.be')) {
-      id = u.pathname.slice(1).split('/')[0];
-    } else if (u.hostname.includes('youtube.com')) {
-      id = u.searchParams.get('v') || '';
-      if (!id) {
-        const m = u.pathname.match(/^\/(embed|shorts)\/([\w-]+)/);
-        if (m) id = m[2];
-      }
-    }
-  } catch (_) {}
-  return id ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1` : '';
-}
 
 // Primary product pillars. Sub-lines reuse the site's own existing wording
 // (meta description + the Just Play members gate) — no new copy authored.
@@ -81,13 +62,7 @@ const EXPLORE = [
   },
 ];
 
-export default async function HomePage() {
-  let welcomeEmbed = '';
-  try {
-    const snap = await db().collection('siteSettings').doc('welcomeVideo').get();
-    if (snap.exists) welcomeEmbed = youTubeEmbed((snap.data() || {}).url || '');
-  } catch (_) {}
-
+export default function HomePage() {
   return (
     <div className="hp">
       <HomeAuth>
@@ -112,21 +87,7 @@ export default async function HomePage() {
               <a href="/membership" className="hp-btn-primary">Start 7-day free trial</a>
               <a href="/learn" className="hp-btn-ghost">Browse lessons</a>
             </div>
-            {welcomeEmbed && (
-              <div className="hp-hero-video">
-                <span className="hp-hero-video-label">Welcome video</span>
-                <div className="hp-hero-video-frame">
-                  <iframe
-                    src={welcomeEmbed}
-                    title="Welcome to Bridge Champions"
-                    loading="lazy"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            )}
+            <WelcomeVideo />
           </div>
 
           <div className="hp-statbar">
