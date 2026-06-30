@@ -76,7 +76,7 @@ const BODY_HTML = `
 
 <h2>The main idea of a cue bid</h2>
 
-<p>If we are thinking of slam, we don't want to be wide open in any of the suits. If for example, the opponents can cash the Ace and King of diamonds, taking us down in our slam, its a good idea to try avoid it, for example take this auction</p>
+<p>If we are thinking of slam, we don't want to be wide open in any of the suits. If for example, the opponents can cash the Ace and King of diamonds, taking us down in our slam, its a good idea to try to avoid it, for example take this auction</p>
 
 <h3>Example 1.</h3>
 
@@ -90,7 +90,7 @@ ${B1}
 
 <Callout type="rule">If you do not cue bid a suit, it denies control there, that is the main way we diagnose if we have two straight forward losers in a suit (the Ace and King).</Callout>
 
-<p>So in example 1, partner has denied and Ace or King of diamonds, and doesn't either have a singleton or void - Since we do not either have a control in diamonds, we simply sign off, we are absolutely sure slam is a bad idea. This is the full hand</p>
+<p>So in example 1, partner has denied an Ace or King of diamonds, and doesn't either have a singleton or void - Since we do not either have a control in diamonds, we simply sign off, we are absolutely sure slam is a bad idea. This is the full hand</p>
 
 ${B2}
 
@@ -102,7 +102,7 @@ ${B2}
 
 ${B3}
 
-<p>Once again lets assume 3♠ was a slam try hand. In this case its not a good idea to cue bid your diamond King. It is much better to convey to partner "I have a terrible hand, if that is relevant to you, sign off!". In an experience partnership, the players are aware of what type of hands might sign off, for example its common to make the rules</p>
+<p>Once again lets assume 3♠ was a slam try hand. In this case its not a good idea to cue bid your diamond King. It is much better to convey to partner "I have a terrible hand, if that is relevant to you, sign off!". In an experienced partnership, the players are aware of what type of hands might sign off, for example its common to make the rules</p>
 
 <p>1. A minimum hand</p>
 
@@ -124,7 +124,7 @@ ${B4}
 
 <p>1. We have agreed a major</p>
 
-<p>2. Generally only on the 4 level and higher. (there is an exception people play where they treat 3♠ as a cue bid, when hearts are already agreed. Why? Because otherwise to find out whether partner has a cue bid, we would have to bid 4♠, which forces us to the 5 level! Don't worry to much about this if its new to you, just have it in the back of your mind in case partner wants to play that).</p>
+<p>2. Generally only on the 4 level and higher. (there is an exception people play where they treat 3♠ as a cue bid, when hearts are already agreed. Why? Because otherwise to find out whether partner has a cue bid, we would have to bid 4♠, which forces us to the 5 level! Don't worry too much about this if its new to you, just have it in the back of your mind in case partner wants to play that).</p>
 
 <h2>Main source of confusion</h2>
 
