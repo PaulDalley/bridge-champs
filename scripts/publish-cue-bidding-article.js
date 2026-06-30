@@ -56,6 +56,8 @@ const B3 = single("*S-K5432*H-QJ4*D-KQ*C-J103", "South", "_/_/_/1♠/P/3♠/P/4�
 const B4 = single("*S-AQ10*H-543*D-K104*C-10873", "North", "_/1♦/1♠/2♦/2♠/3♥/P");
 // No slam prospects — just bid game, don't cue bid.
 const B5 = single("*S-QJ1043*H-72*D-8*C-A10543", "North", "_/1NT/P/2♥/P/2♠/P/3♣/P/4♣/P");
+// Example 2 — below 3NT both sides angle for 3NT; South shows spade values with 3S (to act).
+const B6 = single("*S-AQ10*H-72*D-Q1084*C-10832", "North", "_/1♦/P/3♦/P/3♥/P");
 
 const BODY_HTML = `
 <p>Cue bidding is used by most expert level partnerships, and I highly recommend it for all partnerships - its not difficult to understand and it is worth the effort to learn.</p>
@@ -118,7 +120,15 @@ ${B3}
 
 ${B4}
 
-<p>Partners bid of 3♥ is natural, showing values there. <u>It is not a cuebid</u>. Since 3NT is one of our favourite contracts, bids below 3NT should basically communicate the message "Is 3NT a viable contract rather than 5 of a minor". We have no problem bidding 3NT with those cards in spades, likely we have a double stopper.</p>
+<p>Partners bid of 3♥ is natural. <u>It is not a cuebid</u>. Since 3NT is one of our favourite contracts, bids below 3NT should basically communicate two main things "I have natural hearts (4+ cards, not a cue bid) in case we have a fit, otherwise is 3NT a viable contract rather than 5 of a minor". We have no problem bidding 3NT with those cards in spades, likely we have a double stopper.</p>
+
+<h3>Example 2.</h3>
+
+<p>In this very similar hand where you have 4 diamonds.</p>
+
+${B6}
+
+<p>In the auction 3♦ showed 7-11 points with a 4 card raise, without a 4 card major. Partner's 3♥ bid is not a cue bid, partner is angling for 3NT, showing where their values are. We can now bid 3♠ showing that we have values there. The main point to remember - below 3NT, our bids are focused on getting to 3NT. Partner had a singleton in spades and didn't want to directly bid it and lose the first 5 spade tricks! Partner didn't know at that point whether 5♦ or 3NT is best, we discovered that 3NT was best.</p>
 
 <p>So, Cuebids only apply when</p>
 
