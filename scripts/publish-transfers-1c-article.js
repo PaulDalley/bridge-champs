@@ -128,7 +128,7 @@ ${B5}
 
 <h2>Important points</h2>
 
-<p>1. Checkback. Checkback is beyond the scope of this article, but ask partner when and how checkback applies. I will make recommendations for that in <a href="/learn/bidding/two-way-checkback">my soon upcoming article on the topic</a>.</p>
+<p>1. Checkback. Checkback is beyond the scope of this article, but ask partner when and how checkback applies. I will make recommendations for that in <a href="/learn/bidding/two-way-checkback">my article on the topic</a>.</p>
 
 <p>2. What happens in competition? My simple suggestion is, just play all natural bids in competition, it is the best way to avoid confusion in most partnerships - in other words "All system off in competition".</p>
 
