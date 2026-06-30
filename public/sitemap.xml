@@ -290,7 +290,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/learn/bidding/fourth-suit-forcing-checkback-core</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -452,7 +452,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/learn/bidding/stayman-convention</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -464,7 +464,7 @@
   </url>
   <url>
     <loc>https://bridgechampions.com/learn/bidding/system-over-1nt-conventions</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -483,6 +483,12 @@
   <url>
     <loc>https://bridgechampions.com/learn/bidding/third-seat-openings-practical-aggression</loc>
     <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bridgechampions.com/learn/bidding/transfers-over-1c</loc>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
