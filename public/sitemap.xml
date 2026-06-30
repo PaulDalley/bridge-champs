@@ -493,6 +493,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bridgechampions.com/learn/bidding/two-way-checkback</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://bridgechampions.com/learn/bidding/vulnerability</loc>
     <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
