@@ -65,15 +65,33 @@ function isPublishable(meta) {
   return true;
 }
 
+// Firestore reads on a cold Cloud Run instance (or a momentary hiccup) occasionally
+// throw. Without a retry, the swallowed failure yields an empty list that then gets
+// baked into the hour-long ISR cache — e.g. the homepage's "Recently added" block
+// disappears for up to an hour. Retry a few times with backoff so transient
+// failures recover; a genuinely persistent failure (no creds) still falls through.
+async function withRetry(fn, attempts = 3, baseDelayMs = 250) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, baseDelayMs * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 async function readCategory(category) {
   const pairs = CATEGORY_COLLECTIONS[category] || [];
   const out = [];
   for (const [summaryColl, bodyColl] of pairs) {
     let snap;
     try {
-      snap = await db().collection(summaryColl).get();
+      snap = await withRetry(() => db().collection(summaryColl).get());
     } catch (_) {
-      continue; // no creds / transient — skip, build still succeeds
+      continue; // no creds / persistent failure — skip, build still succeeds
     }
     snap.forEach((doc) => {
       const meta = doc.data() || {};
@@ -115,7 +133,7 @@ export async function getArticle(category, slug) {
   for (const [summaryColl, bodyColl] of pairs) {
     let snap;
     try {
-      snap = await db().collection(summaryColl).where("slug", "==", slug).limit(1).get();
+      snap = await withRetry(() => db().collection(summaryColl).where("slug", "==", slug).limit(1).get());
     } catch (_) {
       continue;
     }
@@ -125,7 +143,7 @@ export async function getArticle(category, slug) {
     const bodyId = meta.body || snap.docs[0].id;
     let bodyDoc;
     try {
-      bodyDoc = await db().collection(bodyColl).doc(bodyId).get();
+      bodyDoc = await withRetry(() => db().collection(bodyColl).doc(bodyId).get());
     } catch (_) {
       return null;
     }
