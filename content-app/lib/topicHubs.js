@@ -255,6 +255,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Third Seat Openings: Practical Aggression", to: "/bidding/advanced/third-seat-openings-practical-aggression", level: A },
           { title: "How to Play Contract Bridge: Step-by-Step Guide", to: "/beginner/articles/bidding/play-contract-bridge-step-step", level: F },
           { title: "How to Improve at Bridge - Focus", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
+          { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
         ],
       },
       {
@@ -326,6 +327,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
               { title: "Jacoby 2NT: The Game-Forcing Major Raise", to: "/bidding/advanced/jacoby-2nt", level: A },
               { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
+              { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
             ],
           },
           {
