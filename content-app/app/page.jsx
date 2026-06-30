@@ -1,4 +1,3 @@
-import { listAllArticles, categoryLabel } from '../lib/articles';
 import { db } from '../lib/firestoreAdmin';
 import HomeAuth from '../components/HomeAuth';
 import GuestOnly from '../components/GuestOnly';
@@ -83,20 +82,6 @@ const EXPLORE = [
 ];
 
 export default async function HomePage() {
-  let recentArticles = [];
-  try {
-    const all = await listAllArticles();
-    recentArticles = all
-      .filter((a) => a.updatedAt)
-      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-      .slice(0, 8)
-      .map((a) => ({
-        title: a.title,
-        href: `/learn/${a.category}/${a.slug}`,
-        category: categoryLabel(a.category),
-      }));
-  } catch (_) {}
-
   let welcomeEmbed = '';
   try {
     const snap = await db().collection('siteSettings').doc('welcomeVideo').get();
@@ -105,7 +90,7 @@ export default async function HomePage() {
 
   return (
     <div className="hp">
-      <HomeAuth recentArticles={recentArticles}>
+      <HomeAuth>
         <section className="hp-hero">
           <div className="hp-hero-bg" aria-hidden="true" />
           <div className="hp-hero-inner">
