@@ -130,7 +130,7 @@ ${B6}
 
 ${B7}
 
-<p>For example on this hand, we should <a href="/learn/bidding/transfers-must-have-tool-nt">transfer</a> by bidding 2♥. It would be a mistake to bid stayman with a 5 card major (unless you have 4 in the other major, see below).</p>
+<p>For example on this hand, we should <a href="/learn/bidding/system-over-1nt-conventions">transfer</a> by bidding 2♥. It would be a mistake to bid stayman with a 5 card major (unless you have 4 in the other major, see below).</p>
 
 <h2>Where does Smolen fit in?</h2>
 
