@@ -33,7 +33,7 @@ const BODY_COLLECTION = "biddingBody";
 
 const TITLE = "The Unusual NT: A Two-Suited 2NT Overcall";
 const SLUG = "unusual-2nt";
-const TEASER = "The unusual NT is typically a jump in No Trump. It shows either the two lowest unbid suits (commonly abbreviated as LUBS), or others play it as both minors.";
+const TEASER = "The unusual No Trump is typically a jump in No Trump. It shows either the two lowest unbid suits (commonly abbreviated as LUBS), or others play it as both minors.";
 const META_DESCRIPTION = TEASER;
 const PRIMARY_KEYWORD = "unusual 2NT";
 const RELATED_LINKS = [
@@ -63,7 +63,7 @@ const B6 = single("*S-A103*H-54*D-KQ1087*C-K102", "East", "_/_/1♣/1♦/P/2NT")
 const BODY_HTML = `
 <h2>What is it?</h2>
 
-<p>The unusual NT is typically a jump in No Trump. It shows either the two lowest unbid suits (commonly abbreviated as LUBS), or others play it as both minors. I strongly recommend playing it as 5-5 at least in the minors. Not 5-4, or 6-4, etc. Lets look at some examples</p>
+<p>The unusual No Trump is typically a jump in No Trump. It shows either the two lowest unbid suits (commonly abbreviated as LUBS), or others play it as both minors. I strongly recommend playing it as 5-5 at least in the minors. Not 5-4, or 6-4, etc. Lets look at some examples</p>
 
 ${B1}
 
