@@ -258,6 +258,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
           { title: "Transfers over 1C: How They Work", to: "/bidding/advanced/transfers-over-1c", level: A },
           { title: "Two-way checkback: all you need to know", to: "/bidding/advanced/two-way-checkback", level: A },
+          { title: "2 over 1: Game forcing", to: "/bidding/advanced/2-over-1-game-forcing", level: A },
         ],
       },
       {
