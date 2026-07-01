@@ -49,7 +49,7 @@ const single = (south, dealer, bidding) =>
 // Example 1 — partial (South to act after 4H). South = AK10843 (6 spades, see note).
 const B1 = single("*S-AK10843*H-KQ104*D-87*C-4", "South", "_/_/_/1♠/P/3♠/P/4♣/P/4♥/P");
 // Example 1 — full deal (N+S shown), signed off in 4S.
-const B2 = `<MakeBoard boardType="single" position="South" North="*S-QJ95*H-AJ983*D-QJ10*C-A" East="${EMPTY}" South="*S-AK10843*H-KQ104*D-87*C-4" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1♠/P/3♠/P/4♣/P/4♥/P/4♠/P/P/P" />`;
+const B2 = `<MakeBoard boardType="double" position="North/South" North="*S-QJ95*H-AJ983*D-QJ10*C-A" East="${EMPTY}" South="*S-AK10843*H-KQ104*D-87*C-4" West="${EMPTY}" vuln="Nil Vul" dealer="South" bidding="_/_/_/1♠/P/3♠/P/4♣/P/4♥/P/4♠/P/P/P" />`;
 // Sign-off example — minimum/bad hand just bids game.
 const B3 = single("*S-K5432*H-QJ4*D-KQ*C-J103", "South", "_/_/_/1♠/P/3♠/P/4♠");
 // Bids below 3NT are natural — 3H is natural, South bids 3NT.
