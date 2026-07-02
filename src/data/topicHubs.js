@@ -252,6 +252,7 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Misfit Auctions: Put the Brakes On Early", to: "/bidding/advanced/misfit-auctions-put-brakes-early", level: A },
           { title: "Opening 2C: When (Not) to Use It", to: "/bidding/advanced/opening-2c-avoid-whenever-possible", level: A },
           { title: "Third Seat Openings: Practical Aggression", to: "/bidding/advanced/third-seat-openings-practical-aggression", level: A },
+          { title: "Better minor or short club?", to: "/bidding/advanced/better-minor-or-short-club", level: A },
           { title: "How to Play Contract Bridge: Step-by-Step Guide", to: "/beginner/articles/bidding/play-contract-bridge-step-step", level: F },
           { title: "How to Improve at Bridge - Focus", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
         ],
