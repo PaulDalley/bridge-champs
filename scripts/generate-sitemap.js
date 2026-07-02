@@ -112,7 +112,6 @@ const STATIC_URLS = [
   { loc: "/learn/bidding/constructive", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/competitive", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/conventions", changefreq: "weekly", priority: "0.8" },
-  { loc: "/learn/bidding/stayman", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/hand-evaluation", changefreq: "weekly", priority: "0.8" },
   { loc: "/learn/bidding/vulnerability", changefreq: "weekly", priority: "0.8" },
   // Old hubs /beginner and /beginner/articles/{bidding,declarer,defence} (plus

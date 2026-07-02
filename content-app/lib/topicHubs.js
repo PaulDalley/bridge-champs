@@ -350,20 +350,6 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
         ],
       },
       {
-        slug: "stayman",
-        name: "Stayman",
-        intro: `Stayman is the most popular bidding convention, it is simple and effective. It is used to find out whether the 1NT opener has a 4 card major. It is routine to look for a major fit if we decide to bid over 1NT, with the one exception being when we are 4-3-3-3, in which case there is no need to stray from No Trump.
-
-I suggest keeping it simple, do not use stayman for the sake of it, you should always have at least one 4 card major. With a 5 card major you would generally be using transfers, with the exception of when you have both majors, 5-4 (see Smolen).`,
-        articles: [
-          { title: "Stayman Convention", to: "/bidding/advanced/stayman-convention", level: A },
-          { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
-          { title: "Puppet Stayman - All you need to know", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
-          { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
-          { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
-        ],
-      },
-      {
         slug: "hand-evaluation",
         name: "Hand evaluation",
         intro: `Hand evaluation is at the heart of every bidding decision. Point count is a useful starting point but it is definitely not the whole story. It is important to understand losing trick count, and also to generally improve your judgment when you pick up a distributional hand and have a big trump fit with partner. As the auction develops, point count will become much less relevant, there will be "good points" and "bad points", in context to the auction.
