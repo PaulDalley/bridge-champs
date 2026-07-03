@@ -55,6 +55,20 @@
         }
       },
       {
+        "source": "/tips",
+        "run": {
+          "serviceId": "bc-content",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/tips/**",
+        "run": {
+          "serviceId": "bc-content",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/_shell.html"
       }

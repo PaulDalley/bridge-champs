@@ -1,6 +1,7 @@
 import WelcomeVideo from '../components/WelcomeVideo';
 import HomeAuth from '../components/HomeAuth';
 import GuestOnly from '../components/GuestOnly';
+import QuickTips from '../components/QuickTips';
 import './home.css';
 
 export const metadata = {
@@ -19,48 +20,6 @@ export const metadata = {
 };
 
 export const revalidate = 3600;
-
-// Primary product pillars. Sub-lines reuse the site's own existing wording
-// (meta description + the Just Play members gate) — no new copy authored.
-const EXPLORE = [
-  {
-    name: 'Learn',
-    sub: 'Clear lessons',
-    href: '/learn',
-    tile: 'hp-explore-tile--learn',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M12 4 2 9l10 5 10-5-10-5z" />
-        <path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Practice',
-    sub: 'Hands-on practice',
-    href: '/practice',
-    tile: 'hp-explore-tile--practice',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <circle cx="12" cy="12" r="8.5" />
-        <circle cx="12" cy="12" r="4.5" />
-        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Just Play',
-    sub: 'Bid and play full deals against the computer',
-    href: '/just-play',
-    tile: 'hp-explore-tile--play',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
-        <rect x="3" y="5" width="12" height="15" rx="2" />
-        <path d="M15 8h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2" />
-      </svg>
-    ),
-  },
-];
 
 export default function HomePage() {
   return (
@@ -109,18 +68,7 @@ export default function HomePage() {
         </section>
       </HomeAuth>
 
-      <section className="hp-explore">
-        <div className="hp-explore-grid">
-          {EXPLORE.map(({ name, sub, href, tile, icon }) => (
-            <a key={name} href={href} className="hp-explore-card">
-              <span className={`hp-explore-tile ${tile}`}>{icon}</span>
-              <span className="hp-explore-name">{name}</span>
-              <span className="hp-explore-sub">{sub}</span>
-              <span className="hp-explore-go">Open →</span>
-            </a>
-          ))}
-        </div>
-      </section>
+      <QuickTips />
 
       <section className="hp-testimonials">
         <h2 className="hp-sec-label">What members say</h2>
