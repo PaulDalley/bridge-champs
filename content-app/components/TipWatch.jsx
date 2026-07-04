@@ -1,12 +1,26 @@
 'use client';
 import { useEffect, useReducer, useRef } from 'react';
-import { QUICK_TIPS, FREE_LIMIT } from '../lib/quickTips';
-import { detectMember } from '../lib/detectMember';
+import { QUICK_TIPS } from '../lib/quickTips';
+import { getAuthToken } from '../lib/detectMember';
 import MakeBoard from './MakeBoard';
 
-// REVIEW flag: while Paul reviews the real videos on localhost, don't wall after
-// FREE_LIMIT so he can watch all of them. Set false to restore the 2-free gate.
-const REVIEW_UNGATED = true;
+// Daily free-tip limits by effective tier (from /api/my-membership).
+//   guest = not subscribed · basic = 5 · premium = unlimited.
+// unknown/loading fail OPEN (Infinity) so a real member is never wrongly walled.
+const LIMITS = { guest: 2, basic: 5, premium: Infinity, unknown: Infinity, loading: Infinity };
+const limitFor = (tier) => (LIMITS[tier] != null ? LIMITS[tier] : Infinity);
+
+// Daily meter — counts distinct tips watched per calendar day (local), browser-side.
+const MKEY = 'bc_tips_meter';
+const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+function readMeter() {
+  try { const m = JSON.parse(localStorage.getItem(MKEY) || '{}'); if (m && m.d === todayStr() && Array.isArray(m.s)) return m; } catch (_) {}
+  return { d: todayStr(), s: [] };
+}
+const watchedToday = (slug) => readMeter().s.indexOf(slug) !== -1;
+const watchedCount = () => readMeter().s.length;
+function recordWatch(slug) { const m = readMeter(); if (m.s.indexOf(slug) === -1) { m.s.push(slug); try { localStorage.setItem(MKEY, JSON.stringify(m)); } catch (_) {} } }
+const canWatch = (slug, limit) => limit === Infinity || watchedToday(slug) || watchedCount() < limit;
 
 const GREEN = '#0f4c3a';
 const GOLD = '#d4af37';
@@ -21,7 +35,6 @@ const Share = ({ size = 20 }) => (<svg width={size} height={size} viewBox="0 0 2
 
 const embedSrc = (id) => `https://www.youtube.com/embed/${id}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1`;
 
-// Load the YouTube IFrame API once (singleton). Resolves with window.YT.
 let ytApiPromise = null;
 function loadYouTubeAPI() {
   if (typeof window === 'undefined') return Promise.resolve(null);
@@ -40,15 +53,10 @@ function loadYouTubeAPI() {
 export default function TipWatch({ startSlug }) {
   const [, force] = useReducer((x) => x + 1, 0);
   const startIndex = Math.max(0, QUICK_TIPS.findIndex((t) => t.slug === startSlug));
-  const s = useRef({ cur: startIndex, watched: 0, walled: false, autoplay: true, realSub: false }).current;
-  // The iframe src is server-rendered (SEO) and kept CONSTANT so React never resets
-  // it; video changes go through the IFrame API (or a direct src fallback).
+  const s = useRef({ cur: startIndex, walled: false, autoplay: true, tier: 'loading' }).current;
   const initialSrc = useRef(embedSrc(QUICK_TIPS[startIndex].videoId)).current;
   const playerRef = useRef(null);
   const toastRef = useRef(null);
-
-  const isGuest = () => !s.realSub;
-  const gated = () => !REVIEW_UNGATED && isGuest();
 
   function toast(msg) {
     const el = toastRef.current; if (!el) return;
@@ -64,36 +72,48 @@ export default function TipWatch({ startSlug }) {
     if (f) f.src = embedSrc(id) + '&autoplay=1';
   }
 
+  // Gate-check tip i against the daily meter. load=true loads+plays it (advance/click);
+  // load=false just checks the already-embedded start video.
+  function gateOpen(i, load) {
+    s.cur = i;
+    const slug = QUICK_TIPS[i].slug;
+    if (canWatch(slug, limitFor(s.tier))) {
+      recordWatch(slug);
+      s.walled = false;
+      if (load) loadVideo(i);
+    } else {
+      s.walled = true;
+      const p = playerRef.current; try { p && p.pauseVideo(); } catch (e) {}
+    }
+    force();
+  }
+
   function advance() {
-    const next = s.cur + 1;
-    if (gated() && next >= FREE_LIMIT) {
-      s.watched = FREE_LIMIT; s.walled = true;
-      const p = playerRef.current; try { p && p.pauseVideo(); } catch (e) {}
-      force(); return;
-    }
-    s.watched += 1; s.cur = next % QUICK_TIPS.length; toast('Nice — tip complete'); loadVideo(s.cur); force();
+    const next = (s.cur + 1) % QUICK_TIPS.length;
+    if (!s.walled) toast('Nice — tip complete');
+    gateOpen(next, true);
   }
-
-  function goTo(i) {
-    if (gated() && i >= FREE_LIMIT) {
-      s.watched = FREE_LIMIT; s.walled = true;
-      const p = playerRef.current; try { p && p.pauseVideo(); } catch (e) {}
-      force(); return;
-    }
-    s.cur = i; loadVideo(i); force();
-  }
-
+  function goTo(i) { gateOpen(i, true); }
   function toggleAuto() { s.autoplay = !s.autoplay; force(); }
 
   useEffect(() => {
     let alive = true;
-    detectMember().then((m) => { if (alive) { s.realSub = m; force(); } }).catch(() => {});
+    (async () => {
+      try {
+        const token = await getAuthToken();
+        if (!token) { if (alive) { s.tier = 'guest'; gateOpen(s.cur, false); } return; }
+        const r = await fetch('/api/my-membership', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }),
+        });
+        const d = r.ok ? await r.json() : { tier: 'unknown' };
+        if (alive) { s.tier = (d && d.tier) || 'unknown'; gateOpen(s.cur, false); }
+      } catch (_) { if (alive) { s.tier = 'unknown'; gateOpen(s.cur, false); } }
+    })();
+
     loadYouTubeAPI().then((YT) => {
       if (!alive || !YT || !document.getElementById('tw-yt-frame')) return;
       const player = new YT.Player('tw-yt-frame', {
-        events: {
-          onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED && s.autoplay && !s.walled) advance(); },
-        },
+        events: { onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED && s.autoplay && !s.walled) advance(); } },
       });
       playerRef.current = player;
     }).catch(() => {});
@@ -102,6 +122,8 @@ export default function TipWatch({ startSlug }) {
   }, []);
 
   const tip = QUICK_TIPS[s.cur];
+  const limit = limitFor(s.tier);
+  const isBasic = s.tier === 'basic';
 
   return (
     <div className="tw-page">
@@ -109,7 +131,6 @@ export default function TipWatch({ startSlug }) {
         <div className="tw-crumb">
           <a href="/tips">Quick tips</a> <span aria-hidden="true">/</span> <a href={`/tips?category=${encodeURIComponent(tip.cat)}`}>{tip.cat}</a>
         </div>
-        {gated() && <a href="/membership" className="tw-subscribe">Subscribe</a>}
       </div>
 
       <div className="tw-grid">
@@ -127,9 +148,9 @@ export default function TipWatch({ startSlug }) {
             {s.walled && (
               <div className="tw-wall">
                 <span className="tw-wall-lock"><Lock size={28} /></span>
-                <p className="tw-wall-h">That&apos;s your {FREE_LIMIT} free tips today</p>
-                <p className="tw-wall-p">Members watch every tip, with no daily cap.</p>
-                <a href="/membership" className="tw-wall-cta">Become a member</a>
+                <p className="tw-wall-h">That&apos;s your {limit} {isBasic ? 'tips' : 'free tips'} for today</p>
+                <p className="tw-wall-p">{isBasic ? 'Go premium for unlimited tips.' : 'Become a member to watch more.'}</p>
+                <a href="/membership" className="tw-wall-cta">{isBasic ? 'Upgrade to premium' : 'Become a member'}</a>
               </div>
             )}
           </div>
@@ -146,7 +167,7 @@ export default function TipWatch({ startSlug }) {
             <div className="tw-actions">
               <button className="tw-btn"><Bookmark size={16} /> Save</button>
               <button className="tw-btn"><Share size={16} /> Share</button>
-              <span className="tw-streak"><Flame size={15} /> {s.watched} watched</span>
+              <span className="tw-streak"><Flame size={15} /> {watchedCount()} today</span>
               <button className="tw-next" onClick={advance}><Next size={16} /> Next tip</button>
             </div>
           </div>
@@ -172,25 +193,18 @@ export default function TipWatch({ startSlug }) {
           <div className="tw-queue">
             {QUICK_TIPS.map((q, i) => {
               const now = i === s.cur;
-              const locked = gated() && i >= FREE_LIMIT;
-              const label = now ? 'Now playing' : (locked ? 'Members only' : 'Up next');
               return (
-                <div key={q.slug} className={'tw-q' + (now ? ' is-now' : '') + (locked ? ' is-locked' : '')} onClick={() => goTo(i)}>
+                <div key={q.slug} className={'tw-q' + (now ? ' is-now' : '')} onClick={() => goTo(i)}>
                   <div className="tw-q-thumb" style={{ backgroundImage: `url(https://i.ytimg.com/vi/${q.videoId}/hqdefault.jpg)` }}>
-                    <span className="tw-q-ic">{locked ? <Lock size={16} /> : (now ? <Pause size={16} /> : <Play size={16} />)}</span>
+                    <span className="tw-q-ic">{now ? <Pause size={16} /> : <Play size={16} />}</span>
                   </div>
                   <div className="tw-q-txt">
                     <p className="tw-q-title">{q.title}</p>
-                    <p className="tw-q-meta" style={{ color: now ? GREEN : (locked ? '#9a6a00' : 'var(--bc-muted)') }}>{label}{q.dur ? ` · ${q.dur}` : ''}</p>
+                    <p className="tw-q-meta" style={{ color: now ? GREEN : 'var(--bc-muted)' }}>{now ? 'Now playing' : 'Up next'}{q.dur ? ` · ${q.dur}` : ''}</p>
                   </div>
                 </div>
               );
             })}
-          </div>
-          <div className="tw-foot">
-            {gated()
-              ? <span>You have <b>{Math.max(0, FREE_LIMIT - s.watched)}</b> free left today</span>
-              : <span>Autoplay on &mdash; enjoy the run</span>}
           </div>
         </div>
       </div>

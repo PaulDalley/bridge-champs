@@ -76,3 +76,69 @@ export async function detectMember() {
     return false;
   }
 }
+
+// Returns the logged-in user's Firebase ID token (from the same IndexedDB/localStorage
+// session the CRA writes), or null if not logged in. The token is POSTed to
+// /api/my-membership, which verifies it server-side and returns the tier. Read-only,
+// never throws. Note: the token can be stale (~1h); a stale token verifies as
+// 'unknown' server-side and the caller fails OPEN (no wall).
+export async function getAuthToken() {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const k = Object.keys(localStorage).find((x) => x.startsWith('firebase:authUser:'));
+      if (k) {
+        const u = JSON.parse(localStorage.getItem(k) || '{}');
+        const t = u && u.stsTokenManager && u.stsTokenManager.accessToken;
+        if (t) return t;
+      }
+    }
+  } catch (_) {}
+
+  try {
+    if (typeof indexedDB === 'undefined') return null;
+    return await new Promise((resolve) => {
+      let settled = false;
+      const done = (v) => { if (!settled) { settled = true; resolve(v); } };
+      const timer = setTimeout(() => done(null), 1500);
+      let req;
+      try {
+        req = indexedDB.open('firebaseLocalStorageDb');
+      } catch (_) {
+        clearTimeout(timer);
+        return done(null);
+      }
+      req.onerror = () => { clearTimeout(timer); done(null); };
+      req.onsuccess = () => {
+        const idb = req.result;
+        try {
+          if (!idb.objectStoreNames.contains('firebaseLocalStorage')) {
+            clearTimeout(timer);
+            idb.close();
+            return done(null);
+          }
+          const store = idb
+            .transaction('firebaseLocalStorage', 'readonly')
+            .objectStore('firebaseLocalStorage');
+          const allReq = store.getAll();
+          allReq.onsuccess = () => {
+            clearTimeout(timer);
+            const rows = allReq.result || [];
+            idb.close();
+            const row = rows.find(
+              (r) => r && typeof r.fbase_key === 'string' && r.fbase_key.startsWith('firebase:authUser:')
+            );
+            const t = row && row.value && row.value.stsTokenManager && row.value.stsTokenManager.accessToken;
+            done(t || null);
+          };
+          allReq.onerror = () => { clearTimeout(timer); idb.close(); done(null); };
+        } catch (_) {
+          clearTimeout(timer);
+          try { idb.close(); } catch (e) {}
+          done(null);
+        }
+      };
+    });
+  } catch (_) {
+    return null;
+  }
+}
