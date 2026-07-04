@@ -1,4 +1,5 @@
 import TipsBrowser from '../../components/TipsBrowser';
+import TipsNotice from '../../components/TipsNotice';
 import './tips.css';
 
 export const metadata = {
@@ -18,6 +19,7 @@ export default function TipsIndexPage({ searchParams }) {
       </div>
       <h1 className="tw-list-h">Quick tips</h1>
       <p className="tw-list-sub">30-second video tips.</p>
+      <TipsNotice />
       <TipsBrowser initialCategory={initial} />
     </div>
   );

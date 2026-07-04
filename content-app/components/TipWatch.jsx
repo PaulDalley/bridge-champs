@@ -3,6 +3,7 @@ import { useEffect, useReducer, useRef } from 'react';
 import { QUICK_TIPS } from '../lib/quickTips';
 import { getAuthToken } from '../lib/detectMember';
 import MakeBoard from './MakeBoard';
+import TipsNotice from './TipsNotice';
 
 // Daily free-tip limits by effective tier (from /api/my-membership).
 //   guest = not subscribed · basic = 5 · premium = unlimited.
@@ -132,6 +133,8 @@ export default function TipWatch({ startSlug }) {
           <a href="/tips">Quick tips</a> <span aria-hidden="true">/</span> <a href={`/tips?category=${encodeURIComponent(tip.cat)}`}>{tip.cat}</a>
         </div>
       </div>
+
+      <TipsNotice />
 
       <div className="tw-grid">
         <div>

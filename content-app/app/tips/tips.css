@@ -2,6 +2,12 @@
 .tw-page { --bc-gold: #d4af37; --bc-gold-light: #e8c767; max-width: 100rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
 .tw-page svg { vertical-align: middle; }
 
+.tips-notice { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--bc-card); border: 1px solid var(--bc-line); border-left: 4px solid var(--bc-gold); border-radius: 10px; padding: 0.9rem 1.4rem; margin: 0 0 2rem; font-size: 1.35rem; }
+.tips-notice-badge { flex: 0 0 auto; background: var(--bc-gold); color: #4a3607; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.3rem 0.9rem; border-radius: 999px; }
+.tips-notice-text { color: var(--bc-muted); }
+.tips-notice-text a { color: var(--bc-green); font-weight: 700; }
+.tips-notice-text a:hover { text-decoration: underline; }
+
 .tw-head { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
 .tw-crumb { font-size: 1.4rem; color: var(--bc-muted); }
 .tw-crumb a { color: var(--bc-muted); }
