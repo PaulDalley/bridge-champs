@@ -96,9 +96,25 @@ class Login extends Component {
           if (this.props.paypalSubscribe) this.props.paypalSubscribe(credUser.uid);
         } else this.loginRedirectToContent();
       })
-      .catch((err) => {
-        this.setState({ err: err.message });
+      .catch(this.handleSocialAuthError);
+  };
+
+  handleSocialAuthError = (err) => {
+    const code = err && err.code;
+    // The user simply closed or cancelled the OAuth popup — not an error.
+    if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+      this.setState({ err: "" });
+      return;
+    }
+    // They already have an account on this email under a different sign-in method.
+    if (code === "auth/account-exists-with-different-credential") {
+      const forEmail = err.email ? ` for ${err.email}` : "";
+      this.setState({
+        err: `You already have an account${forEmail} using a different sign-in method. Please sign in the way you first signed up — email and password, Google, or Facebook.`,
       });
+      return;
+    }
+    this.setState({ err: err.message });
   };
 
   facebookLogin = () => {
@@ -114,9 +130,7 @@ class Login extends Component {
           if (this.props.paypalSubscribe) this.props.paypalSubscribe(res.user.uid);
         } else this.loginRedirectToContent();
       })
-      .catch((err) => {
-        this.setState({ err: err.message });
-      });
+      .catch(this.handleSocialAuthError);
   };
 
   googleLogin = () => {
@@ -132,9 +146,7 @@ class Login extends Component {
           if (this.props.paypalSubscribe) this.props.paypalSubscribe(res.user.uid);
         } else this.loginRedirectToContent();
       })
-      .catch((err) => {
-        this.setState({ err: err.message });
-      });
+      .catch(this.handleSocialAuthError);
   };
 
   handleChange = (e) => {

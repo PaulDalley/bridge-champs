@@ -85,6 +85,23 @@ class Signup extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleSocialAuthError = (err) => {
+    const code = err && err.code;
+    if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+      this.setState({ err: "", submitting: false });
+      return;
+    }
+    if (code === "auth/account-exists-with-different-credential") {
+      const forEmail = err.email ? ` for ${err.email}` : "";
+      this.setState({
+        err: `You already have an account${forEmail} using a different sign-in method. Please sign in the way you first signed up — email and password, Google, or Facebook.`,
+        submitting: false,
+      });
+      return;
+    }
+    this.setState({ err: err.message, submitting: false });
+  };
+
   afterSocialAuth = (res) => {
     const uid = (res.user || res).uid;
     if (this.props.signup) {
@@ -100,7 +117,7 @@ class Signup extends Component {
     this.props
       .facebookLogin()
       .then(this.afterSocialAuth)
-      .catch((err) => this.setState({ err: err.message, submitting: false }));
+      .catch(this.handleSocialAuthError);
   };
 
   googleLogin = () => {
@@ -109,7 +126,7 @@ class Signup extends Component {
     this.props
       .googleLogin()
       .then(this.afterSocialAuth)
-      .catch((err) => this.setState({ err: err.message, submitting: false }));
+      .catch(this.handleSocialAuthError);
   };
 
   render() {

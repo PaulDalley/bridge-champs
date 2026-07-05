@@ -92,6 +92,8 @@ const categoryBannersRef = database.collection("categoryBanners");
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 const emailAuthProvider = new firebase.auth.EmailAuthProvider();
 const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+// Explicitly request email from Facebook (users can still decline; handled downstream).
+facebookAuthProvider.addScope("email");
 
 export {
   firebase,

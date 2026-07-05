@@ -148,9 +148,12 @@ class Profile extends Component {
       .doc(this.props.uid);
 
     return userRef
-      .update({
-        username: newName,
-      })
+      .set(
+        {
+          username: newName,
+        },
+        { merge: true }
+      )
       .then((res) => {
         logger.log("Username updated:", res);
         toastr.success("Username updated successfully");

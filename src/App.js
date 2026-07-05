@@ -1194,6 +1194,42 @@ firebase.auth().onAuthStateChanged((user) => {
     //         console.log(err)
     //   });
 
+    // Ensure every signed-in user has a membersData doc (Google/Facebook users
+    // otherwise never get one). Create-once with identity + createdAt; never
+    // overwrites existing progress data; non-fatal on error.
+    firebase
+      .firestore()
+      .collection("membersData")
+      .doc(user.uid)
+      .get()
+      .then((snap) => {
+        if (snap.exists) return null;
+        const provider =
+          (user.providerData && user.providerData[0] && user.providerData[0].providerId) ||
+          "password";
+        return firebase
+          .firestore()
+          .collection("membersData")
+          .doc(user.uid)
+          .set(
+            {
+              uid: user.uid,
+              email: user.email || null,
+              displayName: user.displayName || null,
+              photoURL: user.photoURL || null,
+              signupProvider: provider,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+          );
+      })
+      .catch((e) => console.log("membersData identity capture skipped:", e && e.message));
+
+    // Unsubscribe any previous membersData listener before re-subscribing (prevents a
+    // listener leak on token refresh / re-auth — mirrors the members guard below).
+    if (membersDataSubscriptionUnsubscribe) {
+      membersDataSubscriptionUnsubscribe();
+    }
     membersDataSubscriptionUnsubscribe = firebase
       .firestore()
       .collection("membersData")
