@@ -25,11 +25,20 @@ function parseHand(str) {
   return Object.keys(hand).length ? hand : null;
 }
 
-function Hand({ pos, hand }) {
+// Which seats are vulnerable, from a `vul` prop ("NS" | "EW" | "All" | "None").
+function vulSeats(vul) {
+  const v = String(vul || "").trim().toLowerCase();
+  if (v === "all" || v === "both") return ["North", "South", "East", "West"];
+  if (v === "ns") return ["North", "South"];
+  if (v === "ew") return ["East", "West"];
+  return [];
+}
+
+function Hand({ pos, hand, vulnerable }) {
   if (!hand) return null;
   return (
     <div className="bc-hand">
-      {pos ? <div className="bc-hand-pos">{pos}</div> : null}
+      {pos ? <div className="bc-hand-pos">{pos}{vulnerable ? <span className="bc-hand-vul">Vul</span> : null}</div> : null}
       {ORDER.map((s) => (
         <div key={s} className="bc-hand-row">
           <span className={SUIT[s].cls}>{SUIT[s].sym}</span>{" "}
@@ -95,24 +104,25 @@ export default function MakeBoard(props) {
   const W = parseHand(props.West);
   const bidding = (props.bidding || "").trim();
   const map = { North: N, South: S, East: E, West: W };
+  const vSet = new Set(vulSeats(props.vul));
 
   let body;
   if (boardType === "full") {
     body = (
       <div className="bc-board-full">
-        <div className="bc-cell bc-n"><Hand pos="North" hand={N} /></div>
-        <div className="bc-cell bc-w"><Hand pos="West" hand={W} /></div>
+        <div className="bc-cell bc-n"><Hand pos="North" hand={N} vulnerable={vSet.has("North")} /></div>
+        <div className="bc-cell bc-w"><Hand pos="West" hand={W} vulnerable={vSet.has("West")} /></div>
         <div className="bc-cell bc-mid">{bidding ? <Auction bidding={bidding} /> : null}</div>
-        <div className="bc-cell bc-e"><Hand pos="East" hand={E} /></div>
-        <div className="bc-cell bc-s"><Hand pos="South" hand={S} /></div>
+        <div className="bc-cell bc-e"><Hand pos="East" hand={E} vulnerable={vSet.has("East")} /></div>
+        <div className="bc-cell bc-s"><Hand pos="South" hand={S} vulnerable={vSet.has("South")} /></div>
       </div>
     );
   } else if (boardType === "double") {
     const [l, r] = String(position || "").split("/");
     body = (
       <div className="bc-board-row">
-        <Hand pos={l} hand={map[l]} />
-        <Hand pos={r} hand={map[r]} />
+        <Hand pos={l} hand={map[l]} vulnerable={vSet.has(l)} />
+        <Hand pos={r} hand={map[r]} vulnerable={vSet.has(r)} />
         {bidding ? <Auction bidding={bidding} /> : null}
       </div>
     );
@@ -120,7 +130,7 @@ export default function MakeBoard(props) {
     const h = map[position] || N || S || E || W;
     body = (
       <div className="bc-board-row">
-        <Hand pos={position} hand={h} />
+        <Hand pos={position} hand={h} vulnerable={vSet.has(position)} />
         {bidding ? <Auction bidding={bidding} /> : null}
       </div>
     );

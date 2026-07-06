@@ -1,10 +1,12 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { QUICK_TIPS } from '../lib/quickTips';
+import { resolveResume, watchedCountAllTime, reelPercent } from '../lib/reelsProgress';
 
-// Homepage "Quick tips" rail — 30-second tip videos linking to their /tips watch
-// pages. (Free/members gating display was removed per Paul; any gate mechanism, if
-// re-enabled later, lives on the watch page.)
+// Homepage "Reels" section — a SINGLE tile (not a rail). It opens the reel player at
+// the reel you left off on and resumes it from the exact spot. The resume target and
+// watched count come from localStorage, so they're read AFTER mount (SSR renders the
+// neutral default) to avoid a hydration mismatch.
 
 const PlayIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -12,59 +14,62 @@ const PlayIcon = () => (
   </svg>
 );
 
-const Chevron = ({ dir }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ transform: dir === 'left' ? 'rotate(180deg)' : 'none' }}>
-    <path d="M9 6l6 6-6 6" />
-  </svg>
-);
-
 export default function QuickTips() {
-  const railRef = useRef(null);
+  const [resume, setResume] = useState({ index: 0, resuming: false });
+  const [watched, setWatched] = useState(0);
+  const [ready, setReady] = useState(false);
 
-  const scroll = (dir) => {
-    if (railRef.current) railRef.current.scrollBy({ left: dir * 340, behavior: 'smooth' });
-  };
+  useEffect(() => {
+    setResume(resolveResume(QUICK_TIPS));
+    setWatched(watchedCountAllTime(QUICK_TIPS));
+    setReady(true);
+  }, []);
+
+  const total = QUICK_TIPS.length;
+  const reel = QUICK_TIPS[resume.index] || QUICK_TIPS[0];
+  const pct = ready ? reelPercent(reel.slug) : 0;
+  const allDone = ready && watched >= total;
+
+  const kicker = !ready
+    ? 'Watch reels'
+    : resume.resuming
+    ? 'Continue watching'
+    : allDone
+    ? 'Watch again'
+    : watched > 0
+    ? 'Watch the next reel'
+    : 'Start watching';
 
   return (
-    <section className="hp-tips">
-      <div className="hp-tips-head">
-        <div>
-          <h2 className="hp-sec-label">Quick tips</h2>
-          <p className="hp-tips-note">30-second video tips</p>
-        </div>
-        <div className="hp-tips-head-right">
-          <button className="hp-tips-arrow" aria-label="Scroll left" onClick={() => scroll(-1)}>
-            <Chevron dir="left" />
-          </button>
-          <button className="hp-tips-arrow" aria-label="Scroll right" onClick={() => scroll(1)}>
-            <Chevron dir="right" />
-          </button>
-          <a href="/tips" className="hp-tips-see">See all →</a>
-        </div>
+    <section className="hp-reels">
+      <div className="hp-reels-head">
+        <h2 className="hp-sec-label">Reels</h2>
+        <p className="hp-reels-note">Quick video tips</p>
       </div>
 
-      <div className="hp-tips-rail" ref={railRef}>
-        {QUICK_TIPS.map((t) => {
-          const catMod = t.cat === 'Bidding' ? 'bid' : 'conv';
-          return (
-            <a key={t.slug} href={`/tips/${t.slug}`} className="hp-tips-card">
-              <div className="hp-tips-thumb" style={{ backgroundImage: `url(https://i.ytimg.com/vi/${t.videoId}/hqdefault.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <span className={`hp-tips-cat hp-tips-cat--${catMod}`}>{t.cat}</span>
-                <span className="hp-tips-icon"><PlayIcon /></span>
-                {t.dur && <span className="hp-tips-dur">{t.dur}</span>}
-              </div>
-              <p className="hp-tips-card-title">{t.title}</p>
-            </a>
-          );
-        })}
+      <a href={`/tips/${reel.slug}`} className="hp-reels-tile">
+        <div
+          className="hp-reels-thumb"
+          style={{ backgroundImage: `url(https://i.ytimg.com/vi/${reel.videoId}/hqdefault.jpg)` }}
+        >
+          <span className="hp-reels-play"><PlayIcon /></span>
+          {ready && pct > 0 && pct < 100 && (
+            <span className="hp-reels-track" aria-hidden="true">
+              <span className="hp-reels-bar" style={{ width: pct + '%' }} />
+            </span>
+          )}
+        </div>
 
-        <a href="/tips" className="hp-tips-card hp-tips-card--all">
-          <div className="hp-tips-all-inner">
-            <span className="hp-tips-all-arrow" aria-hidden="true">→</span>
-            <span>See all tips</span>
-          </div>
-        </a>
-      </div>
+        <div className="hp-reels-body">
+          <span className="hp-reels-kicker">{kicker}</span>
+          <span className="hp-reels-title">{reel.title}</span>
+          <span className="hp-reels-meta">
+            {ready ? `${watched} of ${total} watched` : `${total} reels`}
+            {reel.cat ? ` · ${reel.cat}` : ''}
+          </span>
+          <span className="hp-reels-cta">{resume.resuming ? 'Resume' : 'Play'} <span aria-hidden="true">▸</span></span>
+        </div>
+      </a>
     </section>
   );
 }

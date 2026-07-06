@@ -14,8 +14,8 @@ export function generateMetadata({ params }) {
   if (!tip) return {};
   // Structural meta only (reuses Paul's title verbatim; no bridge copy authored).
   return {
-    title: `${tip.title} — Quick tips — Bridge Champions`,
-    description: `${tip.title} — a 30-second video tip from Bridge Champions.`,
+    title: `${tip.title} — Reels — Bridge Champions`,
+    description: `${tip.title} — a quick video tip from Bridge Champions.`,
     alternates: { canonical: `https://bridgechampions.com/tips/${tip.slug}` },
   };
 }
