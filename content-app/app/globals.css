@@ -101,7 +101,6 @@ a:hover { text-decoration: underline; }
 .bc-n { grid-area: n; } .bc-w { grid-area: w; } .bc-e { grid-area: e; } .bc-s { grid-area: s; } .bc-mid { grid-area: mid; }
 .bc-hand { min-width: 12rem; }
 .bc-hand-pos { font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bc-muted); margin-bottom: 0.4rem; }
-.bc-hand-vul { margin-left: 0.5rem; font-size: 0.72em; font-weight: 700; letter-spacing: 0.04em; color: #fff; background: var(--bc-red); border-radius: 4px; padding: 0.1rem 0.4rem; vertical-align: middle; }
 .bc-hand-row { font-size: 1.65rem; line-height: 1.5; white-space: nowrap; }
 .bc-hand-cards { font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.02em; }
 .bc-auction { min-width: 19rem; }
@@ -120,6 +119,10 @@ a:hover { text-decoration: underline; }
 .bc-call-nt { font-size: 0.72em; font-weight: 700; letter-spacing: 0.02em; }
 .bc-call--art { font-style: italic; }
 .bc-club { color: #1e8e3e; }
+/* Vulnerability — the vulnerable seats' auction columns go red (matches the practice
+   section): header cell solid red, the calls below it tinted pink. */
+.bc-auction-h--vul { background: #dc2626; border-color: #b91c1c; color: #fff; }
+.bc-call--vul { background: #fecaca; }
 
 @media screen and (max-width: 600px) {
   .bc-title { font-size: 2.7rem; }

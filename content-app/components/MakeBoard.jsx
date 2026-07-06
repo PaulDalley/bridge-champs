@@ -25,20 +25,21 @@ function parseHand(str) {
   return Object.keys(hand).length ? hand : null;
 }
 
-// Which seats are vulnerable, from a `vul` prop ("NS" | "EW" | "All" | "None").
-function vulSeats(vul) {
+// Which seats (W/N/E/S) are vulnerable, from a `vul` prop ("NS" | "EW" | "All").
+// Mirrors the practice section: the vulnerable seats' auction columns go red.
+function vulLetters(vul) {
   const v = String(vul || "").trim().toLowerCase();
-  if (v === "all" || v === "both") return ["North", "South", "East", "West"];
-  if (v === "ns") return ["North", "South"];
-  if (v === "ew") return ["East", "West"];
-  return [];
+  if (v === "all" || v === "both") return new Set(["W", "N", "E", "S"]);
+  if (v === "ns") return new Set(["N", "S"]);
+  if (v === "ew") return new Set(["E", "W"]);
+  return new Set();
 }
 
-function Hand({ pos, hand, vulnerable }) {
+function Hand({ pos, hand }) {
   if (!hand) return null;
   return (
     <div className="bc-hand">
-      {pos ? <div className="bc-hand-pos">{pos}{vulnerable ? <span className="bc-hand-vul">Vul</span> : null}</div> : null}
+      {pos ? <div className="bc-hand-pos">{pos}</div> : null}
       {ORDER.map((s) => (
         <div key={s} className="bc-hand-row">
           <span className={SUIT[s].cls}>{SUIT[s].sym}</span>{" "}
@@ -67,29 +68,32 @@ function parseCall(raw) {
 
 const SUIT_CLASS = { "♥": "red-suit", "♦": "red-suit", "♣": "bc-club", "♠": "black-suit" };
 
-function Call({ raw }) {
+function Call({ raw, vul }) {
   const c = parseCall(raw);
-  if (c.empty) return <span className="bc-call bc-call--empty" aria-hidden="true" />;
+  const vulCls = vul ? " bc-call--vul" : "";
+  if (c.empty) return <span className={`bc-call bc-call--empty${vulCls}`} aria-hidden="true" />;
   let inner;
   if (c.kind === "pass") inner = <span className="bc-call-pass">Pass</span>;
   else if (c.kind === "call") inner = <span className="bc-call-dbl">{c.text}</span>;
   else if (c.kind === "nt") inner = <>{c.number}<span className="bc-call-nt">NT</span></>;
   else inner = <>{c.number}<span className={SUIT_CLASS[c.suit] || "black-suit"}>{c.suit}</span></>;
-  return <span className={`bc-call${c.art ? " bc-call--art" : ""}`}>{inner}</span>;
+  return <span className={`bc-call${c.art ? " bc-call--art" : ""}${vulCls}`}>{inner}</span>;
 }
 
-function Auction({ bidding }) {
+const WNES = ["W", "N", "E", "S"];
+
+function Auction({ bidding, vul }) {
   const calls = String(bidding || "").split("/").map((s) => s.trim()).filter((s) => s !== "");
   if (!calls.length) return null;
+  const vset = vulLetters(vul);
   return (
     <div className="bc-auction" aria-label="Auction">
       <div className="bc-auction-grid">
-        <span className="bc-auction-h">W</span>
-        <span className="bc-auction-h">N</span>
-        <span className="bc-auction-h">E</span>
-        <span className="bc-auction-h">S</span>
+        {WNES.map((seat) => (
+          <span key={seat} className={`bc-auction-h${vset.has(seat) ? " bc-auction-h--vul" : ""}`}>{seat}</span>
+        ))}
         {calls.map((c, i) => (
-          <Call key={i} raw={c} />
+          <Call key={i} raw={c} vul={vset.has(WNES[i % 4])} />
         ))}
       </div>
     </div>
@@ -104,34 +108,34 @@ export default function MakeBoard(props) {
   const W = parseHand(props.West);
   const bidding = (props.bidding || "").trim();
   const map = { North: N, South: S, East: E, West: W };
-  const vSet = new Set(vulSeats(props.vul));
+  const vul = props.vul;
 
   let body;
   if (boardType === "full") {
     body = (
       <div className="bc-board-full">
-        <div className="bc-cell bc-n"><Hand pos="North" hand={N} vulnerable={vSet.has("North")} /></div>
-        <div className="bc-cell bc-w"><Hand pos="West" hand={W} vulnerable={vSet.has("West")} /></div>
-        <div className="bc-cell bc-mid">{bidding ? <Auction bidding={bidding} /> : null}</div>
-        <div className="bc-cell bc-e"><Hand pos="East" hand={E} vulnerable={vSet.has("East")} /></div>
-        <div className="bc-cell bc-s"><Hand pos="South" hand={S} vulnerable={vSet.has("South")} /></div>
+        <div className="bc-cell bc-n"><Hand pos="North" hand={N} /></div>
+        <div className="bc-cell bc-w"><Hand pos="West" hand={W} /></div>
+        <div className="bc-cell bc-mid">{bidding ? <Auction bidding={bidding} vul={vul} /> : null}</div>
+        <div className="bc-cell bc-e"><Hand pos="East" hand={E} /></div>
+        <div className="bc-cell bc-s"><Hand pos="South" hand={S} /></div>
       </div>
     );
   } else if (boardType === "double") {
     const [l, r] = String(position || "").split("/");
     body = (
       <div className="bc-board-row">
-        <Hand pos={l} hand={map[l]} vulnerable={vSet.has(l)} />
-        <Hand pos={r} hand={map[r]} vulnerable={vSet.has(r)} />
-        {bidding ? <Auction bidding={bidding} /> : null}
+        <Hand pos={l} hand={map[l]} />
+        <Hand pos={r} hand={map[r]} />
+        {bidding ? <Auction bidding={bidding} vul={vul} /> : null}
       </div>
     );
   } else {
     const h = map[position] || N || S || E || W;
     body = (
       <div className="bc-board-row">
-        <Hand pos={position} hand={h} vulnerable={vSet.has(position)} />
-        {bidding ? <Auction bidding={bidding} /> : null}
+        <Hand pos={position} hand={h} />
+        {bidding ? <Auction bidding={bidding} vul={vul} /> : null}
       </div>
     );
   }
