@@ -168,15 +168,6 @@ class Signup extends Component {
                 <GoogleIcon />
                 <span>Continue with Google</span>
               </button>
-              <button
-                type="button"
-                className="Signup-social-btn"
-                onClick={this.facebookLogin}
-                disabled={this.state.submitting}
-              >
-                <FacebookIcon />
-                <span>Continue with Facebook</span>
-              </button>
             </div>
 
             <div className="Signup-divider">
