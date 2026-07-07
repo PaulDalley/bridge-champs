@@ -256,7 +256,6 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Better minor or short club?", to: "/bidding/advanced/better-minor-or-short-club", level: A },
           { title: "How to Play Contract Bridge: Step-by-Step Guide", to: "/beginner/articles/bidding/play-contract-bridge-step-step", level: F },
           { title: "How to Improve at Bridge - Focus", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
-          { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
           { title: "Transfers over 1C: How They Work", to: "/bidding/advanced/transfers-over-1c", level: A },
           { title: "Two-way checkback: all you need to know", to: "/bidding/advanced/two-way-checkback", level: A },
           { title: "2 over 1: Game forcing", to: "/bidding/advanced/2-over-1-game-forcing", level: A },
