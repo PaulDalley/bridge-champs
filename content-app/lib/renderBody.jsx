@@ -96,8 +96,17 @@ export function renderBody(rawHtml) {
       `<span class="bc-callout-badge">${type}</span>${inner}</div>`
   );
 
-  // Videos: explicit <Video> tags, then bare YouTube URLs.
+  // Videos: explicit <Video> tags, then anchors wrapping a YouTube URL, then bare URLs.
   s = s.replace(/<Video\s+url=["']([^"']+)["']\s*\/>|<Video>([^<]+)<\/Video>/gi, (_, a, b) => videoEmbed(a || b));
+  // Anchor whose href is a YouTube URL -> replace the WHOLE anchor with an embed.
+  // MUST run before the bare-URL pass below: otherwise that pass rewrites the URL
+  // *inside* href="…", producing a corrupt <a href="<div class="bc-video">…"> that
+  // Google resolves to /learn/<cat>/<div class= -> 404 (and breaks the embed).
+  s = s.replace(
+    /<a\b[^>]*\bhref=["'](https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}[^"']*)["'][^>]*>[\s\S]*?<\/a>/gi,
+    (_, u) => videoEmbed(u)
+  );
+  // Bare YouTube URLs sitting in plain text -> embed.
   s = s.replace(
     /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}[^\s<>"']*)/gi,
     (u) => videoEmbed(u)

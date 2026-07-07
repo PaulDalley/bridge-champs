@@ -29,7 +29,7 @@ function PathSteps({ list, hrefFor }) {
       {list.map((a, i) => {
         const last = i === list.length - 1;
         return (
-          <li className="th-step" key={a.to + i}>
+          <li className="th-step" key={`th-step-${i}`}>
             <div className="th-rail">
               <span className="th-node">{i + 1}</span>
               {!last && <span className="th-railLine" />}
