@@ -255,6 +255,7 @@ class PremiumMembership extends Component {
     const normalized = this.normalizePromoCode(code);
     return (
       normalized === "blue" ||
+      normalized === "trumps" ||
       normalized === "pete26" ||
       normalized === "welcome2026" ||
       normalized === "milne" ||
@@ -271,6 +272,7 @@ class PremiumMembership extends Component {
     const normalized = this.normalizePromoCode(code);
     return (
       normalized === "blue" ||
+      normalized === "trumps" ||
       normalized === "pete26" ||
       normalized === "welcome2026" ||
       normalized === "milne" ||
