@@ -15,6 +15,19 @@
   margin-bottom: 20px;
 }
 
+/* Play screen: back link on the left, "Show me the solution" on the right. */
+.ph-backBar--play {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ph-showSolnBtn {
+  padding: 8px 18px;
+  font-size: 14px;
+}
+
 .ph-back {
   color: var(--color-accent, #4a7fcb);
   text-decoration: none;

@@ -282,10 +282,13 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
   if (phase === "playing") {
     return (
       <div className="ph-page ph-playPage">
-        <div className="ph-backBar">
+        <div className="ph-backBar ph-backBar--play">
           <Link to="/just-play/problem-hands" className="ph-back">
             ← Problem Hands
           </Link>
+          <button className="ph-btn ph-showSolnBtn" onClick={handleExit}>
+            Show me the solution
+          </button>
         </div>
         <PlayTable
           embedded
@@ -306,17 +309,17 @@ function ProblemHandPlay({ problem, uid, subscriptionActive, tier, isAdmin, auth
             they're readable and not jammed against the edges. */}
         <div className="ph-playInfo">
           {problem.intro && problem.intro.length > 0 && (
-            <>
-              <h3 className="ph-playInfoTitle">{problem.title} Intro</h3>
-              <div className="ph-intro">
-                {problem.intro.map((para, i) => (
-                  <p key={i}>{withColoredSuits(para)}</p>
-                ))}
-              </div>
-            </>
+            <h3 className="ph-playInfoTitle">{problem.title} Intro</h3>
           )}
           {problem.auction && problem.auction.length > 0 && (
             <AuctionGrid auction={problem.auction} dealer={deal.dealer} />
+          )}
+          {problem.intro && problem.intro.length > 0 && (
+            <div className="ph-intro">
+              {problem.intro.map((para, i) => (
+                <p key={i}>{withColoredSuits(para)}</p>
+              ))}
+            </div>
           )}
           {(isLocalhost || isAdmin) && (
             <div style={{ textAlign: "center", marginTop: 14 }}>
