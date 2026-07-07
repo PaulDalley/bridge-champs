@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { QUICK_TIPS } from '../lib/quickTips';
 import { resolveResume, watchedCountAllTime, reelPercent } from '../lib/reelsProgress';
+import SuitText from './SuitText';
 
 // Homepage "Reels" section — a SINGLE tile (not a rail). It opens the reel player at
 // the reel you left off on and resumes it from the exact spot. The resume target and
@@ -62,7 +63,7 @@ export default function QuickTips() {
 
         <div className="hp-reels-body">
           <span className="hp-reels-kicker">{kicker}</span>
-          <span className="hp-reels-title">{reel.title}</span>
+          <span className="hp-reels-title"><SuitText>{reel.title}</SuitText></span>
           <span className="hp-reels-meta">
             {ready ? `${watched} of ${total} watched` : `${total} reels`}
             {reel.cat ? ` · ${reel.cat}` : ''}

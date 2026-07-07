@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { QUICK_TIPS } from '../lib/quickTips';
 import { isReelWatched, reelPercent } from '../lib/reelsProgress';
+import SuitText from './SuitText';
 
 // Category filter + grid for the /tips listing. Chips are derived from the data,
 // so new categories (Declarer play, Defence, ...) appear automatically. Clicking a
@@ -59,7 +60,7 @@ export default function TipsBrowser({ initialCategory = 'All' }) {
                 {t.dur && <span className="tw-list-dur">{t.dur}</span>}
                 {pct > 0 && <span className="tw-list-track" aria-hidden="true"><span className="tw-list-bar" style={{ width: pct + '%' }} /></span>}
               </div>
-              <p className="tw-list-title">{t.title}</p>
+              <p className="tw-list-title"><SuitText>{t.title}</SuitText></p>
               <p className="tw-list-cat">{t.cat}</p>
             </a>
           );

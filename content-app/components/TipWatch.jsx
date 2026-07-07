@@ -11,6 +11,7 @@ import {
   reelPercent,
 } from '../lib/reelsProgress';
 import MakeBoard from './MakeBoard';
+import SuitText from './SuitText';
 import TipsNotice from './TipsNotice';
 
 // Daily free-tip limits by effective tier (from /api/my-membership).
@@ -222,7 +223,7 @@ export default function TipWatch({ startSlug }) {
 
           <div className="tw-below">
             <a href={`/tips?category=${encodeURIComponent(tip.cat)}`} className="tw-cat-pill">{tip.cat}</a>
-            <h1 className="tw-vid-title">{tip.title}</h1>
+            <h1 className="tw-vid-title"><SuitText>{tip.title}</SuitText></h1>
             <div className="tw-series">
               <span>Reel <b>{s.cur + 1}</b> of {QUICK_TIPS.length}</span>
               <span className="tw-dots">
@@ -237,10 +238,20 @@ export default function TipWatch({ startSlug }) {
             </div>
           </div>
 
-          {!s.walled && (tip.hand || tip.note) && (
+          {!s.walled && (tip.blocks || tip.hand || tip.note) && (
             <section className="tw-notes">
-              {tip.hand && <div className="tw-notes-hand"><MakeBoard {...tip.hand} /></div>}
-              {tip.note && <p className="tw-notes-text">{tip.note}</p>}
+              {tip.blocks
+                ? tip.blocks.map((b, i) =>
+                    b.board
+                      ? <div key={i} className="tw-notes-hand"><MakeBoard {...b.board} /></div>
+                      : <p key={i} className="tw-notes-text"><SuitText>{b.t}</SuitText></p>
+                  )
+                : (
+                  <>
+                    {tip.hand && <div className="tw-notes-hand"><MakeBoard {...tip.hand} /></div>}
+                    {tip.note && <p className="tw-notes-text"><SuitText>{tip.note}</SuitText></p>}
+                  </>
+                )}
             </section>
           )}
         </div>
@@ -271,7 +282,7 @@ export default function TipWatch({ startSlug }) {
                     {pct > 0 && <span className="tw-q-track" aria-hidden="true"><span className="tw-q-bar" style={{ width: pct + '%' }} /></span>}
                   </div>
                   <div className="tw-q-txt">
-                    <p className="tw-q-title">{q.title}</p>
+                    <p className="tw-q-title"><SuitText>{q.title}</SuitText></p>
                     <p className="tw-q-meta" style={{ color: now ? GREEN : watched ? '#1b6b52' : 'var(--bc-muted)' }}>{watched && <Check size={12} />} {meta}{q.dur ? ` · ${q.dur}` : ''}</p>
                   </div>
                 </div>
