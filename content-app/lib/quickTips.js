@@ -19,7 +19,7 @@ export const QUICK_TIPS = [
   { slug: 'bad-shape-6322-7222', title: '6322 and 7222', cat: 'Bidding', videoId: 'FlZ3GlL27UQ', dur: '', note: "6322 and 7222 is bad shape, never get carried away with those. Pretend they are 5 and 6 card suits, not 6 and 7.", hand: { boardType: 'single', position: 'South', South: '*S-K10*H-Q4*D-AK76542*C-J4', bidding: '_/_/1♠/2♦/2♠/3♦/4♠/P/P/P' } },
   { slug: '2c-opening', title: '2♣ opening', cat: 'Bidding', videoId: 'Lf6ZDDC9ep4', dur: '', blocks: [
     { t: "Basically never open 2♣ with a 2 or 3 suiter hand. Shapes like 5440, 5-5, 6-5 etc. For example\n\nIn the below hand, take a small risk, open 1♣. If it doesn't get passed out, you're in a much better position to bid your hand naturally, for example" },
-    { board: { boardType: 'single', position: 'South', South: '*S-A*H-5*D-AKQ102*C-AKJ1043', bidding: '_/_/_/1♣/P/1♥/P/2♦/P/2NT/P/3♦' } },
+    { board: { boardType: 'single', position: 'South', South: '*S-A*H-5*D-AKJ102*C-AKJ1043', bidding: '_/_/_/1♣/P/1♥/P/2♦/P/2NT/P/3♦' } },
     { t: "You've bid your 6-5 shape already by making 3 bids by the time you hit the 3 level, and you've shown a forcing strong hand. Whereas if you open 2♣, your first natural bid will be on the 3 level! You will never have the room to show this hand." },
   ] },
   { slug: 'doubleton-lead', title: 'Doubleton lead', cat: 'Defence', videoId: '-IE850HwLQQ', dur: '', blocks: [
