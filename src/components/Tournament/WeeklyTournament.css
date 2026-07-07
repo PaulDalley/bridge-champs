@@ -12,6 +12,9 @@
 .wt-playBar .wt-title { font-size: 22px; }
 .wt-playMeta { color: #4b5563; font-weight: 600; font-size: 15px; }
 .wt-link { background: none; border: none; color: #2563eb; font-weight: 700; font-size: 15px; cursor: pointer; margin-left: auto; padding: 0; }
+/* Leaderboard shown mid-board: an opaque overlay over the live table. PlayTable stays
+   mounted underneath so the hand in progress is preserved; "← Back" hides this again. */
+.wt-lbOverlay { position: fixed; inset: 0; z-index: 5000; background: #fff; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .wt-done { text-align: center; font-size: 18px; font-weight: 700; color: #0f5132; padding: 24px 16px; }
 
 .wt-note { background: #fef3c7; color: #663c00; border-radius: 8px; padding: 8px 12px; font-size: 13px; margin-bottom: 12px; }

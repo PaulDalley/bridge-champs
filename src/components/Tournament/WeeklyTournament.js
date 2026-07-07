@@ -97,8 +97,13 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
     );
   }
 
-  // ── leaderboard ─────────────────────────────────────────────────────────────
-  if (view === "leaderboard") {
+  if (!boards) return <div className="wt-page"><p className="wt-wait">Loading…</p></div>;
+
+  // Leaderboard screen — reused as a full page (after all boards are done) AND as an
+  // overlay laid over the live board. Rendering it as an overlay (rather than an early
+  // return that swaps out the play tree) keeps PlayTable mounted, so the hand in
+  // progress is preserved when the player opens the leaderboard and comes back.
+  const renderLeaderboard = () => {
     const players = leaderboard ? leaderboard.players : null;
     const myRank = players ? players.findIndex((p) => p.uid === uid) : -1;
     return (
@@ -133,12 +138,11 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
         )}
       </div>
     );
-  }
-
-  if (!boards) return <div className="wt-page"><p className="wt-wait">Loading…</p></div>;
+  };
 
   // ── all 10 played ────────────────────────────────────────────────────────────
   if (idx >= boards.length) {
+    if (view === "leaderboard") return renderLeaderboard();
     return (
       <div className="wt-page">
         <Helmet><title>Weekly Tournament — Bridge Champions</title><meta name="robots" content="noindex" /></Helmet>
@@ -171,6 +175,7 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
         embedded
         singleDeal
         dealOverride={b}
+        persistKey={weekId ? `wt:${weekId}:${b.boardNo}` : null}
         exitLabel={last ? "Finish" : "Next board"}
         onResult={onResult}
         onExit={() => {
@@ -178,6 +183,7 @@ function WeeklyTournament({ uid, displayName, subscriptionActive, isAdmin, authR
           nextBoard();
         }}
       />
+      {view === "leaderboard" && <div className="wt-lbOverlay">{renderLeaderboard()}</div>}
     </div>
   );
 }

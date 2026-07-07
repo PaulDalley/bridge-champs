@@ -622,14 +622,46 @@ function buildBoardRecord(state, passout) {
   };
 }
 
-function PlayTable({ embedded = false, preview = false, dealOverride = null, problemSetup = null, singleDeal = false, onResult, onExit, exitLabel = "Continue" } = {}) {
-  const [state, dispatch] = useReducer(reducer, undefined, () =>
-    problemSetup
+/**
+ * Load a persisted mid-hand snapshot (tournament resume). The reducer state is plain
+ * JSON, so we round-trip it directly. Returns null (→ deal fresh) if there's no
+ * snapshot, it's unreadable, or it's for a different deal than the one being shown.
+ */
+function loadSnapshot(key, dealOverride) {
+  if (!key || typeof localStorage === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || !parsed.state) return null;
+    if (dealOverride && (parsed.seed >>> 0) !== (dealOverride.seed >>> 0)) return null;
+    return parsed.state;
+  } catch {
+    return null;
+  }
+}
+
+function clearSnapshot(key) {
+  if (!key || typeof localStorage === "undefined") return;
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    /* ignore */
+  }
+}
+
+function PlayTable({ embedded = false, preview = false, dealOverride = null, problemSetup = null, singleDeal = false, onResult, onExit, exitLabel = "Continue", persistKey = null } = {}) {
+  const [state, dispatch] = useReducer(reducer, undefined, () => {
+    // Tournament resume: if a mid-hand snapshot for this exact board was saved (the
+    // player navigated away or reloaded), restore it instead of dealing fresh.
+    const restored = loadSnapshot(persistKey, dealOverride);
+    if (restored) return restored;
+    return problemSetup
       ? freshProblemDeal(problemSetup)
       : dealOverride
         ? freshDeal(dealOverride.seed >>> 0, dealOverride.dealer || "N", 1, dealOverride.vul ?? "")
-        : freshDeal(Date.now() >>> 0, "N")
-  );
+        : freshDeal(Date.now() >>> 0, "N");
+  });
   const [thinking, setThinking] = useState(null);
   const [notice, setNotice] = useState(null);
   const [score, setScore] = useState(0);
@@ -877,12 +909,27 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
     if (!singleDeal || typeof onResult !== "function" || resultFiredRef.current) return;
     if (state.phase === "done" && state.result) {
       resultFiredRef.current = true;
+      clearSnapshot(persistKey);
       onResult(buildBoardRecord(state, false));
     } else if (state.phase === "passout") {
       resultFiredRef.current = true;
+      clearSnapshot(persistKey);
       onResult(buildBoardRecord(state, true));
     }
-  }, [state, singleDeal, onResult]);
+  }, [state, singleDeal, onResult, persistKey]);
+
+  // Persist the in-progress board (tournament resume) so navigating away or reloading
+  // and coming back restores it instead of resetting. Skip terminal phases — the board
+  // is over then and the snapshot is cleared when its result fires (above).
+  useEffect(() => {
+    if (!persistKey) return;
+    if (state.phase === "done" || state.phase === "passout" || state.phase === "scoring") return;
+    try {
+      localStorage.setItem(persistKey, JSON.stringify({ v: 1, seed: state.seed, state }));
+    } catch {
+      /* ignore storage failures (quota, private mode) */
+    }
+  }, [persistKey, state]);
 
   // Fetch BEN's meanings for the legal bids whenever it's your turn to bid.
   useEffect(() => {
