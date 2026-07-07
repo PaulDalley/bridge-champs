@@ -57,6 +57,7 @@
     "sitemap:generate": "node scripts/generate-sitemap.js --apply",
     "prerender": "node scripts/prerender.js",
     "audit:seo": "node scripts/audit-live-articles.js",
+    "audit:urls": "node scripts/audit-url-integrity.js",
     "og:images": "node scripts/generate-og-images.js",
     "build:prerender": "npm run build && npm run sitemap:generate && npm run prerender && npm run og:images"
   },

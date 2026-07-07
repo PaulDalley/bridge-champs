@@ -103,6 +103,7 @@ Being aware of these long suits is the first step to making a lot more tricks. F
           { title: "Duck to Preserve Communication: Set Up Your Long Suit", to: "/declarer/articles/duck-preserve-communication-set-up", level: A },
           { title: "Setting Up Side Suits as Declarer", to: "/declarer/articles/pattern-recognition-2-set-up", level: A },
           { title: "Finding and Building Trick Sources", to: "/declarer/articles/pattern-recognition-3-find-build", level: A },
+          { title: "Use Entries Well: Reach the Right Hand at the Right Time", to: "/declarer/articles/use-entries-well-reach-right", level: A },
         ],
       },
       {
@@ -255,6 +256,10 @@ Modern partnerships are building a lot of suit preference into their signalling 
           { title: "Better minor or short club?", to: "/bidding/advanced/better-minor-or-short-club", level: A },
           { title: "How to Play Contract Bridge: Step-by-Step Guide", to: "/beginner/articles/bidding/play-contract-bridge-step-step", level: F },
           { title: "How to Improve at Bridge - Focus", to: "/beginner/articles/bidding/improve-bridge-practical-roadmap-actually", level: F },
+          { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
+          { title: "Transfers over 1C: How They Work", to: "/bidding/advanced/transfers-over-1c", level: A },
+          { title: "Two-way checkback: all you need to know", to: "/bidding/advanced/two-way-checkback", level: A },
+          { title: "2 over 1: Game forcing", to: "/bidding/advanced/2-over-1-game-forcing", level: A },
         ],
       },
       {
@@ -308,6 +313,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
             articles: [
               { title: "System Over 1NT: Transfer Responses and Conventions", to: "/bidding/advanced/system-over-1nt-conventions", level: A },
               { title: "Find a Major Fit After 1NT: Stayman, Smolen, Puppet, Texas", to: "/bidding/advanced/find-major-fit-after-1nt", level: A },
+              { title: "Stayman Convention", to: "/bidding/advanced/stayman-convention", level: A },
               { title: "Puppet Stayman - All you need to know", to: "/bidding/advanced/puppet-stayman-check-5-card", level: A },
               { title: "Smolen Convention: Show 5-4 Majors After Stayman", to: "/bidding/advanced/smolen-convention-show-5-4", level: A },
               { title: "Garbage stayman: Stayman with weak hands", to: "/bidding/advanced/weak-stayman-know-helps", level: A },
@@ -325,20 +331,20 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Best slam bidding conventions", to: "/bidding/advanced/best-slam-bidding-conventions", level: A },
               { title: "Jacoby 2NT: The Game-Forcing Major Raise", to: "/bidding/advanced/jacoby-2nt", level: A },
               { title: "5NT Pick a Slam: Practical Partnership Agreements", to: "/bidding/advanced/5nt-pick-slam-practical-partnership", level: A },
-            ],
-          },
-          {
-            heading: "4th suit forcing",
-            articles: [
-              { title: "Fourth Suit Forcing: How and When to Use It", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
+              { title: "Cue bidding: Slam bidding made simple", to: "/bidding/advanced/cue-bidding", level: A },
             ],
           },
           {
             heading: "Other useful conventions",
             articles: [
+              { title: "What is a convention, and what conventions are the best to play?", to: "/bidding/advanced/what-is-a-convention-best-to-play", level: A },
+              { title: "Fourth Suit Forcing: How and When to Use It", to: "/bidding/advanced/fourth-suit-forcing-checkback-core", level: A },
               { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverse Bids in Bridge: Showing Extra Strength", to: "/bidding/advanced/reverses", level: A },
               { title: "Multi two (2D) opening: How to play it and how to defend against it.", to: "/bidding/advanced/multi-2d-opening", level: A },
+              { title: "Transfers over 1C: How They Work", to: "/bidding/advanced/transfers-over-1c", level: A },
+              { title: "Two-way checkback: all you need to know", to: "/bidding/advanced/two-way-checkback", level: A },
+              { title: "The Unusual NT: A Two-Suited 2NT Overcall", to: "/bidding/advanced/unusual-2nt", level: A },
             ],
           },
         ],
