@@ -790,15 +790,23 @@ class PremiumMembership extends Component {
                   <div className="PremiumMembership-tier-benefits">
                     <div className="PremiumMembership-benefit">
                       <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span><strong>Just Play hands</strong> — unlimited</span>
+                    </div>
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span><strong>Practice hands</strong> — book-style hands you play against robots, with explanations</span>
+                    </div>
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                      <span><strong>Reels</strong> — 30–90 second reels with diagrams and explanations (5 per day)</span>
+                    </div>
+                    <div className="PremiumMembership-benefit">
+                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
                       <span>Full access to all Practical Learning interactive trainers</span>
                     </div>
                     <div className="PremiumMembership-benefit">
                       <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
                       <span>Access to "The Treadmill"</span>
-                    </div>
-                    <div className="PremiumMembership-benefit">
-                      <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
-                      <span>Access to "Just Play" (in development)</span>
                     </div>
                   </div>
 
@@ -873,6 +881,14 @@ class PremiumMembership extends Component {
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
                     <span><strong>Everything in Basic, plus:</strong></span>
+                  </div>
+                  <div className="PremiumMembership-benefit">
+                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                    <span><strong>Reels</strong> — unlimited (no daily limit)</span>
+                  </div>
+                  <div className="PremiumMembership-benefit">
+                    <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
+                    <span>Video at the end of every practice hand</span>
                   </div>
                   <div className="PremiumMembership-benefit">
                     <Icon className="PremiumMembership-benefit-icon">check_circle</Icon>
