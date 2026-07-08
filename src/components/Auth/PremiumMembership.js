@@ -256,6 +256,7 @@ class PremiumMembership extends Component {
     return (
       normalized === "blue" ||
       normalized === "trumps" ||
+      normalized === "abc26" ||
       normalized === "pete26" ||
       normalized === "welcome2026" ||
       normalized === "milne" ||
@@ -273,6 +274,7 @@ class PremiumMembership extends Component {
     return (
       normalized === "blue" ||
       normalized === "trumps" ||
+      normalized === "abc26" ||
       normalized === "pete26" ||
       normalized === "welcome2026" ||
       normalized === "milne" ||
