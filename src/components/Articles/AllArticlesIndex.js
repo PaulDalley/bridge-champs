@@ -6,17 +6,21 @@ import { getArticles } from "../../store/actions/categoryArticlesActions";
 // A flat, crawlable index of every published article — one strong, shallow
 // internal-link path from the footer (every page) to all content. Helps Google
 // discover/crawl the full library (esp. "Discovered – currently not indexed").
+// Paths are the FINAL /learn category URLs (post-cutover taxonomy: beginner* ->
+// /learn/beginner, bidding* -> /learn/bidding, cardPlay+counting -> /learn/declarer,
+// defence* -> /learn/defence). Emitting old pre-cutover paths here made every crawl
+// of this page re-feed Google 115 retired URLs that all 301 — the opposite of the
+// page's purpose. Articles without a slug are skipped: /learn resolves slugs only.
 const SECTIONS = [
-  { type: "beginnerBidding", label: "Beginner — Bidding", path: "/beginner/articles/bidding" },
-  { type: "beginnerCardPlay", label: "Beginner — Declarer Play", path: "/beginner/articles/declarer" },
-  { type: "beginnerDefence", label: "Beginner — Defence", path: "/beginner/articles/defence" },
-  { type: "biddingBasics", label: "Bidding — Fundamentals", path: "/bidding/basics" },
-  { type: "bidding", label: "Bidding — Advanced", path: "/bidding/advanced" },
-  { type: "cardPlay", label: "Declarer Play", path: "/declarer/articles" },
-  { type: "defence", label: "Defence", path: "/defence/articles" },
+  { type: "beginnerBidding", label: "Beginner — Bidding", path: "/learn/beginner" },
+  { type: "beginnerCardPlay", label: "Beginner — Declarer Play", path: "/learn/beginner" },
+  { type: "beginnerDefence", label: "Beginner — Defence", path: "/learn/beginner" },
+  { type: "biddingBasics", label: "Bidding — Fundamentals", path: "/learn/bidding" },
+  { type: "bidding", label: "Bidding — Advanced", path: "/learn/bidding" },
+  { type: "cardPlay", label: "Declarer Play", path: "/learn/declarer" },
+  { type: "defence", label: "Defence", path: "/learn/defence" },
   // NOTE: no "counting" section — counting articles were merged into the
-  // declarer (cardPlay) collection and /counting/articles 301-redirects to
-  // /declarer/articles. The `counting` summary collection is empty.
+  // declarer (cardPlay) collection (taxonomy already folds counting -> declarer).
 ];
 
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
@@ -48,7 +52,8 @@ const AllArticlesIndex = () => {
         a &&
         a.isHidden !== true &&
         !(typeof a.redirectTo === "string" && a.redirectTo.startsWith("/")) &&
-        String(a.title || "").trim()
+        String(a.title || "").trim() &&
+        String(a.slug || "").trim()
     );
     return { ...sec, articles: sortArticles(list) };
   });
@@ -89,14 +94,14 @@ const AllArticlesIndex = () => {
         sec.articles.length > 0 ? (
           <section key={sec.type} style={{ marginBottom: "2rem" }}>
             <h2 style={{ fontSize: "var(--text-xl, 1.35rem)", fontWeight: 700, marginBottom: "0.6rem" }}>
-              <a href={sec.type.startsWith("beginner") ? sec.path : "/learn"} style={{ color: "#0F4C3A" }}>
+              <a href={sec.path} style={{ color: "#0F4C3A" }}>
                 {sec.label}
               </a>
             </h2>
             <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.9 }}>
               {sec.articles.map((a) => (
                 <li key={a.id}>
-                  <a href={`${sec.path}/${a.slug || a.body || a.id}`} style={{ color: "#1d4ed8" }}>
+                  <a href={`${sec.path}/${a.slug}`} style={{ color: "#1d4ed8" }}>
                     {a.title}
                   </a>
                 </li>

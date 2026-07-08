@@ -172,7 +172,7 @@
       },
       {
         "source": "/beginner",
-        "destination": "/learn",
+        "destination": "/learn/beginner",
         "type": 301
       },
       {

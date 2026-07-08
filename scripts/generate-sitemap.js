@@ -294,9 +294,30 @@ ${rows}
 `;
 }
 
+// Reels (/tips watch pages) — SEO-public 30-second videos served by the content
+// app. The reel list lives in content-app/lib/quickTips.js (ESM), so parse the
+// slugs out rather than importing; new reels are picked up on the next regen.
+function tipsUrls() {
+  try {
+    const src = fs.readFileSync(
+      path.join(__dirname, "..", "content-app", "lib", "quickTips.js"),
+      "utf8"
+    );
+    const slugs = [...src.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]);
+    if (!slugs.length) return [];
+    return [
+      { loc: "/tips", changefreq: "weekly", priority: "0.8" },
+      ...slugs.map((s) => ({ loc: `/tips/${s}`, changefreq: "monthly", priority: "0.6" })),
+    ];
+  } catch (e) {
+    console.warn("tips: could not read quickTips.js — skipping /tips URLs:", e.message);
+    return [];
+  }
+}
+
 async function run() {
   const dynamicUrls = await getDynamicUrls();
-  const staticUrls = STATIC_URLS.map((u) => ({ ...u, lastmod: NOW_YMD }));
+  const staticUrls = [...STATIC_URLS, ...tipsUrls()].map((u) => ({ ...u, lastmod: NOW_YMD }));
   const urls = uniqueByLoc([...staticUrls, ...dynamicUrls]).sort((a, b) =>
     a.loc.localeCompare(b.loc)
   );
