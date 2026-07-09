@@ -46,6 +46,12 @@ const HUMAN_SEAT = "S";
 const BOT_PACING_MS = 600; // small delay so bot card-plays are followable
 const BID_PACING_MS = 120; // bids are slower to compute, so barely pause between them
 const FORCED_PLAY_MS = 350; // forced (only-legal) card: quick visible play, no engine call
+// The engine scales to zero when idle to save cost, so the FIRST call after a quiet
+// spell has to cold-start the container (can be ~10-30s). If a single engine call is
+// still pending after this long, show a friendly "waking up" note so the wait reads as
+// expected rather than broken. Normal warm calls finish well under this.
+const WARMING_HINT_MS = 4000;
+const WARMING_HINT_TEXT = "Waking up the engine — the first hand can take up to 30 seconds. It's quick after that.";
 const TRICK_ACK_MS = 1300;
 const SUIT_DISPLAY_ORDER = ["S", "H", "C", "D"]; // ♠♥♣♦ — alternating colours (no trump / auction)
 
@@ -663,6 +669,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
         : freshDeal(Date.now() >>> 0, "N");
   });
   const [thinking, setThinking] = useState(null);
+  const [warming, setWarming] = useState(false); // engine call running long enough to look like a cold start
   const [notice, setNotice] = useState(null);
   const [score, setScore] = useState(0);
   const [claiming, setClaiming] = useState(false);
@@ -895,6 +902,14 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
     return () => clearTimeout(t);
   }, [state.phase, state.pendingTrickWinner, preview]);
 
+  // Cold-start hint: if an engine call is still pending after WARMING_HINT_MS, show the
+  // "waking up" note. Cleared the moment the engine responds (thinking -> null).
+  useEffect(() => {
+    if (!thinking) { setWarming(false); return undefined; }
+    const t = setTimeout(() => setWarming(true), WARMING_HINT_MS);
+    return () => clearTimeout(t);
+  }, [thinking]);
+
   // Add each finished deal's score to the running total (once per deal).
   useEffect(() => {
     if (state.phase === "done" && state.result && scoredSeedRef.current !== state.seed) {
@@ -1070,6 +1085,7 @@ function PlayTable({ embedded = false, preview = false, dealOverride = null, pro
         <span className={`pt-mode pt-mode--${benMode()}`}>{benMode() === "live" ? "Online" : "Offline"}</span>
         <span className="pt-statusText">{statusText}</span>
         {thinking && <span className="pt-thinkingDot" aria-hidden />}
+        {warming && <span className="pt-statusNotice pt-statusNotice--warming">{WARMING_HINT_TEXT}</span>}
         {notice && <span className="pt-statusNotice">{notice}</span>}
       </div>
 

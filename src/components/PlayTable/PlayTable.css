@@ -116,6 +116,8 @@
 .pt-statusText { font-weight: 600; }
 .pt-thinkingDot { width: 8px; height: 8px; border-radius: 50%; background: #fbbf24; animation: pt-pulse 1s infinite; }
 .pt-statusNotice { color: #fca5a5; margin-left: auto; }
+/* Cold-start "waking up" hint — a calm amber note, not an error. */
+.pt-statusNotice--warming { color: #fbbf24; }
 /* Work-in-progress notice banner */
 .pt-wipBanner {
   background: #fef3c7; color: #663c00; border-bottom: 1px solid #f1d27a;
