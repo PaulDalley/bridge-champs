@@ -15,15 +15,19 @@ export const SEATS = CLOCKWISE; // ["N","E","S","W"]
 export const SUITS = ["S", "H", "D", "C"];
 export const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
-// Suit display order for a stacked hand: trump on top, then alternating colours.
-// Built by rotating the red-black-red-black wheel so the trump sits first — e.g.
-// hearts -> ["H","S","D","C"], spades -> ["S","D","C","H"]. No trump (NT / unset)
-// keeps the wheel as-is (red-black-red-black).
-const SUIT_WHEEL = ["H", "S", "D", "C"];
+// Suit display order for a stacked hand: trump on top, then the remaining suits by
+// rank (spades > hearts > diamonds > clubs), with a colour-contrast swap when trump
+// is clubs so its neighbour is a red suit. No trump (NT / unset) uses plain rank order.
+//   S -> S H D C · H -> H S D C · D -> D S H C · C -> C H S D
+const SUIT_ORDER_BY_TRUMP = {
+  S: ["S", "H", "D", "C"],
+  H: ["H", "S", "D", "C"],
+  D: ["D", "S", "H", "C"],
+  C: ["C", "H", "S", "D"],
+  N: ["S", "H", "D", "C"],
+};
 export function suitOrderForTrump(strain) {
-  const i = SUIT_WHEEL.indexOf(strain);
-  if (i < 0) return [...SUIT_WHEEL];
-  return [...SUIT_WHEEL.slice(i), ...SUIT_WHEEL.slice(0, i)];
+  return [...(SUIT_ORDER_BY_TRUMP[strain] || SUIT_ORDER_BY_TRUMP.N)];
 }
 
 /** Trick strength: index in this string = strength (A highest). */
