@@ -42,6 +42,33 @@ export const QUICK_TIPS = [
     { t: "Opening 1NT with 5422 shape will often be right when you have plenty of points in the doubletons, a rough guide is 7+ points. The below hand is best opening 1NT rather than 1♦." },
     { board: { boardType: 'single', position: 'South', South: '*S-K10*H-AQ*D-A8543*C-Q1043' } },
   ] },
+  { slug: 'negative-double-partner-opens', title: 'Negative double', cat: 'Bidding', videoId: 'iZwXg9dWamk', dur: '', note: "In this context, where partner has opened a minor, we should just simply bid our 4 card suits. Double would be wrong, playing standard methods double should show both majors exactly 4 cards.\n\nCONTRAST that with the previous video, when partner opens 1 minor, just bid your 4 card suits, or double to show exactly 4 cards in each suit.\n\nThese situations are very commonly confused and people overlap the meaning. Keep them separate, they have different meanings.", hand: { boardType: 'single', position: 'South', South: '*S-K1084*H-K103*D-54*C-J542', bidding: '_/1♣/1♦/1♠' } },
+  { slug: 'normal-takeout-double', title: 'Takeout double', cat: 'Bidding', videoId: 'zqGZq4DDZRM', dur: '', note: "It is completely fine to make a takeout double with a 3 card major. The double says that we have points, and 3-4 of each major typically. Partner can easily have 5+ hearts.", hand: { boardType: 'single', position: 'South', South: '*S-AQ83*H-KQ4*D-102*C-K1054', bidding: '_/_/1♦/X' } },
+  { slug: 'splinters', title: 'Splinters', cat: 'Bidding', videoId: 'fDj0cB-yz-4', dur: '', blocks: [
+    { t: "A splinter should have sharp cards, Kings and Aces, Queen of trumps. It should be about 9-11 points filled with those cards. Without those cards, don't splinter, for example" },
+    { board: { boardType: 'single', position: 'South', South: '*S-J842*H-QJ95*D-AQ83*C-4', bidding: '_/1♠/P/?' } },
+    { t: "I would not splinter on this hand. You can just bid 4♠ unless your system has a different way of treating the hand, for example if you play Bergen raises you can bid this as a strong Bergen - but don't upgrade it to a splinter which needs to have a certain character (Aces and Kings), not just a set amount of points." },
+  ] },
+  { slug: 'competing-partscore', title: 'Competing partscore', cat: 'Bidding', videoId: 'lvVDV4jDsV4', dur: '', blocks: [
+    { t: "I've said that one of the most profitable habits in bridge is to compete and not allow the opponents to sit on the 2 level in a fit. But two of the more important reasons to think twice\nIf we have a lot of points in their suit - it will mean that we will struggle to declare a different suit, our loser count could get very high\nIf we are vulnerable, point 1 matters even more." },
+    { board: { boardType: 'single', position: 'South', South: '*S-AK*H-10843*D-Q105*C-9542', bidding: '_/_/1♠/P/2♠/P/P/P', vul: 'NS' } },
+    { t: "For me this hand would be a clear pass. I have all my points in their suit, even though I would like to compete, my suits are too bid and being vulnerable it is not the time to risk going 2 or 3 off for a terrible score." },
+  ] },
+  { slug: 'try-not-to-double', title: 'Try not double', cat: 'Bidding', videoId: 'wCYXAc8_rrY', dur: '', blocks: [
+    { t: "Doubling with a distributional hand is generally a bad idea. With these two hands for example, its not a good idea to double" },
+    { board: { boardType: 'single', position: 'South', South: '*S-54*H-A*D-K1084*C-AQ10832', bidding: '1♥/P/1♠/2♣' } },
+    { t: "Don't double with a 6 card suit, just bid it naturally (rare exception in a completely different situation - as responder when bidding the suit would be forcing)" },
+    { board: { boardType: 'single', position: 'South', South: '*S-KQ1084*H-AQ1072*D-54*C-3', bidding: '1♣/P/1♦/1♠' } },
+    { t: "It's true you have both the other suits, but a double does not convey 5-5 in those suits. With 5-5 shape, try to just bid naturally, don't double. (or if available, bid michaels cue bid showing 5-5 in both majors)" },
+  ] },
+  { slug: 'ace-ace-king', title: 'Ace Ace King', cat: 'Bidding', videoId: 'QeiE_dsOZjo', dur: '', note: "For me this hand is a clear cut opening bid at all vulnerabilities. The question is whether you open a 4-3-3-3 or not, discuss with partner. I recommend opening.", hand: { boardType: 'single', position: 'South', South: '*S-K104*H-A54*D-72*C-A9854' } },
+  { slug: 'two-level-overcall', title: '2 level overcall', cat: 'Bidding', videoId: 'oYgAgYtmy8o', dur: '', blocks: [
+    { t: "The better the suit = the more likely I am to overcall\n\nThe more distributional = the more likely I am to overcall\n\nExample 1" },
+    { board: { boardType: 'single', position: 'South', South: '*S-9*H-A32*D-J102*C-KQ10842', bidding: '_/_/1♠/2♣' } },
+    { t: "I would certainly overcall 2♣ here.\n\nExample 2" },
+    { board: { boardType: 'single', position: 'South', South: '*S-KQ2*H-A32*D-72*C-K8432', bidding: '_/_/1♠/P' } },
+    { t: "In this example I am balanced and I have a very poor club suit. 5332 shape is balanced, typically not suitable for a 2 level overcall.\n\nAlthough I don't like passing at my first opportunity with opening strength, I would because the alternative of bidding 2♣ is too unattractive." },
+  ] },
 ];
 
 export function getTip(slug) {
