@@ -29,6 +29,21 @@ function effectiveTier(data) {
   return tier === 'premium' ? 'premium' : 'basic';
 }
 
+// Admins get full access with no subscription check, exactly like the CRA
+// (src/store/actions/authActions.js): users/{uid}.OK === true, or the same
+// UID allowlist. Keep the list in sync with authActions.js.
+const ADMIN_UID_ALLOWLIST = new Set(['LGoDI1jEsidKRyN5aVvcTFA8Svb2']);
+
+async function isAdmin(firestore, uid) {
+  if (ADMIN_UID_ALLOWLIST.has(uid)) return true;
+  try {
+    const snap = await firestore.collection('users').doc(uid).get();
+    return !!(snap.exists && snap.data().OK === true);
+  } catch (e) {
+    return false;
+  }
+}
+
 export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
@@ -36,8 +51,12 @@ export async function POST(request) {
     if (!token) return Response.json({ tier: 'guest' });
     const firestore = db();
     const decoded = await admin.auth().verifyIdToken(token);
-    const snap = await firestore.collection('members').doc(decoded.uid).get();
-    return Response.json({ tier: effectiveTier(snap.exists ? snap.data() : null) });
+    const [memberSnap, adminFlag] = await Promise.all([
+      firestore.collection('members').doc(decoded.uid).get(),
+      isAdmin(firestore, decoded.uid),
+    ]);
+    if (adminFlag) return Response.json({ tier: 'premium' });
+    return Response.json({ tier: effectiveTier(memberSnap.exists ? memberSnap.data() : null) });
   } catch (e) {
     return Response.json({ tier: 'unknown' });
   }
