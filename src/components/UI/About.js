@@ -9,6 +9,7 @@ const PAUL_IMAGE_URL =
   "https://firebasestorage.googleapis.com/v0/b/bridgechampions.appspot.com/o/logo.png?alt=media&token=583808ab-2c3b-49a6-8936-82dffe55ec95";
 
 const ACHIEVEMENTS = [
+  { year: "2026", text: "1st place: ANC Open Butler Pairs (Australian National Championships)" },
   { year: "2026", text: "Qualified for the Australian team" },
   { year: "2026", text: "1st place: National Open Teams (Canberra)" },
   { year: "2026", text: "1st place: South West Pacific Teams (Canberra)" },

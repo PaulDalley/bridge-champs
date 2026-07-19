@@ -149,6 +149,7 @@ export default function HomePage() {
         <div className="hp-about-achievements">
           <h3>Recent achievements</h3>
           <ul>
+            <li><strong>2026</strong> &mdash; 1st place: ANC Open Butler Pairs (Australian National Championships)</li>
             <li><strong>2026</strong> &mdash; Qualified for the Australian team.</li>
             <li><strong>2026</strong> &mdash; 1st place: National Open Teams (Canberra)</li>
             <li><strong>2026</strong> &mdash; 1st place: South West Pacific Teams (Canberra)</li>

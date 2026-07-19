@@ -622,6 +622,7 @@ class HomePage extends Component {
 
                 <h3 className="HomePage-about-subtitle">Recent Achievements</h3>
                 <ul className="HomePage-about-achievements">
+                  <li><strong>2026</strong> — 1st place: ANC Open Butler Pairs (Australian National Championships)</li>
                   <li><strong>2026</strong> — Qualified for the Australian team.</li>
                   <li><strong>2026</strong> — 1st place: National Open Teams (Canberra)</li>
                   <li><strong>2026</strong> — 1st place: South West Pacific Teams (Canberra)</li>
