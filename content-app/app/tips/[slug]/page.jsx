@@ -23,5 +23,27 @@ export function generateMetadata({ params }) {
 export default function TipWatchPage({ params }) {
   const tip = getTip(params.slug);
   if (!tip) notFound();
-  return <TipWatch startSlug={tip.slug} />;
+  // VideoObject schema so search engines treat this as a video page (video rich
+  // results). Structural only — name reuses Paul's title verbatim.
+  const videoLd = tip.videoId
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: tip.title,
+        description: `${tip.title} — a quick video tip from Bridge Champions.`,
+        thumbnailUrl: [`https://i.ytimg.com/vi/${tip.videoId}/hqdefault.jpg`],
+        uploadDate: tip.pub || undefined,
+        embedUrl: `https://www.youtube.com/embed/${tip.videoId}`,
+        publisher: { '@id': 'https://bridgechampions.com/#organization' },
+        url: `https://bridgechampions.com/tips/${tip.slug}`,
+      }
+    : null;
+  return (
+    <>
+      {videoLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoLd) }} />
+      )}
+      <TipWatch startSlug={tip.slug} />
+    </>
+  );
 }
