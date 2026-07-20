@@ -1,6 +1,7 @@
 import { listAllArticles, categoryLabel } from "../../lib/articles";
 import { CATEGORIES } from "../../lib/topicHubs";
 import LearnSearch from "../../components/LearnSearch";
+import ReelsRail from "../../components/ReelsRail";
 
 export const dynamic = "force-dynamic";
 
@@ -99,6 +100,8 @@ export default async function LearnRoot() {
           </div>
         </section>
       ))}
+
+      <ReelsRail />
 
       <section className="lh-allArticles" aria-label="All articles">
         <h2 className="lh-allTitle">All articles</h2>

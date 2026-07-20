@@ -67,7 +67,7 @@ function Footer() {
         <div className="bc-footer-meta">
           <span>© 2018–2026 Bridge Champions</span>
           <span>
-            <a href="/learn">Learn</a> · <a href="/about">About</a> · <a href="/all-articles">All lessons</a>
+            <a href="/learn">Learn</a> · <a href="/tips">Reels</a> · <a href="/about">About</a> · <a href="/all-articles">All lessons</a>
           </span>
         </div>
       </div>

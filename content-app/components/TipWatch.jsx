@@ -33,7 +33,20 @@ function readMeter() {
 }
 const watchedToday = (slug) => readMeter().s.indexOf(slug) !== -1;
 const watchedCount = () => readMeter().s.length;
-function recordWatch(slug) { const m = readMeter(); if (m.s.indexOf(slug) === -1) { m.s.push(slug); try { localStorage.setItem(MKEY, JSON.stringify(m)); } catch (_) {} } }
+function recordWatch(slug) { const m = readMeter(); if (m.s.indexOf(slug) === -1) { m.s.push(slug); try { localStorage.setItem(MKEY, JSON.stringify(m)); } catch (_) {} } bumpStreak(); }
+
+// Daily streak (homepage "🔥 N-day streak"): consecutive calendar days with at
+// least one reel watched. Purely browser-side, like the meter.
+function bumpStreak() {
+  try {
+    const today = todayStr();
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    const yesterday = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
+    const s = JSON.parse(localStorage.getItem('bc_reels_streak') || '{}');
+    if (s.last === today) return;
+    localStorage.setItem('bc_reels_streak', JSON.stringify({ last: today, n: s.last === yesterday ? (s.n || 0) + 1 : 1 }));
+  } catch (_) {}
+}
 const canWatch = (slug, limit) => limit === Infinity || watchedToday(slug) || watchedCount() < limit;
 
 const GREEN = '#0f4c3a';

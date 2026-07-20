@@ -294,3 +294,47 @@
 .lh-allList li { margin: 0; }
 .lh-allList a { font-size: 1.5rem; color: var(--th-ink); line-height: 1.5; display: inline-block; padding: 0.25rem 0; }
 .lh-allList a:hover { color: var(--th-green); text-decoration: underline; }
+
+/* ── Reels rail on the learn hub ── */
+.lrr {
+  margin: 3.6rem 0 4rem;
+  padding: 1.8rem 2rem 2rem;
+  background: #f1f6f4;
+  border: 1px solid #d8e6df;
+  border-radius: 16px;
+}
+.lrr-head { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; margin-bottom: 1.3rem; }
+.lrr-title { font-size: 1.3rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bc-green); }
+.lrr-all { font-size: 1.35rem; font-weight: 700; color: var(--bc-green); white-space: nowrap; }
+.lrr-all:hover { text-decoration: underline; }
+.lrr-rail {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 11.6rem; gap: 1.2rem;
+  overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: thin; scroll-snap-type: x proximity;
+}
+.lrr-card { scroll-snap-align: start; display: block; }
+.lrr-thumb {
+  position: relative; display: block; aspect-ratio: 9 / 16; border-radius: 10px; overflow: hidden;
+  background: linear-gradient(150deg, #14563f, #0a3527);
+  background-size: cover; background-position: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.lrr-card:hover .lrr-thumb { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 76, 58, 0.18); }
+.lrr-new {
+  position: absolute; top: 0.7rem; right: 0.7rem;
+  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem; border-radius: 5px; background: var(--bc-gold, #d4af37); color: #241c00;
+}
+.lrr-play {
+  position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%);
+  width: 3rem; height: 3rem; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94); color: var(--bc-green);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+}
+.lrr-play svg { width: 1.4rem; height: 1.4rem; margin-left: 0.1rem; }
+.lrr-lbl {
+  position: absolute; left: 0.9rem; right: 0.9rem; bottom: 0.8rem;
+  color: #fff; font-size: 1.15rem; font-weight: 700; line-height: 1.25;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}

@@ -17,6 +17,12 @@ const footer = (props) => {
                                 <Link to="/all-articles" className="grey-text text-lighten-3">All lessons</Link>
                             </li>
                             <li>
+                                {/* Reels live on the content app — plain anchor (full page load)
+                                    so Firebase Hosting routes /tips there; a router Link would
+                                    404 inside the SPA. */}
+                                <a href="/tips" className="grey-text text-lighten-3">Reels</a>
+                            </li>
+                            <li>
                                 <Link to="/about" className="grey-text text-lighten-3">About</Link>
                             </li>
                             <li>
