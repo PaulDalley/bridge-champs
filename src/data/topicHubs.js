@@ -341,6 +341,7 @@ Overall, we want to pick our conventions carefully and not overcrowd our system 
               { title: "Lebensohl Convention Explained", to: "/bidding/advanced/lebensohl-compete-smart-without-guessing", level: A },
               { title: "Reverse Bids in Bridge: Showing Extra Strength", to: "/bidding/advanced/reverses", level: A },
               { title: "Multi two (2D) opening: How to play it and how to defend against it.", to: "/bidding/advanced/multi-2d-opening", level: A },
+              { title: '18-19 "Mexican" 2D opening', to: "/bidding/advanced/mexican-2d-opening", level: A },
               { title: "Transfers over 1C: How They Work", to: "/bidding/advanced/transfers-over-1c", level: A },
               { title: "Two-way checkback: all you need to know", to: "/bidding/advanced/two-way-checkback", level: A },
               { title: "The Unusual NT: A Two-Suited 2NT Overcall", to: "/bidding/advanced/unusual-2nt", level: A },
