@@ -100,6 +100,7 @@ export default async function ArticleOrTopicPage({ params }) {
     const collectionLd = {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
+      "@id": `${url}#collection`,
       name: topic.name,
       url,
       isPartOf: { "@type": "WebSite", name: "Bridge Champions", url: BASE },
@@ -141,6 +142,18 @@ export default async function ArticleOrTopicPage({ params }) {
       sameAs: AUTHOR_SAMEAS,
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    // Declare the topic hub as this article's parent collection so the hub —
+    // not the individual parts — is the page that owns the topic query.
+    ...(topicCrumb
+      ? {
+          isPartOf: {
+            "@type": "CollectionPage",
+            "@id": `${BASE}${topicCrumb.hubPath}#collection`,
+            name: topicCrumb.topicName,
+            url: `${BASE}${topicCrumb.hubPath}`,
+          },
+        }
+      : {}),
   };
   const crumbs = [
     { name: "Home", item: `${BASE}/` },
