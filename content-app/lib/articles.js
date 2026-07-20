@@ -103,6 +103,7 @@ async function readCategory(category) {
         bodyColl,
         bodyId: meta.body || doc.id,
         title: meta.title || "",
+        createdAt: toIso(meta.createdAt),
         updatedAt: toIso(meta.updatedAt) || toIso(meta.createdAt),
       });
     });

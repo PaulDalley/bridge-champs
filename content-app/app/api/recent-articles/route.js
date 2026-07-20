@@ -19,9 +19,13 @@ export async function GET() {
   let recent = [];
   try {
     const all = await listAllArticles();
+    // "Recently added" = publication order (createdAt DESC). Older docs have no
+    // createdAt (publish scripts only started stamping it ~June 2026) and bulk
+    // edit scripts stamp identical updatedAt across many articles — sorting by
+    // updatedAt made the list collapse to alphabetical within those tie groups.
     recent = all
-      .filter((a) => a.updatedAt)
-      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      .filter((a) => a.createdAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .slice(0, 8)
       .map((a) => ({
         title: a.title,
