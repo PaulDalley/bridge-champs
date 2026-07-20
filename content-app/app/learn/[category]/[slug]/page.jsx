@@ -3,6 +3,8 @@ import { getArticle, listAllArticles, categoryLabel } from "../../../../lib/arti
 import { renderBody } from "../../../../lib/renderBody";
 import { getTopic, getTopicForSlug, getCategory } from "../../../../lib/topicHubs";
 import TopicHub from "../../../../components/TopicHub";
+import { reelForArticle } from "../../../../lib/articleReels";
+import ReelChip from "../../../../components/ReelChip";
 
 export const revalidate = 3600; // ISR: refresh hourly; on-demand revalidate on publish
 export const dynamicParams = true; // unknown slugs render on first request, then cache
@@ -78,6 +80,19 @@ export async function generateMetadata({ params }) {
     openGraph: { type: "article", url, title, description, siteName: "Bridge Champions", images },
     twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
+}
+
+// If the article has a paired reel (lib/articleReels.js), insert the chip just
+// above the body's "Read next:" footer — after the body when no footer exists.
+function renderArticleWithReel(bodyHtml, slug) {
+  const reel = reelForArticle(slug);
+  if (!reel) return renderBody(bodyHtml);
+  const html = String(bodyHtml || "");
+  const i = html.lastIndexOf("<p><strong>Read next:");
+  if (i === -1) {
+    return (<>{renderBody(html)}<ReelChip reel={reel} /></>);
+  }
+  return (<>{renderBody(html.slice(0, i))}<ReelChip reel={reel} />{renderBody(html.slice(i))}</>);
 }
 
 export default async function ArticleOrTopicPage({ params }) {
@@ -194,7 +209,7 @@ export default async function ArticleOrTopicPage({ params }) {
           </>
         ) : null}
       </div>
-      <article aria-label="Article content">{renderBody(a.bodyHtml)}</article>
+      <article aria-label="Article content">{renderArticleWithReel(a.bodyHtml, params.slug)}</article>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
     </main>
