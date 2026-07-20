@@ -384,6 +384,7 @@ From opening bids to preempts, and everything that follows, vulnerability will c
           { title: "Preempting by Vulnerability: Risk and Reward Across the Colours", to: "/bidding/advanced/preempting-vulnerability-risk-reward-across", level: A },
           { title: "Vulnerable Auctions: Why Too Careful Can Be Costly", to: "/bidding/advanced/vulnerable-auctions-too-careful-can", level: A },
           { title: "Bridge Scoring: What Actually Matters at the Table", to: "/beginner/articles/bidding/bridge-scoring-actually-matters-table", level: F },
+          { title: "Favourable Vulnerability: When to Bid Aggressively", to: "/bidding/advanced/favourable-vulnerability", level: A },
         ],
       },
     ],
