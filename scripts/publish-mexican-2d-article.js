@@ -48,7 +48,7 @@ const B5 = board("*S-K1082*H-A5*D-AQ10*C-KQ94", "South", "_/_/_/2♦/P/3♣/P/3�
 const B6 = board("*S-K10843*H-72*D-AJ52*C-94", "North", "_/2♦/P/2♥/P/2♠/P/3♦");
 
 const BODY_HTML = `
-<p>I have recently adopted the 2♦ opening as 18-19 points and balanced. It shows 2+ diamonds, it can be any balanced shape. I strongly recommend using it, and many of the most successful pairs in the world are using it. What are the advantages?</p>
+<p>I have recently adopted the 2♦ opening as 18-19 points and balanced. It shows 2+ diamonds, it can be any balanced shape. I recommend using it, and many of the most successful pairs in the world are using it. What are the advantages?</p>
 
 <h2>1. Immediately show your hand in a single bid</h2>
 
