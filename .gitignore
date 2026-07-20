@@ -40,3 +40,6 @@ yarn-error.log*
 
 # Cursor IDE
 .cursor/
+
+# YouTube API OAuth (local only - never commit)
+scripts/_youtube-oauth.json

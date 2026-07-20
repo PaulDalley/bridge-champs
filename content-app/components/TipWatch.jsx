@@ -18,7 +18,11 @@ import TipsNotice from './TipsNotice';
 //   guest = not subscribed · basic = 5 · premium = unlimited.
 // unknown/loading fail OPEN (Infinity) so a real member is never wrongly walled.
 const LIMITS = { guest: 2, basic: 5, premium: Infinity, unknown: Infinity, loading: Infinity };
-const limitFor = (tier) => (LIMITS[tier] != null ? LIMITS[tier] : Infinity);
+// Local dev is never walled: the login session lives on the CRA's origin
+// (localhost:3000), so the content app on :3001 can't see it and every dev view
+// would count as a guest. Production hostnames are unaffected.
+const isLocalhost = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)/.test(window.location.hostname);
+const limitFor = (tier) => (isLocalhost ? Infinity : LIMITS[tier] != null ? LIMITS[tier] : Infinity);
 
 // Daily meter — counts distinct tips watched per calendar day (local), browser-side.
 const MKEY = 'bc_tips_meter';
@@ -241,11 +245,41 @@ export default function TipWatch({ startSlug }) {
           {!s.walled && (tip.blocks || tip.hand || tip.note) && (
             <section className="tw-notes">
               {tip.blocks
-                ? tip.blocks.map((b, i) =>
-                    b.board
-                      ? <div key={i} className="tw-notes-hand"><MakeBoard {...b.board} /></div>
-                      : <p key={i} className="tw-notes-text"><SuitText>{b.t}</SuitText></p>
-                  )
+                ? tip.blocks.map((b, i) => {
+                    if (b.board) return <div key={i} className="tw-notes-hand"><MakeBoard {...b.board} /></div>;
+                    // Callout boxes: rule (gold), key point (green), or custom-labelled.
+                    const callout = b.rule ? { label: 'Rule', cls: 'rule', text: b.rule }
+                      : b.key ? { label: 'Key point', cls: 'key', text: b.key }
+                      : b.callout ? { label: b.label || 'Note', cls: 'note', text: b.callout }
+                      : null;
+                    if (callout) {
+                      return (
+                        <div key={i} className={`tw-callout tw-callout--${callout.cls}`}>
+                          <span className="tw-callout-badge">{callout.label}</span>
+                          <p className="tw-callout-text"><SuitText>{callout.text}</SuitText></p>
+                        </div>
+                      );
+                    }
+                    if (b.quote) {
+                      return (
+                        <blockquote key={i} className="tw-quote">
+                          <span className="tw-quote-mark" aria-hidden="true">&ldquo;</span>
+                          <p className="tw-quote-text"><SuitText>{b.quote}</SuitText></p>
+                        </blockquote>
+                      );
+                    }
+                    if (b.list) {
+                      return (
+                        <div key={i} className={`tw-list tw-list--${b.list.tone || 'pro'}`}>
+                          {b.list.title && <p className="tw-list-title"><SuitText>{b.list.title}</SuitText></p>}
+                          <ol>
+                            {b.list.items.map((item, j) => <li key={j}><SuitText>{item}</SuitText></li>)}
+                          </ol>
+                        </div>
+                      );
+                    }
+                    return <p key={i} className="tw-notes-text"><SuitText>{b.t}</SuitText></p>;
+                  })
                 : (
                   <>
                     {tip.hand && <div className="tw-notes-hand"><MakeBoard {...tip.hand} /></div>}
