@@ -909,10 +909,30 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
  return finalSeat; 
  } 
  
- function seatCompassLabel(seat) { 
- // Auction grid now uses compass seats directly. 
- return seat; 
- } 
+ function seatCompassLabel(seat) {
+ // Auction grid now uses compass seats directly.
+ return seat;
+ }
+
+ /**
+  * Display-space compass for a puzzle's internal compass seat.
+  * Some puzzles play internally with the viewer at one compass (e.g. E) but SHOW the
+  * viewer at another via promptOptions.viewerCompassLabelOverride (e.g. "S"). Everything
+  * user-facing (trick tally NS/EW, tally declarer label) must rotate by the same offset,
+  * or the viewer sees their own tricks credited to the wrong pair.
+  */
+ function displayCompassFor(compassLetter, puzzle) {
+   const forced = normalizeYouCompassLabelOverride(puzzle?.promptOptions?.viewerCompassLabelOverride);
+   const FORCED_LETTER = { North: "N", East: "E", South: "S", West: "W" };
+   const forcedLetter = FORCED_LETTER[forced] || null;
+   const viewer = puzzle?.viewerCompass;
+   const ci = CLOCKWISE.indexOf(compassLetter);
+   if (!forcedLetter || !viewer || ci < 0) return compassLetter;
+   const vi = CLOCKWISE.indexOf(viewer);
+   const fi = CLOCKWISE.indexOf(forcedLetter);
+   if (vi < 0 || fi < 0) return compassLetter;
+   return CLOCKWISE[(ci + fi - vi + 4) % 4];
+ }
  
  function buildAuctionGrid({ auctionText, dealerCompass = "N" }) { 
  const order = AUCTION_DISPLAY_ORDER; 
@@ -5795,7 +5815,10 @@ return fallbackIdx + 1;
  const lastCompleted = curRoundPlays > 0 && playIdx >= curRoundPlays - 1 ? roundIdx : roundIdx - 1;
  if (lastCompleted < 0) return { ns: 0, ew: 0 };
  const { declarerSide, defenderSide } = computeTrickTallyThroughRound(puzzle, lastCompleted);
- const decIsNS = puzzle?.declarerCompass !== "E" && puzzle?.declarerCompass !== "W";
+ // NS/EW attribution follows the DISPLAYED orientation (viewerCompassLabelOverride rotation),
+ // not the internal compass — otherwise a viewer shown as South sees their tricks under EW.
+ const decDisplay = displayCompassFor(puzzle?.declarerCompass, puzzle);
+ const decIsNS = decDisplay !== "E" && decDisplay !== "W";
  return decIsNS ? { ns: declarerSide, ew: defenderSide } : { ns: defenderSide, ew: declarerSide };
  }, [showTrickTally, puzzle, roundIdx, playIdx]);
  
@@ -10989,7 +11012,7 @@ className={`ct-problemTab ${idx === puzzleIdxInDifficulty ? "ct-problemTab--acti
  {showTrickTally && trickTally && (
  <div className="ct-trickTally" aria-label="Contract and tricks">
  <div className="ct-trickTally-box ct-trickTally-box--contract">
- <span className="ct-trickTally-cap">{({ N: "North", E: "East", S: "South", W: "West" }[puzzle?.declarerCompass] || "Declarer")}</span>
+ <span className="ct-trickTally-cap">{({ N: "North", E: "East", S: "South", W: "West" }[displayCompassFor(puzzle?.declarerCompass, puzzle)] || "Declarer")}</span>
  <span className="ct-trickTally-val"><TextWithColoredSuits text={contractToText(puzzle) || "?"} /></span>
  </div>
  <div className="ct-trickTally-box">

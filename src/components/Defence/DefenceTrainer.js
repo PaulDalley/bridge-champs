@@ -145,7 +145,8 @@ const DEFENCE_PUZZLES = [
     trumpSuit: null,
     contract: "3NT",
     auction: "1NT P 3NT P P P",
-    dealerCompass: "N",
+    // Display-space (like df1-5..7): auction shows 1NT opened by West, matching contractLabel.
+    dealerCompass: "W",
     declarerCompass: "S",
     viewerCompass: "E",
     visibleFullHandSeats: ["RHO", "DUMMY"],
@@ -210,7 +211,8 @@ const DEFENCE_PUZZLES = [
     trumpSuit: null,
     contract: "3NT",
     auction: "1NT P 3NT P P P",
-    dealerCompass: "E",
+    // Display-space (like df1-5..7): auction shows 1NT opened by West, matching contractLabel.
+    dealerCompass: "W",
     declarerCompass: "S",
     viewerCompass: "E",
     visibleFullHandSeats: ["RHO", "DUMMY"],
