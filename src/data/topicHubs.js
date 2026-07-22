@@ -362,7 +362,7 @@ Fits and misfits are important to handle correctly, generally we are misfitting 
           { title: "Hand Evaluation: Do More with a Good Suit", to: "/bidding/advanced/hand-evaluation-3-do-more", level: A },
           { title: "Hand Evaluation: Do Less with a Weak Trump Suit", to: "/bidding/advanced/hand-evaluation-4-do-less", level: A },
           { title: "9 Card trump fit does it matter?", to: "/bidding/advanced/9-card-trump-fit", level: A },
-          { title: "Loser Count for Bidding: Judge Contracts Better", to: "/bidding/advanced/loser-count-bidding-judge-contracts", level: A },
+          { title: "Losing Trick Count for Bidding: Judge Contracts Better", to: "/bidding/advanced/loser-count-bidding-judge-contracts", level: A },
           { title: "Should You Invite with 11? Practical Guide", to: "/bidding/advanced/should-invite-11-practical-guide", level: A },
           { title: "Counting Combined Points in Bridge: When to Bid Game, Part-Score, or Pass", to: "/beginner/articles/bidding/counting-combined-points-bridge-bid", level: F },
         ],
