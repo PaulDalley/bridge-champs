@@ -142,6 +142,26 @@ export const QUICK_TIPS = [
     { rule: "Be practical and a little optimistic rather than pessimistic, especially when it comes to chasing those vulnerable games." },
     { rule: "When the opponents are not vulnerable, they sometimes bid without having much at all - don't get discouraged." },
   ] },
+  // ── Added 2026-07-22 (videoId '' = video not filmed yet; PLACEHOLDER titles — Paul to confirm) ──
+  { slug: 'loser-count-slam', title: 'Losing trick count bidding', cat: 'Bidding', videoId: '_sfL5CiJO8Q', dur: '', pub: '2026-07-22', blocks: [
+    { board: { boardType: 'single', position: 'West', West: '*S-AKJ8764*H-J2*D-*C-K743', bidding: '1♠/2♦/3♦/P/?', vul: 'All' } },
+    { link: { to: '/learn/bidding/loser-count-bidding-judge-contracts', text: 'Loser Count for Bidding: Judge Contracts Better' } },
+    { t: "*3♦ is a 11+ point spade raise." },
+    { t: "How do you evaluate this hand? you only have 12 points, is there any indication that this hand might have slam potential? Most of the field in the finals of the ANC missed this slam, including various players who have represented Australia in the past." },
+    { rule: "For very distributional hands, losing trick count is more accurate than point count. Here we have 4 losers - 2 heart losers, 2 club losers (I don't count any spade losers because we have a 10 card fit)." },
+    { t: "Losing trick count goes like this - two 7 loser hands = game. An opening hand is about 7 losers. When you reduce that total loser count by 2, you get to slam zone. So, since partner has shown approximately an opening hand, say 7 losers. And since you have 4 losers, you are certainly in the slam zone." },
+    { t: "This hand is worth at least a slam try. Its a reasonable strategy to cue bid to make sure you're not missing the AK of hearts, and then just go for it." },
+    { board: { boardType: 'full', North: '*S-*H-754*D-AQ87632*C-1092', West: '*S-AKJ8764*H-J2*D-*C-K743', East: '*S-932*H-AQ8*D-K105*C-AQ65', South: '*S-Q105*H-K10963*D-J94*C-J8', bidding: '1♠/2♦/3♦/P/?', vul: 'All' } },
+  ] },
+  { slug: 'favourable-vulnerability-preempt', title: 'Favourable vulnerability', cat: 'Bidding', videoId: '5HQNeAT39u0', dur: '', pub: '2026-07-22', blocks: [
+    { board: { boardType: 'single', position: 'South', South: '*S-102*H-*D-97653*C-A107532', bidding: '_/_/P/?', vul: 'EW' } },
+    { t: "Do you open or pass?" },
+    { link: { to: '/learn/bidding/favourable-vulnerability', text: 'Favourable Vulnerability: When to Bid Aggressively' } },
+    { t: "As I mention in the article, when you are not vulnerable you should NOT \"talk yourself out of opening or preempting\". Voids are good things. Some people like to pass inititally and then try to show both minors later, in case partner has diamonds. Don't do that" },
+    { rule: "Don't talk yourself out of preempting, especially when you are not vulnerable and the opponents are vulnerable (called favourable vulnerability)." },
+    { board: { boardType: 'full', North: '*S-KJ8*H-AKJ932*D-Q8*C-Q4', West: '*S-AQ9*H-Q108654*D-KJ2*C-K', East: '*S-76543*H-7*D-A104*C-J986', South: '*S-102*H-*D-97653*C-A107532', bidding: '_/_/P/?', vul: 'EW' } },
+    { t: "For those that preempted immediately, there were big penalty doubles lurking, 800 and 1100. That is jsut one benefit of preempting, there are multiple - when in doubt, just do it." },
+  ] },
 ];
 
 export function getTip(slug) {

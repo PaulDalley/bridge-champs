@@ -11,8 +11,9 @@ import {
   setVisibleFieldValue,
 } from "../../data/systemCardAbfLayout";
 import { getChoicesForGroup, resolveChoiceText, getPaulChoiceIdForTopic } from "../../data/systemCardMenu";
+import { QUICK_CHIP_SECTIONS, toggleChip, buildQuickFillValues, isGroupHidden } from "../../data/systemCardQuickChips";
 import cardFieldRects from "../../data/systemCardFieldRects.json";
-import { LEGACY_GROUP_ID_TO_PDF_FIELDS } from "../../utils/systemCardPdfExport";
+import { LEGACY_GROUP_ID_TO_PDF_FIELDS, exportSystemCardPdf } from "../../utils/systemCardPdfExport";
 import "./SystemCardEditor.css";
 
 const COLLECTION = "userSystemCards";
@@ -103,9 +104,13 @@ function SystemCardDevBanner() {
   );
 }
 
-function SystemCardEditor({ uid }) {
+function SystemCardEditor({ uid, displayName }) {
   const [abfValues, setAbfValues] = useState({});
   const [loading, setLoading] = useState(true);
+  // "start" (new card: choose auto vs manual) | "picker" (quick-fill chips) | "card"
+  const [mode, setMode] = useState("card");
+  const [cardName, setCardName] = useState("");
+  const [selectedChipIds, setSelectedChipIds] = useState([]);
   const [cardPage, setCardPage] = useState(1);
   const [selectedVisualSectionId, setSelectedVisualSectionId] = useState("sec_1");
   const [assistantMsg, setAssistantMsg] = useState("");
@@ -120,11 +125,13 @@ function SystemCardEditor({ uid }) {
   const [dragState, setDragState] = useState(null);
   const [resizeState, setResizeState] = useState(null);
   const [saveStatus, setSaveStatus] = useState("idle");
+  const [exportStatus, setExportStatus] = useState("idle");
   const cardFrameRef = useRef(null);
   const calibrateMode = getCalibrateMode();
 
   const load = useCallback(() => {
     if (!uid) {
+      setMode("start"); // guests can still try the quick-fill flow (saving needs sign-in)
       setLoading(false);
       return;
     }
@@ -170,12 +177,27 @@ function SystemCardEditor({ uid }) {
         }
 
         setAbfValues(initial);
+
+        // Card name: saved name wins; otherwise prefill "<FirstName> & …" for
+        // convenience (it's an ordinary text field — the user can replace it).
+        if (data.cardName) {
+          setCardName(String(data.cardName));
+        } else {
+          const first = String(displayName || "").trim().split(/\s+/)[0];
+          setCardName(first ? `${first} & …` : "");
+        }
+
+        // Brand-new card (nothing filled, no deep-link intent): open the
+        // "Let me do as much as I can for you / fill it in manually" start screen.
+        if (Object.keys(initial).length === 0 && !topicIdParam && !addGroupId) {
+          setMode("start");
+        }
       })
       .catch((err) => {
         console.error("System card load error:", err);
       })
       .finally(() => setLoading(false));
-  }, [uid]);
+  }, [uid, displayName]);
 
   useEffect(() => {
     load();
@@ -236,6 +258,7 @@ function SystemCardEditor({ uid }) {
         .set(
           {
             abfValues: abfValuesForSave,
+            cardName: String(cardName || "").slice(0, 80),
             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
           },
           { merge: true }
@@ -247,7 +270,7 @@ function SystemCardEditor({ uid }) {
       setSaveStatus("error");
       window.setTimeout(() => setSaveStatus("idle"), 5000);
     }
-  }, [uid, abfValuesForSave]);
+  }, [uid, abfValuesForSave, cardName]);
   const liveFieldOverlays = useMemo(() => {
     const overlays = [];
     VISIBLE_CARD_SECTIONS.forEach((sec) => {
@@ -313,6 +336,42 @@ function SystemCardEditor({ uid }) {
     [applySafePatch]
   );
 
+  // Download the card as the official ABF PDF form (fillable template, fields
+  // populated from abfValues). The file works for printing and emailing.
+  const downloadPdf = useCallback(async () => {
+    setExportStatus("working");
+    try {
+      const safeName =
+        String(cardName || "")
+          .replace(/[<>:"/\\|?*…]/g, "")
+          .replace(/\s+/g, " ")
+          .trim() || "my-system-card";
+      await exportSystemCardPdf([], `${safeName}.pdf`, { abfValues: abfValuesForSave });
+      setExportStatus("done");
+      window.setTimeout(() => setExportStatus("idle"), 3500);
+    } catch (err) {
+      console.error("System card PDF export error:", err);
+      setExportStatus("error");
+      window.setTimeout(() => setExportStatus("idle"), 5000);
+    }
+  }, [cardName, abfValuesForSave]);
+
+  // ── Quick fill ("Let me do as much as I can for you") ────────────────────────
+  const quickValues = useMemo(() => buildQuickFillValues(selectedChipIds), [selectedChipIds]);
+  const quickFieldCount = useMemo(
+    () => Object.keys(quickValues).filter((f) => allowedFieldWhitelist.has(f)).length,
+    [quickValues, allowedFieldWhitelist]
+  );
+  const onToggleChip = useCallback((chipId) => {
+    setSelectedChipIds((ids) => toggleChip(ids, chipId));
+  }, []);
+  const applyQuickFill = useCallback(() => {
+    const safe = applySafePatch(quickValues);
+    setAbfValues((prev) => ({ ...prev, ...safe }));
+    setMode("card");
+    setAssistantMsg("Filled in from your selections — click any section to fine-tune.");
+  }, [applySafePatch, quickValues]);
+
   const sectionQuickActions = useMemo(() => {
     if (!selectedVisibleSection) return [];
     if (selectedVisibleSection.id === "sec_2") {
@@ -349,15 +408,6 @@ function SystemCardEditor({ uid }) {
       ];
     }
     return [
-      {
-        id: "qa-standard",
-        label: "Apply standard notes for this section",
-        patch: Object.fromEntries(
-          (selectedVisibleSection.fields || []).flatMap((field) =>
-            (field.pdfFields || []).slice(0, 1).map((pdfField) => [pdfField, "Standard"])
-          )
-        ),
-      },
       {
         id: "qa-clear",
         label: "Clear this section",
@@ -513,6 +563,149 @@ function SystemCardEditor({ uid }) {
     );
   }
 
+  // ── Start screen: automated vs manual ────────────────────────────────────────
+  if (mode === "start" && !calibrateMode) {
+    return (
+      <div className="sy-card-page sy-card-page--abf">
+        <Helmet>
+          <title>My system card — Bridge Champions</title>
+        </Helmet>
+        <SystemCardDevBanner />
+        <div className="sy-qf-start">
+          <h1 className="sy-qf-start-title">Set up your system card</h1>
+          <div className="sy-qf-name-row">
+            <input
+              className="sy-qf-name"
+              type="text"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+              placeholder="Name your card"
+              aria-label="Card name"
+              maxLength={80}
+            />
+            <span className="sy-qf-name-pencil" aria-hidden="true">✎</span>
+          </div>
+          <p className="sy-qf-name-hint">Prefilled from your account — change it to anything you like</p>
+          <div className="sy-qf-choices">
+            <button type="button" className="sy-qf-choice sy-qf-choice--auto" onClick={() => setMode("picker")}>
+              <span className="sy-qf-choice-title">✨ Let me do as much as I can for you</span>
+              <span className="sy-qf-choice-desc">
+                Click through the agreements you play — the card fills itself in. Fine-tune anything afterwards.
+              </span>
+              <span className="sy-qf-choice-cta">Start →</span>
+            </button>
+            <button type="button" className="sy-qf-choice sy-qf-choice--manual" onClick={() => setMode("card")}>
+              <span className="sy-qf-choice-title">Fill it in manually</span>
+              <span className="sy-qf-choice-desc">Go straight to the card and type into each section yourself.</span>
+              <span className="sy-qf-choice-cta">Open the blank card →</span>
+            </button>
+          </div>
+          {!uid && (
+            <p className="sy-card-login-msg sy-qf-start-login">
+              <Link to="/login?redirectTo=/system">Sign in</Link> to save your card to your account.
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Quick-fill picker: a blank card whose sections hold their own chips ──────
+  if (mode === "picker" && !calibrateMode) {
+    return (
+      <div className="sy-card-page sy-card-page--abf">
+        <Helmet>
+          <title>My system card — Bridge Champions</title>
+        </Helmet>
+        <SystemCardDevBanner />
+        <div className="sy-qf-picker">
+          <div className="sy-qf-picker-head">
+            <h1 className="sy-qf-picker-title">What do you play?</h1>
+            <p className="sy-qf-picker-sub">
+              Click what you play — each section fills itself in as you go. Skip anything; fix anything later.
+            </p>
+          </div>
+          <div className="sy-qf-card">
+            {/* Two columns mirroring the real ABF card's page-1 geography, so people
+                can look where they'd look on the paper card. Sections without quick
+                options render as muted placeholders to keep the geography intact. */}
+            {[["sec_5", "sec_6", "sec_7", "sec_8"], ["sec_1", "sec_2", "sec_3", "sec_4"]].map((column, colIdx) => (
+              <div className="sy-qf-col" key={colIdx}>
+                {column.map((sectionId) => {
+                  const quickSection = QUICK_CHIP_SECTIONS.find((s) => s.sectionId === sectionId);
+                  if (!quickSection) {
+                    return (
+                      <section className="sy-qf-sec sy-qf-sec--ghost" key={sectionId}>
+                        <h2 className="sy-qf-sec-h">{visibleSectionById[sectionId]?.title || ""}</h2>
+                        <p className="sy-qf-ghost-note">No quick options — fill this in on the card afterwards.</p>
+                      </section>
+                    );
+                  }
+                  return (
+                    <section className="sy-qf-sec" key={sectionId}>
+                      <h2 className="sy-qf-sec-h">{quickSection.title}</h2>
+                      {quickSection.groups.filter((group) => !isGroupHidden(group, selectedChipIds)).map((group) => (
+                        <div className="sy-qf-group" key={group.id}>
+                          <span className="sy-qf-group-label">
+                            {group.label}
+                            {group.exclusive && group.chips.length > 1 ? <small> · pick one</small> : null}
+                          </span>
+                          <div className="sy-qf-chips">
+                            {group.chips.map((chip) => {
+                              const on = selectedChipIds.includes(chip.id);
+                              return (
+                                <button
+                                  type="button"
+                                  key={chip.id}
+                                  className={`sy-qf-chip${on ? " sy-qf-chip--on" : ""}`}
+                                  aria-pressed={on}
+                                  onClick={() => onToggleChip(chip.id)}
+                                >
+                                  {on ? "✓ " : ""}
+                                  {chip.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </section>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+          <div className="sy-qf-foot">
+            <span className="sy-qf-count">
+              {selectedChipIds.length > 0 ? (
+                <>
+                  <strong>{selectedChipIds.length} selection{selectedChipIds.length === 1 ? "" : "s"}</strong>
+                  {" → will fill "}
+                  <strong>{quickFieldCount} card field{quickFieldCount === 1 ? "" : "s"}</strong>
+                </>
+              ) : (
+                "Click what you play — or skip straight to the card"
+              )}
+            </span>
+            <span className="sy-qf-foot-actions">
+              <button type="button" className="sy-qf-skip" onClick={() => setMode("card")}>
+                Skip — fill in manually
+              </button>
+              <button
+                type="button"
+                className="sy-card-btn sy-card-btn--primary sy-qf-apply"
+                disabled={selectedChipIds.length === 0}
+                onClick={applyQuickFill}
+              >
+                Apply to my card →
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`sy-card-page sy-card-page--abf${
@@ -532,6 +725,45 @@ function SystemCardEditor({ uid }) {
       <header className="sy-card-hero">
         <div className="sy-card-hero-top">
           <h1 className="sy-card-title">My system card</h1>
+          <div className="sy-qf-name-row sy-qf-name-row--header">
+            <input
+              className="sy-qf-name sy-qf-name--header"
+              type="text"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+              placeholder="Name your card"
+              aria-label="Card name"
+              maxLength={80}
+            />
+            <span className="sy-qf-name-pencil" aria-hidden="true">✎</span>
+          </div>
+          <button
+            type="button"
+            className="sy-card-btn sy-card-btn--secondary sy-qf-reopen"
+            onClick={() => setMode("picker")}
+            title="Fill the card in quickly by clicking what you play"
+          >
+            ✨ Help me fill the card in
+          </button>
+          <button
+            type="button"
+            className="sy-card-btn sy-card-btn--secondary sy-qf-download"
+            disabled={exportStatus === "working"}
+            onClick={downloadPdf}
+            title="Download the official ABF card as a PDF — print it or email it"
+          >
+            {exportStatus === "working" ? "Preparing…" : "⤓ Download PDF"}
+          </button>
+          {exportStatus === "done" && (
+            <span className="sy-card-save-feedback" role="status">
+              PDF downloaded — print or email it
+            </span>
+          )}
+          {exportStatus === "error" && (
+            <span className="sy-card-save-feedback sy-card-save-feedback--error" role="alert">
+              Could not create the PDF. Try again.
+            </span>
+          )}
           {uid ? (
             <div className="sy-card-save-row">
               <button
@@ -774,7 +1006,7 @@ function SystemCardEditor({ uid }) {
               <span className="sy-card-float-bar-title" title={selectedVisibleSection?.title || ""}>
                 {selectedVisibleSection?.title || "Section"}
               </span>
-              <span className="sy-card-float-bar-hint">Use Clear or Options — then type on the card above.</span>
+              <span className="sy-card-float-bar-hint">Type on the card above, or use the buttons here.</span>
             </div>
             <div className="sy-card-float-bar-actions" role="toolbar" aria-label="Section actions">
               <button
@@ -795,7 +1027,7 @@ function SystemCardEditor({ uid }) {
                     id="sy-card-options-trigger"
                     onClick={() => setSuggestionsOpen((o) => !o)}
                   >
-                    Options
+                    Help me fill this in
                   </button>
                   {suggestionsOpen && (
                     <ul
@@ -839,6 +1071,7 @@ function SystemCardEditor({ uid }) {
 
 const mapStateToProps = (state) => ({
   uid: state.auth.uid,
+  displayName: state.auth?.displayName || "",
 });
 
 export default connect(mapStateToProps)(SystemCardEditor);

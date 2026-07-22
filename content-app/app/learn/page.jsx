@@ -79,6 +79,18 @@ export default async function LearnRoot() {
         <LearnSearch index={index} />
       </div>
 
+      <section className="lh-toolPromo" aria-label="System Card Editor">
+        <a className="lh-toolPromo-link" href="/system">
+          <span className="lh-toolPromo-badge">New</span>
+          <span className="lh-toolPromo-title">System Card Editor</span>
+          <span className="lh-toolPromo-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <p className="lh-toolPromo-note">
+          Being tested &mdash; it may have issues. Please email{" "}
+          <a href="mailto:paul.dalley@hotmail.com">paul.dalley@hotmail.com</a> if you hit any.
+        </p>
+      </section>
+
       {CATEGORIES.map((c) => (
         <section className={`lh-category lh-category--${c.key}`} key={c.key}>
           <div className="lh-categoryHead">

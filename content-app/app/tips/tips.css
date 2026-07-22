@@ -63,6 +63,9 @@
 .tw-notes { margin-top: 1.6rem; background: var(--bc-card); border: 1px solid var(--bc-line); border-radius: 12px; padding: 1.8rem 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
 .tw-notes-hand { display: flex; justify-content: center; }
 .tw-notes-text { font-size: 1.55rem; line-height: 1.7; color: var(--bc-ink); margin: 0; white-space: pre-line; }
+.tw-notes-link-label { color: var(--bc-ink); font-weight: 600; }
+.tw-notes-link { color: #0f4c3a; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.tw-notes-link:hover { color: #0a3527; }
 
 /* ── rich note blocks (rule / key point / quote / lists) ── */
 .tw-callout { border-left: 4px solid; border-radius: 10px; padding: 1.2rem 1.6rem 1.3rem; }

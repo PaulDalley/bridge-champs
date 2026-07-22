@@ -41,6 +41,29 @@
 .lh-heroSuits { font-size: 2.1rem; margin: 0.2rem 0 0.7rem; }
 .lh-heroSub { font-size: 1.7rem; color: var(--th-muted); margin: 0; }
 
+/* System Card Editor promo (new tool, near the top of Learn) */
+.lh-toolPromo {
+  margin: 0 0 2.5rem;
+  padding: 1.3rem 1.6rem;
+  background: var(--th-card);
+  border: 1px solid var(--th-line);
+  border-left: 4px solid var(--th-green);
+  border-radius: 12px;
+}
+.lh-toolPromo-link {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  text-decoration: none; color: var(--th-green); font-weight: 800; font-size: 1.7rem;
+}
+.lh-toolPromo-link:hover { color: var(--th-green-light); }
+.lh-toolPromo-link:hover .lh-toolPromo-arrow { transform: translateX(3px); }
+.lh-toolPromo-badge {
+  font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+  color: #241c00; background: #d4af37; padding: 0.2rem 0.7rem; border-radius: 999px;
+}
+.lh-toolPromo-arrow { transition: transform 0.15s ease; }
+.lh-toolPromo-note { margin: 0.55rem 0 0; font-size: 1.4rem; color: var(--th-muted); }
+.lh-toolPromo-note a { color: var(--th-green); font-weight: 700; }
+
 .lh-search { margin: 1.8rem 0 0.5rem; max-width: 46rem; }
 .lh-searchBox { position: relative; }
 .lh-searchInput {

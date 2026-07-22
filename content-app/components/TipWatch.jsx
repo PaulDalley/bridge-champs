@@ -291,6 +291,14 @@ export default function TipWatch({ startSlug }) {
                         </div>
                       );
                     }
+                    if (b.link) {
+                      return (
+                        <p key={i} className="tw-notes-text">
+                          <span className="tw-notes-link-label">{b.link.label || 'Read the article:'} </span>
+                          <a className="tw-notes-link" href={b.link.to}><SuitText>{b.link.text}</SuitText></a>
+                        </p>
+                      );
+                    }
                     return <p key={i} className="tw-notes-text"><SuitText>{b.t}</SuitText></p>;
                   })
                 : (
