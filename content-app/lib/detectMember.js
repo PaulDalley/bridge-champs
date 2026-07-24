@@ -77,19 +77,59 @@ export async function detectMember() {
   }
 }
 
-// Returns the logged-in user's Firebase ID token (from the same IndexedDB/localStorage
-// session the CRA writes), or null if not logged in. The token is POSTed to
-// /api/my-membership, which verifies it server-side and returns the tier. Read-only,
-// never throws. Note: the token can be stale (~1h); a stale token verifies as
-// 'unknown' server-side and the caller fails OPEN (no wall).
+// Firebase web API key (public client key, same as the CRA's src/firebase/config.js).
+// Needed to mint a fresh ID token from the stored refresh token.
+const FIREBASE_API_KEY = 'AIzaSyCT-YNVbhvxt2UNttu36HZQvo3k2bgl3JY';
+
+// ID tokens live ~1h. If the stored one is stale (which it almost always is for a
+// returning visitor), exchange the stored refresh token for a fresh ID token via the
+// securetoken endpoint — the same call the Firebase SDK makes. Without this, every
+// returning visitor's token failed verifyIdToken and the tips gate failed OPEN,
+// giving unlimited reels to anyone who had ever signed in (including lapsed members).
+const EXPIRY_BUFFER_MS = 2 * 60 * 1000;
+
+function tokenFromRecord(rec) {
+  const m = rec && rec.stsTokenManager;
+  if (!m || !m.accessToken) return null;
+  return {
+    accessToken: m.accessToken,
+    refreshToken: m.refreshToken || null,
+    expirationTime: Number(m.expirationTime) || 0,
+    apiKey: rec.apiKey || FIREBASE_API_KEY,
+  };
+}
+
+async function freshenToken(t) {
+  if (!t) return null;
+  if (t.expirationTime - EXPIRY_BUFFER_MS > Date.now()) return t.accessToken; // still fresh
+  if (!t.refreshToken) return t.accessToken;
+  try {
+    const r = await fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(t.apiKey)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(t.refreshToken)}`,
+    });
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.id_token) return d.id_token;
+    }
+  } catch (_) {}
+  // Refresh failed (offline / revoked): fall back to the stored token; the server
+  // treats an unverifiable token as 'unknown' and the caller decides the limit.
+  return t.accessToken;
+}
+
+// Returns a FRESH Firebase ID token for the logged-in user (from the same
+// IndexedDB/localStorage session the CRA writes), or null if not logged in. The token
+// is POSTed to /api/my-membership, which verifies it server-side and returns the tier.
+// Read-only against the CRA's session store; never throws.
 export async function getAuthToken() {
   try {
     if (typeof localStorage !== 'undefined') {
       const k = Object.keys(localStorage).find((x) => x.startsWith('firebase:authUser:'));
       if (k) {
-        const u = JSON.parse(localStorage.getItem(k) || '{}');
-        const t = u && u.stsTokenManager && u.stsTokenManager.accessToken;
-        if (t) return t;
+        const t = tokenFromRecord(JSON.parse(localStorage.getItem(k) || '{}'));
+        if (t) return await freshenToken(t);
       }
     }
   } catch (_) {}
@@ -127,8 +167,9 @@ export async function getAuthToken() {
             const row = rows.find(
               (r) => r && typeof r.fbase_key === 'string' && r.fbase_key.startsWith('firebase:authUser:')
             );
-            const t = row && row.value && row.value.stsTokenManager && row.value.stsTokenManager.accessToken;
-            done(t || null);
+            const t = tokenFromRecord(row && row.value);
+            if (!t) return done(null);
+            freshenToken(t).then((tok) => done(tok || null)).catch(() => done(t.accessToken));
           };
           allReq.onerror = () => { clearTimeout(timer); idb.close(); done(null); };
         } catch (_) {
