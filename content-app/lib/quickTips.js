@@ -125,7 +125,7 @@ export const QUICK_TIPS = [
   { slug: 'the-strongest-hand', title: 'The strongest hand', cat: 'Bidding', videoId: 'kR5sMchpf_0', dur: '', pub: '2026-07-20', blocks: [
     { t: "This was the strongest hand I think I've ever seen." },
     { board: { boardType: 'full', North: '*S-QJ86*H-QJ*D-J108643*C-2', West: '*S-94*H-1087543*D-Q7*C-1094', East: '*S-AK105*H-AK62*D-AK*C-AKQ', South: '*S-732*H-9*D-952*C-J87653', bidding: 'P/P/2♣/P/2♦/P/2NT/P/3♦/P/3♥/P/4♥/P/7NT/P/P/P' } },
-    { t: "I opened 2♣ and rebid 2♦ showing 23+ points. Partners 3♦ is a transfer to hearts.\n\nInterestingly, if you super accept - you will never work out that your partner had 6 hearts!\n\nBy quietly bidding 3♥, partner was able to show the 6th heart by bidding 4♥." },
+    { t: "I opened 2♣ and rebid 2NT showing 23+ points. Partners 3♦ is a transfer to hearts.\n\nInterestingly, if you super accept - you will never work out that your partner had 6 hearts!\n\nBy quietly bidding 3♥, partner was able to show the 6th heart by bidding 4♥." },
     { t: "I could now count 13 tricks, I have 7 top tricks outside of hearts, and can expect 6 heart tricks opposite 6 bad hearts, if they break if they don't break 3-0." },
     { t: "Over 4♥, I just bid 7NT - slightly safer than 7♥ in case there is a ruff on the opening lead." },
   ] },
@@ -161,6 +161,35 @@ export const QUICK_TIPS = [
     { rule: "Don't talk yourself out of preempting, especially when you are not vulnerable and the opponents are vulnerable (called favourable vulnerability)." },
     { board: { boardType: 'full', North: '*S-KJ8*H-AKJ932*D-Q8*C-Q4', West: '*S-AQ9*H-Q108654*D-KJ2*C-K', East: '*S-76543*H-7*D-A104*C-J986', South: '*S-102*H-*D-97653*C-A107532', bidding: '_/_/P/?', vul: 'EW' } },
     { t: "For those that preempted immediately, there were big penalty doubles lurking, 800 and 1100. That is jsut one benefit of preempting, there are multiple - when in doubt, just do it." },
+  ] },
+  // ── Added 2026-07-23; videoId filled 2026-07-24 from the channel ──
+  { slug: 'nv-bid-good-suits', title: 'Be a nuisance', cat: 'Bidding', videoId: 'yo8Thq43MSY', dur: '', pub: '2026-07-23', blocks: [
+    { board: { boardType: 'single', position: 'East', East: '*S-K8732*H-KJ1087*D-5*C-73', bidding: '_/_/P/1♣/P/1♠/?', vul: 'NS' } },
+    { t: "Would you bid with this?" },
+    { t: "Thomas Bessis in the final of Spingold broke all the rules and bid 2♥ with such a bad hand. Why?" },
+    { list: { tone: 'pro', items: [
+      "He was Not Vul and the opponents are Vul. That is the #1 time to do more.",
+      "Bidding hearts is great for the lead - if he had honors in the minors he would have less need to make this bid.",
+    ] } },
+    { t: "Bidding got in the way, at the other table they didnt bid, picked up 13 imps" },
+    { rule: "When NV, especially against vulnerable opponents - Bid good suits, don't pass. Be a nuisance!" },
+  ] },
+  // ── Added 2026-07-23; videoId filled 2026-07-24 from the channel ──
+  { slug: 'big-trump-fit-pressure', title: 'Big trump fits', cat: 'Bidding', videoId: 'C0u9Daypr7M', dur: '', pub: '2026-07-23', blocks: [
+    { rule: "#1 rule for competition - bid your hand once, as high as possible!" },
+    { t: "With big trump fits, bid it up, quickly and confidently." },
+    { board: { boardType: 'full', North: '*S-10*H-7632*D-AKJ875*C-75', West: '*S-AKJ64*H-94*D-9*C-KJ1062', East: '*S-Q985*H-KJ5*D-102*C-A983', South: '*S-732*H-AQ108*D-Q643*C-Q4', bidding: '_/_/_/P/1♠/3♦/3♠/5♦/P/P/P' } },
+    { t: "Both players did this very nicely, north showed a weak jump overcall - he had the trump texture and the shapely hand to justify it, despite only having 6 trumps (1462 shape)." },
+    { t: "South's bid is great, a lot of people would hesitate, not sure what to do, but south knew with a big trump fit to put the pressure on the opponents." },
+    { t: "Overall the score was 5♦ -1, when 4♠ is making the other way. Their positive quick auction led to them not even getting doubled." },
+  ] },
+  // ── Added 2026-07-23; videoId filled 2026-07-24 from the channel ──
+  { slug: 'solid-minor-stopper-ask', title: 'What does 3♥ show?', cat: 'Bidding', videoId: 'Jm39eLhf5Qg', dur: '', pub: '2026-07-23', blocks: [
+    { board: { boardType: 'single', bidding: '_/_/_/P/P/1♥/3♥', vul: 'NS' } },
+    { t: "What does 3♥ show?" },
+    { t: "Answer - long and solid minor with about 15+ points (so not only the minor). It denies a stopper in openers suit. Very often with this type of hand we want to play in 3NT if partner has a stopper." },
+    { t: "It basically says \"I think there is a very good chance we will get to 9 tricks if you have a heart stopper\"." },
+    { board: { boardType: 'full', North: '*S-63*H-AQ632*D-82*C-KJ74', West: '*S-109*H-KJ874*D-J6*C-A983', East: '*S-KQ8*H-9*D-AKQ10743*C-Q6', South: '*S-AJ7542*H-105*D-95*C-1052', bidding: '_/_/_/P/P/1♥/3♥/P/3NT/P/P/P', vul: 'NS' } },
   ] },
 ];
 
