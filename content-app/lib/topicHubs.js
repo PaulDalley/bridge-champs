@@ -281,6 +281,7 @@ Another key idea is not letting the opponents play in comfortable contracts when
           { title: "Takeout double expert principles", to: "/bidding/advanced/kiss-1-do-not-double", level: A },
           { title: "Pass can be the best bid", to: "/bidding/advanced/kiss-2-consider-passing-more", level: A },
           { title: "Raising partner. Simply supporting is best.", to: "/bidding/advanced/kiss-3-support-partner-priority", level: A },
+          { title: "Cue raise", to: "/bidding/advanced/cue-raise", level: A },
           { title: "Sacrifices when and how to use.", to: "/bidding/advanced/kiss-4-do-not-save", level: A },
           { title: "Four-Level Doubles: What to Do Next", to: "/bidding/advanced/four-level-doubles-do-next", level: A },
           { title: "Takeout Doubles in Bridge: The Complete Guide", to: "/bidding/advanced/takeout-doubles-bridge-complete-guide", level: A },
